@@ -209,7 +209,7 @@ popup <- paste0("Area: ", median_merge$NAME.1, "<br>",
                 "Median Income: $", round(median_merge$medianincome,2), "<br>",
                 "Median Housing Price: $", round(median_merge$median_house_price,2), "<br>",
                 "Ratio: ", round(median_merge$housing_income_ratio,2),"<br>",
-                "Source: 2012-2016 ACS")
+                "Source: 2012-2016 Census American Community Survey")
 pal <- colorNumeric(
   palette = "YlGnBu",
   domain = median_merge$median_house_price
@@ -240,7 +240,7 @@ popup <- paste0("Area: ", b08126df_merge$NAME.1, "<br>",
                 "Public Transit %: ", round(b08126df_merge$publictrans), "<br>",
                 "Public Transit: ", b08126df_merge$MEANS.OF.TRANSPORTATION.TO.WORK.BY.INDUSTRY..Public.transportation..excluding.taxicab.., "<br>",
                 "Total Transit: ", b08126df_merge$MEANS.OF.TRANSPORTATION.TO.WORK.BY.INDUSTRY..Total.,"<br>",
-                "Source: 2012-2016 ACS"
+                "Source: 2012-2016 Census American Community Survey"
                 
 )
 pal <- colorNumeric(
@@ -260,7 +260,9 @@ map2<-leaflet() %>%
   addLegend(pal = pal, 
             values = b08126df_merge$publictrans, 
             position = "bottomright", 
-            title = "Public Transit to Work %",
+            title = "Public Transit<br>
+                     to Work % <br>
+                     Baltimore MSA",
             labFormat = labelFormat(prefix = "%")) 
 map2
 setwd('/Users/Sam/Desktop/R/rowesamuel/BytheNumbers')
