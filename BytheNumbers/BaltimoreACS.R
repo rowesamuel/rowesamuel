@@ -34,12 +34,12 @@ md<-geo.make(state="MD",county="*",tract="*")
 #Use Lookup Finder
 #https://censusreporter.org/topics/table-codes/
 #Income Lookup
-lookup<-acs.lookup(endyear=2016,span=5,table.name="income",case.sensitive = F)
+lookup<-acs.lookup(endyear=2017,span=5,table.name="income",case.sensitive = F)
 lookupframe<-data.frame(lookup@results)
 unique(lookupframe$table.name)
 
 #Race Lookup
-lookuprace<-acs.lookup(endyear=2016,span=5,keyword = "race",case.sensitive = F)
+lookuprace<-acs.lookup(endyear=2017,span=5,keyword = "race",case.sensitive = F)
 lookupracedf<-data.frame(lookup@results)
 unique(lookupracedf$table.name)
 
@@ -48,7 +48,7 @@ unique(lookupracedf$table.name)
 ###############
 #Transportation Pulls
 #B08126
-b08126<-acs.fetch(endyear=2016,span=5,geo=md,table.name="B08126",col.names="pretty")
+b08126<-acs.fetch(endyear=2017,span=5,geo=md,table.name="B08126",col.names="pretty")
 b08126df<-data.frame(b08126@geography,b08126@estimate)
 colnames(b08126df)
 b08126df$publictrans<-(b08126df$MEANS.OF.TRANSPORTATION.TO.WORK.BY.INDUSTRY..Public.transportation..excluding.taxicab../
@@ -59,7 +59,7 @@ b08126df$tract<-str_pad(b08126df$tract,6,"left",pad=0)
 b08126df$GEOID<-paste0(b08126df$state,b08126df$county,b08126df$tract)
 
 #Race Pulls
-c02003<-acs.fetch(endyear=2016,span=5,geo=md,table.name="C02003",col.names="pretty")
+c02003<-acs.fetch(endyear=2017,span=5,geo=md,table.name="C02003",col.names="pretty")
 c02003df<-data.frame(c02003@geography,c02003@estimate)
 colnames(c02003df)
 c02003df$whtpct<-(c02003df$Detailed.Race..Population.of.one.race..White/c02003df$Detailed.Race..Total.)*100
@@ -76,7 +76,7 @@ c02003df$tract<-str_pad(c02003df$tract,6,"left",pad=0)
 c02003df$GEOID<-paste0(c02003df$state,c02003df$county,c02003df$tract)
 
 #Race and Ethnicity Pulls
-b03002<-acs.fetch(endyear=2016,span=5,geo=md,table.name="B03002",col.names="pretty")
+b03002<-acs.fetch(endyear=2017,span=5,geo=md,table.name="B03002",col.names="pretty")
 b03002df<-data.frame(b03002@geography,b03002@estimate,b03002@currency.year)
 colnames(b03002df)
 b03002df$whtpct<-(b03002df$Hispanic.or.Latino.by.Race..Not.Hispanic.or.Latino..White.alone/
@@ -147,9 +147,6 @@ b03_combined$blkdelta[is.infinite(b03_combined$blkdelta)]<-NA
 #Race and Ethnicity by Age
 test<-acs.fetch(endyear=2016,span=5,geo=md,table.name="C01001",col.names="pretty")
 
-#Median Income Pull
-b19013<-acs.fetch(endyear=2016,span=5,geo=md,table.name="B19013",col.names="pretty")
-b19013df<-data.frame(b19013@geography,b19013@estimate)
 
 #Receipt of Benefits Pull
 b09010<-acs.fetch(endyear=2016,span=5,geo=md,table.name="B09010",col.names="pretty")
@@ -162,6 +159,11 @@ industryframe<-data.frame(industry@results)
 b08126<-acs.fetch(endyear=2016,span=5,geo=md,table.name="B08126")
 b08126df<-data.frame(b08126@geography,b08126@estimate)
 b08126df<-b08126df[,c(1:5,49)]
+
+#Median Income Pull
+b19013<-acs.fetch(endyear=2017,span=5,geo=md,table.name="B19013",col.names="pretty")
+b19013df<-data.frame(b19013@geography,b19013@estimate)
+
 b19013df<-b19013df[,c(1:5)]
 b19013df[b19013df$medianincome==-666666666,]<-0
 colnames(b19013df)[5]<-c("medianincome")
@@ -172,7 +174,7 @@ b19013df$tract<-str_pad(b19013df$tract,6,"left",pad="0")
 b19013df$GEOID<-paste0(b19013df$state,b19013df$county,b19013df$tract)
 
 #Median Housing Pull
-b25077<-acs.fetch(endyear=2016,span=5,geo=md,table.name="B25077",col.names="pretty")
+b25077<-acs.fetch(endyear=2017,span=5,geo=md,table.name="B25077",col.names="pretty")
 b25077df<-data.frame(b25077@geography,b25077@estimate)
 b25077df$state<-str_pad(b25077df$state,2,"left",pad="0")
 b25077df$county<-str_pad(b25077df$county,3,"left",pad="0")
@@ -188,6 +190,7 @@ median$housing_income_ratio<-median$median_house_price/median$medianincome
 #GEO Codes
 counties<-c(510)
 tracts<-tracts(state = 'MD', county = c(3,5,13,25,27,35,510), cb=TRUE)
+#tracts<-tracts(state='MD',county=c(3,5,510,9,13,17,21,25,27,31,33,35),cb=TRUE)
 dctracts<-tracts(state='DC',county=c(1),cb=TRUE)
 mdtracts<-tracts(state='MD',county=c(3,5,510,9,13,17,21,25,27,31,33,35),cb=TRUE)
 vatracts<-tracts(state='VA',county=c(13,43,47,59,61,107,153,157,177,179,187,510,600,610,630,683,685),cb=TRUE)
@@ -207,30 +210,31 @@ race_merge3<-geo_join(tracts,b03_combined,"GEOID","GEOID")
 #Income - Housing Ratio
 popup <- paste0("Area: ", median_merge$NAME.1, "<br>", 
                 "Median Income: $", round(median_merge$medianincome,2), "<br>",
-                "Median Housing Price: $", round(median_merge$median_house_price,2), "<br>",
+                "Median Housing Price: $", round(median_merge$housing_,2), "<br>",
                 "Ratio: ", round(median_merge$housing_income_ratio,2),"<br>",
                 "Source: 2012-2016 Census American Community Survey")
 pal <- colorNumeric(
   palette = "YlGnBu",
-  domain = median_merge$median_house_price
+  domain = median_merge$housing_income_ratio
 )
 
 map<-leaflet() %>%
   addProviderTiles("CartoDB.Positron") %>%
   addPolygons(data = median_merge, 
-              fillColor = ~pal(median_house_price), 
+              fillColor = ~pal(housing_income_ratio), 
               color = "#b2aeae", # you need to use hex colors
               fillOpacity = 0.7, 
               weight = 1, 
               smoothFactor = 0.2,
               popup = popup) %>%
   addLegend(pal = pal, 
-            values = median_merge$median_house_price, 
+            values = median_merge$housing_income_ratio, 
             position = "bottomright", 
-            title = "Median Income<br>
+            title = "Median Housing Price <br>
+                     to Median Income<br>
                      by Census Tract<br>
-                     Baltimore MSA",
-            labFormat = labelFormat(prefix = "$")) 
+                     Baltimore MSA")#,
+            #labFormat = labelFormat(prefix = "$")) 
 map
 setwd('/Users/Sam/Desktop/R/rowesamuel/BytheNumbers')
 saveWidget(map, file="MedianIncome.html", selfcontained=FALSE)
@@ -352,9 +356,9 @@ map4
 
 #Map 5 Race Change 
 popup <- paste0("Area: ", race_merge3$NAME.1, "<br>", 
-                "White Alone 2016 %: ", round(race_merge3$blkpct.x,2), "<br>",
-                "White Alone 2010 %: ", round(race_merge3$blkpct.y,2), "<br>",
-                "White Delta: ", round(race_merge3$blkpctchange,2)
+                "Black Alone 2017 %: ", round(race_merge3$blkpct.x,2), "<br>",
+                "Black Alone 2010 %: ", round(race_merge3$blkpct.y,2), "<br>",
+                "Black Delta: ", round(race_merge3$blkpctchange,2)
 
 )
 pal <- colorNumeric(
@@ -374,7 +378,43 @@ map5<-leaflet() %>%
   addLegend(pal = pal, 
             values = race_merge3$blkpctchange, 
             position = "bottomright", 
-            title = "White Alone Change %",
+            title = "Black Alone Change %",
             labFormat = labelFormat(prefix = "%")) 
 map5
+
+#Map 6
+popup <- paste0("Area: ", race_merge3$NAME.1, "<br>", 
+                "White Alone 2017 %: ", round(race_merge3$whtpct.x,2), "<br>",
+                "White Alone 2010 %: ", round(race_merge3$whtpct.y,2), "<br>",
+                "White Delta: ", round(race_merge3$whtpctchange,2), "<br>",
+                "Black Alone 2017 %: ", round(race_merge3$blkpct.x,2), "<br>",
+                "Black Alone 2010 %: ", round(race_merge3$blkpct.y,2), "<br>",
+                "Black Delta: ", round(race_merge3$blkpctchange,2), "<br>",
+                "Asian Alone 2017 %: ", round(race_merge3$asipct.x,2), "<br>",
+                "Asian Alone 2010 %: ", round(race_merge3$asipct.y,2), "<br>",
+                "Latino Alone 2017 %: ", round(race_merge3$ltopct.x,2), "<br>",
+                "Latino Alone 2010 %: ", round(race_merge3$ltopct.y,2), "<br>"
+
+)
+pal <- colorNumeric(
+  palette = "YlGnBu",
+  domain = race_merge3$whtpctchange,
+  na.color = NA
+)
+map6<-leaflet() %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = race_merge3, 
+              fillColor = ~pal(whtpctchange), 
+              color = "#b2aeae", # you need to use hex colors
+              fillOpacity = 0.7, 
+              weight = 1, 
+              smoothFactor = 0.2,
+              popup = popup) %>%
+  addLegend(pal = pal, 
+            values = race_merge3$whtpctchange, 
+            position = "bottomright", 
+            title = "White Alone Change %",
+            labFormat = labelFormat(prefix = "%")) 
+map6
+
 
