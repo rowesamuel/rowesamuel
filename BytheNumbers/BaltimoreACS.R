@@ -156,9 +156,9 @@ b09010df<-data.frame(b09010@geography,b09010@estimate)
 industry<-acs.lookup(endyear=2016,span=5,table.name="industry",case.sensitive = F)
 industryframe<-data.frame(industry@results)
 #industryframe2<-industryframe[grepl("Total",industryframe$variable.name)==TRUE,]
-b08126<-acs.fetch(endyear=2016,span=5,geo=md,table.name="B08126")
+b08126<-acs.fetch(endyear=2016,span=5,geo=md,table.name="B08126",col.names = "pretty")
 b08126df<-data.frame(b08126@geography,b08126@estimate)
-b08126df<-b08126df[,c(1:5,49)]
+#b08126df<-b08126df[,c(1:5,49)]
 
 #Median Income Pull
 b19013<-acs.fetch(endyear=2017,span=5,geo=md,table.name="B19013",col.names="pretty")
@@ -186,6 +186,7 @@ colnames(median)[6]<-"median_house_price"
 median$median_house_price[median$median_house_price==-666666666]<-NA
 median$medianincome[median$medianincome==-666666666]<-NA
 median$housing_income_ratio<-median$median_house_price/median$medianincome
+#median$housing_income_ratio[is.na(median$housing_income_ratio)]<-0
 
 #GEO Codes
 counties<-c(510)
@@ -210,7 +211,7 @@ race_merge3<-geo_join(tracts,b03_combined,"GEOID","GEOID")
 #Income - Housing Ratio
 popup <- paste0("Area: ", median_merge$NAME.1, "<br>", 
                 "Median Income: $", round(median_merge$medianincome,2), "<br>",
-                "Median Housing Price: $", round(median_merge$housing_,2), "<br>",
+                "Median Housing Price: $", round(median_merge$median_house_price,2), "<br>",
                 "Ratio: ", round(median_merge$housing_income_ratio,2),"<br>",
                 "Source: 2012-2016 Census American Community Survey")
 pal <- colorNumeric(
