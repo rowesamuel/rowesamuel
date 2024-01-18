@@ -1,0 +1,2212 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week2_iv2.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 8 Sep 2023, 05:42:45
+{txt}
+{com}. //_1
+. set more off
+{txt}
+{com}. clear all
+{txt}
+{com}. //_2
+. cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+{res}/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+{txt}
+{com}. //_3
+. use "mroz.dta", clear
+{txt}
+{com}. //_4
+. reg lwage educ
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(1, 426)       = {res}    56.93
+{txt}       Model {c |} {res} 26.3264193         1  26.3264193   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 197.001022       426  .462443713   {txt}R-squared       ={res}    0.1179
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1158
+{txt}       Total {c |} {res} 223.327441       427  .523015084   {txt}Root MSE        =   {res} .68003
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       lwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}educ {c |}{col 14}{res}{space 2} .1086487{col 26}{space 2} .0143998{col 37}{space 1}    7.55{col 46}{space 3}0.000{col 54}{space 4} .0803451{col 67}{space 3} .1369523
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.1851968{col 26}{space 2} .1852259{col 37}{space 1}   -1.00{col 46}{space 3}0.318{col 54}{space 4}-.5492673{col 67}{space 3} .1788736
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_5
+. display (exp(_b[educ])-1)*100
+{res}11.477061
+{txt}
+{com}. //_6
+. reg educ fathedu if inlf==1
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(1, 426)       = {res}    88.84
+{txt}       Model {c |} {res} 384.841983         1  384.841983   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1845.35428       426  4.33181756   {txt}R-squared       ={res}    0.1726
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1706
+{txt}       Total {c |} {res} 2230.19626       427  5.22294206   {txt}Root MSE        =   {res} 2.0813
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        educ{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}fatheduc {c |}{col 14}{res}{space 2} .2694416{col 26}{space 2} .0285863{col 37}{space 1}    9.43{col 46}{space 3}0.000{col 54}{space 4} .2132538{col 67}{space 3} .3256295
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 10.23705{col 26}{space 2} .2759363{col 37}{space 1}   37.10{col 46}{space 3}0.000{col 54}{space 4} 9.694685{col 67}{space 3} 10.77942
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. predict edu_hat
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. //_7
+. test fathedu
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}fatheduc = 0{p_end}
+
+{txt}       F(  1,   426) ={res}   88.84
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}. //_8
+. reg lwage edu_hat
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(1, 426)       = {res}     2.59
+{txt}       Model {c |} {res} 1.34752449         1  1.34752449   {txt}Prob > F        ={res}    0.1086
+{txt}    Residual {c |} {res} 221.979916       426  .521079616   {txt}R-squared       ={res}    0.0060
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0037
+{txt}       Total {c |} {res} 223.327441       427  .523015084   {txt}Root MSE        =   {res} .72186
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       lwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}edu_hat {c |}{col 14}{res}{space 2} .0591735{col 26}{space 2} .0367969{col 37}{space 1}    1.61{col 46}{space 3}0.109{col 54}{space 4}-.0131525{col 67}{space 3} .1314995
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .4411034{col 26}{space 2} .4671121{col 37}{space 1}    0.94{col 46}{space 3}0.346{col 54}{space 4}-.4770279{col 67}{space 3} 1.359235
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_9
+. display (exp(_b[edu_hat])-1)*100
+{res}6.095928
+{txt}
+{com}. //_10
+. use "wage2.dta", clear
+{txt}
+{com}. //_11
+. reg lwage educ
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       935
+{txt}{hline 13}{c +}{hline 34}   F(1, 933)       = {res}   100.70
+{txt}       Model {c |} {res} 16.1377042         1  16.1377042   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 149.518579       933  .160255712   {txt}R-squared       ={res}    0.0974
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0964
+{txt}       Total {c |} {res} 165.656283       934  .177362188   {txt}Root MSE        =   {res} .40032
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       lwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}educ {c |}{col 14}{res}{space 2} .0598392{col 26}{space 2} .0059631{col 37}{space 1}   10.03{col 46}{space 3}0.000{col 54}{space 4} .0481366{col 67}{space 3} .0715418
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 5.973063{col 26}{space 2} .0813737{col 37}{space 1}   73.40{col 46}{space 3}0.000{col 54}{space 4} 5.813366{col 67}{space 3} 6.132759
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_12
+. display (exp(_b[educ])-1)*100
+{res}6.1665821
+{txt}
+{com}. //_13
+. reg educ sibs
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       935
+{txt}{hline 13}{c +}{hline 34}   F(1, 933)       = {res}    56.67
+{txt}       Model {c |} {res} 258.055048         1  258.055048   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  4248.7642       933  4.55387374   {txt}R-squared       ={res}    0.0573
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0562
+{txt}       Total {c |} {res} 4506.81925       934  4.82528828   {txt}Root MSE        =   {res}  2.134
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        educ{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}sibs {c |}{col 14}{res}{space 2}-.2279164{col 26}{space 2} .0302768{col 37}{space 1}   -7.53{col 46}{space 3}0.000{col 54}{space 4} -.287335{col 67}{space 3}-.1684979
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 14.13879{col 26}{space 2} .1131382{col 37}{space 1}  124.97{col 46}{space 3}0.000{col 54}{space 4} 13.91676{col 67}{space 3} 14.36083
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. predict edu_hat
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. //_14
+. test sibs
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}sibs = 0{p_end}
+
+{txt}       F(  1,   933) ={res}   56.67
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}. //_15
+. reg lwage edu_hat
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       935
+{txt}{hline 13}{c +}{hline 34}   F(1, 933)       = {res}    22.31
+{txt}       Model {c |} {res} 3.86818074         1  3.86818074   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 161.788103       933  .173406326   {txt}R-squared       ={res}    0.0234
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0223
+{txt}       Total {c |} {res} 165.656283       934  .177362188   {txt}Root MSE        =   {res} .41642
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       lwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}edu_hat {c |}{col 14}{res}{space 2} .1224326{col 26}{space 2} .0259225{col 37}{space 1}    4.72{col 46}{space 3}0.000{col 54}{space 4} .0715595{col 67}{space 3} .1733057
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 5.130026{col 26}{space 2} .3494009{col 37}{space 1}   14.68{col 46}{space 3}0.000{col 54}{space 4} 4.444323{col 67}{space 3} 5.815729
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_16
+. display (exp(_b[edu_hat])-1)*100 
+{res}13.024298
+{txt}
+{com}. //_17
+. use "bwght.dta", clear
+{txt}
+{com}. //_18
+. reg lbwght packs
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     1,388
+{txt}{hline 13}{c +}{hline 34}   F(1, 1386)      = {res}    27.98
+{txt}       Model {c |} {res} .997781141         1  .997781141   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 49.4225525     1,386  .035658407   {txt}R-squared       ={res}    0.0198
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0191
+{txt}       Total {c |} {res} 50.4203336     1,387  .036352079   {txt}Root MSE        =   {res} .18883
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      lbwght{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}packs {c |}{col 14}{res}{space 2}-.0898131{col 26}{space 2} .0169786{col 37}{space 1}   -5.29{col 46}{space 3}0.000{col 54}{space 4}-.1231197{col 67}{space 3}-.0565065
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 4.769404{col 26}{space 2} .0053694{col 37}{space 1}  888.26{col 46}{space 3}0.000{col 54}{space 4} 4.758871{col 67}{space 3} 4.779937
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_19
+. display (exp(-.08981)-1)*100
+{res}-8.5895151
+{txt}
+{com}. //_20
+. reg packs cigprice
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     1,388
+{txt}{hline 13}{c +}{hline 34}   F(1, 1386)      = {res}     0.13
+{txt}       Model {c |} {res} .011648626         1  .011648626   {txt}Prob > F        ={res}    0.7179
+{txt}    Residual {c |} {res} 123.684481     1,386  .089238442   {txt}R-squared       ={res}    0.0001
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0006
+{txt}       Total {c |} {res} 123.696129     1,387  .089182501   {txt}Root MSE        =   {res} .29873
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       packs{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}cigprice {c |}{col 14}{res}{space 2} .0002829{col 26}{space 2}  .000783{col 37}{space 1}    0.36{col 46}{space 3}0.718{col 54}{space 4}-.0012531{col 67}{space 3} .0018188
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0674257{col 26}{space 2} .1025384{col 37}{space 1}    0.66{col 46}{space 3}0.511{col 54}{space 4}-.1337215{col 67}{space 3} .2685728
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_21
+. predict packs_hat
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. //_22
+. test cigprice
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}cigprice = 0{p_end}
+
+{txt}       F(  1,  1386) ={res}    0.13
+{txt}{col 13}Prob > F ={res}    0.7179
+{txt}
+{com}. //_23
+. reg lbwght packs_hat
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     1,388
+{txt}{hline 13}{c +}{hline 34}   F(1, 1386)      = {res}     2.87
+{txt}       Model {c |} {res} .104047659         1  .104047659   {txt}Prob > F        ={res}    0.0907
+{txt}    Residual {c |} {res}  50.316286     1,386  .036303237   {txt}R-squared       ={res}    0.0021
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0013
+{txt}       Total {c |} {res} 50.4203336     1,387  .036352079   {txt}Root MSE        =   {res} .19053
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      lbwght{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}packs_hat {c |}{col 14}{res}{space 2} 2.988676{col 26}{space 2} 1.765368{col 37}{space 1}    1.69{col 46}{space 3}0.091{col 54}{space 4}-.4744067{col 67}{space 3} 6.451758
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 4.448136{col 26}{space 2} .1843027{col 37}{space 1}   24.13{col 46}{space 3}0.000{col 54}{space 4} 4.086594{col 67}{space 3} 4.809679
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_24
+. use "mroz.dta", clear
+{txt}
+{com}. //_25
+. reg lwage educ c.exper##c.exper
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(3, 424)       = {res}    26.29
+{txt}       Model {c |} {res} 35.0222967         3  11.6740989   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 188.305144       424  .444115906   {txt}R-squared       ={res}    0.1568
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1509
+{txt}       Total {c |} {res} 223.327441       427  .523015084   {txt}Root MSE        =   {res} .66642
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      t{col 49}   P>|t|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .1074896{col 29}{space 2} .0141465{col 40}{space 1}    7.60{col 49}{space 3}0.000{col 57}{space 4} .0796837{col 70}{space 3} .1352956
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0415665{col 29}{space 2} .0131752{col 40}{space 1}    3.15{col 49}{space 3}0.002{col 57}{space 4} .0156697{col 70}{space 3} .0674633
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2}-.0008112{col 29}{space 2} .0003932{col 40}{space 1}   -2.06{col 49}{space 3}0.040{col 57}{space 4}-.0015841{col 70}{space 3}-.0000382
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2}-.5220406{col 29}{space 2} .1986321{col 40}{space 1}   -2.63{col 49}{space 3}0.009{col 57}{space 4}-.9124667{col 70}{space 3}-.1316144
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_26
+. display (exp(_b[educ])-1)*100
+{res}11.347933
+{txt}
+{com}. //_27
+. reg educ c.exper##c.exper fathedu mothedu if inlf==1
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(4, 423)       = {res}    28.36
+{txt}       Model {c |} {res} 471.620998         4   117.90525   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1758.57526       423  4.15738833   {txt}R-squared       ={res}    0.2115
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2040
+{txt}       Total {c |} {res} 2230.19626       427  5.22294206   {txt}Root MSE        =   {res}  2.039
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           educ{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      t{col 49}   P>|t|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}exper {c |}{col 17}{res}{space 2} .0452254{col 29}{space 2} .0402507{col 40}{space 1}    1.12{col 49}{space 3}0.262{col 57}{space 4}-.0338909{col 70}{space 3} .1243417
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2}-.0010091{col 29}{space 2} .0012033{col 40}{space 1}   -0.84{col 49}{space 3}0.402{col 57}{space 4}-.0033744{col 70}{space 3} .0013562
+{txt}{space 15} {c |}
+{space 7}fatheduc {c |}{col 17}{res}{space 2} .1895484{col 29}{space 2} .0337565{col 40}{space 1}    5.62{col 49}{space 3}0.000{col 57}{space 4} .1231971{col 70}{space 3} .2558997
+{txt}{space 7}motheduc {c |}{col 17}{res}{space 2}  .157597{col 29}{space 2} .0358941{col 40}{space 1}    4.39{col 49}{space 3}0.000{col 57}{space 4}  .087044{col 70}{space 3} .2281501
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2}  9.10264{col 29}{space 2} .4265614{col 40}{space 1}   21.34{col 49}{space 3}0.000{col 57}{space 4} 8.264196{col 70}{space 3} 9.941084
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. predict edu_hat
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. //_28
+. test fathedu mothedu
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}fatheduc = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} motheduc = 0{p_end}
+
+{txt}       F(  2,   423) ={res}   55.40
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}. //_29
+. reg lwage edu_hat c.exper##c.exper
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(3, 424)       = {res}     7.40
+{txt}       Model {c |} {res}  11.117828         3  3.70594265   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 212.209613       424   .50049437   {txt}R-squared       ={res}    0.0498
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0431
+{txt}       Total {c |} {res} 223.327441       427  .523015084   {txt}Root MSE        =   {res} .70746
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      t{col 49}   P>|t|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}edu_hat {c |}{col 17}{res}{space 2} .0613966{col 29}{space 2} .0329624{col 40}{space 1}    1.86{col 49}{space 3}0.063{col 57}{space 4}-.0033933{col 70}{space 3} .1261866
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0441704{col 29}{space 2} .0140844{col 40}{space 1}    3.14{col 49}{space 3}0.002{col 57}{space 4} .0164865{col 70}{space 3} .0718543
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2} -.000899{col 29}{space 2} .0004212{col 40}{space 1}   -2.13{col 49}{space 3}0.033{col 57}{space 4}-.0017268{col 70}{space 3}-.0000711
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0481003{col 29}{space 2} .4197565{col 40}{space 1}    0.11{col 49}{space 3}0.909{col 57}{space 4}-.7769624{col 70}{space 3}  .873163
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_30
+. ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
+{res}
+{txt}{col 1}Instrumental variables (2SLS) regression{col 51}Number of obs{col 67}= {res}       428
+{txt}{col 1}{col 51}Wald chi2({res}3{txt}){col 67}= {res}     24.65
+{txt}{col 1}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}{col 1}{col 51}R-squared{col 67}= {res}    0.1357
+{txt}{col 51}Root MSE{col 67}=    {res} .67155
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0613966{col 29}{space 2} .0312895{col 40}{space 1}    1.96{col 49}{space 3}0.050{col 57}{space 4} .0000704{col 70}{space 3} .1227228
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0441704{col 29}{space 2} .0133696{col 40}{space 1}    3.30{col 49}{space 3}0.001{col 57}{space 4} .0179665{col 70}{space 3} .0703742
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2} -.000899{col 29}{space 2} .0003998{col 40}{space 1}   -2.25{col 49}{space 3}0.025{col 57}{space 4}-.0016826{col 70}{space 3}-.0001154
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0481003{col 29}{space 2}  .398453{col 40}{space 1}    0.12{col 49}{space 3}0.904{col 57}{space 4}-.7328532{col 70}{space 3} .8290538
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 15 13}Instrumented:{space 2}educ{p_end}
+{p 0 15 13}Instruments:{space 3}exper c.exper#c.exper fatheduc motheduc{p_end}
+
+{com}. display (exp(_b[educ])-1)*100
+{res}6.3320574
+{txt}
+{com}. //_31
+. use "mroz.dta", clear
+{txt}
+{com}. //_32
+. reg lwage educ c.exper##c.exper
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(3, 424)       = {res}    26.29
+{txt}       Model {c |} {res} 35.0222967         3  11.6740989   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 188.305144       424  .444115906   {txt}R-squared       ={res}    0.1568
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1509
+{txt}       Total {c |} {res} 223.327441       427  .523015084   {txt}Root MSE        =   {res} .66642
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      t{col 49}   P>|t|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .1074896{col 29}{space 2} .0141465{col 40}{space 1}    7.60{col 49}{space 3}0.000{col 57}{space 4} .0796837{col 70}{space 3} .1352956
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0415665{col 29}{space 2} .0131752{col 40}{space 1}    3.15{col 49}{space 3}0.002{col 57}{space 4} .0156697{col 70}{space 3} .0674633
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2}-.0008112{col 29}{space 2} .0003932{col 40}{space 1}   -2.06{col 49}{space 3}0.040{col 57}{space 4}-.0015841{col 70}{space 3}-.0000382
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2}-.5220406{col 29}{space 2} .1986321{col 40}{space 1}   -2.63{col 49}{space 3}0.009{col 57}{space 4}-.9124667{col 70}{space 3}-.1316144
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_33
+. ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper
+{res}
+{txt}{col 1}Instrumental variables (2SLS) regression{col 51}Number of obs{col 67}= {res}       428
+{txt}{col 1}{col 51}Wald chi2({res}3{txt}){col 67}= {res}     24.65
+{txt}{col 1}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}{col 1}{col 51}R-squared{col 67}= {res}    0.1357
+{txt}{col 51}Root MSE{col 67}=    {res} .67155
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0613966{col 29}{space 2} .0312895{col 40}{space 1}    1.96{col 49}{space 3}0.050{col 57}{space 4} .0000704{col 70}{space 3} .1227228
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0441704{col 29}{space 2} .0133696{col 40}{space 1}    3.30{col 49}{space 3}0.001{col 57}{space 4} .0179665{col 70}{space 3} .0703742
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2} -.000899{col 29}{space 2} .0003998{col 40}{space 1}   -2.25{col 49}{space 3}0.025{col 57}{space 4}-.0016826{col 70}{space 3}-.0001154
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0481003{col 29}{space 2}  .398453{col 40}{space 1}    0.12{col 49}{space 3}0.904{col 57}{space 4}-.7328532{col 70}{space 3} .8290538
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 15 13}Instrumented:{space 2}educ{p_end}
+{p 0 15 13}Instruments:{space 3}exper c.exper#c.exper fatheduc motheduc{p_end}
+
+{com}. //_34
+. reg educ c.exper##c.exper fathedu mothedu if inlf==1
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(4, 423)       = {res}    28.36
+{txt}       Model {c |} {res} 471.620998         4   117.90525   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1758.57526       423  4.15738833   {txt}R-squared       ={res}    0.2115
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2040
+{txt}       Total {c |} {res} 2230.19626       427  5.22294206   {txt}Root MSE        =   {res}  2.039
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           educ{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      t{col 49}   P>|t|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}exper {c |}{col 17}{res}{space 2} .0452254{col 29}{space 2} .0402507{col 40}{space 1}    1.12{col 49}{space 3}0.262{col 57}{space 4}-.0338909{col 70}{space 3} .1243417
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2}-.0010091{col 29}{space 2} .0012033{col 40}{space 1}   -0.84{col 49}{space 3}0.402{col 57}{space 4}-.0033744{col 70}{space 3} .0013562
+{txt}{space 15} {c |}
+{space 7}fatheduc {c |}{col 17}{res}{space 2} .1895484{col 29}{space 2} .0337565{col 40}{space 1}    5.62{col 49}{space 3}0.000{col 57}{space 4} .1231971{col 70}{space 3} .2558997
+{txt}{space 7}motheduc {c |}{col 17}{res}{space 2}  .157597{col 29}{space 2} .0358941{col 40}{space 1}    4.39{col 49}{space 3}0.000{col 57}{space 4}  .087044{col 70}{space 3} .2281501
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2}  9.10264{col 29}{space 2} .4265614{col 40}{space 1}   21.34{col 49}{space 3}0.000{col 57}{space 4} 8.264196{col 70}{space 3} 9.941084
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_35
+. predict r, residual
+{txt}
+{com}. //_36
+. reg lwage educ c.exper##c.exper r
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(4, 423)       = {res}    20.50
+{txt}       Model {c |} {res} 36.2573098         4  9.06432744   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 187.070131       423  .442246173   {txt}R-squared       ={res}    0.1624
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1544
+{txt}       Total {c |} {res} 223.327441       427  .523015084   {txt}Root MSE        =   {res} .66502
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      t{col 49}   P>|t|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0613966{col 29}{space 2} .0309849{col 40}{space 1}    1.98{col 49}{space 3}0.048{col 57}{space 4}  .000493{col 70}{space 3} .1223003
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0441704{col 29}{space 2} .0132394{col 40}{space 1}    3.34{col 49}{space 3}0.001{col 57}{space 4} .0181471{col 70}{space 3} .0701937
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2} -.000899{col 29}{space 2} .0003959{col 40}{space 1}   -2.27{col 49}{space 3}0.024{col 57}{space 4}-.0016772{col 70}{space 3}-.0001208
+{txt}{space 15} {c |}
+{space 14}r {c |}{col 17}{res}{space 2} .0581666{col 29}{space 2} .0348073{col 40}{space 1}    1.67{col 49}{space 3}0.095{col 57}{space 4}-.0102502{col 70}{space 3} .1265834
+{txt}{space 10}_cons {c |}{col 17}{res}{space 2} .0481003{col 29}{space 2} .3945753{col 40}{space 1}    0.12{col 49}{space 3}0.903{col 57}{space 4}-.7274721{col 70}{space 3} .8236727
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_37
+. ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
+{res}
+{txt}{col 1}Instrumental variables (2SLS) regression{col 51}Number of obs{col 67}= {res}       428
+{txt}{col 1}{col 51}Wald chi2({res}3{txt}){col 67}= {res}     24.65
+{txt}{col 1}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}{col 1}{col 51}R-squared{col 67}= {res}    0.1357
+{txt}{col 51}Root MSE{col 67}=    {res} .67155
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0613966{col 29}{space 2} .0312895{col 40}{space 1}    1.96{col 49}{space 3}0.050{col 57}{space 4} .0000704{col 70}{space 3} .1227228
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0441704{col 29}{space 2} .0133696{col 40}{space 1}    3.30{col 49}{space 3}0.001{col 57}{space 4} .0179665{col 70}{space 3} .0703742
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2} -.000899{col 29}{space 2} .0003998{col 40}{space 1}   -2.25{col 49}{space 3}0.025{col 57}{space 4}-.0016826{col 70}{space 3}-.0001154
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0481003{col 29}{space 2}  .398453{col 40}{space 1}    0.12{col 49}{space 3}0.904{col 57}{space 4}-.7328532{col 70}{space 3} .8290538
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 15 13}Instrumented:{space 2}educ{p_end}
+{p 0 15 13}Instruments:{space 3}exper c.exper#c.exper fatheduc motheduc{p_end}
+
+{com}. estat endogenous
+
+{txt}{col 3}Tests of endogeneity
+{col 3}Ho: variables are exogenous
+
+{col 3}Durbin (score) chi2({res}1{txt}){col 35}={res}{col 37} 2.80707{txt}  (p = {res}0.0938{txt})
+{col 3}Wu-Hausman F({res}1{txt},{res}423{txt}){col 35}={res}{col 37} 2.79259{txt}  (p = {res}0.0954{txt})
+
+{com}. //_38
+. use "mroz.dta", clear
+{txt}
+{com}. //_39
+. ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+{res}
+{txt}{col 1}Instrumental variables (2SLS) regression{col 51}Number of obs{col 67}= {res}       428
+{txt}{col 1}{col 51}Wald chi2({res}3{txt}){col 67}= {res}     24.65
+{txt}{col 1}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}{col 1}{col 51}R-squared{col 67}= {res}    0.1357
+{txt}{col 51}Root MSE{col 67}=    {res} .67155
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0613966{col 29}{space 2} .0312895{col 40}{space 1}    1.96{col 49}{space 3}0.050{col 57}{space 4} .0000704{col 70}{space 3} .1227228
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0441704{col 29}{space 2} .0133696{col 40}{space 1}    3.30{col 49}{space 3}0.001{col 57}{space 4} .0179665{col 70}{space 3} .0703742
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2} -.000899{col 29}{space 2} .0003998{col 40}{space 1}   -2.25{col 49}{space 3}0.025{col 57}{space 4}-.0016826{col 70}{space 3}-.0001154
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0481003{col 29}{space 2}  .398453{col 40}{space 1}    0.12{col 49}{space 3}0.904{col 57}{space 4}-.7328532{col 70}{space 3} .8290538
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 15 13}Instrumented:{space 2}educ{p_end}
+{p 0 15 13}Instruments:{space 3}exper c.exper#c.exper motheduc fatheduc{p_end}
+
+{com}. //_40
+. predict r, resid
+{txt}(325 missing values generated)
+
+{com}. //_41
+. reg r mothedu fathedu c.exper##c.exper
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       428
+{txt}{hline 13}{c +}{hline 34}   F(4, 423)       = {res}     0.09
+{txt}       Model {c |} {res} .170503122         4   .04262578   {txt}Prob > F        ={res}    0.9845
+{txt}    Residual {c |} {res} 192.849512       423  .455909012   {txt}R-squared       ={res}    0.0009
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0086
+{txt}       Total {c |} {res} 193.020015       427  .452037506   {txt}Root MSE        =   {res} .67521
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}              r{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      t{col 49}   P>|t|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}motheduc {c |}{col 17}{res}{space 2}-.0066065{col 29}{space 2} .0118864{col 40}{space 1}   -0.56{col 49}{space 3}0.579{col 57}{space 4}-.0299704{col 70}{space 3} .0167573
+{txt}{space 7}fatheduc {c |}{col 17}{res}{space 2} .0057823{col 29}{space 2} .0111786{col 40}{space 1}    0.52{col 49}{space 3}0.605{col 57}{space 4}-.0161902{col 70}{space 3} .0277547
+{txt}{space 10}exper {c |}{col 17}{res}{space 2}-.0000183{col 29}{space 2} .0133291{col 40}{space 1}   -0.00{col 49}{space 3}0.999{col 57}{space 4}-.0262179{col 70}{space 3} .0261813
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2} 7.34e-07{col 29}{space 2} .0003985{col 40}{space 1}    0.00{col 49}{space 3}0.999{col 57}{space 4}-.0007825{col 70}{space 3}  .000784
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0109641{col 29}{space 2} .1412571{col 40}{space 1}    0.08{col 49}{space 3}0.938{col 57}{space 4}-.2666892{col 70}{space 3} .2886173
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_42
+. ereturn list
+
+{txt}scalars:
+                  e(N) =  {res}428
+               {txt}e(df_m) =  {res}4
+               {txt}e(df_r) =  {res}423
+                  {txt}e(F) =  {res}.0934962445404771
+                 {txt}e(r2) =  {res}.000883344256925
+               {txt}e(rmse) =  {res}.6752103466059415
+                {txt}e(mss) =  {res}.1705031219578643
+                {txt}e(rss) =  {res}192.8495121452517
+               {txt}e(r2_a) =  {res}-.0085645673813073
+                 {txt}e(ll) =  {res}-436.7021015142834
+               {txt}e(ll_0) =  {res}-436.891220726253
+               {txt}e(rank) =  {res}5
+
+{txt}macros:
+            e(cmdline) : "{res}regress r mothedu fathedu c.exper##c.exper{txt}"
+              e(title) : "{res}Linear regression{txt}"
+          e(marginsok) : "{res}XB default{txt}"
+                e(vce) : "{res}ols{txt}"
+             e(depvar) : "{res}r{txt}"
+                e(cmd) : "{res}regress{txt}"
+         e(properties) : "{res}b V{txt}"
+            e(predict) : "{res}regres_p{txt}"
+          e(estat_cmd) : "{res}regress_estat{txt}"
+
+matrices:
+                  e(b) : {res} 1 x 5
+                  {txt}e(V) : {res} 5 x 5
+
+{txt}functions:
+             e(sample)   
+
+{com}. local N=`e(N)'
+{txt}
+{com}. display "`N'"
+{res}428
+{txt}
+{com}. local rsq=`e(r2)'
+{txt}
+{com}. display "`rsq'"
+{res}.000883344256925
+{txt}
+{com}. local nR=`N'*`rsq'
+{txt}
+{com}. display "`nR'"
+{res}.3780713419639
+{txt}
+{com}. //_43
+. ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+{res}
+{txt}{col 1}Instrumental variables (2SLS) regression{col 51}Number of obs{col 67}= {res}       428
+{txt}{col 1}{col 51}Wald chi2({res}3{txt}){col 67}= {res}     24.65
+{txt}{col 1}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}{col 1}{col 51}R-squared{col 67}= {res}    0.1357
+{txt}{col 51}Root MSE{col 67}=    {res} .67155
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0613966{col 29}{space 2} .0312895{col 40}{space 1}    1.96{col 49}{space 3}0.050{col 57}{space 4} .0000704{col 70}{space 3} .1227228
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0441704{col 29}{space 2} .0133696{col 40}{space 1}    3.30{col 49}{space 3}0.001{col 57}{space 4} .0179665{col 70}{space 3} .0703742
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2} -.000899{col 29}{space 2} .0003998{col 40}{space 1}   -2.25{col 49}{space 3}0.025{col 57}{space 4}-.0016826{col 70}{space 3}-.0001154
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2} .0481003{col 29}{space 2}  .398453{col 40}{space 1}    0.12{col 49}{space 3}0.904{col 57}{space 4}-.7328532{col 70}{space 3} .8290538
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 15 13}Instrumented:{space 2}educ{p_end}
+{p 0 15 13}Instruments:{space 3}exper c.exper#c.exper motheduc fatheduc{p_end}
+
+{com}. estat overid
+
+{txt}{col 3}Tests of overidentifying restrictions:
+
+{col 3}Sargan (score) chi2({res}1{txt}){col 26}={res}{col 28} .378071{txt}{col 38}(p = {res}0.5386{txt})
+{col 3}Basmann chi2({res}1{txt}){col 26}={res}{col 28} .373985{txt}{col 38}(p = {res}0.5408{txt})
+
+{com}. //_44
+. ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper
+{res}
+{txt}{col 1}Instrumental variables (2SLS) regression{col 51}Number of obs{col 67}= {res}       428
+{txt}{col 1}{col 51}Wald chi2({res}3{txt}){col 67}= {res}     34.90
+{txt}{col 1}{col 51}Prob > chi2{col 67}= {res}    0.0000
+{txt}{col 1}{col 51}R-squared{col 67}= {res}    0.1495
+{txt}{col 51}Root MSE{col 67}=    {res} .66616
+
+{txt}{hline 16}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          lwage{col 17}{c |}      Coef.{col 29}   Std. Err.{col 41}      z{col 49}   P>|z|{col 57}     [95% Con{col 70}f. Interval]
+{hline 16}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}educ {c |}{col 17}{res}{space 2} .0803918{col 29}{space 2}  .021672{col 40}{space 1}    3.71{col 49}{space 3}0.000{col 57}{space 4} .0379155{col 70}{space 3} .1228681
+{txt}{space 10}exper {c |}{col 17}{res}{space 2} .0430973{col 29}{space 2} .0132027{col 40}{space 1}    3.26{col 49}{space 3}0.001{col 57}{space 4} .0172204{col 70}{space 3} .0689742
+{txt}{space 15} {c |}
+c.exper#c.exper {c |}{col 17}{res}{space 2}-.0008628{col 29}{space 2} .0003943{col 40}{space 1}   -2.19{col 49}{space 3}0.029{col 57}{space 4}-.0016357{col 70}{space 3}-.0000899
+{txt}{space 15} {c |}
+{space 10}_cons {c |}{col 17}{res}{space 2}-.1868572{col 29}{space 2} .2840591{col 40}{space 1}   -0.66{col 49}{space 3}0.511{col 57}{space 4}-.7436029{col 70}{space 3} .3698885
+{txt}{hline 16}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 15 13}Instrumented:{space 2}educ{p_end}
+{p 0 15 13}Instruments:{space 3}exper c.exper#c.exper motheduc fatheduc huseduc{p_end}
+
+{com}. estat overid
+
+{txt}{col 3}Tests of overidentifying restrictions:
+
+{col 3}Sargan (score) chi2({res}2{txt}){col 26}={res}{col 28} 1.11504{txt}{col 38}(p = {res}0.5726{txt})
+{col 3}Basmann chi2({res}2{txt}){col 26}={res}{col 28} 1.10228{txt}{col 38}(p = {res}0.5763{txt})
+
+{com}. //_45
+. pwd
+{res}/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+{txt}
+{com}. //_46
+. cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+{res}/Users/Sam/Desktop/Econ 645/Data/Mitchell
+{txt}
+{com}. //_47
+. use "dentists.dta", clear
+{txt}
+{com}. list 
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_48
+. use "https://data.nber.org/morg/annual/morg20.dta", clear
+{txt}
+{com}. //_49
+. use name years using "dentists.dta", clear
+{txt}
+{com}. //_50
+. list 
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c BRC}
+
+{com}. //_51
+. use "dentists.dta" if years >= 10, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  2. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  3. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_52
+. use name year using "dentists.dta" if years >= 10, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c RT}
+  1. {c |} {res}   Olive Tu'Drill   10.25 {txt}{c |}
+  2. {c |} {res}Isaac O'Yerbreath   32.75 {txt}{c |}
+  3. {c |} {res}     Ruth Canaale      22 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c BRC}
+
+{com}. //_53
+. sysuse auto, clear
+{txt}(1978 Automobile Data)
+
+{com}. //_54
+. webuse fullauto, clear
+{txt}(Automobile Models)
+
+{com}. //_55
+. import excel using "dentists.xls", firstrow clear
+{res}{txt}
+{com}. list 
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_56
+. import excel using "dentists2.xls", firstrow clear
+{res}{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 12}{c -}{hline 7}{c TRC}
+     {c |} {res}      name   years {txt}{c |}
+     {c LT}{hline 12}{c -}{hline 7}{c RT}
+  1. {c |} {res}I. Sue Yoo       3 {txt}{c |}
+  2. {c |} {res}  A. Dewey       8 {txt}{c |}
+  3. {c |} {res}B. Cheetem      11 {txt}{c |}
+  4. {c |} {res}   C. Howe      21 {txt}{c |}
+     {c BLC}{hline 12}{c -}{hline 7}{c BRC}
+
+{com}. //_57
+. import excel using "dentists2.xls", firstrow clear sheet("dentists")
+{res}{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_58
+. import delimited using "dentists.csv", clear
+{res}{text}(4 vars, 5 obs)
+
+{com}. list 
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_59
+. import delimited using "dentists1.txt", clear
+{res}{text}(4 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_60
+. import delimited using "dentists2.txt", clear
+{res}{text}(4 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_61
+. import delimited using "dentists2.txt", clear delimiters("\t")
+{res}{text}(4 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_62
+. import delimited using "dentists4.txt", clear delimiters(":") 
+{res}{text}(4 vars, 5 obs)
+
+{com}. //_63
+. import delimited using "dentists2.txt", clear rowrange(1:3)
+{res}{text}(4 vars, 2 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_64
+. import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/jun23pub.csv", clear
+{res}{text}(389 vars, 127,491 obs)
+
+{com}. pwd
+{res}/Users/Sam/Desktop/Econ 645/Data/Mitchell
+{txt}
+{com}. save "jun23pub.dta", replace
+{txt}file jun23pub.dta saved
+
+{com}. //_65
+. infile str17 name years full rec using "dentists5.txt", clear
+{txt}(5 observations read)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 6}{c -}{hline 5}{c TRC}
+     {c |} {res}             name   years   full   rec {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 6}{c -}{hline 5}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25      0     1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25      1     1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75      1     1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22      1     1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5      0     0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 6}{c -}{hline 5}{c BRC}
+
+{com}. //_66
+. import delimited using "dentists6.txt", delimiters(" ") clear
+{res}{text}(4 vars, 5 obs)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_67
+. type "dentists7.txt"
+{res}Y. Don Uflossmore 7.2501
+Olive Tu'Drill   10.2511
+Isaac O'Yerbreath32.7511
+Ruth Canaale     22.0011
+Mike Avity        8.5000
+{txt}
+{com}. //_68
+. infix str name 1-17 years 18-22 fulltime 23 recom 24 using "dentists7.txt", clear
+{txt}(5 observations read)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_69
+. type "dentists1.dct"
+{res}infix dictionary {c -(}
+  str name 1-17 years 18-22 fulltime 23 recom 24
+{c )-}
+{txt}
+{com}. //_70
+. type "dentists7.txt"
+{res}Y. Don Uflossmore 7.2501
+Olive Tu'Drill   10.2511
+Isaac O'Yerbreath32.7511
+Ruth Canaale     22.0011
+Mike Avity        8.5000
+{txt}
+{com}. //_71
+. infix using "dentists1.dct", using(dentists7.txt) clear
+{txt}infix dictionary {c -(}
+  str name 1-17 years 18-22 fulltime 23 recom 24
+{c )-}
+(5 observations read)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_72
+. type "dentists3.dct"
+{res}infile dictionary using dentists7.txt {c -(}
+  str17 name     %17s  "Name of dentist"
+        years    %5f   "Years in practice"
+        fulltime %1f   "Full time?"
+        recom    %1f   "Recommend Quaddent?"
+{c )-}
+{txt}
+{com}. //_73
+. infile using "dentists3.dct", clear
+
+{txt}infile dictionary using dentists7.txt {c -(}
+  str17 name     %17s  "Name of dentist"
+        years    %5f   "Years in practice"
+        fulltime %1f   "Full time?"
+        recom    %1f   "Recommend Quaddent?"
+{c )-}
+
+(5 observations read)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22          1       1 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_74
+. infix str name 1-17 years 18-22 fulltime 23 recom 24 using "dentists7.txt" in 1/3, clear
+{txt}(3 observations read)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_75
+. infix using "dentists1.dct" in 1/3, using(dentists7.txt) clear
+{txt}infix dictionary {c -(}
+  str name 1-17 years 18-22 fulltime 23 recom 24
+{c )-}
+(3 observations read)
+
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+     {c |} {res}             name   years   fulltime   recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25          0       1 {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75          1       1 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_76
+. import delimited using "dentists1.txt", clear
+{res}{text}(4 vars, 5 obs)
+
+{com}. //_77
+. save mydentists, replace
+{txt}file mydentists.dta saved
+
+{com}. //_78
+. saveold mydentists_v12, version(12) replace
+{txt}{p 0 1 2}
+(saving in Stata 12 format, which can be read
+by Stata 11 or 12)
+{p_end}
+file mydentists_v12.dta saved
+
+{com}. //_79
+. keep if recom==1
+{txt}(1 observation deleted)
+
+{com}. save mydentists, replace
+{txt}file mydentists.dta saved
+
+{com}. saveold mydentists_v12, version(12) replace
+{txt}{p 0 1 2}
+(saving in Stata 12 format, which can be read
+by Stata 11 or 12)
+{p_end}
+file mydentists_v12.dta saved
+
+{com}. //_80
+. use dentlab, clear
+{txt}
+{com}. //_81
+. export excel using "dentlab.xlsx", replace firstrow(variables)
+{res}{txt}file dentlab.xlsx saved
+
+{com}. //_82
+. export excel using "dentlab.xlsx", replace firstrow(variables) nolabel
+{res}{txt}file dentlab.xlsx saved
+
+{com}. //_83
+. export excel using "dentlab.xlsx", sheet("Labeled") firstrow(variables) replace
+{res}{txt}file dentlab.xlsx saved
+
+{com}. //_84
+. export excel using "dentlab.xlsx", sheet("Unlabeled", replace) firstrow(variables) nolabel
+{res}{txt}file dentlab.xlsx saved
+
+{com}. //_85
+. use dentlab
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 11}{c -}{hline 18}{c TRC}
+     {c |} {res}             name   years    fulltime              recom {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 11}{c -}{hline 18}{c RT}
+  1. {c |} {res}Y. Don Uflossmore    7.25   part time          recommend {txt}{c |}
+  2. {c |} {res}   Olive Tu'Drill   10.25   full time          recommend {txt}{c |}
+  3. {c |} {res}Isaac O'Yerbreath   32.75   full time          recommend {txt}{c |}
+  4. {c |} {res}     Ruth Canaale      22   full time          recommend {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5   part time   do not recommend {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 11}{c -}{hline 18}{c BRC}
+
+{com}. //_86
+. export delimited using "dentists_comma.csv", replace
+{res}{txt}file dentists_comma.csv saved
+
+{com}. //_87
+. export delimited using "dentists_comma.csv", nolabel replace    
+{res}{txt}file dentists_comma.csv saved
+
+{com}. type "dentists_comma.csv"
+{res}name,years,fulltime,recom
+Y. Don Uflossmore,7.25,0,1
+Olive Tu'Drill,10.25,1,1
+Isaac O'Yerbreath,32.75,1,1
+Ruth Canaale,22,1,1
+Mike Avity,8.5,0,0
+{txt}
+{com}. //_88
+. export delimited using "dentists_comma.csv", nolabel quote replace
+{res}{txt}file dentists_comma.csv saved
+
+{com}. //_89
+. export delimited using "dentists_comma.csv", nolabel quote novarnames replace
+{res}{txt}file dentists_comma.csv saved
+
+{com}. type "dentists_comma.csv"
+{res}"Y. Don Uflossmore",7.25,0,1
+"Olive Tu'Drill",10.25,1,1
+"Isaac O'Yerbreath",32.75,1,1
+"Ruth Canaale",22,1,1
+"Mike Avity",8.5,0,0
+{txt}
+{com}. //_90
+. replace years = 8.93 if name == "Mike Avity"
+{txt}(1 real change made)
+
+{com}. export delimited using "dentists_comma.csv", nolabel quote replace
+{res}{txt}file dentists_comma.csv saved
+
+{com}. type "dentists_comma.csv"
+{res}name,years,fulltime,recom
+"Y. Don Uflossmore",7.25,0,1
+"Olive Tu'Drill",10.25,1,1
+"Isaac O'Yerbreath",32.75,1,1
+"Ruth Canaale",22,1,1
+"Mike Avity",8.9300003,0,0
+{txt}
+{com}. //_91
+. format years %5.2f
+{txt}
+{com}. export delimited using "dentists_comma.csv", nolabel quote replace
+{res}{txt}file dentists_comma.csv saved
+
+{com}. type "dentists_comma.csv"
+{res}name,years,fulltime,recom
+"Y. Don Uflossmore",7.25,0,1
+"Olive Tu'Drill",10.25,1,1
+"Isaac O'Yerbreath",32.75,1,1
+"Ruth Canaale",22,1,1
+"Mike Avity",8.9300003,0,0
+{txt}
+{com}. //_92
+. help export delimited
+{txt}
+{com}. //_93
+. use "dentlab.dta", clear
+{txt}
+{com}. keep name years fulltime
+{txt}
+{com}. export excel using "dentrpt1.xlsx", cell(A4) replace
+{res}{txt}file dentrpt1.xlsx saved
+
+{com}. //_94
+. copy "dentrpt1-skeleton.xlsx" "dentrpt1.xlsx", replace
+{txt}
+{com}. //_95
+. export excel "dentrpt1.xlsx", sheet("dentists", modify) cell(A4)
+{res}{txt}file dentrpt1.xlsx saved
+
+{com}. //_96
+. copy "dentrpt2-skeleton.xlsx" "dentrpt2.xlsx", replace
+{txt}
+{com}. export excel "dentrpt2.xlsx", sheet("dentists", modify) cell(A4) //keepcellfmt
+{res}{txt}file dentrpt2.xlsx saved
+
+{com}. //_97
+. copy "dentrpt3-skeleton.xlsx" "dentrpt3.xlsx", replace
+{txt}
+{com}. export excel "dentrpt3.xlsx", sheet("dentists", modify) cell(A6) 
+{res}{txt}file dentrpt3.xlsx saved
+
+{com}. //_98
+. putexcel set "dentrpt3.xlsx", sheet("dentists") modify
+{res}{txt}
+{com}. //_99
+. summarize years
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 7}years {c |}{res}          5       16.15    10.98095       7.25      32.75
+{txt}
+{com}. return list
+
+{txt}scalars:
+                  r(N) =  {res}5
+              {txt}r(sum_w) =  {res}5
+               {txt}r(mean) =  {res}16.15
+                {txt}r(Var) =  {res}120.58125
+                 {txt}r(sd) =  {res}10.98094941250528
+                {txt}r(min) =  {res}7.25
+                {txt}r(max) =  {res}32.75
+                {txt}r(sum) =  {res}80.75
+{txt}
+{com}. //_100
+. summarize years
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 7}years {c |}{res}          5       16.15    10.98095       7.25      32.75
+{txt}
+{com}. putexcel B2 = `r(mean)'
+{res}{txt}file dentrpt3.xlsx saved
+
+{com}. summarize fulltime
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}fulltime {c |}{res}          5          .6    .5477226          0          1
+{txt}
+{com}. putexcel B3 = `r(mean)'
+{res}{txt}file dentrpt3.xlsx saved
+
+{com}. //_101
+. use wws, clear
+{txt}(Working Women Survey)
+
+{com}. //_102
+. describe
+
+{txt}Contains data from {res}wws.dta
+{txt}  obs:{res}         2,246                          Working Women Survey
+{txt} vars:{res}            30                          3 Jan 2010 00:42
+{txt} size:{res}       163,958                          (_dta has notes)
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:idcode         }{txt}{bind: int     }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Unique ID{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}age in current year{p_end}
+{p 0 48}{bind:race           }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}race{p_end}
+{p 0 48}{bind:married        }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}married{p_end}
+{p 0 48}{bind:collgrad       }{txt}{bind: byte    }{bind:{txt}%16.0g    }{space 1}{bind:         }{bind:  }{res}{res}college graduate{p_end}
+{p 0 48}{bind:south          }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}lives in south{p_end}
+{p 0 48}{bind:industry       }{txt}{bind: byte    }{bind:{txt}%23.0g    }{space 1}{bind:         }{bind:  }{res}{res}industry{p_end}
+{p 0 48}{bind:occupation     }{txt}{bind: byte    }{bind:{txt}%22.0g    }{space 1}{bind:         }{bind:  }{res}{res}occupation{p_end}
+{p 0 48}{bind:union          }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}union worker{p_end}
+{p 0 48}{bind:wage           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}hourly wage{p_end}
+{p 0 48}{bind:hours          }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}usual hours worked{p_end}
+{p 0 48}{bind:nevermarried   }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Woman never been married{p_end}
+{p 0 48}{bind:yrschool       }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Years of school completed{p_end}
+{p 0 48}{bind:metro          }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Does woman live in metro area?{p_end}
+{p 0 48}{bind:ccity          }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}Does woman live in city center?{p_end}
+{p 0 48}{bind:currexp        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Years worked at current job{p_end}
+{p 0 48}{bind:prevexp        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Years worked at previous job{p_end}
+{p 0 48}{bind:everworked     }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Has woman ever worked?{p_end}
+{p 0 48}{bind:uniondues      }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Union Dues paid last week{p_end}
+{p 0 48}{bind:marriedyrs     }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Years married (rounded to nearest year){p_end}
+{p 0 48}{bind:unempins       }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Under/Unemployment insur. received last week{p_end}
+{p 0 48}{bind:numkids        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Number of children{p_end}
+{p 0 48}{bind:kidage1        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Age of first child{p_end}
+{p 0 48}{bind:kidage2        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Age of second child{p_end}
+{p 0 48}{bind:kidage3        }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Age of third child{p_end}
+{p 0 48}{bind:grade          }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}current grade completed{p_end}
+{p 0 48}{bind:grade4         }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}4 level Current Grade Completed{p_end}
+{p 0 48}{bind:wage2          }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Wages, rounded to 2 digits{p_end}
+{p 0 48}{bind:fwt            }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Frequency weight{p_end}
+{p 0 48}{bind:networth       }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Net worth{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. //_103
+. tabulate collgrad, missing
+
+    {txt}college {c |}
+   graduate {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}      1,713       76.27       76.27
+{txt}          1 {c |}{res}        533       23.73      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,246      100.00
+{txt}
+{com}. //_104
+. tabulate race, missing
+
+       {txt}race {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}      1,636       72.84       72.84
+{txt}          2 {c |}{res}        583       25.96       98.80
+{txt}          3 {c |}{res}         26        1.16       99.96
+{txt}          4 {c |}{res}          1        0.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,246      100.00
+{txt}
+{com}. //_105
+. list idcode race if race==4
+{txt}
+      {c TLC}{hline 8}{c -}{hline 6}{c TRC}
+      {c |} {res}idcode   race {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 6}{c RT}
+2013. {c |} {res}   543      4 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 6}{c BRC}
+
+{com}. //_106
+. summarize unempins
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}unempins {c |}{res}      2,246    30.50401    73.16682          0        299
+{txt}
+{com}. //_107
+. summarize wage
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 8}wage {c |}{res}      2,246    288.2885    9595.692          0     380000
+{txt}
+{com}. //_108
+. summarize wage, detail
+
+                         {txt}hourly wage
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res} 1.892108              0
+{txt} 5%    {res} 2.801002       1.004952
+{txt}10%    {res} 3.220612       1.032247       {txt}Obs         {res}      2,246
+{txt}25%    {res} 4.259257       1.151368       {txt}Sum of Wgt. {res}      2,246
+
+{txt}50%    {res} 6.276297                      {txt}Mean          {res} 288.2885
+                        {txt}Largest       Std. Dev.     {res} 9595.692
+{txt}75%    {res} 9.661837       40.19808
+{txt}90%    {res} 12.77777       40.74659       {txt}Variance      {res} 9.21e+07
+{txt}95%    {res} 16.73912         250000       {txt}Skewness      {res} 35.45839
+{txt}99%    {res} 38.70926         380000       {txt}Kurtosis      {res} 1297.042
+{txt}
+{com}. //_109
+. list idcode wage if wage > 1000
+{txt}
+      {c TLC}{hline 8}{c -}{hline 8}{c TRC}
+      {c |} {res}idcode     wage {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 8}{c RT}
+ 893. {c |} {res}  3145   380000 {txt}{c |}
+1241. {c |} {res}  2341   250000 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 8}{c BRC}
+
+{com}. //_110
+. summarize age
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 9}age {c |}{res}      2,246    36.25111    5.437983         21         83
+{txt}
+{com}. tabulate age
+
+     {txt}age in {c |}
+    current {c |}
+       year {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         21 {c |}{res}          2        0.09        0.09
+{txt}         22 {c |}{res}          8        0.36        0.45
+{txt}         23 {c |}{res}         16        0.71        1.16
+{txt}         24 {c |}{res}         35        1.56        2.72
+{txt}         25 {c |}{res}         44        1.96        4.67
+{txt}         26 {c |}{res}         50        2.23        6.90
+{txt}         27 {c |}{res}         50        2.23        9.13
+{txt}         28 {c |}{res}         63        2.80       11.93
+{txt}         29 {c |}{res}         49        2.18       14.11
+{txt}         30 {c |}{res}         55        2.45       16.56
+{txt}         31 {c |}{res}         57        2.54       19.10
+{txt}         32 {c |}{res}         60        2.67       21.77
+{txt}         33 {c |}{res}         56        2.49       24.27
+{txt}         34 {c |}{res}         95        4.23       28.50
+{txt}         35 {c |}{res}        213        9.48       37.98
+{txt}         36 {c |}{res}        224        9.97       47.95
+{txt}         37 {c |}{res}        171        7.61       55.57
+{txt}         38 {c |}{res}        175        7.79       63.36
+{txt}         39 {c |}{res}        167        7.44       70.79
+{txt}         40 {c |}{res}        139        6.19       76.98
+{txt}         41 {c |}{res}        148        6.59       83.57
+{txt}         42 {c |}{res}        111        4.94       88.51
+{txt}         43 {c |}{res}        110        4.90       93.41
+{txt}         44 {c |}{res}         98        4.36       97.77
+{txt}         45 {c |}{res}         45        2.00       99.78
+{txt}         46 {c |}{res}          1        0.04       99.82
+{txt}         47 {c |}{res}          1        0.04       99.87
+{txt}         48 {c |}{res}          1        0.04       99.91
+{txt}         54 {c |}{res}          1        0.04       99.96
+{txt}         83 {c |}{res}          1        0.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,246      100.00
+{txt}
+{com}. //_111
+. list idcode age if age > 50
+{txt}
+      {c TLC}{hline 8}{c -}{hline 5}{c TRC}
+      {c |} {res}idcode   age {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 5}{c RT}
+2205. {c |} {res}    80    54 {txt}{c |}
+2219. {c |} {res}    51    83 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 5}{c BRC}
+
+{com}. //_112
+. use "wws.dta", clear
+{txt}(Working Women Survey)
+
+{com}. //_113
+. tabulate metro ccity, missing
+
+{txt}Does woman {c |}
+   live in {c |}  Does woman live in
+     metro {c |}     city center?
+     area? {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       665          0 {txt}{c |}{res}       665 
+{txt}         1 {c |}{res}       926        655 {txt}{c |}{res}     1,581 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}     1,591        655 {txt}{c |}{res}     2,246 
+
+{txt}
+{com}. //_114
+. count if metro==0 & ccity==1
+  {res}0
+{txt}
+{com}. //_115
+. tabulate married nevermarried, missing
+
+           {txt}{c |}   Woman never been
+           {c |}        married
+   married {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}       570        234 {txt}{c |}{res}       804 
+{txt}         1 {c |}{res}     1,440          2 {txt}{c |}{res}     1,442 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}     2,010        236 {txt}{c |}{res}     2,246 
+
+{txt}
+{com}. //_116
+. count if married == 1 & nevermarried == 1
+  {res}2
+{txt}
+{com}. list idcode married nevermarried if married == 1 & nevermarried == 1
+{txt}
+      {c TLC}{hline 8}{c -}{hline 9}{c -}{hline 10}{c TRC}
+      {c |} {res}idcode   married   neverm~d {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 9}{c -}{hline 10}{c RT}
+1523. {c |} {res}  1758         1          1 {txt}{c |}
+2231. {c |} {res}    22         1          1 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 9}{c -}{hline 10}{c BRC}
+
+{com}. //_117
+. tabulate yrschool collgrad, missing
+
+  {txt}Years of {c |}
+    school {c |}   college graduate
+ completed {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         8 {c |}{res}        69          1 {txt}{c |}{res}        70 
+{txt}         9 {c |}{res}        55          0 {txt}{c |}{res}        55 
+{txt}        10 {c |}{res}        84          0 {txt}{c |}{res}        84 
+{txt}        11 {c |}{res}       123          0 {txt}{c |}{res}       123 
+{txt}        12 {c |}{res}       943          0 {txt}{c |}{res}       943 
+{txt}        13 {c |}{res}       174          2 {txt}{c |}{res}       176 
+{txt}        14 {c |}{res}       180          7 {txt}{c |}{res}       187 
+{txt}        15 {c |}{res}        81         11 {txt}{c |}{res}        92 
+{txt}        16 {c |}{res}         0        252 {txt}{c |}{res}       252 
+{txt}        17 {c |}{res}         0        106 {txt}{c |}{res}       106 
+{txt}        18 {c |}{res}         0        154 {txt}{c |}{res}       154 
+{txt}         . {c |}{res}         4          0 {txt}{c |}{res}         4 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}     1,713        533 {txt}{c |}{res}     2,246 
+
+{txt}
+{com}. //_118
+. table yrschool collgrad
+
+{txt}{hline 10}{c TT}{hline 11}
+Years of  {c |}  college  
+school    {c |}  graduate 
+completed {c |}    0     1
+{hline 10}{c +}{hline 11}
+        8 {c |}   {res}69     1
+        {txt}9 {c |}   {res}55      
+       {txt}10 {c |}   {res}84      
+       {txt}11 {c |}  {res}123      
+       {txt}12 {c |}  {res}943      
+       {txt}13 {c |}  {res}174     2
+       {txt}14 {c |}  {res}180     7
+       {txt}15 {c |}   {res}81    11
+       {txt}16 {c |}     {res}   252
+       {txt}17 {c |}     {res}   106
+       {txt}18 {c |}     {res}   154
+{txt}{hline 10}{c BT}{hline 11}
+
+{com}. list idcode if yrschool < 16 & collgrad == 1
+{txt}
+      {c TLC}{hline 8}{c TRC}
+      {c |} {res}idcode {txt}{c |}
+      {c LT}{hline 8}{c RT}
+ 195. {c |} {res}  4721 {txt}{c |}
+ 369. {c |} {res}  4334 {txt}{c |}
+ 464. {c |} {res}  4131 {txt}{c |}
+ 553. {c |} {res}  3929 {txt}{c |}
+ 690. {c |} {res}  3589 {txt}{c |}
+      {c LT}{hline 8}{c RT}
+1092. {c |} {res}  2681 {txt}{c |}
+1098. {c |} {res}  2674 {txt}{c |}
+1114. {c |} {res}  2640 {txt}{c |}
+1124. {c |} {res}  2613 {txt}{c |}
+1221. {c |} {res}  2384 {txt}{c |}
+      {c LT}{hline 8}{c RT}
+1493. {c |} {res}  1810 {txt}{c |}
+1829. {c |} {res}   993 {txt}{c |}
+1843. {c |} {res}   972 {txt}{c |}
+1972. {c |} {res}   689 {txt}{c |}
+2114. {c |} {res}   312 {txt}{c |}
+      {c LT}{hline 8}{c RT}
+2174. {c |} {res}   172 {txt}{c |}
+2198. {c |} {res}   107 {txt}{c |}
+2215. {c |} {res}    63 {txt}{c |}
+2228. {c |} {res}    25 {txt}{c |}
+2229. {c |} {res}    24 {txt}{c |}
+      {c LT}{hline 8}{c RT}
+2230. {c |} {res}    23 {txt}{c |}
+      {c BLC}{hline 8}{c BRC}
+
+{com}. //_119
+. summarize uniondues, detail
+
+                  {txt}Union Dues paid last week
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        0              0
+{txt} 5%    {res}        0              0
+{txt}10%    {res}        0              0       {txt}Obs         {res}      2,242
+{txt}25%    {res}        0              0       {txt}Sum of Wgt. {res}      2,242
+
+{txt}50%    {res}        0                      {txt}Mean          {res} 5.603479
+                        {txt}Largest       Std. Dev.     {res} 9.029045
+{txt}75%    {res}       10             29
+{txt}90%    {res}       22             29       {txt}Variance      {res} 81.52365
+{txt}95%    {res}       26             29       {txt}Skewness      {res}  1.35268
+{txt}99%    {res}       29             29       {txt}Kurtosis      {res} 3.339635
+{txt}
+{com}. //_120
+. bysort union: summarize uniondues
+
+{txt}{hline}
+-> union = 0
+
+    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 3}uniondues {c |}{res}      1,413     .094126    1.502237          0         27
+
+{txt}{hline}
+-> union = 1
+
+    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 3}uniondues {c |}{res}        461    14.65944    8.707759          0         29
+
+{txt}{hline}
+-> union = .
+
+    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 3}uniondues {c |}{res}        368    15.41304    8.815582          0         29
+
+{txt}
+{com}. //_121
+. tabulate uniondues if union==0, missing
+
+ {txt}Union Dues {c |}
+  paid last {c |}
+       week {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}      1,407       99.29       99.29
+{txt}         10 {c |}{res}          1        0.07       99.36
+{txt}         17 {c |}{res}          1        0.07       99.44
+{txt}         26 {c |}{res}          2        0.14       99.58
+{txt}         27 {c |}{res}          2        0.14       99.72
+{txt}          . {c |}{res}          4        0.28      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      1,417      100.00
+{txt}
+{com}. //_122
+. recode uniondues (0=0) (1/max=1), generate(paysdues)
+{txt}(784 differences between uniondues and paysdues)
+
+{com}. //_123
+. tabulate union paysdues, missing
+
+           {txt}{c |} RECODE of uniondues (Union Dues
+     union {c |}         paid last week)
+    worker {c |}         0          1          . {c |}     Total
+{hline 11}{c +}{hline 33}{c +}{hline 10}
+         0 {c |}{res}     1,407          6          4 {txt}{c |}{res}     1,417 
+{txt}         1 {c |}{res}        17        444          0 {txt}{c |}{res}       461 
+{txt}         . {c |}{res}         7        361          0 {txt}{c |}{res}       368 
+{txt}{hline 11}{c +}{hline 33}{c +}{hline 10}
+     Total {c |}{res}     1,431        811          4 {txt}{c |}{res}     2,246 
+
+{txt}
+{com}. //_124
+. list idcode union uniondues if union==0 & (uniondues > 0) & !missing(uniondues), abb(20)
+{txt}
+      {c TLC}{hline 8}{c -}{hline 7}{c -}{hline 11}{c TRC}
+      {c |} {res}idcode   union   uniondues {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 7}{c -}{hline 11}{c RT}
+ 203. {c |} {res}  3905       0          10 {txt}{c |}
+ 304. {c |} {res}   345       0          26 {txt}{c |}
+ 388. {c |} {res}  2541       0          27 {txt}{c |}
+ 491. {c |} {res}  3848       0          26 {txt}{c |}
+ 972. {c |} {res}  1411       0          27 {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 7}{c -}{hline 11}{c RT}
+1175. {c |} {res}  3464       0          17 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 7}{c -}{hline 11}{c BRC}
+
+{com}. //_125
+. tab married, sum(marriedyrs)
+
+            {txt}{c |}  Summary of Years married (rounded
+            {c |}          to nearest year)
+    married {c |}        Mean   Std. Dev.       Freq.
+{hline 12}{c +}{hline 36}
+          0 {c |}  {res}         0           0         804
+  {txt}        1 {c |}  {res} 5.5409154   3.5521383       1,442
+{txt}{hline 12}{c +}{hline 36}
+      Total {c |}  {res} 3.5574354   3.8933494       2,246
+{txt}
+{com}. //_126
+. tabstat marriedyrs, by(married) statistics(n mean sd min max p25 p50 p75) missing
+
+{txt}Summary for variables: marriedyrs
+{col 6}by categories of: married (married)
+
+{ralign 8:married} {...}
+{c |}         N      mean        sd       min       max       p25       p50       p75
+{hline 9}{c +}{hline 80}
+{ralign 8:0} {...}
+{c |}{...}
+ {res}      804         0         0         0         0         0         0         0
+{txt}{ralign 8:1} {...}
+{c |}{...}
+ {res}     1442  5.540915  3.552138         0        11         2         6         9
+{txt}{hline 9}{c +}{hline 80}
+{ralign 8:Total} {...}
+{c |}{...}
+ {res}     2246  3.557435  3.893349         0        11         0         2         7
+{txt}{hline 9}{c BT}{hline 80}
+
+{com}. //_127
+. tabstat currexp, by(everworked) statistics(n mean sd min max) missing
+
+{txt}Summary for variables: currexp
+{col 6}by categories of: everworked (Has woman ever worked?)
+
+{ralign 10:everworked} {...}
+{c |}         N      mean        sd       min       max
+{hline 11}{c +}{hline 50}
+{ralign 10:0} {...}
+{c |}{...}
+ {res}       60         0         0         0         0
+{txt}{ralign 10:1} {...}
+{c |}{...}
+ {res}     2171  5.328881  5.042181         0        26
+{txt}{hline 11}{c +}{hline 50}
+{ralign 10:Total} {...}
+{c |}{...}
+ {res}     2231  5.185567  5.048073         0        26
+{txt}{hline 11}{c BT}{hline 50}
+
+{com}. //_128
+. generate totexp=currexp+prevexp
+{txt}(15 missing values generated)
+
+{com}. tabstat totexp, by(everworked) statistics(n mean sd min max) missing
+
+{txt}Summary for variables: totexp
+{col 6}by categories of: everworked (Has woman ever worked?)
+
+{ralign 10:everworked} {...}
+{c |}         N      mean        sd       min       max
+{hline 11}{c +}{hline 50}
+{ralign 10:0} {...}
+{c |}{...}
+ {res}       60         0         0         0         0
+{txt}{ralign 10:1} {...}
+{c |}{...}
+ {res}     2171  11.57761  4.552392         1        29
+{txt}{hline 11}{c +}{hline 50}
+{ralign 10:Total} {...}
+{c |}{...}
+ {res}     2231  11.26625  4.865816         0        29
+{txt}{hline 11}{c BT}{hline 50}
+
+{com}. //_129
+. summarize unempins if hours > 30 & !missing(hours)
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 4}unempins {c |}{res}      1,800    1.333333    16.04617          0        287
+{txt}
+{com}. //_130
+. count if (hours>30) & !missing(hours) & (unempins>0) & !missing(unempins)
+  {res}19
+{txt}
+{com}. //_131
+. tabulate hours if (hours>30) & !missing(hours) & (unempins>0) & !missing(unempins)
+
+{txt}usual hours {c |}
+     worked {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         35 {c |}{res}          1        5.26        5.26
+{txt}         38 {c |}{res}          2       10.53       15.79
+{txt}         40 {c |}{res}         14       73.68       89.47
+{txt}         65 {c |}{res}          1        5.26       94.74
+{txt}         70 {c |}{res}          1        5.26      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         19      100.00
+{txt}
+{com}. //_132
+. generate agewhenmarried = age - marriedyrs
+{txt}
+{com}. summarize agewhenmarried 
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+agewhenmar~d {c |}{res}      2,246    32.69368    6.709341         13         73
+{txt}
+{com}. tabulate agewhenmarried
+
+{txt}agewhenmarr {c |}
+        ied {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         13 {c |}{res}          1        0.04        0.04
+{txt}         14 {c |}{res}          4        0.18        0.22
+{txt}         15 {c |}{res}         11        0.49        0.71
+{txt}         16 {c |}{res}          8        0.36        1.07
+{txt}         17 {c |}{res}         18        0.80        1.87
+{txt}         18 {c |}{res}         19        0.85        2.72
+{txt}         19 {c |}{res}         14        0.62        3.34
+{txt}         20 {c |}{res}         20        0.89        4.23
+{txt}         21 {c |}{res}         36        1.60        5.83
+{txt}         22 {c |}{res}         42        1.87        7.70
+{txt}         23 {c |}{res}         52        2.32       10.02
+{txt}         24 {c |}{res}         65        2.89       12.91
+{txt}         25 {c |}{res}         67        2.98       15.89
+{txt}         26 {c |}{res}         81        3.61       19.50
+{txt}         27 {c |}{res}         73        3.25       22.75
+{txt}         28 {c |}{res}         93        4.14       26.89
+{txt}         29 {c |}{res}         90        4.01       30.90
+{txt}         30 {c |}{res}        118        5.25       36.15
+{txt}         31 {c |}{res}         91        4.05       40.20
+{txt}         32 {c |}{res}        124        5.52       45.73
+{txt}         33 {c |}{res}        109        4.85       50.58
+{txt}         34 {c |}{res}        109        4.85       55.43
+{txt}         35 {c |}{res}        149        6.63       62.07
+{txt}         36 {c |}{res}        138        6.14       68.21
+{txt}         37 {c |}{res}        119        5.30       73.51
+{txt}         38 {c |}{res}        124        5.52       79.03
+{txt}         39 {c |}{res}        119        5.30       84.33
+{txt}         40 {c |}{res}         89        3.96       88.29
+{txt}         41 {c |}{res}         80        3.56       91.85
+{txt}         42 {c |}{res}         62        2.76       94.61
+{txt}         43 {c |}{res}         50        2.23       96.84
+{txt}         44 {c |}{res}         43        1.91       98.75
+{txt}         45 {c |}{res}         23        1.02       99.78
+{txt}         46 {c |}{res}          2        0.09       99.87
+{txt}         47 {c |}{res}          1        0.04       99.91
+{txt}         48 {c |}{res}          1        0.04       99.96
+{txt}         73 {c |}{res}          1        0.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,246      100.00
+{txt}
+{com}. //_133
+. tabulate agewhenmarried if agewhenmarried < 18
+
+{txt}agewhenmarr {c |}
+        ied {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         13 {c |}{res}          1        2.38        2.38
+{txt}         14 {c |}{res}          4        9.52       11.90
+{txt}         15 {c |}{res}         11       26.19       38.10
+{txt}         16 {c |}{res}          8       19.05       57.14
+{txt}         17 {c |}{res}         18       42.86      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         42      100.00
+{txt}
+{com}. //_134
+. generate agewhenstartwork = age - (prevexp + currexp)
+{txt}(15 missing values generated)
+
+{com}. tabulate agewhenstartwork if agewhenstartwork < 16
+
+{txt}agewhenstar {c |}
+      twork {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          8 {c |}{res}          1        1.49        1.49
+{txt}          9 {c |}{res}          1        1.49        2.99
+{txt}         12 {c |}{res}          1        1.49        4.48
+{txt}         14 {c |}{res}         20       29.85       34.33
+{txt}         15 {c |}{res}         44       65.67      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         67      100.00
+{txt}
+{com}. //_135
+. table kidage2 kidage3 if numkids==3
+
+{txt}{hline 10}{c TT}{hline 47}
+Age of    {c |}
+second    {c |}               Age of third child              
+child     {c |}    0     1     2     3     4     5     6     7
+{hline 10}{c +}{hline 47}
+        0 {c |}   {res}12                                          
+        {txt}1 {c |}   {res}10     9                                    
+        {txt}2 {c |}   {res}11     8    10                              
+        {txt}3 {c |}   {res}10    12     6     8                        
+        {txt}4 {c |}   {res}10    12    10     7     5                  
+        {txt}5 {c |}   {res}12    11     9     3     6     8            
+        {txt}6 {c |}    {res}9     8    10     6     5     6     6      
+        {txt}7 {c |}    {res}7     6     7     9     4    14    12     6
+        {txt}8 {c |}     {res}     5    11     7     6    14     6    11
+        {txt}9 {c |}     {res}           8    13    10     7    12     9
+       {txt}10 {c |}     {res}                15     3    10     6    12
+       {txt}11 {c |}     {res}                       9     8     3    13
+       {txt}12 {c |}     {res}                            16     9     6
+       {txt}13 {c |}     {res}                                  11     5
+       {txt}14 {c |}     {res}                                         8
+{txt}{hline 10}{c BT}{hline 47}
+
+{com}. //_136
+. count if (kidage3 > kidage2) & (numkids==3) & !missing(kidage3)
+  {res}0
+{txt}
+{com}. count if (kidage2 > kidage1) & (numkids>=2) & !missing(kidage2)
+  {res}0
+{txt}
+{com}. //_137
+. generate agewhenfirstkid = age - kidage1
+{txt}(563 missing values generated)
+
+{com}. tabulate agewhenfirstkid if agewhenfirstkid < 18
+
+{txt}agewhenfirs {c |}
+       tkid {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          3 {c |}{res}          1        0.51        0.51
+{txt}          5 {c |}{res}          2        1.01        1.52
+{txt}          7 {c |}{res}          2        1.01        2.53
+{txt}          8 {c |}{res}          5        2.53        5.05
+{txt}          9 {c |}{res}          8        4.04        9.09
+{txt}         10 {c |}{res}          7        3.54       12.63
+{txt}         11 {c |}{res}         10        5.05       17.68
+{txt}         12 {c |}{res}         10        5.05       22.73
+{txt}         13 {c |}{res}         20       10.10       32.83
+{txt}         14 {c |}{res}         30       15.15       47.98
+{txt}         15 {c |}{res}         27       13.64       61.62
+{txt}         16 {c |}{res}         39       19.70       81.31
+{txt}         17 {c |}{res}         37       18.69      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}        198      100.00
+{txt}
+{com}. //_138
+. twoway scatter hours wage if hours > 0 & wage >0 & wage < 1000
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/hour_wage.png", width(500) replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/hour_wage.png written in PNG format)
+
+{com}. //_139
+. list idcode race if race==4
+{txt}
+      {c TLC}{hline 8}{c -}{hline 6}{c TRC}
+      {c |} {res}idcode   race {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 6}{c RT}
+1796. {c |} {res}   543      4 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 6}{c BRC}
+
+{com}. replace race=1 if idcode == 543
+{txt}(1 real change made)
+
+{com}. tabulate race
+
+       {txt}race {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}      1,637       72.89       72.89
+{txt}          2 {c |}{res}        583       25.96       98.84
+{txt}          3 {c |}{res}         26        1.16      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,246      100.00
+{txt}
+{com}. //_140
+. note race: race changed to 1 (from 4) for idcode 543
+{res}{txt}
+{com}. //_141
+. list idcode collgrad if yrschool < 12 & collgrad == 1
+{txt}
+      {c TLC}{hline 8}{c -}{hline 10}{c TRC}
+      {c |} {res}idcode   collgrad {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 10}{c RT}
+1456. {c |} {res}   107          1 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 10}{c BRC}
+
+{com}. replace collgrad = 0 if idcode == 107
+{txt}(1 real change made)
+
+{com}. tab yrschool collgrad
+
+  {txt}Years of {c |}
+    school {c |}   college graduate
+ completed {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         8 {c |}{res}        70          0 {txt}{c |}{res}        70 
+{txt}         9 {c |}{res}        55          0 {txt}{c |}{res}        55 
+{txt}        10 {c |}{res}        84          0 {txt}{c |}{res}        84 
+{txt}        11 {c |}{res}       123          0 {txt}{c |}{res}       123 
+{txt}        12 {c |}{res}       943          0 {txt}{c |}{res}       943 
+{txt}        13 {c |}{res}       174          2 {txt}{c |}{res}       176 
+{txt}        14 {c |}{res}       180          7 {txt}{c |}{res}       187 
+{txt}        15 {c |}{res}        81         11 {txt}{c |}{res}        92 
+{txt}        16 {c |}{res}         0        252 {txt}{c |}{res}       252 
+{txt}        17 {c |}{res}         0        106 {txt}{c |}{res}       106 
+{txt}        18 {c |}{res}         0        154 {txt}{c |}{res}       154 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}     1,710        532 {txt}{c |}{res}     2,242 
+
+{txt}
+{com}. note collgrad: collgrad changed to 0 (from 1) for idcode 107
+{res}{txt}
+{com}. //_142
+. list idcode age if age > 50
+{txt}
+      {c TLC}{hline 8}{c -}{hline 5}{c TRC}
+      {c |} {res}idcode   age {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 5}{c RT}
+  45. {c |} {res}    80    54 {txt}{c |}
+ 451. {c |} {res}    51    83 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 5}{c BRC}
+
+{com}. replace age = 38 if idcode == 51
+{txt}(1 real change made)
+
+{com}. replace age = 45 if idcode == 80
+{txt}(1 real change made)
+
+{com}. tab age
+
+     {txt}age in {c |}
+    current {c |}
+       year {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         21 {c |}{res}          2        0.09        0.09
+{txt}         22 {c |}{res}          8        0.36        0.45
+{txt}         23 {c |}{res}         16        0.71        1.16
+{txt}         24 {c |}{res}         35        1.56        2.72
+{txt}         25 {c |}{res}         44        1.96        4.67
+{txt}         26 {c |}{res}         50        2.23        6.90
+{txt}         27 {c |}{res}         50        2.23        9.13
+{txt}         28 {c |}{res}         63        2.80       11.93
+{txt}         29 {c |}{res}         49        2.18       14.11
+{txt}         30 {c |}{res}         55        2.45       16.56
+{txt}         31 {c |}{res}         57        2.54       19.10
+{txt}         32 {c |}{res}         60        2.67       21.77
+{txt}         33 {c |}{res}         56        2.49       24.27
+{txt}         34 {c |}{res}         95        4.23       28.50
+{txt}         35 {c |}{res}        213        9.48       37.98
+{txt}         36 {c |}{res}        224        9.97       47.95
+{txt}         37 {c |}{res}        171        7.61       55.57
+{txt}         38 {c |}{res}        176        7.84       63.40
+{txt}         39 {c |}{res}        167        7.44       70.84
+{txt}         40 {c |}{res}        139        6.19       77.03
+{txt}         41 {c |}{res}        148        6.59       83.62
+{txt}         42 {c |}{res}        111        4.94       88.56
+{txt}         43 {c |}{res}        110        4.90       93.46
+{txt}         44 {c |}{res}         98        4.36       97.82
+{txt}         45 {c |}{res}         46        2.05       99.87
+{txt}         46 {c |}{res}          1        0.04       99.91
+{txt}         47 {c |}{res}          1        0.04       99.96
+{txt}         48 {c |}{res}          1        0.04      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      2,246      100.00
+{txt}
+{com}. note age: the value of 83 was corrected to 38 for idcode 51
+{res}{txt}
+{com}. note age: the value of 54 was corrected to 45 for idcode 80
+{res}{txt}
+{com}. //_143
+. note
+{res}
+_dta:
+{txt}{p 2 6}
+1.
+This is a hypothetical dataset and should not be used for analysis purposes
+{p_end}
+
+{res}age:
+{txt}{p 2 6}
+1.
+the value of 83 was corrected to 38 for idcode 51
+{p_end}
+{p 2 6}
+2.
+the value of 54 was corrected to 45 for idcode 80
+{p_end}
+
+{res}race:
+{txt}{p 2 6}
+1.
+race changed to 1 (from 4) for idcode 543
+{p_end}
+
+{res}collgrad:
+{txt}{p 2 6}
+1.
+collgrad changed to 0 (from 1) for idcode 107
+{p_end}
+
+{com}. //_144
+. use "dentists_dups.dta", clear
+{txt}
+{com}. //_145
+. duplicates list
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+  {c TLC}{hline 8}{c -}{hline 6}{c -}{hline 16}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+  {c |} {res}group:   obs:             name   years   fulltime   recom {txt}{c |}
+  {c LT}{hline 8}{c -}{hline 6}{c -}{hline 16}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  {c |} {res}     1      4       Mike Avity     8.5          0       0 {txt}{c |}
+  {c |} {res}     1      6       Mike Avity     8.5          0       0 {txt}{c |}
+  {c |} {res}     1      8       Mike Avity     8.5          0       0 {txt}{c |}
+  {c |} {res}     2      1   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  {c |} {res}     2     11   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  {c LT}{hline 8}{c -}{hline 6}{c -}{hline 16}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  {c |} {res}     3      2     Ruth Canaale      22          1       1 {txt}{c |}
+  {c |} {res}     3      3     Ruth Canaale      22          1       1 {txt}{c |}
+  {c BLC}{hline 8}{c -}{hline 6}{c -}{hline 16}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_146
+. duplicates examples 
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+  {c TLC}{hline 8}{c -}{hline 3}{c -}{hline 10}{c -}{hline 16}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c TRC}
+  {c |} {res}group:   #   e.g. obs             name   years   fulltime   recom {txt}{c |}
+  {c LT}{hline 8}{c -}{hline 3}{c -}{hline 10}{c -}{hline 16}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c RT}
+  {c |} {res}     1   3          4       Mike Avity     8.5          0       0 {txt}{c |}
+  {c |} {res}     2   2          1   Olive Tu'Drill   10.25          1       1 {txt}{c |}
+  {c |} {res}     3   2          2     Ruth Canaale      22          1       1 {txt}{c |}
+  {c BLC}{hline 8}{c -}{hline 3}{c -}{hline 10}{c -}{hline 16}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c BRC}
+
+{com}. //_147
+. duplicates report
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}            {res}4             0
+        {txt}2 {c |}            {res}4             2
+        {txt}3 {c |}            {res}3             2
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. //_148
+. duplicates tag, generate(dup)
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+{com}. list, separator(2)
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}             name   years   fulltime   recom   dup {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}   Olive Tu'Drill   10.25          1       1     1 {txt}{c |}
+  2. {c |} {res}     Ruth Canaale      22          1       1     1 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  3. {c |} {res}     Ruth Canaale      22          1       1     1 {txt}{c |}
+  4. {c |} {res}       Mike Avity     8.5          0       0     2 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  5. {c |} {res}       Mary Smith       3          1       1     0 {txt}{c |}
+  6. {c |} {res}       Mike Avity     8.5          0       0     2 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  7. {c |} {res}Y. Don Uflossmore    7.25          0       1     0 {txt}{c |}
+  8. {c |} {res}       Mike Avity     8.5          0       0     2 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  9. {c |} {res}       Mary Smith      27          0       0     0 {txt}{c |}
+ 10. {c |} {res}Isaac O'Yerbreath   32.75          1       1     0 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+ 11. {c |} {res}   Olive Tu'Drill   10.25          1       1     1 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. //_149
+. sort name years
+{txt}
+{com}. list, sepby(name years)
+{txt}
+     {c TLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}             name   years   fulltime   recom   dup {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}Isaac O'Yerbreath   32.75          1       1     0 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  2. {c |} {res}       Mary Smith       3          1       1     0 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  3. {c |} {res}       Mary Smith      27          0       0     0 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  4. {c |} {res}       Mike Avity     8.5          0       0     2 {txt}{c |}
+  5. {c |} {res}       Mike Avity     8.5          0       0     2 {txt}{c |}
+  6. {c |} {res}       Mike Avity     8.5          0       0     2 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  7. {c |} {res}   Olive Tu'Drill   10.25          1       1     1 {txt}{c |}
+  8. {c |} {res}   Olive Tu'Drill   10.25          1       1     1 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+  9. {c |} {res}     Ruth Canaale      22          1       1     1 {txt}{c |}
+ 10. {c |} {res}     Ruth Canaale      22          1       1     1 {txt}{c |}
+     {c LT}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c RT}
+ 11. {c |} {res}Y. Don Uflossmore    7.25          0       1     0 {txt}{c |}
+     {c BLC}{hline 19}{c -}{hline 7}{c -}{hline 10}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. //_150
+. browse if dup > 0
+{txt}
+{com}. //_151
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(4 observations deleted)
+
+{com}. //_152
+. use "wws.dta", replace
+{txt}(Working Women Survey)
+
+{com}. //_153
+. duplicates list idcode
+
+{p 0 4}{txt}Duplicates in terms of {res} idcode{p_end}
+
+{txt}(0 observations are duplicates)
+
+{com}. //_154
+. duplicates list 
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(0 observations are duplicates)
+
+{com}. //_155
+. use "wws_dups.dta", clear
+{txt}
+{com}. //_156
+. duplicates list idcode, sepby(idcode)
+
+{p 0 4}{txt}Duplicates in terms of {res} idcode{p_end}
+{txt}
+  {c TLC}{hline 8}{c -}{hline 6}{c -}{hline 8}{c TRC}
+  {c |} {res}group:   obs:   idcode {txt}{c |}
+  {c LT}{hline 8}{c -}{hline 6}{c -}{hline 8}{c RT}
+  {c |} {res}     1   1088     2831 {txt}{c |}
+  {c |} {res}     1   2248     2831 {txt}{c |}
+  {c LT}{hline 8}{c -}{hline 6}{c -}{hline 8}{c RT}
+  {c |} {res}     2   1244     3905 {txt}{c |}
+  {c |} {res}     2   1245     3905 {txt}{c |}
+  {c LT}{hline 8}{c -}{hline 6}{c -}{hline 8}{c RT}
+  {c |} {res}     3    277     4214 {txt}{c |}
+  {c |} {res}     3   2247     4214 {txt}{c |}
+  {c BLC}{hline 8}{c -}{hline 6}{c -}{hline 8}{c BRC}
+
+{com}. //_157
+. duplicates tag idcode, generate(iddup)
+
+{p 0 4}{txt}Duplicates in terms of {res} idcode{p_end}
+{txt}
+{com}. //_158
+. duplicates tag, generate(alldup)
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+{com}. //_159
+. list idcode age race yrschool occupation wage if iddup==1 & alldup==0
+{txt}
+      {c TLC}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+      {c |} {res}idcode   age   race   yrschool   occupa~n       wage {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+1244. {c |} {res}  3905    36      1         14         11   4.339774 {txt}{c |}
+1245. {c |} {res}  3905    41      1         10          5   7.004828 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+{com}. //_160
+. replace idcode=5160 if idcode==3905 & age==41
+{txt}(1 real change made)
+
+{com}. //_161
+. list idcode age race yrschool occupation wage if iddup==1 & alldup==0
+{txt}
+      {c TLC}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+      {c |} {res}idcode   age   race   yrschool   occupa~n       wage {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+1244. {c |} {res}  3905    36      1         14         11   4.339774 {txt}{c |}
+1245. {c |} {res}  5160    41      1         10          5   7.004828 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+{com}. //_162
+. duplicates report
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}         {res}2244             0
+        {txt}2 {c |}            {res}4             2
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. list idcode age race yrschool occupation wage if iddup==1 & alldup==1
+{txt}
+      {c TLC}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+      {c |} {res}idcode   age   race   yrschool   occupa~n       wage {txt}{c |}
+      {c LT}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+ 277. {c |} {res}  4214    35      1         17         13   11.27214 {txt}{c |}
+1088. {c |} {res}  2831    37      2          8          8   2.697261 {txt}{c |}
+2247. {c |} {res}  4214    35      1         17         13   11.27214 {txt}{c |}
+2248. {c |} {res}  2831    37      2          8          8   2.697261 {txt}{c |}
+      {c BLC}{hline 8}{c -}{hline 5}{c -}{hline 6}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+{com}. //_163
+. duplicates drop
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+(2 observations deleted)
+
+{com}. duplicates report
+
+{p 0 4}{txt}Duplicates in terms of {txt} all variables{p_end}
+
+{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}         {res}2246             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. //_164
+. import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/jun23pub.csv", clear
+{res}{text}(389 vars, 127,491 obs)
+
+{com}. //_^
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week2_iv2.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 8 Sep 2023, 05:44:23
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

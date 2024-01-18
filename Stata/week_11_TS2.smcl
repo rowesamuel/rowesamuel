@@ -1,0 +1,1448 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week_11_TS2.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 6 Nov 2023, 17:02:22
+{txt}
+{com}. //_1
+. clear
+{txt}
+{com}. set more off
+{txt}
+{com}. //_2
+. cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+{res}/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+{txt}
+{com}. //_3
+. use fertil3.dta, clear
+{txt}
+{com}. //_4
+. tsset year
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1913 to 1984
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. //_5
+. twoway line gfr year, title("General Fertility Rate") ytitle("Children Born per 1,000 CBA Women") xtitle("Year")
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_i1.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week_11_i1.png written in PNG format)
+
+{com}. //_6
+. reg gfr l.gfr
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        71
+{txt}{hline 13}{c +}{hline 34}   F(1, 69)        = {res}  1413.53
+{txt}       Model {c |} {res}  25734.824         1   25734.824   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1256.21904        69  18.2060731   {txt}R-squared       ={res}    0.9535
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9528
+{txt}       Total {c |} {res}  26991.043        70  385.586329   {txt}Root MSE        =   {res} 4.2669
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         gfr{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}gfr {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .9777202{col 26}{space 2} .0260053{col 37}{space 1}   37.60{col 46}{space 3}0.000{col 54}{space 4}  .925841{col 67}{space 3} 1.029599
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 1.304937{col 26}{space 2} 2.548821{col 37}{space 1}    0.51{col 46}{space 3}0.610{col 54}{space 4}-3.779822{col 67}{space 3} 6.389695
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_7
+. reg d.gfr d.pe if year < 1985
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        71
+{txt}{hline 13}{c +}{hline 34}   F(1, 69)        = {res}     2.26
+{txt}       Model {c |} {res} 40.3237206         1  40.3237206   {txt}Prob > F        ={res}    0.1370
+{txt}    Residual {c |} {res} 1229.25866        69  17.8153428   {txt}R-squared       ={res}    0.0318
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0177
+{txt}       Total {c |} {res} 1269.58238        70  18.1368911   {txt}Root MSE        =   {res} 4.2208
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       D.gfr{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}pe {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.0426776{col 26}{space 2} .0283672{col 37}{space 1}   -1.50{col 46}{space 3}0.137{col 54}{space 4}-.0992686{col 67}{space 3} .0139134
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.7847796{col 26}{space 2} .5020398{col 37}{space 1}   -1.56{col 46}{space 3}0.123{col 54}{space 4}-1.786322{col 67}{space 3} .2167625
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_8
+. reg d.gfr d.pe d.pe_1 d.pe_2 if year < 1985
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        69
+{txt}{hline 13}{c +}{hline 34}   F(3, 65)        = {res}     6.56
+{txt}       Model {c |} {res} 293.259859         3  97.7532864   {txt}Prob > F        ={res}    0.0006
+{txt}    Residual {c |} {res} 968.199959        65   14.895384   {txt}R-squared       ={res}    0.2325
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1971
+{txt}       Total {c |} {res} 1261.45982        68  18.5508797   {txt}Root MSE        =   {res} 3.8595
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       D.gfr{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}pe {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.0362021{col 26}{space 2} .0267737{col 37}{space 1}   -1.35{col 46}{space 3}0.181{col 54}{space 4} -.089673{col 67}{space 3} .0172687
+{txt}{space 12} {c |}
+{space 8}pe_1 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.0139706{col 26}{space 2} .0275539{col 37}{space 1}   -0.51{col 46}{space 3}0.614{col 54}{space 4}-.0689997{col 67}{space 3} .0410584
+{txt}{space 12} {c |}
+{space 8}pe_2 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2} .1099896{col 26}{space 2} .0268797{col 37}{space 1}    4.09{col 46}{space 3}0.000{col 54}{space 4} .0563071{col 67}{space 3} .1636721
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.9636787{col 26}{space 2} .4677599{col 37}{space 1}   -2.06{col 46}{space 3}0.043{col 54}{space 4} -1.89786{col 67}{space 3}-.0294976
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_9
+. use earns.dta, clear
+{txt}
+{com}. //_10
+. tsset year, yearly
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1947 to 1987
+{txt}{col 17}delta:  {res}1 year
+{txt}
+{com}. //_11
+. reg lhrwage loutphr t
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        41
+{txt}{hline 13}{c +}{hline 34}   F(2, 38)        = {res}   641.22
+{txt}       Model {c |} {res} 1.04458064         2  .522290318   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .030951776        38   .00081452   {txt}R-squared       ={res}    0.9712
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9697
+{txt}       Total {c |} {res} 1.07553241        40   .02688831   {txt}Root MSE        =   {res} .02854
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lhrwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}loutphr {c |}{col 14}{res}{space 2} 1.639639{col 26}{space 2} .0933471{col 37}{space 1}   17.56{col 46}{space 3}0.000{col 54}{space 4} 1.450668{col 67}{space 3} 1.828611
+{txt}{space 11}t {c |}{col 14}{res}{space 2}  -.01823{col 26}{space 2} .0017482{col 37}{space 1}  -10.43{col 46}{space 3}0.000{col 54}{space 4} -.021769{col 67}{space 3}-.0146909
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-5.328454{col 26}{space 2} .3744492{col 37}{space 1}  -14.23{col 46}{space 3}0.000{col 54}{space 4}-6.086487{col 67}{space 3}-4.570421
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_12
+. reg lhrwage l.lhrwage t
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        40
+{txt}{hline 13}{c +}{hline 34}   F(2, 37)        = {res}  1595.37
+{txt}       Model {c |} {res} .921760671         2  .460880336   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .010688817        37  .000288887   {txt}R-squared       ={res}    0.9885
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9879
+{txt}       Total {c |} {res} .932449488        39  .023908961   {txt}Root MSE        =   {res}   .017
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lhrwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lhrwage {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .9842872{col 26}{space 2} .0334331{col 37}{space 1}   29.44{col 46}{space 3}0.000{col 54}{space 4} .9165452{col 67}{space 3} 1.052029
+{txt}{space 12} {c |}
+{space 11}t {c |}{col 14}{res}{space 2}-.0009039{col 26}{space 2} .0004732{col 37}{space 1}   -1.91{col 46}{space 3}0.064{col 54}{space 4}-.0018626{col 67}{space 3} .0000548
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0544169{col 26}{space 2} .0413998{col 37}{space 1}    1.31{col 46}{space 3}0.197{col 54}{space 4}-.0294671{col 67}{space 3} .1383008
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_13
+. twoway line lhrwage year, title("Natural Log of Hourly Wages") ytitle("Ln(Hourly Wage)") xtitle("Year")
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage1.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage1.png written in PNG format)
+
+{com}. //_14
+. twoway line d.lhrwage year, title("First-Difference in Ln(Hourly Wages)") ytitle("Delta Ln(Hourly Wage)") xtitle("Year")
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage2.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage2.png written in PNG format)
+
+{com}. //_15
+. reg d.lhrwage d.loutphr t
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        40
+{txt}{hline 13}{c +}{hline 34}   F(2, 37)        = {res}    19.12
+{txt}       Model {c |} {res} .008727211         2  .004363605   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .008445792        37  .000228265   {txt}R-squared       ={res}    0.5082
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4816
+{txt}       Total {c |} {res} .017173003        39  .000440333   {txt}Root MSE        =   {res} .01511
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}   D.lhrwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}loutphr {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2} .5511404{col 26}{space 2} .1733698{col 37}{space 1}    3.18{col 46}{space 3}0.003{col 54}{space 4} .1998598{col 67}{space 3} .9024209
+{txt}{space 12} {c |}
+{space 11}t {c |}{col 14}{res}{space 2}-.0007637{col 26}{space 2} .0002321{col 37}{space 1}   -3.29{col 46}{space 3}0.002{col 54}{space 4}-.0012339{col 67}{space 3}-.0002935
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0176094{col 26}{space 2} .0074784{col 37}{space 1}    2.35{col 46}{space 3}0.024{col 54}{space 4} .0024567{col 67}{space 3} .0327622
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_16
+. use fertil3.dta
+{txt}
+{com}. //_17
+. tsset year, yearly
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1913 to 1984
+{txt}{col 17}delta:  {res}1 year
+{txt}
+{com}. //_18
+. reg d.gfr d.pe d.pe_1 if year < 1985
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        70
+{txt}{hline 13}{c +}{hline 34}   F(2, 67)        = {res}     1.20
+{txt}       Model {c |} {res} 43.7985353         2  21.8992676   {txt}Prob > F        ={res}    0.3063
+{txt}    Residual {c |} {res} 1218.19557        67  18.1820235   {txt}R-squared       ={res}    0.0347
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0059
+{txt}       Total {c |} {res} 1261.99411        69  18.2897697   {txt}Root MSE        =   {res}  4.264
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       D.gfr{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}pe {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.0456497{col 26}{space 2} .0294689{col 37}{space 1}   -1.55{col 46}{space 3}0.126{col 54}{space 4}-.1044699{col 67}{space 3} .0131704
+{txt}{space 12} {c |}
+{space 8}pe_1 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2} .0134149{col 26}{space 2} .0295326{col 37}{space 1}    0.45{col 46}{space 3}0.651{col 54}{space 4}-.0455324{col 67}{space 3} .0723623
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.8372962{col 26}{space 2} .5117337{col 37}{space 1}   -1.64{col 46}{space 3}0.106{col 54}{space 4}-1.858721{col 67}{space 3} .1841286
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_19
+. reg d.gfr d.pe d.pe_1 d.pe_2 if year < 1985
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        69
+{txt}{hline 13}{c +}{hline 34}   F(3, 65)        = {res}     6.56
+{txt}       Model {c |} {res} 293.259859         3  97.7532864   {txt}Prob > F        ={res}    0.0006
+{txt}    Residual {c |} {res} 968.199959        65   14.895384   {txt}R-squared       ={res}    0.2325
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1971
+{txt}       Total {c |} {res} 1261.45982        68  18.5508797   {txt}Root MSE        =   {res} 3.8595
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       D.gfr{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}pe {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.0362021{col 26}{space 2} .0267737{col 37}{space 1}   -1.35{col 46}{space 3}0.181{col 54}{space 4} -.089673{col 67}{space 3} .0172687
+{txt}{space 12} {c |}
+{space 8}pe_1 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.0139706{col 26}{space 2} .0275539{col 37}{space 1}   -0.51{col 46}{space 3}0.614{col 54}{space 4}-.0689997{col 67}{space 3} .0410584
+{txt}{space 12} {c |}
+{space 8}pe_2 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2} .1099896{col 26}{space 2} .0268797{col 37}{space 1}    4.09{col 46}{space 3}0.000{col 54}{space 4} .0563071{col 67}{space 3} .1636721
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.9636787{col 26}{space 2} .4677599{col 37}{space 1}   -2.06{col 46}{space 3}0.043{col 54}{space 4} -1.89786{col 67}{space 3}-.0294976
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_20
+. reg d.gfr d.gfr_1 d.pe d.pe_1 d.pe_2 if year < 1985
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        69
+{txt}{hline 13}{c +}{hline 34}   F(4, 64)        = {res}     7.46
+{txt}       Model {c |} {res} 401.286162         4   100.32154   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 860.173657        64  13.4402134   {txt}R-squared       ={res}    0.3181
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2755
+{txt}       Total {c |} {res} 1261.45982        68  18.5508797   {txt}Root MSE        =   {res} 3.6661
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       D.gfr{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}gfr_1 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2} .3002422{col 26}{space 2} .1059034{col 37}{space 1}    2.84{col 46}{space 3}0.006{col 54}{space 4} .0886758{col 67}{space 3} .5118086
+{txt}{space 12} {c |}
+{space 10}pe {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.0454721{col 26}{space 2} .0256417{col 37}{space 1}   -1.77{col 46}{space 3}0.081{col 54}{space 4}-.0966972{col 67}{space 3}  .005753
+{txt}{space 12} {c |}
+{space 8}pe_1 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}  .002064{col 26}{space 2} .0267776{col 37}{space 1}    0.08{col 46}{space 3}0.939{col 54}{space 4}-.0514303{col 67}{space 3} .0555584
+{txt}{space 12} {c |}
+{space 8}pe_2 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2} .1051346{col 26}{space 2} .0255904{col 37}{space 1}    4.11{col 46}{space 3}0.000{col 54}{space 4}  .054012{col 67}{space 3} .1562572
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.7021594{col 26}{space 2} .4537988{col 37}{space 1}   -1.55{col 46}{space 3}0.127{col 54}{space 4}-1.608727{col 67}{space 3} .2044079
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_21
+. use phillips.dta, clear
+{txt}
+{com}. //_22
+. tsset year, yearly
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1948 to 2003
+{txt}{col 17}delta:  {res}1 year
+{txt}
+{com}. //_23
+. reg inf unem if year < 1997
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        49
+{txt}{hline 13}{c +}{hline 34}   F(1, 47)        = {res}     2.62
+{txt}       Model {c |} {res} 25.6369575         1  25.6369575   {txt}Prob > F        ={res}    0.1125
+{txt}    Residual {c |} {res}  460.61979        47  9.80042107   {txt}R-squared       ={res}    0.0527
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0326
+{txt}       Total {c |} {res} 486.256748        48  10.1303489   {txt}Root MSE        =   {res} 3.1306
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         inf{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}unem {c |}{col 14}{res}{space 2} .4676257{col 26}{space 2} .2891262{col 37}{space 1}    1.62{col 46}{space 3}0.112{col 54}{space 4}-.1140213{col 67}{space 3} 1.049273
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  1.42361{col 26}{space 2} 1.719015{col 37}{space 1}    0.83{col 46}{space 3}0.412{col 54}{space 4}-2.034602{col 67}{space 3} 4.881822
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. predict u, resid
+{txt}
+{com}. //_24
+. reg u l.u, noconst
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        55
+{txt}{hline 13}{c +}{hline 34}   F(1, 54)        = {res}    29.61
+{txt}       Model {c |} {res} 161.010846         1  161.010846   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 293.652171        54  5.43800317   {txt}R-squared       ={res}    0.3541
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.3422
+{txt}       Total {c |} {res} 454.663017        55  8.26660031   {txt}Root MSE        =   {res}  2.332
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           u{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}u {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .5822453{col 26}{space 2} .1070035{col 37}{space 1}    5.44{col 46}{space 3}0.000{col 54}{space 4} .3677161{col 67}{space 3} .7967745
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_25
+. reg d.inf unem if year < 1997
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
+{txt}{hline 13}{c +}{hline 34}   F(1, 46)        = {res}     5.56
+{txt}       Model {c |} {res} 33.3829996         1  33.3829996   {txt}Prob > F        ={res}    0.0227
+{txt}    Residual {c |} {res} 276.305138        46  6.00663344   {txt}R-squared       ={res}    0.1078
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0884
+{txt}       Total {c |} {res} 309.688138        47  6.58910932   {txt}Root MSE        =   {res} 2.4508
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       D.inf{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}unem {c |}{col 14}{res}{space 2}-.5425869{col 26}{space 2} .2301559{col 37}{space 1}   -2.36{col 46}{space 3}0.023{col 54}{space 4}-1.005867{col 67}{space 3} -.079307
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 3.030581{col 26}{space 2}  1.37681{col 37}{space 1}    2.20{col 46}{space 3}0.033{col 54}{space 4}  .259206{col 67}{space 3} 5.801955
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. predict u2, resid
+{txt}(1 missing value generated)
+
+{com}. //_26
+. reg u2 l.u2, noconst
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        54
+{txt}{hline 13}{c +}{hline 34}   F(1, 53)        = {res}     0.07
+{txt}       Model {c |} {res} .267251656         1  .267251656   {txt}Prob > F        ={res}    0.7905
+{txt}    Residual {c |} {res} 198.724905        53  3.74952651   {txt}R-squared       ={res}    0.0013
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0175
+{txt}       Total {c |} {res} 198.992157        54  3.68503994   {txt}Root MSE        =   {res} 1.9364
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          u2{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}u2 {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.0308131{col 26}{space 2} .1154154{col 37}{space 1}   -0.27{col 46}{space 3}0.791{col 54}{space 4} -.262307{col 67}{space 3} .2006808
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_27
+. gen u2_1=l.u2
+{txt}(2 missing values generated)
+
+{com}. //_28
+. reg d.u2 d.u2_1, noconst
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        53
+{txt}{hline 13}{c +}{hline 34}   F(1, 52)        = {res}     2.01
+{txt}       Model {c |} {res} 13.6239993         1  13.6239993   {txt}Prob > F        ={res}    0.1623
+{txt}    Residual {c |} {res} 352.532902        52  6.77947888   {txt}R-squared       ={res}    0.0372
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0187
+{txt}       Total {c |} {res} 366.156901        53  6.90862078   {txt}Root MSE        =   {res} 2.6037
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        D.u2{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}u2_1 {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.1661051{col 26}{space 2} .1171734{col 37}{space 1}   -1.42{col 46}{space 3}0.162{col 54}{space 4}-.4012307{col 67}{space 3} .0690204
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_29
+. reg inf l.inf unem if year < 1997
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
+{txt}{hline 13}{c +}{hline 34}   F(2, 45)        = {res}    19.72
+{txt}       Model {c |} {res} 219.518187         2  109.759094   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 250.471823        45  5.56604051   {txt}R-squared       ={res}    0.4671
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4434
+{txt}       Total {c |} {res}  469.99001        47  9.99978744   {txt}Root MSE        =   {res} 2.3592
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         inf{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}inf {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .7278693{col 26}{space 2} .1263167{col 37}{space 1}    5.76{col 46}{space 3}0.000{col 54}{space 4} .4734544{col 67}{space 3} .9822841
+{txt}{space 12} {c |}
+{space 8}unem {c |}{col 14}{res}{space 2}-.2443814{col 26}{space 2}   .26124{col 37}{space 1}   -0.94{col 46}{space 3}0.355{col 54}{space 4}-.7705457{col 67}{space 3} .2817829
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  2.43082{col 26}{space 2} 1.354276{col 37}{space 1}    1.79{col 46}{space 3}0.079{col 54}{space 4}-.2968325{col 67}{space 3} 5.158473
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. estat dwatson
+
+{txt}Durbin-Watson d-statistic({res}  3{txt},{res}    48{txt}) = {res} 1.477467
+{txt}
+{com}. //_30
+. dwstat
+
+{txt}Durbin-Watson d-statistic({res}  3{txt},{res}    48{txt}) = {res} 1.477467
+{txt}
+{com}. //_31
+. use prminwge, clear
+{txt}
+{com}. //_32
+. tsset year
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1950 to 1987
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. //_33
+. reg lprepop lmincov lprgnp lusgnp t if year < 1988
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        38
+{txt}{hline 13}{c +}{hline 34}   F(4, 33)        = {res}    66.23
+{txt}       Model {c |} {res} .284430187         4  .071107547   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .035428331        33  .001073586   {txt}R-squared       ={res}    0.8892
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.8758
+{txt}       Total {c |} {res} .319858518        37  .008644825   {txt}Root MSE        =   {res} .03277
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lprepop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lmincov {c |}{col 14}{res}{space 2}-.2122612{col 26}{space 2} .0401524{col 37}{space 1}   -5.29{col 46}{space 3}0.000{col 54}{space 4}-.2939518{col 67}{space 3}-.1305706
+{txt}{space 6}lprgnp {c |}{col 14}{res}{space 2} .2852386{col 26}{space 2} .0804922{col 37}{space 1}    3.54{col 46}{space 3}0.001{col 54}{space 4}  .121476{col 67}{space 3} .4490012
+{txt}{space 6}lusgnp {c |}{col 14}{res}{space 2} .4860463{col 26}{space 2} .2219829{col 37}{space 1}    2.19{col 46}{space 3}0.036{col 54}{space 4} .0344188{col 67}{space 3} .9376739
+{txt}{space 11}t {c |}{col 14}{res}{space 2}-.0266633{col 26}{space 2} .0046267{col 37}{space 1}   -5.76{col 46}{space 3}0.000{col 54}{space 4}-.0360765{col 67}{space 3}-.0172502
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.663432{col 26}{space 2} 1.257831{col 37}{space 1}   -5.30{col 46}{space 3}0.000{col 54}{space 4}-9.222508{col 67}{space 3}-4.104356
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. predict u
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. //_34
+. reg u l.u lmincov lprgnp lusgnp t, noconst 
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        37
+{txt}{hline 13}{c +}{hline 34}   F(5, 32)        = {res} 12756.00
+{txt}       Model {c |} {res} 33.4632759         5  6.69265517   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .016789345        32  .000524667   {txt}R-squared       ={res}    0.9995
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9994
+{txt}       Total {c |} {res} 33.4800652        37  .904866627   {txt}Root MSE        =   {res} .02291
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           u{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}u {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .5481261{col 26}{space 2} .1172036{col 37}{space 1}    4.68{col 46}{space 3}0.000{col 54}{space 4} .3093902{col 67}{space 3}  .786862
+{txt}{space 12} {c |}
+{space 5}lmincov {c |}{col 14}{res}{space 2}-.1355922{col 26}{space 2} .0302468{col 37}{space 1}   -4.48{col 46}{space 3}0.000{col 54}{space 4}-.1972029{col 67}{space 3}-.0739814
+{txt}{space 6}lprgnp {c |}{col 14}{res}{space 2} .2491056{col 26}{space 2} .0716548{col 37}{space 1}    3.48{col 46}{space 3}0.001{col 54}{space 4} .1031496{col 67}{space 3} .3950616
+{txt}{space 6}lusgnp {c |}{col 14}{res}{space 2}-.3296839{col 26}{space 2} .0835655{col 37}{space 1}   -3.95{col 46}{space 3}0.000{col 54}{space 4}-.4999013{col 67}{space 3}-.1594665
+{txt}{space 11}t {c |}{col 14}{res}{space 2} .0003947{col 26}{space 2} .0015331{col 37}{space 1}    0.26{col 46}{space 3}0.798{col 54}{space 4} -.002728{col 67}{space 3} .0035175
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_35
+. use barium.dta, clear
+{txt}
+{com}. //_36
+. tsset t, monthly
+{res}{txt}{col 9}time variable:  {res}{col 25}t, 1960m2 to 1970m12
+{txt}{col 17}delta:  {res}1 month
+{txt}
+{com}. //_37
+. reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       131
+{txt}{hline 13}{c +}{hline 34}   F(6, 124)       = {res}     9.06
+{txt}       Model {c |} {res} 19.4051607         6  3.23419346   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 44.2470875       124  .356831351   {txt}R-squared       ={res}    0.3049
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2712
+{txt}       Total {c |} {res} 63.6522483       130  .489632679   {txt}Root MSE        =   {res} .59735
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lchnimp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lchempi {c |}{col 14}{res}{space 2} 3.117193{col 26}{space 2} .4792021{col 37}{space 1}    6.50{col 46}{space 3}0.000{col 54}{space 4} 2.168718{col 67}{space 3} 4.065668
+{txt}{space 8}lgas {c |}{col 14}{res}{space 2} .1963504{col 26}{space 2} .9066172{col 37}{space 1}    0.22{col 46}{space 3}0.829{col 54}{space 4}-1.598099{col 67}{space 3}   1.9908
+{txt}{space 6}lrtwex {c |}{col 14}{res}{space 2} .9830183{col 26}{space 2} .4001537{col 37}{space 1}    2.46{col 46}{space 3}0.015{col 54}{space 4} .1910022{col 67}{space 3} 1.775034
+{txt}{space 5}befile6 {c |}{col 14}{res}{space 2} .0595739{col 26}{space 2} .2609699{col 37}{space 1}    0.23{col 46}{space 3}0.820{col 54}{space 4}-.4569585{col 67}{space 3} .5761064
+{txt}{space 5}affile6 {c |}{col 14}{res}{space 2}-.0324064{col 26}{space 2} .2642973{col 37}{space 1}   -0.12{col 46}{space 3}0.903{col 54}{space 4}-.5555249{col 67}{space 3}  .490712
+{txt}{space 6}afdec6 {c |}{col 14}{res}{space 2} -.565245{col 26}{space 2} .2858352{col 37}{space 1}   -1.98{col 46}{space 3}0.050{col 54}{space 4}-1.130993{col 67}{space 3} .0005028
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  -17.803{col 26}{space 2} 21.04537{col 37}{space 1}   -0.85{col 46}{space 3}0.399{col 54}{space 4}-59.45769{col 67}{space 3} 23.85169
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. predict u
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. //_38
+. reg u l.u l2.u l3.u lchempi lgas lrtwex befile6 affile6 afdec6, noconst
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       128
+{txt}{hline 13}{c +}{hline 34}   F(9, 119)       > {res} 99999.00
+{txt}       Model {c |} {res} 4924.95777         9   547.21753   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .204036581       119  .001714593   {txt}R-squared       ={res}    1.0000
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    1.0000
+{txt}       Total {c |} {res} 4925.16181       128  38.4778266   {txt}Root MSE        =   {res} .04141
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           u{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}u {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .2046297{col 26}{space 2} .0581935{col 37}{space 1}    3.52{col 46}{space 3}0.001{col 54}{space 4} .0894008{col 67}{space 3} .3198586
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .0173656{col 26}{space 2} .0612302{col 37}{space 1}    0.28{col 46}{space 3}0.777{col 54}{space 4}-.1038762{col 67}{space 3} .1386074
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0270816{col 26}{space 2}    .0432{col 37}{space 1}   -0.63{col 46}{space 3}0.532{col 54}{space 4}-.1126219{col 67}{space 3} .0584586
+{txt}{space 12} {c |}
+{space 5}lchempi {c |}{col 14}{res}{space 2} 2.554554{col 26}{space 2} .1263155{col 37}{space 1}   20.22{col 46}{space 3}0.000{col 54}{space 4} 2.304437{col 67}{space 3} 2.804671
+{txt}{space 8}lgas {c |}{col 14}{res}{space 2} -.454885{col 26}{space 2} .0228347{col 37}{space 1}  -19.92{col 46}{space 3}0.000{col 54}{space 4}-.5000999{col 67}{space 3}-.4096701
+{txt}{space 6}lrtwex {c |}{col 14}{res}{space 2} .6762875{col 26}{space 2} .0394623{col 37}{space 1}   17.14{col 46}{space 3}0.000{col 54}{space 4} .5981482{col 67}{space 3} .7544267
+{txt}{space 5}befile6 {c |}{col 14}{res}{space 2} .0654715{col 26}{space 2} .0183767{col 37}{space 1}    3.56{col 46}{space 3}0.001{col 54}{space 4} .0290839{col 67}{space 3} .1018591
+{txt}{space 5}affile6 {c |}{col 14}{res}{space 2}-.0347708{col 26}{space 2} .0184564{col 37}{space 1}   -1.88{col 46}{space 3}0.062{col 54}{space 4}-.0713164{col 67}{space 3} .0017748
+{txt}{space 6}afdec6 {c |}{col 14}{res}{space 2}-.4804058{col 26}{space 2} .0270359{col 37}{space 1}  -17.77{col 46}{space 3}0.000{col 54}{space 4}-.5339396{col 67}{space 3}-.4268719
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_39
+. test l.u l2.u l3.u
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}L.u = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} L2.u = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} L3.u = 0{p_end}
+
+{txt}       F(  3,   119) ={res}    8.76
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}. //_40
+. test l2.u l3.u
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}L2.u = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} L3.u = 0{p_end}
+
+{txt}       F(  2,   119) ={res}    0.22
+{txt}{col 13}Prob > F ={res}    0.8000
+{txt}
+{com}. drop u
+{txt}
+{com}. //_41
+. use barium.dta, clear
+{txt}
+{com}. //_42
+. tsset t, monthly
+{res}{txt}{col 9}time variable:  {res}{col 25}t, 1960m2 to 1970m12
+{txt}{col 17}delta:  {res}1 month
+{txt}
+{com}. est clear
+{txt}
+{com}. //_43
+. eststo OLS: reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       131
+{txt}{hline 13}{c +}{hline 34}   F(6, 124)       = {res}     9.06
+{txt}       Model {c |} {res} 19.4051607         6  3.23419346   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 44.2470875       124  .356831351   {txt}R-squared       ={res}    0.3049
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2712
+{txt}       Total {c |} {res} 63.6522483       130  .489632679   {txt}Root MSE        =   {res} .59735
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lchnimp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lchempi {c |}{col 14}{res}{space 2} 3.117193{col 26}{space 2} .4792021{col 37}{space 1}    6.50{col 46}{space 3}0.000{col 54}{space 4} 2.168718{col 67}{space 3} 4.065668
+{txt}{space 8}lgas {c |}{col 14}{res}{space 2} .1963504{col 26}{space 2} .9066172{col 37}{space 1}    0.22{col 46}{space 3}0.829{col 54}{space 4}-1.598099{col 67}{space 3}   1.9908
+{txt}{space 6}lrtwex {c |}{col 14}{res}{space 2} .9830183{col 26}{space 2} .4001537{col 37}{space 1}    2.46{col 46}{space 3}0.015{col 54}{space 4} .1910022{col 67}{space 3} 1.775034
+{txt}{space 5}befile6 {c |}{col 14}{res}{space 2} .0595739{col 26}{space 2} .2609699{col 37}{space 1}    0.23{col 46}{space 3}0.820{col 54}{space 4}-.4569585{col 67}{space 3} .5761064
+{txt}{space 5}affile6 {c |}{col 14}{res}{space 2}-.0324064{col 26}{space 2} .2642973{col 37}{space 1}   -0.12{col 46}{space 3}0.903{col 54}{space 4}-.5555249{col 67}{space 3}  .490712
+{txt}{space 6}afdec6 {c |}{col 14}{res}{space 2} -.565245{col 26}{space 2} .2858352{col 37}{space 1}   -1.98{col 46}{space 3}0.050{col 54}{space 4}-1.130993{col 67}{space 3} .0005028
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  -17.803{col 26}{space 2} 21.04537{col 37}{space 1}   -0.85{col 46}{space 3}0.399{col 54}{space 4}-59.45769{col 67}{space 3} 23.85169
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_44
+. eststo Prais: prais lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}0.2708
+{txt}Iteration 2:  rho = {res}0.2910
+{txt}Iteration 3:  rho = {res}0.2930
+{txt}Iteration 4:  rho = {res}0.2932
+{txt}Iteration 5:  rho = {res}0.2932
+{txt}Iteration 6:  rho = {res}0.2932
+{txt}Iteration 7:  rho = {res}0.2932
+
+{txt}Prais-Winsten AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       131
+{txt}{hline 13}{c +}{hline 34}   F(6, 124)       = {res}     5.24
+{txt}       Model {c |} {res} 10.3252323         6  1.72087205   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 40.7593886       124  .328704747   {txt}R-squared       ={res}    0.2021
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1635
+{txt}       Total {c |} {res} 51.0846209       130  .392958622   {txt}Root MSE        =   {res} .57333
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lchnimp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lchempi {c |}{col 14}{res}{space 2} 2.940949{col 26}{space 2} .6328402{col 37}{space 1}    4.65{col 46}{space 3}0.000{col 54}{space 4} 1.688381{col 67}{space 3} 4.193517
+{txt}{space 8}lgas {c |}{col 14}{res}{space 2}  1.04638{col 26}{space 2} .9773356{col 37}{space 1}    1.07{col 46}{space 3}0.286{col 54}{space 4}-.8880406{col 67}{space 3} 2.980801
+{txt}{space 6}lrtwex {c |}{col 14}{res}{space 2} 1.132791{col 26}{space 2} .5066578{col 37}{space 1}    2.24{col 46}{space 3}0.027{col 54}{space 4} .1299738{col 67}{space 3} 2.135609
+{txt}{space 5}befile6 {c |}{col 14}{res}{space 2}-.0164787{col 26}{space 2} .3193802{col 37}{space 1}   -0.05{col 46}{space 3}0.959{col 54}{space 4}-.6486216{col 67}{space 3} .6156641
+{txt}{space 5}affile6 {c |}{col 14}{res}{space 2}-.0331563{col 26}{space 2} .3218101{col 37}{space 1}   -0.10{col 46}{space 3}0.918{col 54}{space 4}-.6701086{col 67}{space 3}  .603796
+{txt}{space 6}afdec6 {c |}{col 14}{res}{space 2}-.5768122{col 26}{space 2} .3419865{col 37}{space 1}   -1.69{col 46}{space 3}0.094{col 54}{space 4}-1.253699{col 67}{space 3} .1000748
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} -37.0777{col 26}{space 2}  22.7783{col 37}{space 1}   -1.63{col 46}{space 3}0.106{col 54}{space 4}-82.16235{col 67}{space 3} 8.006941
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res}  .293217
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}1.458414
+{txt}Durbin-Watson statistic (transformed) {res}2.087181
+{txt}
+{com}. predict u
+{txt}(option xb assumed; fitted values)
+
+{com}. //_45
+. esttab, mtitle stat(N rho)
+{res}
+{txt}{hline 44}
+{txt}                      (1)             (2)   
+{txt}                      OLS           Prais   
+{txt}{hline 44}
+{txt}lchempi     {res}        3.117***        2.941***{txt}
+            {res} {ralign 12:{txt:(}6.50{txt:)}}    {ralign 12:{txt:(}4.65{txt:)}}   {txt}
+
+{txt}lgas        {res}        0.196           1.046   {txt}
+            {res} {ralign 12:{txt:(}0.22{txt:)}}    {ralign 12:{txt:(}1.07{txt:)}}   {txt}
+
+{txt}lrtwex      {res}        0.983*          1.133*  {txt}
+            {res} {ralign 12:{txt:(}2.46{txt:)}}    {ralign 12:{txt:(}2.24{txt:)}}   {txt}
+
+{txt}befile6     {res}       0.0596         -0.0165   {txt}
+            {res} {ralign 12:{txt:(}0.23{txt:)}}    {ralign 12:{txt:(}-0.05{txt:)}}   {txt}
+
+{txt}affile6     {res}      -0.0324         -0.0332   {txt}
+            {res} {ralign 12:{txt:(}-0.12{txt:)}}    {ralign 12:{txt:(}-0.10{txt:)}}   {txt}
+
+{txt}afdec6      {res}       -0.565          -0.577   {txt}
+            {res} {ralign 12:{txt:(}-1.98{txt:)}}    {ralign 12:{txt:(}-1.69{txt:)}}   {txt}
+
+{txt}_cons       {res}       -17.80          -37.08   {txt}
+            {res} {ralign 12:{txt:(}-0.85{txt:)}}    {ralign 12:{txt:(}-1.63{txt:)}}   {txt}
+{txt}{hline 44}
+{txt}N           {res}          131             131   {txt}
+{txt}rho         {res}                        0.293   {txt}
+{txt}{hline 44}
+{txt}t statistics in parentheses
+{txt}* p<0.05, ** p<0.01, *** p<0.001
+
+{com}. //_46
+. reg u l.u lchnimp lchempi lgas lrtwex befile6 affile6 afdec6, noconst
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       130
+{txt}{hline 13}{c +}{hline 34}   F(8, 122)       = {res} 98692.51
+{txt}       Model {c |} {res} 4984.53935         8  623.067419   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .770212691       122  .006313219   {txt}R-squared       ={res}    0.9998
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9998
+{txt}       Total {c |} {res} 4985.30957       130  38.3485351   {txt}Root MSE        =   {res} .07946
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           u{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}u {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .4206513{col 26}{space 2} .0603462{col 37}{space 1}    6.97{col 46}{space 3}0.000{col 54}{space 4}   .30119{col 67}{space 3} .5401125
+{txt}{space 12} {c |}
+{space 5}lchnimp {c |}{col 14}{res}{space 2} .0005278{col 26}{space 2} .0120176{col 37}{space 1}    0.04{col 46}{space 3}0.965{col 54}{space 4}-.0232622{col 67}{space 3} .0243177
+{txt}{space 5}lchempi {c |}{col 14}{res}{space 2} 1.767005{col 26}{space 2}  .192394{col 37}{space 1}    9.18{col 46}{space 3}0.000{col 54}{space 4} 1.386142{col 67}{space 3} 2.147868
+{txt}{space 8}lgas {c |}{col 14}{res}{space 2}-.3127637{col 26}{space 2} .0351572{col 37}{space 1}   -8.90{col 46}{space 3}0.000{col 54}{space 4}-.3823608{col 67}{space 3}-.2431666
+{txt}{space 6}lrtwex {c |}{col 14}{res}{space 2} .4897487{col 26}{space 2} .0665407{col 37}{space 1}    7.36{col 46}{space 3}0.000{col 54}{space 4} .3580248{col 67}{space 3} .6214726
+{txt}{space 5}befile6 {c |}{col 14}{res}{space 2} .0242233{col 26}{space 2} .0347208{col 37}{space 1}    0.70{col 46}{space 3}0.487{col 54}{space 4}  -.04451{col 67}{space 3} .0929567
+{txt}{space 5}affile6 {c |}{col 14}{res}{space 2}-.0363806{col 26}{space 2} .0351638{col 37}{space 1}   -1.03{col 46}{space 3}0.303{col 54}{space 4}-.1059909{col 67}{space 3} .0332296
+{txt}{space 6}afdec6 {c |}{col 14}{res}{space 2} -.396944{col 26}{space 2} .0470439{col 37}{space 1}   -8.44{col 46}{space 3}0.000{col 54}{space 4} -.490072{col 67}{space 3} -.303816
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. drop u
+{txt}
+{com}. //_47
+. use phillips.dta, clear
+{txt}
+{com}. //_48
+. tsset year
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1948 to 2003
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. //_49
+. est clear
+{txt}
+{com}. //_50
+. eststo OLS: reg inf unem if year < 1997
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        49
+{txt}{hline 13}{c +}{hline 34}   F(1, 47)        = {res}     2.62
+{txt}       Model {c |} {res} 25.6369575         1  25.6369575   {txt}Prob > F        ={res}    0.1125
+{txt}    Residual {c |} {res}  460.61979        47  9.80042107   {txt}R-squared       ={res}    0.0527
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0326
+{txt}       Total {c |} {res} 486.256748        48  10.1303489   {txt}Root MSE        =   {res} 3.1306
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         inf{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}unem {c |}{col 14}{res}{space 2} .4676257{col 26}{space 2} .2891262{col 37}{space 1}    1.62{col 46}{space 3}0.112{col 54}{space 4}-.1140213{col 67}{space 3} 1.049273
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  1.42361{col 26}{space 2} 1.719015{col 37}{space 1}    0.83{col 46}{space 3}0.412{col 54}{space 4}-2.034602{col 67}{space 3} 4.881822
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_51
+. eststo PW: prais inf unem if year < 1997
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}0.5727
+{txt}Iteration 2:  rho = {res}0.7307
+{txt}Iteration 3:  rho = {res}0.7719
+{txt}Iteration 4:  rho = {res}0.7792
+{txt}Iteration 5:  rho = {res}0.7803
+{txt}Iteration 6:  rho = {res}0.7805
+{txt}Iteration 7:  rho = {res}0.7805
+{txt}Iteration 8:  rho = {res}0.7805
+{txt}Iteration 9:  rho = {res}0.7805
+
+{txt}Prais-Winsten AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}        49
+{txt}{hline 13}{c +}{hline 34}   F(1, 47)        = {res}     7.39
+{txt}       Model {c |} {res} 37.9720609         1  37.9720609   {txt}Prob > F        ={res}    0.0092
+{txt}    Residual {c |} {res} 241.618458        47  5.14081826   {txt}R-squared       ={res}    0.1358
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1174
+{txt}       Total {c |} {res} 279.590519        48  5.82480248   {txt}Root MSE        =   {res} 2.2673
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         inf{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}unem {c |}{col 14}{res}{space 2} -.715659{col 26}{space 2} .3134522{col 37}{space 1}   -2.28{col 46}{space 3}0.027{col 54}{space 4}-1.346244{col 67}{space 3}-.0850744
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 8.295912{col 26}{space 2}  2.23143{col 37}{space 1}    3.72{col 46}{space 3}0.001{col 54}{space 4} 3.806854{col 67}{space 3} 12.78497
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res} .7805446
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}0.802700
+{txt}Durbin-Watson statistic (transformed) {res}1.909865
+{txt}
+{com}. //_52
+. eststo PW_CO: prais inf unem if year < 1997, corc
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}0.5727
+{txt}Iteration 2:  rho = {res}0.7160
+{txt}Iteration 3:  rho = {res}0.7611
+{txt}Iteration 4:  rho = {res}0.7715
+{txt}Iteration 5:  rho = {res}0.7735
+{txt}Iteration 6:  rho = {res}0.7740
+{txt}Iteration 7:  rho = {res}0.7740
+{txt}Iteration 8:  rho = {res}0.7740
+{txt}Iteration 9:  rho = {res}0.7741
+{txt}Iteration 10:  rho = {res}0.7741
+
+{txt}Cochrane-Orcutt AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}        48
+{txt}{hline 13}{c +}{hline 34}   F(1, 46)        = {res}     4.33
+{txt}       Model {c |} {res} 22.4790685         1  22.4790685   {txt}Prob > F        ={res}    0.0430
+{txt}    Residual {c |} {res} 238.604008        46  5.18704365   {txt}R-squared       ={res}    0.0861
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0662
+{txt}       Total {c |} {res} 261.083076        47  5.55495907   {txt}Root MSE        =   {res} 2.2775
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         inf{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}unem {c |}{col 14}{res}{space 2}-.6653356{col 26}{space 2} .3196035{col 37}{space 1}   -2.08{col 46}{space 3}0.043{col 54}{space 4}-1.308664{col 67}{space 3}-.0220071
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 7.583458{col 26}{space 2}  2.38053{col 37}{space 1}    3.19{col 46}{space 3}0.003{col 54}{space 4}   2.7917{col 67}{space 3} 12.37522
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res} .7740512
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}0.802700
+{txt}Durbin-Watson statistic (transformed) {res}1.593634
+{txt}
+{com}. //_53
+. eststo FD: reg d.inf d.unem if year < 1997
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
+{txt}{hline 13}{c +}{hline 34}   F(1, 46)        = {res}     7.18
+{txt}       Model {c |} {res} 41.8222052         1  41.8222052   {txt}Prob > F        ={res}    0.0102
+{txt}    Residual {c |} {res} 267.865933        46  5.82317245   {txt}R-squared       ={res}    0.1350
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1162
+{txt}       Total {c |} {res} 309.688138        47  6.58910932   {txt}Root MSE        =   {res} 2.4131
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       D.inf{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}unem {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.8421708{col 26}{space 2} .3142509{col 37}{space 1}   -2.68{col 46}{space 3}0.010{col 54}{space 4}-1.474725{col 67}{space 3}-.2096165
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0781776{col 26}{space 2} .3484621{col 37}{space 1}   -0.22{col 46}{space 3}0.823{col 54}{space 4}-.7795954{col 67}{space 3} .6232401
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_54
+. esttab, mtitle stat(N rho)
+{res}
+{txt}{hline 76}
+{txt}                      (1)             (2)             (3)             (4)   
+{txt}                      OLS              PW           PW_CO              FD   
+{txt}{hline 76}
+{txt}unem        {res}        0.468          -0.716*         -0.665*                  {txt}
+            {res} {ralign 12:{txt:(}1.62{txt:)}}    {ralign 12:{txt:(}-2.28{txt:)}}    {ralign 12:{txt:(}-2.08{txt:)}}                   {txt}
+
+{txt}D.unem      {res}                                                       -0.842*  {txt}
+            {res}                                                 {ralign 12:{txt:(}-2.68{txt:)}}   {txt}
+
+{txt}_cons       {res}        1.424           8.296***        7.583**       -0.0782   {txt}
+            {res} {ralign 12:{txt:(}0.83{txt:)}}    {ralign 12:{txt:(}3.72{txt:)}}    {ralign 12:{txt:(}3.19{txt:)}}    {ralign 12:{txt:(}-0.22{txt:)}}   {txt}
+{txt}{hline 76}
+{txt}N           {res}           49              49              48              48   {txt}
+{txt}rho         {res}                        0.781           0.774                   {txt}
+{txt}{hline 76}
+{txt}t statistics in parentheses
+{txt}* p<0.05, ** p<0.01, *** p<0.001
+
+{com}. //_55
+. use intdef.dta, clear
+{txt}
+{com}. //_56
+. tsset year
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1948 to 2003
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. //_57
+. reg i3 inf def if year < 2004
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        56
+{txt}{hline 13}{c +}{hline 34}   F(2, 53)        = {res}    40.09
+{txt}       Model {c |} {res} 272.420338         2  136.210169   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 180.054275        53  3.39725047   {txt}R-squared       ={res}    0.6021
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5871
+{txt}       Total {c |} {res} 452.474612        55  8.22681113   {txt}Root MSE        =   {res} 1.8432
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          i3{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}inf {c |}{col 14}{res}{space 2} .6058659{col 26}{space 2} .0821348{col 37}{space 1}    7.38{col 46}{space 3}0.000{col 54}{space 4} .4411243{col 67}{space 3} .7706074
+{txt}{space 9}def {c |}{col 14}{res}{space 2} .5130579{col 26}{space 2} .1183841{col 37}{space 1}    4.33{col 46}{space 3}0.000{col 54}{space 4} .2756095{col 67}{space 3} .7505062
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.733266{col 26}{space 2}  .431967{col 37}{space 1}    4.01{col 46}{space 3}0.000{col 54}{space 4} .8668497{col 67}{space 3} 2.599682
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_58
+. dwstat
+
+{txt}Durbin-Watson d-statistic({res}  3{txt},{res}    56{txt}) = {res} .7161527
+{txt}
+{com}. //_59
+. predict u
+{txt}(option {bf:xb} assumed; fitted values)
+
+{com}. reg u l.u, noconst
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        55
+{txt}{hline 13}{c +}{hline 34}   F(1, 54)        = {res}  1187.00
+{txt}       Model {c |} {res} 1533.40835         1  1533.40835   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 69.7592587        54  1.29183812   {txt}R-squared       ={res}    0.9565
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9557
+{txt}       Total {c |} {res} 1603.16761        55  29.1485021   {txt}Root MSE        =   {res} 1.1366
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           u{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}u {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .9796537{col 26}{space 2} .0284346{col 37}{space 1}   34.45{col 46}{space 3}0.000{col 54}{space 4} .9226457{col 67}{space 3} 1.036662
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. drop u
+{txt}
+{com}. //_60
+. reg d.i3 d.inf d.def if year < 2004
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        55
+{txt}{hline 13}{c +}{hline 34}   F(2, 52)        = {res}     5.57
+{txt}       Model {c |} {res} 17.8058164         2  8.90290822   {txt}Prob > F        ={res}    0.0065
+{txt}    Residual {c |} {res} 83.1753707        52  1.59952636   {txt}R-squared       ={res}    0.1763
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1446
+{txt}       Total {c |} {res} 100.981187        54  1.87002198   {txt}Root MSE        =   {res} 1.2647
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        D.i3{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}inf {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2} .1494892{col 26}{space 2} .0921555{col 37}{space 1}    1.62{col 46}{space 3}0.111{col 54}{space 4}-.0354343{col 67}{space 3} .3344127
+{txt}{space 12} {c |}
+{space 9}def {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.1813151{col 26}{space 2} .1476825{col 37}{space 1}   -1.23{col 46}{space 3}0.225{col 54}{space 4}-.4776618{col 67}{space 3} .1150315
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .0417738{col 26}{space 2} .1713874{col 37}{space 1}    0.24{col 46}{space 3}0.808{col 54}{space 4}-.3021401{col 67}{space 3} .3856877
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. dwstat
+
+{txt}Durbin-Watson d-statistic({res}  3{txt},{res}    55{txt}) = {res} 1.796365
+{txt}
+{com}. //_61
+. predict u
+{txt}(option {bf:xb} assumed; fitted values)
+(1 missing value generated)
+
+{com}. reg u l.u, noconst
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        54
+{txt}{hline 13}{c +}{hline 34}   F(1, 53)        = {res}     0.15
+{txt}       Model {c |} {res} .038248465         1  .038248465   {txt}Prob > F        ={res}    0.6963
+{txt}    Residual {c |} {res}  13.161133        53  .248323264   {txt}R-squared       ={res}    0.0029
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0159
+{txt}       Total {c |} {res} 13.1993815        54   .24443299   {txt}Root MSE        =   {res} .49832
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           u{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}u {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.0463986{col 26}{space 2} .1182243{col 37}{space 1}   -0.39{col 46}{space 3}0.696{col 54}{space 4}-.2835265{col 67}{space 3} .1907293
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_62
+. use prminwge.dta, clear
+{txt}
+{com}. //_63
+. tsset year, yearly
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1950 to 1987
+{txt}{col 17}delta:  {res}1 year
+{txt}
+{com}. //_64
+. est clear
+{txt}
+{com}. //_65
+. eststo OLS: reg lprepop lmincov lprgnp lusgnp t if year < 1988
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        38
+{txt}{hline 13}{c +}{hline 34}   F(4, 33)        = {res}    66.23
+{txt}       Model {c |} {res} .284430187         4  .071107547   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .035428331        33  .001073586   {txt}R-squared       ={res}    0.8892
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.8758
+{txt}       Total {c |} {res} .319858518        37  .008644825   {txt}Root MSE        =   {res} .03277
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lprepop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lmincov {c |}{col 14}{res}{space 2}-.2122612{col 26}{space 2} .0401524{col 37}{space 1}   -5.29{col 46}{space 3}0.000{col 54}{space 4}-.2939518{col 67}{space 3}-.1305706
+{txt}{space 6}lprgnp {c |}{col 14}{res}{space 2} .2852386{col 26}{space 2} .0804922{col 37}{space 1}    3.54{col 46}{space 3}0.001{col 54}{space 4}  .121476{col 67}{space 3} .4490012
+{txt}{space 6}lusgnp {c |}{col 14}{res}{space 2} .4860463{col 26}{space 2} .2219829{col 37}{space 1}    2.19{col 46}{space 3}0.036{col 54}{space 4} .0344188{col 67}{space 3} .9376739
+{txt}{space 11}t {c |}{col 14}{res}{space 2}-.0266633{col 26}{space 2} .0046267{col 37}{space 1}   -5.76{col 46}{space 3}0.000{col 54}{space 4}-.0360765{col 67}{space 3}-.0172502
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.663432{col 26}{space 2} 1.257831{col 37}{space 1}   -5.30{col 46}{space 3}0.000{col 54}{space 4}-9.222508{col 67}{space 3}-4.104356
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_66
+. eststo Newey1: newey lprepop lmincov lprgnp lusgnp t if year < 1988, lag(1)
+
+{txt}Regression with Newey-West standard errors{col 49}Number of obs{col 67}= {res}        38
+{txt}maximum lag: {res}1{col 49}{txt}F(  4,        33){col 67}= {res}     40.98
+{col 49}{txt}Prob > F{col 67}= {res}    0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Newey-West
+{col 1}     lprepop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lmincov {c |}{col 14}{res}{space 2}-.2122612{col 26}{space 2} .0454552{col 37}{space 1}   -4.67{col 46}{space 3}0.000{col 54}{space 4}-.3047405{col 67}{space 3} -.119782
+{txt}{space 6}lprgnp {c |}{col 14}{res}{space 2} .2852386{col 26}{space 2} .1001564{col 37}{space 1}    2.85{col 46}{space 3}0.008{col 54}{space 4}  .081469{col 67}{space 3} .4890083
+{txt}{space 6}lusgnp {c |}{col 14}{res}{space 2} .4860463{col 26}{space 2}   .27194{col 37}{space 1}    1.79{col 46}{space 3}0.083{col 54}{space 4}-.0672197{col 67}{space 3} 1.039312
+{txt}{space 11}t {c |}{col 14}{res}{space 2}-.0266633{col 26}{space 2} .0054879{col 37}{space 1}   -4.86{col 46}{space 3}0.000{col 54}{space 4}-.0378285{col 67}{space 3}-.0154981
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.663432{col 26}{space 2} 1.475245{col 37}{space 1}   -4.52{col 46}{space 3}0.000{col 54}{space 4}-9.664841{col 67}{space 3}-3.662023
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. //_67
+. eststo Newey2: newey lprepop lmincov lprgnp lusgnp t if year < 1988, lag(2)
+
+{txt}Regression with Newey-West standard errors{col 49}Number of obs{col 67}= {res}        38
+{txt}maximum lag: {res}2{col 49}{txt}F(  4,        33){col 67}= {res}     37.84
+{col 49}{txt}Prob > F{col 67}= {res}    0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Newey-West
+{col 1}     lprepop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lmincov {c |}{col 14}{res}{space 2}-.2122612{col 26}{space 2} .0457187{col 37}{space 1}   -4.64{col 46}{space 3}0.000{col 54}{space 4}-.3052766{col 67}{space 3}-.1192459
+{txt}{space 6}lprgnp {c |}{col 14}{res}{space 2} .2852386{col 26}{space 2} .0996361{col 37}{space 1}    2.86{col 46}{space 3}0.007{col 54}{space 4} .0825275{col 67}{space 3} .4879497
+{txt}{space 6}lusgnp {c |}{col 14}{res}{space 2} .4860463{col 26}{space 2} .2791124{col 37}{space 1}    1.74{col 46}{space 3}0.091{col 54}{space 4}-.0818122{col 67}{space 3} 1.053905
+{txt}{space 11}t {c |}{col 14}{res}{space 2}-.0266633{col 26}{space 2} .0057558{col 37}{space 1}   -4.63{col 46}{space 3}0.000{col 54}{space 4}-.0383736{col 67}{space 3} -.014953
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.663432{col 26}{space 2} 1.536433{col 37}{space 1}   -4.34{col 46}{space 3}0.000{col 54}{space 4}-9.789329{col 67}{space 3}-3.537535
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. //_68
+. eststo PW: prais lprepop lmincov lprgnp lusgnp t if year < 1988
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}0.4197
+{txt}Iteration 2:  rho = {res}0.5325
+{txt}Iteration 3:  rho = {res}0.5796
+{txt}Iteration 4:  rho = {res}0.5999
+{txt}Iteration 5:  rho = {res}0.6086
+{txt}Iteration 6:  rho = {res}0.6123
+{txt}Iteration 7:  rho = {res}0.6139
+{txt}Iteration 8:  rho = {res}0.6146
+{txt}Iteration 9:  rho = {res}0.6149
+{txt}Iteration 10:  rho = {res}0.6150
+{txt}Iteration 11:  rho = {res}0.6151
+{txt}Iteration 12:  rho = {res}0.6151
+{txt}Iteration 13:  rho = {res}0.6151
+{txt}Iteration 14:  rho = {res}0.6151
+{txt}Iteration 15:  rho = {res}0.6151
+{txt}Iteration 16:  rho = {res}0.6151
+
+{txt}Prais-Winsten AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}        38
+{txt}{hline 13}{c +}{hline 34}   F(4, 33)        = {res}    24.87
+{txt}       Model {c |} {res} .080888012         4  .020222003   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .026835918        33   .00081321   {txt}R-squared       ={res}    0.7509
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7207
+{txt}       Total {c |} {res}  .10772393        37  .002911458   {txt}Root MSE        =   {res} .02852
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     lprepop{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}lmincov {c |}{col 14}{res}{space 2}-.1477111{col 26}{space 2} .0458423{col 37}{space 1}   -3.22{col 46}{space 3}0.003{col 54}{space 4}-.2409779{col 67}{space 3}-.0544443
+{txt}{space 6}lprgnp {c |}{col 14}{res}{space 2} .2513828{col 26}{space 2} .1164623{col 37}{space 1}    2.16{col 46}{space 3}0.038{col 54}{space 4} .0144384{col 67}{space 3} .4883271
+{txt}{space 6}lusgnp {c |}{col 14}{res}{space 2} .2557114{col 26}{space 2} .2317498{col 37}{space 1}    1.10{col 46}{space 3}0.278{col 54}{space 4}-.2157872{col 67}{space 3}   .72721
+{txt}{space 11}t {c |}{col 14}{res}{space 2}-.0205016{col 26}{space 2}  .005856{col 37}{space 1}   -3.50{col 46}{space 3}0.001{col 54}{space 4}-.0324158{col 67}{space 3}-.0085875
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-4.652853{col 26}{space 2}  1.37647{col 37}{space 1}   -3.38{col 46}{space 3}0.002{col 54}{space 4}-7.453303{col 67}{space 3}-1.852404
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res} .6151374
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}1.013709
+{txt}Durbin-Watson statistic (transformed) {res}1.736277
+{txt}
+{com}. //_69
+. esttab, mtitle scalars(F N)
+{res}
+{txt}{hline 76}
+{txt}                      (1)             (2)             (3)             (4)   
+{txt}                      OLS          Newey1          Newey2              PW   
+{txt}{hline 76}
+{txt}lmincov     {res}       -0.212***       -0.212***       -0.212***       -0.148** {txt}
+            {res} {ralign 12:{txt:(}-5.29{txt:)}}    {ralign 12:{txt:(}-4.67{txt:)}}    {ralign 12:{txt:(}-4.64{txt:)}}    {ralign 12:{txt:(}-3.22{txt:)}}   {txt}
+
+{txt}lprgnp      {res}        0.285**         0.285**         0.285**         0.251*  {txt}
+            {res} {ralign 12:{txt:(}3.54{txt:)}}    {ralign 12:{txt:(}2.85{txt:)}}    {ralign 12:{txt:(}2.86{txt:)}}    {ralign 12:{txt:(}2.16{txt:)}}   {txt}
+
+{txt}lusgnp      {res}        0.486*          0.486           0.486           0.256   {txt}
+            {res} {ralign 12:{txt:(}2.19{txt:)}}    {ralign 12:{txt:(}1.79{txt:)}}    {ralign 12:{txt:(}1.74{txt:)}}    {ralign 12:{txt:(}1.10{txt:)}}   {txt}
+
+{txt}t           {res}      -0.0267***      -0.0267***      -0.0267***      -0.0205** {txt}
+            {res} {ralign 12:{txt:(}-5.76{txt:)}}    {ralign 12:{txt:(}-4.86{txt:)}}    {ralign 12:{txt:(}-4.63{txt:)}}    {ralign 12:{txt:(}-3.50{txt:)}}   {txt}
+
+{txt}_cons       {res}       -6.663***       -6.663***       -6.663***       -4.653** {txt}
+            {res} {ralign 12:{txt:(}-5.30{txt:)}}    {ralign 12:{txt:(}-4.52{txt:)}}    {ralign 12:{txt:(}-4.34{txt:)}}    {ralign 12:{txt:(}-3.38{txt:)}}   {txt}
+{txt}{hline 76}
+{txt}N           {res}           38              38              38              38   {txt}
+{txt}F           {res}        66.23           40.98           37.84           24.87   {txt}
+{txt}{hline 76}
+{txt}t statistics in parentheses
+{txt}* p<0.05, ** p<0.01, *** p<0.001
+
+{com}. //_70
+. esttab, mtitle se scalars(F N)
+{res}
+{txt}{hline 76}
+{txt}                      (1)             (2)             (3)             (4)   
+{txt}                      OLS          Newey1          Newey2              PW   
+{txt}{hline 76}
+{txt}lmincov     {res}       -0.212***       -0.212***       -0.212***       -0.148** {txt}
+            {res} {ralign 12:{txt:(}0.0402{txt:)}}    {ralign 12:{txt:(}0.0455{txt:)}}    {ralign 12:{txt:(}0.0457{txt:)}}    {ralign 12:{txt:(}0.0458{txt:)}}   {txt}
+
+{txt}lprgnp      {res}        0.285**         0.285**         0.285**         0.251*  {txt}
+            {res} {ralign 12:{txt:(}0.0805{txt:)}}    {ralign 12:{txt:(}0.100{txt:)}}    {ralign 12:{txt:(}0.0996{txt:)}}    {ralign 12:{txt:(}0.116{txt:)}}   {txt}
+
+{txt}lusgnp      {res}        0.486*          0.486           0.486           0.256   {txt}
+            {res} {ralign 12:{txt:(}0.222{txt:)}}    {ralign 12:{txt:(}0.272{txt:)}}    {ralign 12:{txt:(}0.279{txt:)}}    {ralign 12:{txt:(}0.232{txt:)}}   {txt}
+
+{txt}t           {res}      -0.0267***      -0.0267***      -0.0267***      -0.0205** {txt}
+            {res} {ralign 12:{txt:(}0.00463{txt:)}}    {ralign 12:{txt:(}0.00549{txt:)}}    {ralign 12:{txt:(}0.00576{txt:)}}    {ralign 12:{txt:(}0.00586{txt:)}}   {txt}
+
+{txt}_cons       {res}       -6.663***       -6.663***       -6.663***       -4.653** {txt}
+            {res} {ralign 12:{txt:(}1.258{txt:)}}    {ralign 12:{txt:(}1.475{txt:)}}    {ralign 12:{txt:(}1.536{txt:)}}    {ralign 12:{txt:(}1.376{txt:)}}   {txt}
+{txt}{hline 76}
+{txt}N           {res}           38              38              38              38   {txt}
+{txt}F           {res}        66.23           40.98           37.84           24.87   {txt}
+{txt}{hline 76}
+{txt}Standard errors in parentheses
+{txt}* p<0.05, ** p<0.01, *** p<0.001
+
+{com}. //_71
+. use nyse.dta, clear
+{txt}
+{com}. //_72
+. tsset t, weekly
+{res}{txt}{col 9}time variable:  {res}{col 25}t, 1960w2 to 1973w16
+{txt}{col 17}delta:  {res}1 week
+{txt}
+{com}. //_73
+. reg return l.return
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       689
+{txt}{hline 13}{c +}{hline 34}   F(1, 687)       = {res}     2.40
+{txt}       Model {c |} {res} 10.6866231         1  10.6866231   {txt}Prob > F        ={res}    0.1218
+{txt}    Residual {c |} {res} 3059.73817       687  4.45376735   {txt}R-squared       ={res}    0.0035
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0020
+{txt}       Total {c |} {res} 3070.42479       688  4.46282673   {txt}Root MSE        =   {res} 2.1104
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      return{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}return {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .0588984{col 26}{space 2} .0380231{col 37}{space 1}    1.55{col 46}{space 3}0.122{col 54}{space 4}-.0157569{col 67}{space 3} .1335538
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  .179634{col 26}{space 2} .0807419{col 37}{space 1}    2.22{col 46}{space 3}0.026{col 54}{space 4} .0211034{col 67}{space 3} .3381646
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_74
+. estat hettest
+
+{txt}Breusch-Pagan / Cook-Weisberg test for heteroskedasticity 
+         Ho: Constant variance
+{p 9 20}Variables: fitted values of return
+
+{col 10}chi2({res}1{txt}){col 23}={res}    95.22
+{txt}{col 10}Prob > chi2{col 23}={res}   0.0000
+{txt}
+{com}. //_75
+. predict u, residu
+{txt}(2 missing values generated)
+
+{com}. gen u2=u^2
+{txt}(2 missing values generated)
+
+{com}. reg u2 l.return
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       689
+{txt}{hline 13}{c +}{hline 34}   F(1, 687)       = {res}    30.05
+{txt}       Model {c |} {res} 3755.56877         1  3755.56877   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 85846.2961       687  124.958219   {txt}R-squared       ={res}    0.0419
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0405
+{txt}       Total {c |} {res} 89601.8649       688  130.235269   {txt}Root MSE        =   {res} 11.178
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          u2{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}return {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-1.104133{col 26}{space 2} .2014029{col 37}{space 1}   -5.48{col 46}{space 3}0.000{col 54}{space 4}-1.499572{col 67}{space 3}-.7086934
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 4.656501{col 26}{space 2} .4276789{col 37}{space 1}   10.89{col 46}{space 3}0.000{col 54}{space 4} 3.816786{col 67}{space 3} 5.496216
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_76
+. reg u l.u, noconst
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       688
+{txt}{hline 13}{c +}{hline 34}   F(1, 687)       = {res}     0.00
+{txt}       Model {c |} {res}  .00603936         1   .00603936   {txt}Prob > F        ={res}    0.9706
+{txt}    Residual {c |} {res} 3059.08227       687  4.45281262   {txt}R-squared       ={res}    0.0000
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}   -0.0015
+{txt}       Total {c |} {res} 3059.08831       688  4.44634929   {txt}Root MSE        =   {res} 2.1102
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}           u{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}u {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}  .001405{col 26}{space 2} .0381496{col 37}{space 1}    0.04{col 46}{space 3}0.971{col 54}{space 4}-.0734987{col 67}{space 3} .0763087
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_77
+. reg return l.return, robust
+
+{txt}Linear regression                               Number of obs     = {res}       689
+                                                {txt}F(1, 687)         =  {res}     0.72
+                                                {txt}Prob > F          = {res}    0.3950
+                                                {txt}R-squared         = {res}    0.0035
+                                                {txt}Root MSE          =    {res} 2.1104
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}      return{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}return {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .0588984{col 26}{space 2} .0692053{col 37}{space 1}    0.85{col 46}{space 3}0.395{col 54}{space 4}-.0769809{col 67}{space 3} .1947777
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  .179634{col 26}{space 2} .0852916{col 37}{space 1}    2.11{col 46}{space 3}0.036{col 54}{space 4} .0121705{col 67}{space 3} .3470975
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. newey return l.return, lag(1)
+
+{txt}Regression with Newey-West standard errors{col 49}Number of obs{col 67}= {res}       689
+{txt}maximum lag: {res}1{col 49}{txt}F(  1,       687){col 67}= {res}      0.74
+{col 49}{txt}Prob > F{col 67}= {res}    0.3895
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}  Newey-West
+{col 1}      return{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}return {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .0588984{col 26}{space 2} .0684001{col 37}{space 1}    0.86{col 46}{space 3}0.389{col 54}{space 4}   -.0754{col 67}{space 3} .1931968
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  .179634{col 26}{space 2} .0855634{col 37}{space 1}    2.10{col 46}{space 3}0.036{col 54}{space 4} .0116369{col 67}{space 3} .3476311
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. //_78
+. use phillips.dta, clear
+{txt}
+{com}. //_79
+. tsset year
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1948 to 2003
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. //_80
+. tsline inf
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_inflation.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week_11_inflation.png written in PNG format)
+
+{com}. //_81
+. gen test = 0
+{txt}
+{com}. replace test = 1 if year >= 1997
+{txt}(7 real changes made)
+
+{com}. label define test1 0 "training sample" 1 "testing sample"
+{txt}
+{com}. label values test test1
+{txt}
+{com}. //_82
+. reg unem l.unem if test == 0
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
+{txt}{hline 13}{c +}{hline 34}   F(1, 46)        = {res}    57.13
+{txt}       Model {c |} {res} 62.8162728         1  62.8162728   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 50.5768515        46  1.09949677   {txt}R-squared       ={res}    0.5540
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5443
+{txt}       Total {c |} {res} 113.393124        47  2.41261967   {txt}Root MSE        =   {res} 1.0486
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        unem{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}unem {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .7323538{col 26}{space 2} .0968906{col 37}{space 1}    7.56{col 46}{space 3}0.000{col 54}{space 4}  .537323{col 67}{space 3} .9273845
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 1.571741{col 26}{space 2} .5771181{col 37}{space 1}    2.72{col 46}{space 3}0.009{col 54}{space 4} .4100629{col 67}{space 3}  2.73342
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_83
+. reg unem l.unem l.inf if test == 0
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
+{txt}{hline 13}{c +}{hline 34}   F(2, 45)        = {res}    50.22
+{txt}       Model {c |} {res} 78.3083336         2  39.1541668   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 35.0847907        45  .779662015   {txt}R-squared       ={res}    0.6906
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6768
+{txt}       Total {c |} {res} 113.393124        47  2.41261967   {txt}Root MSE        =   {res} .88298
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        unem{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}unem {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .6470261{col 26}{space 2} .0838056{col 37}{space 1}    7.72{col 46}{space 3}0.000{col 54}{space 4} .4782329{col 67}{space 3} .8158192
+{txt}{space 12} {c |}
+{space 9}inf {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .1835766{col 26}{space 2} .0411828{col 37}{space 1}    4.46{col 46}{space 3}0.000{col 54}{space 4} .1006302{col 67}{space 3} .2665231
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 1.303797{col 26}{space 2} .4896861{col 37}{space 1}    2.66{col 46}{space 3}0.011{col 54}{space 4} .3175188{col 67}{space 3} 2.290076
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_84
+. quietly reg unem l.unem if test == 0
+{txt}
+{com}. estimates store model1
+{txt}
+{com}. //_85
+. predict unem_est
+{txt}(option {bf:xb} assumed; fitted values)
+(1 missing value generated)
+
+{com}. //_86
+. forecast create forecast1, replace
+{res}{txt}  (Forecast model {res:forecast2} ended.)
+{res}{txt}  Forecast model {res:forecast1} started.
+
+{com}. forecast estimates model1
+{res}{p 2 2 2}{txt}Added estimation results from {cmd:regress}.{p_end}{p 2 2 2}{txt}Forecast model {res:forecast1 }{txt}now contains {res}1 {txt}endogenous variable.{p_end}
+
+{com}. //_87
+. forecast solve, prefix(st_) begin(1997) end(2003) static
+{res}
+{txt}Computing {res}static {txt}forecasts for model {res}forecast1.
+{txt}{dup 47:{c -}}
+Starting period:  {res}1997
+{txt}Ending period:    {res}2003
+{txt}Forecast prefix:  {res}st_
+
+{result}1997: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}1998: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}1999: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2000: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2001: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2002: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2003: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+
+{res}{txt}Forecast {res}1{txt} variable spanning {res}7{txt} periods.
+{hline 39}
+{res}{txt}
+{com}. //_88
+. forecast solve, prefix(dy_) begin(1997) end(2003)
+{res}
+{txt}Computing {res}dynamic {txt}forecasts for model {res}forecast1.
+{txt}{dup 48:{c -}}
+Starting period:  {res}1997
+{txt}Ending period:    {res}2003
+{txt}Forecast prefix:  {res}dy_
+
+{result}1997: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}1998: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}1999: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2000: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2001: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2002: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2003: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+
+{res}{txt}Forecast {res}1{txt} variable spanning {res}7{txt} periods.
+{hline 39}
+{res}{txt}
+{com}. //_89
+. twoway line unem year || line st_unem year, lpattern(dash) || line dy_unem year, lpattern(dot)
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_static_v_dynamic.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week_11_static_v_dynamic.png written in PNG format)
+
+{com}. //_90
+. gen e = unem - st_unem
+{txt}
+{com}. gen e2 = e^2
+{txt}
+{com}. sum e2 if test==1
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 10}e2 {c |}{res}          7    .3319141    .1891047   .0326187   .5083123
+{txt}
+{com}. scalar esum= `r(sum)'/`r(N)'
+{txt}
+{com}. scalar model1_RMSE= esum^.5
+{txt}
+{com}. display model1_RMSE
+{res}.57611988
+{txt}
+{com}. //_91
+. gen e_abs = abs(e) if test ==1
+{txt}(49 missing values generated)
+
+{com}. sum e_abs if test==1
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 7}e_abs {c |}{res}          7     .542014    .2109284   .1806064   .7129602
+{txt}
+{com}. scalar model1_MAE=`r(mean)'
+{txt}
+{com}. display model1_MAE
+{res}.54201399
+{txt}
+{com}. //_92
+. quietly reg unem l.unem l.inf if year < 1997
+{txt}
+{com}. //_93
+. predict p2
+{txt}(option {bf:xb} assumed; fitted values)
+(1 missing value generated)
+
+{com}. estimates store model2
+{txt}
+{com}. //_94
+. forecast create forecast2, replace
+{res}{txt}  (Forecast model {res:forecast1} ended.)
+{res}{txt}  Forecast model {res:forecast2} started.
+
+{com}. forecast estimates model2
+{res}{p 2 2 2}{txt}Added estimation results from {cmd:regress}.{p_end}{p 2 2 2}{txt}Forecast model {res:forecast2 }{txt}now contains {res}1 {txt}endogenous variable.{p_end}
+
+{com}. //_95
+. forecast solve, prefix(st2_) begin(1997) end(2003) static
+{res}
+{txt}Computing {res}static {txt}forecasts for model {res}forecast2.
+{txt}{dup 47:{c -}}
+Starting period:  {res}1997
+{txt}Ending period:    {res}2003
+{txt}Forecast prefix:  {res}st2_
+
+{result}1997: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}1998: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}1999: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2000: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2001: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2002: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2003: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+
+{res}{txt}Forecast {res}1{txt} variable spanning {res}7{txt} periods.
+{hline 39}
+{res}{txt}
+{com}. //_96
+. forecast solve, prefix(dy2_) begin(1997) end(2003) 
+{res}
+{txt}Computing {res}dynamic {txt}forecasts for model {res}forecast2.
+{txt}{dup 48:{c -}}
+Starting period:  {res}1997
+{txt}Ending period:    {res}2003
+{txt}Forecast prefix:  {res}dy2_
+
+{result}1997: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}1998: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}1999: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2000: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2001: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2002: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+{result}2003: {txt}{txt}{col 8}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.{txt}.
+
+{res}{txt}Forecast {res}1{txt} variable spanning {res}7{txt} periods.
+{hline 39}
+{res}{txt}
+{com}. //_97
+. drop e e2 e_abs
+{txt}
+{com}. gen e = unem - st2_unem
+{txt}
+{com}. gen e2 = e^2
+{txt}
+{com}. sum e2 if test==1
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 10}e2 {c |}{res}          7    .2722276    .2459784    .080621   .7681881
+{txt}
+{com}. scalar esum2 = `r(sum)'/`r(N)'
+{txt}
+{com}. scalar model2_RMSE=esum2^.5
+{txt}
+{com}. display model2_RMSE
+{res}.52175434
+{txt}
+{com}. //_98
+. gen e_abs = abs(e)
+{txt}
+{com}. sum e_abs if test==1
+
+{txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 7}e_abs {c |}{res}          7    .4841946    .2099534   .2839384   .8764634
+{txt}
+{com}. scalar model2_MAE=`r(mean)'
+{txt}
+{com}. //_99
+. display "Model 1: RMSE="model1_RMSE " and MAE="model1_MAE
+{res}Model 1: RMSE=.57611988 and MAE=.54201399
+{txt}
+{com}. display "Model 2: RMSE="model2_RMSE " and MAE="model1_MAE
+{res}Model 2: RMSE=.52175434 and MAE=.54201399
+{txt}
+{com}. display "Model 2 with lagged unemployment and lagged inflation has lower RMSE and MAE."
+{res}Model 2 with lagged unemployment and lagged inflation has lower RMSE and MAE.
+{txt}
+{com}. //_100
+. twoway line unem year || line st_unem year, lpattern(dash) || line st2_unem year, lpattern(dot) ///
+> title("Forecast of Unemployment") xtitle("Year") subtitle("One-Step-Ahead") ytitle("Unemployment Rate") xline(1996) ///
+> legend(order(1 "Actual" 2 "Model 1" 3 "Model 2"))
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_forecast.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week_11_forecast.png written in PNG format)
+
+{com}. //_^
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week_11_TS2.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 6 Nov 2023, 17:02:27
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Wooldridge Chp 15 and Mitchell Chp 2, 3, 4" />
+  <title>Week 2: *Instrumental Variables, IVReg, and 2SLS</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+<style>
+/* CSS for Markstat 2.0 using Pandoc 2.0 */
+body{padding:14px 28px; max-width:45em;}
+body, table {font-family: Helvetica, Arial, Sans-serif; font-size: 14px;}
+h1, h2, h3, h4 {font-weight: normal; color: #3366cc}
+h1 {font-size: 200%;}
+h2 {font-size: 150%;}
+h3 {font-size: 120%;}
+h4 {font-size: 100%; font-weight:bold}
+img.center {display:block; margin-left:auto; margin-right:auto}
+.small{font-size:8pt;}
+a {color: black;}
+a:visited {color: #808080;}
+a.plain {text-decoration:none;}
+a.plain:hover {text-decoration:underline;}
+.em {font-weight:bold;}
+pre, code {font-family: "lucida console", monospace;}
+pre.stata {font-size:13px; line-height:13px;}
+pre {padding:8px; border:1px solid #c0c0c0; border-radius:8px; background-color:#fdfdfd;}
+code {color:#3366cc; background-color:#fafafa;}
+pre code { color:black; background-color:white}
+/* Added for Pandoc */
+figure > img, div.figure > img {display:block; margin:auto}
+figcaption, p.caption {text-align:center; font-weight:bold; color:#3366cc;}
+h1.title {text-align:center; margin-bottom:0}
+p.author, h2.author {font-style:italic; text-align:center;margin-top:4px;margin-bottom:0}
+p.date, h3.date {text-align:center;margin-top:4px; margin-bottom:0}
+/* Tables*/
+table { margin:auto; border-collapse:collapse; }
+table caption { margin-bottom:1ex;}
+td {padding:0 0 0 0} /* override */
+table:not([class]) th { padding:4px 6px } 
+table:not([class]) td { padding:4px 6px } 
+table:not([class]) thead tr:first-child th {border-top:1px solid black; padding-top:6px}
+table:not([class]) thead tr:last-child  th {padding-bottom:6px}
+table:not([class]) tbody tr:first-child td {border-top:1px solid black; padding-top:6px}
+table:not([class]) tbody tr:last-child  td {padding-bottom:6px;}
+table:not([class]) tbody:last-child tr:last-child td {border-bottom:1px solid black;}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Week 2: *Instrumental Variables, IVReg, and 2SLS</h1>
+<p class="author">Wooldridge Chp 15 and Mitchell Chp 2, 3, 4</p>
+<p class="date">Samuel Rowe - Adapted from Wooldridge and Mitchell</p>
+</header>
+<p>August 2, 2023</p>
+<pre class='stata'>. set more off
+
+. clear all
+</pre>
+<p>*Set Working Directory</p>
+<pre class='stata'>. cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+</pre>
+<h2>
+Wooldridge
+</h2>
+<h3>
+Estimating Returns to Education for Married Women
+</h3>
+<pre class='stata'>. use "mroz.dta", clear
+</pre>
+<p>We’ll use the data on married working women to estimate the return to
+education using a simple OLS model. Biased OLS</p>
+<pre class='stata'>. reg lwage educ
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(1, 426)       =     56.93
+       Model │  26.3264193         1  26.3264193   Prob > F        =    0.0000
+    Residual │  197.001022       426  .462443713   R-squared       =    0.1179
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.1158
+       Total │  223.327441       427  .523015084   Root MSE        =    .68003
+
+─────────────┬────────────────────────────────────────────────────────────────
+       lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        educ │   .1086487   .0143998     7.55   0.000     .0803451    .1369523
+       _cons │  -.1851968   .1852259    -1.00   0.318    -.5492673    .1788736
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>Our estimate implies that the returns to education is exp(.109)-1*100
+about 11.5%</p>
+<pre class='stata'>. display (exp(_b[educ])-1)*100
+11.477061
+</pre>
+<p>Use Fathers Education as an instrument for the observation’s level of
+education if the women is in the labor force</p>
+<pre class='stata'>. reg educ fathedu if inlf==1
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(1, 426)       =     88.84
+       Model │  384.841983         1  384.841983   Prob > F        =    0.0000
+    Residual │  1845.35428       426  4.33181756   R-squared       =    0.1726
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.1706
+       Total │  2230.19626       427  5.22294206   Root MSE        =    2.0813
+
+─────────────┬────────────────────────────────────────────────────────────────
+        educ │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+    fatheduc │   .2694416   .0285863     9.43   0.000     .2132538    .3256295
+       _cons │   10.23705   .2759363    37.10   0.000     9.694685    10.77942
+─────────────┴────────────────────────────────────────────────────────────────
+
+. predict edu_hat
+(option xb assumed; fitted values)
+</pre>
+<p>Get F-Statistic</p>
+<pre class='stata'>. test fathedu
+
+ ( 1)  fatheduc = 0
+
+       F(  1,   426) =   88.84
+            Prob > F =    0.0000
+</pre>
+<p>Our F-test shows that the instrument is greater than F-stat &gt; 15,
+so it seem like a good candidate for an instrument</p>
+<p>Father’s Education as an instrument</p>
+<pre class='stata'>. reg lwage edu_hat
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(1, 426)       =      2.59
+       Model │  1.34752449         1  1.34752449   Prob > F        =    0.1086
+    Residual │  221.979916       426  .521079616   R-squared       =    0.0060
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0037
+       Total │  223.327441       427  .523015084   Root MSE        =    .72186
+
+─────────────┬────────────────────────────────────────────────────────────────
+       lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+     edu_hat │   .0591735   .0367969     1.61   0.109    -.0131525    .1314995
+       _cons │   .4411034   .4671121     0.94   0.346    -.4770279    1.359235
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>One additional year of education increases wages by
+(exp(0.059)-1)*100%=6.1%</p>
+<pre class='stata'>. display (exp(_b[edu_hat])-1)*100
+6.095928
+</pre>
+<p>Question? The F-test passed the instrument relevance (F-stat &gt;
+15), but what about instrument exogeneity?</p>
+<h3>
+Estimating Returns to Education for Men
+</h3>
+<p>Let’s estimate the returns to education for men</p>
+<h4>
+Exercise
+</h4>
+<p>Use number of siblings as an instrument to predict an observation’s
+level of education. We’ll keep it simple and have no other
+covariates.</p>
+<pre class='stata'>. use "wage2.dta", clear
+</pre>
+<ol type="1">
+<li>Estimate the potentially biased OLS</li>
+<li>Estimate your first stage</li>
+<li>Test your first stage</li>
+<li>Run your 2SLS</li>
+</ol>
+<h4>
+Answers
+</h4>
+<p>Biased OLS</p>
+<pre class='stata'>. reg lwage educ
+
+      Source │       SS           df       MS      Number of obs   =       935
+─────────────┼──────────────────────────────────   F(1, 933)       =    100.70
+       Model │  16.1377042         1  16.1377042   Prob > F        =    0.0000
+    Residual │  149.518579       933  .160255712   R-squared       =    0.0974
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0964
+       Total │  165.656283       934  .177362188   Root MSE        =    .40032
+
+─────────────┬────────────────────────────────────────────────────────────────
+       lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        educ │   .0598392   .0059631    10.03   0.000     .0481366    .0715418
+       _cons │   5.973063   .0813737    73.40   0.000     5.813366    6.132759
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>We have a estimated return of education of (exp(.0598392)-1)*100</p>
+<pre class='stata'>. display (exp(_b[educ])-1)*100
+6.1665821
+</pre>
+<p>Use Number of siblings as an instrument</p>
+<pre class='stata'>. reg educ sibs
+
+      Source │       SS           df       MS      Number of obs   =       935
+─────────────┼──────────────────────────────────   F(1, 933)       =     56.67
+       Model │  258.055048         1  258.055048   Prob > F        =    0.0000
+    Residual │   4248.7642       933  4.55387374   R-squared       =    0.0573
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0562
+       Total │  4506.81925       934  4.82528828   Root MSE        =     2.134
+
+─────────────┬────────────────────────────────────────────────────────────────
+        educ │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        sibs │  -.2279164   .0302768    -7.53   0.000     -.287335   -.1684979
+       _cons │   14.13879   .1131382   124.97   0.000     13.91676    14.36083
+─────────────┴────────────────────────────────────────────────────────────────
+
+. predict edu_hat
+(option xb assumed; fitted values)
+</pre>
+<p>Get F-statistic</p>
+<pre class='stata'>. test sibs
+
+ ( 1)  sibs = 0
+
+       F(  1,   933) =   56.67
+            Prob > F =    0.0000
+</pre>
+<p>Number of siblings as an instrument</p>
+<pre class='stata'>. reg lwage edu_hat
+
+      Source │       SS           df       MS      Number of obs   =       935
+─────────────┼──────────────────────────────────   F(1, 933)       =     22.31
+       Model │  3.86818074         1  3.86818074   Prob > F        =    0.0000
+    Residual │  161.788103       933  .173406326   R-squared       =    0.0234
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0223
+       Total │  165.656283       934  .177362188   Root MSE        =    .41642
+
+─────────────┬────────────────────────────────────────────────────────────────
+       lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+     edu_hat │   .1224326   .0259225     4.72   0.000     .0715595    .1733057
+       _cons │   5.130026   .3494009    14.68   0.000     4.444323    5.815729
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>One additional year of education increases wages by
+(exp(0.1224)-1)*100%=13.0%</p>
+<pre class='stata'>. display (exp(_b[edu_hat])-1)*100 
+13.024298
+</pre>
+<p>Another thing that is interesting here is the the OLS estimate is
+biased downward, which is not what we would expect. Possible reasons: 1)
+Siblings could be correlated with ability - more siblings, less
+partental attention which could result in lower ability 2) The OLS
+estimator is downward biased due to measurement error in educ, but this
+is less likely to satisfy the classic error-in-variables (CEM)
+assumption</p>
+<h3>
+Smoking on Birthweight
+</h3>
+<p>It is important to see an example of a poor instrument.</p>
+<pre class='stata'>. use "bwght.dta", clear
+</pre>
+<p>Biased OLS looks at the natural log of birth weight and cigarette
+packs smoked per day by the mother. We would expect that smoking is
+correlated with unobserved health and parental decisions, so it is like
+biased due to unobserved confounders.</p>
+<pre class='stata'>. reg lbwght packs
+
+      Source │       SS           df       MS      Number of obs   =     1,388
+─────────────┼──────────────────────────────────   F(1, 1386)      =     27.98
+       Model │  .997781141         1  .997781141   Prob > F        =    0.0000
+    Residual │  49.4225525     1,386  .035658407   R-squared       =    0.0198
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0191
+       Total │  50.4203336     1,387  .036352079   Root MSE        =    .18883
+
+─────────────┬────────────────────────────────────────────────────────────────
+      lbwght │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+       packs │  -.0898131   .0169786    -5.29   0.000    -.1231197   -.0565065
+       _cons │   4.769404   .0053694   888.26   0.000     4.758871    4.779937
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>An additional package smoked per day decreases birthweight by
+exp(-.08981)-1~-8.6%</p>
+<pre class='stata'>. display (exp(-.08981)-1)*100
+-8.5895151
+</pre>
+<p>We’ll use cigarette prices as an instrument for cigarette packs
+smoked per day. We assume that cigarette prices and the error term u are
+uncorrelated (instrument exogeneity). Note that some states fund health
+care with cigarette tax revenue. We will use cigarette price and
+quantity of packs smoked should be negatively correlated.</p>
+<pre class='stata'>. reg packs cigprice
+
+      Source │       SS           df       MS      Number of obs   =     1,388
+─────────────┼──────────────────────────────────   F(1, 1386)      =      0.13
+       Model │  .011648626         1  .011648626   Prob > F        =    0.7179
+    Residual │  123.684481     1,386  .089238442   R-squared       =    0.0001
+─────────────┼──────────────────────────────────   Adj R-squared   =   -0.0006
+       Total │  123.696129     1,387  .089182501   Root MSE        =    .29873
+
+─────────────┬────────────────────────────────────────────────────────────────
+       packs │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+    cigprice │   .0002829    .000783     0.36   0.718    -.0012531    .0018188
+       _cons │   .0674257   .1025384     0.66   0.511    -.1337215    .2685728
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>Our instrument is not associated with quantity consumed.</p>
+<pre class='stata'>. predict packs_hat
+(option xb assumed; fitted values)
+</pre>
+<p>Instrument Revelance:</p>
+<pre class='stata'>. test cigprice
+
+ ( 1)  cigprice = 0
+
+       F(  1,  1386) =    0.13
+            Prob > F =    0.7179
+</pre>
+<p>Our instrumennt fails the F-test - weak instrument</p>
+<p>Cigarette price as an instrument for packs smoked is a poor
+instrument and our use of predicted packs smoked is in the wrong
+direction</p>
+<pre class='stata'>. reg lbwght packs_hat
+
+      Source │       SS           df       MS      Number of obs   =     1,388
+─────────────┼──────────────────────────────────   F(1, 1386)      =      2.87
+       Model │  .104047659         1  .104047659   Prob > F        =    0.0907
+    Residual │   50.316286     1,386  .036303237   R-squared       =    0.0021
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0013
+       Total │  50.4203336     1,387  .036352079   Root MSE        =    .19053
+
+─────────────┬────────────────────────────────────────────────────────────────
+      lbwght │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+   packs_hat │   2.988676   1.765368     1.69   0.091    -.4744067    6.451758
+       _cons │   4.448136   .1843027    24.13   0.000     4.086594    4.809679
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>We can and should always test Instrument Relevance. If we have a poor
+instrument, we should go back to the drawing board.</p>
+<p>Another issue here is that price is a poor instrument, since price
+and quantity are simultaneously determined. We would need a second set
+of instruments on price to estimate our first-stage.</p>
+<h3>
+Estimating Returns to Education for Married Women Part 2
+</h3>
+<pre class='stata'>. use "mroz.dta", clear
+</pre>
+<p>We’ll use both parent’s education as instruments to identify the
+effect of education on wages for working women. We overidentify the
+endogenous variable with 2 instruments: father’s education and mother’s
+education.</p>
+<p>Potentially Biased OLS</p>
+<pre class='stata'>. reg lwage educ c.exper##c.exper
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(3, 424)       =     26.29
+       Model │  35.0222967         3  11.6740989   Prob > F        =    0.0000
+    Residual │  188.305144       424  .444115906   R-squared       =    0.1568
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.1509
+       Total │  223.327441       427  .523015084   Root MSE        =    .66642
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .1074896   .0141465     7.60   0.000     .0796837    .1352956
+          exper │   .0415665   .0131752     3.15   0.002     .0156697    .0674633
+                │
+c.exper#c.exper │  -.0008112   .0003932    -2.06   0.040    -.0015841   -.0000382
+                │
+          _cons │  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
+────────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>Our result is (exp(.1074896)-1)*100~11.3%</p>
+<pre class='stata'>. display (exp(_b[educ])-1)*100
+11.347933
+</pre>
+<p>We’ll use to instruments for one endogenous variable Use Parent’s
+Education as an instrument for women in the labor force</p>
+<pre class='stata'>. reg educ c.exper##c.exper fathedu mothedu if inlf==1
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(4, 423)       =     28.36
+       Model │  471.620998         4   117.90525   Prob > F        =    0.0000
+    Residual │  1758.57526       423  4.15738833   R-squared       =    0.2115
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.2040
+       Total │  2230.19626       427  5.22294206   Root MSE        =     2.039
+
+────────────────┬────────────────────────────────────────────────────────────────
+           educ │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+          exper │   .0452254   .0402507     1.12   0.262    -.0338909    .1243417
+                │
+c.exper#c.exper │  -.0010091   .0012033    -0.84   0.402    -.0033744    .0013562
+                │
+       fatheduc │   .1895484   .0337565     5.62   0.000     .1231971    .2558997
+       motheduc │    .157597   .0358941     4.39   0.000      .087044    .2281501
+          _cons │    9.10264   .4265614    21.34   0.000     8.264196    9.941084
+────────────────┴────────────────────────────────────────────────────────────────
+
+. predict edu_hat
+(option xb assumed; fitted values)
+</pre>
+<p>Get F-Statistic Passes the First Stage Test for good instrument
+F&gt;15</p>
+<pre class='stata'>. test fathedu mothedu
+
+ ( 1)  fatheduc = 0
+ ( 2)  motheduc = 0
+
+       F(  2,   423) =   55.40
+            Prob > F =    0.0000
+</pre>
+<p>Father’s Education as an instrument</p>
+<pre class='stata'>. reg lwage edu_hat c.exper##c.exper
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(3, 424)       =      7.40
+       Model │   11.117828         3  3.70594265   Prob > F        =    0.0001
+    Residual │  212.209613       424   .50049437   R-squared       =    0.0498
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0431
+       Total │  223.327441       427  .523015084   Root MSE        =    .70746
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+        edu_hat │   .0613966   .0329624     1.86   0.063    -.0033933    .1261866
+          exper │   .0441704   .0140844     3.14   0.002     .0164865    .0718543
+                │
+c.exper#c.exper │   -.000899   .0004212    -2.13   0.033    -.0017268   -.0000711
+                │
+          _cons │   .0481003   .4197565     0.11   0.909    -.7769624     .873163
+────────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>One additional year of education increases wages by
+(exp(0.061)-1)*100%=6.3%</p>
+<p>This can be more easily done with our ivregress 2sls command</p>
+<pre class='stata'>. ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
+
+Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(3)    =      24.65
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.1357
+                                                  Root MSE        =     .67155
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .0613966   .0312895     1.96   0.050     .0000704    .1227228
+          exper │   .0441704   .0133696     3.30   0.001     .0179665    .0703742
+                │
+c.exper#c.exper │   -.000899   .0003998    -2.25   0.025    -.0016826   -.0001154
+                │
+          _cons │   .0481003    .398453     0.12   0.904    -.7328532    .8290538
+────────────────┴────────────────────────────────────────────────────────────────
+Instrumented:  educ
+Instruments:   exper c.exper#c.exper fatheduc motheduc
+
+. display (exp(_b[educ])-1)*100
+6.3320574
+</pre>
+<h3>
+Testing for Endogeneity - Returns to Education for Working Women
+</h3>
+<pre class='stata'>. use "mroz.dta", clear
+</pre>
+<h4>
+Exercise
+</h4>
+<p>Use father’s and mother’s education as an instrument to estimate
+education</p>
+<ol type="1">
+<li><p>Estimate OLS</p></li>
+<li><p>Estimate the 2SLS with ivregress 2sls command</p></li>
+</ol>
+<h4>
+Answers
+</h4>
+<p>OLS</p>
+<pre class='stata'>. reg lwage educ c.exper##c.exper
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(3, 424)       =     26.29
+       Model │  35.0222967         3  11.6740989   Prob > F        =    0.0000
+    Residual │  188.305144       424  .444115906   R-squared       =    0.1568
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.1509
+       Total │  223.327441       427  .523015084   Root MSE        =    .66642
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .1074896   .0141465     7.60   0.000     .0796837    .1352956
+          exper │   .0415665   .0131752     3.15   0.002     .0156697    .0674633
+                │
+c.exper#c.exper │  -.0008112   .0003932    -2.06   0.040    -.0015841   -.0000382
+                │
+          _cons │  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
+────────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>2SLS</p>
+<pre class='stata'>. ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper
+
+Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(3)    =      24.65
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.1357
+                                                  Root MSE        =     .67155
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .0613966   .0312895     1.96   0.050     .0000704    .1227228
+          exper │   .0441704   .0133696     3.30   0.001     .0179665    .0703742
+                │
+c.exper#c.exper │   -.000899   .0003998    -2.25   0.025    -.0016826   -.0001154
+                │
+          _cons │   .0481003    .398453     0.12   0.904    -.7328532    .8290538
+────────────────┴────────────────────────────────────────────────────────────────
+Instrumented:  educ
+Instruments:   exper c.exper#c.exper fatheduc motheduc
+</pre>
+<p>Two ways to test endogeneity</p>
+<p>If want to see if our explanatory variable of interest is potentially
+endogenous with the error term. We can conduct an endogeneity test. 1)
+Manually Estimate the reduced form for y_2 by regressing all exogenous
+variables includes those in the structural model and the additional
+IVs</p>
+<pre class='stata'>. reg educ c.exper##c.exper fathedu mothedu if inlf==1
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(4, 423)       =     28.36
+       Model │  471.620998         4   117.90525   Prob > F        =    0.0000
+    Residual │  1758.57526       423  4.15738833   R-squared       =    0.2115
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.2040
+       Total │  2230.19626       427  5.22294206   Root MSE        =     2.039
+
+────────────────┬────────────────────────────────────────────────────────────────
+           educ │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+          exper │   .0452254   .0402507     1.12   0.262    -.0338909    .1243417
+                │
+c.exper#c.exper │  -.0010091   .0012033    -0.84   0.402    -.0033744    .0013562
+                │
+       fatheduc │   .1895484   .0337565     5.62   0.000     .1231971    .2558997
+       motheduc │    .157597   .0358941     4.39   0.000      .087044    .2281501
+          _cons │    9.10264   .4265614    21.34   0.000     8.264196    9.941084
+────────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>Obtains residuals v-hat_2</p>
+<pre class='stata'>. predict r, residual
+</pre>
+<p>Add v-hat_2 to the structural equation</p>
+<pre class='stata'>. reg lwage educ c.exper##c.exper r
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(4, 423)       =     20.50
+       Model │  36.2573098         4  9.06432744   Prob > F        =    0.0000
+    Residual │  187.070131       423  .442246173   R-squared       =    0.1624
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.1544
+       Total │  223.327441       427  .523015084   Root MSE        =    .66502
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .0613966   .0309849     1.98   0.048      .000493    .1223003
+          exper │   .0441704   .0132394     3.34   0.001     .0181471    .0701937
+                │
+c.exper#c.exper │   -.000899   .0003959    -2.27   0.024    -.0016772   -.0001208
+                │
+              r │   .0581666   .0348073     1.67   0.095    -.0102502    .1265834
+          _cons │   .0481003   .3945753     0.12   0.903    -.7274721    .8236727
+────────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>There is possible evidence of endogeneity since p &lt; .1 but p &gt;
+.05 You should report IV and OLS</p>
+<ol start="2" type="1">
+<li>With estat We can also use a postestimation command estat
+endogenous</li>
+</ol>
+<pre class='stata'>. ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
+
+Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(3)    =      24.65
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.1357
+                                                  Root MSE        =     .67155
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .0613966   .0312895     1.96   0.050     .0000704    .1227228
+          exper │   .0441704   .0133696     3.30   0.001     .0179665    .0703742
+                │
+c.exper#c.exper │   -.000899   .0003998    -2.25   0.025    -.0016826   -.0001154
+                │
+          _cons │   .0481003    .398453     0.12   0.904    -.7328532    .8290538
+────────────────┴────────────────────────────────────────────────────────────────
+Instrumented:  educ
+Instruments:   exper c.exper#c.exper fatheduc motheduc
+
+. estat endogenous
+
+  Tests of endogeneity
+  Ho: variables are exogenous
+
+  Durbin (score) chi2(1)          =  2.80707  (p = 0.0938)
+  Wu-Hausman F(1,423)             =  2.79259  (p = 0.0954)
+</pre>
+<h3>
+Testing Overidentifying Restrictions - Returns to Education for Working
+Women
+</h3>
+<p>When we have one IV for one endogenous explanatory variable, we have
+a just identified equation. When we have two instruments and one
+endogenous explanatory variable we have overidentification.</p>
+<p>When we have multiple IVs, we can test to see some of our instruments
+are correlated with the structural error term.</p>
+<p>We can estimate two 2sls models (one for each IV) and then compare
+them. They should only differ by the sampling error. If our two beta
+coefficients on our fitted explanatory variable of interest are
+different then, we conclude that at least one instrument or maybe both
+is/are correlated with the structural error term</p>
+<p>When we add too many instrumental variables (or overidentification),
+we can increase the efficiency of the 2SLS estimator. However, we may
+run the risk of violating the instrument exogeneity assumption.</p>
+<p>When we use motheredu and fatheredu as IVS for education, we have a
+single overidentification restriction. We have two IVs and 1 endogenous
+explanatory variable</p>
+<pre class='stata'>. use "mroz.dta", clear
+</pre>
+<pre class='stata'>. ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+
+Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(3)    =      24.65
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.1357
+                                                  Root MSE        =     .67155
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .0613966   .0312895     1.96   0.050     .0000704    .1227228
+          exper │   .0441704   .0133696     3.30   0.001     .0179665    .0703742
+                │
+c.exper#c.exper │   -.000899   .0003998    -2.25   0.025    -.0016826   -.0001154
+                │
+          _cons │   .0481003    .398453     0.12   0.904    -.7328532    .8290538
+────────────────┴────────────────────────────────────────────────────────────────
+Instrumented:  educ
+Instruments:   exper c.exper#c.exper motheduc fatheduc
+</pre>
+<p>Get our residuals</p>
+<pre class='stata'>. predict r, resid
+(325 missing values generated)
+</pre>
+<p>Regress the residual on all exogenous variables</p>
+<pre class='stata'>. reg r mothedu fathedu c.exper##c.exper
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(4, 423)       =      0.09
+       Model │  .170503122         4   .04262578   Prob > F        =    0.9845
+    Residual │  192.849512       423  .455909012   R-squared       =    0.0009
+─────────────┼──────────────────────────────────   Adj R-squared   =   -0.0086
+       Total │  193.020015       427  .452037506   Root MSE        =    .67521
+
+────────────────┬────────────────────────────────────────────────────────────────
+              r │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+       motheduc │  -.0066065   .0118864    -0.56   0.579    -.0299704    .0167573
+       fatheduc │   .0057823   .0111786     0.52   0.605    -.0161902    .0277547
+          exper │  -.0000183   .0133291    -0.00   0.999    -.0262179    .0261813
+                │
+c.exper#c.exper │   7.34e-07   .0003985     0.00   0.999    -.0007825     .000784
+                │
+          _cons │   .0109641   .1412571     0.08   0.938    -.2666892    .2886173
+────────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>Obtain R-squared and N</p>
+<pre class='stata'>. ereturn list
+
+scalars:
+                  e(N) =  428
+               e(df_m) =  4
+               e(df_r) =  423
+                  e(F) =  .0934962445404771
+                 e(r2) =  .000883344256925
+               e(rmse) =  .6752103466059415
+                e(mss) =  .1705031219578643
+                e(rss) =  192.8495121452517
+               e(r2_a) =  -.0085645673813073
+                 e(ll) =  -436.7021015142834
+               e(ll_0) =  -436.891220726253
+               e(rank) =  5
+
+macros:
+            e(cmdline) : "regress r mothedu fathedu c.exper##c.exper"
+              e(title) : "Linear regression"
+          e(marginsok) : "XB default"
+                e(vce) : "ols"
+             e(depvar) : "r"
+                e(cmd) : "regress"
+         e(properties) : "b V"
+            e(predict) : "regres_p"
+          e(estat_cmd) : "regress_estat"
+
+matrices:
+                  e(b) :  1 x 5
+                  e(V) :  5 x 5
+
+functions:
+             e(sample)   
+
+. local N=`e(N)'
+
+. display "`N'"
+428
+
+. local rsq=`e(r2)'
+
+. display "`rsq'"
+.000883344256925
+
+. local nR=`N'*`rsq'
+
+. display "`nR'"
+.3780713419639
+</pre>
+<p>Under the null hypothesis that all IVs are uncorrelated with u_1
+nR2~X^2_q, where q is the number of instruments from outside the model
+minus the total number of endogenous explanatory variables. If nR2
+exceeds the 5% critical value in X^2_q, then we reject the null
+hypothesis and conclude that at least some of the IVs are not
+exogenous</p>
+<p>Here we have q=2-1=1 df for the chi-squared test and we fail to
+reject the null hypothesis since nR2=.37807 and X^2_1 at the 5% critical
+value is 3.841.</p>
+<p>We can also use the postestimation command of estat overid</p>
+<pre class='stata'>. ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+
+Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(3)    =      24.65
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.1357
+                                                  Root MSE        =     .67155
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .0613966   .0312895     1.96   0.050     .0000704    .1227228
+          exper │   .0441704   .0133696     3.30   0.001     .0179665    .0703742
+                │
+c.exper#c.exper │   -.000899   .0003998    -2.25   0.025    -.0016826   -.0001154
+                │
+          _cons │   .0481003    .398453     0.12   0.904    -.7328532    .8290538
+────────────────┴────────────────────────────────────────────────────────────────
+Instrumented:  educ
+Instruments:   exper c.exper#c.exper motheduc fatheduc
+
+. estat overid
+
+  Tests of overidentifying restrictions:
+
+  Sargan (score) chi2(1) =  .378071  (p = 0.5386)
+  Basmann chi2(1)        =  .373985  (p = 0.5408)
+</pre>
+<p>We get our nR2 with this postestimation command</p>
+<p>Let’s add husband’s education, so we have 2 overidentification
+restrictions.</p>
+<pre class='stata'>. ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper
+
+Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(3)    =      34.90
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.1495
+                                                  Root MSE        =     .66616
+
+────────────────┬────────────────────────────────────────────────────────────────
+          lwage │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+────────────────┼────────────────────────────────────────────────────────────────
+           educ │   .0803918    .021672     3.71   0.000     .0379155    .1228681
+          exper │   .0430973   .0132027     3.26   0.001     .0172204    .0689742
+                │
+c.exper#c.exper │  -.0008628   .0003943    -2.19   0.029    -.0016357   -.0000899
+                │
+          _cons │  -.1868572   .2840591    -0.66   0.511    -.7436029    .3698885
+────────────────┴────────────────────────────────────────────────────────────────
+Instrumented:  educ
+Instruments:   exper c.exper#c.exper motheduc fatheduc huseduc
+
+. estat overid
+
+  Tests of overidentifying restrictions:
+
+  Sargan (score) chi2(2) =  1.11504  (p = 0.5726)
+  Basmann chi2(2)        =  1.10228  (p = 0.5763)
+</pre>
+<p>Notice that we still fail reject the null hypothesis, so we might
+consider adding it as an IV. Also, notice that the coefficient and
+standard error around education has changed as well.</p>
+<p>It is a good idea to report both in a sensitivity analysis</p>
+<h2>
+Mitchell
+</h2>
+<p>We won’t spend too much time looking into Chapter 2 and 3, since they
+should be a review from ECON 644. Chapter 4 will be a review, but we’ll
+look into some CPS data</p>
+<p>Recommended resources UCLA OARC Stata resources:
+https://stats.oarc.ucla.edu/stata/modules/ I have used this source on
+numerous times. Even when you become proficient with Stata, UCLA’s OARC
+Stata resources have been very helpful. If you just type “UCLA oarc
+Stata <enter your topic>” in a search engine, then it will usually pop
+up.</p>
+<p>Statalist if usually another good resource when trying to figure out
+what went wrong. If you ask as question on the listserve, you will
+likely be scolded by Nick Cox, or you will be told to “read the manual”.
+However, if you just read what others have asked, you will often find
+useful information.</p>
+<h3>
+<p>Getting our data&lt;/3&gt; ********** This will download the data to
+your working directory. So check your working directory.</p>
+<pre class='stata'>. pwd
+/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+</pre>
+<p>Set your working directory</p>
+<pre class='stata'>. cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+</pre>
+<p>Use: net from https://www.stata-press.com/data/dmus2 net get dmus1
+net get dmus2</p>
+<p>All commands: net install dmus1</p>
+<h2>
+Chapter 2: Reading and Importing Data
+</h2>
+<p>Note when your working directory, I recommend using “/” instead of “"
+Stata will use both, and the backslash”" often runs into string
+issues.</p>
+<h3>
+2.2 Reading Stata data
+</h3>
+<p>We’ll add the clear option to clear our memory to provide an
+error</p>
+<pre class='stata'>. use "dentists.dta", clear
+
+. list 
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>From Stata Press website use
+“https://www.stata-press.com/data/dmus2/dentists.dta”, clear From NBER
+website</p>
+<pre class='stata'>. use "https://data.nber.org/morg/annual/morg20.dta", clear
+</pre>
+<h4>
+Reading Stata data with subsets
+</h4>
+<p>Subsetting by columns Reading a subset of the Stata data - if you
+know the variable names</p>
+<pre class='stata'>. use name years using "dentists.dta", clear
+</pre>
+<p>list the data - which I don’t recommend with large data sets</p>
+<pre class='stata'>. list 
+
+     ┌───────────────────────────┐
+     │              name   years │
+     ├───────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25 │
+  2. │    Olive Tu'Drill   10.25 │
+  3. │ Isaac O'Yerbreath   32.75 │
+  4. │      Ruth Canaale      22 │
+  5. │        Mike Avity     8.5 │
+     └───────────────────────────┘
+</pre>
+<p>Subsetting by rows (observations)</p>
+<pre class='stata'>. use "dentists.dta" if years >= 10, clear
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │    Olive Tu'Drill   10.25          1       1 │
+  2. │ Isaac O'Yerbreath   32.75          1       1 │
+  3. │      Ruth Canaale      22          1       1 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>Subsetting by row and columns</p>
+<pre class='stata'>. use name year using "dentists.dta" if years >= 10, clear
+
+. list
+
+     ┌───────────────────────────┐
+     │              name   years │
+     ├───────────────────────────┤
+  1. │    Olive Tu'Drill   10.25 │
+  2. │ Isaac O'Yerbreath   32.75 │
+  3. │      Ruth Canaale      22 │
+     └───────────────────────────┘
+</pre>
+<p>Reading the data dictionary beforehand will help, especially with
+larger files such as the PUMS ACS or CPS</p>
+<h4>
+System data
+</h4>
+<p>I’m not going to focus on these, but they are avaiable There are data
+sets that are included in Stata and use the sysuse command</p>
+<pre class='stata'>. sysuse auto, clear
+(1978 Automobile Data)
+</pre>
+<p>You can use Stata files that are available, but didn’t ship with
+Stata and they use the webuse command</p>
+<pre class='stata'>. webuse fullauto, clear
+(Automobile Models)
+</pre>
+<h3>
+2.3 Importing Excel files
+</h3>
+<p>Many times you will need to grab data from a website and these data
+may be in an Excel format such as “.xls” or “.xlsx”. Our main command is
+import excel. We need to specify the firstrow option if we want the
+headers as variable names Be careful if the headers are numerics, such
+as years, in the firstrow. This will throw an error and we’ll need to
+rename them in Excel before importing these files. For example, 2015
+becomes y2015</p>
+<pre class='stata'>. import excel using "dentists.xls", firstrow clear
+
+. list 
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>We need to take caution of the sheet names of the excel files we are
+importing If you don’t pay attention you may import the wrong sheet.</p>
+<pre class='stata'>. import excel using "dentists2.xls", firstrow clear
+
+. list
+
+     ┌────────────────────┐
+     │       name   years │
+     ├────────────────────┤
+  1. │ I. Sue Yoo       3 │
+  2. │   A. Dewey       8 │
+  3. │ B. Cheetem      11 │
+  4. │    C. Howe      21 │
+     └────────────────────┘
+</pre>
+<pre class='stata'>. import excel using "dentists2.xls", firstrow clear sheet("dentists")
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<h3>
+2.4 Importing SAS files
+</h3>
+<p>Note: importing files from other statistical packages is a pain. If
+you are using another statistical software packages like R, SAS, Python,
+or heaven- forbin SPSS, then export the data from those software package
+as CSV files. CSV files are fairly universal. There maybe some labeling
+issues, but if labels are not a concern then use CSV file formats</p>
+<p>Luckily, SAS data files are becoming less common. Even the Census
+Bureau has seen the light and provides their data in a csv format</p>
+<h4>
+Importing .sas7bdat
+</h4>
+<p>For me, it is unavailable in Stata 14, but if you have Stata 16 or
+higher you can use this command.</p>
+<p>Import sas is our main command to import SAS from version 7 or higher
+import sas “dentists.sas7bdat”, clear list</p>
+<h4>
+Importing SAS XPORT Version 5
+</h4>
+<p>import sasxport5 “dentists.xpt”, clear list</p>
+<h4>
+Importing SAS XPORT Version 8
+</h4>
+<p>import sasxport8 “dentists.xpt”, clear</p>
+<h3>
+2.5 Importing SPSS files
+</h3>
+<p>For me, it is unavailable in Stata 14, but if you have Stata 16 or
+higher you can use this command. import spss “dentlab.sav”, clear
+list</p>
+<h3>
+2.6 Importing dBase files
+</h3>
+<p>For me, it is unavailable in Stata 14, but if you have Stata 16 or
+higher you can use this command. import dbase “dentlab.dbf”, clear
+list</p>
+<h3>
+2.7 Importing Raw Data files
+</h3>
+<h4>
+Import Delimited
+</h4>
+<p>Importing csv files will likely be more common than other types of
+files so far with the exception of Stata and Excel files. Note: there
+are other types of delimited files, but comman-delimited are the most
+common. Other types of delimiters include “tab”, “space”, or “|”
+delimited. CSV file If you read the manual you’ll noticed that “,” and “
+are the default delimiters Using”,” delimter</p>
+<pre class='stata'>. import delimited using "dentists.csv", clear
+(4 vars, 5 obs)
+
+. list 
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>CSV files may come in .txt files or .csv files using “,”
+delimiter</p>
+<pre class='stata'>. import delimited using "dentists1.txt", clear
+(4 vars, 5 obs)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>There may be “tab”-delimited files that use “ delimiter</p>
+<pre class='stata'>. import delimited using "dentists2.txt", clear
+(4 vars, 5 obs)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>This will produce the same results as above since “ is a default</p>
+<pre class='stata'>. import delimited using "dentists2.txt", clear delimiters("\t")
+(4 vars, 5 obs)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>This will use a “:”-delimited file</p>
+<pre class='stata'>. import delimited using "dentists4.txt", clear delimiters(":") 
+(4 vars, 5 obs)
+</pre>
+<p>We can subset columns and rows with import delimited, which can be
+helpful for large files. Variable names will be defaulted for the first
+few rows, so when we use rowrange(1:3) this will only include 2 rows of
+data.</p>
+<pre class='stata'>. import delimited using "dentists2.txt", clear rowrange(1:3)
+(4 vars, 2 obs)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>Import delimited from the web</p>
+<pre class='stata'>. import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/j
+> un23pub.csv", clear
+(389 vars, 127,491 obs)
+
+. pwd
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+. save "jun23pub.dta", replace
+file jun23pub.dta saved
+</pre>
+<h4>
+Import space-separated files
+</h4>
+<p>Sometimes files have space-delimited files (which is a bad idea when
+strings are involved). Dentists5.txt is an example of such a file. We
+can use the infile command to import these data, but we need to specify
+that the name variable is a string at least 17 characters wide.</p>
+<pre class='stata'>. infile str17 name years full rec using "dentists5.txt", clear
+(5 observations read)
+
+. list
+
+     ┌────────────────────────────────────────┐
+     │              name   years   full   rec │
+     ├────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25      0     1 │
+  2. │    Olive Tu'Drill   10.25      1     1 │
+  3. │ Isaac O'Yerbreath   32.75      1     1 │
+  4. │      Ruth Canaale      22      1     1 │
+  5. │        Mike Avity     8.5      0     0 │
+     └────────────────────────────────────────┘
+</pre>
+<p>Infile does not read in variable names in the first row</p>
+<p>We can also use import delimited with delimiters(” “)</p>
+<pre class='stata'>. import delimited using "dentists6.txt", delimiters(" ") clear
+(4 vars, 5 obs)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<h4>
+Importing fixed-column files
+</h4>
+<p>Unfortunately, fixed-column files are more common than I prefer. They
+are a pain, since you need to specify each column length. I have found
+this with files with a “.dat” file extension.</p>
+<p>We can use the infix command to read in fixed-column files Let’s look
+at our fixed-column width files</p>
+<pre class='stata'>. type "dentists7.txt"
+Y. Don Uflossmore 7.2501
+Olive Tu'Drill   10.2511
+Isaac O'Yerbreath32.7511
+Ruth Canaale     22.0011
+Mike Avity        8.5000
+</pre>
+<p>Our name variable is between 1 and 17, years are between 18 and 22,
+Our fulltime and recommend binaries are only length of 1 with 23 and
+24</p>
+<pre class='stata'>. infix str name 1-17 years 18-22 fulltime 23 recom 24 using "dentists7.txt", clear
+(5 observations read)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>This is a real pain, but luckily Stata has dictionary files to help
+if one of these files are available. They have a .dct file extension. We
+already have a fixed-column dictionary with dentists1.dct and we can use
+it to open a fixed-column width file dentists7.txt</p>
+<p>Let’s look at our dictionary file</p>
+<pre class='stata'>. type "dentists1.dct"
+infix dictionary {
+  str name 1-17 years 18-22 fulltime 23 recom 24
+}
+</pre>
+<p>Let’s look at our fixed-column width file</p>
+<pre class='stata'>. type "dentists7.txt"
+Y. Don Uflossmore 7.2501
+Olive Tu'Drill   10.2511
+Isaac O'Yerbreath32.7511
+Ruth Canaale     22.0011
+Mike Avity        8.5000
+</pre>
+<p>Let’s use the two together to import the data file</p>
+<pre class='stata'>. infix using "dentists1.dct", using(dentists7.txt) clear
+infix dictionary {
+  str name 1-17 years 18-22 fulltime 23 recom 24
+}
+(5 observations read)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>We can combine infile command with a dictionary file</p>
+<pre class='stata'>. type "dentists3.dct"
+infile dictionary using dentists7.txt {
+  str17 name     %17s  "Name of dentist"
+        years    %5f   "Years in practice"
+        fulltime %1f   "Full time?"
+        recom    %1f   "Recommend Quaddent?"
+}
+</pre>
+<p>Notice that the first line of the dictionary file is infile
+dictionary using dentists7.txt and then the column widths</p>
+<pre class='stata'>. infile using "dentists3.dct", clear
+
+infile dictionary using dentists7.txt {
+  str17 name     %17s  "Name of dentist"
+        years    %5f   "Years in practice"
+        fulltime %1f   "Full time?"
+        recom    %1f   "Recommend Quaddent?"
+}
+
+(5 observations read)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+  4. │      Ruth Canaale      22          1       1 │
+  5. │        Mike Avity     8.5          0       0 │
+     └──────────────────────────────────────────────┘
+</pre>
+<p>Dictionary .dct files are very helpful when they are available with
+fixed-column width files</p>
+<h4>
+Subsetting fixed-column width files
+</h4>
+<p>We can use the “in” qualifier to subset the number of rows to import
+with either infix or infile</p>
+<pre class='stata'>. infix str name 1-17 years 18-22 fulltime 23 recom 24 using "dentists7.txt" in 1/3, clear
+(3 observations read)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+     └──────────────────────────────────────────────┘
+</pre>
+<pre class='stata'>. infix using "dentists1.dct" in 1/3, using(dentists7.txt) clear
+infix dictionary {
+  str name 1-17 years 18-22 fulltime 23 recom 24
+}
+(3 observations read)
+
+. list
+
+     ┌──────────────────────────────────────────────┐
+     │              name   years   fulltime   recom │
+     ├──────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25          0       1 │
+  2. │    Olive Tu'Drill   10.25          1       1 │
+  3. │ Isaac O'Yerbreath   32.75          1       1 │
+     └──────────────────────────────────────────────┘
+</pre>
+<h4>
+Importing with multiple lines of fixed-column width
+</h4>
+<p>I won’t go into this, but if you do run into these types of files
+please see pages 39-41</p>
+<h3>
+2.8 Common errors when reading and importing files
+</h3>
+<p>Tip: Don’t forget to clear your data. Either the line before or add
+it as an option , clear</p>
+<h4>
+Error 1
+</h4>
+<p>If you do not clear your data with the use command, then you will get
+the message “No; dataset in memory has changed since last saved” - Use
+clear</p>
+<h4>
+Error 2
+</h4>
+<p>If you do not clear your data with the import, infix, or infile
+commands, then you will get the message: “You must start with an empty
+dataset”</p>
+<h3>
+2.9 Entering data directly into Stata Data Editor
+</h3>
+<p>My opinion: If you need to manually enter data, I don’t recommend
+manually entering data into STATA. I recommend using a spreadsheet, then
+import the spreadsheet.</p>
+<p>If for some reason you don’t have access to Excel or a spreadsheet
+application like OSX Numbers or Google Sheets, then read pages
+43-50.</p>
+<h2>
+Chapter 3: Saving and Exporting Data
+</h2>
+<h3>
+3.2 Saving Stata files
+</h3>
+<p>It can be helpful to convert a csv, excel, or other type of file to a
+Stata dta file. It is also good to consider older types of Stata files
+Older versions of Stata help with sharing data. (One of my beefs with
+Stata is that newer data files are not compatible with older versions of
+Stata). Let’s import a comma-delimited file</p>
+<pre class='stata'>. import delimited using "dentists1.txt", clear
+(4 vars, 5 obs)
+</pre>
+<p>We can use the save and saveold commands to convert this
+comma-delimited file into a Stata dta file. Don’t forget to replace or
+else you will run into an error when trying to replicate the code. Save
+will save it in Stata 14 (for me) and whatever version of Stata you
+run</p>
+<pre class='stata'>. save mydentists, replace
+file mydentists.dta saved
+</pre>
+<p>Saveold and specify version 12</p>
+<pre class='stata'>. saveold mydentists_v12, version(12) replace
+(saving in Stata 12 format, which can be read by Stata 11 or 12)
+file mydentists_v12.dta saved
+</pre>
+<p>We can subset as well</p>
+<pre class='stata'>. keep if recom==1
+(1 observation deleted)
+
+. save mydentists, replace
+file mydentists.dta saved
+
+. saveold mydentists_v12, version(12) replace
+(saving in Stata 12 format, which can be read by Stata 11 or 12)
+file mydentists_v12.dta saved
+</pre>
+<p>There is a compress command, but harddrive are large enough today
+that it should not be a problem</p>
+<h3>
+3.3 Exporting Excel Files
+</h3>
+<p>Let’s say we want to collaborate with someone that doesn’t have Stata
+or wants to make graphs in Excel. We can export to excel either “.xls”
+or “.xlsx” from Stata with the export excel command</p>
+<p>Let’s use our main file again</p>
+<pre class='stata'>. use dentlab, clear
+</pre>
+<p>We can use the export excel command Don’t forget to use replace
+option and set the firstrow as variable names</p>
+<pre class='stata'>. export excel using "dentlab.xlsx", replace firstrow(variables)
+file dentlab.xlsx saved
+</pre>
+<p>Notice that the labels are exported into the binary 0/1 for parttime
+and recommend We can use the nolabel option</p>
+<pre class='stata'>. export excel using "dentlab.xlsx", replace firstrow(variables) nolabel
+file dentlab.xlsx saved
+</pre>
+<p>But what we want a “labeled” and an “unlabeled” sheet in the same
+excel file? This replace option will completely replace the entire Excel
+file</p>
+<pre class='stata'>. export excel using "dentlab.xlsx", sheet("Labeled") firstrow(variables) replace
+file dentlab.xlsx saved
+</pre>
+<p>Let’s add another sheet called “Unlabeled”, but we don’t want to
+replace the entire excel file. We use the replace option in the sheet
+subcommand option</p>
+<pre class='stata'>. export excel using "dentlab.xlsx", sheet("Unlabeled", replace) firstrow(variables) nolabel
+file dentlab.xlsx saved
+</pre>
+<h3>
+3.4, 3.5, and 3.6 Exporting SAS and dBase files
+</h3>
+<p>My recommendation is to use csv files instead of SAS files If you
+need to, please review pages 59-62</p>
+<h3>
+3.7 Exporting comma and tab delimited files
+</h3>
+<p>Exporting CSV Files I recommend when collaborating with others,
+especially if they are using different software like SAS, R, Python,
+etc. to use csv. They are universally read, which makes collaboration
+easier. You may lose labels (or values), but If everyone is not using
+Stata, then export csv (or excel) is a good idea. The default is
+comma-delimited</p>
+<pre class='stata'>. use dentlab
+
+. list
+
+     ┌──────────────────────────────────────────────────────────┐
+     │              name   years    fulltime              recom │
+     ├──────────────────────────────────────────────────────────┤
+  1. │ Y. Don Uflossmore    7.25   part time          recommend │
+  2. │    Olive Tu'Drill   10.25   full time          recommend │
+  3. │ Isaac O'Yerbreath   32.75   full time          recommend │
+  4. │      Ruth Canaale      22   full time          recommend │
+  5. │        Mike Avity     8.5   part time   do not recommend │
+     └──────────────────────────────────────────────────────────┘
+</pre>
+<p>Our simpliest export is:</p>
+<pre class='stata'>. export delimited using "dentists_comma.csv", replace
+file dentists_comma.csv saved
+</pre>
+<p>This will export the labels instead of the values If you want to
+export the values instead of the labels, use the nolabels option</p>
+<pre class='stata'>. export delimited using "dentists_comma.csv", nolabel replace    
+file dentists_comma.csv saved
+
+. type "dentists_comma.csv"
+name,years,fulltime,recom
+Y. Don Uflossmore,7.25,0,1
+Olive Tu'Drill,10.25,1,1
+Isaac O'Yerbreath,32.75,1,1
+Ruth Canaale,22,1,1
+Mike Avity,8.5,0,0
+</pre>
+<p>You also have the option of putting quotes around strings, which can
+be a good idea if you strings have “,” in them. Otherwise, the csv will
+think the “,” is a place to delimit and your dataset will be incorrectly
+exported. The option is simply quote.</p>
+<pre class='stata'>. export delimited using "dentists_comma.csv", nolabel quote replace
+file dentists_comma.csv saved
+</pre>
+<p>If for some reason you do not want to export the variables names, you
+can use the novarnames option.</p>
+<pre class='stata'>. export delimited using "dentists_comma.csv", nolabel quote novarnames replace
+file dentists_comma.csv saved
+
+. type "dentists_comma.csv"
+"Y. Don Uflossmore",7.25,0,1
+"Olive Tu'Drill",10.25,1,1
+"Isaac O'Yerbreath",32.75,1,1
+"Ruth Canaale",22,1,1
+"Mike Avity",8.5,0,0
+</pre>
+<p>Sometimes we may need to format our data for exporting.</p>
+<pre class='stata'>. replace years = 8.93 if name == "Mike Avity"
+(1 real change made)
+
+. export delimited using "dentists_comma.csv", nolabel quote replace
+file dentists_comma.csv saved
+
+. type "dentists_comma.csv"
+name,years,fulltime,recom
+"Y. Don Uflossmore",7.25,0,1
+"Olive Tu'Drill",10.25,1,1
+"Isaac O'Yerbreath",32.75,1,1
+"Ruth Canaale",22,1,1
+"Mike Avity",8.9300003,0,0
+</pre>
+<p>Note that the years for Mike Avity we just replace exported as
+8.9300003. To fix this, we can use the format command to set the total
+width to 5 and the decimal places to 2 with %5.2f</p>
+<pre class='stata'>. format years %5.2f
+
+. export delimited using "dentists_comma.csv", nolabel quote replace
+file dentists_comma.csv saved
+
+. type "dentists_comma.csv"
+name,years,fulltime,recom
+"Y. Don Uflossmore",7.25,0,1
+"Olive Tu'Drill",10.25,1,1
+"Isaac O'Yerbreath",32.75,1,1
+"Ruth Canaale",22,1,1
+"Mike Avity",8.9300003,0,0
+</pre>
+<p>For more options see:</p>
+<pre class='stata'>. help export delimited
+</pre>
+<h3>
+3.8 Exporting space-separated files
+</h3>
+<p>Don’t do this. Use comma-delimited files If you are really interested
+in this, please review pages 65-66</p>
+<h3>
+3.9 Creating Reports
+</h3>
+<p>I liked this addition to the exporting data section. A lot of time,
+senior leadership may need a report, and with export excel (or putexcel)
+we can generate automated reports. The key here is automated, where the
+pipeline from raw data to reports is done completely through a .do
+file.</p>
+<p>A lot of times it is a pain to get the data analysis to your
+write-ups, and Export excel and put excel are great tools to make it
+easy. We’ll cover estout to get regression outputs into Word or LaTex a
+bit later. *I have used putexcel in the past, but we’ll cover two ways
+to fill out Excel reports</p>
+<p>We are going to create a Full-time Part-time Report in Excel</p>
+<pre class='stata'>. use "dentlab.dta", clear
+
+. keep name years fulltime
+
+. export excel using "dentrpt1.xlsx", cell(A4) replace
+file dentrpt1.xlsx saved
+</pre>
+<p>Notice this is just exporting our data into an excel file without a
+shell, but we do place our data starting on line A4 and we do not export
+variable names.</p>
+<p>We’ll use the shell report called “dentrpt1-skeleton.xlsx”, and we’ll
+fill it out using Stata. This is just an example, but it can be easily
+applicable in many office settings. It is preferable to fill out the
+report this way, since if there is a mistake, then it is is easy to fix
+without generating a new report from scratch.</p>
+<p>First we’ll use the copy command to copy the Report Shell over our
+newly created file called “dentrpt1.xlsx”</p>
+<pre class='stata'>. copy "dentrpt1-skeleton.xlsx" "dentrpt1.xlsx", replace
+</pre>
+<p>Now we will use the “modify” option to modify our report shell to
+fill out the report with data.</p>
+<pre class='stata'>. export excel "dentrpt1.xlsx", sheet("dentists", modify) cell(A4)
+file dentrpt1.xlsx saved
+</pre>
+<p>Notice that there are two sheets in the report shell: “dentists” and
+“Sheet2” We modified the sheet called “dentists” and pasted our data in
+this sheet starting at cell A4.</p>
+<p>We can format our formats, too. We have our report shell in
+“dentrpt2-skeleton.xlsx”. We will do is similar to the first report, but
+we will add the keepcellfmt option.</p>
+<pre class='stata'>. copy "dentrpt2-skeleton.xlsx" "dentrpt2.xlsx", replace
+
+. export excel "dentrpt2.xlsx", sheet("dentists", modify) cell(A4) //keepcellfmt
+file dentrpt2.xlsx saved
+</pre>
+<p>Note: this keepcellfmt is unavailable in Stata 14, but you should
+have it in your newer version.</p>
+<p>We’ll do something similar, but we will include averages for years
+and full-time vs part time.</p>
+<pre class='stata'>. copy "dentrpt3-skeleton.xlsx" "dentrpt3.xlsx", replace
+
+. export excel "dentrpt3.xlsx", sheet("dentists", modify) cell(A6) 
+file dentrpt3.xlsx saved
+</pre>
+<p>You have two options for the percentages: 1) add average formula in
+Excel or 2) use put excel. It is easy to add formulas in excel, but what
+if the number of observation changes over time? Then, you would need to
+modify the Excel sheet. Using put excel you can update the averages
+without messing with formulas in excel</p>
+<p>It is poor practice to run the summarize command and manually
+entering it into your report. Use local macros and do it
+dynamically!</p>
+<p>We will set our dentists report to be modified by Stata, and then run
+the summarize command and take the average stored after the command and
+put it into excel.</p>
+<pre class='stata'>. putexcel set "dentrpt3.xlsx", sheet("dentists") modify
+</pre>
+<p>After setting the sheet to be modified, we can write expression,
+returned results, formulas, graphs, scalars, matrices, etc.</p>
+<p>Let’s look at what the summarize command stores after being run.</p>
+<pre class='stata'>. summarize years
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+       years │          5       16.15    10.98095       7.25      32.75
+
+. return list
+
+scalars:
+                  r(N) =  5
+              r(sum_w) =  5
+               r(mean) =  16.15
+                r(Var) =  120.58125
+                 r(sd) =  10.98094941250528
+                r(min) =  7.25
+                r(max) =  32.75
+                r(sum) =  80.75
+</pre>
+<p>There are several scalars that are stored, such as number of
+observations r(N), mean r(mean), standard deviation r(sd), etc. If we
+use the detail option, we’ll see more scalars</p>
+<p>We can retreive those scalars with local macros, such as
+`r(mean)’.</p>
+<pre class='stata'>. summarize years
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+       years │          5       16.15    10.98095       7.25      32.75
+
+. putexcel B2 = `r(mean)'
+file dentrpt3.xlsx saved
+
+. summarize fulltime
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+    fulltime │          5          .6    .5477226          0          1
+
+. putexcel B3 = `r(mean)'
+file dentrpt3.xlsx saved
+</pre>
+<p>putexcel save //Not in older version</p>
+<p>More on Putexcel
+https://blog.stata.com/2017/01/10/creating-excel-tables-with-putexcel-part-1-introduction-and-formatting/</p>
+<h2>
+Chapter 4: Cleaning and Checking Data
+</h2>
+<p>Good note from Mitchell at the beginning Garbage In; Garbage Out</p>
+<p>Before doing analysis, you really need to check your data to look for
+data quality issues.</p>
+<h3>
+4.2 Double data entry
+</h3>
+<p>The duplicates command can be helpful, but it will only find
+duplicates that are exactly the same unless you specify which variables
+with duplicates list vars We’ll cover this a bit later.</p>
+<h3>
+4.3 Checking individual variables
+</h3>
+<p>We start off with looking from problems in individual variables</p>
+<pre class='stata'>. use wws, clear
+(Working Women Survey)
+</pre>
+<p>The describe command is a useful command to see an overview of your
+data with variables labels, storage type, and value lables (if any)</p>
+<pre class='stata'>. describe
+
+Contains data from wws.dta
+  obs:         2,246                          Working Women Survey
+ vars:            30                          3 Jan 2010 00:42
+ size:       163,958                          (_dta has notes)
+────────────────────────────────────────────────────────────────────────────────────────────
+              storage   display    value
+variable name   type    format     label      variable label
+────────────────────────────────────────────────────────────────────────────────────────────
+idcode          int     %8.0g                 Unique ID
+age             byte    %8.0g                 age in current year
+race            byte    %8.0g                 race
+married         byte    %8.0g                 married
+collgrad        byte    %16.0g                college graduate
+south           byte    %8.0g                 lives in south
+industry        byte    %23.0g                industry
+occupation      byte    %22.0g                occupation
+union           byte    %8.0g                 union worker
+wage            float   %9.0g                 hourly wage
+hours           byte    %8.0g                 usual hours worked
+nevermarried    byte    %8.0g                 Woman never been married
+yrschool        byte    %8.0g                 Years of school completed
+metro           byte    %9.0g                 Does woman live in metro area?
+ccity           byte    %8.0g                 Does woman live in city center?
+currexp         float   %9.0g                 Years worked at current job
+prevexp         float   %9.0g                 Years worked at previous job
+everworked      float   %9.0g                 Has woman ever worked?
+uniondues       float   %9.0g                 Union Dues paid last week
+marriedyrs      float   %9.0g                 Years married (rounded to nearest year)
+unempins        float   %9.0g                 Under/Unemployment insur. received last week
+numkids         float   %9.0g                 Number of children
+kidage1         float   %9.0g                 Age of first child
+kidage2         float   %9.0g                 Age of second child
+kidage3         float   %9.0g                 Age of third child
+grade           byte    %8.0g                 current grade completed
+grade4          byte    %9.0g                 4 level Current Grade Completed
+wage2           float   %9.0g                 Wages, rounded to 2 digits
+fwt             float   %9.0g                 Frequency weight
+networth        float   %9.0g                 Net worth
+────────────────────────────────────────────────────────────────────────────────────────────
+Sorted by: 
+</pre>
+<p>You will noticed that we lack value labels and a data dictionary or
+what each value is coded as</p>
+<h4>
+One way tabulation
+</h4>
+<p>The tabulation or tab command is very useful to inspect categorical
+variables. Let’s look at collgrad, which is a binary for college
+graduate status Let’s include the missing option to make sure no
+observations are missing data</p>
+<pre class='stata'>. tabulate collgrad, missing
+
+    college │
+   graduate │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+          0 │      1,713       76.27       76.27
+          1 │        533       23.73      100.00
+────────────┼───────────────────────────────────
+      Total │      2,246      100.00
+</pre>
+<p>Let’s look at race</p>
+<pre class='stata'>. tabulate race, missing
+
+       race │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+          1 │      1,636       72.84       72.84
+          2 │        583       25.96       98.80
+          3 │         26        1.16       99.96
+          4 │          1        0.04      100.00
+────────────┼───────────────────────────────────
+      Total │      2,246      100.00
+</pre>
+<p>Race should only be coded between 1 and 3, so we have one miscoded
+observation. Let’s find the observation’s idcode</p>
+<pre class='stata'>. list idcode race if race==4
+
+      ┌───────────────┐
+      │ idcode   race │
+      ├───────────────┤
+2013. │    543      4 │
+      └───────────────┘
+</pre>
+<h4>
+Summarize
+</h4>
+<p>The summarize or sum command is very useful to inspect continuous
+variables. Let’s look at the amount of unemployment insurance in
+unempins. The values range between 0 and 300 dollars for unemployed
+insurance received last week.</p>
+<pre class='stata'>. summarize unempins
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+    unempins │      2,246    30.50401    73.16682          0        299
+</pre>
+<p>Let’s look at wages</p>
+<pre class='stata'>. summarize wage
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+        wage │      2,246    288.2885    9595.692          0     380000
+</pre>
+<p>The data range between 0 and 380,000 dollars in hourly wage last week
+with a mean of 288.29 dollars and a standard deviation of 9,595 dollars.
+The max seems a bit high. Let’s add the detail option to get more
+information</p>
+<pre class='stata'>. summarize wage, detail
+
+                         hourly wage
+─────────────────────────────────────────────────────────────
+      Percentiles      Smallest
+ 1%     1.892108              0
+ 5%     2.801002       1.004952
+10%     3.220612       1.032247       Obs               2,246
+25%     4.259257       1.151368       Sum of Wgt.       2,246
+
+50%     6.276297                      Mean           288.2885
+                        Largest       Std. Dev.      9595.692
+75%     9.661837       40.19808
+90%     12.77777       40.74659       Variance       9.21e+07
+95%     16.73912         250000       Skewness       35.45839
+99%     38.70926         380000       Kurtosis       1297.042
+</pre>
+<p>Our mean appears to be skewed rightward with some outliers. Our
+median hourly wage is 6.7 dollars per hour and our 99% percentile hourly
+wage is 38.7 38.7 dollars per hour, so a mean of 288.29 dollar/hour is
+highly skewed. Our Kurtosis shows that the max outliers are heavily
+skewing the results. A normal distributed variable should have a
+kurtosis of 3, and our kurtosis is 1297 Let’s look at the outliers</p>
+<pre class='stata'>. list idcode wage if wage > 1000
+
+      ┌─────────────────┐
+      │ idcode     wage │
+      ├─────────────────┤
+ 893. │   3145   380000 │
+1241. │   2341   250000 │
+      └─────────────────┘
+</pre>
+<p>Let’s look at ages, which should range frm 21 to 50 years old. We can
+use both the summarize and tabulate commands. Tabulate can be very
+useful with continuous variables if the range is not too large.</p>
+<pre class='stata'>. summarize age
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+         age │      2,246    36.25111    5.437983         21         83
+
+. tabulate age
+
+     age in │
+    current │
+       year │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+         21 │          2        0.09        0.09
+         22 │          8        0.36        0.45
+         23 │         16        0.71        1.16
+         24 │         35        1.56        2.72
+         25 │         44        1.96        4.67
+         26 │         50        2.23        6.90
+         27 │         50        2.23        9.13
+         28 │         63        2.80       11.93
+         29 │         49        2.18       14.11
+         30 │         55        2.45       16.56
+         31 │         57        2.54       19.10
+         32 │         60        2.67       21.77
+         33 │         56        2.49       24.27
+         34 │         95        4.23       28.50
+         35 │        213        9.48       37.98
+         36 │        224        9.97       47.95
+         37 │        171        7.61       55.57
+         38 │        175        7.79       63.36
+         39 │        167        7.44       70.79
+         40 │        139        6.19       76.98
+         41 │        148        6.59       83.57
+         42 │        111        4.94       88.51
+         43 │        110        4.90       93.41
+         44 │         98        4.36       97.77
+         45 │         45        2.00       99.78
+         46 │          1        0.04       99.82
+         47 │          1        0.04       99.87
+         48 │          1        0.04       99.91
+         54 │          1        0.04       99.96
+         83 │          1        0.04      100.00
+────────────┼───────────────────────────────────
+      Total │      2,246      100.00
+</pre>
+<p>Let’s look at the outliers</p>
+<pre class='stata'>. list idcode age if age > 50
+
+      ┌──────────────┐
+      │ idcode   age │
+      ├──────────────┤
+2205. │     80    54 │
+2219. │     51    83 │
+      └──────────────┘
+</pre>
+<h3>
+4.4 Checking categorical by categorical variables
+</h3>
+<pre class='stata'>. use "wws.dta", clear
+(Working Women Survey)
+</pre>
+<h4>
+Two-way tabulation
+</h4>
+<p>The two-way tabulation through the tabulate command is a very useful
+way to look for data quality problems or to double check binaries
+created. Let’s look at variables metro, which is a binary for whether or
+not the observation lives in a metropolitian areas, and ccity, which is
+whether or not the observation lives in the center of the city.</p>
+<pre class='stata'>. tabulate metro ccity, missing
+
+Does woman │
+   live in │  Does woman live in
+     metro │     city center?
+     area? │         0          1 │     Total
+───────────┼──────────────────────┼──────────
+         0 │       665          0 │       665 
+         1 │       926        655 │     1,581 
+───────────┼──────────────────────┼──────────
+     Total │     1,591        655 │     2,246 
+</pre>
+<p>An alternative is to count the number of observations that shouldn’t
+be there So we’ll count the number of observations not in a metro area
+but in a city center. I personally don’t use it, but it has it’s
+uses.</p>
+<pre class='stata'>. count if metro==0 &amp; ccity==1
+  0
+</pre>
+<p>Let’s look at married and nevermarriaged. There should be no
+individuals that appear in both married and nevermarried.</p>
+<pre class='stata'>. tabulate married nevermarried, missing
+
+           │   Woman never been
+           │        married
+   married │         0          1 │     Total
+───────────┼──────────────────────┼──────────
+         0 │       570        234 │       804 
+         1 │     1,440          2 │     1,442 
+───────────┼──────────────────────┼──────────
+     Total │     2,010        236 │     2,246 
+</pre>
+<p>There may be observation that have been married, but not currently
+married. There should be no observations that are both married and never
+married, and there are 2</p>
+<pre class='stata'>. count if married == 1 &amp; nevermarried == 1
+  2
+
+. list idcode married nevermarried if married == 1 &amp; nevermarried == 1
+
+      ┌─────────────────────────────┐
+      │ idcode   married   neverm~d │
+      ├─────────────────────────────┤
+1523. │   1758         1          1 │
+2231. │     22         1          1 │
+      └─────────────────────────────┘
+</pre>
+<p>Let’s look at college graduates and years of school completed. We can
+use tabulate or the table commands. I personally prefer tabulate, since
+we can look for missing</p>
+<pre class='stata'>. tabulate yrschool collgrad, missing
+
+  Years of │
+    school │   college graduate
+ completed │         0          1 │     Total
+───────────┼──────────────────────┼──────────
+         8 │        69          1 │        70 
+         9 │        55          0 │        55 
+        10 │        84          0 │        84 
+        11 │       123          0 │       123 
+        12 │       943          0 │       943 
+        13 │       174          2 │       176 
+        14 │       180          7 │       187 
+        15 │        81         11 │        92 
+        16 │         0        252 │       252 
+        17 │         0        106 │       106 
+        18 │         0        154 │       154 
+         . │         4          0 │         4 
+───────────┼──────────────────────┼──────────
+     Total │     1,713        533 │     2,246 
+</pre>
+<p>Or</p>
+<pre class='stata'>. table yrschool collgrad
+
+──────────┬───────────
+Years of  │  college  
+school    │  graduate 
+completed │    0     1
+──────────┼───────────
+        8 │   69     1
+        9 │   55      
+       10 │   84      
+       11 │  123      
+       12 │  943      
+       13 │  174     2
+       14 │  180     7
+       15 │   81    11
+       16 │        252
+       17 │        106
+       18 │        154
+──────────┴───────────
+
+. list idcode if yrschool &lt; 16 &amp; collgrad == 1
+
+      ┌────────┐
+      │ idcode │
+      ├────────┤
+ 195. │   4721 │
+ 369. │   4334 │
+ 464. │   4131 │
+ 553. │   3929 │
+ 690. │   3589 │
+      ├────────┤
+1092. │   2681 │
+1098. │   2674 │
+1114. │   2640 │
+1124. │   2613 │
+1221. │   2384 │
+      ├────────┤
+1493. │   1810 │
+1829. │    993 │
+1843. │    972 │
+1972. │    689 │
+2114. │    312 │
+      ├────────┤
+2174. │    172 │
+2198. │    107 │
+2215. │     63 │
+2228. │     25 │
+2229. │     24 │
+      ├────────┤
+2230. │     23 │
+      └────────┘
+</pre>
+<h3>
+4.5 Checking categorical by continuous variables
+</h3>
+<p>It is also helpful to look at continuous variables by different
+categories. Let’s look at the binary variable for union, if the
+observation is a union member or not by uniondues.</p>
+<pre class='stata'>. summarize uniondues, detail
+
+                  Union Dues paid last week
+─────────────────────────────────────────────────────────────
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs               2,242
+25%            0              0       Sum of Wgt.       2,242
+
+50%            0                      Mean           5.603479
+                        Largest       Std. Dev.      9.029045
+75%           10             29
+90%           22             29       Variance       81.52365
+95%           26             29       Skewness        1.35268
+99%           29             29       Kurtosis       3.339635
+</pre>
+<p>Let’s use the bysort command, which will sort our data by the
+variable specified.</p>
+<pre class='stata'>. bysort union: summarize uniondues
+
+────────────────────────────────────────────────────────────────────────────────────────────
+-> union = 0
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+   uniondues │      1,413     .094126    1.502237          0         27
+
+────────────────────────────────────────────────────────────────────────────────────────────
+-> union = 1
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+   uniondues │        461    14.65944    8.707759          0         29
+
+────────────────────────────────────────────────────────────────────────────────────────────
+-> union = .
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+   uniondues │        368    15.41304    8.815582          0         29
+</pre>
+<p>The mean for not in a union is less than 1 dollar with 1,413
+observations The mean for union is about 15 dollars with 461
+observations The mean for missing is about 15 dollars with 368
+observations</p>
+<pre class='stata'>. tabulate uniondues if union==0, missing
+
+ Union Dues │
+  paid last │
+       week │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+          0 │      1,407       99.29       99.29
+         10 │          1        0.07       99.36
+         17 │          1        0.07       99.44
+         26 │          2        0.14       99.58
+         27 │          2        0.14       99.72
+          . │          4        0.28      100.00
+────────────┼───────────────────────────────────
+      Total │      1,417      100.00
+</pre>
+<p>We see about 4 observations have union dues, so let’s recode them to
+0 It is possible that someone may be not be a union members, but still
+have to pay an agency fee.</p>
+<p>The recode command can to create a new variable if a person pay union
+dues</p>
+<pre class='stata'>. recode uniondues (0=0) (1/max=1), generate(paysdues)
+(784 differences between uniondues and paysdues)
+</pre>
+<p>Now let’s compare union members to those who pay union dues</p>
+<pre class='stata'>. tabulate union paysdues, missing
+
+           │ RECODE of uniondues (Union Dues
+     union │         paid last week)
+    worker │         0          1          . │     Total
+───────────┼─────────────────────────────────┼──────────
+         0 │     1,407          6          4 │     1,417 
+         1 │        17        444          0 │       461 
+         . │         7        361          0 │       368 
+───────────┼─────────────────────────────────┼──────────
+     Total │     1,431        811          4 │     2,246 
+</pre>
+<p>Let’s list the non-union members paying union dues Note: we use the
+abb(#) option to abbreviate the observation to 20 characters</p>
+<pre class='stata'>. list idcode union uniondues if union==0 &amp; (uniondues > 0) &amp; !missing(uniondues), abb(20)
+
+      ┌────────────────────────────┐
+      │ idcode   union   uniondues │
+      ├────────────────────────────┤
+ 203. │   3905       0          10 │
+ 304. │    345       0          26 │
+ 388. │   2541       0          27 │
+ 491. │   3848       0          26 │
+ 972. │   1411       0          27 │
+      ├────────────────────────────┤
+1175. │   3464       0          17 │
+      └────────────────────────────┘
+</pre>
+<p>Let’s look at another great command for observing categorical and
+continuous variables together: tabstat</p>
+<p>We could use tab with a sum option</p>
+<pre class='stata'>. tab married, sum(marriedyrs)
+
+            │  Summary of Years married (rounded
+            │          to nearest year)
+    married │        Mean   Std. Dev.       Freq.
+────────────┼────────────────────────────────────
+          0 │           0           0         804
+          1 │   5.5409154   3.5521383       1,442
+────────────┼────────────────────────────────────
+      Total │   3.5574354   3.8933494       2,246
+</pre>
+<p>Or, we can use tabstat which gives us more options</p>
+<pre class='stata'>. tabstat marriedyrs, by(married) statistics(n mean sd min max p25 p50 p75) missing
+
+Summary for variables: marriedyrs
+     by categories of: married (married)
+
+ married │         N      mean        sd       min       max       p25       p50       p75
+─────────┼────────────────────────────────────────────────────────────────────────────────
+       0 │       804         0         0         0         0         0         0         0
+       1 │      1442  5.540915  3.552138         0        11         2         6         9
+─────────┼────────────────────────────────────────────────────────────────────────────────
+   Total │      2246  3.557435  3.893349         0        11         0         2         7
+─────────┴────────────────────────────────────────────────────────────────────────────────
+</pre>
+<p>No observation that said they were never married reported years of
+marriage</p>
+<p>Let’s look at current years of experience and everworked binary</p>
+<pre class='stata'>. tabstat currexp, by(everworked) statistics(n mean sd min max) missing
+
+Summary for variables: currexp
+     by categories of: everworked (Has woman ever worked?)
+
+everworked │         N      mean        sd       min       max
+───────────┼──────────────────────────────────────────────────
+         0 │        60         0         0         0         0
+         1 │      2171  5.328881  5.042181         0        26
+───────────┼──────────────────────────────────────────────────
+     Total │      2231  5.185567  5.048073         0        26
+───────────┴──────────────────────────────────────────────────
+</pre>
+<p>Let’s total years of experience, which is currexp plus prevexp</p>
+<pre class='stata'>. generate totexp=currexp+prevexp
+(15 missing values generated)
+
+. tabstat totexp, by(everworked) statistics(n mean sd min max) missing
+
+Summary for variables: totexp
+     by categories of: everworked (Has woman ever worked?)
+
+everworked │         N      mean        sd       min       max
+───────────┼──────────────────────────────────────────────────
+         0 │        60         0         0         0         0
+         1 │      2171  11.57761  4.552392         1        29
+───────────┼──────────────────────────────────────────────────
+     Total │      2231  11.26625  4.865816         0        29
+───────────┴──────────────────────────────────────────────────
+</pre>
+<p>Everyone with at least one year experience has experience working</p>
+<h4>
+Note
+</h4>
+<p>bysort x_cat: summarize x_con tab x_cat, sum(x_con) tabstat x_con,
+by(x_cat) statistics(…)</p>
+<h3>
+4.6 Checking continuous by continuous variables
+</h3>
+<p>We will compare two continuous variables to continuous variables
+Let’s look at unemployment insuranced received last week if the hours
+were greater than 30 and hours are not missing.</p>
+<pre class='stata'>. summarize unempins if hours > 30 &amp; !missing(hours)
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+    unempins │      1,800    1.333333    16.04617          0        287
+</pre>
+<p>The mean is around 1.3 and our range is between our expected 0 and
+287</p>
+<pre class='stata'>. count if (hours>30) &amp; !missing(hours) &amp; (unempins>0) &amp; !missing(unempins)
+  19
+</pre>
+<p>Let’s look at the hours count</p>
+<pre class='stata'>. tabulate hours if (hours>30) &amp; !missing(hours) &amp; (unempins>0) &amp; !missing(unempins)
+
+usual hours │
+     worked │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+         35 │          1        5.26        5.26
+         38 │          2       10.53       15.79
+         40 │         14       73.68       89.47
+         65 │          1        5.26       94.74
+         70 │          1        5.26      100.00
+────────────┼───────────────────────────────────
+      Total │         19      100.00
+</pre>
+<p>Let’s look at age and and years married to find any unusual
+observations</p>
+<pre class='stata'>. generate agewhenmarried = age - marriedyrs
+
+. summarize agewhenmarried 
+
+    Variable │        Obs        Mean    Std. Dev.       Min        Max
+─────────────┼─────────────────────────────────────────────────────────
+agewhenmar~d │      2,246    32.69368    6.709341         13         73
+
+. tabulate agewhenmarried
+
+agewhenmarr │
+        ied │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+         13 │          1        0.04        0.04
+         14 │          4        0.18        0.22
+         15 │         11        0.49        0.71
+         16 │          8        0.36        1.07
+         17 │         18        0.80        1.87
+         18 │         19        0.85        2.72
+         19 │         14        0.62        3.34
+         20 │         20        0.89        4.23
+         21 │         36        1.60        5.83
+         22 │         42        1.87        7.70
+         23 │         52        2.32       10.02
+         24 │         65        2.89       12.91
+         25 │         67        2.98       15.89
+         26 │         81        3.61       19.50
+         27 │         73        3.25       22.75
+         28 │         93        4.14       26.89
+         29 │         90        4.01       30.90
+         30 │        118        5.25       36.15
+         31 │         91        4.05       40.20
+         32 │        124        5.52       45.73
+         33 │        109        4.85       50.58
+         34 │        109        4.85       55.43
+         35 │        149        6.63       62.07
+         36 │        138        6.14       68.21
+         37 │        119        5.30       73.51
+         38 │        124        5.52       79.03
+         39 │        119        5.30       84.33
+         40 │         89        3.96       88.29
+         41 │         80        3.56       91.85
+         42 │         62        2.76       94.61
+         43 │         50        2.23       96.84
+         44 │         43        1.91       98.75
+         45 │         23        1.02       99.78
+         46 │          2        0.09       99.87
+         47 │          1        0.04       99.91
+         48 │          1        0.04       99.96
+         73 │          1        0.04      100.00
+────────────┼───────────────────────────────────
+      Total │      2,246      100.00
+</pre>
+<p>Let’s look for anyone under 18. Some states allow under 18 marriages,
+but it still is suspicious</p>
+<pre class='stata'>. tabulate agewhenmarried if agewhenmarried &lt; 18
+
+agewhenmarr │
+        ied │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+         13 │          1        2.38        2.38
+         14 │          4        9.52       11.90
+         15 │         11       26.19       38.10
+         16 │          8       19.05       57.14
+         17 │         18       42.86      100.00
+────────────┼───────────────────────────────────
+      Total │         42      100.00
+</pre>
+<p>Let’s use the same strategy for years of experience deducted from age
+to find the first age working</p>
+<pre class='stata'>. generate agewhenstartwork = age - (prevexp + currexp)
+(15 missing values generated)
+
+. tabulate agewhenstartwork if agewhenstartwork &lt; 16
+
+agewhenstar │
+      twork │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+          8 │          1        1.49        1.49
+          9 │          1        1.49        2.99
+         12 │          1        1.49        4.48
+         14 │         20       29.85       34.33
+         15 │         44       65.67      100.00
+────────────┼───────────────────────────────────
+      Total │         67      100.00
+</pre>
+<p>Some states allow work at the age of 15, but anything below looks
+suspicious</p>
+<p>We can also look for the number of age of children. We should expect
+that the age of the third child is never older than the second child</p>
+<pre class='stata'>. table kidage2 kidage3 if numkids==3
+
+──────────┬───────────────────────────────────────────────
+Age of    │
+second    │               Age of third child              
+child     │    0     1     2     3     4     5     6     7
+──────────┼───────────────────────────────────────────────
+        0 │   12                                          
+        1 │   10     9                                    
+        2 │   11     8    10                              
+        3 │   10    12     6     8                        
+        4 │   10    12    10     7     5                  
+        5 │   12    11     9     3     6     8            
+        6 │    9     8    10     6     5     6     6      
+        7 │    7     6     7     9     4    14    12     6
+        8 │          5    11     7     6    14     6    11
+        9 │                8    13    10     7    12     9
+       10 │                     15     3    10     6    12
+       11 │                            9     8     3    13
+       12 │                                 16     9     6
+       13 │                                       11     5
+       14 │                                              8
+──────────┴───────────────────────────────────────────────
+</pre>
+<p>Check the count</p>
+<pre class='stata'>. count if (kidage3 > kidage2) &amp; (numkids==3) &amp; !missing(kidage3)
+  0
+
+. count if (kidage2 > kidage1) &amp; (numkids>=2) &amp; !missing(kidage2)
+  0
+</pre>
+<p>Now let’s check the age of the observation when the first child was
+born</p>
+<pre class='stata'>. generate agewhenfirstkid = age - kidage1
+(563 missing values generated)
+
+. tabulate agewhenfirstkid if agewhenfirstkid &lt; 18
+
+agewhenfirs │
+       tkid │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+          3 │          1        0.51        0.51
+          5 │          2        1.01        1.52
+          7 │          2        1.01        2.53
+          8 │          5        2.53        5.05
+          9 │          8        4.04        9.09
+         10 │          7        3.54       12.63
+         11 │         10        5.05       17.68
+         12 │         10        5.05       22.73
+         13 │         20       10.10       32.83
+         14 │         30       15.15       47.98
+         15 │         27       13.64       61.62
+         16 │         39       19.70       81.31
+         17 │         37       18.69      100.00
+────────────┼───────────────────────────────────
+      Total │        198      100.00
+</pre>
+<p>There are some suspicious observations after this tabulation</p>
+<p>Scatter plots can be helpful as well</p>
+<pre class='stata'>. twoway scatter hours wage if hours > 0 &amp; wage >0 &amp; wage &lt; 1000
+
+. graph export "/Users/Sam/Desktop/Econ 645/Stata/hour_wage.png", width(500) replace
+(file /Users/Sam/Desktop/Econ 645/Stata/hour_wage.png written in PNG format)
+</pre>
+<figure>
+<img src="hour_wage.png" alt="Hours and Wages" />
+<figcaption aria-hidden="true">Hours and Wages</figcaption>
+</figure>
+<h3>
+4.7 Correcting errors in data
+</h3>
+<p>Let go ahead and fix some of these errors that we have found. A word
+of caution is that you may need to talk to the data stewards about the
+best ways to correct the data. You don’t want to attempt to fix the
+measurement error and introduce additional problems. Institutional
+knowledge of the data is very helpful before correcting errors.</p>
+<p>Let’s fix when race was equal to 4 when there are only 3
+categories</p>
+<pre class='stata'>. list idcode race if race==4
+
+      ┌───────────────┐
+      │ idcode   race │
+      ├───────────────┤
+1796. │    543      4 │
+      └───────────────┘
+
+. replace race=1 if idcode == 543
+(1 real change made)
+
+. tabulate race
+
+       race │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+          1 │      1,637       72.89       72.89
+          2 │        583       25.96       98.84
+          3 │         26        1.16      100.00
+────────────┼───────────────────────────────────
+      Total │      2,246      100.00
+</pre>
+<p>Let’s add a note for future users, which is good practice for
+replication</p>
+<pre class='stata'>. note race: race changed to 1 (from 4) for idcode 543
+</pre>
+<p>Let’s fix college gradudate when there were only 8 years of
+education</p>
+<pre class='stata'>. list idcode collgrad if yrschool &lt; 12 &amp; collgrad == 1
+
+      ┌───────────────────┐
+      │ idcode   collgrad │
+      ├───────────────────┤
+1456. │    107          1 │
+      └───────────────────┘
+
+. replace collgrad = 0 if idcode == 107
+(1 real change made)
+
+. tab yrschool collgrad
+
+  Years of │
+    school │   college graduate
+ completed │         0          1 │     Total
+───────────┼──────────────────────┼──────────
+         8 │        70          0 │        70 
+         9 │        55          0 │        55 
+        10 │        84          0 │        84 
+        11 │       123          0 │       123 
+        12 │       943          0 │       943 
+        13 │       174          2 │       176 
+        14 │       180          7 │       187 
+        15 │        81         11 │        92 
+        16 │         0        252 │       252 
+        17 │         0        106 │       106 
+        18 │         0        154 │       154 
+───────────┼──────────────────────┼──────────
+     Total │     1,710        532 │     2,242 
+
+
+. note collgrad: collgrad changed to 0 (from 1) for idcode 107
+</pre>
+<p>Let’s fix age which where the digits were switched.</p>
+<pre class='stata'>. list idcode age if age > 50
+
+      ┌──────────────┐
+      │ idcode   age │
+      ├──────────────┤
+  45. │     80    54 │
+ 451. │     51    83 │
+      └──────────────┘
+
+. replace age = 38 if idcode == 51
+(1 real change made)
+
+. replace age = 45 if idcode == 80
+(1 real change made)
+
+. tab age
+
+     age in │
+    current │
+       year │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+         21 │          2        0.09        0.09
+         22 │          8        0.36        0.45
+         23 │         16        0.71        1.16
+         24 │         35        1.56        2.72
+         25 │         44        1.96        4.67
+         26 │         50        2.23        6.90
+         27 │         50        2.23        9.13
+         28 │         63        2.80       11.93
+         29 │         49        2.18       14.11
+         30 │         55        2.45       16.56
+         31 │         57        2.54       19.10
+         32 │         60        2.67       21.77
+         33 │         56        2.49       24.27
+         34 │         95        4.23       28.50
+         35 │        213        9.48       37.98
+         36 │        224        9.97       47.95
+         37 │        171        7.61       55.57
+         38 │        176        7.84       63.40
+         39 │        167        7.44       70.84
+         40 │        139        6.19       77.03
+         41 │        148        6.59       83.62
+         42 │        111        4.94       88.56
+         43 │        110        4.90       93.46
+         44 │         98        4.36       97.82
+         45 │         46        2.05       99.87
+         46 │          1        0.04       99.91
+         47 │          1        0.04       99.96
+         48 │          1        0.04      100.00
+────────────┼───────────────────────────────────
+      Total │      2,246      100.00
+
+. note age: the value of 83 was corrected to 38 for idcode 51
+
+. note age: the value of 54 was corrected to 45 for idcode 80
+</pre>
+<p>Let’s look at our notes</p>
+<pre class='stata'>. note
+
+_dta:
+  1.  This is a hypothetical dataset and should not be used for analysis purposes
+
+age:
+  1.  the value of 83 was corrected to 38 for idcode 51
+  2.  the value of 54 was corrected to 45 for idcode 80
+
+race:
+  1.  race changed to 1 (from 4) for idcode 543
+
+collgrad:
+  1.  collgrad changed to 0 (from 1) for idcode 107
+</pre>
+<h3>
+4.8 Identifying duplicates
+</h3>
+<p>We need to be careful with duplicate observations. When working with
+panel data we will want multiple observations of the same
+cross-sectional unit, but there should be multiple observations for
+different time units and not the same time unit.</p>
+<pre class='stata'>. use "dentists_dups.dta", clear
+</pre>
+<p>We can start with our duplicates list command to find rows that are
+completely the same. This command will show all the duplicates.
+<b>Note:</b> for duplicate records to be found, all data needs to be the
+same.</p>
+<pre class='stata'>. duplicates list
+
+Duplicates in terms of all variables
+
+  ┌───────────────────────────────────────────────────────────┐
+  │ group:   obs:             name   years   fulltime   recom │
+  ├───────────────────────────────────────────────────────────┤
+  │      1      4       Mike Avity     8.5          0       0 │
+  │      1      6       Mike Avity     8.5          0       0 │
+  │      1      8       Mike Avity     8.5          0       0 │
+  │      2      1   Olive Tu'Drill   10.25          1       1 │
+  │      2     11   Olive Tu'Drill   10.25          1       1 │
+  ├───────────────────────────────────────────────────────────┤
+  │      3      2     Ruth Canaale      22          1       1 │
+  │      3      3     Ruth Canaale      22          1       1 │
+  └───────────────────────────────────────────────────────────┘
+</pre>
+<p>We’ll have a more condensed version with duplicates examples. It will
+give an example of the duplicate records for each group of duplicate
+records.</p>
+<pre class='stata'>. duplicates examples 
+
+Duplicates in terms of all variables
+
+  ┌───────────────────────────────────────────────────────────────────┐
+  │ group:   #   e.g. obs             name   years   fulltime   recom │
+  ├───────────────────────────────────────────────────────────────────┤
+  │      1   3          4       Mike Avity     8.5          0       0 │
+  │      2   2          1   Olive Tu'Drill   10.25          1       1 │
+  │      3   2          2     Ruth Canaale      22          1       1 │
+  └───────────────────────────────────────────────────────────────────┘
+</pre>
+<p>We can find the a consice list of duplicate records with duplicates
+report.</p>
+<pre class='stata'>. duplicates report
+
+Duplicates in terms of all variables
+
+──────────┬───────────────────────────
+   copies │ observations       surplus
+──────────┼───────────────────────────
+        1 │            4             0
+        2 │            4             2
+        3 │            3             2
+──────────┴───────────────────────────
+</pre>
+<p>The duplicates tag command can return the number of duplicates for
+each group of duplicates (note the separator option puts a line in the
+table after # rows.</p>
+<pre class='stata'>. duplicates tag, generate(dup)
+
+Duplicates in terms of all variables
+
+. list, separator(2)
+
+     ┌────────────────────────────────────────────────────┐
+     │              name   years   fulltime   recom   dup │
+     ├────────────────────────────────────────────────────┤
+  1. │    Olive Tu'Drill   10.25          1       1     1 │
+  2. │      Ruth Canaale      22          1       1     1 │
+     ├────────────────────────────────────────────────────┤
+  3. │      Ruth Canaale      22          1       1     1 │
+  4. │        Mike Avity     8.5          0       0     2 │
+     ├────────────────────────────────────────────────────┤
+  5. │        Mary Smith       3          1       1     0 │
+  6. │        Mike Avity     8.5          0       0     2 │
+     ├────────────────────────────────────────────────────┤
+  7. │ Y. Don Uflossmore    7.25          0       1     0 │
+  8. │        Mike Avity     8.5          0       0     2 │
+     ├────────────────────────────────────────────────────┤
+  9. │        Mary Smith      27          0       0     0 │
+ 10. │ Isaac O'Yerbreath   32.75          1       1     0 │
+     ├────────────────────────────────────────────────────┤
+ 11. │    Olive Tu'Drill   10.25          1       1     1 │
+     └────────────────────────────────────────────────────┘
+</pre>
+<p>Let’s sort our data for better legibility, and then we will add lines
+in our output table whenever there is a new group.</p>
+<pre class='stata'>. sort name years
+
+. list, sepby(name years)
+
+     ┌────────────────────────────────────────────────────┐
+     │              name   years   fulltime   recom   dup │
+     ├────────────────────────────────────────────────────┤
+  1. │ Isaac O'Yerbreath   32.75          1       1     0 │
+     ├────────────────────────────────────────────────────┤
+  2. │        Mary Smith       3          1       1     0 │
+     ├────────────────────────────────────────────────────┤
+  3. │        Mary Smith      27          0       0     0 │
+     ├────────────────────────────────────────────────────┤
+  4. │        Mike Avity     8.5          0       0     2 │
+  5. │        Mike Avity     8.5          0       0     2 │
+  6. │        Mike Avity     8.5          0       0     2 │
+     ├────────────────────────────────────────────────────┤
+  7. │    Olive Tu'Drill   10.25          1       1     1 │
+  8. │    Olive Tu'Drill   10.25          1       1     1 │
+     ├────────────────────────────────────────────────────┤
+  9. │      Ruth Canaale      22          1       1     1 │
+ 10. │      Ruth Canaale      22          1       1     1 │
+     ├────────────────────────────────────────────────────┤
+ 11. │ Y. Don Uflossmore    7.25          0       1     0 │
+     └────────────────────────────────────────────────────┘
+</pre>
+<p><b>Notice!</b> There are two observations for Mary Smith, but one has
+3 years of experience and the other one has 27 years, so it does not
+appear as a duplicate.</p>
+<p>If there were too many variables, which could use our data
+browser.</p>
+<pre class='stata'>. browse if dup > 0
+</pre>
+<p>We will want to drop our duplicates, but not the first observation.
+The duplicates drop command will drop the duplicate records but still
+keep one observation of the duplicate group.</p>
+<pre class='stata'>. duplicates drop
+
+Duplicates in terms of all variables
+
+(4 observations deleted)
+</pre>
+<p>Let’s use a new dataset that is a bit more practical</p>
+<pre class='stata'>. use "wws.dta", replace
+(Working Women Survey)
+</pre>
+Let’s check for duplicate idcodes with the isid command. If there is a
+duplicate idcode, the command will return an error
+<blockquote>
+isid idcode
+</blockquote>
+<p>Or just use duplicates list for the variable of interest</p>
+<pre class='stata'>. duplicates list idcode
+
+Duplicates in terms of idcode
+
+(0 observations are duplicates)
+</pre>
+<p>There are no duplicate idcodes, so we should expect that duplicates
+list will not return any duplicates, since every single values needs to
+be the same for there to be a dupicate record</p>
+<pre class='stata'>. duplicates list 
+
+Duplicates in terms of all variables
+
+(0 observations are duplicates)
+</pre>
+<p>Let’s use a dataset that does have duplicates</p>
+<pre class='stata'>. use "wws_dups.dta", clear
+</pre>
+Let’s check for duplicate idcodes
+<blockquote>
+isid idcode
+</blockquote>
+<p>Or</p>
+<pre class='stata'>. duplicates list idcode, sepby(idcode)
+
+Duplicates in terms of idcode
+
+  ┌────────────────────────┐
+  │ group:   obs:   idcode │
+  ├────────────────────────┤
+  │      1   1088     2831 │
+  │      1   2248     2831 │
+  ├────────────────────────┤
+  │      2   1244     3905 │
+  │      2   1245     3905 │
+  ├────────────────────────┤
+  │      3    277     4214 │
+  │      3   2247     4214 │
+  └────────────────────────┘
+</pre>
+<p>I prefer duplicates list var1, since an error will break the do
+file</p>
+<p>Let’s generate our dup variable for identifying the number of
+duplicates per group of duplicates.</p>
+<pre class='stata'>. duplicates tag idcode, generate(iddup)
+
+Duplicates in terms of idcode
+</pre>
+<p>Let’s generate a different duplicate variable to find complete
+duplicate records. Notice that we do not specify a variable after
+tag.</p>
+<pre class='stata'>. duplicates tag, generate(alldup)
+
+Duplicates in terms of all variables
+</pre>
+<p>Let’s list the data</p>
+<pre class='stata'>. list idcode age race yrschool occupation wage if iddup==1 &amp; alldup==0
+
+      ┌──────────────────────────────────────────────────────┐
+      │ idcode   age   race   yrschool   occupa~n       wage │
+      ├──────────────────────────────────────────────────────┤
+1244. │   3905    36      1         14         11   4.339774 │
+1245. │   3905    41      1         10          5   7.004828 │
+      └──────────────────────────────────────────────────────┘
+</pre>
+<p>It seems that idcode 3905 is a different person with a possible
+incorrect idcode. Let’s fix that.</p>
+<pre class='stata'>. replace idcode=5160 if idcode==3905 &amp; age==41
+(1 real change made)
+</pre>
+<p>Let’s see if it is resolved, and it is.</p>
+<pre class='stata'>. list idcode age race yrschool occupation wage if iddup==1 &amp; alldup==0
+
+      ┌──────────────────────────────────────────────────────┐
+      │ idcode   age   race   yrschool   occupa~n       wage │
+      ├──────────────────────────────────────────────────────┤
+1244. │   3905    36      1         14         11   4.339774 │
+1245. │   5160    41      1         10          5   7.004828 │
+      └──────────────────────────────────────────────────────┘
+</pre>
+<p>Let’s look observation that are complete duplicates</p>
+<pre class='stata'>. duplicates report
+
+Duplicates in terms of all variables
+
+──────────┬───────────────────────────
+   copies │ observations       surplus
+──────────┼───────────────────────────
+        1 │         2244             0
+        2 │            4             2
+──────────┴───────────────────────────
+
+. list idcode age race yrschool occupation wage if iddup==1 &amp; alldup==1
+
+      ┌──────────────────────────────────────────────────────┐
+      │ idcode   age   race   yrschool   occupa~n       wage │
+      ├──────────────────────────────────────────────────────┤
+ 277. │   4214    35      1         17         13   11.27214 │
+1088. │   2831    37      2          8          8   2.697261 │
+2247. │   4214    35      1         17         13   11.27214 │
+2248. │   2831    37      2          8          8   2.697261 │
+      └──────────────────────────────────────────────────────┘
+</pre>
+<p>We need to keep 1 observation of the duplicates</p>
+<pre class='stata'>. duplicates drop
+
+Duplicates in terms of all variables
+
+(2 observations deleted)
+
+. duplicates report
+
+Duplicates in terms of all variables
+
+──────────┬───────────────────────────
+   copies │ observations       surplus
+──────────┼───────────────────────────
+        1 │         2246             0
+──────────┴───────────────────────────
+</pre>
+<h2>
+Practice
+</h2>
+<p>Let’s work the Census CPS Pull the Census CPS. a) You can download
+the file and import it, or b) You can use Stata to pull the file.</p>
+<pre class='stata'>. import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/j
+> un23pub.csv", clear
+(389 vars, 127,491 obs)
+</pre>
+<p>Let’s save a copy of the csv file in Stata</p>
+<p>Let’s grab the data dictionary. Hint search: “Census CPS 2023 data
+dictionary”</p>
+<p>Let’s check our data. a) What variable contains our laborforce
+status? b) What variable contains our weekly earnings? c) Does everyone
+employed have weekly earnings? Hint: Try summarize d) What flag with our
+weekly earning that provides information about available data? e) Try
+tabstat with the flag and weekly earnings. What do you find? f) Try
+tabstat with statistics(n mean sd p25 p50 p75) g) What are our
+identifier variable(s)? How many did you find? h) Are there any
+duplicate records?</p>
+</body>
+</html>

@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Limited Variables Part 2: Poisson, NBRM, Censored, Truncated, and Sample Selection" />
+  <title>Econ 645: Week 9</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+<style>
+/* CSS for Markstat 2.0 using Pandoc 2.0 */
+body{padding:14px 28px; max-width:45em;}
+body, table {font-family: Helvetica, Arial, Sans-serif; font-size: 14px;}
+h1, h2, h3, h4 {font-weight: normal; color: #3366cc}
+h1 {font-size: 200%;}
+h2 {font-size: 150%;}
+h3 {font-size: 120%;}
+h4 {font-size: 100%; font-weight:bold}
+img.center {display:block; margin-left:auto; margin-right:auto}
+.small{font-size:8pt;}
+a {color: black;}
+a:visited {color: #808080;}
+a.plain {text-decoration:none;}
+a.plain:hover {text-decoration:underline;}
+.em {font-weight:bold;}
+pre, code {font-family: "lucida console", monospace;}
+pre.stata {font-size:13px; line-height:13px;}
+pre {padding:8px; border:1px solid #c0c0c0; border-radius:8px; background-color:#fdfdfd;}
+code {color:#3366cc; background-color:#fafafa;}
+pre code { color:black; background-color:white}
+/* Added for Pandoc */
+figure > img, div.figure > img {display:block; margin:auto}
+figcaption, p.caption {text-align:center; font-weight:bold; color:#3366cc;}
+h1.title {text-align:center; margin-bottom:0}
+p.author, h2.author {font-style:italic; text-align:center;margin-top:4px;margin-bottom:0}
+p.date, h3.date {text-align:center;margin-top:4px; margin-bottom:0}
+/* Tables*/
+table { margin:auto; border-collapse:collapse; }
+table caption { margin-bottom:1ex;}
+td {padding:0 0 0 0} /* override */
+table:not([class]) th { padding:4px 6px } 
+table:not([class]) td { padding:4px 6px } 
+table:not([class]) thead tr:first-child th {border-top:1px solid black; padding-top:6px}
+table:not([class]) thead tr:last-child  th {padding-bottom:6px}
+table:not([class]) tbody tr:first-child td {border-top:1px solid black; padding-top:6px}
+table:not([class]) tbody tr:last-child  td {padding-bottom:6px;}
+table:not([class]) tbody:last-child tr:last-child td {border-bottom:1px solid black;}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Econ 645: Week 9</h1>
+<p class="author">Limited Variables Part 2: Poisson, NBRM, Censored,
+Truncated, and Sample Selection</p>
+<p class="date">Samuel Rowe adapted from Wooldridge</p>
+</header>
+<pre class='stata'>. set more off
+
+. clear
+</pre>
+<h2>
+Wooldridge
+</h2>
+<p>Set Working Directory</p>
+<pre class='stata'>. cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+</pre>
+<h3>
+Poisson Regression
+</h3>
+<h5>
+Lesson: We should use a count model when we have a Poisson distribution
+for <em>the outcome of interest. Our coefficients are expected log
+counts so we </em>need to transform our coefficients for interpretation.
+</h5>
+<pre class='stata'>. use "crime1.dta", clear
+</pre>
+We want to look at arrest data to see the number of times a man was
+arrested in 1986. There are 1,970 zeros out of 2,725 men in the sample
+and only eight observations are greater than 5. An OLS will not account
+for a count model but a Poisson distribution will. We have pcnv -
+proportion of prior arrest that lead to a conviction
+<ul>
+<li>
+avgsen - the average sentence served from prior convictions (in months)
+</li>
+<li>
+tottime - months spent in prison since age 18 prior to 1986
+</li>
+<li>
+ptime86 - months spent in prison in 1986
+</li>
+<li>
+qemp86 - number of quarters that the person was legally employed in 1986
+</li>
+<li>
+inc86 - income in 1986
+</li>
+<li>
+Hispanic - Hispanic/Latino binary
+</li>
+<li>
+Black - Black binary
+</li>
+<li>
+ptime86 - prison time in 1986 - not 100% on this one
+</li>
+</ul>
+<h5>
+OLS
+</h5>
+<pre class='stata'>. reg narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+
+      Source │       SS           df       MS      Number of obs   =     2,725
+─────────────┼──────────────────────────────────   F(9, 2715)      =     23.57
+       Model │  145.702778         9  16.1891976   Prob > F        =    0.0000
+    Residual │  1864.64438     2,715  .686793509   R-squared       =    0.0725
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0694
+       Total │  2010.34716     2,724  .738012906   Root MSE        =    .82873
+
+─────────────┬────────────────────────────────────────────────────────────────
+      narr86 │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        pcnv │   -.131886   .0404037    -3.26   0.001    -.2111112   -.0526609
+      avgsen │  -.0113316   .0122413    -0.93   0.355    -.0353348    .0126717
+     tottime │   .0120693   .0094364     1.28   0.201     -.006434    .0305725
+     ptime86 │  -.0408735    .008813    -4.64   0.000    -.0581544   -.0235925
+      qemp86 │  -.0513099   .0144862    -3.54   0.000     -.079715   -.0229047
+       inc86 │  -.0014617    .000343    -4.26   0.000    -.0021343   -.0007891
+       black │   .3270097   .0454264     7.20   0.000     .2379359    .4160835
+      hispan │   .1938094   .0397156     4.88   0.000     .1159335    .2716853
+      born60 │   -.022465   .0332945    -0.67   0.500    -.0877502    .0428202
+       _cons │    .576566   .0378945    15.22   0.000      .502261    .6508711
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<h5>
+Poisson
+</h5>
+<p>Our coefficients are the change in expected log counts</p>
+<pre class='stata'>. poisson narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+
+Iteration 0:   log likelihood = -2249.0104  
+Iteration 1:   log likelihood = -2248.7614  
+Iteration 2:   log likelihood = -2248.7611  
+Iteration 3:   log likelihood = -2248.7611  
+
+Poisson regression                              Number of obs     =      2,725
+                                                LR chi2(9)        =     386.32
+                                                Prob > chi2       =     0.0000
+Log likelihood = -2248.7611                     Pseudo R2         =     0.0791
+
+─────────────┬────────────────────────────────────────────────────────────────
+      narr86 │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        pcnv │  -.4015713   .0849712    -4.73   0.000    -.5681117   -.2350308
+      avgsen │  -.0237723    .019946    -1.19   0.233    -.0628658    .0153212
+     tottime │   .0244904   .0147504     1.66   0.097    -.0044199    .0534006
+     ptime86 │  -.0985584   .0206946    -4.76   0.000    -.1391192   -.0579977
+      qemp86 │  -.0380187   .0290242    -1.31   0.190    -.0949051    .0188677
+       inc86 │  -.0080807    .001041    -7.76   0.000     -.010121   -.0060404
+       black │   .6608376   .0738342     8.95   0.000     .5161252      .80555
+      hispan │   .4998133   .0739267     6.76   0.000     .3549196     .644707
+      born60 │  -.0510286   .0640518    -0.80   0.426    -.1765678    .0745106
+       _cons │  -.5995888   .0672501    -8.92   0.000    -.7313966    -.467781
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>Test E(y|x)=Var(y|x)</p>
+<pre class='stata'>. estat gof
+
+         Deviance goodness-of-fit =  2822.185
+         Prob > chi2(2715)        =    0.0742
+
+         Pearson goodness-of-fit  =   4118.08
+         Prob > chi2(2715)        =    0.0000
+</pre>
+<h5>
+Factor Change Interpretation
+</h5>
+<p>Delta pcnv = .1 so</p>
+<pre class='stata'>. display (exp(-.402*.01)-1)*100
+-.40119306
+</pre>
+<p>A 1 percentage point increase in prior arrest decreases expected
+number of arrests by 0.4% A discrete change in a binary - the
+coefficient on Black</p>
+<pre class='stata'>. display (exp(0.6608)-1)*100 
+93.634079
+</pre>
+<p>This means that the number of expected number arrests for a Black
+person is 93.7% higher than the expected number of arrests for a White
+person.</p>
+<p>We can use the command listcoef as well, where e^B or e^B-1*100
+depending upon the option called percent. scc install listcoef</p>
+<pre class='stata'>. listcoef, help
+
+poisson (N=2725): Factor Change in Expected Count 
+
+ Observed SD: .85907678
+
+──────────────────────────────────────────────────────────────────
+  narr86 |      b         z     P>|z|    e^b    e^bStdX      SDofX
+─────────+────────────────────────────────────────────────────────
+    pcnv |  -0.40157   -4.726   0.000   0.6693   0.8533     0.3952
+  avgsen |  -0.02377   -1.192   0.233   0.9765   0.9200     3.5080
+ tottime |   0.02449    1.660   0.097   1.0248   1.1194     4.6070
+ ptime86 |  -0.09856   -4.763   0.000   0.9061   0.8251     1.9501
+  qemp86 |  -0.03802   -1.310   0.190   0.9627   0.9406     1.6104
+   inc86 |  -0.00808   -7.762   0.000   0.9920   0.5837    66.6272
+   black |   0.66084    8.950   0.000   1.9364   1.2750     0.3677
+  hispan |   0.49981    6.761   0.000   1.6484   1.2291     0.4127
+  born60 |  -0.05103   -0.797   0.426   0.9503   0.9758     0.4808
+──────────────────────────────────────────────────────────────────
+       b = raw coefficient
+       z = z-score for test of b=0
+   P>|z| = p-value for z-test
+     e^b = exp(b) = factor change in expected count for unit increase in X
+ e^bStdX = exp(b*SD of X) = change in expected count for SD increase in X
+   SDofX = standard deviation of X
+
+. listcoef, percent help
+
+poisson (N=2725): Percentage Change in Expected Count 
+
+ Observed SD: .85907678
+
+──────────────────────────────────────────────────────────────────
+  narr86 |      b         z     P>|z|      %      %StdX      SDofX
+─────────+────────────────────────────────────────────────────────
+    pcnv |  -0.40157   -4.726   0.000    -33.1    -14.7     0.3952
+  avgsen |  -0.02377   -1.192   0.233     -2.3     -8.0     3.5080
+ tottime |   0.02449    1.660   0.097      2.5     11.9     4.6070
+ ptime86 |  -0.09856   -4.763   0.000     -9.4    -17.5     1.9501
+  qemp86 |  -0.03802   -1.310   0.190     -3.7     -5.9     1.6104
+   inc86 |  -0.00808   -7.762   0.000     -0.8    -41.6    66.6272
+   black |   0.66084    8.950   0.000     93.6     27.5     0.3677
+  hispan |   0.49981    6.761   0.000     64.8     22.9     0.4127
+  born60 |  -0.05103   -0.797   0.426     -5.0     -2.4     0.4808
+──────────────────────────────────────────────────────────────────
+       b = raw coefficient
+       z = z-score for test of b=0
+   P>|z| = p-value for z-test
+       % = percent change in expected count for unit increase in X
+   %StdX = percent change in expected count for SD increase in X
+   SDofX = standard deviation of X
+</pre>
+<h5>
+Marginal Effects
+</h5>
+<p>Interpretation: The marginal change in a continuous variable depends
+on the expected value of y given x, so we have to specify x with atmeans
+or average marginal effects</p>
+<p><b>Note</b>: be careful with the change in percentage points for
+pcnv, we want a 1 percentage or 10 percentage point change not a change
+of 1.</p>
+<pre class='stata'>. margins, dydx(*)
+
+Average marginal effects                        Number of obs     =      2,725
+Model VCE    : OIM
+
+Expression   : Predicted number of events, predict()
+dy/dx w.r.t. : pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60
+
+─────────────┬────────────────────────────────────────────────────────────────
+             │            Delta-method
+             │      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        pcnv │  -.1623969   .0347091    -4.68   0.000    -.2304256   -.0943682
+      avgsen │  -.0096136   .0080714    -1.19   0.234    -.0254333    .0062061
+     tottime │    .009904   .0059726     1.66   0.097     -.001802      .02161
+     ptime86 │  -.0398574   .0084547    -4.71   0.000    -.0564283   -.0232865
+      qemp86 │  -.0153749   .0117466    -1.31   0.191    -.0383979    .0076481
+       inc86 │  -.0032679   .0004323    -7.56   0.000    -.0041152   -.0024205
+       black │   .2672451   .0309251     8.64   0.000     .2066331    .3278571
+      hispan │   .2021263     .03051     6.62   0.000     .1423279    .2619248
+      born60 │  -.0206361   .0259102    -0.80   0.426    -.0714193     .030147
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<h3>
+Negative Binomial Regression Model
+</h3>
+<h5>
+Lesson: When overdispersion occurs, we could estimate a Negative
+Binomial Regression model. We’ll see that our standard errors might be
+too large if our main Poisson assumption mean=variance fails.
+</h5>
+<pre class='stata'>. est clear
+</pre>
+<h5>
+Poisson
+</h5>
+<pre class='stata'>. eststo PRM: poisson narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+
+Iteration 0:   log likelihood = -2249.0104  
+Iteration 1:   log likelihood = -2248.7614  
+Iteration 2:   log likelihood = -2248.7611  
+Iteration 3:   log likelihood = -2248.7611  
+
+Poisson regression                              Number of obs     =      2,725
+                                                LR chi2(9)        =     386.32
+                                                Prob > chi2       =     0.0000
+Log likelihood = -2248.7611                     Pseudo R2         =     0.0791
+
+─────────────┬────────────────────────────────────────────────────────────────
+      narr86 │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        pcnv │  -.4015713   .0849712    -4.73   0.000    -.5681117   -.2350308
+      avgsen │  -.0237723    .019946    -1.19   0.233    -.0628658    .0153212
+     tottime │   .0244904   .0147504     1.66   0.097    -.0044199    .0534006
+     ptime86 │  -.0985584   .0206946    -4.76   0.000    -.1391192   -.0579977
+      qemp86 │  -.0380187   .0290242    -1.31   0.190    -.0949051    .0188677
+       inc86 │  -.0080807    .001041    -7.76   0.000     -.010121   -.0060404
+       black │   .6608376   .0738342     8.95   0.000     .5161252      .80555
+      hispan │   .4998133   .0739267     6.76   0.000     .3549196     .644707
+      born60 │  -.0510286   .0640518    -0.80   0.426    -.1765678    .0745106
+       _cons │  -.5995888   .0672501    -8.92   0.000    -.7313966    -.467781
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<h5>
+Negative Binomial
+</h5>
+<pre class='stata'>. eststo NBRM: nbreg narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+
+Fitting Poisson model:
+
+Iteration 0:   log likelihood = -2249.0104  
+Iteration 1:   log likelihood = -2248.7614  
+Iteration 2:   log likelihood = -2248.7611  
+Iteration 3:   log likelihood = -2248.7611  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -2297.3847  
+Iteration 1:   log likelihood = -2291.4767  
+Iteration 2:   log likelihood = -2290.6926  
+Iteration 3:   log likelihood = -2290.6903  
+Iteration 4:   log likelihood = -2290.6903  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -2181.2355  
+Iteration 1:   log likelihood = -2158.2716  
+Iteration 2:   log likelihood = -2157.6284  
+Iteration 3:   log likelihood =  -2157.628  
+Iteration 4:   log likelihood =  -2157.628  
+
+Negative binomial regression                    Number of obs     =      2,725
+                                                LR chi2(9)        =     266.12
+Dispersion     = mean                           Prob > chi2       =     0.0000
+Log likelihood =  -2157.628                     Pseudo R2         =     0.0581
+
+─────────────┬────────────────────────────────────────────────────────────────
+      narr86 │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        pcnv │  -.4770963   .1033295    -4.62   0.000    -.6796183   -.2745743
+      avgsen │  -.0173385   .0261171    -0.66   0.507    -.0685272    .0338501
+     tottime │   .0197394   .0192325     1.03   0.305    -.0179557    .0574344
+     ptime86 │  -.1073997    .025074    -4.28   0.000    -.1565439   -.0582555
+      qemp86 │  -.0504884   .0351857    -1.43   0.151    -.1194511    .0184743
+       inc86 │  -.0077126   .0011465    -6.73   0.000    -.0099596   -.0054656
+       black │   .6560406   .0923594     7.10   0.000     .4750195    .8370617
+      hispan │   .5048465   .0895663     5.64   0.000     .3292998    .6803932
+      born60 │   -.046412   .0776384    -0.60   0.550    -.1985804    .1057564
+       _cons │  -.5637368   .0827121    -6.82   0.000    -.7258495   -.4016242
+─────────────┼────────────────────────────────────────────────────────────────
+    /lnalpha │  -.0738912   .1177617                     -.3046999    .1569175
+─────────────┼────────────────────────────────────────────────────────────────
+       alpha │   .9287728   .1093739                      .7373446    1.169899
+─────────────┴────────────────────────────────────────────────────────────────
+LR test of alpha=0: chibar2(01) = 182.27               Prob >= chibar2 = 0.000
+</pre>
+<p>First, our coefficients are the change in expected log counts, so we
+need some transformations to provide interpretations. Second, our test
+for over dispersion can be seen at the bottom of our NBRM output with
+the LR test of alpha=0<br> We can use listcoef in ssc to for a different
+interpretation with listcoef command:</p>
+<pre class='stata'>. listcoef, percent help
+
+nbreg (N=2725): Percentage Change in Expected Count 
+
+ Observed SD: .85907678
+
+──────────────────────────────────────────────────────────────────
+  narr86 |      b         z     P>|z|      %      %StdX      SDofX
+─────────+────────────────────────────────────────────────────────
+    pcnv |  -0.47710   -4.617   0.000    -37.9    -17.2     0.3952
+  avgsen |  -0.01734   -0.664   0.507     -1.7     -5.9     3.5080
+ tottime |   0.01974    1.026   0.305      2.0      9.5     4.6070
+ ptime86 |  -0.10740   -4.283   0.000    -10.2    -18.9     1.9501
+  qemp86 |  -0.05049   -1.435   0.151     -4.9     -7.8     1.6104
+   inc86 |  -0.00771   -6.727   0.000     -0.8    -40.2    66.6272
+   black |   0.65604    7.103   0.000     92.7     27.3     0.3677
+  hispan |   0.50485    5.637   0.000     65.7     23.2     0.4127
+  born60 |  -0.04641   -0.598   0.550     -4.5     -2.2     0.4808
+─────────+────────────────────────────────────────────────────────
+ln alpha |  -0.07389   -0.627
+──────────────────────────────────────────────────────────────────
+       b = raw coefficient
+       z = z-score for test of b=0
+   P>|z| = p-value for z-test
+       % = percent change in expected count for unit increase in X
+   %StdX = percent change in expected count for SD increase in X
+   SDofX = standard deviation of X
+
+. listcoef, help
+
+nbreg (N=2725): Factor Change in Expected Count 
+
+ Observed SD: .85907678
+
+──────────────────────────────────────────────────────────────────
+  narr86 |      b         z     P>|z|    e^b    e^bStdX      SDofX
+─────────+────────────────────────────────────────────────────────
+    pcnv |  -0.47710   -4.617   0.000   0.6206   0.8282     0.3952
+  avgsen |  -0.01734   -0.664   0.507   0.9828   0.9410     3.5080
+ tottime |   0.01974    1.026   0.305   1.0199   1.0952     4.6070
+ ptime86 |  -0.10740   -4.283   0.000   0.8982   0.8110     1.9501
+  qemp86 |  -0.05049   -1.435   0.151   0.9508   0.9219     1.6104
+   inc86 |  -0.00771   -6.727   0.000   0.9923   0.5982    66.6272
+   black |   0.65604    7.103   0.000   1.9271   1.2728     0.3677
+  hispan |   0.50485    5.637   0.000   1.6567   1.2316     0.4127
+  born60 |  -0.04641   -0.598   0.550   0.9546   0.9779     0.4808
+─────────+────────────────────────────────────────────────────────
+ln alpha |  -0.07389   -0.627
+──────────────────────────────────────────────────────────────────
+       b = raw coefficient
+       z = z-score for test of b=0
+   P>|z| = p-value for z-test
+     e^b = exp(b) = factor change in expected count for unit increase in X
+ e^bStdX = exp(b*SD of X) = change in expected count for SD increase in X
+   SDofX = standard deviation of X
+</pre>
+<p><b>pcnv:</b></p>
+<pre class='stata'>. display exp(-.4771*.1)-1
+-.04658976
+</pre>
+<p>A 10 percentage point increase in proportion of prior arrests that
+lead to conviction decrease the expected number of arrests by 4.7%
+holding all others constant.</p>
+<p><b>avgsen:</b></p>
+<pre class='stata'>. display (exp(0.01974)-1)
+.01993612
+</pre>
+<p>a 1 month increase in total time served in prision from prior
+convictions before 1986 increases the expected number of arrests holding
+all others constant.</p>
+<pre class='stata'>. esttab, mtitle
+
+────────────────────────────────────────────
+                      (1)             (2)   
+                      PRM            NBRM   
+────────────────────────────────────────────
+narr86                                      
+pcnv               -0.402***       -0.477***
+                  (-4.73)         (-4.62)   
+
+avgsen            -0.0238         -0.0173   
+                  (-1.19)         (-0.66)   
+
+tottime            0.0245          0.0197   
+                   (1.66)          (1.03)   
+
+ptime86           -0.0986***       -0.107***
+                  (-4.76)         (-4.28)   
+
+qemp86            -0.0380         -0.0505   
+                  (-1.31)         (-1.43)   
+
+inc86            -0.00808***     -0.00771***
+                  (-7.76)         (-6.73)   
+
+black               0.661***        0.656***
+                   (8.95)          (7.10)   
+
+hispan              0.500***        0.505***
+                   (6.76)          (5.64)   
+
+born60            -0.0510         -0.0464   
+                  (-0.80)         (-0.60)   
+
+_cons              -0.600***       -0.564***
+                  (-8.92)         (-6.82)   
+────────────────────────────────────────────
+lnalpha                                     
+_cons                             -0.0739   
+                                  (-0.63)   
+────────────────────────────────────────────
+N                    2725            2725   
+────────────────────────────────────────────
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
+</pre>
+<h5>
+Marginal Effects
+</h5>
+<p>Interpretation is similar to Poisson The marginal change in a
+continuous variable depends on the expected value of y given x, so we
+have to specify x with atmeans or average marginal effects</p>
+<pre class='stata'>. margins, dydx(*)
+
+Average marginal effects                        Number of obs     =      2,725
+Model VCE    : OIM
+
+Expression   : Predicted number of events, predict()
+dy/dx w.r.t. : pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60
+
+─────────────┬────────────────────────────────────────────────────────────────
+             │            Delta-method
+             │      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        pcnv │  -.1933482   .0429858    -4.50   0.000    -.2775988   -.1090976
+      avgsen │  -.0070266    .010587    -0.66   0.507    -.0277767    .0137235
+     tottime │   .0079996   .0078006     1.03   0.305    -.0072894    .0232886
+     ptime86 │  -.0435248   .0103794    -4.19   0.000    -.0638682   -.0231815
+      qemp86 │  -.0204609   .0143136    -1.43   0.153    -.0485151    .0075932
+       inc86 │  -.0031256   .0004821    -6.48   0.000    -.0040705   -.0021807
+       black │   .2658672   .0395274     6.73   0.000     .1883949    .3433395
+      hispan │   .2045942   .0375363     5.45   0.000     .1310244    .2781641
+      born60 │  -.0188089   .0314753    -0.60   0.550    -.0804994    .0428815
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<h3>
+Censored Regressional Model - Duration analysis
+</h3>
+<h5>
+Lesson: We can look at a censored data for duration analysis similar to
+Wooldridge’s example. This differs from a top-coded data, which we can
+use a <i>Tobit</i> analysis. For example, wages are top-coded at $2800
+in the CPS, but instead of ll(0) “left-censoring at 0”, we would use
+ul(2800) for “right-censoring at 2800”
+</h5>
+<pre class='stata'>. use recid.dta, clear
+</pre>
+<p>We can look at the duration of time in months between an arrests for
+inmates in a North Carolina prison after being released from prison. We
+want to evaluate a work program to see if it is effective in increasing
+duration before recidivism occurs.</p>
+<p><b>Note</b>: 893 inmates have not been arrested during the period
+they were followed These observations are censored. The censoring times
+differed among inmates ranging from 70 to 81 months.</p>
+<p>Our dependent variable duration (time in months) is transformed by
+natural logarithm. We have a bunch of observations that recidivate
+between 70 and 81 months.</p>
+<pre class='stata'>. tab durat
+
+      durat │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+          1 │          8        0.55        0.55
+          2 │         15        1.04        1.59
+          3 │         14        0.97        2.56
+          4 │         13        0.90        3.46
+          5 │         16        1.11        4.57
+          6 │         18        1.25        5.81
+          7 │         18        1.25        7.06
+          8 │         16        1.11        8.17
+          9 │         18        1.25        9.41
+         10 │         22        1.52       10.93
+         11 │         11        0.76       11.70
+         12 │         14        0.97       12.66
+         13 │         15        1.04       13.70
+         14 │         16        1.11       14.81
+         15 │         23        1.59       16.40
+         16 │         11        0.76       17.16
+         17 │          9        0.62       17.79
+         18 │         16        1.11       18.89
+         19 │          9        0.62       19.52
+         20 │          8        0.55       20.07
+         21 │         13        0.90       20.97
+         22 │          7        0.48       21.45
+         23 │         16        1.11       22.56
+         24 │         12        0.83       23.39
+         25 │         13        0.90       24.29
+         26 │          8        0.55       24.84
+         27 │         11        0.76       25.61
+         28 │          9        0.62       26.23
+         29 │          8        0.55       26.78
+         30 │          7        0.48       27.27
+         31 │          6        0.42       27.68
+         32 │          6        0.42       28.10
+         33 │          6        0.42       28.51
+         34 │          4        0.28       28.79
+         35 │          5        0.35       29.13
+         36 │          6        0.42       29.55
+         37 │          6        0.42       29.97
+         38 │          4        0.28       30.24
+         39 │          4        0.28       30.52
+         40 │          2        0.14       30.66
+         41 │          7        0.48       31.14
+         42 │          5        0.35       31.49
+         43 │          5        0.35       31.83
+         44 │          4        0.28       32.11
+         45 │          4        0.28       32.39
+         46 │          7        0.48       32.87
+         47 │          4        0.28       33.15
+         48 │          1        0.07       33.22
+         49 │          4        0.28       33.49
+         50 │          5        0.35       33.84
+         51 │          2        0.14       33.98
+         52 │          2        0.14       34.12
+         53 │          8        0.55       34.67
+         54 │          3        0.21       34.88
+         55 │          5        0.35       35.22
+         56 │          2        0.14       35.36
+         57 │          4        0.28       35.64
+         58 │          1        0.07       35.71
+         59 │          5        0.35       36.06
+         60 │          3        0.21       36.26
+         62 │          3        0.21       36.47
+         63 │          2        0.14       36.61
+         64 │          1        0.07       36.68
+         65 │          2        0.14       36.82
+         66 │          3        0.21       37.02
+         67 │          3        0.21       37.23
+         68 │          4        0.28       37.51
+         69 │          2        0.14       37.65
+         70 │        105        7.27       44.91
+         71 │         90        6.23       51.14
+         72 │         85        5.88       57.02
+         73 │        108        7.47       64.50
+         74 │         72        4.98       69.48
+         75 │         44        3.04       72.53
+         76 │        105        7.27       79.79
+         77 │         61        4.22       84.01
+         78 │         54        3.74       87.75
+         79 │         60        4.15       91.90
+         80 │         69        4.78       96.68
+         81 │         48        3.32      100.00
+────────────┼───────────────────────────────────
+      Total │      1,445      100.00
+</pre>
+<p>We have a bunch of observations that are censored after 69 months
+(but not all)</p>
+<pre class='stata'>. tab durat cens
+
+           │         cens
+     durat │         0          1 │     Total
+───────────┼──────────────────────┼──────────
+         1 │         8          0 │         8 
+         2 │        15          0 │        15 
+         3 │        14          0 │        14 
+         4 │        13          0 │        13 
+         5 │        16          0 │        16 
+         6 │        18          0 │        18 
+         7 │        18          0 │        18 
+         8 │        16          0 │        16 
+         9 │        18          0 │        18 
+        10 │        22          0 │        22 
+        11 │        11          0 │        11 
+        12 │        14          0 │        14 
+        13 │        15          0 │        15 
+        14 │        16          0 │        16 
+        15 │        23          0 │        23 
+        16 │        11          0 │        11 
+        17 │         9          0 │         9 
+        18 │        16          0 │        16 
+        19 │         9          0 │         9 
+        20 │         8          0 │         8 
+        21 │        13          0 │        13 
+        22 │         7          0 │         7 
+        23 │        16          0 │        16 
+        24 │        12          0 │        12 
+        25 │        13          0 │        13 
+        26 │         8          0 │         8 
+        27 │        11          0 │        11 
+        28 │         9          0 │         9 
+        29 │         8          0 │         8 
+        30 │         7          0 │         7 
+        31 │         6          0 │         6 
+        32 │         6          0 │         6 
+        33 │         6          0 │         6 
+        34 │         4          0 │         4 
+        35 │         5          0 │         5 
+        36 │         6          0 │         6 
+        37 │         6          0 │         6 
+        38 │         4          0 │         4 
+        39 │         4          0 │         4 
+        40 │         2          0 │         2 
+        41 │         7          0 │         7 
+        42 │         5          0 │         5 
+        43 │         5          0 │         5 
+        44 │         4          0 │         4 
+        45 │         4          0 │         4 
+        46 │         7          0 │         7 
+        47 │         4          0 │         4 
+        48 │         1          0 │         1 
+        49 │         4          0 │         4 
+        50 │         5          0 │         5 
+        51 │         2          0 │         2 
+        52 │         2          0 │         2 
+        53 │         8          0 │         8 
+        54 │         3          0 │         3 
+        55 │         5          0 │         5 
+        56 │         2          0 │         2 
+        57 │         4          0 │         4 
+        58 │         1          0 │         1 
+        59 │         5          0 │         5 
+        60 │         3          0 │         3 
+        62 │         3          0 │         3 
+        63 │         2          0 │         2 
+        64 │         1          0 │         1 
+        65 │         2          0 │         2 
+        66 │         3          0 │         3 
+        67 │         3          0 │         3 
+        68 │         4          0 │         4 
+        69 │         2          0 │         2 
+        70 │         2        103 │       105 
+        71 │         2         88 │        90 
+        72 │         1         84 │        85 
+        73 │         1        107 │       108 
+        74 │         1         71 │        72 
+        75 │         0         44 │        44 
+        76 │         0        105 │       105 
+        77 │         1         60 │        61 
+        78 │         0         54 │        54 
+        79 │         0         60 │        60 
+        80 │         0         69 │        69 
+        81 │         0         48 │        48 
+───────────┼──────────────────────┼──────────
+     Total │       552        893 │     1,445 
+</pre>
+<p>We’ll use the stset command and set failure at cens==0 stset is
+survival time set</p>
+<pre class='stata'>. stset ldurat, failure(cens==0)
+
+     failure event:  cens == 0
+obs. time interval:  (0, ldurat]
+ exit on or before:  failure
+
+──────────────────────────────────────────────────────────────────────────────
+       1445  total observations
+          8  observations end on or before enter()
+──────────────────────────────────────────────────────────────────────────────
+       1437  observations remaining, representing
+        544  failures in single-record/single-failure data
+   5411.742  total analysis time at risk and under observation
+                                                at risk from t =         0
+                                     earliest observed entry t =         0
+                                          last observed exit t =  4.394449
+</pre>
+<p>We’ll use the streg command and set the distribution</p>
+<pre class='stata'>. streg workprg priors tserved felon alcohol drugs black married educ age, dist(weibull) nohr
+
+         failure _d:  cens == 0
+   analysis time _t:  ldurat
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -1254.5107
+Iteration 1:   log likelihood = -1100.1536
+Iteration 2:   log likelihood = -1079.1128
+Iteration 3:   log likelihood = -1078.7957
+Iteration 4:   log likelihood = -1078.7957
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -1078.7957  
+Iteration 1:   log likelihood = -1034.1821  
+Iteration 2:   log likelihood = -1001.9186  
+Iteration 3:   log likelihood = -1000.5996  
+Iteration 4:   log likelihood = -1000.5919  
+Iteration 5:   log likelihood = -1000.5919  
+
+Weibull regression -- log relative-hazard form 
+
+No. of subjects =        1,437                  Number of obs    =       1,437
+No. of failures =          544
+Time at risk    =  5411.742317
+                                                LR chi2(10)      =      156.41
+Log likelihood  =   -1000.5919                  Prob > chi2      =      0.0000
+
+─────────────┬────────────────────────────────────────────────────────────────
+          _t │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+     workprg │   .0780722    .091463     0.85   0.393    -.1011921    .2573364
+      priors │   .0834203   .0139155     5.99   0.000     .0561465    .1106941
+     tserved │   .0134545   .0016851     7.98   0.000     .0101519    .0167572
+       felon │   -.287139    .106697    -2.69   0.007    -.4962614   -.0780167
+     alcohol │   .4399456     .10658     4.13   0.000     .2310527    .6488385
+       drugs │   .2920932   .0983695     2.97   0.003     .0992926    .4848938
+       black │   .4515388   .0889883     5.07   0.000     .2771249    .6259527
+     married │   -.146192   .1098131    -1.33   0.183    -.3614216    .0690377
+        educ │   -.023948    .019578    -1.22   0.221    -.0623202    .0144241
+         age │  -.0036431   .0005284    -6.89   0.000    -.0046788   -.0026073
+       _cons │  -3.639277   .3077568   -11.83   0.000     -4.24247   -3.036085
+─────────────┼────────────────────────────────────────────────────────────────
+       /ln_p │   .9214587   .0396737    23.23   0.000     .8436997    .9992178
+─────────────┼────────────────────────────────────────────────────────────────
+           p │   2.512953   .0996982                      2.324953    2.716156
+         1/p │   .3979381   .0157877                      .3681673    .4301163
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<h5>
+Interpretation:
+</h5>
+<p>Given the log-linear function form, we can easily determine the
+estimated percent change in duration before criminal recidivism.</p>
+<pre class='stata'>. display (exp(.0780722)-1)*100
+8.1200719
+</pre>
+<p>Being a part of the work program increase the duration of time before
+recidivism, but it is not statistically significant.</p>
+<pre class='stata'>. display (exp(-.287139)-1)*100
+-24.959259
+</pre>
+<p>Being a felon reduces the duration of time before recidivism, where a
+felon has as 24% decrease in duration of time before recidivism.</p>
+<h3>
+Sample Selection Correction
+</h3>
+<h5>
+Lesson: Similar to tobit, when we don’t account for the truncation of
+the data, or why certain parts of the population are not sampled, we
+will commit a type of omitted variable bias without our lambda(zy)-hat.
+We can use a Heckit method for sample selection correction.
+</h5>
+<pre class='stata'>. use mroz.dta, clear
+</pre>
+<p>We want to see if there is sample selection bias due to unobservable
+wage offers for non-working women.</p>
+<p>First, we need to estimate a logit or probit to test and correct for
+sample selection bias due to unobserved wage offer for nonworking women.
+Spousal income, education, experience, age, and number of kids less than
+6.</p>
+<p>Second, We use the Heckit command to implement a Heckman Method for
+sample selection correction.</p>
+<p>Notice: an assumption is used to exclude spousal income, age, kids
+less than 6, and kids greater than 6 from our main regression</p>
+<pre class='stata'>. est clear
+</pre>
+<h5>
+OLS
+</h5>
+<pre class='stata'>. eststo OLS: reg lwage educ exper expersq 
+
+      Source │       SS           df       MS      Number of obs   =       428
+─────────────┼──────────────────────────────────   F(3, 424)       =     26.29
+       Model │  35.0222967         3  11.6740989   Prob > F        =    0.0000
+    Residual │  188.305144       424  .444115906   R-squared       =    0.1568
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.1509
+       Total │  223.327441       427  .523015084   Root MSE        =    .66642
+
+─────────────┬────────────────────────────────────────────────────────────────
+       lwage │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+        educ │   .1074896   .0141465     7.60   0.000     .0796837    .1352956
+       exper │   .0415665   .0131752     3.15   0.002     .0156697    .0674633
+     expersq │  -.0008112   .0003932    -2.06   0.040    -.0015841   -.0000382
+       _cons │  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<h5>
+Heckman Method - Heckit
+</h5>
+<p>We will use a subset of all exogenous variable First, what are the
+factors correlated with being in the labor force? Second, what is the
+impact of education and experience on wages</p>
+<pre class='stata'>. eststo Heckman: heckman lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt
+> 6 kidsge6) twostep 
+
+Heckman selection model -- two-step estimates   Number of obs     =        753
+(regression model with sample selection)        Censored obs      =        325
+                                                Uncensored obs    =        428
+
+                                                Wald chi2(3)      =      51.53
+                                                Prob > chi2       =     0.0000
+
+─────────────┬────────────────────────────────────────────────────────────────
+             │      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+lwage        │
+        educ │   .1090655    .015523     7.03   0.000     .0786411      .13949
+       exper │   .0438873   .0162611     2.70   0.007     .0120163    .0757584
+     expersq │  -.0008591   .0004389    -1.96   0.050    -.0017194    1.15e-06
+       _cons │  -.5781032   .3050062    -1.90   0.058    -1.175904     .019698
+─────────────┼────────────────────────────────────────────────────────────────
+inlf         │
+    nwifeinc │  -.0120237   .0048398    -2.48   0.013    -.0215096   -.0025378
+        educ │   .1309047   .0252542     5.18   0.000     .0814074     .180402
+       exper │   .1233476   .0187164     6.59   0.000     .0866641    .1600311
+     expersq │  -.0018871      .0006    -3.15   0.002     -.003063   -.0007111
+         age │  -.0528527   .0084772    -6.23   0.000    -.0694678   -.0362376
+     kidslt6 │  -.8683285   .1185223    -7.33   0.000    -1.100628    -.636029
+     kidsge6 │    .036005   .0434768     0.83   0.408     -.049208    .1212179
+       _cons │   .2700768    .508593     0.53   0.595    -.7267473    1.266901
+─────────────┼────────────────────────────────────────────────────────────────
+mills        │
+      lambda │   .0322619   .1336246     0.24   0.809    -.2296376    .2941613
+─────────────┼────────────────────────────────────────────────────────────────
+         rho │    0.04861
+       sigma │  .66362875
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<pre class='stata'>. esttab, mtitle
+
+────────────────────────────────────────────
+                      (1)             (2)   
+                      OLS         Heckman   
+────────────────────────────────────────────
+main                                        
+educ                0.107***        0.109***
+                   (7.60)          (7.03)   
+
+exper              0.0416**        0.0439** 
+                   (3.15)          (2.70)   
+
+expersq         -0.000811*      -0.000859   
+                  (-2.06)         (-1.96)   
+
+_cons              -0.522**        -0.578   
+                  (-2.63)         (-1.90)   
+────────────────────────────────────────────
+inlf                                        
+nwifeinc                          -0.0120*  
+                                  (-2.48)   
+
+educ                                0.131***
+                                   (5.18)   
+
+exper                               0.123***
+                                   (6.59)   
+
+expersq                          -0.00189** 
+                                  (-3.15)   
+
+age                               -0.0529***
+                                  (-6.23)   
+
+kidslt6                            -0.868***
+                                  (-7.33)   
+
+kidsge6                            0.0360   
+                                   (0.83)   
+
+_cons                               0.270   
+                                   (0.53)   
+────────────────────────────────────────────
+mills                                       
+lambda                             0.0323   
+                                   (0.24)   
+────────────────────────────────────────────
+N                     428             753   
+────────────────────────────────────────────
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
+</pre>
+<p>There is no real evidence of sample selection bias in the wage offer
+equation. Our lambda-hat is not statistically significant and we fail to
+reject H0: rho=0. Also, we notice very little difference between our OLS
+and Heckman Method.</p>
+</body>
+</html>

@@ -1,0 +1,2221 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week5.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}25 Sep 2023, 14:22:46
+{txt}
+{com}. //_1
+. clear
+{txt}
+{com}. set more off
+{txt}
+{com}. //_2
+. cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+{res}/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+{txt}
+{com}. //_3
+. use "jtrain.dta", clear
+{txt}
+{com}. //_4
+. sort fcode year
+{txt}
+{com}. xtset fcode year
+{res}{txt}{col 8}panel variable:  {res}fcode (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}year, 1987 to 1989
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. //_5
+. reg d.scrap d.grant if year < 1989
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        54
+{txt}{hline 13}{c +}{hline 34}   F(1, 52)        = {res}     1.17
+{txt}       Model {c |} {res} 6.73345593         1  6.73345593   {txt}Prob > F        ={res}    0.2837
+{txt}    Residual {c |} {res} 298.400031        52  5.73846214   {txt}R-squared       ={res}    0.0221
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0033
+{txt}       Total {c |} {res} 305.133487        53  5.75723561   {txt}Root MSE        =   {res} 2.3955
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     D.scrap{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}grant {c |}
+{space 9}D1. {c |}{col 14}{res}{space 2}-.7394436{col 26}{space 2} .6826276{col 37}{space 1}   -1.08{col 46}{space 3}0.284{col 54}{space 4}-2.109236{col 67}{space 3} .6303488
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.5637143{col 26}{space 2} .4049149{col 37}{space 1}   -1.39{col 46}{space 3}0.170{col 54}{space 4}-1.376235{col 67}{space 3} .2488069
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_6
+. xtreg scrap i.grant i.d88 if year < 1989, fe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       108
+{txt}Group variable: {res}fcode{txt}{col 49}Number of groups{col 67}={col 69}{res}        54
+
+{txt}R-sq:{col 49}Obs per group:
+     within  = {res}0.1269{col 63}{txt}min{col 67}={col 69}{res}         2
+{txt}     between = {res}0.0038{col 63}{txt}avg{col 67}={col 69}{res}       2.0
+{txt}     overall = {res}0.0081{col 63}{txt}max{col 67}={col 69}{res}         2
+
+{txt}{col 49}F({res}2{txt},{res}52{txt}){col 67}={col 70}{res}     3.78
+{txt}corr(u_i, Xb){col 16}= {res}0.0119{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0293
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       scrap{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}1.grant {c |}{col 14}{res}{space 2}-.7394436{col 26}{space 2} .6826276{col 37}{space 1}   -1.08{col 46}{space 3}0.284{col 54}{space 4}-2.109236{col 67}{space 3} .6303488
+{txt}{space 7}1.d88 {c |}{col 14}{res}{space 2}-.5637143{col 26}{space 2} .4049149{col 37}{space 1}   -1.39{col 46}{space 3}0.170{col 54}{space 4}-1.376235{col 67}{space 3} .2488069
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 4.611667{col 26}{space 2} .2305079{col 37}{space 1}   20.01{col 46}{space 3}0.000{col 54}{space 4} 4.149119{col 67}{space 3} 5.074215
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res}  6.077795
+     {txt}sigma_e {c |} {res} 1.6938805
+         {txt}rho {c |} {res} .92792475{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+F test that all u_i=0: F({res}53{txt}, {res}52{txt}) = {res}25.74{col 62}{txt}Prob > F = {res}0.0000
+{txt}
+{com}. //_7
+. use "traffic1.dta", clear
+{txt}
+{com}. //_8
+. tab copen
+
+      {txt}copen {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          0 {c |}{res}         48       94.12       94.12
+{txt}          1 {c |}{res}          3        5.88      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}         51      100.00
+{txt}
+{com}. tab open85 open90
+
+           {txt}{c |}        open90
+    open85 {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}        29          3 {txt}{c |}{res}        32 
+{txt}         1 {c |}{res}         0         19 {txt}{c |}{res}        19 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}        29         22 {txt}{c |}{res}        51 
+
+{txt}
+{com}. //_9
+. reg cdthrte copen cadmn
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        51
+{txt}{hline 13}{c +}{hline 34}   F(2, 48)        = {res}     3.23
+{txt}       Model {c |} {res} .762579785         2  .381289893   {txt}Prob > F        ={res}    0.0482
+{txt}    Residual {c |} {res} 5.66369475        48  .117993641   {txt}R-squared       ={res}    0.1187
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0819
+{txt}       Total {c |} {res} 6.42627453        50  .128525491   {txt}Root MSE        =   {res}  .3435
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     cdthrte{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}copen {c |}{col 14}{res}{space 2}-.4196787{col 26}{space 2} .2055948{col 37}{space 1}   -2.04{col 46}{space 3}0.047{col 54}{space 4}-.8330547{col 67}{space 3}-.0063028
+{txt}{space 7}cadmn {c |}{col 14}{res}{space 2}-.1506024{col 26}{space 2} .1168223{col 37}{space 1}   -1.29{col 46}{space 3}0.204{col 54}{space 4}-.3854894{col 67}{space 3} .0842846
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.4967872{col 26}{space 2} .0524256{col 37}{space 1}   -9.48{col 46}{space 3}0.000{col 54}{space 4}-.6021959{col 67}{space 3}-.3913784
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_10
+. use "kielmc.dta", clear
+{txt}
+{com}. //_11
+. reg rprice nearinc if y81==1
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       142
+{txt}{hline 13}{c +}{hline 34}   F(1, 140)       = {res}    27.73
+{txt}       Model {c |} {res} 2.7059e+10         1  2.7059e+10   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1.3661e+11       140   975815048   {txt}R-squared       ={res}    0.1653
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1594
+{txt}       Total {c |} {res} 1.6367e+11       141  1.1608e+09   {txt}Root MSE        =   {res}  31238
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      rprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}nearinc {c |}{col 14}{res}{space 2}-30688.27{col 26}{space 2} 5827.709{col 37}{space 1}   -5.27{col 46}{space 3}0.000{col 54}{space 4}-42209.97{col 67}{space 3}-19166.58
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 101307.5{col 26}{space 2} 3093.027{col 37}{space 1}   32.75{col 46}{space 3}0.000{col 54}{space 4} 95192.43{col 67}{space 3} 107422.6
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_12
+. reg rprice nearinc if y81==0
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       179
+{txt}{hline 13}{c +}{hline 34}   F(1, 177)       = {res}    15.74
+{txt}       Model {c |} {res} 1.3636e+10         1  1.3636e+10   {txt}Prob > F        ={res}    0.0001
+{txt}    Residual {c |} {res} 1.5332e+11       177   866239953   {txt}R-squared       ={res}    0.0817
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0765
+{txt}       Total {c |} {res} 1.6696e+11       178   937979126   {txt}Root MSE        =   {res}  29432
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      rprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}nearinc {c |}{col 14}{res}{space 2}-18824.37{col 26}{space 2} 4744.594{col 37}{space 1}   -3.97{col 46}{space 3}0.000{col 54}{space 4}-28187.62{col 67}{space 3}-9461.117
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 82517.23{col 26}{space 2}  2653.79{col 37}{space 1}   31.09{col 46}{space 3}0.000{col 54}{space 4} 77280.09{col 67}{space 3} 87754.37
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_13
+. reg rprice i.nearinc##i.y81
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       321
+{txt}{hline 13}{c +}{hline 34}   F(3, 317)       = {res}    22.25
+{txt}       Model {c |} {res} 6.1055e+10         3  2.0352e+10   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 2.8994e+11       317   914632739   {txt}R-squared       ={res}    0.1739
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1661
+{txt}       Total {c |} {res} 3.5099e+11       320  1.0969e+09   {txt}Root MSE        =   {res}  30243
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      rprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}1.nearinc {c |}{col 14}{res}{space 2}-18824.37{col 26}{space 2} 4875.322{col 37}{space 1}   -3.86{col 46}{space 3}0.000{col 54}{space 4}-28416.45{col 67}{space 3}-9232.293
+{txt}{space 7}1.y81 {c |}{col 14}{res}{space 2} 18790.29{col 26}{space 2} 4050.065{col 37}{space 1}    4.64{col 46}{space 3}0.000{col 54}{space 4} 10821.88{col 67}{space 3} 26758.69
+{txt}{space 12} {c |}
+{space 1}nearinc#y81 {c |}
+{space 8}1 1  {c |}{col 14}{res}{space 2} -11863.9{col 26}{space 2} 7456.646{col 37}{space 1}   -1.59{col 46}{space 3}0.113{col 54}{space 4}-26534.67{col 67}{space 3} 2806.867
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 82517.23{col 26}{space 2}  2726.91{col 37}{space 1}   30.26{col 46}{space 3}0.000{col 54}{space 4}  77152.1{col 67}{space 3} 87882.36
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_14
+. eststo m1: reg rprice i.nearinc##i.y81
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       321
+{txt}{hline 13}{c +}{hline 34}   F(3, 317)       = {res}    22.25
+{txt}       Model {c |} {res} 6.1055e+10         3  2.0352e+10   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 2.8994e+11       317   914632739   {txt}R-squared       ={res}    0.1739
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1661
+{txt}       Total {c |} {res} 3.5099e+11       320  1.0969e+09   {txt}Root MSE        =   {res}  30243
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      rprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}1.nearinc {c |}{col 14}{res}{space 2}-18824.37{col 26}{space 2} 4875.322{col 37}{space 1}   -3.86{col 46}{space 3}0.000{col 54}{space 4}-28416.45{col 67}{space 3}-9232.293
+{txt}{space 7}1.y81 {c |}{col 14}{res}{space 2} 18790.29{col 26}{space 2} 4050.065{col 37}{space 1}    4.64{col 46}{space 3}0.000{col 54}{space 4} 10821.88{col 67}{space 3} 26758.69
+{txt}{space 12} {c |}
+{space 1}nearinc#y81 {c |}
+{space 8}1 1  {c |}{col 14}{res}{space 2} -11863.9{col 26}{space 2} 7456.646{col 37}{space 1}   -1.59{col 46}{space 3}0.113{col 54}{space 4}-26534.67{col 67}{space 3} 2806.867
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 82517.23{col 26}{space 2}  2726.91{col 37}{space 1}   30.26{col 46}{space 3}0.000{col 54}{space 4}  77152.1{col 67}{space 3} 87882.36
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo m2: reg rprice i.nearinc##i.y81 age agesq
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       321
+{txt}{hline 13}{c +}{hline 34}   F(5, 315)       = {res}    44.59
+{txt}       Model {c |} {res} 1.4547e+11         5  2.9094e+10   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 2.0552e+11       315   652459451   {txt}R-squared       ={res}    0.4144
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4052
+{txt}       Total {c |} {res} 3.5099e+11       320  1.0969e+09   {txt}Root MSE        =   {res}  25543
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      rprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}1.nearinc {c |}{col 14}{res}{space 2} 9397.936{col 26}{space 2} 4812.222{col 37}{space 1}    1.95{col 46}{space 3}0.052{col 54}{space 4}-70.22385{col 67}{space 3}  18866.1
+{txt}{space 7}1.y81 {c |}{col 14}{res}{space 2} 21321.04{col 26}{space 2} 3443.631{col 37}{space 1}    6.19{col 46}{space 3}0.000{col 54}{space 4} 14545.62{col 67}{space 3} 28096.47
+{txt}{space 12} {c |}
+{space 1}nearinc#y81 {c |}
+{space 8}1 1  {c |}{col 14}{res}{space 2}-21920.27{col 26}{space 2} 6359.745{col 37}{space 1}   -3.45{col 46}{space 3}0.001{col 54}{space 4}-34433.22{col 67}{space 3}-9407.321
+{txt}{space 12} {c |}
+{space 9}age {c |}{col 14}{res}{space 2}-1494.424{col 26}{space 2} 131.8603{col 37}{space 1}  -11.33{col 46}{space 3}0.000{col 54}{space 4}-1753.862{col 67}{space 3}-1234.986
+{txt}{space 7}agesq {c |}{col 14}{res}{space 2} 8.691277{col 26}{space 2} .8481268{col 37}{space 1}   10.25{col 46}{space 3}0.000{col 54}{space 4} 7.022567{col 67}{space 3} 10.35999
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 89116.54{col 26}{space 2} 2406.051{col 37}{space 1}   37.04{col 46}{space 3}0.000{col 54}{space 4} 84382.57{col 67}{space 3}  93850.5
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. eststo m3: reg rprice i.nearinc##i.y81 age agesq intst land area rooms baths
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       321
+{txt}{hline 13}{c +}{hline 34}   F(10, 310)      = {res}    60.19
+{txt}       Model {c |} {res} 2.3167e+11        10  2.3167e+10   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 1.1932e+11       310   384905860   {txt}R-squared       ={res}    0.6600
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6491
+{txt}       Total {c |} {res} 3.5099e+11       320  1.0969e+09   {txt}Root MSE        =   {res}  19619
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      rprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}1.nearinc {c |}{col 14}{res}{space 2} 3780.337{col 26}{space 2} 4453.415{col 37}{space 1}    0.85{col 46}{space 3}0.397{col 54}{space 4}-4982.408{col 67}{space 3} 12543.08
+{txt}{space 7}1.y81 {c |}{col 14}{res}{space 2} 13928.48{col 26}{space 2} 2798.747{col 37}{space 1}    4.98{col 46}{space 3}0.000{col 54}{space 4} 8421.533{col 67}{space 3} 19435.42
+{txt}{space 12} {c |}
+{space 1}nearinc#y81 {c |}
+{space 8}1 1  {c |}{col 14}{res}{space 2}-14177.93{col 26}{space 2} 4987.267{col 37}{space 1}   -2.84{col 46}{space 3}0.005{col 54}{space 4}-23991.11{col 67}{space 3}-4364.759
+{txt}{space 12} {c |}
+{space 9}age {c |}{col 14}{res}{space 2} -739.451{col 26}{space 2} 131.1272{col 37}{space 1}   -5.64{col 46}{space 3}0.000{col 54}{space 4}-997.4629{col 67}{space 3}-481.4391
+{txt}{space 7}agesq {c |}{col 14}{res}{space 2}  3.45274{col 26}{space 2} .8128214{col 37}{space 1}    4.25{col 46}{space 3}0.000{col 54}{space 4} 1.853395{col 67}{space 3} 5.052084
+{txt}{space 7}intst {c |}{col 14}{res}{space 2}-.5386352{col 26}{space 2} .1963359{col 37}{space 1}   -2.74{col 46}{space 3}0.006{col 54}{space 4}-.9249548{col 67}{space 3}-.1523157
+{txt}{space 8}land {c |}{col 14}{res}{space 2} .1414196{col 26}{space 2} .0310776{col 37}{space 1}    4.55{col 46}{space 3}0.000{col 54}{space 4} .0802698{col 67}{space 3} .2025693
+{txt}{space 8}area {c |}{col 14}{res}{space 2} 18.08621{col 26}{space 2} 2.306064{col 37}{space 1}    7.84{col 46}{space 3}0.000{col 54}{space 4} 13.54869{col 67}{space 3} 22.62373
+{txt}{space 7}rooms {c |}{col 14}{res}{space 2} 3304.227{col 26}{space 2} 1661.248{col 37}{space 1}    1.99{col 46}{space 3}0.048{col 54}{space 4} 35.47904{col 67}{space 3} 6572.974
+{txt}{space 7}baths {c |}{col 14}{res}{space 2} 6977.317{col 26}{space 2} 2581.321{col 37}{space 1}    2.70{col 46}{space 3}0.007{col 54}{space 4} 1898.191{col 67}{space 3} 12056.44
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 13807.67{col 26}{space 2} 11166.59{col 37}{space 1}    1.24{col 46}{space 3}0.217{col 54}{space 4}-8164.239{col 67}{space 3} 35779.57
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_15
+. esttab m1 m2 m3, keep(1.y81 1.nearinc 1.nearinc#1.y81 age agesq intst land area rooms baths)
+{res}
+{txt}{hline 60}
+{txt}                      (1)             (2)             (3)   
+{txt}                   rprice          rprice          rprice   
+{txt}{hline 60}
+{txt}1.nearinc   {res}     -18824.4***       9397.9          3780.3   {txt}
+            {res} {ralign 12:{txt:(}-3.86{txt:)}}    {ralign 12:{txt:(}1.95{txt:)}}    {ralign 12:{txt:(}0.85{txt:)}}   {txt}
+
+{txt}1.y81       {res}      18790.3***      21321.0***      13928.5***{txt}
+            {res} {ralign 12:{txt:(}4.64{txt:)}}    {ralign 12:{txt:(}6.19{txt:)}}    {ralign 12:{txt:(}4.98{txt:)}}   {txt}
+
+{txt}1.nearinc~81{res}     -11863.9        -21920.3***     -14177.9** {txt}
+            {res} {ralign 12:{txt:(}-1.59{txt:)}}    {ralign 12:{txt:(}-3.45{txt:)}}    {ralign 12:{txt:(}-2.84{txt:)}}   {txt}
+
+{txt}age         {res}                      -1494.4***       -739.5***{txt}
+            {res}                 {ralign 12:{txt:(}-11.33{txt:)}}    {ralign 12:{txt:(}-5.64{txt:)}}   {txt}
+
+{txt}agesq       {res}                        8.691***        3.453***{txt}
+            {res}                 {ralign 12:{txt:(}10.25{txt:)}}    {ralign 12:{txt:(}4.25{txt:)}}   {txt}
+
+{txt}intst       {res}                                       -0.539** {txt}
+            {res}                                 {ralign 12:{txt:(}-2.74{txt:)}}   {txt}
+
+{txt}land        {res}                                        0.141***{txt}
+            {res}                                 {ralign 12:{txt:(}4.55{txt:)}}   {txt}
+
+{txt}area        {res}                                        18.09***{txt}
+            {res}                                 {ralign 12:{txt:(}7.84{txt:)}}   {txt}
+
+{txt}rooms       {res}                                       3304.2*  {txt}
+            {res}                                 {ralign 12:{txt:(}1.99{txt:)}}   {txt}
+
+{txt}baths       {res}                                       6977.3** {txt}
+            {res}                                 {ralign 12:{txt:(}2.70{txt:)}}   {txt}
+{txt}{hline 60}
+{txt}N           {res}          321             321             321   {txt}
+{txt}{hline 60}
+{txt}t statistics in parentheses
+{txt}* p<0.05, ** p<0.01, *** p<0.001
+
+{com}. //_16
+. est clear
+{txt}
+{com}. eststo m1: reg lprice i.nearinc##i.y81
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       321
+{txt}{hline 13}{c +}{hline 34}   F(3, 317)       = {res}    73.15
+{txt}       Model {c |} {res} 25.1332147         3  8.37773824   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 36.3057706       317  .114529245   {txt}R-squared       ={res}    0.4091
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4035
+{txt}       Total {c |} {res} 61.4389853       320  .191996829   {txt}Root MSE        =   {res} .33842
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      lprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}1.nearinc {c |}{col 14}{res}{space 2} -.339923{col 26}{space 2} .0545555{col 37}{space 1}   -6.23{col 46}{space 3}0.000{col 54}{space 4}-.4472595{col 67}{space 3}-.2325865
+{txt}{space 7}1.y81 {c |}{col 14}{res}{space 2} .4569953{col 26}{space 2} .0453207{col 37}{space 1}   10.08{col 46}{space 3}0.000{col 54}{space 4} .3678279{col 67}{space 3} .5461627
+{txt}{space 12} {c |}
+{space 1}nearinc#y81 {c |}
+{space 8}1 1  {c |}{col 14}{res}{space 2} -.062649{col 26}{space 2} .0834408{col 37}{space 1}   -0.75{col 46}{space 3}0.453{col 54}{space 4}-.2268167{col 67}{space 3} .1015187
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 11.28542{col 26}{space 2} .0305145{col 37}{space 1}  369.84{col 46}{space 3}0.000{col 54}{space 4} 11.22539{col 67}{space 3} 11.34546
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. estimates store mod1
+{txt}
+{com}. eststo m2: reg lprice i.nearinc##i.y81 age agesq
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       321
+{txt}{hline 13}{c +}{hline 34}   F(5, 315)       = {res}   100.76
+{txt}       Model {c |} {res} 37.8034533         5  7.56069067   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  23.635532       315  .075033435   {txt}R-squared       ={res}    0.6153
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.6092
+{txt}       Total {c |} {res} 61.4389853       320  .191996829   {txt}Root MSE        =   {res} .27392
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      lprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}1.nearinc {c |}{col 14}{res}{space 2} .0071096{col 26}{space 2} .0516055{col 37}{space 1}    0.14{col 46}{space 3}0.891{col 54}{space 4}-.0944255{col 67}{space 3} .1086447
+{txt}{space 7}1.y81 {c |}{col 14}{res}{space 2} .4836992{col 26}{space 2}  .036929{col 37}{space 1}   13.10{col 46}{space 3}0.000{col 54}{space 4} .4110406{col 67}{space 3} .5563579
+{txt}{space 12} {c |}
+{space 1}nearinc#y81 {c |}
+{space 8}1 1  {c |}{col 14}{res}{space 2}-.1849519{col 26}{space 2} .0682009{col 37}{space 1}   -2.71{col 46}{space 3}0.007{col 54}{space 4}-.3191388{col 67}{space 3}-.0507649
+{txt}{space 12} {c |}
+{space 9}age {c |}{col 14}{res}{space 2}-.0180904{col 26}{space 2}  .001414{col 37}{space 1}  -12.79{col 46}{space 3}0.000{col 54}{space 4}-.0208725{col 67}{space 3}-.0153082
+{txt}{space 7}agesq {c |}{col 14}{res}{space 2} .0001014{col 26}{space 2} 9.10e-06{col 37}{space 1}   11.14{col 46}{space 3}0.000{col 54}{space 4} .0000835{col 67}{space 3} .0001193
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 11.37082{col 26}{space 2} .0258021{col 37}{space 1}  440.69{col 46}{space 3}0.000{col 54}{space 4} 11.32006{col 67}{space 3} 11.42159
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. estimates store mod2
+{txt}
+{com}. eststo m3: reg lprice i.nearinc##i.y81 age agesq intst land area rooms baths
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       321
+{txt}{hline 13}{c +}{hline 34}   F(10, 310)      = {res}   115.59
+{txt}       Model {c |} {res} 48.4460822        10  4.84460822   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 12.9929032       310  .041912591   {txt}R-squared       ={res}    0.7885
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.7817
+{txt}       Total {c |} {res} 61.4389853       320  .191996829   {txt}Root MSE        =   {res} .20473
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      lprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}1.nearinc {c |}{col 14}{res}{space 2}-.0346378{col 26}{space 2} .0464717{col 37}{space 1}   -0.75{col 46}{space 3}0.457{col 54}{space 4}-.1260776{col 67}{space 3} .0568019
+{txt}{space 7}1.y81 {c |}{col 14}{res}{space 2} .4026121{col 26}{space 2} .0292051{col 37}{space 1}   13.79{col 46}{space 3}0.000{col 54}{space 4} .3451468{col 67}{space 3} .4600774
+{txt}{space 12} {c |}
+{space 1}nearinc#y81 {c |}
+{space 8}1 1  {c |}{col 14}{res}{space 2}-.0925173{col 26}{space 2} .0520424{col 37}{space 1}   -1.78{col 46}{space 3}0.076{col 54}{space 4}-.1949183{col 67}{space 3} .0098838
+{txt}{space 12} {c |}
+{space 9}age {c |}{col 14}{res}{space 2}-.0085143{col 26}{space 2} .0013683{col 37}{space 1}   -6.22{col 46}{space 3}0.000{col 54}{space 4}-.0112067{col 67}{space 3} -.005822
+{txt}{space 7}agesq {c |}{col 14}{res}{space 2} .0000365{col 26}{space 2} 8.48e-06{col 37}{space 1}    4.31{col 46}{space 3}0.000{col 54}{space 4} .0000198{col 67}{space 3} .0000532
+{txt}{space 7}intst {c |}{col 14}{res}{space 2}-3.55e-06{col 26}{space 2} 2.05e-06{col 37}{space 1}   -1.73{col 46}{space 3}0.084{col 54}{space 4}-7.58e-06{col 67}{space 3} 4.78e-07
+{txt}{space 8}land {c |}{col 14}{res}{space 2} 9.22e-07{col 26}{space 2} 3.24e-07{col 37}{space 1}    2.84{col 46}{space 3}0.005{col 54}{space 4} 2.84e-07{col 67}{space 3} 1.56e-06
+{txt}{space 8}area {c |}{col 14}{res}{space 2}  .000184{col 26}{space 2} .0000241{col 37}{space 1}    7.64{col 46}{space 3}0.000{col 54}{space 4} .0001366{col 67}{space 3} .0002313
+{txt}{space 7}rooms {c |}{col 14}{res}{space 2} .0527622{col 26}{space 2} .0173352{col 37}{space 1}    3.04{col 46}{space 3}0.003{col 54}{space 4} .0186526{col 67}{space 3} .0868718
+{txt}{space 7}baths {c |}{col 14}{res}{space 2} .1030369{col 26}{space 2} .0269362{col 37}{space 1}    3.83{col 46}{space 3}0.000{col 54}{space 4} .0500359{col 67}{space 3} .1560379
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 10.37055{col 26}{space 2} .1165241{col 37}{space 1}   89.00{col 46}{space 3}0.000{col 54}{space 4} 10.14127{col 67}{space 3} 10.59983
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. estimates store mod3
+{txt}
+{com}. //_17
+. esttab m1 m2 m3, keep(1.y81 1.nearinc 1.nearinc#1.y81 age agesq intst land area rooms baths)
+{res}
+{txt}{hline 60}
+{txt}                      (1)             (2)             (3)   
+{txt}                   lprice          lprice          lprice   
+{txt}{hline 60}
+{txt}1.nearinc   {res}       -0.340***      0.00711         -0.0346   {txt}
+            {res} {ralign 12:{txt:(}-6.23{txt:)}}    {ralign 12:{txt:(}0.14{txt:)}}    {ralign 12:{txt:(}-0.75{txt:)}}   {txt}
+
+{txt}1.y81       {res}        0.457***        0.484***        0.403***{txt}
+            {res} {ralign 12:{txt:(}10.08{txt:)}}    {ralign 12:{txt:(}13.10{txt:)}}    {ralign 12:{txt:(}13.79{txt:)}}   {txt}
+
+{txt}1.nearinc~81{res}      -0.0626          -0.185**       -0.0925   {txt}
+            {res} {ralign 12:{txt:(}-0.75{txt:)}}    {ralign 12:{txt:(}-2.71{txt:)}}    {ralign 12:{txt:(}-1.78{txt:)}}   {txt}
+
+{txt}age         {res}                      -0.0181***     -0.00851***{txt}
+            {res}                 {ralign 12:{txt:(}-12.79{txt:)}}    {ralign 12:{txt:(}-6.22{txt:)}}   {txt}
+
+{txt}agesq       {res}                     0.000101***    0.0000365***{txt}
+            {res}                 {ralign 12:{txt:(}11.14{txt:)}}    {ralign 12:{txt:(}4.31{txt:)}}   {txt}
+
+{txt}intst       {res}                                  -0.00000355   {txt}
+            {res}                                 {ralign 12:{txt:(}-1.73{txt:)}}   {txt}
+
+{txt}land        {res}                                  0.000000922** {txt}
+            {res}                                 {ralign 12:{txt:(}2.84{txt:)}}   {txt}
+
+{txt}area        {res}                                     0.000184***{txt}
+            {res}                                 {ralign 12:{txt:(}7.64{txt:)}}   {txt}
+
+{txt}rooms       {res}                                       0.0528** {txt}
+            {res}                                 {ralign 12:{txt:(}3.04{txt:)}}   {txt}
+
+{txt}baths       {res}                                        0.103***{txt}
+            {res}                                 {ralign 12:{txt:(}3.83{txt:)}}   {txt}
+{txt}{hline 60}
+{txt}N           {res}          321             321             321   {txt}
+{txt}{hline 60}
+{txt}t statistics in parentheses
+{txt}* p<0.05, ** p<0.01, *** p<0.001
+
+{com}. //_18
+. coefplot (mod1, label(Model 1)) (mod2, label(Model2)) (mod3, label(Model 3)), keep(1.nearinc#1.y81) xline(0) title("Diff-in-Diff Results")
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week5_housing.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week5_housing.png written in PNG format)
+
+{com}. //_19
+. use "injury.dta", clear
+{txt}
+{com}. //_20
+. tab highearn afchnge
+
+           {txt}{c |}        afchnge
+  highearn {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}     2,294      2,004 {txt}{c |}{res}     4,298 
+{txt}         1 {c |}{res}     1,472      1,380 {txt}{c |}{res}     2,852 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}     3,766      3,384 {txt}{c |}{res}     7,150 
+
+{txt}
+{com}. //_21
+. reg ldurat i.afchnge##i.highearn if ky==1
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     5,626
+{txt}{hline 13}{c +}{hline 34}   F(3, 5622)      = {res}    39.54
+{txt}       Model {c |} {res} 191.071442         3  63.6904807   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  9055.9345     5,622  1.61080301   {txt}R-squared       ={res}    0.0207
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0201
+{txt}       Total {c |} {res} 9247.00594     5,625  1.64391217   {txt}Root MSE        =   {res} 1.2692
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          ldurat{col 18}{c |}      Coef.{col 30}   Std. Err.{col 42}      t{col 50}   P>|t|{col 58}     [95% Con{col 71}f. Interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}1.afchnge {c |}{col 18}{res}{space 2} .0076573{col 30}{space 2} .0447173{col 41}{space 1}    0.17{col 50}{space 3}0.864{col 58}{space 4}-.0800058{col 71}{space 3} .0953204
+{txt}{space 6}1.highearn {c |}{col 18}{res}{space 2} .2564785{col 30}{space 2} .0474464{col 41}{space 1}    5.41{col 50}{space 3}0.000{col 58}{space 4} .1634652{col 71}{space 3} .3494918
+{txt}{space 16} {c |}
+afchnge#highearn {c |}
+{space 12}1 1  {c |}{col 18}{res}{space 2} .1906012{col 30}{space 2} .0685089{col 41}{space 1}    2.78{col 50}{space 3}0.005{col 58}{space 4} .0562973{col 71}{space 3} .3249051
+{txt}{space 16} {c |}
+{space 11}_cons {c |}{col 18}{res}{space 2} 1.125615{col 30}{space 2} .0307368{col 41}{space 1}   36.62{col 50}{space 3}0.000{col 58}{space 4} 1.065359{col 71}{space 3} 1.185871
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. reg ldurat i.afchnge##i.highearn i.male i.married i.indust i.injtype if ky==1
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     5,349
+{txt}{hline 13}{c +}{hline 34}   F(14, 5334)     = {res}    16.37
+{txt}       Model {c |} {res} 358.441793        14  25.6029852   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 8341.41206     5,334  1.56381928   {txt}R-squared       ={res}    0.0412
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0387
+{txt}       Total {c |} {res} 8699.85385     5,348  1.62674904   {txt}Root MSE        =   {res} 1.2505
+
+{txt}{hline 17}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          ldurat{col 18}{c |}      Coef.{col 30}   Std. Err.{col 42}      t{col 50}   P>|t|{col 58}     [95% Con{col 71}f. Interval]
+{hline 17}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}1.afchnge {c |}{col 18}{res}{space 2} .0106274{col 30}{space 2} .0449167{col 41}{space 1}    0.24{col 50}{space 3}0.813{col 58}{space 4}-.0774276{col 71}{space 3} .0986824
+{txt}{space 6}1.highearn {c |}{col 18}{res}{space 2} .1757598{col 30}{space 2} .0517462{col 41}{space 1}    3.40{col 50}{space 3}0.001{col 58}{space 4} .0743161{col 71}{space 3} .2772035
+{txt}{space 16} {c |}
+afchnge#highearn {c |}
+{space 12}1 1  {c |}{col 18}{res}{space 2} .2308768{col 30}{space 2} .0695248{col 41}{space 1}    3.32{col 50}{space 3}0.001{col 58}{space 4} .0945798{col 71}{space 3} .3671738
+{txt}{space 16} {c |}
+{space 10}1.male {c |}{col 18}{res}{space 2}-.0979407{col 30}{space 2} .0445498{col 41}{space 1}   -2.20{col 50}{space 3}0.028{col 58}{space 4}-.1852766{col 71}{space 3}-.0106049
+{txt}{space 7}1.married {c |}{col 18}{res}{space 2} .1220995{col 30}{space 2} .0391228{col 41}{space 1}    3.12{col 50}{space 3}0.002{col 58}{space 4} .0454027{col 71}{space 3} .1987962
+{txt}{space 16} {c |}
+{space 10}indust {c |}
+{space 14}2  {c |}{col 18}{res}{space 2} .2708676{col 30}{space 2}  .058666{col 41}{space 1}    4.62{col 50}{space 3}0.000{col 58}{space 4} .1558581{col 71}{space 3}  .385877
+{txt}{space 14}3  {c |}{col 18}{res}{space 2} .1606709{col 30}{space 2} .0409038{col 41}{space 1}    3.93{col 50}{space 3}0.000{col 58}{space 4} .0804827{col 71}{space 3} .2408591
+{txt}{space 16} {c |}
+{space 9}injtype {c |}
+{space 14}2  {c |}{col 18}{res}{space 2} .7838129{col 30}{space 2}  .156167{col 41}{space 1}    5.02{col 50}{space 3}0.000{col 58}{space 4} .4776617{col 71}{space 3} 1.089964
+{txt}{space 14}3  {c |}{col 18}{res}{space 2} .3353613{col 30}{space 2} .0923382{col 41}{space 1}    3.63{col 50}{space 3}0.000{col 58}{space 4} .1543407{col 71}{space 3}  .516382
+{txt}{space 14}4  {c |}{col 18}{res}{space 2} .6403517{col 30}{space 2} .1008698{col 41}{space 1}    6.35{col 50}{space 3}0.000{col 58}{space 4} .4426058{col 71}{space 3} .8380977
+{txt}{space 14}5  {c |}{col 18}{res}{space 2} .5053036{col 30}{space 2} .0928059{col 41}{space 1}    5.44{col 50}{space 3}0.000{col 58}{space 4} .3233661{col 71}{space 3} .6872411
+{txt}{space 14}6  {c |}{col 18}{res}{space 2} .3936092{col 30}{space 2} .0935647{col 41}{space 1}    4.21{col 50}{space 3}0.000{col 58}{space 4} .2101841{col 71}{space 3} .5770344
+{txt}{space 14}7  {c |}{col 18}{res}{space 2} .7866121{col 30}{space 2}  .207028{col 41}{space 1}    3.80{col 50}{space 3}0.000{col 58}{space 4} .3807527{col 71}{space 3} 1.192472
+{txt}{space 14}8  {c |}{col 18}{res}{space 2} .5139003{col 30}{space 2} .1292776{col 41}{space 1}    3.98{col 50}{space 3}0.000{col 58}{space 4} .2604634{col 71}{space 3} .7673372
+{txt}{space 16} {c |}
+{space 11}_cons {c |}{col 18}{res}{space 2} .5713505{col 30}{space 2}   .10266{col 41}{space 1}    5.57{col 50}{space 3}0.000{col 58}{space 4} .3700949{col 71}{space 3} .7726061
+{txt}{hline 17}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_22
+. reg ldurat i.afchnge##i.highearn##i.ky 
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     7,150
+{txt}{hline 13}{c +}{hline 34}   F(7, 7142)      = {res}    26.09
+{txt}       Model {c |} {res} 305.206353         7  43.6009075   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 11935.9043     7,142  1.67122715   {txt}R-squared       ={res}    0.0249
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0240
+{txt}       Total {c |} {res} 12241.1107     7,149  1.71228293   {txt}Root MSE        =   {res} 1.2928
+
+{txt}{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             ldurat{col 21}{c |}      Coef.{col 33}   Std. Err.{col 45}      t{col 53}   P>|t|{col 61}     [95% Con{col 74}f. Interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}1.afchnge {c |}{col 21}{res}{space 2} .0973808{col 33}{space 2} .0796305{col 44}{space 1}    1.22{col 53}{space 3}0.221{col 61}{space 4}-.0587186{col 74}{space 3} .2534802
+{txt}{space 9}1.highearn {c |}{col 21}{res}{space 2} .1691388{col 33}{space 2} .0991463{col 44}{space 1}    1.71{col 53}{space 3}0.088{col 61}{space 4}-.0252172{col 74}{space 3} .3634948
+{txt}{space 19} {c |}
+{space 3}afchnge#highearn {c |}
+{space 15}1 1  {c |}{col 21}{res}{space 2} .1919906{col 33}{space 2} .1447922{col 44}{space 1}    1.33{col 53}{space 3}0.185{col 61}{space 4}-.0918449{col 74}{space 3} .4758262
+{txt}{space 19} {c |}
+{space 15}1.ky {c |}{col 21}{res}{space 2}-.2871215{col 33}{space 2} .0617866{col 44}{space 1}   -4.65{col 53}{space 3}0.000{col 61}{space 4}-.4082416{col 74}{space 3}-.1660014
+{txt}{space 19} {c |}
+{space 9}afchnge#ky {c |}
+{space 15}1 1  {c |}{col 21}{res}{space 2}-.0897235{col 33}{space 2} .0917369{col 44}{space 1}   -0.98{col 53}{space 3}0.328{col 61}{space 4} -.269555{col 74}{space 3}  .090108
+{txt}{space 19} {c |}
+{space 8}highearn#ky {c |}
+{space 15}1 1  {c |}{col 21}{res}{space 2} .0873397{col 33}{space 2} .1102977{col 44}{space 1}    0.79{col 53}{space 3}0.428{col 61}{space 4}-.1288765{col 74}{space 3}  .303556
+{txt}{space 19} {c |}
+afchnge#highearn#ky {c |}
+{space 13}1 1 1  {c |}{col 21}{res}{space 2}-.0013894{col 33}{space 2} .1607305{col 44}{space 1}   -0.01{col 53}{space 3}0.993{col 61}{space 4}-.3164689{col 74}{space 3}   .31369
+{txt}{space 19} {c |}
+{space 14}_cons {c |}{col 21}{res}{space 2} 1.412737{col 33}{space 2} .0532672{col 44}{space 1}   26.52{col 53}{space 3}0.000{col 61}{space 4} 1.308317{col 74}{space 3} 1.517156
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. reg ldurat i.afchnge##i.highearn##i.ky i.male i.married i.indust i.injtype
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     6,824
+{txt}{hline 13}{c +}{hline 34}   F(18, 6805)     = {res}    18.54
+{txt}       Model {c |} {res} 541.162741        18  30.0645967   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 11032.8204     6,805  1.62128147   {txt}R-squared       ={res}    0.0468
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0442
+{txt}       Total {c |} {res} 11573.9832     6,823   1.6963188   {txt}Root MSE        =   {res} 1.2733
+
+{txt}{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}             ldurat{col 21}{c |}      Coef.{col 33}   Std. Err.{col 45}      t{col 53}   P>|t|{col 61}     [95% Con{col 74}f. Interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}1.afchnge {c |}{col 21}{res}{space 2} .0827475{col 33}{space 2}  .079902{col 44}{space 1}    1.04{col 53}{space 3}0.300{col 61}{space 4}-.0738854{col 74}{space 3} .2393804
+{txt}{space 9}1.highearn {c |}{col 21}{res}{space 2} .1221972{col 33}{space 2} .1003454{col 44}{space 1}    1.22{col 53}{space 3}0.223{col 61}{space 4}-.0745112{col 74}{space 3} .3189055
+{txt}{space 19} {c |}
+{space 3}afchnge#highearn {c |}
+{space 15}1 1  {c |}{col 21}{res}{space 2} .1284847{col 33}{space 2} .1448497{col 44}{space 1}    0.89{col 53}{space 3}0.375{col 61}{space 4} -.155466{col 74}{space 3} .4124354
+{txt}{space 19} {c |}
+{space 15}1.ky {c |}{col 21}{res}{space 2}-.3143542{col 33}{space 2} .0625179{col 44}{space 1}   -5.03{col 53}{space 3}0.000{col 61}{space 4}-.4369089{col 74}{space 3}-.1917995
+{txt}{space 19} {c |}
+{space 9}afchnge#ky {c |}
+{space 15}1 1  {c |}{col 21}{res}{space 2}-.0722899{col 33}{space 2} .0921073{col 44}{space 1}   -0.78{col 53}{space 3}0.433{col 61}{space 4} -.252849{col 74}{space 3} .1082691
+{txt}{space 19} {c |}
+{space 8}highearn#ky {c |}
+{space 15}1 1  {c |}{col 21}{res}{space 2} .0689824{col 33}{space 2}  .110881{col 44}{space 1}    0.62{col 53}{space 3}0.534{col 61}{space 4}-.1483789{col 74}{space 3} .2863438
+{txt}{space 19} {c |}
+afchnge#highearn#ky {c |}
+{space 13}1 1 1  {c |}{col 21}{res}{space 2} .1068157{col 33}{space 2} .1612465{col 44}{space 1}    0.66{col 53}{space 3}0.508{col 61}{space 4}-.2092779{col 74}{space 3} .4229093
+{txt}{space 19} {c |}
+{space 13}1.male {c |}{col 21}{res}{space 2}-.1501867{col 33}{space 2} .0406318{col 44}{space 1}   -3.70{col 53}{space 3}0.000{col 61}{space 4}-.2298379{col 74}{space 3}-.0705356
+{txt}{space 10}1.married {c |}{col 21}{res}{space 2} .1123736{col 33}{space 2} .0349374{col 44}{space 1}    3.22{col 53}{space 3}0.001{col 61}{space 4} .0438852{col 74}{space 3} .1808619
+{txt}{space 19} {c |}
+{space 13}indust {c |}
+{space 17}2  {c |}{col 21}{res}{space 2} .3311585{col 33}{space 2} .0510768{col 44}{space 1}    6.48{col 53}{space 3}0.000{col 61}{space 4} .2310319{col 74}{space 3} .4312851
+{txt}{space 17}3  {c |}{col 21}{res}{space 2} .1485384{col 33}{space 2} .0362317{col 44}{space 1}    4.10{col 53}{space 3}0.000{col 61}{space 4} .0775128{col 74}{space 3} .2195639
+{txt}{space 19} {c |}
+{space 12}injtype {c |}
+{space 17}2  {c |}{col 21}{res}{space 2}  .743044{col 33}{space 2}  .143936{col 44}{space 1}    5.16{col 53}{space 3}0.000{col 61}{space 4} .4608844{col 74}{space 3} 1.025204
+{txt}{space 17}3  {c |}{col 21}{res}{space 2} .3823176{col 33}{space 2} .0852825{col 44}{space 1}    4.48{col 53}{space 3}0.000{col 61}{space 4} .2151373{col 74}{space 3}  .549498
+{txt}{space 17}4  {c |}{col 21}{res}{space 2} .6882625{col 33}{space 2} .0923365{col 44}{space 1}    7.45{col 53}{space 3}0.000{col 61}{space 4}  .507254{col 74}{space 3}  .869271
+{txt}{space 17}5  {c |}{col 21}{res}{space 2}  .470878{col 33}{space 2} .0858058{col 44}{space 1}    5.49{col 53}{space 3}0.000{col 61}{space 4} .3026718{col 74}{space 3} .6390842
+{txt}{space 17}6  {c |}{col 21}{res}{space 2} .4012535{col 33}{space 2} .0864441{col 44}{space 1}    4.64{col 53}{space 3}0.000{col 61}{space 4} .2317961{col 74}{space 3} .5707109
+{txt}{space 17}7  {c |}{col 21}{res}{space 2}  .923648{col 33}{space 2}  .174211{col 44}{space 1}    5.30{col 53}{space 3}0.000{col 61}{space 4}   .58214{col 74}{space 3} 1.265156
+{txt}{space 17}8  {c |}{col 21}{res}{space 2} .5755271{col 33}{space 2} .1166551{col 44}{space 1}    4.93{col 53}{space 3}0.000{col 61}{space 4} .3468466{col 74}{space 3} .8042077
+{txt}{space 19} {c |}
+{space 14}_cons {c |}{col 21}{res}{space 2} .9102316{col 33}{space 2} .1051194{col 44}{space 1}    8.66{col 53}{space 3}0.000{col 61}{space 4} .7041647{col 74}{space 3} 1.116299
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_23
+. use "kielmc.dta", clear
+{txt}
+{com}. //_24
+. use "injury.dta", clear
+{txt}
+{com}. //_25
+. use "traffic1_reshaped.dta", clear
+{txt}
+{com}. //_26
+. cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+{res}/Users/Sam/Desktop/Econ 645/Data/Mitchell
+{txt}
+{com}. //_27
+. use "moms.dta", clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c TRC}
+     {c |} {res}famid   age   race   hs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  1. {c |} {res}    3    24      2    1 {txt}{c |}
+  2. {c |} {res}    2    28      1    1 {txt}{c |}
+  3. {c |} {res}    4    21      1    0 {txt}{c |}
+  4. {c |} {res}    1    33      2    1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c BRC}
+
+{com}. use "dads.dta", clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c TRC}
+     {c |} {res}famid   age   race   hs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  1. {c |} {res}    1    21      1    0 {txt}{c |}
+  2. {c |} {res}    4    25      2    1 {txt}{c |}
+  3. {c |} {res}    2    25      1    1 {txt}{c |}
+  4. {c |} {res}    3    31      2    1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c BRC}
+
+{com}. //_28
+. append using "moms.dta"
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c TRC}
+     {c |} {res}famid   age   race   hs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  1. {c |} {res}    1    21      1    0 {txt}{c |}
+  2. {c |} {res}    4    25      2    1 {txt}{c |}
+  3. {c |} {res}    2    25      1    1 {txt}{c |}
+  4. {c |} {res}    3    31      2    1 {txt}{c |}
+  5. {c |} {res}    3    24      2    1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  6. {c |} {res}    2    28      1    1 {txt}{c |}
+  7. {c |} {res}    4    21      1    0 {txt}{c |}
+  8. {c |} {res}    1    33      2    1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c BRC}
+
+{com}. //_29
+. clear
+{txt}
+{com}. append using "moms.dta" "dads.dta"
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c TRC}
+     {c |} {res}famid   age   race   hs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  1. {c |} {res}    3    24      2    1 {txt}{c |}
+  2. {c |} {res}    2    28      1    1 {txt}{c |}
+  3. {c |} {res}    4    21      1    0 {txt}{c |}
+  4. {c |} {res}    1    33      2    1 {txt}{c |}
+  5. {c |} {res}    1    21      1    0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  6. {c |} {res}    4    25      2    1 {txt}{c |}
+  7. {c |} {res}    2    25      1    1 {txt}{c |}
+  8. {c |} {res}    3    31      2    1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c BRC}
+
+{com}. //_30
+. clear
+{txt}
+{com}. append using "moms.dta" "dads.dta", generate(datascreen)
+{txt}
+{com}. list, sepby(datascreen)
+{txt}
+     {c TLC}{hline 10}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c TRC}
+     {c |} {res}datasc~n   famid   age   race   hs {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  1. {c |} {res}       1       3    24      2    1 {txt}{c |}
+  2. {c |} {res}       1       2    28      1    1 {txt}{c |}
+  3. {c |} {res}       1       4    21      1    0 {txt}{c |}
+  4. {c |} {res}       1       1    33      2    1 {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  5. {c |} {res}       2       1    21      1    0 {txt}{c |}
+  6. {c |} {res}       2       4    25      2    1 {txt}{c |}
+  7. {c |} {res}       2       2    25      1    1 {txt}{c |}
+  8. {c |} {res}       2       3    31      2    1 {txt}{c |}
+     {c BLC}{hline 10}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c BRC}
+
+{com}. //_31
+. label define datascreenl 1 "From moms.dta" 2 "From dads.dta"
+{txt}
+{com}. label values datascreen datascreenl
+{txt}
+{com}. list, sepby(datascreen)
+{txt}
+     {c TLC}{hline 15}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c TRC}
+     {c |} {res}   datascreen   famid   age   race   hs {txt}{c |}
+     {c LT}{hline 15}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  1. {c |} {res}From moms.dta       3    24      2    1 {txt}{c |}
+  2. {c |} {res}From moms.dta       2    28      1    1 {txt}{c |}
+  3. {c |} {res}From moms.dta       4    21      1    0 {txt}{c |}
+  4. {c |} {res}From moms.dta       1    33      2    1 {txt}{c |}
+     {c LT}{hline 15}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  5. {c |} {res}From dads.dta       1    21      1    0 {txt}{c |}
+  6. {c |} {res}From dads.dta       4    25      2    1 {txt}{c |}
+  7. {c |} {res}From dads.dta       2    25      1    1 {txt}{c |}
+  8. {c |} {res}From dads.dta       3    31      2    1 {txt}{c |}
+     {c BLC}{hline 15}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c BRC}
+
+{com}. //_32
+. clear
+{txt}
+{com}. use "moms.dta"
+{txt}
+{com}. append using "dads.dta", generate(datascreen)
+{txt}
+{com}. list, sepby(datascreen)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c TRC}
+     {c |} {res}famid   age   race   hs   datasc~n {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+  1. {c |} {res}    3    24      2    1          0 {txt}{c |}
+  2. {c |} {res}    2    28      1    1          0 {txt}{c |}
+  3. {c |} {res}    4    21      1    0          0 {txt}{c |}
+  4. {c |} {res}    1    33      2    1          0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+  5. {c |} {res}    1    21      1    0          1 {txt}{c |}
+  6. {c |} {res}    4    25      2    1          1 {txt}{c |}
+  7. {c |} {res}    2    25      1    1          1 {txt}{c |}
+  8. {c |} {res}    3    31      2    1          1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c BRC}
+
+{com}. label define datascreenl 0 "From moms.dta" 1 "From dads.dta"
+{txt}
+{com}. label values datascreen datascreenl
+{txt}
+{com}. list, sepby(datascreen)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 15}{c TRC}
+     {c |} {res}famid   age   race   hs      datascreen {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 15}{c RT}
+  1. {c |} {res}    3    24      2    1   From moms.dta {txt}{c |}
+  2. {c |} {res}    2    28      1    1   From moms.dta {txt}{c |}
+  3. {c |} {res}    4    21      1    0   From moms.dta {txt}{c |}
+  4. {c |} {res}    1    33      2    1   From moms.dta {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 15}{c RT}
+  5. {c |} {res}    1    21      1    0   From dads.dta {txt}{c |}
+  6. {c |} {res}    4    25      2    1   From dads.dta {txt}{c |}
+  7. {c |} {res}    2    25      1    1   From dads.dta {txt}{c |}
+  8. {c |} {res}    3    31      2    1   From dads.dta {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 15}{c BRC}
+
+{com}. //_33
+. dir br*.dta
+
+{res}-rw-r--r--  1 Sam  staff  2604 Aug 15 08:55 br_clarence.dta
+-rw-r--r--  1 Sam  staff  2553 Aug 15 08:55 br_isaac.dta
+-rw-r--r--  1 Sam  staff  2583 Aug 15 08:55 br_sally.dta
+{txt}
+{com}. //_34
+. use "br_clarence.dta", clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 9}{c -}{hline 43}{c -}{hline 8}{c TRC}
+     {c |} {res}booknum                                        book   rating {txt}{c |}
+     {c LT}{hline 9}{c -}{hline 43}{c -}{hline 8}{c RT}
+  1. {c |} {res}      1                   A Fistful of Significance        5 {txt}{c |}
+  2. {c |} {res}      2    For Whom the Null Hypothesis is Rejected       10 {txt}{c |}
+  3. {c |} {res}      3   Journey to the Center of the Normal Curve        6 {txt}{c |}
+     {c BLC}{hline 9}{c -}{hline 43}{c -}{hline 8}{c BRC}
+
+{com}. //_35
+. clear
+{txt}
+{com}. append using "br_clarence.dta" "br_isaac" "br_sally", generate(rev)
+{txt}
+{com}. label define revl 1 "clarence" 2 "isaac" 3 "sally"
+{txt}
+{com}. label values rev revl
+{txt}
+{com}. list, sepby(rev)
+{txt}
+     {c TLC}{hline 10}{c -}{hline 9}{c -}{hline 43}{c -}{hline 8}{c TRC}
+     {c |} {res}     rev   booknum                                        book   rating {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 9}{c -}{hline 43}{c -}{hline 8}{c RT}
+  1. {c |} {res}clarence         1                   A Fistful of Significance        5 {txt}{c |}
+  2. {c |} {res}clarence         2    For Whom the Null Hypothesis is Rejected       10 {txt}{c |}
+  3. {c |} {res}clarence         3   Journey to the Center of the Normal Curve        6 {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 9}{c -}{hline 43}{c -}{hline 8}{c RT}
+  4. {c |} {res}   isaac         1                    The Dreaded Type I Error        6 {txt}{c |}
+  5. {c |} {res}   isaac         2                           How to Find Power        9 {txt}{c |}
+  6. {c |} {res}   isaac         3                                The Outliers        8 {txt}{c |}
+     {c LT}{hline 10}{c -}{hline 9}{c -}{hline 43}{c -}{hline 8}{c RT}
+  7. {c |} {res}   sally         1           Random Effects for Fun and Profit        6 {txt}{c |}
+  8. {c |} {res}   sally         2                           A Tale of t-tests        9 {txt}{c |}
+  9. {c |} {res}   sally         3          Days of Correlation and Regression        8 {txt}{c |}
+     {c BLC}{hline 10}{c -}{hline 9}{c -}{hline 43}{c -}{hline 8}{c BRC}
+
+{com}. //_36
+. search precombine
+{txt}
+{com}. clear
+{txt}
+{com}. precombine "moms.dta" "dads.dta", describe(type format varlab vallab ndta) uniquevars
+{txt}
+Reports relevant to the combining of the following datasets:
+[vars: {res}4{txt}{col 14}obs: {res}4{txt}] {res}{col 29}moms.dta
+{txt}[vars: {res}4{txt}{col 14}obs: {res}4{txt}] {res}{col 29}dads.dta
+
+{txt}Variables that appear in multiple datasets:
+  {c TLC}{hline 10}{c -}{hline 10}{c -}{hline 7}{c -}{hline 8}{c -}{hline 14}{c -}{hline 12}{c -}{hline 6}{c TRC}
+  {c |} {res}variable    dataset    type   format         varlab   vallabname   ndta {txt}{c |}
+  {c LT}{hline 10}{c -}{hline 10}{c -}{hline 7}{c -}{hline 8}{c -}{hline 14}{c -}{hline 12}{c -}{hline 6}{c RT}
+  {c |} {res}     age   dads.dta   float    %5.0g            Age                   2 {txt}{c |}
+  {c |} {res}     age   moms.dta   float    %5.0g            Age                   2 {txt}{c |}
+  {c LT}{hline 10}{c -}{hline 10}{c -}{hline 7}{c -}{hline 8}{c -}{hline 14}{c -}{hline 12}{c -}{hline 6}{c RT}
+  {c |} {res}   famid   dads.dta   float    %5.0g      Family ID                   2 {txt}{c |}
+  {c |} {res}   famid   moms.dta   float    %5.0g      Family ID                   2 {txt}{c |}
+  {c LT}{hline 10}{c -}{hline 10}{c -}{hline 7}{c -}{hline 8}{c -}{hline 14}{c -}{hline 12}{c -}{hline 6}{c RT}
+  {c |} {res}      hs   dads.dta   float    %7.0g   HS Graduate?                   2 {txt}{c |}
+  {c |} {res}      hs   moms.dta   float    %7.0g   HS Graduate?                   2 {txt}{c |}
+  {c LT}{hline 10}{c -}{hline 10}{c -}{hline 7}{c -}{hline 8}{c -}{hline 14}{c -}{hline 12}{c -}{hline 6}{c RT}
+  {c |} {res}    race   dads.dta   float    %5.0g           Race                   2 {txt}{c |}
+  {c |} {res}    race   moms.dta   float    %5.0g      Ethnicity                   2 {txt}{c |}
+  {c BLC}{hline 10}{c -}{hline 10}{c -}{hline 7}{c -}{hline 8}{c -}{hline 14}{c -}{hline 12}{c -}{hline 6}{c BRC}
+
+There are no variables that appear in only one dataset, 
+ i.e. every variable appears in multiple datasets. 
+
+{com}. //_37
+. use "moms1.dta", clear
+{txt}
+{com}. append using "dads1.dta", generate(datascreen)
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   datasc~n   dage   drace   dhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}    1     33       2     1          0      .       .     . {txt}{c |}
+  2. {c |} {res}    2     28       1     1          0      .       .     . {txt}{c |}
+  3. {c |} {res}    3     24       2     1          0      .       .     . {txt}{c |}
+  4. {c |} {res}    4     21       1     0          0      .       .     . {txt}{c |}
+  5. {c |} {res}    1      .       .     .          1     21       1     0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  6. {c |} {res}    2      .       .     .          1     25       1     1 {txt}{c |}
+  7. {c |} {res}    3      .       .     .          1     31       2     1 {txt}{c |}
+  8. {c |} {res}    4      .       .     .          1     25       2     1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. //_38
+. use "moms1.dta", clear
+{txt}
+{com}. rename (mage mrace mhs) (age race hs)
+{res}{txt}
+{com}. save "moms1temp.dta", replace
+{txt}file moms1temp.dta saved
+
+{com}. //_39
+. use "dads1.dta", clear
+{txt}
+{com}. rename (dage drace dhs) (age race hs)
+{res}{txt}
+{com}. save "dads1temp.dta", replace
+{txt}file dads1temp.dta saved
+
+{com}. //_40
+. append using "moms1temp.dta" "dads1temp.dta", generate(datascreen)
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c TRC}
+     {c |} {res}famid   age   race   hs   datasc~n {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+  1. {c |} {res}    1    21      1    0          0 {txt}{c |}
+  2. {c |} {res}    2    25      1    1          0 {txt}{c |}
+  3. {c |} {res}    3    31      2    1          0 {txt}{c |}
+  4. {c |} {res}    4    25      2    1          0 {txt}{c |}
+  5. {c |} {res}    1    33      2    1          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+  6. {c |} {res}    2    28      1    1          1 {txt}{c |}
+  7. {c |} {res}    3    24      2    1          1 {txt}{c |}
+  8. {c |} {res}    4    21      1    0          1 {txt}{c |}
+  9. {c |} {res}    1    21      1    0          2 {txt}{c |}
+ 10. {c |} {res}    2    25      1    1          2 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+ 11. {c |} {res}    3    31      2    1          2 {txt}{c |}
+ 12. {c |} {res}    4    25      2    1          2 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c BRC}
+
+{com}. //_41
+. use "momslab.dta", clear
+{txt}
+{com}. append using "dadslab.dta", generate(datascreen)
+{txt}(label eth already defined)
+
+{com}. describe
+
+{txt}Contains data from {res}momslab.dta
+{txt}  obs:{res}             8                          
+{txt} vars:{res}             5                          27 Dec 2009 21:47
+{txt} size:{res}           136                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:famid          }{txt}{bind: float   }{bind:{txt}%5.0g     }{space 1}{bind:         }{bind:  }{res}{res}Family ID{p_end}
+{p 0 48}{bind:age            }{txt}{bind: float   }{bind:{txt}%5.0g     }{space 1}{bind:         }{bind:  }{res}{res}Mom's Age{p_end}
+{p 0 48}{bind:race           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:eth      }{bind:  }{res}{res}Mom's Ethnicity{p_end}
+{p 0 48}{bind:hs             }{txt}{bind: float   }{bind:{txt}%15.0g    }{space 1}{bind:grad     }{bind:  }{res}{res}Is Mom a HS Graduate?{p_end}
+{p 0 48}{bind:datascreen     }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+{txt}
+{com}. //_42
+. use "momslab.dta", clear
+{txt}
+{com}. label variable hs "High School Degree"
+{txt}
+{com}. label variable race "Race/Ethnicity"
+{txt}
+{com}. label variable age "Age"
+{txt}
+{com}. save "momslab1.dta", replace
+{txt}file momslab1.dta saved
+
+{com}. //_43
+. use "dadslab.dta", clear
+{txt}
+{com}. label variable hs "High School Degree"
+{txt}
+{com}. label variable race "Race/Ethnicity"
+{txt}
+{com}. label variable age "Age"
+{txt}
+{com}. save "dadslab1.dta", replace
+{txt}file dadslab1.dta saved
+
+{com}. //_44
+. use "momslab1.dta", clear
+{txt}
+{com}. append using "dadslab1.dta", generate(datascreen)
+{txt}(label eth already defined)
+
+{com}. describe
+
+{txt}Contains data from {res}momslab1.dta
+{txt}  obs:{res}             8                          
+{txt} vars:{res}             5                          25 Sep 2023 14:22
+{txt} size:{res}           136                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:famid          }{txt}{bind: float   }{bind:{txt}%5.0g     }{space 1}{bind:         }{bind:  }{res}{res}Family ID{p_end}
+{p 0 48}{bind:age            }{txt}{bind: float   }{bind:{txt}%5.0g     }{space 1}{bind:         }{bind:  }{res}{res}Age{p_end}
+{p 0 48}{bind:race           }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:eth      }{bind:  }{res}{res}Race/Ethnicity{p_end}
+{p 0 48}{bind:hs             }{txt}{bind: float   }{bind:{txt}%15.0g    }{space 1}{bind:grad     }{bind:  }{res}{res}High School Degree{p_end}
+{p 0 48}{bind:datascreen     }{txt}{bind: byte    }{bind:{txt}%8.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+{txt}
+{com}. //_45
+. save momsdadlab1.dta, replace
+{txt}file momsdadlab1.dta saved
+
+{com}. //_46
+. use momslab, clear
+{txt}
+{com}. codebook race hs
+
+{txt}{hline}
+{res}race{right:Mom's Ethnicity}
+{txt}{hline}
+
+{col 19}type:  numeric ({res}float{txt})
+{ralign 22:label}:  {res:eth}
+
+{col 18}range:  [{res}1{txt},{res}2{txt}]{col 55}units:  {res}1
+{col 10}{txt}unique values:  {res}2{col 51}{txt}missing .:  {res}0{txt}/{res}4
+
+{txt}{col 13}tabulation:  Freq.   Numeric  Label
+{col 21}{res}         2{col 33}       1{col 43}{txt}Mom White
+{col 21}{res}         2{col 33}       2{col 43}{txt}Mom Black
+
+{txt}{hline}
+{res}hs{right:Is Mom a HS Graduate?}
+{txt}{hline}
+
+{col 19}type:  numeric ({res}float{txt})
+{ralign 22:label}:  {res:grad}
+
+{col 18}range:  [{res}0{txt},{res}1{txt}]{col 55}units:  {res}1
+{col 10}{txt}unique values:  {res}2{col 51}{txt}missing .:  {res}0{txt}/{res}4
+
+{txt}{col 13}tabulation:  Freq.   Numeric  Label
+{col 21}{res}         1{col 33}       0{col 43}{txt}Mom Not HS Grad
+{col 21}{res}         3{col 33}       1{col 43}{txt}Mom HS Grad
+
+{com}. //_47
+. use dadslab, clear
+{txt}
+{com}. codebook race hs
+
+{txt}{hline}
+{res}race{right:Dad's Ethnicity}
+{txt}{hline}
+
+{col 19}type:  numeric ({res}float{txt})
+{ralign 22:label}:  {res:eth}
+
+{col 18}range:  [{res}1{txt},{res}2{txt}]{col 55}units:  {res}1
+{col 10}{txt}unique values:  {res}2{col 51}{txt}missing .:  {res}0{txt}/{res}4
+
+{txt}{col 13}tabulation:  Freq.   Numeric  Label
+{col 21}{res}         2{col 33}       1{col 43}{txt}Dad White
+{col 21}{res}         2{col 33}       2{col 43}{txt}Dad Black
+
+{txt}{hline}
+{res}hs{right:Is Dad a HS Graduate?}
+{txt}{hline}
+
+{col 19}type:  numeric ({res}float{txt})
+{ralign 22:label}:  {res:hsgrad}
+
+{col 18}range:  [{res}0{txt},{res}1{txt}]{col 55}units:  {res}1
+{col 10}{txt}unique values:  {res}2{col 51}{txt}missing .:  {res}0{txt}/{res}4
+
+{txt}{col 13}tabulation:  Freq.   Numeric  Label
+{col 21}{res}         1{col 33}       0{col 43}{txt}Dad Not HS Grad
+{col 21}{res}         3{col 33}       1{col 43}{txt}Dad HS Grad
+
+{com}. //_48
+. use "momsdadlab1.dta", replace
+{txt}
+{com}. codebook race hs
+
+{txt}{hline}
+{res}race{right:Race/Ethnicity}
+{txt}{hline}
+
+{col 19}type:  numeric ({res}float{txt})
+{ralign 22:label}:  {res:eth}
+
+{col 18}range:  [{res}1{txt},{res}2{txt}]{col 55}units:  {res}1
+{col 10}{txt}unique values:  {res}2{col 51}{txt}missing .:  {res}0{txt}/{res}8
+
+{txt}{col 13}tabulation:  Freq.   Numeric  Label
+{col 21}{res}         4{col 33}       1{col 43}{txt}Mom White
+{col 21}{res}         4{col 33}       2{col 43}{txt}Mom Black
+
+{txt}{hline}
+{res}hs{right:High School Degree}
+{txt}{hline}
+
+{col 19}type:  numeric ({res}float{txt})
+{ralign 22:label}:  {res:grad}
+
+{col 18}range:  [{res}0{txt},{res}1{txt}]{col 55}units:  {res}1
+{col 10}{txt}unique values:  {res}2{col 51}{txt}missing .:  {res}0{txt}/{res}8
+
+{txt}{col 13}tabulation:  Freq.   Numeric  Label
+{col 21}{res}         2{col 33}       0{col 43}{txt}Mom Not HS Grad
+{col 21}{res}         6{col 33}       1{col 43}{txt}Mom HS Grad
+
+{com}. //_49
+. use "momshs.dta", clear
+{txt}
+{com}. append using "dads.dta", gen(datascreen)
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c TRC}
+     {c |} {res}famid   age   race   hs   datasc~n {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+  1. {c |} {res}    3    24      2    2          0 {txt}{c |}
+  2. {c |} {res}    2    28      1    2          0 {txt}{c |}
+  3. {c |} {res}    4    21      1    1          0 {txt}{c |}
+  4. {c |} {res}    1    33      2    1          0 {txt}{c |}
+  5. {c |} {res}    1    21      1    0          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+  6. {c |} {res}    4    25      2    1          1 {txt}{c |}
+  7. {c |} {res}    2    25      1    1          1 {txt}{c |}
+  8. {c |} {res}    3    31      2    1          1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c BRC}
+
+{com}. tab hs datascreen
+
+        {txt}HS {c |}      datascreen
+ Graduate? {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}         0          1 {txt}{c |}{res}         1 
+{txt}         1 {c |}{res}         2          3 {txt}{c |}{res}         5 
+{txt}         2 {c |}{res}         2          0 {txt}{c |}{res}         2 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}         4          4 {txt}{c |}{res}         8 
+
+{txt}
+{com}. //_50
+. use "momshs.dta", clear
+{txt}
+{com}. recode hs (1=0) (2=1)
+{txt}(hs: 4 changes made)
+
+{com}. //_51
+. append using "dads.dta", gen(datascreen)
+{txt}
+{com}. tab hs datascreen
+
+        {txt}HS {c |}      datascreen
+ Graduate? {c |}         0          1 {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+         0 {c |}{res}         2          1 {txt}{c |}{res}         3 
+{txt}         1 {c |}{res}         2          3 {txt}{c |}{res}         5 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}         4          4 {txt}{c |}{res}         8 
+
+{txt}
+{com}. //_52
+. use "moms.dta", clear
+{txt}
+{com}. append using "dadstr.dta", generate(datascreen)
+{err}{p 0 2 2}
+variable
+hs is
+float in master but
+str3 in using data
+{p_end}
+{p 4 4 2}
+You could specify
+{bf:append}'s
+{bf:force} option to ignore this
+numeric/string mismatch.  The using variable
+would then be treated as if it
+contained numeric missing value.
+{p_end}
+{txt}
+{com}. //_53
+. use "dadstr.dta", clear
+{txt}
+{com}. destring hs, replace
+{txt}hs: all characters numeric; {res}replaced {txt}as {res}byte
+{txt}
+{com}. save "dadstrtemp.dta", replace
+{txt}file dadstrtemp.dta saved
+
+{com}. //_54
+. use "moms.dta", clear
+{txt}
+{com}. append using "dadstrtemp.dta", gen(datascreen)
+{txt}
+{com}. list, sepby(datascreen)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c TRC}
+     {c |} {res}famid   age   race   hs   datasc~n {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+  1. {c |} {res}    3    24      2    1          0 {txt}{c |}
+  2. {c |} {res}    2    28      1    1          0 {txt}{c |}
+  3. {c |} {res}    4    21      1    0          0 {txt}{c |}
+  4. {c |} {res}    1    33      2    1          0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c RT}
+  5. {c |} {res}    1    21      1    0          1 {txt}{c |}
+  6. {c |} {res}    4    25      2    1          1 {txt}{c |}
+  7. {c |} {res}    2    25      1    1          1 {txt}{c |}
+  8. {c |} {res}    3    31      2    1          1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 10}{c BRC}
+
+{com}. //_55
+. use "dadstr.dta", clear
+{txt}
+{com}. //_56
+. gen n = real(regexs(1)) if regexm(hs,"([0-9]+)")
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 3}{c TRC}
+     {c |} {res}famid   age   race   hs   n {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 3}{c RT}
+  1. {c |} {res}    1    21      1    0   0 {txt}{c |}
+  2. {c |} {res}    4    25      2    1   1 {txt}{c |}
+  3. {c |} {res}    2    25      1    1   1 {txt}{c |}
+  4. {c |} {res}    3    31      2    1   1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c -}{hline 3}{c BRC}
+
+{com}. //_57
+. clear
+{txt}
+{com}. input str15 number
+
+     {txt}         number
+  1{com}. "(123) 456-7890"
+{txt}  2{com}. "(800) STATAPC"
+{txt}  3{com}. end
+{txt}
+{com}. //_58
+. gen str newnum1 = regexs(1) if regexm(number, "^\(([0-9]+)\) (.*)")
+{txt}
+{com}. gen str newnum2 = regexs(2) if regexm(number, "^\(([0-9]+)\) (.*)")
+{txt}
+{com}. gen str newnum = regexs(1) + "-" + regexs(2) if regexm(number, "^\(([0-9]+)\) (.*)")
+{txt}
+{com}. list number newnum
+{txt}
+     {c TLC}{hline 16}{c -}{hline 14}{c TRC}
+     {c |} {res}        number         newnum {txt}{c |}
+     {c LT}{hline 16}{c -}{hline 14}{c RT}
+  1. {c |} {res}(123) 456-7890   123-456-7890 {txt}{c |}
+  2. {c |} {res} (800) STATAPC    800-STATAPC {txt}{c |}
+     {c BLC}{hline 16}{c -}{hline 14}{c BRC}
+
+{com}. //_59
+. use moms1, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}    1     33       2     1 {txt}{c |}
+  2. {c |} {res}    2     28       1     1 {txt}{c |}
+  3. {c |} {res}    3     24       2     1 {txt}{c |}
+  4. {c |} {res}    4     21       1     0 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. //_60
+. merge 1:1 famid using dads1
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               4{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   dage   drace   dhs        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c RT}
+  1. {c |} {res}    1     33       2     1     21       1     0   matched (3) {txt}{c |}
+  2. {c |} {res}    2     28       1     1     25       1     1   matched (3) {txt}{c |}
+  3. {c |} {res}    3     24       2     1     31       2     1   matched (3) {txt}{c |}
+  4. {c |} {res}    4     21       1     0     25       2     1   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c BRC}
+
+{com}. //_61
+. use "moms2.dta", clear
+{txt}
+{com}. merge 1:1 famid using "dads2.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               3
+{txt}{col 9}from master{col 30}{res}               2{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               1{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               2{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. //_62
+. codebook _merge
+
+{txt}{hline}
+{res}_merge{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}type:  numeric ({res}byte{txt})
+{ralign 22:label}:  {res:_merge}
+
+{col 18}range:  [{res}1{txt},{res}3{txt}]{col 55}units:  {res}1
+{col 10}{txt}unique values:  {res}3{col 51}{txt}missing .:  {res}0{txt}/{res}5
+
+{txt}{col 13}tabulation:  Freq.   Numeric  Label
+{col 21}{res}         2{col 33}       1{col 43}{txt}master only (1)
+{col 21}{res}         1{col 33}       2{col 43}{txt}using only (2)
+{col 21}{res}         2{col 33}       3{col 43}{txt}matched (3)
+
+{com}. tab _merge
+
+                 {txt}_merge {c |}      Freq.     Percent        Cum.
+{hline 24}{c +}{hline 35}
+        master only (1) {c |}{res}          2       40.00       40.00
+{txt}         using only (2) {c |}{res}          1       20.00       60.00
+{txt}            matched (3) {c |}{res}          2       40.00      100.00
+{txt}{hline 24}{c +}{hline 35}
+                  Total {c |}{res}          5      100.00
+{txt}
+{com}. //_63
+. sort famid
+{txt}
+{com}. list famid mage mrace dage drace _merge
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 17}{c TRC}
+     {c |} {res}famid   mage   mrace   dage   drace            _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 17}{c RT}
+  1. {c |} {res}    1     33       2     21       1       matched (3) {txt}{c |}
+  2. {c |} {res}    2      .       .     25       1    using only (2) {txt}{c |}
+  3. {c |} {res}    3     24       2      .       .   master only (1) {txt}{c |}
+  4. {c |} {res}    4     21       1     25       2       matched (3) {txt}{c |}
+  5. {c |} {res}    5     39       2      .       .   master only (1) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 17}{c BRC}
+
+{com}. //_64
+. list famid mage mrace dage drace _merge if _merge==1
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 17}{c TRC}
+     {c |} {res}famid   mage   mrace   dage   drace            _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 17}{c RT}
+  3. {c |} {res}    3     24       2      .       .   master only (1) {txt}{c |}
+  5. {c |} {res}    5     39       2      .       .   master only (1) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 17}{c BRC}
+
+{com}. list famid mage mrace dage drace _merge if _merge==2
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 16}{c TRC}
+     {c |} {res}famid   mage   mrace   dage   drace           _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 16}{c RT}
+  2. {c |} {res}    2      .       .     25       1   using only (2) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 16}{c BRC}
+
+{com}. list famid mage mrace dage drace _merge if _merge==3
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   mage   mrace   dage   drace        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c RT}
+  1. {c |} {res}    1     33       2     21       1   matched (3) {txt}{c |}
+  4. {c |} {res}    4     21       1     25       2   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c BRC}
+
+{com}. //_65
+. keep if _merge == 3
+{txt}(3 observations deleted)
+
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   fr_moms2   dage   drace   dhs   fr_dads2        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 13}{c RT}
+  1. {c |} {res}    1     33       2     1          1     21       1     0          1   matched (3) {txt}{c |}
+  2. {c |} {res}    4     21       1     0          1     25       2     1          1   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 13}{c BRC}
+
+{com}. //_66
+. use "momsdup.dta", clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   fr_moms2 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c RT}
+  1. {c |} {res}    1     33       2     1          1 {txt}{c |}
+  2. {c |} {res}    3     24       2     1          1 {txt}{c |}
+  3. {c |} {res}    4     21       1     0          1 {txt}{c |}
+  4. {c |} {res}    4     39       2     0          1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c BRC}
+
+{com}. //_67
+. use "kids1.dta", clear
+{txt}
+{com}. sort famid kidid
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c TRC}
+     {c |} {res}famid   kidid   kage   kfem {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  1. {c |} {res}    1       1      3      1 {txt}{c |}
+  2. {c |} {res}    2       1      8      0 {txt}{c |}
+  3. {c |} {res}    2       2      3      1 {txt}{c |}
+  4. {c |} {res}    3       1      4      1 {txt}{c |}
+  5. {c |} {res}    3       2      7      0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  6. {c |} {res}    4       1      1      0 {txt}{c |}
+  7. {c |} {res}    4       2      3      0 {txt}{c |}
+  8. {c |} {res}    4       3      7      0 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c BRC}
+
+{com}. //_68
+. use "kidname.dta", clear
+{txt}
+{com}. sort famid kidid
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res}famid   kidid   kname {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  1. {c |} {res}    1       1     Sue {txt}{c |}
+  2. {c |} {res}    2       1     Vic {txt}{c |}
+  3. {c |} {res}    2       2     Flo {txt}{c |}
+  4. {c |} {res}    3       1     Ivy {txt}{c |}
+  5. {c |} {res}    3       2     Abe {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  6. {c |} {res}    4       1     Tom {txt}{c |}
+  7. {c |} {res}    4       2     Bob {txt}{c |}
+  8. {c |} {res}    4       3     Cam {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+{com}. //_69
+. use "kids1.dta", clear
+{txt}
+{com}. merge 1:1 famid kidid using "kidname.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               8{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   kidid   kage   kfem   kname        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c RT}
+  1. {c |} {res}    1       1      3      1     Sue   matched (3) {txt}{c |}
+  2. {c |} {res}    2       1      8      0     Vic   matched (3) {txt}{c |}
+  3. {c |} {res}    2       2      3      1     Flo   matched (3) {txt}{c |}
+  4. {c |} {res}    3       1      4      1     Ivy   matched (3) {txt}{c |}
+  5. {c |} {res}    3       2      7      0     Abe   matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c RT}
+  6. {c |} {res}    4       1      1      0     Tom   matched (3) {txt}{c |}
+  7. {c |} {res}    4       2      3      0     Bob   matched (3) {txt}{c |}
+  8. {c |} {res}    4       3      7      0     Cam   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c BRC}
+
+{com}. //_70
+. use "moms1.dta", clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}    1     33       2     1 {txt}{c |}
+  2. {c |} {res}    2     28       1     1 {txt}{c |}
+  3. {c |} {res}    3     24       2     1 {txt}{c |}
+  4. {c |} {res}    4     21       1     0 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. use "kids1.dta", clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c TRC}
+     {c |} {res}famid   kidid   kage   kfem {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  1. {c |} {res}    3       1      4      1 {txt}{c |}
+  2. {c |} {res}    3       2      7      0 {txt}{c |}
+  3. {c |} {res}    2       1      8      0 {txt}{c |}
+  4. {c |} {res}    2       2      3      1 {txt}{c |}
+  5. {c |} {res}    4       1      1      0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  6. {c |} {res}    4       2      3      0 {txt}{c |}
+  7. {c |} {res}    4       3      7      0 {txt}{c |}
+  8. {c |} {res}    1       1      3      1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c BRC}
+
+{com}. //_71
+. use "moms1.dta", clear
+{txt}
+{com}. merge 1:m famid using "kids1.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               8{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   kidid   kage   kfem        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c RT}
+  1. {c |} {res}    1     33       2     1       1      3      1   matched (3) {txt}{c |}
+  2. {c |} {res}    2     28       1     1       2      3      1   matched (3) {txt}{c |}
+  3. {c |} {res}    3     24       2     1       1      4      1   matched (3) {txt}{c |}
+  4. {c |} {res}    4     21       1     0       3      7      0   matched (3) {txt}{c |}
+  5. {c |} {res}    2     28       1     1       1      8      0   matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c RT}
+  6. {c |} {res}    3     24       2     1       2      7      0   matched (3) {txt}{c |}
+  7. {c |} {res}    4     21       1     0       1      1      0   matched (3) {txt}{c |}
+  8. {c |} {res}    4     21       1     0       2      3      0   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c BRC}
+
+{com}. //_72
+. use "kids1.dta", clear
+{txt}
+{com}. merge m:1 famid using "moms1.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               8{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. list, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   kidid   kage   kfem   mage   mrace   mhs        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c RT}
+  1. {c |} {res}    1       1      3      1     33       2     1   matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c RT}
+  2. {c |} {res}    2       2      3      1     28       1     1   matched (3) {txt}{c |}
+  3. {c |} {res}    2       1      8      0     28       1     1   matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c RT}
+  4. {c |} {res}    3       1      4      1     24       2     1   matched (3) {txt}{c |}
+  5. {c |} {res}    3       2      7      0     24       2     1   matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c RT}
+  6. {c |} {res}    4       3      7      0     21       1     0   matched (3) {txt}{c |}
+  7. {c |} {res}    4       1      1      0     21       1     0   matched (3) {txt}{c |}
+  8. {c |} {res}    4       2      3      0     21       1     0   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 13}{c BRC}
+
+{com}. //_73
+. use "kids1.dta", clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c TRC}
+     {c |} {res}famid   kidid   kage   kfem {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  1. {c |} {res}    3       1      4      1 {txt}{c |}
+  2. {c |} {res}    3       2      7      0 {txt}{c |}
+  3. {c |} {res}    2       1      8      0 {txt}{c |}
+  4. {c |} {res}    2       2      3      1 {txt}{c |}
+  5. {c |} {res}    4       1      1      0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  6. {c |} {res}    4       2      3      0 {txt}{c |}
+  7. {c |} {res}    4       3      7      0 {txt}{c |}
+  8. {c |} {res}    1       1      3      1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c BRC}
+
+{com}. use moms1.dta, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}    1     33       2     1 {txt}{c |}
+  2. {c |} {res}    2     28       1     1 {txt}{c |}
+  3. {c |} {res}    3     24       2     1 {txt}{c |}
+  4. {c |} {res}    4     21       1     0 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. //_74
+. use "moms2.dta", clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   fr_moms2 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c RT}
+  1. {c |} {res}    1     33       2     1          1 {txt}{c |}
+  2. {c |} {res}    3     24       2     1          1 {txt}{c |}
+  3. {c |} {res}    4     21       1     0          1 {txt}{c |}
+  4. {c |} {res}    5     39       2     0          1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c BRC}
+
+{com}. //_75
+. use "kids2.dta", clear
+{txt}
+{com}. list, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c TRC}
+     {c |} {res}famid   kidid   kage   kfem {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  1. {c |} {res}    2       2      3      1 {txt}{c |}
+  2. {c |} {res}    2       1      8      0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  3. {c |} {res}    3       2      7      0 {txt}{c |}
+  4. {c |} {res}    3       1      4      1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c RT}
+  5. {c |} {res}    4       2      3      0 {txt}{c |}
+  6. {c |} {res}    4       3      7      0 {txt}{c |}
+  7. {c |} {res}    4       1      1      0 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c BRC}
+
+{com}. //_76
+. use "moms2.dta", clear
+{txt}
+{com}. merge 1:m famid using "kids2.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               4
+{txt}{col 9}from master{col 30}{res}               2{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               2{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               5{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. //_77
+. tab _merge
+
+                 {txt}_merge {c |}      Freq.     Percent        Cum.
+{hline 24}{c +}{hline 35}
+        master only (1) {c |}{res}          2       22.22       22.22
+{txt}         using only (2) {c |}{res}          2       22.22       44.44
+{txt}            matched (3) {c |}{res}          5       55.56      100.00
+{txt}{hline 24}{c +}{hline 35}
+                  Total {c |}{res}          9      100.00
+{txt}
+{com}. sort famid kidid
+{txt}
+{com}. list, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   fr_moms2   kidid   kage   kfem            _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c RT}
+  1. {c |} {res}    1     33       2     1          1       .      .      .   master only (1) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c RT}
+  2. {c |} {res}    2      .       .     .          .       1      8      0    using only (2) {txt}{c |}
+  3. {c |} {res}    2      .       .     .          .       2      3      1    using only (2) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c RT}
+  4. {c |} {res}    3     24       2     1          1       1      4      1       matched (3) {txt}{c |}
+  5. {c |} {res}    3     24       2     1          1       2      7      0       matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c RT}
+  6. {c |} {res}    4     21       1     0          1       1      1      0       matched (3) {txt}{c |}
+  7. {c |} {res}    4     21       1     0          1       2      3      0       matched (3) {txt}{c |}
+  8. {c |} {res}    4     21       1     0          1       3      7      0       matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c RT}
+  9. {c |} {res}    5     39       2     0          1       .      .      .   master only (1) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c BRC}
+
+{com}. //_78
+. list if _merge == 1 | _merge == 2, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   fr_moms2   kidid   kage   kfem            _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c RT}
+  1. {c |} {res}    1     33       2     1          1       .      .      .   master only (1) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c RT}
+  2. {c |} {res}    2      .       .     .          .       1      8      0    using only (2) {txt}{c |}
+  3. {c |} {res}    2      .       .     .          .       2      3      1    using only (2) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c RT}
+  9. {c |} {res}    5     39       2     0          1       .      .      .   master only (1) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 17}{c BRC}
+
+{com}. //_79
+. list if _merge == 3, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   fr_moms2   kidid   kage   kfem        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c RT}
+  4. {c |} {res}    3     24       2     1          1       1      4      1   matched (3) {txt}{c |}
+  5. {c |} {res}    3     24       2     1          1       2      7      0   matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c RT}
+  6. {c |} {res}    4     21       1     0          1       1      1      0   matched (3) {txt}{c |}
+  7. {c |} {res}    4     21       1     0          1       2      3      0   matched (3) {txt}{c |}
+  8. {c |} {res}    4     21       1     0          1       3      7      0   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c BRC}
+
+{com}. //_80
+. use "moms2.dta", clear
+{txt}
+{com}. merge 1:1 famid using "momsbest2.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               3
+{txt}{col 9}from master{col 30}{res}               2{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               1{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               2{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. sort famid
+{txt}
+{com}. list, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 17}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   fr_moms2   mbage   fr_mo~t2            _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 17}{c RT}
+  1. {c |} {res}    1     33       2     1          1       .          .   master only (1) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 17}{c RT}
+  2. {c |} {res}    2      .       .     .          .      29          1    using only (2) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 17}{c RT}
+  3. {c |} {res}    3     24       2     1          1      23          1       matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 17}{c RT}
+  4. {c |} {res}    4     21       1     0          1      37          1       matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 17}{c RT}
+  5. {c |} {res}    5     39       2     0          1       .          .   master only (1) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 17}{c BRC}
+
+{com}. //_81
+. tab _merge 
+
+                 {txt}_merge {c |}      Freq.     Percent        Cum.
+{hline 24}{c +}{hline 35}
+        master only (1) {c |}{res}          2       40.00       40.00
+{txt}         using only (2) {c |}{res}          1       20.00       60.00
+{txt}            matched (3) {c |}{res}          2       40.00      100.00
+{txt}{hline 24}{c +}{hline 35}
+                  Total {c |}{res}          5      100.00
+{txt}
+{com}. //_82
+. tab mage _merge
+
+           {txt}{c |}        _merge
+       Age {c |} master on  matched ( {c |}     Total
+{hline 11}{c +}{hline 22}{c +}{hline 10}
+        21 {c |}{res}         0          1 {txt}{c |}{res}         1 
+{txt}        24 {c |}{res}         0          1 {txt}{c |}{res}         1 
+{txt}        33 {c |}{res}         1          0 {txt}{c |}{res}         1 
+{txt}        39 {c |}{res}         1          0 {txt}{c |}{res}         1 
+{txt}{hline 11}{c +}{hline 22}{c +}{hline 10}
+     Total {c |}{res}         2          2 {txt}{c |}{res}         4 
+
+{txt}
+{com}. //_83
+. drop _merge
+{txt}
+{com}. //_84
+. merge 1:1 famid using "dads2.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               2
+{txt}{col 9}from master{col 30}{res}               2{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               3{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. //_85
+. tab _merge
+
+                 {txt}_merge {c |}      Freq.     Percent        Cum.
+{hline 24}{c +}{hline 35}
+        master only (1) {c |}{res}          2       40.00       40.00
+{txt}            matched (3) {c |}{res}          3       60.00      100.00
+{txt}{hline 24}{c +}{hline 35}
+                  Total {c |}{res}          5      100.00
+{txt}
+{com}. //_86
+. drop _merge
+{txt}
+{com}. //_87
+. merge 1:1 famid using "dadsandbest.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               1
+{txt}{col 9}from master{col 30}{res}               1{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               4{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. //_88
+. sort famid
+{txt}
+{com}. list famid fr_*, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}famid   fr_moms2   fr_mo~t2   fr_dads2   fr_da~t2 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  1. {c |} {res}    1          1          .          1          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  2. {c |} {res}    2          .          1          1          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  3. {c |} {res}    3          1          1          .          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  4. {c |} {res}    4          1          1          1          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  5. {c |} {res}    5          1          .          .          . {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+{com}. //_89
+. drop _merge
+{txt}
+{com}. //_90
+. merge 1:m famid using "kidname.dta"
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               1
+{txt}{col 9}from master{col 30}{res}               1{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               8{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. //_91
+. tab _merge
+
+                 {txt}_merge {c |}      Freq.     Percent        Cum.
+{hline 24}{c +}{hline 35}
+        master only (1) {c |}{res}          1       11.11       11.11
+{txt}            matched (3) {c |}{res}          8       88.89      100.00
+{txt}{hline 24}{c +}{hline 35}
+                  Total {c |}{res}          9      100.00
+{txt}
+{com}. list famid fr_*, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c TRC}
+     {c |} {res}famid   fr_moms2   fr_mo~t2   fr_dads2   fr_da~t2 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  1. {c |} {res}    1          1          .          1          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  2. {c |} {res}    2          .          1          1          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  3. {c |} {res}    3          1          1          .          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  4. {c |} {res}    4          1          1          1          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  5. {c |} {res}    5          1          .          .          . {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  6. {c |} {res}    2          .          1          1          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  7. {c |} {res}    3          1          1          .          1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c RT}
+  8. {c |} {res}    4          1          1          1          1 {txt}{c |}
+  9. {c |} {res}    4          1          1          1          1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
+
+{com}. //_92
+. use moms5, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c TRC}
+     {c |} {res}famid   mage   mrace   mhsgrad {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c RT}
+  1. {c |} {res}    1      .       2         1 {txt}{c |}
+  2. {c |} {res}    2     82       .         1 {txt}{c |}
+  3. {c |} {res}    3     24       2         . {txt}{c |}
+  4. {c |} {res}    4     21       1         0 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c BRC}
+
+{com}. //_93
+. use moms5fixes, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c TRC}
+     {c |} {res}famid   mage   mrace   mhsgrad {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c RT}
+  1. {c |} {res}    1     33       .         . {txt}{c |}
+  2. {c |} {res}    2     28       1         . {txt}{c |}
+  3. {c |} {res}    3      .       .         1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c BRC}
+
+{com}. //_94
+. use moms5, clear
+{txt}
+{com}. merge 1:1 famid using moms5fixes, update
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               1
+{txt}{col 9}from master{col 30}{res}               1{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               3
+{txt}{col 9}not updated{col 30}{res}               0{txt}  (_merge==3)
+{col 9}missing updated{col 30}{res}               2{txt}  (_merge==4)
+{col 9}nonmissing conflict{col 30}{res}               1{txt}  (_merge==5)
+{col 5}{hline 41}
+
+{com}. //_95
+. sort famid
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c -}{hline 25}{c TRC}
+     {c |} {res}famid   mage   mrace   mhsgrad                    _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c -}{hline 25}{c RT}
+  1. {c |} {res}    1     33       2         1       missing updated (4) {txt}{c |}
+  2. {c |} {res}    2     82       1         1   nonmissing conflict (5) {txt}{c |}
+  3. {c |} {res}    3     24       2         1       missing updated (4) {txt}{c |}
+  4. {c |} {res}    4     21       1         0           master only (1) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c -}{hline 25}{c BRC}
+
+{com}. //_96
+. use moms5, clear
+{txt}
+{com}. merge 1:1 famid using moms5fixes, update replace
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               1
+{txt}{col 9}from master{col 30}{res}               1{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}               3
+{txt}{col 9}not updated{col 30}{res}               0{txt}  (_merge==3)
+{col 9}missing updated{col 30}{res}               2{txt}  (_merge==4)
+{col 9}nonmissing conflict{col 30}{res}               1{txt}  (_merge==5)
+{col 5}{hline 41}
+
+{com}. //_97
+. sort famid
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c -}{hline 25}{c TRC}
+     {c |} {res}famid   mage   mrace   mhsgrad                    _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c -}{hline 25}{c RT}
+  1. {c |} {res}    1     33       2         1       missing updated (4) {txt}{c |}
+  2. {c |} {res}    2     28       1         1   nonmissing conflict (5) {txt}{c |}
+  3. {c |} {res}    3     24       2         1       missing updated (4) {txt}{c |}
+  4. {c |} {res}    4     21       1         0           master only (1) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 9}{c -}{hline 25}{c BRC}
+
+{com}. //_98
+. use dads1, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}famid   dage   drace   dhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}    1     21       1     0 {txt}{c |}
+  2. {c |} {res}    2     25       1     1 {txt}{c |}
+  3. {c |} {res}    3     31       2     1 {txt}{c |}
+  4. {c |} {res}    4     25       2     1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. //_99
+. use moms1, clear
+{txt}
+{com}. merge 1:1 famid using dads1, keepusing(dage drace)
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               4{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   dage   drace        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c RT}
+  1. {c |} {res}    1     33       2     1     21       1   matched (3) {txt}{c |}
+  2. {c |} {res}    2     28       1     1     25       1   matched (3) {txt}{c |}
+  3. {c |} {res}    3     24       2     1     31       2   matched (3) {txt}{c |}
+  4. {c |} {res}    4     21       1     0     25       2   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 13}{c BRC}
+
+{com}. //_100
+. use moms3, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c TRC}
+     {c |} {res}famid   age   race   hs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c RT}
+  1. {c |} {res}    1    33      2    1 {txt}{c |}
+  2. {c |} {res}    2    28      1    1 {txt}{c |}
+  3. {c |} {res}    3    24      2    1 {txt}{c |}
+  4. {c |} {res}    4    21      1    0 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 4}{c BRC}
+
+{com}. use dads3, clear
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c TRC}
+     {c |} {res}famid   age   eth   gradhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c RT}
+  1. {c |} {res}    1    21     1        0 {txt}{c |}
+  2. {c |} {res}    2    25     1        1 {txt}{c |}
+  3. {c |} {res}    3    31     2        1 {txt}{c |}
+  4. {c |} {res}    4    25     2        1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c BRC}
+
+{com}. use moms3, clear
+{txt}
+{com}. merge 1:1 famid using dads3
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               4{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. //_101
+. use moms3, clear
+{txt}
+{com}. capture cf _all using dads3, all verbose
+{txt}
+{com}. //_102
+. search merges gone bad
+{txt}
+{com}. //_103
+. use moms4, clear
+{txt}
+{com}. merge 1:1 famid using dads4
+{res}{txt}(label race already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               4{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. list famid mrace drace mhs dhs
+{txt}
+     {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 11}{c -}{hline 17}{c -}{hline 17}{c TRC}
+     {c |} {res}famid       mrace       drace               mhs               dhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 11}{c -}{hline 11}{c -}{hline 17}{c -}{hline 17}{c RT}
+  1. {c |} {res}    1   Mom Black   Mom White       Mom HS Grad   Dad Not HS Grad {txt}{c |}
+  2. {c |} {res}    2   Mom White   Mom White       Mom HS Grad       Dad HS Grad {txt}{c |}
+  3. {c |} {res}    3   Mom Black   Mom Black       Mom HS Grad       Dad HS Grad {txt}{c |}
+  4. {c |} {res}    4   Mom White   Mom Black   Mom Not HS Grad       Dad HS Grad {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 11}{c -}{hline 17}{c -}{hline 17}{c BRC}
+
+{com}. //_104
+. label define dracel 1 "White" 2 "Black"
+{txt}
+{com}. label values drace drace1
+{txt}
+{com}. list famid mrace drace mhs dhs
+{txt}
+     {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 7}{c -}{hline 17}{c -}{hline 17}{c TRC}
+     {c |} {res}famid       mrace   drace               mhs               dhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 11}{c -}{hline 7}{c -}{hline 17}{c -}{hline 17}{c RT}
+  1. {c |} {res}    1   Mom Black       1       Mom HS Grad   Dad Not HS Grad {txt}{c |}
+  2. {c |} {res}    2   Mom White       1       Mom HS Grad       Dad HS Grad {txt}{c |}
+  3. {c |} {res}    3   Mom Black       2       Mom HS Grad       Dad HS Grad {txt}{c |}
+  4. {c |} {res}    4   Mom White       2   Mom Not HS Grad       Dad HS Grad {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 7}{c -}{hline 17}{c -}{hline 17}{c BRC}
+
+{com}. //_105
+. use moms1, clear
+{txt}
+{com}. append using dads1
+{txt}
+{com}. sort famid
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   dage   drace   dhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}    1      .       .     .     21       1     0 {txt}{c |}
+  2. {c |} {res}    1     33       2     1      .       .     . {txt}{c |}
+  3. {c |} {res}    2      .       .     .     25       1     1 {txt}{c |}
+  4. {c |} {res}    2     28       1     1      .       .     . {txt}{c |}
+  5. {c |} {res}    3      .       .     .     31       2     1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  6. {c |} {res}    3     24       2     1      .       .     . {txt}{c |}
+  7. {c |} {res}    4     21       1     0      .       .     . {txt}{c |}
+  8. {c |} {res}    4      .       .     .     25       2     1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. //_106
+. merge m:m famid using kids1
+{res}
+{txt}{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}               9{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   dage   drace   dhs   kidid   kage   kfem        _merge {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c RT}
+  1. {c |} {res}    1      .       .     .     21       1     0       1      3      1   matched (3) {txt}{c |}
+  2. {c |} {res}    1     33       2     1      .       .     .       1      3      1   matched (3) {txt}{c |}
+  3. {c |} {res}    2      .       .     .     25       1     1       1      8      0   matched (3) {txt}{c |}
+  4. {c |} {res}    2     28       1     1      .       .     .       2      3      1   matched (3) {txt}{c |}
+  5. {c |} {res}    3      .       .     .     31       2     1       2      7      0   matched (3) {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c RT}
+  6. {c |} {res}    3     24       2     1      .       .     .       1      4      1   matched (3) {txt}{c |}
+  7. {c |} {res}    4     21       1     0      .       .     .       3      7      0   matched (3) {txt}{c |}
+  8. {c |} {res}    4      .       .     .     25       2     1       2      3      0   matched (3) {txt}{c |}
+  9. {c |} {res}    4      .       .     .     25       2     1       1      1      0   matched (3) {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 13}{c BRC}
+
+{com}. //_107
+. use kidname, clear
+{txt}
+{com}. sort famid kname
+{txt}
+{com}. list, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res}famid   kidid   kname {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  1. {c |} {res}    1       1     Sue {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  2. {c |} {res}    2       2     Flo {txt}{c |}
+  3. {c |} {res}    2       1     Vic {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  4. {c |} {res}    3       2     Abe {txt}{c |}
+  5. {c |} {res}    3       1     Ivy {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  6. {c |} {res}    4       2     Bob {txt}{c |}
+  7. {c |} {res}    4       3     Cam {txt}{c |}
+  8. {c |} {res}    4       1     Tom {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+{com}. //_108
+. use parname, clear
+{txt}
+{com}. sort famid
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c TRC}
+     {c |} {res}famid   mom   age   race   pname {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c RT}
+  1. {c |} {res}    1     0    21      1     Sam {txt}{c |}
+  2. {c |} {res}    1     1    33      2     Lil {txt}{c |}
+  3. {c |} {res}    2     1    28      1     Ula {txt}{c |}
+  4. {c |} {res}    2     0    25      1     Nik {txt}{c |}
+  5. {c |} {res}    3     1    24      2     Ann {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c RT}
+  6. {c |} {res}    3     0    31      2      Al {txt}{c |}
+  7. {c |} {res}    4     1    21      1     Bev {txt}{c |}
+  8. {c |} {res}    4     0    25      2     Ted {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c BRC}
+
+{com}. //_109
+. joinby famid using kidname
+{txt}
+{com}. sort famid kname pname
+{txt}
+{com}. list, sepby(famid kidid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res}famid   mom   age   race   pname   kidid   kname {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  1. {c |} {res}    1     1    33      2     Lil       1     Sue {txt}{c |}
+  2. {c |} {res}    1     0    21      1     Sam       1     Sue {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  3. {c |} {res}    2     0    25      1     Nik       2     Flo {txt}{c |}
+  4. {c |} {res}    2     1    28      1     Ula       2     Flo {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  5. {c |} {res}    2     0    25      1     Nik       1     Vic {txt}{c |}
+  6. {c |} {res}    2     1    28      1     Ula       1     Vic {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  7. {c |} {res}    3     0    31      2      Al       2     Abe {txt}{c |}
+  8. {c |} {res}    3     1    24      2     Ann       2     Abe {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+  9. {c |} {res}    3     0    31      2      Al       1     Ivy {txt}{c |}
+ 10. {c |} {res}    3     1    24      2     Ann       1     Ivy {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 11. {c |} {res}    4     1    21      1     Bev       2     Bob {txt}{c |}
+ 12. {c |} {res}    4     0    25      2     Ted       2     Bob {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 13. {c |} {res}    4     1    21      1     Bev       3     Cam {txt}{c |}
+ 14. {c |} {res}    4     0    25      2     Ted       3     Cam {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 15. {c |} {res}    4     1    21      1     Bev       1     Tom {txt}{c |}
+ 16. {c |} {res}    4     0    25      2     Ted       1     Tom {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+{com}. //_110
+. use parname, clear
+{txt}
+{com}. joinby famid using kidname, unmatched(master)
+{txt}
+{com}. sort famid kname pname
+{txt}
+{com}. list, sepby(famid kidid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c TRC}
+     {c |} {res}famid   mom   age   race   pname                          _merge   kidid   kname {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c RT}
+  1. {c |} {res}    1     1    33      2     Lil   both in master and using data       1     Sue {txt}{c |}
+  2. {c |} {res}    1     0    21      1     Sam   both in master and using data       1     Sue {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c RT}
+  3. {c |} {res}    2     0    25      1     Nik   both in master and using data       2     Flo {txt}{c |}
+  4. {c |} {res}    2     1    28      1     Ula   both in master and using data       2     Flo {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c RT}
+  5. {c |} {res}    2     0    25      1     Nik   both in master and using data       1     Vic {txt}{c |}
+  6. {c |} {res}    2     1    28      1     Ula   both in master and using data       1     Vic {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c RT}
+  7. {c |} {res}    3     0    31      2      Al   both in master and using data       2     Abe {txt}{c |}
+  8. {c |} {res}    3     1    24      2     Ann   both in master and using data       2     Abe {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c RT}
+  9. {c |} {res}    3     0    31      2      Al   both in master and using data       1     Ivy {txt}{c |}
+ 10. {c |} {res}    3     1    24      2     Ann   both in master and using data       1     Ivy {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 11. {c |} {res}    4     1    21      1     Bev   both in master and using data       2     Bob {txt}{c |}
+ 12. {c |} {res}    4     0    25      2     Ted   both in master and using data       2     Bob {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 13. {c |} {res}    4     1    21      1     Bev   both in master and using data       3     Cam {txt}{c |}
+ 14. {c |} {res}    4     0    25      2     Ted   both in master and using data       3     Cam {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c RT}
+ 15. {c |} {res}    4     1    21      1     Bev   both in master and using data       1     Tom {txt}{c |}
+ 16. {c |} {res}    4     0    25      2     Ted   both in master and using data       1     Tom {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 31}{c -}{hline 7}{c -}{hline 7}{c BRC}
+
+{com}. //_111
+. use moms1, clear
+{txt}
+{com}. cross using dads1
+{txt}
+{com}. sort famid
+{txt}
+{com}. list, sepby(famid)
+{txt}
+     {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}famid   mage   mrace   mhs   dage   drace   dhs {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res}    1     33       2     1     21       1     0 {txt}{c |}
+  2. {c |} {res}    1     33       2     1     25       2     1 {txt}{c |}
+  3. {c |} {res}    1     33       2     1     31       2     1 {txt}{c |}
+  4. {c |} {res}    1     33       2     1     25       1     1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  5. {c |} {res}    2     28       1     1     25       2     1 {txt}{c |}
+  6. {c |} {res}    2     28       1     1     25       1     1 {txt}{c |}
+  7. {c |} {res}    2     28       1     1     31       2     1 {txt}{c |}
+  8. {c |} {res}    2     28       1     1     21       1     0 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+  9. {c |} {res}    3     24       2     1     25       1     1 {txt}{c |}
+ 10. {c |} {res}    3     24       2     1     21       1     0 {txt}{c |}
+ 11. {c |} {res}    3     24       2     1     25       2     1 {txt}{c |}
+ 12. {c |} {res}    3     24       2     1     31       2     1 {txt}{c |}
+     {c LT}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c RT}
+ 13. {c |} {res}    4     21       1     0     21       1     0 {txt}{c |}
+ 14. {c |} {res}    4     21       1     0     25       1     1 {txt}{c |}
+ 15. {c |} {res}    4     21       1     0     31       2     1 {txt}{c |}
+ 16. {c |} {res}    4     21       1     0     25       2     1 {txt}{c |}
+     {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c -}{hline 6}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{com}. //_^
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week5.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}25 Sep 2023, 14:22:50
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

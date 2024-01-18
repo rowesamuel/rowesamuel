@@ -1,0 +1,1318 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week7_sem.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 9 Oct 2023, 14:35:30
+{txt}
+{com}. //_1
+. clear
+{txt}
+{com}. set more off
+{txt}
+{com}. cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+{res}/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+{txt}
+{com}. //_2
+. use mroz.dta, clear
+{txt}
+{com}. //_3
+. ivregress 2sls hours (lwage=exper expersq) educ age kidslt6 nwifeinc, robust
+{res}
+{txt}{col 1}Instrumental variables (2SLS) regression{col 51}Number of obs{col 67}= {res}       428
+{txt}{col 1}{col 51}Wald chi2({res}5{txt}){col 67}= {res}     12.60
+{txt}{col 1}{col 51}Prob > chi2{col 67}= {res}    0.0274
+{txt}{col 1}{col 51}R-squared{col 67}= {res}         .
+{txt}{col 51}Root MSE{col 67}=    {res} 1344.7
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}       hours{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}lwage {c |}{col 14}{res}{space 2} 1639.556{col 26}{space 2} 593.3108{col 37}{space 1}    2.76{col 46}{space 3}0.006{col 54}{space 4} 476.6879{col 67}{space 3} 2802.423
+{txt}{space 8}educ {c |}{col 14}{res}{space 2}-183.7513{col 26}{space 2} 67.78742{col 37}{space 1}   -2.71{col 46}{space 3}0.007{col 54}{space 4}-316.6122{col 67}{space 3}-50.89039
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-7.806092{col 26}{space 2} 10.48746{col 37}{space 1}   -0.74{col 46}{space 3}0.457{col 54}{space 4}-28.36114{col 67}{space 3} 12.74896
+{txt}{space 5}kidslt6 {c |}{col 14}{res}{space 2}-198.1543{col 26}{space 2} 208.4247{col 37}{space 1}   -0.95{col 46}{space 3}0.342{col 54}{space 4}-606.6592{col 67}{space 3} 210.3506
+{txt}{space 4}nwifeinc {c |}{col 14}{res}{space 2}-10.16959{col 26}{space 2} 5.287486{col 37}{space 1}   -1.92{col 46}{space 3}0.054{col 54}{space 4}-20.53287{col 67}{space 3} .1936911
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 2225.662{col 26}{space 2} 603.0964{col 37}{space 1}    3.69{col 46}{space 3}0.000{col 54}{space 4} 1043.615{col 67}{space 3} 3407.709
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 15 26}Instrumented:{space 2}lwage{p_end}
+{p 0 15 26}Instruments:{space 3}educ age kidslt6 nwifeinc exper expersq{p_end}
+
+{com}. //_4
+. reg lwage exper expersq educ age kidslt6 nwifeinc, robust
+
+{txt}Linear regression                               Number of obs     = {res}       428
+                                                {txt}F(6, 421)         =  {res}    14.76
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.1633
+                                                {txt}Root MSE          =    {res} .66622
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}       lwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}exper {c |}{col 14}{res}{space 2} .0418643{col 26}{space 2} .0151135{col 37}{space 1}    2.77{col 46}{space 3}0.006{col 54}{space 4} .0121569{col 67}{space 3} .0715718
+{txt}{space 5}expersq {c |}{col 14}{res}{space 2}-.0007625{col 26}{space 2} .0004065{col 37}{space 1}   -1.88{col 46}{space 3}0.061{col 54}{space 4}-.0015614{col 67}{space 3} .0000365
+{txt}{space 8}educ {c |}{col 14}{res}{space 2} .1011113{col 26}{space 2} .0141358{col 37}{space 1}    7.15{col 46}{space 3}0.000{col 54}{space 4} .0733257{col 67}{space 3}  .128897
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-.0025561{col 26}{space 2} .0059149{col 37}{space 1}   -0.43{col 46}{space 3}0.666{col 54}{space 4}-.0141826{col 67}{space 3} .0090704
+{txt}{space 5}kidslt6 {c |}{col 14}{res}{space 2}-.0532185{col 26}{space 2} .1047899{col 37}{space 1}   -0.51{col 46}{space 3}0.612{col 54}{space 4}-.2591951{col 67}{space 3} .1527581
+{txt}{space 4}nwifeinc {c |}{col 14}{res}{space 2}   .00556{col 26}{space 2} .0027435{col 37}{space 1}    2.03{col 46}{space 3}0.043{col 54}{space 4} .0001673{col 67}{space 3} .0109527
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.4471607{col 26}{space 2} .2889008{col 37}{space 1}   -1.55{col 46}{space 3}0.122{col 54}{space 4}-1.015028{col 67}{space 3} .1207069
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. test exper expersq
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}exper = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} expersq = 0{p_end}
+
+{txt}       F(  2,   421) ={res}    6.17
+{txt}{col 13}Prob > F ={res}    0.0023
+{txt}
+{com}. //_5
+. display 1640/1303
+{res}1.2586339
+{txt}
+{com}. //_6
+. display 1640/(40*52)
+{res}.78846154
+{txt}
+{com}. //_7
+. display 1640/800
+{res}2.05
+{txt}
+{com}. //_8
+. use openness.dta, clear
+{txt}
+{com}. //_9
+. reg open lland lpcinc, robust
+
+{txt}Linear regression                               Number of obs     = {res}       114
+                                                {txt}F(2, 111)         =  {res}    22.22
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.4487
+                                                {txt}Root MSE          =    {res} 17.796
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}        open{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}lland {c |}{col 14}{res}{space 2}-7.567103{col 26}{space 2} 1.141798{col 37}{space 1}   -6.63{col 46}{space 3}0.000{col 54}{space 4}-9.829652{col 67}{space 3}-5.304554
+{txt}{space 6}lpcinc {c |}{col 14}{res}{space 2} .5464812{col 26}{space 2} 1.436115{col 37}{space 1}    0.38{col 46}{space 3}0.704{col 54}{space 4}-2.299276{col 67}{space 3} 3.392238
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 117.0845{col 26}{space 2} 18.24808{col 37}{space 1}    6.42{col 46}{space 3}0.000{col 54}{space 4} 80.92473{col 67}{space 3} 153.2443
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_10
+. test lland
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}lland = 0{p_end}
+
+{txt}       F(  1,   111) ={res}   43.92
+{txt}{col 13}Prob > F ={res}    0.0000
+{txt}
+{com}. //_11
+. ivregress 2sls inf (open=lland) lpcinc, robust
+{res}
+{txt}{col 1}Instrumental variables (2SLS) regression{col 51}Number of obs{col 67}= {res}       114
+{txt}{col 1}{col 51}Wald chi2({res}2{txt}){col 67}= {res}      5.19
+{txt}{col 1}{col 51}Prob > chi2{col 67}= {res}    0.0745
+{txt}{col 1}{col 51}R-squared{col 67}= {res}    0.0309
+{txt}{col 51}Root MSE{col 67}=    {res}  23.52
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}         inf{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}open {c |}{col 14}{res}{space 2}-.3374871{col 26}{space 2} .1504296{col 37}{space 1}   -2.24{col 46}{space 3}0.025{col 54}{space 4}-.6323238{col 67}{space 3}-.0426504
+{txt}{space 6}lpcinc {c |}{col 14}{res}{space 2} .3758247{col 26}{space 2} 1.360282{col 37}{space 1}    0.28{col 46}{space 3}0.782{col 54}{space 4} -2.29028{col 67}{space 3} 3.041929
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 26.89934{col 26}{space 2} 10.77526{col 37}{space 1}    2.50{col 46}{space 3}0.013{col 54}{space 4} 5.780212{col 67}{space 3} 48.01846
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 15 26}Instrumented:{space 2}open{p_end}
+{p 0 15 26}Instruments:{space 3}lpcinc lland{p_end}
+
+{com}. //_12
+. cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+{res}/Users/Sam/Desktop/Econ 645/Data/Mitchell
+{txt}
+{com}. //_13
+. use cardio_wide, clear
+{txt}
+{com}. describe
+
+{txt}Contains data from {res}cardio_wide.dta
+{txt}  obs:{res}             6                          
+{txt} vars:{res}            12                          22 Dec 2009 20:43
+{txt} size:{res}           120                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 1{p_end}
+{p 0 48}{bind:bp2            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 2{p_end}
+{p 0 48}{bind:bp3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 3{p_end}
+{p 0 48}{bind:bp4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 4{p_end}
+{p 0 48}{bind:bp5            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 5{p_end}
+{p 0 48}{bind:pl1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 1{p_end}
+{p 0 48}{bind:pl2            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 2{p_end}
+{p 0 48}{bind:pl3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 3{p_end}
+{p 0 48}{bind:pl4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 4{p_end}
+{p 0 48}{bind:pl5            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 5{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. //_14
+. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   age   bp1   bp2   bp3   bp4   bp5   pl1   pl2   pl3   pl4   pl5 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1    40   115    86   129   105   127    54    87    93    81    92 {txt}{c |}
+  2. {c |} {res} 2    30   123   136   107   111   120    92    88   125    87    58 {txt}{c |}
+  3. {c |} {res} 3    16   124   122   101   109   112   105    97   128    57    68 {txt}{c |}
+  4. {c |} {res} 4    23   105   115   121   129   137    52    79    71   106    39 {txt}{c |}
+  5. {c |} {res} 5    18   116   128   112   125   111    70    64    52    68    59 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 6    27   108   126   124   131   107    74    78    92    99    80 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_15
+. use cardio_long, clear
+{txt}
+{com}. describe
+
+{txt}Contains data from {res}cardio_long.dta
+{txt}  obs:{res}            30                          
+{txt} vars:{res}             5                          10 Feb 2020 23:02
+{txt} size:{res}           210                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:trial          }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Trial number{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure (systolic){p_end}
+{p 0 48}{bind:pl             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse{p_end}
+{txt}{hline}
+Sorted by: {res}id  trial
+{txt}
+{com}. //_16
+. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trial   age    bp    pl {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1       1    40   115    54 {txt}{c |}
+  2. {c |} {res} 1       2    40    86    87 {txt}{c |}
+  3. {c |} {res} 1       3    40   129    93 {txt}{c |}
+  4. {c |} {res} 1       4    40   105    81 {txt}{c |}
+  5. {c |} {res} 1       5    40   127    92 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 2       1    30   123    92 {txt}{c |}
+  7. {c |} {res} 2       2    30   136    88 {txt}{c |}
+  8. {c |} {res} 2       3    30   107   125 {txt}{c |}
+  9. {c |} {res} 2       4    30   111    87 {txt}{c |}
+ 10. {c |} {res} 2       5    30   120    58 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 11. {c |} {res} 3       1    16   124   105 {txt}{c |}
+ 12. {c |} {res} 3       2    16   122    97 {txt}{c |}
+ 13. {c |} {res} 3       3    16   101   128 {txt}{c |}
+ 14. {c |} {res} 3       4    16   109    57 {txt}{c |}
+ 15. {c |} {res} 3       5    16   112    68 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 16. {c |} {res} 4       1    23   105    52 {txt}{c |}
+ 17. {c |} {res} 4       2    23   115    79 {txt}{c |}
+ 18. {c |} {res} 4       3    23   121    71 {txt}{c |}
+ 19. {c |} {res} 4       4    23   129   106 {txt}{c |}
+ 20. {c |} {res} 4       5    23   137    39 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 21. {c |} {res} 5       1    18   116    70 {txt}{c |}
+ 22. {c |} {res} 5       2    18   128    64 {txt}{c |}
+ 23. {c |} {res} 5       3    18   112    52 {txt}{c |}
+ 24. {c |} {res} 5       4    18   125    68 {txt}{c |}
+ 25. {c |} {res} 5       5    18   111    59 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 26. {c |} {res} 6       1    27   108    74 {txt}{c |}
+ 27. {c |} {res} 6       2    27   126    78 {txt}{c |}
+ 28. {c |} {res} 6       3    27   124    92 {txt}{c |}
+ 29. {c |} {res} 6       4    27   131    99 {txt}{c |}
+ 30. {c |} {res} 6       5    27   107    80 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_17
+. use cardio_wide, clear
+{txt}
+{com}. correlate bp1 bp2 bp3 bp4 bp5
+{txt}(obs=6)
+
+             {c |}      bp1      bp2      bp3      bp4      bp5
+{hline 13}{c +}{hline 45}
+         bp1 {c |}{res}   1.0000
+         {txt}bp2 {c |}{res}   0.2427   1.0000
+         {txt}bp3 {c |}{res}  -0.7662  -0.6657   1.0000
+         {txt}bp4 {c |}{res}  -0.7644   0.3980   0.2644   1.0000
+         {txt}bp5 {c |}{res}  -0.3643  -0.4984   0.3694  -0.0966   1.0000
+
+{txt}
+{com}. //_18
+. mvreg bp* = age
+{res}
+{txt}Equation             Obs   Parms        RMSE    "R-sq"          F        P
+{hline 74}
+{res}bp1                    6       2    8.516293    0.0160   .0651388   0.8111
+bp2                    6       2    15.34222    0.3858   2.512064   0.1882
+bp3                    6       2    8.846404    0.4597   3.402782   0.1388
+bp4                    6       2    11.60081    0.1554   .7357661   0.4394
+bp5                    6       2    11.81248    0.1360    .629676   0.4719
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}bp1          {txt}{c |}
+{space 9}age {c |}{col 14}{res}{space 2}-.1107266{col 26}{space 2} .4338427{col 37}{space 1}   -0.26{col 46}{space 3}0.811{col 54}{space 4}-1.315267{col 67}{space 3} 1.093814
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 118.0087{col 26}{space 2} 11.66545{col 37}{space 1}   10.12{col 46}{space 3}0.001{col 54}{space 4} 85.62017{col 67}{space 3} 150.3971
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}bp2          {txt}{c |}
+{space 9}age {c |}{col 14}{res}{space 2}-1.238754{col 26}{space 2} .7815736{col 37}{space 1}   -1.58{col 46}{space 3}0.188{col 54}{space 4} -3.40875{col 67}{space 3} .9312418
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}  150.628{col 26}{space 2} 21.01547{col 37}{space 1}    7.17{col 46}{space 3}0.002{col 54}{space 4} 92.27974{col 67}{space 3} 208.9763
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}bp3          {txt}{c |}
+{space 9}age {c |}{col 14}{res}{space 2} .8313149{col 26}{space 2} .4506595{col 37}{space 1}    1.84{col 46}{space 3}0.139{col 54}{space 4}-.4199164{col 67}{space 3} 2.082546
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 94.32958{col 26}{space 2} 12.11763{col 37}{space 1}    7.78{col 46}{space 3}0.001{col 54}{space 4} 60.68565{col 67}{space 3} 127.9735
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}bp4          {txt}{c |}
+{space 9}age {c |}{col 14}{res}{space 2}-.5069204{col 26}{space 2} .5909761{col 37}{space 1}   -0.86{col 46}{space 3}0.439{col 54}{space 4}-2.147733{col 67}{space 3} 1.133892
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 131.3443{col 26}{space 2} 15.89055{col 37}{space 1}    8.27{col 46}{space 3}0.001{col 54}{space 4} 87.22504{col 67}{space 3} 175.4635
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}bp5          {txt}{c |}
+{space 9}age {c |}{col 14}{res}{space 2} .4775087{col 26}{space 2} .6017591{col 37}{space 1}    0.79{col 46}{space 3}0.472{col 54}{space 4}-1.193242{col 67}{space 3}  2.14826
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 106.7439{col 26}{space 2}  16.1805{col 37}{space 1}    6.60{col 46}{space 3}0.003{col 54}{space 4} 61.81969{col 67}{space 3} 151.6682
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. //_19
+. use cardio_long, clear
+{txt}
+{com}. correlate bp pl
+{txt}(obs=30)
+
+             {c |}       bp       pl
+{hline 13}{c +}{hline 18}
+          bp {c |}{res}   1.0000
+          {txt}pl {c |}{res}  -0.0444   1.0000
+
+{txt}
+{com}. //_20
+. bysort trial: correlate bp pl
+
+{txt}{hline}
+-> trial = 1
+(obs=6)
+
+             {c |}       bp       pl
+{hline 13}{c +}{hline 18}
+          bp {c |}{res}   1.0000
+          {txt}pl {c |}{res}   0.7958   1.0000
+
+
+{txt}{hline}
+-> trial = 2
+(obs=6)
+
+             {c |}       bp       pl
+{hline 13}{c +}{hline 18}
+          bp {c |}{res}   1.0000
+          {txt}pl {c |}{res}  -0.1985   1.0000
+
+
+{txt}{hline}
+-> trial = 3
+(obs=6)
+
+             {c |}       bp       pl
+{hline 13}{c +}{hline 18}
+          bp {c |}{res}   1.0000
+          {txt}pl {c |}{res}  -0.4790   1.0000
+
+
+{txt}{hline}
+-> trial = 4
+(obs=6)
+
+             {c |}       bp       pl
+{hline 13}{c +}{hline 18}
+          bp {c |}{res}   1.0000
+          {txt}pl {c |}{res}   0.5639   1.0000
+
+
+{txt}{hline}
+-> trial = 5
+(obs=6)
+
+             {c |}       bp       pl
+{hline 13}{c +}{hline 18}
+          bp {c |}{res}   1.0000
+          {txt}pl {c |}{res}  -0.3911   1.0000
+
+
+{txt}
+{com}. //_21
+. xtset id trial
+{res}{txt}{col 8}panel variable:  {res}id (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}trial, 1 to 5
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. xtreg bp age
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}        30
+{txt}Group variable: {res}id                              {txt}Number of groups  = {res}         6
+
+{txt}R-sq:                                           Obs per group:
+     within  = {res}0.0000                                         {txt}min = {res}         5
+{txt}     between = {res}0.0726                                         {txt}avg = {res}       5.0
+{txt}     overall = {res}0.0061                                         {txt}max = {res}         5
+
+                                                {txt}Wald chi2({res}1{txt})      =  {res}     0.17
+{txt}corr(u_i, X)   = {res}0{txt} (assumed)                    Prob > chi2       =     {res}0.6778
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}          bp{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2}-.1095156{col 26}{space 2} .2635863{col 37}{space 1}   -0.42{col 46}{space 3}0.678{col 54}{space 4}-.6261352{col 67}{space 3} .4071041
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 120.2109{col 26}{space 2} 7.087482{col 37}{space 1}   16.96{col 46}{space 3}0.000{col 54}{space 4} 106.3197{col 67}{space 3} 134.1021
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res}         0
+     {txt}sigma_e {c |} {res} 11.994443
+         {txt}rho {c |} {res}         0{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. xtline bp, overlay
+{res}{txt}
+{com}. //_22
+. recode pl (min/89=0) (90/max=1), generate (plhi)
+{txt}(30 differences between pl and plhi)
+
+{com}. //_23
+. bysort id: egen pl_avg=mean(pl)
+{txt}
+{com}. bysort id: egen bp_avg=mean(bp)
+{txt}
+{com}. //_24
+. use cardio_wide, clear
+{txt}
+{com}. //_25
+. egen pl_avg = rowmean(pl*)
+{txt}
+{com}. egen bp_avg = rowmean(bp*)
+{txt}
+{com}. //_26
+. generate pldiff2 = pl2-pl1
+{txt}
+{com}. generate pldiff3 = pl3-pl2
+{txt}
+{com}. generate pldiff4 = pl4-pl3
+{txt}
+{com}. generate pldiff5 = pl5-pl4
+{txt}
+{com}. //_27
+. use cardio_long, clear
+{txt}
+{com}. sort id trial
+{txt}
+{com}. //_28
+. by id: generate pldiff = pl-pl[_n-1]
+{txt}(6 missing values generated)
+
+{com}. //_29
+. by id: generate pldiff_1trial = pl-pl[1]
+{txt}
+{com}. //_30
+. xtset id trial
+{res}{txt}{col 8}panel variable:  {res}id (strongly balanced)
+{txt}{col 9}time variable:  {res}{col 25}trial, 1 to 5
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. //_31
+. gen pldiff_other = pl-l.pl
+{txt}(6 missing values generated)
+
+{com}. //_32
+. gen pldiff2_other = l2.pl-l1.pl
+{txt}(12 missing values generated)
+
+{com}. //_33
+. gen pldiff3_other = l3.pl-l2.pl
+{txt}(18 missing values generated)
+
+{com}. //_34
+. use cardio_long, clear
+{txt}
+{com}. describe 
+
+{txt}Contains data from {res}cardio_long.dta
+{txt}  obs:{res}            30                          
+{txt} vars:{res}             5                          10 Feb 2020 23:02
+{txt} size:{res}           210                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:trial          }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Trial number{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure (systolic){p_end}
+{p 0 48}{bind:pl             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse{p_end}
+{txt}{hline}
+Sorted by: {res}id  trial
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trial   age    bp    pl {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1       1    40   115    54 {txt}{c |}
+  2. {c |} {res} 1       2    40    86    87 {txt}{c |}
+  3. {c |} {res} 1       3    40   129    93 {txt}{c |}
+  4. {c |} {res} 1       4    40   105    81 {txt}{c |}
+  5. {c |} {res} 1       5    40   127    92 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 2       1    30   123    92 {txt}{c |}
+  7. {c |} {res} 2       2    30   136    88 {txt}{c |}
+  8. {c |} {res} 2       3    30   107   125 {txt}{c |}
+  9. {c |} {res} 2       4    30   111    87 {txt}{c |}
+ 10. {c |} {res} 2       5    30   120    58 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 11. {c |} {res} 3       1    16   124   105 {txt}{c |}
+ 12. {c |} {res} 3       2    16   122    97 {txt}{c |}
+ 13. {c |} {res} 3       3    16   101   128 {txt}{c |}
+ 14. {c |} {res} 3       4    16   109    57 {txt}{c |}
+ 15. {c |} {res} 3       5    16   112    68 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 16. {c |} {res} 4       1    23   105    52 {txt}{c |}
+ 17. {c |} {res} 4       2    23   115    79 {txt}{c |}
+ 18. {c |} {res} 4       3    23   121    71 {txt}{c |}
+ 19. {c |} {res} 4       4    23   129   106 {txt}{c |}
+ 20. {c |} {res} 4       5    23   137    39 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 21. {c |} {res} 5       1    18   116    70 {txt}{c |}
+ 22. {c |} {res} 5       2    18   128    64 {txt}{c |}
+ 23. {c |} {res} 5       3    18   112    52 {txt}{c |}
+ 24. {c |} {res} 5       4    18   125    68 {txt}{c |}
+ 25. {c |} {res} 5       5    18   111    59 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 26. {c |} {res} 6       1    27   108    74 {txt}{c |}
+ 27. {c |} {res} 6       2    27   126    78 {txt}{c |}
+ 28. {c |} {res} 6       3    27   124    92 {txt}{c |}
+ 29. {c |} {res} 6       4    27   131    99 {txt}{c |}
+ 30. {c |} {res} 6       5    27   107    80 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_35
+. reshape wide bp pl, i(id) j(trial)
+{txt}(note: j = 1 2 3 4 5)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      30   {txt}->{res}       6
+{txt}Number of variables            {res}       5   {txt}->{res}      12
+{txt}j variable (5 values)             {res}trial   {txt}->   (dropped)
+xij variables:
+                                     {res}bp   {txt}->   {res}bp1 bp2 ... bp5
+                                     pl   {txt}->   {res}pl1 pl2 ... pl5
+{txt}{hline 77}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}             6                          
+{txt} vars:{res}            12                          
+{txt} size:{res}           132                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:bp1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}1 bp{p_end}
+{p 0 48}{bind:pl1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}1 pl{p_end}
+{p 0 48}{bind:bp2            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}2 bp{p_end}
+{p 0 48}{bind:pl2            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}2 pl{p_end}
+{p 0 48}{bind:bp3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}3 bp{p_end}
+{p 0 48}{bind:pl3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}3 pl{p_end}
+{p 0 48}{bind:bp4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}4 bp{p_end}
+{p 0 48}{bind:pl4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}4 pl{p_end}
+{p 0 48}{bind:bp5            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}5 bp{p_end}
+{p 0 48}{bind:pl5            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}5 pl{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{txt}{hline}
+Sorted by: {res}id
+     Note: Dataset has changed since last saved.
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   bp1   pl1   bp2   pl2   bp3   pl3   bp4   pl4   bp5   pl5   age {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1   115    54    86    87   129    93   105    81   127    92    40 {txt}{c |}
+  2. {c |} {res} 2   123    92   136    88   107   125   111    87   120    58    30 {txt}{c |}
+  3. {c |} {res} 3   124   105   122    97   101   128   109    57   112    68    16 {txt}{c |}
+  4. {c |} {res} 4   105    52   115    79   121    71   129   106   137    39    23 {txt}{c |}
+  5. {c |} {res} 5   116    70   128    64   112    52   125    68   111    59    18 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 6   108    74   126    78   124    92   131    99   107    80    27 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_36
+. reshape long
+{txt}(note: j = 1 2 3 4 5)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       6   {txt}->{res}      30
+{txt}Number of variables            {res}      12   {txt}->{res}       5
+{txt}j variable (5 values)                     ->   {res}trial
+{txt}xij variables:
+                        {res}bp1 bp2 ... bp5   {txt}->   {res}bp
+                        pl1 pl2 ... pl5   {txt}->   {res}pl
+{txt}{hline 77}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            30                          
+{txt} vars:{res}             5                          
+{txt} size:{res}           210                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:trial          }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Trial number{p_end}
+{p 0 48}{bind:bp             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure (systolic){p_end}
+{p 0 48}{bind:pl             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{txt}{hline}
+Sorted by: {res}id  trial
+     Note: Dataset has changed since last saved.
+{txt}
+{com}. //_37
+. use cardio_long2, clear
+{txt}
+{com}. list in 1/10
+{txt}
+     {c TLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trial   age    bp    pl {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1       1    40   115    54 {txt}{c |}
+  2. {c |} {res} 1       2    40    86    87 {txt}{c |}
+  3. {c |} {res} 1       3    44   129    93 {txt}{c |}
+  4. {c |} {res} 1       4    40   105    81 {txt}{c |}
+  5. {c |} {res} 1       5    40   127    92 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 2       1    30   123    92 {txt}{c |}
+  7. {c |} {res} 2       2    30   136    88 {txt}{c |}
+  8. {c |} {res} 2       3    30   107   125 {txt}{c |}
+  9. {c |} {res} 2       4    30   111    87 {txt}{c |}
+ 10. {c |} {res} 2       5    30   120    58 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_38
+. capture reshape wide bp pl, i(id) j(trial)
+{txt}
+{com}. //_39
+. reshape error
+{txt}(note: j = 1 2 3 4 5)
+
+i ({res}id{txt}) indicates the top-level grouping such as subject id.
+j ({res}trial{txt}) indicates the subgrouping such as time.
+xij variables are {res}bp pl{txt}.
+Thus, the following variable(s) should be constant within i:
+      {res}age
+
+age{txt} not constant within i ({res}id{txt}) for 1 value of i:
+
+     {c TLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trial   age {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1       1    40 {txt}{c |}
+  2. {c |} {res} 1       2    40 {txt}{c |}
+  3. {c |} {res} 1       3    44 {txt}{c |}
+  4. {c |} {res} 1       4    40 {txt}{c |}
+  5. {c |} {res} 1       5    40 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+(data now sorted by id trial)
+
+{com}. //_40
+. capture reshape wide bp, i(id) j(trial)
+{txt}
+{com}. reshape error
+{txt}(note: j = 1 2 3 4 5)
+
+i ({res}id{txt}) indicates the top-level grouping such as subject id.
+j ({res}trial{txt}) indicates the subgrouping such as time.
+xij variable is {res}bp{txt}.
+Thus, the following variable(s) should be constant within i:
+      {res}age pl
+
+age{txt} not constant within i ({res}id{txt}) for 1 value of i:
+
+     {c TLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trial   age {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1       1    40 {txt}{c |}
+  2. {c |} {res} 1       2    40 {txt}{c |}
+  3. {c |} {res} 1       3    44 {txt}{c |}
+  4. {c |} {res} 1       4    40 {txt}{c |}
+  5. {c |} {res} 1       5    40 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+{res}pl{txt} not constant within i ({res}id{txt}) for 6 values of i:
+
+     {c TLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trial    pl {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1       1    54 {txt}{c |}
+  2. {c |} {res} 1       2    87 {txt}{c |}
+  3. {c |} {res} 1       3    93 {txt}{c |}
+  4. {c |} {res} 1       4    81 {txt}{c |}
+  5. {c |} {res} 1       5    92 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c RT}
+  6. {c |} {res} 2       1    92 {txt}{c |}
+  7. {c |} {res} 2       2    88 {txt}{c |}
+  8. {c |} {res} 2       3   125 {txt}{c |}
+  9. {c |} {res} 2       4    87 {txt}{c |}
+ 10. {c |} {res} 2       5    58 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c RT}
+ 11. {c |} {res} 3       1   105 {txt}{c |}
+ 12. {c |} {res} 3       2    97 {txt}{c |}
+ 13. {c |} {res} 3       3   128 {txt}{c |}
+ 14. {c |} {res} 3       4    57 {txt}{c |}
+ 15. {c |} {res} 3       5    68 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c RT}
+ 16. {c |} {res} 4       1    52 {txt}{c |}
+ 17. {c |} {res} 4       2    79 {txt}{c |}
+ 18. {c |} {res} 4       3    71 {txt}{c |}
+ 19. {c |} {res} 4       4   106 {txt}{c |}
+ 20. {c |} {res} 4       5    39 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c RT}
+ 21. {c |} {res} 5       1    70 {txt}{c |}
+ 22. {c |} {res} 5       2    64 {txt}{c |}
+ 23. {c |} {res} 5       3    52 {txt}{c |}
+ 24. {c |} {res} 5       4    68 {txt}{c |}
+ 25. {c |} {res} 5       5    59 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c RT}
+ 26. {c |} {res} 6       1    74 {txt}{c |}
+ 27. {c |} {res} 6       2    78 {txt}{c |}
+ 28. {c |} {res} 6       3    92 {txt}{c |}
+ 29. {c |} {res} 6       4    99 {txt}{c |}
+ 30. {c |} {res} 6       5    80 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c BRC}
+
+(data now sorted by id trial)
+
+{com}. //_41
+. use cardio_wide, clear
+{txt}
+{com}. describe
+
+{txt}Contains data from {res}cardio_wide.dta
+{txt}  obs:{res}             6                          
+{txt} vars:{res}            12                          22 Dec 2009 20:43
+{txt} size:{res}           120                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 1{p_end}
+{p 0 48}{bind:bp2            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 2{p_end}
+{p 0 48}{bind:bp3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 3{p_end}
+{p 0 48}{bind:bp4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 4{p_end}
+{p 0 48}{bind:bp5            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 5{p_end}
+{p 0 48}{bind:pl1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 1{p_end}
+{p 0 48}{bind:pl2            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 2{p_end}
+{p 0 48}{bind:pl3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 3{p_end}
+{p 0 48}{bind:pl4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 4{p_end}
+{p 0 48}{bind:pl5            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 5{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   age   bp1   bp2   bp3   bp4   bp5   pl1   pl2   pl3   pl4   pl5 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1    40   115    86   129   105   127    54    87    93    81    92 {txt}{c |}
+  2. {c |} {res} 2    30   123   136   107   111   120    92    88   125    87    58 {txt}{c |}
+  3. {c |} {res} 3    16   124   122   101   109   112   105    97   128    57    68 {txt}{c |}
+  4. {c |} {res} 4    23   105   115   121   129   137    52    79    71   106    39 {txt}{c |}
+  5. {c |} {res} 5    18   116   128   112   125   111    70    64    52    68    59 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 6    27   108   126   124   131   107    74    78    92    99    80 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_42
+. reshape long bp pl, i(id) j(trialnum)
+{txt}(note: j = 1 2 3 4 5)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       6   {txt}->{res}      30
+{txt}Number of variables            {res}      12   {txt}->{res}       5
+{txt}j variable (5 values)                     ->   {res}trialnum
+{txt}xij variables:
+                        {res}bp1 bp2 ... bp5   {txt}->   {res}bp
+                        pl1 pl2 ... pl5   {txt}->   {res}pl
+{txt}{hline 77}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            30                          
+{txt} vars:{res}             5                          
+{txt} size:{res}           210                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:trialnum       }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:pl             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: {res}id  trialnum
+     Note: Dataset has changed since last saved.
+{txt}
+{com}. list in 1/10
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trialnum   age    bp    pl {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1          1    40   115    54 {txt}{c |}
+  2. {c |} {res} 1          2    40    86    87 {txt}{c |}
+  3. {c |} {res} 1          3    40   129    93 {txt}{c |}
+  4. {c |} {res} 1          4    40   105    81 {txt}{c |}
+  5. {c |} {res} 1          5    40   127    92 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 2          1    30   123    92 {txt}{c |}
+  7. {c |} {res} 2          2    30   136    88 {txt}{c |}
+  8. {c |} {res} 2          3    30   107   125 {txt}{c |}
+  9. {c |} {res} 2          4    30   111    87 {txt}{c |}
+ 10. {c |} {res} 2          5    30   120    58 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_43
+. reshape wide
+{txt}(note: j = 1 2 3 4 5)
+
+Data{col 36}long{col 43}->{col 48}wide
+{hline 77}
+Number of obs.                 {res}      30   {txt}->{res}       6
+{txt}Number of variables            {res}       5   {txt}->{res}      12
+{txt}j variable (5 values)          {res}trialnum   {txt}->   (dropped)
+xij variables:
+                                     {res}bp   {txt}->   {res}bp1 bp2 ... bp5
+                                     pl   {txt}->   {res}pl1 pl2 ... pl5
+{txt}{hline 77}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}             6                          
+{txt} vars:{res}            12                          
+{txt} size:{res}           132                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:bp1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}1 bp{p_end}
+{p 0 48}{bind:pl1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}1 pl{p_end}
+{p 0 48}{bind:bp2            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}2 bp{p_end}
+{p 0 48}{bind:pl2            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}2 pl{p_end}
+{p 0 48}{bind:bp3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}3 bp{p_end}
+{p 0 48}{bind:pl3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}3 pl{p_end}
+{p 0 48}{bind:bp4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}4 bp{p_end}
+{p 0 48}{bind:pl4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}4 pl{p_end}
+{p 0 48}{bind:bp5            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}5 bp{p_end}
+{p 0 48}{bind:pl5            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}5 pl{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{txt}{hline}
+Sorted by: {res}id
+     Note: Dataset has changed since last saved.
+{txt}
+{com}. list
+{txt}
+     {c TLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   bp1   pl1   bp2   pl2   bp3   pl3   bp4   pl4   bp5   pl5   age {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1   115    54    86    87   129    93   105    81   127    92    40 {txt}{c |}
+  2. {c |} {res} 2   123    92   136    88   107   125   111    87   120    58    30 {txt}{c |}
+  3. {c |} {res} 3   124   105   122    97   101   128   109    57   112    68    16 {txt}{c |}
+  4. {c |} {res} 4   105    52   115    79   121    71   129   106   137    39    23 {txt}{c |}
+  5. {c |} {res} 5   116    70   128    64   112    52   125    68   111    59    18 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 6   108    74   126    78   124    92   131    99   107    80    27 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_44
+. use cardio_wide, clear
+{txt}
+{com}. reshape long bp, i(id) j(trialnum)
+{txt}(note: j = 1 2 3 4 5)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       6   {txt}->{res}      30
+{txt}Number of variables            {res}      12   {txt}->{res}       9
+{txt}j variable (5 values)                     ->   {res}trialnum
+{txt}xij variables:
+                        {res}bp1 bp2 ... bp5   {txt}->   {res}bp
+{txt}{hline 77}
+
+{com}. //_45
+. use cardio_wide, clear
+{txt}
+{com}. reshape long bp pl, i(id) j(trialnum)
+{txt}(note: j = 1 2 3 4 5)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       6   {txt}->{res}      30
+{txt}Number of variables            {res}      12   {txt}->{res}       5
+{txt}j variable (5 values)                     ->   {res}trialnum
+{txt}xij variables:
+                        {res}bp1 bp2 ... bp5   {txt}->   {res}bp
+                        pl1 pl2 ... pl5   {txt}->   {res}pl
+{txt}{hline 77}
+
+{com}. //_46
+. use cardio_wide2, clear
+{txt}
+{com}. describe
+
+{txt}Contains data from {res}cardio_wide2.dta
+{txt}  obs:{res}             6                          
+{txt} vars:{res}            12                          31 Dec 2009 15:46
+{txt} size:{res}           120                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:t1bp           }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 1{p_end}
+{p 0 48}{bind:t2bp           }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 2{p_end}
+{p 0 48}{bind:t3bp           }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 3{p_end}
+{p 0 48}{bind:t4bp           }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 4{p_end}
+{p 0 48}{bind:t5bp           }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 5{p_end}
+{p 0 48}{bind:t1pl           }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 1{p_end}
+{p 0 48}{bind:t2pl           }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 2{p_end}
+{p 0 48}{bind:t3pl           }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 3{p_end}
+{p 0 48}{bind:t4pl           }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 4{p_end}
+{p 0 48}{bind:t5pl           }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 5{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. capture reshape long tpl tpb, i(id) j(trialnum)
+{txt}
+{com}. reshape error
+{err}no xij variables found
+{p 4 4 2}
+You typed something like
+{bf:reshape wide a b, i(i) j(j)}.{break}
+{bf:reshape} looked for existing variables
+named {bf:a}{it:#} and {bf:b}{it:#} but
+could not find any.  Remember this picture:
+
+{col 9} {it:long}                                {it:wide}
+{col 9}{c TLC}{hline 15}{c TRC}                   {c TLC}{hline 18}{c TRC}
+{col 9}{c |} {it:i   j}   a   b {c |}                   {c |} {it:i}   a1 a2  b1 b2 {c |}
+{col 9}{c |}{hline 15}{c |} <--- {bf:reshape} ---> {c |}{hline 18}{c |}
+{col 9}{c |} 1   1   1   2 {c |}                   {c |} 1   1   3   2  4 {c |}
+{col 9}{c |} 1   2   3   4 {c |}                   {c |} 2   5   7   6  8 {c |}
+{col 9}{c |} 2   1   5   6 {c |}                   {c BLC}{hline 18}{c BRC}
+{col 9}{c |} 2   2   7   8 {c |}
+{col 9}{c BLC}{hline 15}{c BRC}
+
+{col 9}long to wide: {bf:reshape wide a b, i(}{it:i}{bf:) j(}{it:j}{bf:)}    ({it:j} existing variable)
+{col 9}wide to long: {bf:reshape long a b, i(}{it:i}{bf:) j(}{it:j}{bf:)}    ({it:j}    new   variable)
+{txt}
+{com}. //_47
+. reshape long t@pl t@bp, i(id) j(trialnum)
+{txt}(note: j = 1 2 3 4 5)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       6   {txt}->{res}      30
+{txt}Number of variables            {res}      12   {txt}->{res}       5
+{txt}j variable (5 values)                     ->   {res}trialnum
+{txt}xij variables:
+                     {res}t1pl t2pl ... t5pl   {txt}->   {res}tpl
+                     t1bp t2bp ... t5bp   {txt}->   {res}tbp
+{txt}{hline 77}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            30                          
+{txt} vars:{res}             5                          
+{txt} size:{res}           210                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:trialnum       }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:tbp            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:tpl            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: {res}id  trialnum
+     Note: Dataset has changed since last saved.
+{txt}
+{com}. list in 1/10
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trialnum   age   tbp   tpl {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1          1    40   115    54 {txt}{c |}
+  2. {c |} {res} 1          2    40    86    87 {txt}{c |}
+  3. {c |} {res} 1          3    40   129    93 {txt}{c |}
+  4. {c |} {res} 1          4    40   105    81 {txt}{c |}
+  5. {c |} {res} 1          5    40   127    92 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 2          1    30   123    92 {txt}{c |}
+  7. {c |} {res} 2          2    30   136    88 {txt}{c |}
+  8. {c |} {res} 2          3    30   107   125 {txt}{c |}
+  9. {c |} {res} 2          4    30   111    87 {txt}{c |}
+ 10. {c |} {res} 2          5    30   120    58 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_48
+. use cardio_wide3, clear
+{txt}
+{com}. clist bp* pl*, noobs
+
+{txt}bp1  bp2  bp3  bp4  bp5     bp2005  pl1  pl2  pl3  pl4  pl5     pl2005
+{res}115   86  129  105  127        112   54   87   93   81   92         81
+123  136  107  111  120        119   92   88  125   87   58         90
+124  122  101  109  112        113  105   97  128   57   68         91
+105  115  121  129  137        121   52   79   71  106   39         69
+116  128  112  125  111        118   70   64   52   68   59         62
+108  126  124  131  107        119   74   78   92   99   80         84
+{txt}
+{com}. //_49
+. reshape long bp pl, i(id) j(trialnum)
+{txt}(note: j = 1 2 3 4 5 2005)
+
+Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       6   {txt}->{res}      36
+{txt}Number of variables            {res}      14   {txt}->{res}       5
+{txt}j variable (6 values)                     ->   {res}trialnum
+{txt}xij variables:
+                     {res}bp1 bp2 ... bp2005   {txt}->   {res}bp
+                     pl1 pl2 ... pl2005   {txt}->   {res}pl
+{txt}{hline 77}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            36                          
+{txt} vars:{res}             5                          
+{txt} size:{res}           432                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:trialnum       }{txt}{bind: int     }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp             }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:pl             }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: {res}id  trialnum
+     Note: Dataset has changed since last saved.
+{txt}
+{com}. list in 1/12, sepby(id)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trialnum   age    bp    pl {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1          1    40   115    54 {txt}{c |}
+  2. {c |} {res} 1          2    40    86    87 {txt}{c |}
+  3. {c |} {res} 1          3    40   129    93 {txt}{c |}
+  4. {c |} {res} 1          4    40   105    81 {txt}{c |}
+  5. {c |} {res} 1          5    40   127    92 {txt}{c |}
+  6. {c |} {res} 1       2005    40   112    81 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  7. {c |} {res} 2          1    30   123    92 {txt}{c |}
+  8. {c |} {res} 2          2    30   136    88 {txt}{c |}
+  9. {c |} {res} 2          3    30   107   125 {txt}{c |}
+ 10. {c |} {res} 2          4    30   111    87 {txt}{c |}
+ 11. {c |} {res} 2          5    30   120    58 {txt}{c |}
+ 12. {c |} {res} 2       2005    30   119    90 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_50
+. use cardio_wide3, clear
+{txt}
+{com}. reshape long bp pl, i(id) j(trialnum 1-5)
+
+{txt}Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       6   {txt}->{res}      30
+{txt}Number of variables            {res}      14   {txt}->{res}       7
+{txt}j variable (5 values)                     ->   {res}trialnum
+{txt}xij variables:
+                        {res}bp1 bp2 ... bp5   {txt}->   {res}bp
+                        pl1 pl2 ... pl5   {txt}->   {res}pl
+{txt}{hline 77}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            30                          
+{txt} vars:{res}             7                          
+{txt} size:{res}           450                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:trialnum       }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:bp2005         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:pl             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:pl2005         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: {res}id  trialnum
+     Note: Dataset has changed since last saved.
+{txt}
+{com}. list in 1/10, sepby(id)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 5}{c -}{hline 8}{c TRC}
+     {c |} {res}id   trialnum   age    bp   bp2005    pl   pl2005 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 5}{c -}{hline 8}{c RT}
+  1. {c |} {res} 1          1    40   115      112    54       81 {txt}{c |}
+  2. {c |} {res} 1          2    40    86      112    87       81 {txt}{c |}
+  3. {c |} {res} 1          3    40   129      112    93       81 {txt}{c |}
+  4. {c |} {res} 1          4    40   105      112    81       81 {txt}{c |}
+  5. {c |} {res} 1          5    40   127      112    92       81 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 5}{c -}{hline 8}{c RT}
+  6. {c |} {res} 2          1    30   123      119    92       90 {txt}{c |}
+  7. {c |} {res} 2          2    30   136      119    88       90 {txt}{c |}
+  8. {c |} {res} 2          3    30   107      119   125       90 {txt}{c |}
+  9. {c |} {res} 2          4    30   111      119    87       90 {txt}{c |}
+ 10. {c |} {res} 2          5    30   120      119    58       90 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 5}{c -}{hline 8}{c BRC}
+
+{com}. //_51
+. use cardio_wide3, clear
+{txt}
+{com}. describe
+
+{txt}Contains data from {res}cardio_wide3.dta
+{txt}  obs:{res}             6                          
+{txt} vars:{res}            14                          31 Dec 2009 15:46
+{txt} size:{res}           168                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 1{p_end}
+{p 0 48}{bind:bp2            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 2{p_end}
+{p 0 48}{bind:bp3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 3{p_end}
+{p 0 48}{bind:bp4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 4{p_end}
+{p 0 48}{bind:bp5            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 5{p_end}
+{p 0 48}{bind:bp2005         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:pl1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 1{p_end}
+{p 0 48}{bind:pl2            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 2{p_end}
+{p 0 48}{bind:pl3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 3{p_end}
+{p 0 48}{bind:pl4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 4{p_end}
+{p 0 48}{bind:pl5            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 5{p_end}
+{p 0 48}{bind:pl2005         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. gen idcode = _n
+{txt}
+{com}. describe
+
+{txt}Contains data from {res}cardio_wide3.dta
+{txt}  obs:{res}             6                          
+{txt} vars:{res}            15                          31 Dec 2009 15:46
+{txt} size:{res}           216                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 1{p_end}
+{p 0 48}{bind:bp2            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 2{p_end}
+{p 0 48}{bind:bp3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 3{p_end}
+{p 0 48}{bind:bp4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 4{p_end}
+{p 0 48}{bind:bp5            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Blood pressure systolic Trial 5{p_end}
+{p 0 48}{bind:bp2005         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:pl1            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 1{p_end}
+{p 0 48}{bind:pl2            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 2{p_end}
+{p 0 48}{bind:pl3            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 3{p_end}
+{p 0 48}{bind:pl4            }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 4{p_end}
+{p 0 48}{bind:pl5            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Pulse: Trial 5{p_end}
+{p 0 48}{bind:pl2005         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:idcode         }{txt}{bind: double  }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+{res}     Note: Dataset has changed since last saved.
+{txt}
+{com}. reshape long bp pl, i(id idcode) j(trialnum 1-5)
+
+{txt}Data{col 36}wide{col 43}->{col 48}long
+{hline 77}
+Number of obs.                 {res}       6   {txt}->{res}      30
+{txt}Number of variables            {res}      15   {txt}->{res}       8
+{txt}j variable (5 values)                     ->   {res}trialnum
+{txt}xij variables:
+                        {res}bp1 bp2 ... bp5   {txt}->   {res}bp
+                        pl1 pl2 ... pl5   {txt}->   {res}pl
+{txt}{hline 77}
+
+{com}. describe
+
+{txt}Contains data
+  obs:{res}            30                          
+{txt} vars:{res}             8                          
+{txt} size:{res}           690                          
+{txt}{hline}
+              storage   display    value
+variable name   type    format     label      variable label
+{hline}
+{p 0 48}{res}{bind:id             }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}ID of person{p_end}
+{p 0 48}{bind:idcode         }{txt}{bind: double  }{bind:{txt}%10.0g    }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:trialnum       }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}Age of person{p_end}
+{p 0 48}{bind:bp             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:bp2005         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:pl             }{txt}{bind: int     }{bind:{txt}%3.0f     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:pl2005         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: {res}id  idcode  trialnum
+     Note: Dataset has changed since last saved.
+{txt}
+{com}. list in 1/10, sepby(id)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 8}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 5}{c -}{hline 8}{c TRC}
+     {c |} {res}id   idcode   trialnum   age    bp   bp2005    pl   pl2005 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 8}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 5}{c -}{hline 8}{c RT}
+  1. {c |} {res} 1        1          1    40   115      112    54       81 {txt}{c |}
+  2. {c |} {res} 1        1          2    40    86      112    87       81 {txt}{c |}
+  3. {c |} {res} 1        1          3    40   129      112    93       81 {txt}{c |}
+  4. {c |} {res} 1        1          4    40   105      112    81       81 {txt}{c |}
+  5. {c |} {res} 1        1          5    40   127      112    92       81 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 8}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 5}{c -}{hline 8}{c RT}
+  6. {c |} {res} 2        2          1    30   123      119    92       90 {txt}{c |}
+  7. {c |} {res} 2        2          2    30   136      119    88       90 {txt}{c |}
+  8. {c |} {res} 2        2          3    30   107      119   125       90 {txt}{c |}
+  9. {c |} {res} 2        2          4    30   111      119    87       90 {txt}{c |}
+ 10. {c |} {res} 2        2          5    30   120      119    58       90 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 8}{c -}{hline 10}{c -}{hline 5}{c -}{hline 5}{c -}{hline 8}{c -}{hline 5}{c -}{hline 8}{c BRC}
+
+{com}. //_52
+. use cardio_long, clear
+{txt}
+{com}. list, sepby(id)
+{txt}
+     {c TLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c TRC}
+     {c |} {res}id   trial   age    bp    pl {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  1. {c |} {res} 1       1    40   115    54 {txt}{c |}
+  2. {c |} {res} 1       2    40    86    87 {txt}{c |}
+  3. {c |} {res} 1       3    40   129    93 {txt}{c |}
+  4. {c |} {res} 1       4    40   105    81 {txt}{c |}
+  5. {c |} {res} 1       5    40   127    92 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+  6. {c |} {res} 2       1    30   123    92 {txt}{c |}
+  7. {c |} {res} 2       2    30   136    88 {txt}{c |}
+  8. {c |} {res} 2       3    30   107   125 {txt}{c |}
+  9. {c |} {res} 2       4    30   111    87 {txt}{c |}
+ 10. {c |} {res} 2       5    30   120    58 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 11. {c |} {res} 3       1    16   124   105 {txt}{c |}
+ 12. {c |} {res} 3       2    16   122    97 {txt}{c |}
+ 13. {c |} {res} 3       3    16   101   128 {txt}{c |}
+ 14. {c |} {res} 3       4    16   109    57 {txt}{c |}
+ 15. {c |} {res} 3       5    16   112    68 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 16. {c |} {res} 4       1    23   105    52 {txt}{c |}
+ 17. {c |} {res} 4       2    23   115    79 {txt}{c |}
+ 18. {c |} {res} 4       3    23   121    71 {txt}{c |}
+ 19. {c |} {res} 4       4    23   129   106 {txt}{c |}
+ 20. {c |} {res} 4       5    23   137    39 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 21. {c |} {res} 5       1    18   116    70 {txt}{c |}
+ 22. {c |} {res} 5       2    18   128    64 {txt}{c |}
+ 23. {c |} {res} 5       3    18   112    52 {txt}{c |}
+ 24. {c |} {res} 5       4    18   125    68 {txt}{c |}
+ 25. {c |} {res} 5       5    18   111    59 {txt}{c |}
+     {c LT}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c RT}
+ 26. {c |} {res} 6       1    27   108    74 {txt}{c |}
+ 27. {c |} {res} 6       2    27   126    78 {txt}{c |}
+ 28. {c |} {res} 6       3    27   124    92 {txt}{c |}
+ 29. {c |} {res} 6       4    27   131    99 {txt}{c |}
+ 30. {c |} {res} 6       5    27   107    80 {txt}{c |}
+     {c BLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
+
+{com}. //_53
+. sort id
+{txt}
+{com}. by id: egen meanbp = mean(bp)
+{txt}
+{com}. by id: egen meanpl = mean(pl)
+{txt}
+{com}. by id: egen maxbp = max(bp)
+{txt}
+{com}. by id: egen maxpl = max(bp)
+{txt}
+{com}. by id: egen minbp = min(bp)
+{txt}
+{com}. by id: egen minpl = min(bp)
+{txt}
+{com}. by id: egen medbp = pctile(bp), p(50)
+{txt}
+{com}. by id: egen medpl = pctile(pl), p(50)
+{txt}
+{com}. //_54
+. collapse meanbp meanpl maxbp maxpl minbp minpl medbp medpl, by(id)
+{txt}
+{com}. //_55
+. use cardio_long, clear
+{txt}
+{com}. //_56
+. collapse (mean) meanbp=bp meanpl=pl (max) maxbp=bp maxpl=pl ///
+>     (min) minbp=bp minpl=pl (p50) medbp=bp medpl=pl, by(id)
+{txt}
+{com}. //_57
+. use cardio_long, clear
+{txt}
+{com}. format bp* pl* %5.2f
+{txt}
+{com}. collapse (mean) meanbp=bp meanpl=pl (max) maxbp=bp maxpl=pl ///
+>      (min) minbp=bp minpl=pl (p50) medbp=bp medpl=pl, by(id)
+{txt}
+{com}. //_^
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week7_sem.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 9 Oct 2023, 14:35:32
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
