@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Wooldridge Chp 15 and Mitchell Chp 2, 3, 4" />
-  <title>Week 2: *Instrumental Variables, IVReg, and 2SLS</title>
+  <title>Week 2: Instrumental Variables, IVReg, and 2SLS</title>
   <style>
     html {
       color: #1a1a1a;
@@ -213,16 +213,18 @@ table:not([class]) tbody:last-child tr:last-child td {border-bottom:1px solid bl
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Week 2: *Instrumental Variables, IVReg, and 2SLS</h1>
+<h1 class="title">Week 2: Instrumental Variables, IVReg, and 2SLS</h1>
 <p class="author">Wooldridge Chp 15 and Mitchell Chp 2, 3, 4</p>
 <p class="date">Samuel Rowe - Adapted from Wooldridge and Mitchell</p>
 </header>
-<p>August 2, 2023</p>
+<p>Revised 2/27/2024</p>
 <pre class='stata'>. set more off
 
 . clear all
 </pre>
-<p>*Set Working Directory</p>
+<p>
+First set our Working Directory with <i>cd</i> command.
+</p>
 <pre class='stata'>. cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
 /Users/Sam/Desktop/Econ 645/Data/Wooldridge
 </pre>
@@ -232,10 +234,20 @@ Wooldridge
 <h3>
 Estimating Returns to Education for Married Women
 </h3>
+<p>
+We’ll use the data from A. Mroz (1987), “The Sensitivity of an Empirical
+Model of Married Women’s Hours of Work to Economic and Statistical
+Assumptions,” Econometrica 55, 765-799.
+</p>
 <pre class='stata'>. use "mroz.dta", clear
 </pre>
-<p>We’ll use the data on married working women to estimate the return to
-education using a simple OLS model. Biased OLS</p>
+<p>
+We’ll use the data on married working women to estimate the return to
+education using a simple OLS model.
+</p>
+<p>
+Biased OLS
+</p>
 <pre class='stata'>. reg lwage educ
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -252,13 +264,17 @@ education using a simple OLS model. Biased OLS</p>
        _cons │  -.1851968   .1852259    -1.00   0.318    -.5492673    .1788736
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>Our estimate implies that the returns to education is exp(.109)-1*100
-about 11.5%</p>
+<p>
+Our estimate implies that the returns to education is exp(.109)-1*100
+about 11.5%
+</p>
 <pre class='stata'>. display (exp(_b[educ])-1)*100
 11.477061
 </pre>
-<p>Use Fathers Education as an instrument for the observation’s level of
-education if the women is in the labor force</p>
+<p>
+Use Fathers Education as an instrument for the observation’s level of
+education if the women is in the labor force.
+</p>
 <pre class='stata'>. reg educ fathedu if inlf==1
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -278,7 +294,9 @@ education if the women is in the labor force</p>
 . predict edu_hat
 (option xb assumed; fitted values)
 </pre>
-<p>Get F-Statistic</p>
+<p>
+Get F-Statistic
+</p>
 <pre class='stata'>. test fathedu
 
  ( 1)  fatheduc = 0
@@ -286,9 +304,13 @@ education if the women is in the labor force</p>
        F(  1,   426) =   88.84
             Prob > F =    0.0000
 </pre>
-<p>Our F-test shows that the instrument is greater than F-stat &gt; 15,
-so it seem like a good candidate for an instrument</p>
-<p>Father’s Education as an instrument</p>
+<p>
+Our F-test shows that the instrument is greater than F-stat &gt; 15, so
+it seem like a good candidate for an instrument.
+</p>
+<p>
+Father’s Education as an instrument
+</p>
 <pre class='stata'>. reg lwage edu_hat
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -305,23 +327,36 @@ so it seem like a good candidate for an instrument</p>
        _cons │   .4411034   .4671121     0.94   0.346    -.4770279    1.359235
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>One additional year of education increases wages by
-(exp(0.059)-1)*100%=6.1%</p>
+<p>
+One additional year of education increases wages by
+(exp(0.059)-1)*100%=6.1%
+</p>
 <pre class='stata'>. display (exp(_b[edu_hat])-1)*100
 6.095928
 </pre>
-<p>Question? The F-test passed the instrument relevance (F-stat &gt;
-15), but what about instrument exogeneity?</p>
+<p>
+Question?
+</p>
+<p>
+The F-test passed the instrument relevance (F-stat &gt; 15), but what
+about instrument exogeneity?
+</p>
 <h3>
 Estimating Returns to Education for Men
 </h3>
-<p>Let’s estimate the returns to education for men</p>
+<p>
+Let’s estimate the returns to education for men. We’ll use data from M.
+Blackburn and D. Neumark (1992), “Unobserved Ability, Efficiency Wages,
+and Interindustry Wage Differentials,” Quarterly Journal of Economics
+107, 1421-1436.
+</p>
 <h4>
 Exercise
 </h4>
-<p>Use number of siblings as an instrument to predict an observation’s
-level of education. We’ll keep it simple and have no other
-covariates.</p>
+<p>
+Use number of siblings as an instrument to predict an observation’s
+level of education. We’ll keep it simple and have no other covariates.
+</p>
 <pre class='stata'>. use "wage2.dta", clear
 </pre>
 <ol type="1">
@@ -333,7 +368,11 @@ covariates.</p>
 <h4>
 Answers
 </h4>
-<p>Biased OLS</p>
+<p>
+<ol type="1">
+<li>Biased OLS
+</p></li>
+</ol>
 <pre class='stata'>. reg lwage educ
 
       Source │       SS           df       MS      Number of obs   =       935
@@ -350,11 +389,17 @@ Answers
        _cons │   5.973063   .0813737    73.40   0.000     5.813366    6.132759
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>We have a estimated return of education of (exp(.0598392)-1)*100</p>
+<p>
+We have a estimated return of education of (exp(.0598392)-1)*100
+</p>
 <pre class='stata'>. display (exp(_b[educ])-1)*100
 6.1665821
 </pre>
-<p>Use Number of siblings as an instrument</p>
+<p>
+<ol start="2" type="1">
+<li>Use Number of siblings as an instrument for the first stage
+</p></li>
+</ol>
 <pre class='stata'>. reg educ sibs
 
       Source │       SS           df       MS      Number of obs   =       935
@@ -374,7 +419,11 @@ Answers
 . predict edu_hat
 (option xb assumed; fitted values)
 </pre>
-<p>Get F-statistic</p>
+<p>
+<ol start="3" type="1">
+<li>Get F-statistic
+</p></li>
+</ol>
 <pre class='stata'>. test sibs
 
  ( 1)  sibs = 0
@@ -382,7 +431,11 @@ Answers
        F(  1,   933) =   56.67
             Prob > F =    0.0000
 </pre>
-<p>Number of siblings as an instrument</p>
+<p>
+<ol start="4" type="1">
+<li>Number of siblings as an instrument
+</p></li>
+</ol>
 <pre class='stata'>. reg lwage edu_hat
 
       Source │       SS           df       MS      Number of obs   =       935
@@ -399,28 +452,52 @@ Answers
        _cons │   5.130026   .3494009    14.68   0.000     4.444323    5.815729
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>One additional year of education increases wages by
-(exp(0.1224)-1)*100%=13.0%</p>
+<p>
+One additional year of education increases wages by
+(exp(0.1224)-1)*100%=13.0%
+</p>
 <pre class='stata'>. display (exp(_b[edu_hat])-1)*100 
 13.024298
 </pre>
-<p>Another thing that is interesting here is the the OLS estimate is
-biased downward, which is not what we would expect. Possible reasons: 1)
-Siblings could be correlated with ability - more siblings, less
-partental attention which could result in lower ability 2) The OLS
-estimator is downward biased due to measurement error in educ, but this
-is less likely to satisfy the classic error-in-variables (CEM)
-assumption</p>
+<p>
+Another thing that is interesting here is the the OLS estimate is biased
+downward, which is not what we would expect.
+</p>
+<p>
+Possible reasons:
+</p>
+<p>
+<ol type="1">
+<li>Siblings could be correlated with ability - more siblings, less
+partental attention which could result in lower ability.
+</p>
+<p>
+<ol start="2" type="1">
+<li>The OLS estimator is downward biased due to measurement error in
+educ, but this is less likely to satisfy the classic error-in-variables
+(CEM) assumption.
+</p></li>
+</ol></li>
+</ol>
 <h3>
 Smoking on Birthweight
 </h3>
-<p>It is important to see an example of a poor instrument.</p>
+<p>
+It is important to see an example of a poor instrument. We’ll use data
+from . Mullahy (1997), “Instrumental-Variable Estimation of Count Data
+Models: Applications to Models of Cigarette Smoking Behavior,” Review of
+Economics and Statistics 79, 596-593.
+</p>
 <pre class='stata'>. use "bwght.dta", clear
 </pre>
-<p>Biased OLS looks at the natural log of birth weight and cigarette
-packs smoked per day by the mother. We would expect that smoking is
-correlated with unobserved health and parental decisions, so it is like
-biased due to unobserved confounders.</p>
+<p>
+Biased OLS looks at the natural log of birth weight and cigarette packs
+smoked per day by the mother.
+</p>
+<p>
+We would expect that smoking is correlated with unobserved health and
+parental decisions, so it is like biased due to unobserved confounders.
+</p>
 <pre class='stata'>. reg lbwght packs
 
       Source │       SS           df       MS      Number of obs   =     1,388
@@ -437,16 +514,23 @@ biased due to unobserved confounders.</p>
        _cons │   4.769404   .0053694   888.26   0.000     4.758871    4.779937
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>An additional package smoked per day decreases birthweight by
-exp(-.08981)-1~-8.6%</p>
+<p>
+An additional package smoked per day decreases birthweight by
+exp(-.08981)-1~-8.6%
+</p>
 <pre class='stata'>. display (exp(-.08981)-1)*100
 -8.5895151
 </pre>
-<p>We’ll use cigarette prices as an instrument for cigarette packs
-smoked per day. We assume that cigarette prices and the error term u are
+<p>
+We’ll use cigarette prices as an instrument for cigarette packs smoked
+per day. We assume that cigarette prices and the error term u are
 uncorrelated (instrument exogeneity). Note that some states fund health
-care with cigarette tax revenue. We will use cigarette price and
-quantity of packs smoked should be negatively correlated.</p>
+care with cigarette tax revenue.
+</p>
+<p>
+We will use cigarette price and quantity of packs smoked should be
+negatively correlated.
+</p>
 <pre class='stata'>. reg packs cigprice
 
       Source │       SS           df       MS      Number of obs   =     1,388
@@ -463,11 +547,15 @@ quantity of packs smoked should be negatively correlated.</p>
        _cons │   .0674257   .1025384     0.66   0.511    -.1337215    .2685728
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>Our instrument is not associated with quantity consumed.</p>
+<p>
+Our instrument is not associated with quantity consumed.
+</p>
 <pre class='stata'>. predict packs_hat
 (option xb assumed; fitted values)
 </pre>
-<p>Instrument Revelance:</p>
+<p>
+Instrument Revelance:
+</p>
 <pre class='stata'>. test cigprice
 
  ( 1)  cigprice = 0
@@ -475,10 +563,13 @@ quantity of packs smoked should be negatively correlated.</p>
        F(  1,  1386) =    0.13
             Prob > F =    0.7179
 </pre>
-<p>Our instrumennt fails the F-test - weak instrument</p>
-<p>Cigarette price as an instrument for packs smoked is a poor
-instrument and our use of predicted packs smoked is in the wrong
-direction</p>
+<p>
+Our instrumennt fails the F-test - we have a <b>weak instrument</b>
+</p>
+<p>
+Cigarette price as an instrument for packs smoked is a poor instrument
+and our use of predicted packs smoked is in the wrong direction.
+</p>
 <pre class='stata'>. reg lbwght packs_hat
 
       Source │       SS           df       MS      Number of obs   =     1,388
@@ -495,21 +586,31 @@ direction</p>
        _cons │   4.448136   .1843027    24.13   0.000     4.086594    4.809679
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>We can and should always test Instrument Relevance. If we have a poor
-instrument, we should go back to the drawing board.</p>
-<p>Another issue here is that price is a poor instrument, since price
-and quantity are simultaneously determined. We would need a second set
-of instruments on price to estimate our first-stage.</p>
+<p>
+We can and should always test Instrument Relevance. If we have a poor
+instrument, we should go back to the drawing board.
+</p>
+<p>
+Another issue here is that price is a poor instrument, since price and
+quantity are simultaneously determined. We would need a second set of
+instruments on price to estimate our first-stage.
+</p>
 <h3>
 Estimating Returns to Education for Married Women Part 2
 </h3>
+<p>
+We’ll use Mroz data again on working women.
+</p>
 <pre class='stata'>. use "mroz.dta", clear
 </pre>
-<p>We’ll use both parent’s education as instruments to identify the
-effect of education on wages for working women. We overidentify the
-endogenous variable with 2 instruments: father’s education and mother’s
-education.</p>
-<p>Potentially Biased OLS</p>
+<p>
+We’ll use both parent’s education as instruments to identify the effect
+of education on wages for working women. We overidentify the endogenous
+variable with 2 instruments: father’s education and mother’s education.
+</p>
+<p>
+Potentially Biased OLS
+</p>
 <pre class='stata'>. reg lwage educ c.exper##c.exper
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -530,12 +631,16 @@ c.exper#c.exper │  -.0008112   .0003932    -2.06   0.040    -.0015841   -.0000
           _cons │  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
 ────────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>Our result is (exp(.1074896)-1)*100~11.3%</p>
+<p>
+Our result is (exp(.1074896)-1)*100~11.3%
+</p>
 <pre class='stata'>. display (exp(_b[educ])-1)*100
 11.347933
 </pre>
-<p>We’ll use to instruments for one endogenous variable Use Parent’s
-Education as an instrument for women in the labor force</p>
+<p>
+We’ll use to instruments for one endogenous variable Use Parent’s
+Education as an instrument for women in the labor force.
+</p>
 <pre class='stata'>. reg educ c.exper##c.exper fathedu mothedu if inlf==1
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -560,8 +665,9 @@ c.exper#c.exper │  -.0010091   .0012033    -0.84   0.402    -.0033744    .0013
 . predict edu_hat
 (option xb assumed; fitted values)
 </pre>
-<p>Get F-Statistic Passes the First Stage Test for good instrument
-F&gt;15</p>
+<p>
+Get F-Statistic
+</p>
 <pre class='stata'>. test fathedu mothedu
 
  ( 1)  fatheduc = 0
@@ -570,7 +676,12 @@ F&gt;15</p>
        F(  2,   423) =   55.40
             Prob > F =    0.0000
 </pre>
-<p>Father’s Education as an instrument</p>
+<p>
+Passes the First Stagex Test for good instrument F&gt;15
+</p>
+<p>
+Using Father’s Education as an instrument
+</p>
 <pre class='stata'>. reg lwage edu_hat c.exper##c.exper
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -591,9 +702,17 @@ c.exper#c.exper │   -.000899   .0004212    -2.13   0.033    -.0017268   -.0000
           _cons │   .0481003   .4197565     0.11   0.909    -.7769624     .873163
 ────────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>One additional year of education increases wages by
-(exp(0.061)-1)*100%=6.3%</p>
-<p>This can be more easily done with our ivregress 2sls command</p>
+<p>
+One additional year of education increases wages by
+(exp(0.061)-1)*100%=6.3%
+</p>
+<p>
+This can be more easily done with our ivregress 2sls command
+</p>
+<p>
+ivregress 2sls <i><dependent variable></i>
+(<i><explantatory var>=<IV></i>) x1 x2 … xk
+</p>
 <pre class='stata'>. ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
 
 Instrumental variables (2SLS) regression          Number of obs   =        428
@@ -621,13 +740,18 @@ Instruments:   exper c.exper#c.exper fatheduc motheduc
 <h3>
 Testing for Endogeneity - Returns to Education for Working Women
 </h3>
+<p>
+We’ll keep using Mroz’s data on working women.
+</p>
 <pre class='stata'>. use "mroz.dta", clear
 </pre>
 <h4>
 Exercise
 </h4>
-<p>Use father’s and mother’s education as an instrument to estimate
-education</p>
+<p>
+Use father’s and mother’s education as an instrument to estimate
+education with the ivregress 2sls command
+<p>
 <ol type="1">
 <li><p>Estimate OLS</p></li>
 <li><p>Estimate the 2SLS with ivregress 2sls command</p></li>
@@ -635,7 +759,9 @@ education</p>
 <h4>
 Answers
 </h4>
-<p>OLS</p>
+<p>
+OLS
+</p>
 <pre class='stata'>. reg lwage educ c.exper##c.exper
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -656,7 +782,9 @@ c.exper#c.exper │  -.0008112   .0003932    -2.06   0.040    -.0015841   -.0000
           _cons │  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
 ────────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>2SLS</p>
+<p>
+2SLS
+</p>
 <pre class='stata'>. ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper
 
 Instrumental variables (2SLS) regression          Number of obs   =        428
@@ -678,12 +806,22 @@ c.exper#c.exper │   -.000899   .0003998    -2.25   0.025    -.0016826   -.0001
 Instrumented:  educ
 Instruments:   exper c.exper#c.exper fatheduc motheduc
 </pre>
-<p>Two ways to test endogeneity</p>
-<p>If want to see if our explanatory variable of interest is potentially
-endogenous with the error term. We can conduct an endogeneity test. 1)
-Manually Estimate the reduced form for y_2 by regressing all exogenous
-variables includes those in the structural model and the additional
-IVs</p>
+<p>
+Two ways to test endogeneity
+</p>
+<p>
+If want to see if our explanatory variable of interest is potentially
+endogenous with the error term. We can conduct an endogeneity test.
+</p>
+<p>
+<ol type="1">
+<li>Manually
+</p>
+<p>
+Estimate the reduced form for y_2 by regressing all exogenous variables
+includes those in the structural model and the additional IVs.
+</p></li>
+</ol>
 <pre class='stata'>. reg educ c.exper##c.exper fathedu mothedu if inlf==1
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -705,10 +843,14 @@ c.exper#c.exper │  -.0010091   .0012033    -0.84   0.402    -.0033744    .0013
           _cons │    9.10264   .4265614    21.34   0.000     8.264196    9.941084
 ────────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>Obtains residuals v-hat_2</p>
+<p>
+Next, obtains residuals v-hat_2.
+</p>
 <pre class='stata'>. predict r, residual
 </pre>
-<p>Add v-hat_2 to the structural equation</p>
+<p>
+Then, add v-hat_2 to the structural equation.
+</p>
 <pre class='stata'>. reg lwage educ c.exper##c.exper r
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -730,11 +872,20 @@ c.exper#c.exper │   -.000899   .0003959    -2.27   0.024    -.0016772   -.0001
           _cons │   .0481003   .3945753     0.12   0.903    -.7274721    .8236727
 ────────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>There is possible evidence of endogeneity since p &lt; .1 but p &gt;
-.05 You should report IV and OLS</p>
+<p>
+There is possible evidence of endogeneity since p &lt; .1 but p &gt;
+.05. You should report IV and OLS.
+</p>
+<p>eststo m1: quietly reg lwage educ c.exper##c.exper eststo m2: quietly
+ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper esttab m1
+m2, mtitle(OLS IV)</p>
+<p>
 <ol start="2" type="1">
-<li>With estat We can also use a postestimation command estat
-endogenous</li>
+<li>With estat
+</p>
+<p>
+We can also use a postestimation command estat endogenous.
+</p></li>
 </ol>
 <pre class='stata'>. ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
 
@@ -765,28 +916,50 @@ Instruments:   exper c.exper#c.exper fatheduc motheduc
   Durbin (score) chi2(1)          =  2.80707  (p = 0.0938)
   Wu-Hausman F(1,423)             =  2.79259  (p = 0.0954)
 </pre>
+<p>
+We have weak evidence that education is endogenous, since p&lt;.1 but p
+&gt;.05. However, we know from theory that ability is a confounder on
+wages and education. We should report both OLS and IV models.
+</p>
 <h3>
 Testing Overidentifying Restrictions - Returns to Education for Working
 Women
 </h3>
-<p>When we have one IV for one endogenous explanatory variable, we have
-a just identified equation. When we have two instruments and one
-endogenous explanatory variable we have overidentification.</p>
-<p>When we have multiple IVs, we can test to see some of our instruments
-are correlated with the structural error term.</p>
-<p>We can estimate two 2sls models (one for each IV) and then compare
-them. They should only differ by the sampling error. If our two beta
+<p>
+When we have one IV for one endogenous explanatory variable, we have a
+just identified equation. When we have two instruments and one
+endogenous explanatory variable we have overidentification.
+</p>
+<p>
+When we have multiple IVs, we can test to see some of our instruments
+are correlated with the structural error term.
+</p>
+<p>
+We can estimate two 2sls models (one for each IV) and then compare them.
+They should only differ by the sampling error. If our two beta
 coefficients on our fitted explanatory variable of interest are
 different then, we conclude that at least one instrument or maybe both
-is/are correlated with the structural error term</p>
-<p>When we add too many instrumental variables (or overidentification),
-we can increase the efficiency of the 2SLS estimator. However, we may
-run the risk of violating the instrument exogeneity assumption.</p>
-<p>When we use motheredu and fatheredu as IVS for education, we have a
+is/are correlated with the structural error term.
+</p>
+<p>
+When we add too many instrumental variables (or overidentification), we
+can increase the efficiency of the 2SLS estimator. However, we may run
+the risk of violating the instrument exogeneity assumption.
+</p>
+<p>
+When we use motheredu and fatheredu as IVS for education, we have a
 single overidentification restriction. We have two IVs and 1 endogenous
-explanatory variable</p>
+explanatory variable.
+</p>
+<p>
+Get our working women data.
+</p>
 <pre class='stata'>. use "mroz.dta", clear
 </pre>
+<p>
+Use an 2SLS model with mother’s education and father’s education as two
+IVs.
+</p>
 <pre class='stata'>. ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
 
 Instrumental variables (2SLS) regression          Number of obs   =        428
@@ -808,11 +981,15 @@ c.exper#c.exper │   -.000899   .0003998    -2.25   0.025    -.0016826   -.0001
 Instrumented:  educ
 Instruments:   exper c.exper#c.exper motheduc fatheduc
 </pre>
-<p>Get our residuals</p>
+<p>
+Get our residuals
+</p>
 <pre class='stata'>. predict r, resid
 (325 missing values generated)
 </pre>
-<p>Regress the residual on all exogenous variables</p>
+<p>
+Regress the residual on all exogenous variables
+</p>
 <pre class='stata'>. reg r mothedu fathedu c.exper##c.exper
 
       Source │       SS           df       MS      Number of obs   =       428
@@ -834,7 +1011,9 @@ c.exper#c.exper │   7.34e-07   .0003985     0.00   0.999    -.0007825     .000
           _cons │   .0109641   .1412571     0.08   0.938    -.2666892    .2886173
 ────────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>Obtain R-squared and N</p>
+<p>
+Obtain R-squared and N
+</p>
 <pre class='stata'>. ereturn list
 
 scalars:
@@ -884,16 +1063,21 @@ functions:
 . display "`nR'"
 .3780713419639
 </pre>
-<p>Under the null hypothesis that all IVs are uncorrelated with u_1
+<p>
+Under the null hypothesis that all IVs are uncorrelated with u_1
 nR2~X^2_q, where q is the number of instruments from outside the model
 minus the total number of endogenous explanatory variables. If nR2
 exceeds the 5% critical value in X^2_q, then we reject the null
-hypothesis and conclude that at least some of the IVs are not
-exogenous</p>
-<p>Here we have q=2-1=1 df for the chi-squared test and we fail to
-reject the null hypothesis since nR2=.37807 and X^2_1 at the 5% critical
-value is 3.841.</p>
-<p>We can also use the postestimation command of estat overid</p>
+hypothesis and conclude that at least some of the IVs are not exogenous.
+</p>
+<p>
+Here we have q=2-1=1 df for the chi-squared test and we fail to reject
+the null hypothesis since nR2=.37807 and X^2_1 at the 5% critical value
+is 3.841.
+</p>
+<p>
+We can also use the postestimation command of estat overid.
+</p>
 <pre class='stata'>. ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
 
 Instrumental variables (2SLS) regression          Number of obs   =        428
@@ -922,9 +1106,13 @@ Instruments:   exper c.exper#c.exper motheduc fatheduc
   Sargan (score) chi2(1) =  .378071  (p = 0.5386)
   Basmann chi2(1)        =  .373985  (p = 0.5408)
 </pre>
-<p>We get our nR2 with this postestimation command</p>
-<p>Let’s add husband’s education, so we have 2 overidentification
-restrictions.</p>
+<p>
+We get our nR2 with this postestimation command.
+</p>
+<p>
+Let’s add husband’s education, so we have 2 overidentification
+restrictions.
+</p>
 <pre class='stata'>. ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper
 
 Instrumental variables (2SLS) regression          Number of obs   =        428
@@ -953,10 +1141,18 @@ Instruments:   exper c.exper#c.exper motheduc fatheduc huseduc
   Sargan (score) chi2(2) =  1.11504  (p = 0.5726)
   Basmann chi2(2)        =  1.10228  (p = 0.5763)
 </pre>
-<p>Notice that we still fail reject the null hypothesis, so we might
+</p>
+Notice that we still fail reject the null hypothesis, so we might
 consider adding it as an IV. Also, notice that the coefficient and
-standard error around education has changed as well.</p>
-<p>It is a good idea to report both in a sensitivity analysis</p>
+standard error around education have changed as well.
+</p>
+<p>
+It is a good idea to report both in a sensitivity analysis
+</p>
+<p>est clear eststo m1: quietly ivregress 2sls lwage (educ=motheduc
+fatheduc) c.exper##c.exper eststo m2: quietly ivregress 2sls lwage
+(educ=motheduc fatheduc huseduc) c.exper##c.exper esttab m1 m2,
+mtitle(2IVs 3IVs)</p>
 <h2>
 Mitchell
 </h2>
@@ -1265,8 +1461,7 @@ data.</p>
      └──────────────────────────────────────────────┘
 </pre>
 <p>Import delimited from the web</p>
-<pre class='stata'>. import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/j
-> un23pub.csv", clear
+<pre class='stata'>. import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/jun23pub.csv", clear
 (389 vars, 127,491 obs)
 
 . pwd
@@ -1804,10 +1999,10 @@ Contains data from wws.dta
   obs:         2,246                          Working Women Survey
  vars:            30                          3 Jan 2010 00:42
  size:       163,958                          (_dta has notes)
-────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 idcode          int     %8.0g                 Unique ID
 age             byte    %8.0g                 age in current year
 race            byte    %8.0g                 race
@@ -1838,7 +2033,7 @@ grade4          byte    %9.0g                 4 level Current Grade Completed
 wage2           float   %9.0g                 Wages, rounded to 2 digits
 fwt             float   %9.0g                 Frequency weight
 networth        float   %9.0g                 Net worth
-────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <p>You will noticed that we lack value labels and a data dictionary or
@@ -2161,21 +2356,21 @@ observation is a union member or not by uniondues.</p>
 variable specified.</p>
 <pre class='stata'>. bysort union: summarize uniondues
 
-────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> union = 0
 
     Variable │        Obs        Mean    Std. Dev.       Min        Max
 ─────────────┼─────────────────────────────────────────────────────────
    uniondues │      1,413     .094126    1.502237          0         27
 
-────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> union = 1
 
     Variable │        Obs        Mean    Std. Dev.       Min        Max
 ─────────────┼─────────────────────────────────────────────────────────
    uniondues │        461    14.65944    8.707759          0         29
 
-────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> union = .
 
     Variable │        Obs        Mean    Std. Dev.       Min        Max
@@ -2229,13 +2424,13 @@ abb(#) option to abbreviate the observation to 20 characters</p>
       ┌────────────────────────────┐
       │ idcode   union   uniondues │
       ├────────────────────────────┤
- 203. │   3905       0          10 │
- 304. │    345       0          26 │
- 388. │   2541       0          27 │
- 491. │   3848       0          26 │
- 972. │   1411       0          27 │
+ 338. │   3848       0          26 │
+ 470. │   2541       0          27 │
+ 554. │   3905       0          10 │
+ 966. │   1411       0          27 │
+1154. │   3464       0          17 │
       ├────────────────────────────┤
-1175. │   3464       0          17 │
+1207. │    345       0          26 │
       └────────────────────────────┘
 </pre>
 <p>Let’s look at another great command for observing categorical and
@@ -2511,7 +2706,7 @@ categories</p>
       ┌───────────────┐
       │ idcode   race │
       ├───────────────┤
-1796. │    543      4 │
+1560. │    543      4 │
       └───────────────┘
 
 . replace race=1 if idcode == 543
@@ -2538,7 +2733,7 @@ education</p>
       ┌───────────────────┐
       │ idcode   collgrad │
       ├───────────────────┤
-1456. │    107          1 │
+1636. │    107          1 │
       └───────────────────┘
 
 . replace collgrad = 0 if idcode == 107
@@ -2573,8 +2768,8 @@ education</p>
       ┌──────────────┐
       │ idcode   age │
       ├──────────────┤
-  45. │     80    54 │
- 451. │     51    83 │
+ 872. │     51    83 │
+1205. │     80    54 │
       └──────────────┘
 
 . replace age = 38 if idcode == 51
@@ -2908,8 +3103,7 @@ Practice
 </h2>
 <p>Let’s work the Census CPS Pull the Census CPS. a) You can download
 the file and import it, or b) You can use Stata to pull the file.</p>
-<pre class='stata'>. import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/j
-> un23pub.csv", clear
+<pre class='stata'>. import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/jun23pub.csv", clear
 (389 vars, 127,491 obs)
 </pre>
 <p>Let’s save a copy of the csv file in Stata</p>
