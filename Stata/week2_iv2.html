@@ -1141,18 +1141,41 @@ Instruments:   exper c.exper#c.exper motheduc fatheduc huseduc
   Sargan (score) chi2(2) =  1.11504  (p = 0.5726)
   Basmann chi2(2)        =  1.10228  (p = 0.5763)
 </pre>
-</p>
+<p>
 Notice that we still fail reject the null hypothesis, so we might
 consider adding it as an IV. Also, notice that the coefficient and
 standard error around education have changed as well.
 </p>
-<p>
-It is a good idea to report both in a sensitivity analysis
-</p>
-<p>est clear eststo m1: quietly ivregress 2sls lwage (educ=motheduc
-fatheduc) c.exper##c.exper eststo m2: quietly ivregress 2sls lwage
-(educ=motheduc fatheduc huseduc) c.exper##c.exper esttab m1 m2,
-mtitle(2IVs 3IVs)</p>
+<p>It is a good idea to report both in a sensitivity analysis.</p>
+<pre class='stata'>. est clear
+
+.  eststo m1: quietly ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+
+.  eststo m2: quietly ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper
+
+.  esttab m1 m2, mtitle(2IVs 3IVs)
+
+────────────────────────────────────────────
+                      (1)             (2)   
+                     2IVs            3IVs   
+────────────────────────────────────────────
+educ               0.0614*         0.0804***
+                   (1.96)          (3.71)   
+
+exper              0.0442***       0.0431** 
+                   (3.30)          (3.26)   
+
+c.exper#c.~r    -0.000899*      -0.000863*  
+                  (-2.25)         (-2.19)   
+
+_cons              0.0481          -0.187   
+                   (0.12)         (-0.66)   
+────────────────────────────────────────────
+N                     428             428   
+────────────────────────────────────────────
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
+</pre>
 <h2>
 Mitchell
 </h2>
@@ -1171,8 +1194,10 @@ likely be scolded by Nick Cox, or you will be told to “read the manual”.
 However, if you just read what others have asked, you will often find
 useful information.</p>
 <h3>
-<p>Getting our data&lt;/3&gt; ********** This will download the data to
-your working directory. So check your working directory.</p>
+Getting our data
+</h3>
+<p>This will download the data to your working directory. So check your
+working directory.</p>
 <pre class='stata'>. pwd
 /Users/Sam/Desktop/Econ 645/Data/Wooldridge
 </pre>
@@ -2424,13 +2449,13 @@ abb(#) option to abbreviate the observation to 20 characters</p>
       ┌────────────────────────────┐
       │ idcode   union   uniondues │
       ├────────────────────────────┤
- 338. │   3848       0          26 │
- 470. │   2541       0          27 │
- 554. │   3905       0          10 │
- 966. │   1411       0          27 │
-1154. │   3464       0          17 │
+ 512. │   2541       0          27 │
+ 809. │   1411       0          27 │
+ 829. │    345       0          26 │
+1256. │   3848       0          26 │
+1273. │   3905       0          10 │
       ├────────────────────────────┤
-1207. │    345       0          26 │
+1377. │   3464       0          17 │
       └────────────────────────────┘
 </pre>
 <p>Let’s look at another great command for observing categorical and
@@ -2706,7 +2731,7 @@ categories</p>
       ┌───────────────┐
       │ idcode   race │
       ├───────────────┤
-1560. │    543      4 │
+1459. │    543      4 │
       └───────────────┘
 
 . replace race=1 if idcode == 543
@@ -2733,7 +2758,7 @@ education</p>
       ┌───────────────────┐
       │ idcode   collgrad │
       ├───────────────────┤
-1636. │    107          1 │
+1580. │    107          1 │
       └───────────────────┘
 
 . replace collgrad = 0 if idcode == 107
@@ -2768,8 +2793,8 @@ education</p>
       ┌──────────────┐
       │ idcode   age │
       ├──────────────┤
- 872. │     51    83 │
-1205. │     80    54 │
+ 920. │     51    83 │
+1297. │     80    54 │
       └──────────────┘
 
 . replace age = 38 if idcode == 51
