@@ -876,9 +876,33 @@ c.exper#c.exper │   -.000899   .0003959    -2.27   0.024    -.0016772   -.0001
 There is possible evidence of endogeneity since p &lt; .1 but p &gt;
 .05. You should report IV and OLS.
 </p>
-<p>eststo m1: quietly reg lwage educ c.exper##c.exper eststo m2: quietly
-ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper esttab m1
-m2, mtitle(OLS IV)</p>
+<pre class='stata'>.  eststo m1: quietly reg lwage educ c.exper##c.exper
+
+.  eststo m2: quietly ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper
+
+.  esttab m1 m2, mtitle(OLS IV)
+
+────────────────────────────────────────────
+                      (1)             (2)   
+                      OLS              IV   
+────────────────────────────────────────────
+educ                0.107***       0.0614*  
+                   (7.60)          (1.96)   
+
+exper              0.0416**        0.0442***
+                   (3.15)          (3.30)   
+
+c.exper#c.~r    -0.000811*      -0.000899*  
+                  (-2.06)         (-2.25)   
+
+_cons              -0.522**        0.0481   
+                  (-2.63)          (0.12)   
+────────────────────────────────────────────
+N                     428             428   
+────────────────────────────────────────────
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
+</pre>
 <p>
 <ol start="2" type="1">
 <li>With estat
@@ -2449,13 +2473,13 @@ abb(#) option to abbreviate the observation to 20 characters</p>
       ┌────────────────────────────┐
       │ idcode   union   uniondues │
       ├────────────────────────────┤
- 512. │   2541       0          27 │
- 809. │   1411       0          27 │
- 829. │    345       0          26 │
-1256. │   3848       0          26 │
-1273. │   3905       0          10 │
+  27. │   2541       0          27 │
+ 154. │   1411       0          27 │
+ 678. │   3848       0          26 │
+ 721. │   3905       0          10 │
+1264. │   3464       0          17 │
       ├────────────────────────────┤
-1377. │   3464       0          17 │
+1381. │    345       0          26 │
       └────────────────────────────┘
 </pre>
 <p>Let’s look at another great command for observing categorical and
@@ -2731,7 +2755,7 @@ categories</p>
       ┌───────────────┐
       │ idcode   race │
       ├───────────────┤
-1459. │    543      4 │
+1493. │    543      4 │
       └───────────────┘
 
 . replace race=1 if idcode == 543
@@ -2758,7 +2782,7 @@ education</p>
       ┌───────────────────┐
       │ idcode   collgrad │
       ├───────────────────┤
-1580. │    107          1 │
+1799. │    107          1 │
       └───────────────────┘
 
 . replace collgrad = 0 if idcode == 107
@@ -2793,8 +2817,8 @@ education</p>
       ┌──────────────┐
       │ idcode   age │
       ├──────────────┤
- 920. │     51    83 │
-1297. │     80    54 │
+ 152. │     80    54 │
+ 418. │     51    83 │
       └──────────────┘
 
 . replace age = 38 if idcode == 51
