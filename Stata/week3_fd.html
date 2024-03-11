@@ -250,8 +250,7 @@ captured in the intercept).</p>
 <p>No Time Trends</p>
 <pre class='stata'>. est clear
 
-. eststo OLS: reg kids educ c.age##c.age i.black i.east i.northcen i.west i.farm i.othrural 
-> i.town i.smcity 
+. eststo OLS: reg kids educ c.age##c.age i.black i.east i.northcen i.west i.farm i.othrural i.town i.smcity 
 
       Source │       SS           df       MS      Number of obs   =     1,129
 ─────────────┼──────────────────────────────────   F(11, 1117)     =     11.52
@@ -280,8 +279,7 @@ captured in the intercept).</p>
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
 <p>Time Trends Time Fixed Effects</p>
-<pre class='stata'>. eststo Pooled_OLS: reg kids educ c.age##c.age i.black i.east i.northcen i.west i.farm i.ot
-> hrural ///
+<pre class='stata'>. eststo Pooled_OLS: reg kids educ c.age##c.age i.black i.east i.northcen i.west i.farm i.othrural ///
 >          i.town i.smcity i.y74 i.y76 i.y78 i.y80 i.y82 i.y84
 
       Source │       SS           df       MS      Number of obs   =     1,129
@@ -332,10 +330,8 @@ captured in the intercept).</p>
 <p>We reject the null hypothesis that our combined time binaries are 0
 with an F-stat (1,111 degrees of freedom) equal to 5.87.</p>
 <p>Display</p>
-<pre class='stata'>. esttab OLS Pooled_OLS, mtitles se scalars(F r2) drop(0.black 0.east 0.northcen 0.west 0.fa
-> rm ///
->                                     0.othrural 0.town 0.smcity 0.y74 0.y76 0.y78 0.y80 0.y
-> 82 0.y84) 
+<pre class='stata'>. esttab OLS Pooled_OLS, mtitles se scalars(F r2) drop(0.black 0.east 0.northcen 0.west 0.farm ///
+>                                     0.othrural 0.town 0.smcity 0.y74 0.y76 0.y78 0.y80 0.y82 0.y84) 
 
 ────────────────────────────────────────────
                       (1)             (2)   
@@ -408,17 +404,16 @@ to 0. If we compare 1982 and 1984 to 1972, women estimated to have about
 0.52 fewer and 0.55 fewer children, respectively. This means that in
 1982 100 women are expected to have 52 fewer children than 100 women in
 1972.</p>
-</h5>
-Note:
-</h5>
-<p>since we are controlling for education, this decline in fertility
+<h5>
+Note: Since we are controlling for education, this decline in fertility
 cannot be attributed to increases in education. The difference is a
-secular trend or a general trend that transcends across all women.</p>
-&lt;/h5Note:
+secular trend or a general trend that transcends across all women.
 </h5>
-<p>that we have age and age-squared, which means that the number of
+<h5>
+Note: We have age and age-squared, which means that the number of
 children increases with age, but at a diminishing rate. At one point age
-will become 0.</p>
+will become 0.
+</h5>
 <pre class='stata'>. estat hettest
 
 Breusch-Pagan / Cook-Weisberg test for heteroskedasticity 
@@ -433,8 +428,7 @@ Breusch-Pagan Test, so we should use our heteroskedastic-robust standard
 errors</p>
 <pre class='stata'>. est clear
 
-. eststo Without_Robust: reg kids educ c.age##c.age i.black i.east i.northcen i.west i.farm 
-> i.othrural ///
+. eststo Without_Robust: reg kids educ c.age##c.age i.black i.east i.northcen i.west i.farm i.othrural ///
 >          i.town i.smcity i.y74 i.y76 i.y78 i.y80 i.y82 i.y84
 
       Source │       SS           df       MS      Number of obs   =     1,129
@@ -469,8 +463,7 @@ errors</p>
        _cons │  -7.742457   3.051767    -2.54   0.011    -13.73033   -1.754579
 ─────────────┴────────────────────────────────────────────────────────────────
 
-. eststo With_Robust: reg kids educ c.age##c.age i.black i.east i.northcen i.west i.farm i.o
-> thrural ///
+. eststo With_Robust: reg kids educ c.age##c.age i.black i.east i.northcen i.west i.farm i.othrural ///
 >          i.town i.smcity i.y74 i.y76 i.y78 i.y80 i.y82 i.y84, robust
 
 Linear regression                               Number of obs     =      1,129
@@ -505,10 +498,8 @@ Linear regression                               Number of obs     =      1,129
        _cons │  -7.742457   3.070656    -2.52   0.012     -13.7674   -1.717518
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<pre class='stata'>. esttab Without_Robust With_Robust, mtitles se scalars(F r2) drop(0.black 0.east 0.northcen
->  0.west 0.farm ///
->                                 0.othrural 0.town 0.smcity 0.y74 0.y76 0.y78 0.y80 0.y82 0
-> .y84) 
+<pre class='stata'>. esttab Without_Robust With_Robust, mtitles se scalars(F r2) drop(0.black 0.east 0.northcen 0.west 0.farm ///
+>                                 0.othrural 0.town 0.smcity 0.y74 0.y76 0.y78 0.y80 0.y82 0.y84) 
 
 ────────────────────────────────────────────
                       (1)             (2)   
@@ -1042,10 +1033,9 @@ are sensitive to clear-up rates from the prior 2 years.</p>
 <h3>
 Enterprise Zones and Unemployment
 </h3>
-<h4>
-Lesson:
-</h4>
-<p>We need to be aware of heteroskedasticity and serial correlation</p>
+<h5>
+Lesson: We need to be aware of heteroskedasticity and serial correlation
+</h5>
 <p>We should test for heteroskedasticity and serial correlation when
 running our First-Difference Estimator.</p>
 <p>Serial correlation means that the differences in the idiosyncractic
@@ -1309,8 +1299,7 @@ the average sentence length.</p>
 </pre>
 <p>With xtset, we can use the d. for our explanatory variables
 First-Difference</p>
-<pre class='stata'>. reg d.lcrmrte i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lp
-> olpc
+<pre class='stata'>. reg d.lcrmrte i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lpolpc
 
       Source │       SS           df       MS      Number of obs   =       540
 ─────────────┼──────────────────────────────────   F(10, 529)      =     40.32
@@ -1366,8 +1355,7 @@ errors at the county level.</p>
 . gen lag_r =l.r
 (180 missing values generated)
 
-. reg r lag_r i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lpol
-> pc
+. reg r lag_r i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lpolpc
 note: 1.d87 omitted because of collinearity
 
       Source │       SS           df       MS      Number of obs   =       450
@@ -1407,8 +1395,7 @@ note: 1.d87 omitted because of collinearity
 </pre>
 <p>We can always use our xtserial command to test for AR(1) serial
 correlation.</p>
-<pre class='stata'>. reg d.lcrmrte i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lp
-> olpc
+<pre class='stata'>. reg d.lcrmrte i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lpolpc
 
       Source │       SS           df       MS      Number of obs   =       540
 ─────────────┼──────────────────────────────────   F(10, 529)      =     40.32
@@ -1494,8 +1481,7 @@ H0: no first-order autocorrelation
            Prob > F =      0.0000
 </pre>
 <p>We can also test for heteroskedasticity</p>
-<pre class='stata'>. reg d.lcrmrte i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lp
-> olpc
+<pre class='stata'>. reg d.lcrmrte i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lpolpc
 
       Source │       SS           df       MS      Number of obs   =       540
 ─────────────┼──────────────────────────────────   F(10, 529)      =     40.32
@@ -1569,8 +1555,8 @@ Breusch-Pagan / Cook-Weisberg test for heteroskedasticity
 </pre>
 <p>Re-estimate with Robust Standard Errors clustered at the county level
 and cluster by county (deal with error correlations within counties)</p>
-<pre class='stata'>. reg d.lcrmrte i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lp
-> olpc, robust cluster(county)
+<pre class='stata'>. reg d.lcrmrte i.d83 i.d84 i.d85 i.d86 i.d87 d.lprbarr d.lprbconv d.lprbpris d.lavgsen d.lpolpc, robust cluster(
+> county)
 
 Linear regression                               Number of obs     =        540
                                                 F(10, 89)         =      13.56
@@ -1636,10 +1622,10 @@ Contains data from survey7.dta
   obs:             8                          Survey of graduate students
  vars:            11                          5 May 2020 14:37
  size:           400                          (_dta has notes)
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 Unique identification variable
 STUDENTVARS     float   %9.0g                 STUDENT VARIABLES ===============
 gender          float   %9.0g      mf         Gender of student
@@ -1652,7 +1638,7 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           float   %td..                 Date of birth of child
                                             * indicated variables have notes
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <p>We also have a short option, but it just contain general
@@ -1670,7 +1656,7 @@ Sorted by:
 
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -1683,9 +1669,9 @@ of values, unique values, missing, value labels, missing value labels
 (if any)</p>
 <pre class='stata'>. codebook
 
-────────────────────────────────────────────────────────────────────────────────────────────
-id                                                            Unique identification variable
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+id                                                                                 Unique identification variable
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -1702,9 +1688,9 @@ id                                                            Unique identificat
                              1  7
                              1  8
 
-────────────────────────────────────────────────────────────────────────────────────────────
-STUDENTVARS                                                STUDENT VARIABLES ===============
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+STUDENTVARS                                                                     STUDENT VARIABLES ===============
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -1714,9 +1700,9 @@ STUDENTVARS                                                STUDENT VARIABLES ===
             tabulation:  Freq.  Value
                              8  .
 
-────────────────────────────────────────────────────────────────────────────────────────────
-gender                                                                     Gender of student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+gender                                                                                          Gender of student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  mf
@@ -1728,9 +1714,9 @@ gender                                                                     Gende
                              3         1  Male
                              5         2  Female
 
-────────────────────────────────────────────────────────────────────────────────────────────
-race                                                                         Race of student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+race                                                                                              Race of student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  racelab
@@ -1745,9 +1731,9 @@ race                                                                         Rac
                              1         4  African American
                              1         5  Other
 
-────────────────────────────────────────────────────────────────────────────────────────────
-bday                                                                Date of birth of student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+bday                                                                                     Date of birth of student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric daily date (float)
 
@@ -1765,9 +1751,9 @@ bday                                                                Date of birt
                              1  6391   01jul1977
                              1  7935   22sep1981
 
-────────────────────────────────────────────────────────────────────────────────────────────
-income                                                                     Income of student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+income                                                                                          Income of student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -1784,9 +1770,9 @@ income                                                                     Incom
                              1  124313.45
                              1  1284354.5
 
-────────────────────────────────────────────────────────────────────────────────────────────
-havechild                                                            Given birth to a child?
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+havechild                                                                                 Given birth to a child?
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  havelab
@@ -1800,9 +1786,9 @@ havechild                                                            Given birth
                              4         1  Have Child
                              3        .n  NA
 
-────────────────────────────────────────────────────────────────────────────────────────────
-KIDVARS                                                    KID VARIABLES ===================
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+KIDVARS                                                                         KID VARIABLES ===================
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -1812,9 +1798,9 @@ KIDVARS                                                    KID VARIABLES =======
             tabulation:  Freq.  Value
                              8  .
 
-────────────────────────────────────────────────────────────────────────────────────────────
-kidname                                                                        Name of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+kidname                                                                                             Name of child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  string (str10), but longest is str9
 
@@ -1829,9 +1815,9 @@ kidname                                                                        N
 
                warning:  variable has leading and trailing blanks
 
-────────────────────────────────────────────────────────────────────────────────────────────
-ksex                                                                            Sex of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ksex                                                                                                 Sex of child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  mfkid
@@ -1846,9 +1832,9 @@ ksex                                                                            
                              4        .n  NA
                              1        .u  Unknown
 
-────────────────────────────────────────────────────────────────────────────────────────────
-kbday                                                                 Date of birth of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+kbday                                                                                      Date of birth of child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric daily date (float)
 
@@ -1866,9 +1852,9 @@ kbday                                                                 Date of bi
 <p>We can go by variables</p>
 <pre class='stata'>. codebook race
 
-────────────────────────────────────────────────────────────────────────────────────────────
-race                                                                         Race of student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+race                                                                                              Race of student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  racelab
@@ -1886,9 +1872,9 @@ race                                                                         Rac
 <p>We can go by variables and notes</p>
 <pre class='stata'>. codebook havechild, notes
 
-────────────────────────────────────────────────────────────────────────────────────────────
-havechild                                                            Given birth to a child?
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+havechild                                                                                 Given birth to a child?
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  havelab
@@ -1903,11 +1889,9 @@ havechild                                                            Given birth
                              3        .n  NA
 
 havechild:
-  1.  This variable measures whether a woman has given birth to a child, not just whether
-      she is a parent.
+  1.  This variable measures whether a woman has given birth to a child, not just whether she is a parent.
   2.  The .n (NA) missing code is used for males, because they cannot bear children.
-  3.  The .u (Unknown) missing code for a female indicating it is unknown if she has a
-      child.
+  3.  The .u (Unknown) missing code for a female indicating it is unknown if she has a child.
 </pre>
 <p>We can look at the variable and missing value labels with the option
 mv. I recommend that you don’t label the missing values unless it is
@@ -1916,9 +1900,9 @@ cause problems down the road, especially with the marginsplot
 command.</p>
 <pre class='stata'>. codebook ksex, mv
 
-────────────────────────────────────────────────────────────────────────────────────────────
-ksex                                                                            Sex of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ksex                                                                                                 Sex of child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  mfkid
@@ -1945,7 +1929,7 @@ But, it provides more space to look.</p>
 
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 bday            float   %td..                 Date of birth of student
 havechild       float   %18.0g     havelab  * Given birth to a child?
 kbday           float   %td..                 Date of birth of child
@@ -1954,8 +1938,7 @@ kbday           float   %td..                 Date of birth of child
 <pre class='stata'>. notes search birth
 
 havechild:
-  1.  This variable measures whether a woman has given birth to a child, not just whether
-      she is a parent.
+  1.  This variable measures whether a woman has given birth to a child, not just whether she is a parent.
 </pre>
 <p>We can see the formats of the variables as well</p>
 <pre class='stata'>. list income bday
@@ -1978,7 +1961,7 @@ havechild:
 
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 income          float   %11.1fc               Income of student
 bday            float   %td..                 Date of birth of student
 </pre>
@@ -2002,10 +1985,10 @@ Contains data from survey1.dta
   obs:             8                          
  vars:             9                          1 Jan 2010 12:13
  size:           432                          
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 
 gender          float   %9.0g                 
 race            float   %9.0g                 
@@ -2015,7 +1998,7 @@ bdays           str10   %10s
 income          float   %9.0g                 
 kbdays          str10   %10s                  
 kidname         str10   %10s                  
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <p>We have no variable labels, so we will need to provide some so future
@@ -2044,10 +2027,10 @@ Contains data from survey1.dta
   obs:             8                          
  vars:             9                          1 Jan 2010 12:13
  size:           432                          
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 Identification variable
 gender          float   %9.0g                 Gender of the student
 race            float   %9.0g                 Race of the student
@@ -2057,7 +2040,7 @@ bdays           str10   %10s                  Birthday of student
 income          float   %9.0g                 Income of student
 kbdays          str10   %10s                  Birthday of child
 kidname         str10   %10s                  Name of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <p>We can simply change the variable label with running the command
@@ -2070,10 +2053,10 @@ Contains data from survey1.dta
   obs:             8                          
  vars:             9                          1 Jan 2010 12:13
  size:           432                          
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g                 Gender of the student
 race            float   %9.0g                 Race of the student
@@ -2083,7 +2066,7 @@ bdays           str10   %10s                  Birthday of student
 income          float   %9.0g                 Income of student
 kbdays          str10   %10s                  Birthday of child
 kidname         str10   %10s                  Name of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <pre class='stata'>. save survey2, replace
@@ -2101,9 +2084,9 @@ need to modify or replace after a label has been defined.</p>
 <p>Let’s look at our codebook</p>
 <pre class='stata'>. codebook 
 
-────────────────────────────────────────────────────────────────────────────────────────────
-id                                                            Unique identification variable
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+id                                                                                 Unique identification variable
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -2120,9 +2103,9 @@ id                                                            Unique identificat
                              1  7
                              1  8
 
-────────────────────────────────────────────────────────────────────────────────────────────
-gender                                                                 Gender of the student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+gender                                                                                      Gender of the student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -2133,9 +2116,9 @@ gender                                                                 Gender of
                              3  1
                              5  2
 
-────────────────────────────────────────────────────────────────────────────────────────────
-race                                                                     Race of the student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+race                                                                                          Race of the student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -2149,9 +2132,9 @@ race                                                                     Race of
                              1  4
                              1  5
 
-────────────────────────────────────────────────────────────────────────────────────────────
-havechild                                                             Given birth to a child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+havechild                                                                                  Given birth to a child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -2164,9 +2147,9 @@ havechild                                                             Given birt
                              4  1
                              3  .n
 
-────────────────────────────────────────────────────────────────────────────────────────────
-ksex                                                                            Sex of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ksex                                                                                                 Sex of child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -2180,9 +2163,9 @@ ksex                                                                            
                              4  .n
                              1  .u
 
-────────────────────────────────────────────────────────────────────────────────────────────
-bdays                                                                    Birthday of student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+bdays                                                                                         Birthday of student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  string (str10)
 
@@ -2198,9 +2181,9 @@ bdays                                                                    Birthda
                              1  "8/3/1976"
                              1  "9/22/1981"
 
-────────────────────────────────────────────────────────────────────────────────────────────
-income                                                                     Income of student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+income                                                                                          Income of student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
 
@@ -2217,9 +2200,9 @@ income                                                                     Incom
                              1  124313.45
                              1  1284354.5
 
-────────────────────────────────────────────────────────────────────────────────────────────
-kbdays                                                                     Birthday of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+kbdays                                                                                          Birthday of child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  string (str10), but longest is str9
 
@@ -2234,9 +2217,9 @@ kbdays                                                                     Birth
 
                warning:  variable has leading and trailing blanks
 
-────────────────────────────────────────────────────────────────────────────────────────────
-kidname                                                                        Name of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+kidname                                                                                             Name of child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  string (str10), but longest is str9
 
@@ -2264,9 +2247,9 @@ values</p>
 <p>Let’s look at our codebook again</p>
 <pre class='stata'>. codebook race
 
-────────────────────────────────────────────────────────────────────────────────────────────
-race                                                                     Race of the student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+race                                                                                          Race of the student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  racelabel, but 1 nonmissing value is not labeled
@@ -2294,9 +2277,9 @@ in label define</p>
 <p>Let’s look at our codebook again</p>
 <pre class='stata'>. codebook race
 
-────────────────────────────────────────────────────────────────────────────────────────────
-race                                                                     Race of the student
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+race                                                                                          Race of the student
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  racelabel
@@ -2319,9 +2302,9 @@ an example here</p>
 
 . codebook ksex
 
-────────────────────────────────────────────────────────────────────────────────────────────
-ksex                                                                            Sex of child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ksex                                                                                                 Sex of child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  mfkid
@@ -2342,9 +2325,9 @@ ksex                                                                            
 
 . codebook havechild
 
-────────────────────────────────────────────────────────────────────────────────────────────
-havechild                                                             Given birth to a child
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+havechild                                                                                  Given birth to a child
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  havechildlabel
@@ -2508,9 +2491,9 @@ label define racelabel 5 `"Other"', modify
 but only for the labels that are defined</p>
 <pre class='stata'>. labelbook
 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 value label havechildlabel 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
       values                                    labels
        range:  [0,1]                     string length:  [2,18]
@@ -2528,9 +2511,9 @@ value label havechildlabel
    variables:  havechild
 
 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 value label mfkid 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
       values                                    labels
        range:  [1,2]                     string length:  [2,7]
@@ -2548,9 +2531,9 @@ value label mfkid
    variables:  ksex
 
 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 value label racelabel 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
       values                                    labels
        range:  [1,5]                     string length:  [5,16]
@@ -2571,9 +2554,9 @@ value label racelabel
 
 . labelbook racelabel
 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 value label racelabel 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
       values                                    labels
        range:  [1,5]                     string length:  [5,16]
@@ -2601,9 +2584,9 @@ no potential problems in dataset survey3.dta
 options</p>
 <pre class='stata'>. labelbook racelabel, problem detail
 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 value label racelabel 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
       values                                    labels
        range:  [1,5]                     string length:  [5,16]
@@ -2641,16 +2624,16 @@ the variable</p>
 <pre class='stata'>. note: This was based on the dataset called survey1.txt
 </pre>
 <p>Adding TS to the end adds a timestamp, which is a nice feature</p>
-<pre class='stata'>. note: The missing values for havechild and childage were coded using -1 and -2 but were co
-> nverted to .n and .u TS
+<pre class='stata'>. note: The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u 
+> TS
 </pre>
 <p>Let’s call our notes with the notes command</p>
 <pre class='stata'>. notes
 
 _dta:
   1.  This was based on the dataset called survey1.txt
-  2.  The missing values for havechild and childage were coded using -1 and -2 but were
-      converted to .n and .u 10 Sep 2023 16:40
+  2.  The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u 11
+      Mar 2024 14:40
 </pre>
 <p>Let’s add some notes to our variables and check</p>
 <pre class='stata'>. note race: The other category includes people who specified multiple races
@@ -2663,8 +2646,8 @@ _dta:
 
 _dta:
   1.  This was based on the dataset called survey1.txt
-  2.  The missing values for havechild and childage were coded using -1 and -2 but were
-      converted to .n and .u 10 Sep 2023 16:40
+  2.  The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u 11
+      Mar 2024 14:40
 
 race:
   1.  The other category includes people who specified multiple races
@@ -2704,8 +2687,8 @@ race:
 <pre class='stata'>. notes search .u
 
 _dta:
-  2.  The missing values for havechild and childage were coded using -1 and -2 but were
-      converted to .n and .u 10 Sep 2023 16:40
+  2.  The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u 11
+      Mar 2024 14:40
 </pre>
 <h3>
 5.8 Formatting the display of variables
@@ -2738,7 +2721,7 @@ Format numerics
 
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 income          float   %9.0g                 Income of student
 </pre>
 <p>The format is %9.0g. We always have % in front of our format and g is
@@ -2829,7 +2812,7 @@ Format Strings
 
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 kidname         str10   %10s                  Name of child
 </pre>
 <p>The format is %10s, which is a (s)tring of 10 characters wide that is
@@ -3068,12 +3051,12 @@ our N and T next to one another.</p>
 
 Contains data from survey6.dta
   obs:             8                          Survey of graduate students
- vars:             9                          10 Sep 2023 16:40
+ vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -3084,7 +3067,7 @@ income          float   %12.2fc               Income of student
 kidname         str10   %-10s                 Name of child
 kbday           double  %td                   
                                             * indicated variables have notes
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <p>We might want to group our variables with similar types of variables.
@@ -3096,12 +3079,12 @@ variables, such as the CPS.</p>
 
 Contains data from survey6.dta
   obs:             8                          Survey of graduate students
- vars:             9                          10 Sep 2023 16:40
+ vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -3112,7 +3095,7 @@ ksex            float   %15.0g     mfkid    * Sex of child
 kidname         str10   %-10s                 Name of child
 kbday           double  %td                   
                                             * indicated variables have notes
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <p>The variables that we leave off will remain in the same order as
@@ -3125,12 +3108,12 @@ variable Let’s move kidname before ksex</p>
 
 Contains data from survey6.dta
   obs:             8                          Survey of graduate students
- vars:             9                          10 Sep 2023 16:40
+ vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -3141,7 +3124,7 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           double  %td                   
                                             * indicated variables have notes
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <p>We can move newly created variables with the before and after options
@@ -3156,12 +3139,12 @@ with the generate command</p>
 
 Contains data from survey6.dta
   obs:             8                          Survey of graduate students
- vars:            11                          10 Sep 2023 16:40
+ vars:            11                          11 Mar 2024 14:40
  size:           544                          (_dta has notes)
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              float   %9.0g                 Unique identification variable
 STUDENTVARS     double  %10.0g                
 gender          float   %9.0g      mf         Gender of student
@@ -3174,7 +3157,7 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           double  %td                   
                                             * indicated variables have notes
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
      Note: Dataset has changed since last saved.
 </pre>
