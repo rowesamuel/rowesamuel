@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week4_fe_re.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 2 Oct 2023, 19:41:03
+ {txt}opened on:  {res}14 Mar 2024, 19:05:26
 {txt}
 {com}. //_1
 . clear 
@@ -169,15 +169,44 @@ F test that all u_i=0: F({res}544{txt}, {res}3804{txt}) = {res}9.54{col 62}{txt}
 {res}8.8064032
 {txt}
 {com}. //_10
+. quietly reg lwage c.edu exper expersq i.black i.south i.married i.union i.d8*
+{txt}
+{com}. estimates store pooled
+{txt}
+{com}. quietly xtreg lwage c.edu i.black i.south i.married i.union i.d8*, fe
+{txt}
+{com}. estimates store fe
+{txt}
+{com}. coefplot (pooled, label("{c -(}bf:Pooled OLS{c )-}") mcolor(midblue) mlcolor(cyan) ///
+>   ciopts(lcolor(magenta midblue))) /// options for first group
+>   (fe, label("{c -(}bf: Within{c )-}") mcolor(green) mlcolor(lime) ///
+>   ciopts(lcolor(lime green))), /// options for second group
+>   title(Union and Marriage Wage Premiums) ///
+>   drop(_cons 1.d* 0.black 0.south) ///
+>   xline(0, lcolor(red) lwidth(medium)) scheme(jet_white) ///
+>   xtitle("{c -(}bf: Effect of Union{c )-}") ///
+>   graphregion(margin(small)) ///
+>   coeflabels(educ="Education" exper="Experience" expersq="Experience Squared" ///
+>   1.black="Black" 1.south="South" 1.married="Married" ///
+>   1.union="Union") ///
+>   msize(large) mcolor(%85) mlwidth(medium) msymbol(circle) /// marker options
+>   levels(95 90) ciopts(lwidth(medthick thick) recast(rspike rcap)) ///ci options for all groups
+>   legend(ring(1) col(1) pos(3) size(medsmall))
+{res}{txt}(note: scheme jet_white not found, using s2color)
+{res}{txt}
+{com}.   graph export "/Users/Sam/Desktop/Econ 645/Stata/week4_union_wage_premium.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week4_union_wage_premium.png written in PNG format)
+
+{com}. //_11
 . use "wagepan.dta", clear
 {txt}
-{com}. //_11
+{com}. //_12
 . xtset nr year
 {res}{txt}{col 8}panel variable:  {res}nr (strongly balanced)
 {txt}{col 9}time variable:  {res}{col 25}year, 1980 to 1987
 {txt}{col 17}delta:  {res}1 unit
 {txt}
-{com}. //_12
+{com}. //_13
 . eststo OLS: reg lwage c.edu##i.d8* exper expersq i.married i.union
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     4,360
@@ -227,7 +256,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3804{txt}) = {res}9.54{col 62}{txt}
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2175863{col 26}{space 2} .1641736{col 37}{space 1}    1.33{col 46}{space 3}0.185{col 54}{space 4}-.1042777{col 67}{space 3} .5394503
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_13
+{com}. //_14
 . eststo Within: xtreg lwage c.edu##i.d8* i.married i.union, fe
 {p 0 6 2}{txt}note: educ omitted because of collinearity{p_end}
 {res}
@@ -285,7 +314,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3804{txt}) = {res}9.54{col 62}{txt}
 {hline 13}{c BT}{hline 64}
 F test that all u_i=0: F({res}544{txt}, {res}3799{txt}) = {res}8.09{col 62}{txt}Prob > F = {res}0.0000
 {txt}
-{com}. //_14
+{com}. //_15
 . esttab OLS Within, mtitles se scalars(F r2) drop(0.d* 0.union 0.married)
 {res}
 {txt}{hline 44}
@@ -359,11 +388,43 @@ F test that all u_i=0: F({res}544{txt}, {res}3799{txt}) = {res}8.09{col 62}{txt}
 {txt}Standard errors in parentheses
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
-{com}. //_15
+{com}. //_16
 . display (exp(0.0304)-1)*100
 {res}3.0866798
 {txt}
-{com}. //_16
+{com}. //_17
+. quietly reg lwage c.edu##i.d8* exper expersq i.married i.union
+{txt}
+{com}. estimates store pooled
+{txt}
+{com}. quietly xtreg lwage c.edu##i.d8* i.married i.union, fe
+{txt}
+{com}. estimates store fe
+{txt}
+{com}. coefplot ///
+>   (pooled, label("{c -(}bf:Pooled OLS{c )-}") mcolor(midblue) mlcolor(cyan) ///
+>     ciopts(lcolor(magenta midblue))) /// options for first group
+>   (fe, label("{c -(}bf: Within{c )-}") mcolor(green) mlcolor(lime) ///
+>     ciopts(lcolor(lime green))), /// options for second gropu
+>   title("Change in Return to Education") ///
+>   keep(educ 1.d81#c.educ 1.d82#c.educ 1.d83#c.educ 1.d84#c.educ ///
+>     1.d85#c.educ 1.d86#c.educ 1.d87#c.educ) ///
+>   xline(0, lcolor(red) lwidth(medium)) scheme(jet_white) ///
+>   xtitle("{c -(}bf: Coefficients{c )-}") ///
+>   graphregion(margin(small)) ///
+>   coeflabels(educ="Education" 1.d81#c.educ="1981 Returns" ///
+>     1.d82#c.educ="1982 Returns" 1.d83#c.educ="1983 Returns" ///
+>     1.d84#c.educ="1984 Returns" 1.d85#c.educ="1985 Returns" ///
+>     1.d86#c.educ="1986 Returns" 1.d87#c.educ="1987 Returns") ///
+>   msize(large) mcolor(%85) mlwidth(medium) msymbol(circle) /// marker options
+>   levels(95 90) ciopts(lwidth(medthick thick) recast(rspike rcap)) ///ci options for all groups
+>   legend(ring(1) col(1) pos(3) size(medsmall))
+{res}{txt}(note: scheme jet_white not found, using s2color)
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week4_edu_returns.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week4_edu_returns.png written in PNG format)
+
+{com}. //_18
 . xtreg lwage c.edu##i.d8* i.married i.union, fe
 {p 0 6 2}{txt}note: educ omitted because of collinearity{p_end}
 {res}
@@ -421,10 +482,10 @@ F test that all u_i=0: F({res}544{txt}, {res}3799{txt}) = {res}8.09{col 62}{txt}
 {hline 13}{c BT}{hline 64}
 F test that all u_i=0: F({res}544{txt}, {res}3799{txt}) = {res}8.09{col 62}{txt}Prob > F = {res}0.0000
 {txt}
-{com}. //_17
+{com}. //_19
 . predict u, resid
 {txt}
-{com}. //_18
+{com}. //_20
 . reg u l.u, noconst
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     3,815
@@ -441,7 +502,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3799{txt}) = {res}8.09{col 62}{txt}
 {space 9}L1. {c |}{col 14}{res}{space 2} .5857228{col 26}{space 2} .0125418{col 37}{space 1}   46.70{col 46}{space 3}0.000{col 54}{space 4} .5611336{col 67}{space 3}  .610312
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_19
+{com}. //_21
 . est clear
 {txt}
 {com}. eststo OLS: reg lwage c.edu##i.d8* i.black##i.d8* exper expersq i.married i.union
@@ -516,7 +577,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3799{txt}) = {res}8.09{col 62}{txt}
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} .1982792{col 26}{space 2} .1638308{col 37}{space 1}    1.21{col 46}{space 3}0.226{col 54}{space 4}-.1229129{col 67}{space 3} .5194713
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_20
+{com}. //_22
 . eststo Within: xtreg lwage c.edu##i.d8* i.black##i.d8* i.married i.union, fe
 {p 0 6 2}{txt}note: educ omitted because of collinearity{p_end}
 {p 0 6 2}note: 1.black omitted because of collinearity{p_end}
@@ -598,7 +659,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3799{txt}) = {res}8.09{col 62}{txt}
 {hline 13}{c BT}{hline 64}
 F test that all u_i=0: F({res}544{txt}, {res}3792{txt}) = {res}8.01{col 62}{txt}Prob > F = {res}0.0000
 {txt}
-{com}. //_21
+{com}. //_23
 . esttab OLS Within, mtitles se scalars(F r2) drop(0.d* 0.b* 1.black#0.d* 0.union 0.married)
 {res}
 {txt}{hline 44}
@@ -696,16 +757,16 @@ F test that all u_i=0: F({res}544{txt}, {res}3792{txt}) = {res}8.01{col 62}{txt}
 {txt}Standard errors in parentheses
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
-{com}. //_22
+{com}. //_24
 . use "wagepan.dta", clear
 {txt}
-{com}. //_23
+{com}. //_25
 . xtset nr year
 {res}{txt}{col 8}panel variable:  {res}nr (strongly balanced)
 {txt}{col 9}time variable:  {res}{col 25}year, 1980 to 1987
 {txt}{col 17}delta:  {res}1 unit
 {txt}
-{com}. //_24
+{com}. //_26
 . reg lwage educ i.black i.hisp exper expersq married union i.d8*
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     4,360
@@ -737,7 +798,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3792{txt}) = {res}8.01{col 62}{txt}
 {res}{txt}
 {com}. eststo m1: quietly reg lwage educ i.black i.hisp exper expersq married union i.d8*
 {txt}
-{com}. //_25
+{com}. //_27
 . xtreg lwage educ i.black i.hisp exper expersq married union i.d8*, fe
 {p 0 6 2}{txt}note: educ omitted because of collinearity{p_end}
 {p 0 6 2}note: 1.black omitted because of collinearity{p_end}
@@ -780,12 +841,12 @@ F test that all u_i=0: F({res}544{txt}, {res}3792{txt}) = {res}8.01{col 62}{txt}
 {hline 13}{c BT}{hline 64}
 F test that all u_i=0: F({res}544{txt}, {res}3805{txt}) = {res}9.64{col 62}{txt}Prob > F = {res}0.0000
 {txt}
-{com}. //_26
+{com}. //_28
 . estimates store femodel
 {txt}
 {com}. eststo m2: quietly xtreg lwage educ i.black i.hisp exper expersq married union i.d8*, fe
 {txt}
-{com}. //_27
+{com}. //_29
 . xtreg lwage educ i.black i.hisp exper expersq married union i.d8*, re theta
 {res}
 {txt}Random-effects GLS regression                   Number of obs     = {res}     4,360
@@ -826,7 +887,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3805{txt}) = {res}9.64{col 62}{txt}
 
 {com}. eststo m3: quietly xtreg lwage educ i.black i.hisp exper expersq married union i.d8*, re
 {txt}
-{com}. //_28
+{com}. //_30
 . hausman femodel ., sigmamore
 
 {txt}{p 0 8}Note: the rank of the differenced variance matrix ({result:5}) does not equal the number of coefficients being tested ({result:10}); be sure this is what you expect, or there may be problems computing the test.  Examine the output of your estimators for anything unexpected and possibly consider scaling your variables so that the coefficients are on a similar scale.
@@ -856,7 +917,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3805{txt}) = {res}9.64{col 62}{txt}
 {txt}{col 17}Prob>chi2 =  {res}    0.0001
 {txt}{col 17}(V_b-V_B is not positive definite)
 
-{com}. //_29
+{com}. //_31
 . esttab m1 m2 m3, drop(0.black 0.hisp 0.d8*) mtitles("Pooled OLS" "Within Model" "RE Model")
 {res}
 {txt}{hline 60}
@@ -913,7 +974,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3805{txt}) = {res}9.64{col 62}{txt}
 {txt}t statistics in parentheses
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
-{com}. //_30
+{com}. //_32
 . display (exp(.108)-1)*100
 {res}11.404775
 {txt}
@@ -923,16 +984,50 @@ F test that all u_i=0: F({res}544{txt}, {res}3805{txt}) = {res}9.64{col 62}{txt}
 {com}. display (exp(.064)-1)*100
 {res}6.6092399
 {txt}
-{com}. //_31
+{com}. //_33
+. quietly reg lwage educ i.black i.hisp exper expersq married union i.d8*
+{txt}
+{com}. estimates store pooled
+{txt}
+{com}. quietly xtreg lwage educ i.black i.hisp exper expersq married union i.d8*, fe
+{txt}
+{com}. estimates store fe
+{txt}
+{com}. quietly xtreg lwage educ i.black i.hisp exper expersq married union i.d8*, re theta
+{txt}
+{com}. estimates store re
+{txt}
+{com}. coefplot ///
+> (pooled, label("{c -(}bf:Pooled OLS{c )-}") mcolor(midblue) mlcolor(cyan) ///
+>   ciopts(lcolor(magenta midblue))) /// options for first group
+> (fe, label("{c -(}bf: Within{c )-}") mcolor(green) mlcolor(lime) ///
+>   ciopts(lcolor(lime green))) /// options for second group
+> (re, label("{c -(}bf: Random Effects{c )-}") mcolor(yellow) mlcolor(gold) ///
+>   ciopts(lcolor(gold yellow))), /// options for third group
+>   title("Returns to Marriage for Men") ///
+>   keep(married) ///
+>   xline(0, lcolor(red) lpattern(dash) lwidth(medium)) scheme(jet_white) ///
+>   xtitle("{c -(}bf: Coefficients{c )-}") ///
+>   graphregion(margin(small)) ///
+>   coeflabels(married="Married") ///
+>   msize(large) mcolor(%85) mlwidth(medium) msymbol(circle) /// marker options
+>   levels(95 90) ciopts(lwidth(medthick thick) recast(rspike rcap)) ///ci options for all groups
+>   legend(ring(1) col(1) pos(3) size(medsmall))
+{res}{txt}(note: scheme jet_white not found, using s2color)
+{res}{txt}
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week4_married_returns.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week4_married_returns.png written in PNG format)
+
+{com}. //_34
 . use "rental.dta", clear
 {txt}
-{com}. //_32
+{com}. //_35
 . xtset city year, delta(10)
 {res}{txt}{col 8}panel variable:  {res}city (strongly balanced)
 {txt}{col 9}time variable:  {res}{col 25}year, 80 to 90
 {txt}{col 17}delta:  {res}10 units
 {txt}
-{com}. //_33
+{com}. //_36
 . reg lrent i.y90 lpop lavginc pctstu, robust
 
 {txt}Linear regression                               Number of obs     = {res}       128
@@ -952,7 +1047,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3805{txt}) = {res}9.64{col 62}{txt}
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.5688069{col 26}{space 2} .8506229{col 37}{space 1}   -0.67{col 46}{space 3}0.505{col 54}{space 4}-2.252563{col 67}{space 3} 1.114949
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_34
+{com}. //_37
 . reg d.lrent i.y90 d.lpop d.lavginc d.pctstu
 {p 0 6 2}{txt}note: 1.y90 omitted because of collinearity{p_end}
 
@@ -980,7 +1075,7 @@ F test that all u_i=0: F({res}544{txt}, {res}3805{txt}) = {res}9.64{col 62}{txt}
 {space 7}_cons {c |}{col 14}{res}{space 2} .3855214{col 26}{space 2} .0368245{col 37}{space 1}   10.47{col 46}{space 3}0.000{col 54}{space 4} .3118615{col 67}{space 3} .4591813
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_35
+{com}. //_38
 . xtreg lrent i.y90 lpop lavginc pctstu, fe
 {res}
 {txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       128
@@ -1009,10 +1104,10 @@ F test that all u_i=0: F({res}544{txt}, {res}3805{txt}) = {res}9.64{col 62}{txt}
 {hline 13}{c BT}{hline 64}
 F test that all u_i=0: F({res}63{txt}, {res}60{txt}) = {res}6.67{col 62}{txt}Prob > F = {res}0.0000
 {txt}
-{com}. //_36
+{com}. //_39
 . use "airfare.dta", clear
 {txt}
-{com}. //_37
+{com}. //_40
 . reg lfare concen ldist ldistsq i.y99 i.y00
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     4,596
@@ -1033,20 +1128,20 @@ F test that all u_i=0: F({res}63{txt}, {res}60{txt}) = {res}6.67{col 62}{txt}Pro
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} 6.219743{col 26}{space 2} .4206248{col 37}{space 1}   14.79{col 46}{space 3}0.000{col 54}{space 4} 5.395116{col 67}{space 3}  7.04437
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_38
+{com}. //_41
 . sum concen
 
 {txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
 {hline 13}{c +}{hline 57}
 {space 6}concen {c |}{res}      4,596    .6101149     .196435      .1605          1
 {txt}
-{com}. //_39
+{com}. //_42
 . xtset id year
 {res}{txt}{col 8}panel variable:  {res}id (strongly balanced)
 {txt}{col 9}time variable:  {res}{col 25}year, 1997 to 2000
 {txt}{col 17}delta:  {res}1 unit
 {txt}
-{com}. //_40
+{com}. //_43
 . xtreg lfare concen ldist ldistsq i.y99 i.y00, re theta
 {res}
 {txt}Random-effects GLS regression                   Number of obs     = {res}     4,596
@@ -1076,7 +1171,7 @@ F test that all u_i=0: F({res}63{txt}, {res}60{txt}) = {res}6.67{col 62}{txt}Pro
          {txt}rho {c |} {res} .89920879{txt}   (fraction of variance due to u_i)
 {hline 13}{c BT}{hline 64}
 
-{com}. //_41
+{com}. //_44
 . xtreg lfare concen ldist ldistsq i.y99 i.y00, fe
 {p 0 6 2}{txt}note: ldist omitted because of collinearity{p_end}
 {p 0 6 2}note: ldistsq omitted because of collinearity{p_end}
@@ -1108,22 +1203,22 @@ F test that all u_i=0: F({res}63{txt}, {res}60{txt}) = {res}6.67{col 62}{txt}Pro
 {hline 13}{c BT}{hline 64}
 F test that all u_i=0: F({res}1148{txt}, {res}3444{txt}) = {res}60.09{col 62}{txt}Prob > F = {res}0.0000
 {txt}
-{com}. //_42
+{com}. //_45
 . cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
 {res}/Users/Sam/Desktop/Econ 645/Data/Mitchell
 {txt}
-{com}. //_43
+{com}. //_46
 . use wws, clear
 {txt}(Working Women Survey)
 
-{com}. //_44
+{com}. //_47
 . summarize wage
 
 {txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
 {hline 13}{c +}{hline 57}
 {space 8}wage {c |}{res}      2,246    288.2885    9595.692          0     380000
 {txt}
-{com}. //_45
+{com}. //_48
 . list id wage if wage > 1000
 {txt}
       {c TLC}{hline 8}{c -}{hline 8}{c TRC}
@@ -1133,26 +1228,29 @@ F test that all u_i=0: F({res}1148{txt}, {res}3444{txt}) = {res}60.09{col 62}{tx
 1241. {c |} {res}  2341   250000 {txt}{c |}
       {c BLC}{hline 8}{c -}{hline 8}{c BRC}
 
-{com}. //_46
+{com}. //_49
 . histogram wage if wage < 1000
 {txt}(bin={res}33{txt}, start={res}0{txt}, width={res}1.2347451{txt})
 {res}{txt}
-{com}. //_47
+{com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week4_wages_hist.png", replace
+{txt}(file /Users/Sam/Desktop/Econ 645/Stata/week4_wages_hist.png written in PNG format)
+
+{com}. //_50
 . summarize hours
 
 {txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
 {hline 13}{c +}{hline 57}
 {space 7}hours {c |}{res}      2,242    37.21811    10.50914          1         80
 {txt}
-{com}. //_48
+{com}. //_51
 . histogram hours
 {txt}(bin={res}33{txt}, start={res}1{txt}, width={res}2.3939394{txt})
 {res}{txt}
-{com}. //_49
+{com}. //_52
 . gen weekwage = wage*hours
 {txt}(4 missing values generated)
 
-{com}. //_50
+{com}. //_53
 . summarize weekwage, detail
 
                           {txt}weekwage
@@ -1170,7 +1268,7 @@ F test that all u_i=0: F({res}1148{txt}, {res}3444{txt}) = {res}60.09{col 62}{tx
 {txt}95%    {res}  681.159       1.00e+07       {txt}Skewness      {res} 35.42672
 {txt}99%    {res} 1607.923       1.52e+07       {txt}Kurtosis      {res} 1294.728
 {txt}
-{com}. //_51
+{com}. //_54
 . list id weekwage if weekwage > 80000
 {txt}
       {c TLC}{hline 8}{c -}{hline 10}{c TRC}
@@ -1185,18 +1283,18 @@ F test that all u_i=0: F({res}1148{txt}, {res}3444{txt}) = {res}60.09{col 62}{tx
 1241. {c |} {res}  2341   10000000 {txt}{c |}
       {c BLC}{hline 8}{c -}{hline 10}{c BRC}
 
-{com}. //_52
+{com}. //_55
 . histogram weekwage if weekwage < 80000 
 {txt}(bin={res}33{txt}, start={res}0{txt}, width={res}58.181818{txt})
 {res}{txt}
-{com}. //_53
+{com}. //_56
 . drop weekwage
 {txt}
-{com}. //_54
+{com}. //_57
 . gen weekwage = wage*hours, after(wage)
 {txt}(4 missing values generated)
 
-{com}. //_55
+{com}. //_58
 . tabulate married nevermarried
 
            {txt}{c |}   Woman never been
@@ -1209,11 +1307,11 @@ F test that all u_i=0: F({res}1148{txt}, {res}3444{txt}) = {res}60.09{col 62}{tx
      Total {c |}{res}     2,010        236 {txt}{c |}{res}     2,246 
 
 {txt}
-{com}. //_56
+{com}. //_59
 . gen maritalstatus = .
 {txt}(2,246 missing values generated)
 
-{com}. //_57
+{com}. //_60
 . replace maritalstatus = 1 if married==0 & nevermarried==1
 {txt}(234 real changes made)
 
@@ -1223,7 +1321,7 @@ F test that all u_i=0: F({res}1148{txt}, {res}3444{txt}) = {res}60.09{col 62}{tx
 {com}. replace maritalstatus = 3 if married==0 & nevermarried==0
 {txt}(570 real changes made)
 
-{com}. //_58
+{com}. //_61
 . tabulate maritalstatus
 
 {txt}maritalstat {c |}
@@ -1248,7 +1346,7 @@ atus      {c |}     0      1        0      1
         {txt}3 {c |}   {res}570                       
 {txt}{hline 10}{c BT}{hline 29}
 
-{com}. //_59
+{com}. //_62
 . label define maritalstatus1 1 "Single" 2 "Married" 3 "Divorced or Widowed"
 {txt}
 {com}. label values maritalstatus maritalstatus1
@@ -1265,25 +1363,25 @@ atus      {c |}     0      1        0      1
 {txt}{hline 20}{c +}{hline 35}
               Total {c |}{res}      2,244      100.00
 {txt}
-{com}. //_60
+{com}. //_63
 . generate over40hours = .
 {txt}(2,246 missing values generated)
 
 {com}. replace over40hours = 0 if hours <= 40
 {txt}(1,852 real changes made)
 
-{com}. //_61
+{com}. //_64
 . replace over40hours = 1 if hours > 40 & hours < 99999
 {txt}(390 real changes made)
 
-{com}. //_62
+{com}. //_65
 . display int(10.65)
 {res}10
 {txt}
 {com}. display round(10.65,1)
 {res}11
 {txt}
-{com}. //_63
+{com}. //_66
 . display ln(10.65)
 {res}2.3655599
 {txt}
@@ -1293,10 +1391,10 @@ atus      {c |}     0      1        0      1
 {com}. display sqrt(10.65)
 {res}3.2634338
 {txt}
-{com}. //_64
+{com}. //_67
 . set seed 12345
 {txt}
-{com}. //_65
+{com}. //_68
 . gen runiformtest = runiform()
 {txt}
 {com}. summarize runiformtest
@@ -1305,7 +1403,7 @@ atus      {c |}     0      1        0      1
 {hline 13}{c +}{hline 57}
 runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
 {txt}
-{com}. //_66
+{com}. //_69
 . gen rnormaltest = rnormal()
 {txt}
 {com}. gen rnormaltest2 = rnormal(100,15)
@@ -1317,7 +1415,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
 {space 1}rnormaltest {c |}{res}      2,246     .018436    .9857847  -3.389103   3.372525
 {txt}rnormaltest2 {c |}{res}      2,246    99.70718    14.77732   47.81653   154.2297
 {txt}
-{com}. //_67
+{com}. //_70
 . gen rchi2test = rchi2(5)
 {txt}
 {com}. summarize rchi2test
@@ -1326,16 +1424,16 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
 {hline 13}{c +}{hline 57}
 {space 3}rchi2test {c |}{res}      2,246    5.063639    3.322998   .1102785   29.24291
 {txt}
-{com}. //_68
+{com}. //_71
 . help string functions
 {txt}
-{com}. //_69
+{com}. //_72
 . use "authors.dta", clear
 {txt}
-{com}. //_70
+{com}. //_73
 . format name %-17s
 {txt}
-{com}. //_71
+{com}. //_74
 . list name 
 {txt}
      {c TLC}{hline 22}{c TRC}
@@ -1358,14 +1456,14 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}björk guðmundsdóttir {txt}{c |}
      {c BLC}{hline 22}{c BRC}
 
-{com}. //_72
+{com}. //_75
 . generate name2 = ustrtitle(name)
 {txt}
 {com}. generate lowname = ustrlower(name)
 {txt}
 {com}. generate upname = ustrupper(name)
 {txt}
-{com}. //_73
+{com}. //_76
 . format name2 lowname upname %-23s
 {txt}
 {com}. list name2 lowname upname
@@ -1390,7 +1488,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}Björk Guðmundsdóttir   björk guðmundsdóttir   BJÖRK GUÐMUNDSDÓTTIR {txt}{c |}
      {c BLC}{hline 22}{c -}{hline 22}{c -}{hline 22}{c BRC}
 
-{com}. //_74
+{com}. //_77
 . generate name3 = ustrltrim(name2)
 {txt}
 {com}. format name2 name3 %-17s
@@ -1417,11 +1515,11 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}björk guðmundsdóttir   Björk Guðmundsdóttir   Björk Guðmundsdóttir {txt}{c |}
      {c BLC}{hline 22}{c -}{hline 22}{c -}{hline 22}{c BRC}
 
-{com}. //_75
+{com}. //_78
 . display substr("abcdef",2,3)
 {res}bcd
 {txt}
-{com}. //_76
+{com}. //_79
 . gen secondchar = substr(name3,2,1)
 {txt}
 {com}. gen firstinit = (secondchar == " " | secondchar == ".") if !missing(secondchar)
@@ -1448,7 +1546,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}Björk Guðmundsdóttir          j          0 {txt}{c |}
      {c BLC}{hline 22}{c -}{hline 10}{c -}{hline 10}{c BRC}
 
-{com}. //_77
+{com}. //_80
 . generate namecount = ustrwordcount(name3)
 {txt}
 {com}. list name3 namecount
@@ -1473,7 +1571,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}Björk Guðmundsdóttir          2 {txt}{c |}
      {c BLC}{hline 22}{c -}{hline 10}{c BRC}
 
-{com}. //_78
+{com}. //_81
 . generate uname1=ustrword(name3,1)
 {txt}
 {com}. generate uname2=ustrword(name3,2)
@@ -1484,7 +1582,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
 {com}. generate uname4=ustrword(name3,4)
 {txt}(10 missing values generated)
 
-{com}. //_79
+{com}. //_82
 . list name3 uname1 uname2 uname3 uname4 namecount
 {txt}
      {c TLC}{hline 22}{c -}{hline 8}{c -}{hline 16}{c -}{hline 9}{c -}{hline 12}{c -}{hline 10}{c TRC}
@@ -1507,7 +1605,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}Björk Guðmundsdóttir    Björk   Guðmundsdóttir                                 2 {txt}{c |}
      {c BLC}{hline 22}{c -}{hline 8}{c -}{hline 16}{c -}{hline 9}{c -}{hline 12}{c -}{hline 10}{c BRC}
 
-{com}. //_80
+{com}. //_83
 . generate name4 = usubinstr(name3,".","",.)
 {txt}
 {com}. replace namecount = ustrwordcount(name4)
@@ -1535,7 +1633,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}Björk Guðmundsdóttir          2 {txt}{c |}
      {c BLC}{hline 22}{c -}{hline 10}{c BRC}
 
-{com}. //_81
+{com}. //_84
 . gen fname = ustrword(name4,1)
 {txt}
 {com}. gen mname = ustrword(name4,2) if namecount==3
@@ -1567,7 +1665,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}Björk Guðmundsdóttir   Björk             Guðmundsdóttir {txt}{c |}
      {c BLC}{hline 22}{c -}{hline 7}{c -}{hline 9}{c -}{hline 16}{c BRC}
 
-{com}. //_82
+{com}. //_85
 . replace fname=fname + "." if ustrlen(fname)==1
 {txt}(4 real changes made)
 
@@ -1596,7 +1694,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}Björk           {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 9}{c BRC}
 
-{com}. //_83
+{com}. //_86
 . gen mlen = ustrlen(mname)
 {txt}
 {com}. gen flen = ustrlen(fname)
@@ -1635,7 +1733,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
  13. {c |} {res}Björk Guðmundsdóttir   Björk             Guðmundsdóttir {txt}{c |}
      {c BLC}{hline 22}{c -}{hline 7}{c -}{hline 9}{c -}{hline 16}{c BRC}
 
-{com}. //_84
+{com}. //_87
 . use "wws2lab.dta", clear
 {txt}(Working Women Survey w/fixes)
 
@@ -1667,7 +1765,7 @@ runiformtest {c |}{res}      2,246    .4924636    .2875376   .0007583   .9985869
 {col 21}{res}       187{col 33}      13{col 43}{txt}Other
 {col 21}{res}         9{col 33}       .{col 43}
 {txt}
-{com}. //_85
+{com}. //_88
 . recode occupation (1/3=1) (5/8=2) (4 9/13=3), generate(occ3)
 {txt}(1918 differences between occupation and occ3)
 
@@ -1717,7 +1815,7 @@ Professional/technical {c |}  {res}319
                  {txt}Other {c |}     {res}         187
 {txt}{hline 23}{c BT}{hline 17}
 
-{com}. //_86
+{com}. //_89
 . drop occ3
 {txt}
 {com}. recode occupation (1/3= 1 "White Collar") (5/8=2 "Blue Collar") (4 9/12=3 "Other"), generate(occ3)
@@ -1767,7 +1865,7 @@ Professional/technical {c |}          {res}319             .             .      
                  {txt}Other {c |}            {res}.             .             .           187
 {txt}{hline 23}{c BT}{hline 55}
 
-{com}. //_87
+{com}. //_90
 . summarize wage, detail
 
                          {txt}hourly wage
@@ -1785,7 +1883,7 @@ Professional/technical {c |}          {res}319             .             .      
 {txt}95%    {res} 16.72241       40.19808       {txt}Skewness      {res} 3.078195
 {txt}99%    {res} 38.70926       40.74659       {txt}Kurtosis      {res} 15.58899
 {txt}
-{com}. //_88
+{com}. //_91
 . egen wage3 = cut(wage), at(0,4,6,9,12)
 {txt}(278 missing values generated)
 
@@ -1841,7 +1939,7 @@ Professional/technical {c |}          {res}319             .             .      
  {res} 7.796781
 {txt}{hline 9}{c BT}{hline 10}
 
-{com}. //_89
+{com}. //_92
 . infile id age pl1-pl5 bp1-bp5 using "cardio2miss.txt", clear
 {txt}(5 observations read)
 
@@ -1857,7 +1955,7 @@ Professional/technical {c |}          {res}319             .             .      
   5. {c |} {res} 5    18    70   116    -1   128    52   112    68   125    59   111 {txt}{c |}
      {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
 
-{com}. //_90
+{com}. //_93
 . mvdecode bp* pl*, mv(-1 -2)
          {txt}bp4:{res}{col 15}1{txt} missing value generated
          bp5:{res}{col 15}1{txt} missing value generated
@@ -1876,11 +1974,11 @@ Professional/technical {c |}          {res}319             .             .      
   5. {c |} {res} 5    18    70   116     .   128    52   112    68   125    59   111 {txt}{c |}
      {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c BRC}
 
-{com}. //_91
+{com}. //_94
 . use "wws2lab.dta", clear
 {txt}(Working Women Survey w/fixes)
 
-{com}. //_92
+{com}. //_95
 . codebook grade4
 
 {txt}{hline}
@@ -1900,7 +1998,7 @@ Professional/technical {c |}          {res}319             .             .      
 {col 21}{res}       513{col 33}       4{col 43}{txt}Coll Grad
 {col 21}{res}         4{col 33}       .{col 43}
 {txt}
-{com}. //_93
+{com}. //_96
 . regress wage i.grade4
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     2,240
@@ -1921,7 +2019,7 @@ Professional/technical {c |}          {res}319             .             .      
 {space 7}_cons {c |}{col 14}{res}{space 2} 5.194571{col 26}{space 2}  .303148{col 37}{space 1}   17.14{col 46}{space 3}0.000{col 54}{space 4}  4.60009{col 67}{space 3} 5.789052
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_94
+{com}. //_97
 . regress wage ib2.grade4
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     2,240
@@ -1942,7 +2040,7 @@ Professional/technical {c |}          {res}319             .             .      
 {space 7}_cons {c |}{col 14}{res}{space 2}   6.6848{col 26}{space 2} .1801606{col 37}{space 1}   37.10{col 46}{space 3}0.000{col 54}{space 4} 6.331501{col 67}{space 3}   7.0381
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_95
+{com}. //_98
 . list wage grade4 i.grade4 in 1/10, nolabel
 {txt}
      {c TLC}{hline 10}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c TRC}
@@ -1962,7 +2060,7 @@ Professional/technical {c |}          {res}319             .             .      
  10. {c |} {res}13.28503        4        0        0        0        1 {txt}{c |}
      {c BLC}{hline 10}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c -}{hline 8}{c BRC}
 
-{com}. //_96
+{com}. //_99
 . reg wage i.grade4##i.married
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     2,240
@@ -1991,7 +2089,7 @@ Professional/technical {c |}          {res}319             .             .      
 {space 13}_cons {c |}{col 20}{res}{space 2} 5.299313{col 32}{space 2} .4875893{col 43}{space 1}   10.87{col 52}{space 3}0.000{col 60}{space 4} 4.343137{col 73}{space 3} 6.255489
 {txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_97
+{com}. //_100
 . reg wage i.grade4 i.married i.grade4#i.married
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     2,240
@@ -2020,7 +2118,7 @@ Professional/technical {c |}          {res}319             .             .      
 {space 13}_cons {c |}{col 20}{res}{space 2} 5.299313{col 32}{space 2} .4875893{col 43}{space 1}   10.87{col 52}{space 3}0.000{col 60}{space 4} 4.343137{col 73}{space 3} 6.255489
 {txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_98
+{com}. //_101
 . reg wage i.grade4##c.age
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     2,240
@@ -2048,7 +2146,7 @@ grade4#c.age {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 4.664681{col 26}{space 2} 2.133219{col 37}{space 1}    2.19{col 46}{space 3}0.029{col 54}{space 4} .4813798{col 67}{space 3} 8.847983
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_99
+{com}. //_102
 . reg wage c.age##c.age
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     2,244
@@ -2068,7 +2166,7 @@ grade4#c.age {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2}  3.55454{col 26}{space 2} 4.337015{col 37}{space 1}    0.82{col 46}{space 3}0.413{col 54}{space 4}-4.950447{col 67}{space 3} 12.05953
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_100
+{com}. //_103
 . reg wage c.age##c.age##c.age
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     2,244
@@ -2090,7 +2188,7 @@ c.age#c.age#c.age {c |}{col 19}{res}{space 2}-.0004146{col 31}{space 2} .0006315
 {space 12}_cons {c |}{col 19}{res}{space 2} 19.58876{col 31}{space 2} 24.80329{col 42}{space 1}    0.79{col 51}{space 3}0.430{col 59}{space 4}-29.05107{col 72}{space 3} 68.22859
 {txt}{hline 18}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_101
+{com}. //_104
 . reg wage c.age##c.age##c.age##c.age
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     2,244
@@ -2114,7 +2212,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
 {space 18}_cons {c |}{col 25}{res}{space 2}-64.76751{col 37}{space 2} 120.4015{col 48}{space 1}   -0.54{col 57}{space 3}0.591{col 65}{space 4}-300.8777{col 78}{space 3} 171.3427
 {txt}{hline 24}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_102
+{com}. //_105
 . type momkid1.csv
 {res}momid,momm,momd,momy,kidbday
 1,11,28,1972,1/5/1998
@@ -2136,13 +2234,13 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res}    4      1      5   1960    1/4/2004 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 11}{c BRC}
 
-{com}. //_103
+{com}. //_106
 . generate mombdate=mdy(momm, momd, momy), after(momy)
 {txt}
-{com}. //_104
+{com}. //_107
 . generate kidbdate=date(kidbday,"MDY")
 {txt}
-{com}. //_105
+{com}. //_108
 . list 
 {txt}
      {c TLC}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c TRC}
@@ -2154,7 +2252,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res}    4      1      5   1960          4    1/4/2004      16074 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 10}{c -}{hline 11}{c -}{hline 10}{c BRC}
 
-{com}. //_106
+{com}. //_109
 . format mombdate kidbdate %td
 {txt}
 {com}. list
@@ -2168,7 +2266,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res}    4      1      5   1960   05jan1960    1/4/2004   04jan2004 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 11}{c -}{hline 11}{c -}{hline 11}{c BRC}
 
-{com}. //_107
+{com}. //_110
 . format mombdate kidbdate %tdNN/DD/ccYY
 {txt}
 {com}. list
@@ -2182,7 +2280,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res}    4      1      5   1960   01/05/1960    1/4/2004   01/04/2004 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 6}{c -}{hline 6}{c -}{hline 6}{c -}{hline 12}{c -}{hline 11}{c -}{hline 12}{c BRC}
 
-{com}. //_108
+{com}. //_111
 . format mombdate kidbdate %tdDayname_Mon_DD,_ccYY
 {txt}
 {com}. list kidbday kidbdate
@@ -2196,7 +2294,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res} 1/4/2004      Sunday Jan 04, 2004 {txt}{c |}
      {c BLC}{hline 11}{c -}{hline 24}{c BRC}
 
-{com}. //_109
+{com}. //_112
 . generate momagediff=kidbdate-mombdate
 {txt}
 {com}. list mombdate kidbdate momagediff
@@ -2210,7 +2308,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res} Tuesday Jan 05, 1960      Sunday Jan 04, 2004      16070 {txt}{c |}
      {c BLC}{hline 23}{c -}{hline 24}{c -}{hline 10}{c BRC}
 
-{com}. //_110
+{com}. //_113
 . generate momagediffyr = (kidbdate-mombdate)/365.25
 {txt}
 {com}. list mombdate kidbdate momagediffyr
@@ -2224,11 +2322,11 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res} Tuesday Jan 05, 1960      Sunday Jan 04, 2004   43.997262 {txt}{c |}
      {c BLC}{hline 23}{c -}{hline 24}{c -}{hline 11}{c BRC}
 
-{com}. //_111
+{com}. //_114
 . display (mdy(4,5,2005)-mdy(5,6,2000))/365.25
 {res}4.9144422
 {txt}
-{com}. //_112
+{com}. //_115
 . list momid mombdate if (mombdate >= mdy(1,20,1970)) & !missing(mombdate)
 {txt}
      {c TLC}{hline 7}{c -}{hline 22}{c TRC}
@@ -2238,10 +2336,10 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   2. {c |} {res}    2   Tuesday Apr 03, 1973 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 22}{c BRC}
 
-{com}. //_113
+{com}. //_116
 . gen monyear = ym(momy,momm)
 {txt}
-{com}. //_114
+{com}. //_117
 . format monyear %tmMon_ccYY
 {txt}
 {com}. list monyear
@@ -2255,10 +2353,10 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res}Jan 1960 {txt}{c |}
      {c BLC}{hline 10}{c BRC}
 
-{com}. //_115
+{com}. //_118
 . help dates and times
 {txt}
-{com}. //_116
+{com}. //_119
 . gen testdt = mdyhms(momm,momd,momy,runiform(1,12),runiform(0,59), runiform(0,59))
 {txt}
 {com}. format testdt %tc
@@ -2274,10 +2372,10 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   4. {c |} {res} Tuesday Jan 05, 1960   05jan1960 01:35:20 {txt}{c |}
      {c BLC}{hline 23}{c -}{hline 20}{c BRC}
 
-{com}. //_117
+{com}. //_120
 . use "cardio2miss.dta", clear
 {txt}
-{com}. //_118
+{com}. //_121
 . egen avgpl=rowmean(pl1-pl5)
 {txt}
 {com}. list id pl1-pl5 avgpl
@@ -2292,7 +2390,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   5. {c |} {res} 5    70   116    .a   128    52    91.5 {txt}{c |}
      {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 7}{c BRC}
 
-{com}. //_119
+{com}. //_122
 . egen avgbp=rowmean(bp1-bp5)
 {txt}
 {com}. list id bp1-bp5 avgbp
@@ -2307,7 +2405,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   5. {c |} {res} 5   112    68   125    59   111      95 {txt}{c |}
      {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 7}{c BRC}
 
-{com}. //_120
+{com}. //_123
 . egen maxbp=rowmax(bp1-bp5)
 {txt}
 {com}. egen minbp=rowmin(bp1-bp5)
@@ -2324,13 +2422,13 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   5. {c |} {res} 5   112    68   125    59   111      95     125      59 {txt}{c |}
      {c BLC}{hline 4}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c BRC}
 
-{com}. //_121
+{com}. //_124
 . egen missbp = rowmiss(bp?)
 {txt}
-{com}. //_122
+{com}. //_125
 . use "gasctrysmall.dta", clear
 {txt}
-{com}. //_123
+{com}. //_126
 . egen avggas = mean(gas)
 {txt}
 {com}. bysort ctry: egen avggas_ctry = mean(gas)
@@ -2353,12 +2451,12 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   8. {c |} {res}   4   1975   .94    .7675         .88 {txt}{c |}
      {c BLC}{hline 6}{c -}{hline 6}{c -}{hline 5}{c -}{hline 8}{c -}{hline 11}{c BRC}
 
-{com}. //_124
+{com}. //_127
 . bysort ctry: egen mingas_ctry = min(gas)
 {txt}
 {com}. bysort ctry: egen maxgas_ctry = max(gas)
 {txt}
-{com}. //_125
+{com}. //_128
 . bysort ctry: egen count_ctry=count(gas)
 {txt}
 {com}. list, sepby(ctry)
@@ -2379,29 +2477,29 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
   8. {c |} {res}   4   1975   .94   1.18    .7675         .88        .82        .94          2 {txt}{c |}
      {c BLC}{hline 6}{c -}{hline 6}{c -}{hline 5}{c -}{hline 6}{c -}{hline 8}{c -}{hline 11}{c -}{hline 10}{c -}{hline 10}{c -}{hline 10}{c BRC}
 
-{com}. //_126
+{com}. //_129
 . help egen
 {txt}
-{com}. //_127
+{com}. //_130
 . sort ctry year
 {txt}
-{com}. //_128
+{com}. //_131
 . bysort ctry: gen firstyr = year[1]
 {txt}
-{com}. //_129
+{com}. //_132
 . bysort ctry: gen lastyr = year[_N]
 {txt}
-{com}. //_130
+{com}. //_133
 . bysort ctry: gen diffgas = gas-gas[_n-1]
 {txt}(4 missing values generated)
 
-{com}. //_131
+{com}. //_134
 . bysort ctry: gen gasindex = gas/gas[1]*100
 {txt}
-{com}. //_132
+{com}. //_135
 . use "cardio1str.dta", clear
 {txt}
-{com}. //_133
+{com}. //_136
 . sum wt bp1 bp2 bp3
 
 {txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
@@ -2411,7 +2509,7 @@ c.age#c.age#c.age#c.age {c |}{col 25}{res}{space 2}-.0000676{col 37}{space 2} .0
 {txt}{space 9}bp2 {c |}{res}          0
 {txt}{space 9}bp3 {c |}{res}          0
 {txt}
-{com}. //_134
+{com}. //_137
 . describe
 
 {txt}Contains data from {res}cardio1str.dta
@@ -2436,7 +2534,7 @@ variable name   type    format     label      variable label
 {txt}{hline}
 Sorted by: 
 
-{com}. //_135
+{com}. //_138
 . destring age, gen(agen)
 {txt}age: all characters numeric; agen {res}generated {txt}as {res}byte
 {txt}
@@ -2449,7 +2547,7 @@ Sorted by:
 {txt}
 {com}. drop agen
 {txt}
-{com}. //_136
+{com}. //_139
 . destring id-income, replace
 {txt}id: all characters numeric; {res}replaced {txt}as {res}byte
 {txt}wt: all characters numeric; {res}replaced {txt}as {res}double
@@ -2464,7 +2562,7 @@ Sorted by:
 {res}{txt}pl3: contains nonnumeric characters; no {res}replace
 {txt}income: contains nonnumeric characters; no {res}replace
 {txt}
-{com}. //_137
+{com}. //_140
 . list pl3
 {txt}
      {c TLC}{hline 5}{c TRC}
@@ -2493,7 +2591,7 @@ Sorted by:
   5. {c |} {res} 52 {txt}{c |}
      {c BLC}{hline 5}{c BRC}
 
-{com}. //_138
+{com}. //_141
 . destring income, replace ignore("$,")
 {txt}income: characters{res} $ ,{txt} removed; {res}replaced {txt}as {res}double
 {txt}
@@ -2509,7 +2607,7 @@ Sorted by:
   5. {c |} {res} 5   159.1    42   116   128   112    70     .    52   54989.87   female {txt}{c |}
      {c BLC}{hline 4}{c -}{hline 7}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 5}{c -}{hline 10}{c -}{hline 8}{c BRC}
 
-{com}. //_139
+{com}. //_142
 . list id gender
 {txt}
      {c TLC}{hline 4}{c -}{hline 8}{c TRC}
@@ -2522,7 +2620,7 @@ Sorted by:
   5. {c |} {res} 5   female {txt}{c |}
      {c BLC}{hline 4}{c -}{hline 8}{c BRC}
 
-{com}. //_140
+{com}. //_143
 . replace gender = stritrim(gender)
 {txt}(0 real changes made)
 
@@ -2540,7 +2638,7 @@ Sorted by:
   5. {c |} {res}female     female {txt}{c |}
      {c BLC}{hline 8}{c -}{hline 10}{c BRC}
 
-{com}. //_141
+{com}. //_144
 . tab gender gendercode, nolabel
 
  {txt}Gender of {c |}   Gender of person
@@ -2552,7 +2650,7 @@ Sorted by:
      Total {c |}{res}         1          4 {txt}{c |}{res}         5 
 
 {txt}
-{com}. //_142
+{com}. //_145
 . codebook gendercode
 
 {txt}{hline}
@@ -2569,7 +2667,7 @@ Sorted by:
 {col 21}{res}         1{col 33}       1{col 43}{txt}female
 {col 21}{res}         4{col 33}       2{col 43}{txt}male
 
-{com}. //_143
+{com}. //_146
 . use "cardio3.dta", clear
 {txt}
 {com}. list zipcode
@@ -2584,7 +2682,7 @@ Sorted by:
   5. {c |} {res}  66214 {txt}{c |}
      {c BLC}{hline 9}{c BRC}
 
-{com}. //_144
+{com}. //_147
 . tostring zipcode, generate(zips)
 {txt}zips generated as {res:str5}
 
@@ -2606,7 +2704,7 @@ Sorted by:
   5. {c |} {res}  66214   66214 {txt}{c |}
      {c BLC}{hline 9}{c -}{hline 7}{c BRC}
 
-{com}. //_145
+{com}. //_148
 . decode famhist, gen(famhists)
 {txt}
 {com}. list famhist famhists, nolabel
@@ -2651,7 +2749,7 @@ Sorted by:
 
 {txt}{col 16}warning:  variable has embedded blanks
 
-{com}. //_146
+{com}. //_149
 . use "cardio2.dta", clear
 {txt}
 {com}. describe
@@ -2679,13 +2777,13 @@ variable name   type    format     label      variable label
 {txt}{hline}
 Sorted by: 
 
-{com}. //_147
+{com}. //_150
 . rename age age_yrs
 {res}{txt}
-{com}. //_148
+{com}. //_151
 . rename pl? pulse? 
 {res}{txt}
-{com}. //_149
+{com}. //_152
 . describe
 
 {txt}Contains data from {res}cardio2.dta
@@ -2712,7 +2810,7 @@ variable name   type    format     label      variable label
 Sorted by: 
 {res}     Note: Dataset has changed since last saved.
 {txt}
-{com}. //_150
+{com}. //_153
 . rename (bp1 bp2 bp3 bp4 bp5) (bpress1 bpress2 bpress3 bpress4 bpress5)
 {res}{txt}
 {com}. describe
@@ -2741,19 +2839,19 @@ variable name   type    format     label      variable label
 Sorted by: 
 {res}     Note: Dataset has changed since last saved.
 {txt}
-{com}. //_151
+{com}. //_154
 . order id age_yrs bp* pul*
 {txt}
-{com}. //_152
+{com}. //_155
 . order pul* bp*, after(age_yrs) 
 {txt}
-{com}. //_153
+{com}. //_156
 . order bp*, before(pulse1)
 {txt}
-{com}. //_154
+{com}. //_157
 . gen age2=age_yrs*age_yrs, after(age_yrs)
 {txt}
-{com}. //_155
+{com}. //_158
 . order _all, alphabetic
 {txt}
 {com}. describe
@@ -2783,7 +2881,7 @@ variable name   type    format     label      variable label
 Sorted by: 
 {res}     Note: Dataset has changed since last saved.
 {txt}
-{com}. //_156
+{com}. //_159
 . order bpress5 bpress1-bpress4, after(age2)
 {txt}
 {com}. order bp*, sequential
@@ -2793,7 +2891,7 @@ Sorted by:
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week4_fe_re.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 2 Oct 2023, 19:41:08
+ {txt}closed on:  {res}14 Mar 2024, 19:05:35
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

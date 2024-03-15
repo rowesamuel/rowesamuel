@@ -398,6 +398,48 @@ Pooled OLS is seen to be upward biased.</p>
 <pre class='stata'>. display (exp(.0844)-1)*100
 8.8064032
 </pre>
+<h5>
+Plot the Coefficients of Interest
+</h5>
+<p>
+Credit: John Kane:
+<a href="https://medium.com/the-stata-gallery/making-regression-coefficient-plots-in-stata-7b100feac0cb">Making
+Regression Coefficients Plots in Stata</a>
+</p>
+<pre class='stata'>. quietly reg lwage c.edu exper expersq i.black i.south i.married i.union i.d8*
+
+. estimates store pooled
+
+. quietly xtreg lwage c.edu i.black i.south i.married i.union i.d8*, fe
+
+. estimates store fe
+
+. coefplot (pooled, label("{bf:Pooled OLS}") mcolor(midblue) mlcolor(cyan) ///
+>   ciopts(lcolor(magenta midblue))) /// options for first group
+>   (fe, label("{bf: Within}") mcolor(green) mlcolor(lime) ///
+>   ciopts(lcolor(lime green))), /// options for second group
+>   title(Union and Marriage Wage Premiums) ///
+>   drop(_cons 1.d* 0.black 0.south) ///
+>   xline(0, lcolor(red) lwidth(medium)) scheme(jet_white) ///
+>   xtitle("{bf: Effect of Union}") ///
+>   graphregion(margin(small)) ///
+>   coeflabels(educ="Education" exper="Experience" expersq="Experience Squared" ///
+>   1.black="Black" 1.south="South" 1.married="Married" ///
+>   1.union="Union") ///
+>   msize(large) mcolor(%85) mlwidth(medium) msymbol(circle) /// marker options
+>   levels(95 90) ciopts(lwidth(medthick thick) recast(rspike rcap)) ///ci options for all groups
+>   legend(ring(1) col(1) pos(3) size(medsmall))
+(note: scheme jet_white not found, using s2color)
+
+.   graph export "/Users/Sam/Desktop/Econ 645/Stata/week4_union_wage_premium.png", replace
+(file /Users/Sam/Desktop/Econ 645/Stata/week4_union_wage_premium.png written in PNG format)
+</pre>
+<figure>
+<img src="week4_union_wage_premium.png"
+alt="Plot the Coefficients of Interest" />
+<figcaption aria-hidden="true">Plot the Coefficients of
+Interest</figcaption>
+</figure>
 <h3>
 Has returns to education changed over time
 </h3>
@@ -639,6 +681,46 @@ Standard errors in parentheses
 <pre class='stata'>. display (exp(0.0304)-1)*100
 3.0866798
 </pre>
+<h5>
+Plot the Coefficients
+</h5>
+<pre class='stata'>. quietly reg lwage c.edu##i.d8* exper expersq i.married i.union
+
+. estimates store pooled
+
+. quietly xtreg lwage c.edu##i.d8* i.married i.union, fe
+
+. estimates store fe
+
+. coefplot ///
+>   (pooled, label("{bf:Pooled OLS}") mcolor(midblue) mlcolor(cyan) ///
+>     ciopts(lcolor(magenta midblue))) /// options for first group
+>   (fe, label("{bf: Within}") mcolor(green) mlcolor(lime) ///
+>     ciopts(lcolor(lime green))), /// options for second gropu
+>   title("Change in Return to Education") ///
+>   keep(educ 1.d81#c.educ 1.d82#c.educ 1.d83#c.educ 1.d84#c.educ ///
+>     1.d85#c.educ 1.d86#c.educ 1.d87#c.educ) ///
+>   xline(0, lcolor(red) lwidth(medium)) scheme(jet_white) ///
+>   xtitle("{bf: Coefficients}") ///
+>   graphregion(margin(small)) ///
+>   coeflabels(educ="Education" 1.d81#c.educ="1981 Returns" ///
+>     1.d82#c.educ="1982 Returns" 1.d83#c.educ="1983 Returns" ///
+>     1.d84#c.educ="1984 Returns" 1.d85#c.educ="1985 Returns" ///
+>     1.d86#c.educ="1986 Returns" 1.d87#c.educ="1987 Returns") ///
+>   msize(large) mcolor(%85) mlwidth(medium) msymbol(circle) /// marker options
+>   levels(95 90) ciopts(lwidth(medthick thick) recast(rspike rcap)) ///ci options for all groups
+>   legend(ring(1) col(1) pos(3) size(medsmall))
+(note: scheme jet_white not found, using s2color)
+
+. graph export "/Users/Sam/Desktop/Econ 645/Stata/week4_edu_returns.png", replace
+(file /Users/Sam/Desktop/Econ 645/Stata/week4_edu_returns.png written in PNG format)
+</pre>
+<figure>
+<img src="week4_edu_returns.png"
+alt="Plot the Coefficients of Interest" />
+<figcaption aria-hidden="true">Plot the Coefficients of
+Interest</figcaption>
+</figure>
 <h4>
 Test for Serial Correlation
 </h4>
@@ -1158,10 +1240,10 @@ Hausman Test
 </h5>
 <pre class='stata'>. hausman femodel ., sigmamore
 
-Note: the rank of the differenced variance matrix (5) does not equal the number of coefficients being
-        tested (10); be sure this is what you expect, or there may be problems computing the test.
-        Examine the output of your estimators for anything unexpected and possibly consider scaling
-        your variables so that the coefficients are on a similar scale.
+Note: the rank of the differenced variance matrix (5) does not equal the number of coefficients being tested
+        (10); be sure this is what you expect, or there may be problems computing the test.  Examine the output
+        of your estimators for anything unexpected and possibly consider scaling your variables so that the
+        coefficients are on a similar scale.
 
                  ──── Coefficients ────
              │      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
@@ -1263,6 +1345,48 @@ Within Model might comes from self-selection in marriage (they would
 have made more money even if they weren’t married), and employers paying
 married men more if marriage is a sign of stability. But, we cannot
 distinguish these two hypothesis with this research design.</p>
+<h5>
+Plot the Coefficients
+</h5>
+<pre class='stata'>. quietly reg lwage educ i.black i.hisp exper expersq married union i.d8*
+
+. estimates store pooled
+
+. quietly xtreg lwage educ i.black i.hisp exper expersq married union i.d8*, fe
+
+. estimates store fe
+
+. quietly xtreg lwage educ i.black i.hisp exper expersq married union i.d8*, re theta
+
+. estimates store re
+
+. coefplot ///
+> (pooled, label("{bf:Pooled OLS}") mcolor(midblue) mlcolor(cyan) ///
+>   ciopts(lcolor(magenta midblue))) /// options for first group
+> (fe, label("{bf: Within}") mcolor(green) mlcolor(lime) ///
+>   ciopts(lcolor(lime green))) /// options for second group
+> (re, label("{bf: Random Effects}") mcolor(yellow) mlcolor(gold) ///
+>   ciopts(lcolor(gold yellow))), /// options for third group
+>   title("Returns to Marriage for Men") ///
+>   keep(married) ///
+>   xline(0, lcolor(red) lpattern(dash) lwidth(medium)) scheme(jet_white) ///
+>   xtitle("{bf: Coefficients}") ///
+>   graphregion(margin(small)) ///
+>   coeflabels(married="Married") ///
+>   msize(large) mcolor(%85) mlwidth(medium) msymbol(circle) /// marker options
+>   levels(95 90) ciopts(lwidth(medthick thick) recast(rspike rcap)) ///ci options for all groups
+>   legend(ring(1) col(1) pos(3) size(medsmall))
+(note: scheme jet_white not found, using s2color)
+
+. graph export "/Users/Sam/Desktop/Econ 645/Stata/week4_married_returns.png", replace
+(file /Users/Sam/Desktop/Econ 645/Stata/week4_married_returns.png written in PNG format)
+</pre>
+<figure>
+<img src="week4_married_returns.png"
+alt="Plot the Coefficients of Interest" />
+<figcaption aria-hidden="true">Plot the Coefficients of
+Interest</figcaption>
+</figure>
 <h3>
 Exercises
 </h3>
@@ -1550,7 +1674,14 @@ This will be based off of hourly wages and hours at work by women.</p>
 <p>A histogram is helpful too</p>
 <pre class='stata'>. histogram wage if wage &lt; 1000
 (bin=33, start=0, width=1.2347451)
+
+. graph export "/Users/Sam/Desktop/Econ 645/Stata/week4_wages_hist.png", replace
+(file /Users/Sam/Desktop/Econ 645/Stata/week4_wages_hist.png written in PNG format)
 </pre>
+<figure>
+<img src="week4_wages_hist.png" alt="Histogram of Hours" />
+<figcaption aria-hidden="true">Histogram of Hours</figcaption>
+</figure>
 <p>Let’s look at hours</p>
 <pre class='stata'>. summarize hours
 
@@ -2176,9 +2307,9 @@ variables</p>
 
 . codebook occupation, tabulate(25)
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
-occupation                                                                                  occupation
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+occupation                                                                                             occupation
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (byte)
                  label:  occlbl
@@ -2437,9 +2568,9 @@ continuous variable, which does not have any interpretation.</p>
 <p>Let’s look at our highest grade completed categorical</p>
 <pre class='stata'>. codebook grade4
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
-grade4                                                                 4 level Current Grade Completed
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+grade4                                                                            4 level Current Grade Completed
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (byte)
                  label:  grade4
@@ -3100,10 +3231,10 @@ Contains data from cardio1str.dta
   obs:             5                          
  vars:            11                          22 Dec 2009 19:51
  size:           205                          
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              str1    %3s                   Identification variable
 wt              str5    %5s                   Weight of person
 age             str2    %2s                   Age of person
@@ -3115,7 +3246,7 @@ pl2             str2    %3s                   Pulse: Trial 2
 pl3             str3    %3s                   Pulse: Trial 3
 income          str10   %10s                  Income
 gender          str6    %6s                   Gender of person
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <h4>
@@ -3260,9 +3391,9 @@ spaces</p>
 <p>The encode creates label values around the new variable</p>
 <pre class='stata'>. codebook gendercode
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
-gendercode                                                                            Gender of person
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+gendercode                                                                                       Gender of person
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (long)
                  label:  gendercode
@@ -3340,9 +3471,9 @@ for some reason, the decode command can be used</p>
 
 . codebook famhist famhists
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
-famhist                                                                Family history of heart disease
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+famhist                                                                           Family history of heart disease
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (long)
                  label:  famhistl
@@ -3354,9 +3485,9 @@ famhist                                                                Family hi
                              2         0  No HD
                              3         1  Yes HD
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
-famhists                                                               Family history of heart disease
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+famhists                                                                          Family history of heart disease
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  string (str6)
 
@@ -3383,10 +3514,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            12                          22 Dec 2009 19:51
  size:           100                          
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              byte    %3.0f                 Identification variable
 age             byte    %3.0f                 Age of person
 pl1             int     %3.0f                 Pulse: Trial 1
@@ -3399,7 +3530,7 @@ pl4             int     %3.0f                 Pulse: Trial 4
 bp4             int     %3.0f                 Systolic BP: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
 bp5             int     %3.0f                 Systolic BP: Trial 5
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
 </pre>
 <h4>
@@ -3420,10 +3551,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            12                          22 Dec 2009 19:51
  size:           100                          
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              byte    %3.0f                 Identification variable
 age_yrs         byte    %3.0f                 Age of person
 pulse1          int     %3.0f                 Pulse: Trial 1
@@ -3436,7 +3567,7 @@ pulse4          int     %3.0f                 Pulse: Trial 4
 bp4             int     %3.0f                 Systolic BP: Trial 4
 pulse5          byte    %3.0f                 Pulse: Trial 5
 bp5             int     %3.0f                 Systolic BP: Trial 5
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
      Note: Dataset has changed since last saved.
 </pre>
@@ -3450,10 +3581,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            12                          22 Dec 2009 19:51
  size:           100                          
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 id              byte    %3.0f                 Identification variable
 age_yrs         byte    %3.0f                 Age of person
 pulse1          int     %3.0f                 Pulse: Trial 1
@@ -3466,7 +3597,7 @@ pulse4          int     %3.0f                 Pulse: Trial 4
 bpress4         int     %3.0f                 Systolic BP: Trial 4
 pulse5          byte    %3.0f                 Pulse: Trial 5
 bpress5         int     %3.0f                 Systolic BP: Trial 5
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
      Note: Dataset has changed since last saved.
 </pre>
@@ -3502,10 +3633,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            13                          22 Dec 2009 19:51
  size:           140                          
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 age2            double  %10.0g                
 age_yrs         byte    %3.0f                 Age of person
 bpress1         int     %3.0f                 Systolic BP: Trial 1
@@ -3519,7 +3650,7 @@ pulse2          byte    %3.0f                 Pulse: Trial 2
 pulse3          int     %3.0f                 Pulse: Trial 3
 pulse4          int     %3.0f                 Pulse: Trial 4
 pulse5          byte    %3.0f                 Pulse: Trial 5
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
      Note: Dataset has changed since last saved.
 </pre>
