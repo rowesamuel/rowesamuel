@@ -641,6 +641,10 @@ Expression   : Linear prediction, predict()
 
   Variables that uniquely identify margins: educ
 </pre>
+<figure>
+<img src="week8_inlflpm.png" alt="Marginal Effect of Education" />
+<figcaption aria-hidden="true">Marginal Effect of Education</figcaption>
+</figure>
 <p>Logit</p>
 <pre class='stata'>. quietly logit inlf nwifeinc educ exper expersq kidslt6 kidsge6
 
@@ -695,6 +699,10 @@ Expression   : Pr(inlf), predict()
 
   Variables that uniquely identify margins: educ
 </pre>
+<figure>
+<img src="week8_inlflogit.png" alt="Marginal Effect of Education" />
+<figcaption aria-hidden="true">Marginal Effect of Education</figcaption>
+</figure>
 <p>Probit</p>
 <pre class='stata'>. quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 
@@ -749,6 +757,10 @@ Expression   : Pr(inlf), predict()
 
   Variables that uniquely identify margins: educ
 </pre>
+<figure>
+<img src="week8_inlfprobit.png" alt="Marginal Effect of Education" />
+<figcaption aria-hidden="true">Marginal Effect of Education</figcaption>
+</figure>
 <h4>
 Coefficient Plot
 </h4>
@@ -1337,14 +1349,14 @@ a continuous variable when tabulating categorical variables.</p>
 <p>Another option is using the bysort prefix command</p>
 <pre class='stata'>. bysort married: summarize wage
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> married = 0
 
     Variable │        Obs        Mean    Std. Dev.       Min        Max
 ─────────────┼─────────────────────────────────────────────────────────
         wage │        804    8.092001    6.354849          0   40.19808
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> married = 1
 
     Variable │        Obs        Mean    Std. Dev.       Min        Max
@@ -1373,7 +1385,7 @@ and additional statements With qualifiers</p>
 <p>Using bysort accomplishes this in one command</p>
 <pre class='stata'>. bysort married: correlate wage age
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> married = 0
 (obs=804)
 
@@ -1383,7 +1395,7 @@ and additional statements With qualifiers</p>
          age │  -0.0185   1.0000
 
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> married = 1
 (obs=1,440)
 
@@ -1396,7 +1408,7 @@ and additional statements With qualifiers</p>
 variable with many categories</p>
 <pre class='stata'>. bysort race: correlate wage age
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> race = 1
 (obs=1,637)
 
@@ -1406,7 +1418,7 @@ variable with many categories</p>
          age │   0.0017   1.0000
 
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> race = 2
 (obs=581)
 
@@ -1416,7 +1428,7 @@ variable with many categories</p>
          age │  -0.0331   1.0000
 
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> race = 3
 (obs=26)
 
@@ -1984,8 +1996,8 @@ for the period dollars we want.</p>
 > line rebase22 Year, yline(100) ///
 > legend(order(1 "100=1982" 2 "100=1993" 3 "100=2022"))
 
-. graph export "/Users/Sam/Desktop/Econ 645/Stata/bls.png", replace
-(file /Users/Sam/Desktop/Econ 645/Stata/bls.png written in PNG format)
+. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_bls.png", replace
+(file /Users/Sam/Desktop/Econ 645/Stata/week8_bls.png written in PNG format)
 </pre>
 <figure>
 <img src="week8_bls.png" alt="Indexed CPI" />
@@ -2273,8 +2285,7 @@ trend.</p>
 </pre>
 <p>This is a bit of hard coding, but you can interpolate with more than
 1 missing</p>
-<pre class='stata'>. bysort kidid (dt): replace tvimp3 = ((tvimp3[4]-tvimp3[1])/3)+tvimp3[_n-1] if missing(tvimp3) &amp; kidi
-> d==3
+<pre class='stata'>. bysort kidid (dt): replace tvimp3 = ((tvimp3[4]-tvimp3[1])/3)+tvimp3[_n-1] if missing(tvimp3) &amp; kidid==3
 (2 real changes made)
 
 . list kidid tv tvimp3, sepby(kidid)
