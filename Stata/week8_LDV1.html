@@ -342,7 +342,7 @@ Average Marginal Effects (AME)
 <p>LPM</p>
 <pre class='stata'>. quietly reg inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 
-. eststo LPM: margins, dydx(*)
+. eststo LPM: margins, dydx(*) post 
 
 Average marginal effects                        Number of obs     =        753
 Model VCE    : OLS
@@ -366,7 +366,7 @@ dy/dx w.r.t. : nwifeinc educ exper expersq age kidslt6 kidsge6
 <p>Logit</p>
 <pre class='stata'>. quietly logit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 
-. eststo Logit: margins, dydx(*)
+. eststo Logit: margins, dydx(*) post
 
 Average marginal effects                        Number of obs     =        753
 Model VCE    : OIM
@@ -390,7 +390,7 @@ dy/dx w.r.t. : nwifeinc educ exper expersq age kidslt6 kidsge6
 <p>Probit</p>
 <pre class='stata'>. quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 
-. eststo Probit: margins, dydx(*)
+. eststo Probit: margins, dydx(*) post
 
 Average marginal effects                        Number of obs     =        753
 Model VCE    : OIM
@@ -417,30 +417,26 @@ dy/dx w.r.t. : nwifeinc educ exper expersq age kidslt6 kidsge6
                       (1)             (2)             (3)   
                       LPM           Logit          Probit   
 ────────────────────────────────────────────────────────────
-main                                                        
-nwifeinc         -0.00341*        -0.0213*        -0.0120*  
-                  (-2.35)         (-2.53)         (-2.48)   
+nwifeinc         -0.00341*       -0.00381*       -0.00362*  
+                  (-2.35)         (-2.57)         (-2.51)   
 
-educ               0.0380***        0.221***        0.131***
-                   (5.15)          (5.09)          (5.18)   
+educ               0.0380***       0.0395***       0.0394***
+                   (5.15)          (5.41)          (5.45)   
 
-exper              0.0395***        0.206***        0.123***
-                   (6.96)          (6.42)          (6.59)   
+exper              0.0395***       0.0368***       0.0371***
+                   (6.96)          (7.14)          (7.20)   
 
-expersq         -0.000596**      -0.00315**      -0.00189** 
-                  (-3.23)         (-3.10)         (-3.15)   
+expersq         -0.000596**     -0.000563**     -0.000568** 
+                  (-3.23)         (-3.18)         (-3.20)   
 
-age               -0.0161***      -0.0880***      -0.0529***
-                  (-6.48)         (-6.04)         (-6.23)   
+age               -0.0161***      -0.0157***      -0.0159***
+                  (-6.48)         (-6.60)         (-6.74)   
 
-kidslt6            -0.262***       -1.443***       -0.868***
-                  (-7.81)         (-7.09)         (-7.33)   
+kidslt6            -0.262***       -0.258***       -0.261***
+                  (-7.81)         (-8.07)         (-8.20)   
 
-kidsge6            0.0130          0.0601          0.0360   
-                   (0.99)          (0.80)          (0.83)   
-
-_cons               0.586***        0.425           0.270   
-                   (3.80)          (0.49)          (0.53)   
+kidsge6            0.0130          0.0107          0.0108   
+                   (0.99)          (0.81)          (0.83)   
 ────────────────────────────────────────────────────────────
 N                     753             753             753   
 ────────────────────────────────────────────────────────────
@@ -455,7 +451,7 @@ Marginal Effects at the Average (MEA)
 <p>LPM</p>
 <pre class='stata'>. quietly reg inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 
-. eststo LPM: margins, dydx(*) atmeans
+. eststo LPM: margins, dydx(*) atmeans post
 
 Conditional marginal effects                    Number of obs     =        753
 Model VCE    : OLS
@@ -486,7 +482,7 @@ at           : nwifeinc        =    20.12896 (mean)
 <p>Logit</p>
 <pre class='stata'>. quietly logit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 
-. eststo Logit: margins, dydx(*) atmeans
+. eststo Logit: margins, dydx(*) atmeans post
 
 Conditional marginal effects                    Number of obs     =        753
 Model VCE    : OIM
@@ -517,7 +513,7 @@ at           : nwifeinc        =    20.12896 (mean)
 <p>Probit</p>
 <pre class='stata'>. quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 
-. eststo Probit: margins, dydx(*) atmeans
+. eststo Probit: margins, dydx(*) atmeans post
 
 Conditional marginal effects                    Number of obs     =        753
 Model VCE    : OIM
@@ -552,30 +548,26 @@ at           : nwifeinc        =    20.12896 (mean)
                       (1)             (2)             (3)   
                       LPM           Logit          Probit   
 ────────────────────────────────────────────────────────────
-main                                                        
-nwifeinc         -0.00341*        -0.0213*        -0.0120*  
+nwifeinc         -0.00341*       -0.00519*       -0.00470*  
                   (-2.35)         (-2.53)         (-2.48)   
 
-educ               0.0380***        0.221***        0.131***
-                   (5.15)          (5.09)          (5.18)   
+educ               0.0380***       0.0538***       0.0511***
+                   (5.15)          (5.09)          (5.19)   
 
-exper              0.0395***        0.206***        0.123***
-                   (6.96)          (6.42)          (6.59)   
+exper              0.0395***       0.0501***       0.0482***
+                   (6.96)          (6.40)          (6.57)   
 
-expersq         -0.000596**      -0.00315**      -0.00189** 
-                  (-3.23)         (-3.10)         (-3.15)   
+expersq         -0.000596**     -0.000767**     -0.000737** 
+                  (-3.23)         (-3.10)         (-3.14)   
 
-age               -0.0161***      -0.0880***      -0.0529***
-                  (-6.48)         (-6.04)         (-6.23)   
+age               -0.0161***      -0.0214***      -0.0206***
+                  (-6.48)         (-6.05)         (-6.24)   
 
-kidslt6            -0.262***       -1.443***       -0.868***
-                  (-7.81)         (-7.09)         (-7.33)   
+kidslt6            -0.262***       -0.351***       -0.339***
+                  (-7.81)         (-7.07)         (-7.32)   
 
-kidsge6            0.0130          0.0601          0.0360   
+kidsge6            0.0130          0.0146          0.0141   
                    (0.99)          (0.80)          (0.83)   
-
-_cons               0.586***        0.425           0.270   
-                   (3.80)          (0.49)          (0.53)   
 ────────────────────────────────────────────────────────────
 N                     753             753             753   
 ────────────────────────────────────────────────────────────
