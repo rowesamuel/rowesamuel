@@ -4,7 +4,9 @@
 
 <h2>Wooldridge</h2>
 Set Working Directory
-	cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+
+{{1}}
+
 
 Topics:
 <ul>
@@ -21,15 +23,21 @@ Topics:
 
 
 <h3>Static Philips Curve</h3>
-	use phillips.dta, clear
+
+{{2}}
+
 
 <h5>Lesson: Problematic analysis with a static model between inflation and 
 unemployment</h5>
 
 *Set the Time Series
-	tsset year, yearly
 
-	reg inf unem if year < 1997
+{{3}}
+
+
+
+{{4}}
+
 
 Our result do not suggest a trade off between inflation and unemployment, and
 potentially suggest a positive relationship. This is likely a misspecified 
@@ -38,29 +46,38 @@ and unemployment. We'll look at an augmented Phillips curve that better
 describes the relationship.
 
 Let's graph our time series
-	twoway line inf year, title("Annual Inflation Rate")
-	graph export "week_10_inf_line.png", replace
+
+{{5}}
+
 ![Line graph of inflation](week_10_inf_line.png)
 
 <h3>Inflation and Deficits on Interest Rates</h3>
 <h5>Lesson: some static models explain time-series better than the prior model </h5>
-	use intdef.dta, clear
+
+{{6}}
+
 
 Looking inflation and deficits on interest rates. i3 is the 3-month T-bill rate,
 and inf is the annual inflation rate from CPI, and def is the federal budget
 deficit as a percentage of GDP.
 
 Set the Time Series
-	tsset year
 
-	reg i3 inf def if year < 2004
+{{7}}
+
+
+
+{{8}}
+
 
 This static model better explain interest rates based on basic macroeconomics.
 Both contemporaneous variables explain current interest rates.
 
 
 <h3>Puerto Rican Employment and Minimum Wage</h3>
-	use prminwge, clear
+
+{{9}}
+
 
 We'll look at the association between employment and minimum wage in Puerto Rico.
 ln(prepop) is the natural log of the employment to population ratio in PR, 
@@ -69,9 +86,13 @@ mincov=average minimum wage/average wages)*average coverage rate or people
 actually covered by the minimum wage law
 
 Set Time Series
-	tsset year
 
-	reg lprepop lmincov lusgnp if year < 1988
+{{10}}
+
+
+
+{{11}}
+
 
 Our results show that there is a tradeoff between the employment ratio and 
 the importance of minimum wage. A one percent increase in importance of 
@@ -84,10 +105,14 @@ that China was dumping (or selling imports at lower prices to undercut domestic 
 First, are imports unusually high before the complaint? Second, do imports
 change after the dumping complaint?
 
-	use barium.dta, clear
+
+{{12}}
+
 
 Set Time Series Monthly
-	tsset t, monthly
+
+{{13}}
+
 
 Our model is the natural log of volume of imports of barium chloride as the dependent variable.
 affile6 is an indicator for 6 months after filing the complaint, while befile6 is and indicator
@@ -96,7 +121,9 @@ decision.
 Other variables are gas - another demand variable and rtwex - strength of the dollar against
 other currencies
 
-	reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
+
+{{14}}
+
 
 We see that imports are not higher 6 months before a complaint, and imports
 are not lower 6 months after a complaint. However, imports are lower 6 months
@@ -106,13 +133,17 @@ and imports of barium chloride fall about 43.2% after a positive decision.
 Also notice that rtwex is positive, and we would expect that a stronger dollar
 increase demand for imports, which is about uni-elastic.
 
-	display (exp(-.565)-1)*100
+
+{{15}}
+
 
 
 <h2>Finite Distributed Lags Models</h2>
 Lesson: using lags in the explanatory variables
 Personal Exemption on Fertility Rates
-	use fertil3.dta, clear
+
+{{16}}
+
 
 Our interest the general fertility rate, which is the number of children born
 to every 1,000 women of childbearing age. PE is the average real dollar value
@@ -120,9 +151,13 @@ of the personal tax exemption and two binary variables for World War II and
 the introduction of the birth control pill in 1963.
 Set Time Series
 
-	tsset year, yearly
 
-	reg gfr pe i.ww2 i.pill if year < 1985
+{{17}}
+
+
+
+{{18}}
+
 
 World War II reduced the fertility rate by 24.24 births per 1,000 women of
 child bearing age, while the introduction of the birth control pill reduced
@@ -134,13 +169,16 @@ tax exemption increases 1 child per 1,000 women of child bearing ago
 
 Next lets add lags in the average real value of the personal tax exemption.
 
-	reg gfr pe pe_1 pe_2 i.ww2 i.pill if year < 1985
+
+{{19}}
+
 
 Our personal exemption variables are no longer statistically significiant, but
 let's test the joint significance. We might have multicollinearity that bias
 our standard errors for our PE variables.
-	test pe pe_1 pe_2
-	test pe_1 pe_2
+
+{{20}}
+
 Our PE variables are jointly significant, but our lags are jointly insignificiant
 so we'll use our static model.
 
@@ -157,59 +195,78 @@ $$ gfr_t = \alpha_0 + \theta_0 pe_t + \delta_1 (pe_{t-1} - pe_t) + \delta_2 (pe_
 $$ We can estimate \, \hat{\theta}_{0} \, and its standard error $$.
 We can regress gfr_t onto pe_t, (pe_(t-1) - pe_t), and (pe_t-2 - pe_t), ww2, and pill
 
-	gen pe_1_1 = pe_1 - pe
-	gen pe_2_1 = pe_2 - pe
-	
-	reg gfr pe pe_1_1 pe_2_1 i.ww2 i.pill
-	
+
+{{21}}
+
+    
+
+{{22}}
+
+    
 Our theta-hat is about .101 and significant, so our LRP has an effect on general fertility rates.
 
 <h2>Linear Trends</h2>
 <h3>Housing Investment and Housing Prices</h3>
 <h4>Lesson: Importance of time trends</h4>
-	use hseinv.dta, clear
+
+{{23}}
+
 
 We look at annual housing investement and a housing price index from 1947 to 1988.
 
 Set Time Series
-	tsset year, yearly
+
+{{24}}
+
 
 Our model is the natural log of invpc or real per capita housing investment ($1,000)
 and price be the housing price index where 1982 = 1 (or 100). We'll assume 
 constant elasticity with our log-log model. 
 
-	reg linvpc lprice
+
+{{25}}
+
 
 Our output shows that a 1 percent increase in the pricing index increases
 the investment per capita by 1.24 percent (or elastic response).
 <b>Note:</b> both investment and price have upward trends that we need to account for.
 
-	reg linvpc lprice t
+
+{{26}}
+
 
 After accounting for the upward linear trend for both investment per capita and
 the housing price index, an increase in price is coefficient is now negative, but
 it is not statistically significant. We probably have serial correlation which
 will bias our standard errors.
-	predict u
-	reg u l.u, noconst
-	drop u
+
+{{27}}
+
 
 <h3>Personal Exemption on Fertility Rates</h3>
 <h5>Lesson: Importance of non-linear time trends</h5>
-	use fertil3.dta, clear
+
+{{28}}
+
 
 We'll look at fertility again, but we'll account for a quadratic time trend.
 First, we'll estimate a linear time trend, and then we'll try a quadratic time trend.
 
 Set Time Series
-	tsset year, yearly
+
+{{29}}
+
 
 Linear Trend
-	reg gfr pe i.ww2 i.pill t if year < 1985
+
+{{30}}
+
 
 Quadratic Trend
 Fertility is declining but at a decreasing negatively rate (eventually a positive t^2 takes over t)
-	reg gfr pe i.ww2 i.pill c.t##c.t if year < 1985
+
+{{31}}
+
 
 The fertility rate exhibits upward and downward trends between 1913 and 1984.
 Interestingly, pe remains fairly robust after adding time trends. The linear
@@ -220,13 +277,19 @@ that the trend is negative but decreasing rate and will eventually become positi
 <h3>Puerto Rican Employment</h3>
 The last linear trend is for employment-population ratio and the importance of minimum wage 
 coverage. We'll add a time trend along with mincov and usgnp.
-	use prminwge, clear
+
+{{32}}
+
 
 Set the Time Series
-	tsset year, yearly
+
+{{33}}
+
 
 Add linear trend
-	reg lprepop lmincov lusgnp t
+
+{{34}}
+
 
 The employment-population ratio does not have much of a downward or upward trend, 
 but usgnp does. Тhe linear trend of usgnp is about 3% per year, so an estimate
@@ -236,17 +299,24 @@ trend, employment-population ratio increases by about 1.06%
 <h3>Seasonality</h3>
 We'll add monthly variables to account for the fact that imports are not
 seasonlly adjusted. 
-	use barium.dta, clear
+
+{{35}}
+
 
 Set Time Series Monthly
-	tsset t, monthly
 
-	reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6 feb mar apr may ///
-        jun jul aug sep oct nov dec
+{{36}}
+
+
+
+{{37}}
+
 
 We compare all months to January as the base period, but let's test their
 joint significance.
-	test feb mar apr may jun jul aug sep oct nov dec
+
+{{38}}
+
 We find that they are jointly insignificant and seasonality does not seem
 to be an issue with barium chloride imports.
 
@@ -256,10 +326,14 @@ to be an issue with barium chloride imports.
 We'll test the a version of the efficient market hypothesis (EMH) by looking
 at weekly stock return from 1976 to 1989.
 
-	use nyse, clear
+
+{{39}}
+
 
 *Set Time Series
-	tsset t, weekly
+
+{{40}}
+
 
 Our dependent variable is the weekly percentage return on the New York Stock Exchange.
 A strict form of the EMH states that information observable to the market prior to 
@@ -270,21 +344,26 @@ We will test EMH by specifying an AR(1) model and our hypothesis states that
 beta for y_(t-1) will be equal to 0. We'll assume that stock returns are 
 serially uncorrelated, so we can safetly assume that they are weakly dependent
 
-	reg return l.return
+
+{{41}}
+
 Or
-	reg return return_1
-	predict u
-	reg u l.u, noconst
-	drop u
+
+{{42}}
+
 We cannot reject the null hypothesis under our model, but we do have some
 evidence of positive serial correlation.
 
 <h3>Expected Augmented Phillips Curve</h3>
 We'll revisit the Phillips curve
-	use phillips.dta, clear
+
+{{43}}
+
 
 Set Time Series
-	tsset year
+
+{{44}}
+
 
 A linear version of the expections augmented Phillips curve can be written as
 $$ inf_t - inf^e_t=\beta_1(unemp_t-\mu_0) + e_t $$
@@ -314,9 +393,13 @@ change in inflation to the level of unemployment and a supply shock e_t.
 We'll assume assumptions TSC.1-TSC.5 hold.
 
 First Difference in the dependent variable or adaptive expectations of inflation
-	reg cinf unem if year < 1997
+
+{{45}}
+
 or
-	reg d.inf unem if year < 1997
+
+{{46}}
+
 
 The trade-off between unanticipated inflation and cyclical unemployment is
 seen in beta-hat_1. A 1-point increase in unemployment decreases unanticipated
@@ -329,11 +412,15 @@ negative of beta-hat-1
 $$ \mu_{0} = \hat{\beta}_{0} / - \hat{\beta}_{1} $$
 
 
-	display 3.03/.5425
 
-	twoway line cinf year || line unem year, lpattern(dash) ///
-	legend(order(1 "Difference in Inflation" 2 "Unemployment Rate")) ///
-	title("Augmented Phillips Curve") ytitle(Percentage) xtitle(year)
+{{47}}
 
-	graph export "week_10_augmented_phillips.png", replace
+
+
+{{48}}
+
+
+
+{{49}}
+
 ![Line graph of inflation](week_10_augmented_phillips.png)
