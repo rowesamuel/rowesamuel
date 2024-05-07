@@ -262,8 +262,8 @@ Fertility
         time variable:  year, 1913 to 1984
                 delta:  1 unit
 </pre>
-<pre class='stata'>. twoway line gfr year, title("General Fertility Rate") ytitle("Children Born per 1,000 CBA Women") xt
-> itle("Year")
+<pre class='stata'>. twoway line gfr year, title("General Fertility Rate") ytitle("Children Born per 1,000 CBA Women") xtitle("Year"
+> )
 
 . graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_i1.png", replace
 (file /Users/Sam/Desktop/Econ 645/Stata/week_11_i1.png written in PNG format)
@@ -409,8 +409,7 @@ linear trend.</p>
 <p>We have some evidence for a unit root process, so we’ll use the
 first-difference to transform the I(1) process into a I(0) process.
 We’ll no longer need the time trend</p>
-<pre class='stata'>. twoway line lhrwage year, title("Natural Log of Hourly Wages") ytitle("Ln(Hourly Wage)") xtitle("Yea
-> r")
+<pre class='stata'>. twoway line lhrwage year, title("Natural Log of Hourly Wages") ytitle("Ln(Hourly Wage)") xtitle("Year")
 
 . graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage1.png", replace
 (file /Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage1.png written in PNG format)
@@ -419,8 +418,8 @@ We’ll no longer need the time trend</p>
 <img src="week_11_hrwage1.png" alt="Natural Log of Hourly Wages" />
 <figcaption aria-hidden="true">Natural Log of Hourly Wages</figcaption>
 </figure>
-<pre class='stata'>. twoway line d.lhrwage year, title("First-Difference in Ln(Hourly Wages)") ytitle("Delta Ln(Hourly Wa
-> ge)") xtitle("Year")
+<pre class='stata'>. twoway line d.lhrwage year, title("First-Difference in Ln(Hourly Wages)") ytitle("Delta Ln(Hourly Wage)") xtitl
+> e("Year")
 
 . graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage2.png", replace
 (file /Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage2.png written in PNG format)
@@ -734,34 +733,33 @@ the natural log of US GNP, and a time trend.</p>
        _cons │  -6.663432   1.257831    -5.30   0.000    -9.222508   -4.104356
 ─────────────┴────────────────────────────────────────────────────────────────
 
-. predict u
-(option xb assumed; fitted values)
+. predict u, resid
 </pre>
 <p>Test Serial Correlation with Durbin’s alternative statistic, which is
 valid when we don’t have strictly exogenous regressors.</p>
 <pre class='stata'>. reg u l.u lmincov lprgnp lusgnp t, noconst 
 
       Source │       SS           df       MS      Number of obs   =        37
-─────────────┼──────────────────────────────────   F(5, 32)        =  12756.00
-       Model │  33.4632759         5  6.69265517   Prob > F        =    0.0000
-    Residual │  .016789345        32  .000524667   R-squared       =    0.9995
-─────────────┼──────────────────────────────────   Adj R-squared   =    0.9994
-       Total │  33.4800652        37  .904866627   Root MSE        =    .02291
+─────────────┼──────────────────────────────────   F(5, 32)        =      1.92
+       Model │  .007182064         5  .001436413   Prob > F        =    0.1191
+    Residual │  .023990478        32  .000749702   R-squared       =    0.2304
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.1101
+       Total │  .031172542        37  .000842501   Root MSE        =    .02738
 
 ─────────────┬────────────────────────────────────────────────────────────────
            u │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
 ─────────────┼────────────────────────────────────────────────────────────────
            u │
-         L1. │   .5481261   .1172036     4.68   0.000     .3093902     .786862
+         L1. │   .4757945   .1653074     2.88   0.007     .1390742    .8125147
              │
-     lmincov │  -.1355922   .0302468    -4.48   0.000    -.1972029   -.0739814
-      lprgnp │   .2491056   .0716548     3.48   0.001     .1031496    .3950616
-      lusgnp │  -.3296839   .0835655    -3.95   0.000    -.4999013   -.1594665
-           t │   .0003947   .0015331     0.26   0.798     -.002728    .0035175
+     lmincov │    .041425   .0346345     1.20   0.240    -.0291232    .1119732
+      lprgnp │  -.0522061   .0615544    -0.85   0.403    -.1775883    .0731762
+      lusgnp │   .0606233   .0644769     0.94   0.354     -.070712    .1919585
+           t │  -.0005264   .0015194    -0.35   0.731    -.0036213    .0025685
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
 <p>We can see that we reject the null hypothesis, since our rho-hat is
-0.54 and statistically significant.</p>
+0.48 and statistically significant.</p>
 <h4>
 Test AR(3) serial correlation
 </h4>
@@ -800,33 +798,32 @@ order of serial correlation since we are using monthly data.</p>
        _cons │    -17.803   21.04537    -0.85   0.399    -59.45769    23.85169
 ─────────────┴────────────────────────────────────────────────────────────────
 
-. predict u
-(option xb assumed; fitted values)
+. predict u, resid
 </pre>
 <p>Test for p1=p2=p3=0 jointly with an F-test.</p>
 <pre class='stata'>. reg u l.u l2.u l3.u lchempi lgas lrtwex befile6 affile6 afdec6, noconst
 
       Source │       SS           df       MS      Number of obs   =       128
-─────────────┼──────────────────────────────────   F(9, 119)       >  99999.00
-       Model │  4924.95777         9   547.21753   Prob > F        =    0.0000
-    Residual │  .204036581       119  .001714593   R-squared       =    1.0000
-─────────────┼──────────────────────────────────   Adj R-squared   =    1.0000
-       Total │  4925.16181       128  38.4778266   Root MSE        =    .04141
+─────────────┼──────────────────────────────────   F(9, 119)       =      1.67
+       Model │   4.8836741         9  .542630456   Prob > F        =    0.1024
+    Residual │  38.5511192       119  .323958985   R-squared       =    0.1124
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.0453
+       Total │  43.4347933       128  .339334323   Root MSE        =    .56917
 
 ─────────────┬────────────────────────────────────────────────────────────────
            u │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
 ─────────────┼────────────────────────────────────────────────────────────────
            u │
-         L1. │   .2046297   .0581935     3.52   0.001     .0894008    .3198586
-         L2. │   .0173656   .0612302     0.28   0.777    -.1038762    .1386074
-         L3. │  -.0270816      .0432    -0.63   0.532    -.1126219    .0584586
+         L1. │    .215573   .0910635     2.37   0.020     .0352581    .3958878
+         L2. │   .1296804   .0917465     1.41   0.160    -.0519868    .3113477
+         L3. │   .1209405   .0906816     1.33   0.185    -.0586181    .3004992
              │
-     lchempi │   2.554554   .1263155    20.22   0.000     2.304437    2.804671
-        lgas │   -.454885   .0228347   -19.92   0.000    -.5000999   -.4096701
-      lrtwex │   .6762875   .0394623    17.14   0.000     .5981482    .7544267
-     befile6 │   .0654715   .0183767     3.56   0.001     .0290839    .1018591
-     affile6 │  -.0347708   .0184564    -1.88   0.062    -.0713164    .0017748
-      afdec6 │  -.4804058   .0270359   -17.77   0.000    -.5339396   -.4268719
+     lchempi │   -.105758   .4679356    -0.23   0.822    -1.032317    .8208012
+        lgas │   .0125667   .1187882     0.11   0.916    -.2226459    .2477792
+      lrtwex │   .0518992   .3452261     0.15   0.881     -.631683    .7354815
+     befile6 │  -.0730016    .249775    -0.29   0.771     -.567581    .4215779
+     affile6 │   -.122359   .2541453    -0.48   0.631    -.6255919     .380874
+      afdec6 │  -.0694522   .2737453    -0.25   0.800    -.6114953    .4725909
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
 <p>Our reject the null hypothesis that all of the lags are equal to zero
@@ -837,8 +834,8 @@ using an F-test.</p>
  ( 2)  L2.u = 0
  ( 3)  L3.u = 0
 
-       F(  3,   119) =    8.76
-            Prob > F =    0.0000
+       F(  3,   119) =    4.98
+            Prob > F =    0.0027
 </pre>
 <p>However, when we test our last two lags, they are jointly
 insignificant.</p>
@@ -847,8 +844,8 @@ insignificant.</p>
  ( 1)  L2.u = 0
  ( 2)  L3.u = 0
 
-       F(  2,   119) =    0.22
-            Prob > F =    0.8000
+       F(  2,   119) =    2.42
+            Prob > F =    0.0930
 
 . drop u
 </pre>
@@ -931,8 +928,7 @@ Prais-Winsten AR(1) regression -- iterated estimates
 Durbin-Watson statistic (original)    1.458414
 Durbin-Watson statistic (transformed) 2.087181
 
-. predict u
-(option xb assumed; fitted values)
+. predict u, resid
 </pre>
 <p>Our beta-hats in Prais-Winsten are similar to our OLS esimates, but
 our PW standard errors account for the serial correlation. Our OLS
@@ -976,25 +972,25 @@ estimator</p>
 <pre class='stata'>. reg u l.u lchnimp lchempi lgas lrtwex befile6 affile6 afdec6, noconst
 
       Source │       SS           df       MS      Number of obs   =       130
-─────────────┼──────────────────────────────────   F(8, 122)       =  98692.51
-       Model │  4984.53935         8  623.067419   Prob > F        =    0.0000
-    Residual │  .770212691       122  .006313219   R-squared       =    0.9998
-─────────────┼──────────────────────────────────   Adj R-squared   =    0.9998
-       Total │  4985.30957       130  38.3485351   Root MSE        =    .07946
+─────────────┼──────────────────────────────────   F(8, 122)       =    640.05
+       Model │  43.5543846         8  5.44429807   Prob > F        =    0.0000
+    Residual │  1.03773198       122     .008506   R-squared       =    0.9767
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.9752
+       Total │  44.5921166       130  .343016281   Root MSE        =    .09223
 
 ─────────────┬────────────────────────────────────────────────────────────────
            u │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
 ─────────────┼────────────────────────────────────────────────────────────────
            u │
-         L1. │   .4206513   .0603462     6.97   0.000       .30119    .5401125
+         L1. │   .0309497   .0144099     2.15   0.034     .0024239    .0594755
              │
-     lchnimp │   .0005278   .0120176     0.04   0.965    -.0232622    .0243177
-     lchempi │   1.767005    .192394     9.18   0.000     1.386142    2.147868
-        lgas │  -.3127637   .0351572    -8.90   0.000    -.3823608   -.2431666
-      lrtwex │   .4897487   .0665407     7.36   0.000     .3580248    .6214726
-     befile6 │   .0242233   .0347208     0.70   0.487      -.04451    .0929567
-     affile6 │  -.0363806   .0351638    -1.03   0.303    -.1059909    .0332296
-      afdec6 │   -.396944   .0470439    -8.44   0.000     -.490072    -.303816
+     lchnimp │   .9801231   .0143516    68.29   0.000     .9517128    1.008534
+     lchempi │   -2.98055   .0866866   -34.38   0.000    -3.152155   -2.808945
+        lgas │    .520767   .0203221    25.63   0.000     .4805374    .5609966
+      lrtwex │  -.7946765   .0568229   -13.99   0.000    -.9071631   -.6821898
+     befile6 │  -.0135381    .040266    -0.34   0.737    -.0932487    .0661725
+     affile6 │   .0355207   .0409758     0.87   0.388     -.045595    .1166365
+      afdec6 │   .5743468   .0450573    12.75   0.000     .4851514    .6635422
 ─────────────┴────────────────────────────────────────────────────────────────
 
 . drop u
@@ -1199,23 +1195,22 @@ Durbin-Watson d-statistic(  3,    56) =  .7161527
 </pre>
 <p>Critical values d(3,56)=.716, at the 5% level dL = 1.452 dU=1.681
 dwstat &lt; dL so we reject the null hypothesis</p>
-<pre class='stata'>. predict u
-(option xb assumed; fitted values)
+<pre class='stata'>. predict u, resid
 
 . reg u l.u, noconst
 
       Source │       SS           df       MS      Number of obs   =        55
-─────────────┼──────────────────────────────────   F(1, 54)        =   1187.00
-       Model │  1533.40835         1  1533.40835   Prob > F        =    0.0000
-    Residual │  69.7592587        54  1.29183812   R-squared       =    0.9565
-─────────────┼──────────────────────────────────   Adj R-squared   =    0.9557
-       Total │  1603.16761        55  29.1485021   Root MSE        =    1.1366
+─────────────┼──────────────────────────────────   F(1, 54)        =     32.83
+       Model │  64.1034163         1  64.1034163   Prob > F        =    0.0000
+    Residual │  105.448636        54  1.95275252   R-squared       =    0.3781
+─────────────┼──────────────────────────────────   Adj R-squared   =    0.3666
+       Total │  169.552053        55  3.08276459   Root MSE        =    1.3974
 
 ─────────────┬────────────────────────────────────────────────────────────────
            u │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
 ─────────────┼────────────────────────────────────────────────────────────────
            u │
-         L1. │   .9796537   .0284346    34.45   0.000     .9226457    1.036662
+         L1. │   .6228816   .1087148     5.73   0.000     .4049216    .8408415
 ─────────────┴────────────────────────────────────────────────────────────────
 
 . drop u
@@ -1251,24 +1246,23 @@ Durbin-Watson d-statistic(  3,    55) =  1.796365
 </pre>
 <p>Critical values d(3,56)=1.796, at the 5% level dL = 1.452 dU=1.681
 dwstat &gt; dU so we fail to reject the null hypothesis</p>
-<pre class='stata'>. predict u
-(option xb assumed; fitted values)
+<pre class='stata'>. predict u, resid
 (1 missing value generated)
 
 . reg u l.u, noconst
 
       Source │       SS           df       MS      Number of obs   =        54
-─────────────┼──────────────────────────────────   F(1, 53)        =      0.15
-       Model │  .038248465         1  .038248465   Prob > F        =    0.6963
-    Residual │   13.161133        53  .248323264   R-squared       =    0.0029
-─────────────┼──────────────────────────────────   Adj R-squared   =   -0.0159
-       Total │  13.1993815        54   .24443299   Root MSE        =    .49832
+─────────────┼──────────────────────────────────   F(1, 53)        =      0.29
+       Model │  .427058269         1  .427058269   Prob > F        =    0.5921
+    Residual │  77.8807184        53  1.46944752   R-squared       =    0.0055
+─────────────┼──────────────────────────────────   Adj R-squared   =   -0.0133
+       Total │  78.3077766        54  1.45014401   Root MSE        =    1.2122
 
 ─────────────┬────────────────────────────────────────────────────────────────
            u │      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
 ─────────────┼────────────────────────────────────────────────────────────────
            u │
-         L1. │  -.0463986   .1182243    -0.39   0.696    -.2835265    .1907293
+         L1. │   .0717246    .133046     0.54   0.592    -.1951318    .3385811
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
 <p>The serial correlation is no longer a problem with our first
@@ -1879,8 +1873,8 @@ Model 2 with lagged unemployment and lagged inflation has lower RMSE and MAE.
 </pre>
 <p>Forecasting Line</p>
 <pre class='stata'>. twoway line unem year || line st_unem year, lpattern(dash) || line st2_unem year, lpattern(dot) ///
-> title("Forecast of Unemployment") xtitle("Year") subtitle("One-Step-Ahead") ytitle("Unemployment Rat
-> e") xline(1996) ///
+> title("Forecast of Unemployment") xtitle("Year") subtitle("One-Step-Ahead") ytitle("Unemployment Rate") xline(1
+> 996) ///
 > legend(order(1 "Actual" 2 "Model 1" 3 "Model 2"))
 
 . graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_forecast.png", replace

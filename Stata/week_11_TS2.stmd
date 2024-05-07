@@ -174,13 +174,13 @@ We'll rerun our static model and regress the natural log of the employment-popul
 ratio onto the natural log of the importance of minimum wage, the natural log
 of Puerto Rican Gross National Product, the natural log of US GNP, and a time trend.
 	reg lprepop lmincov lprgnp lusgnp t if year < 1988
-	predict u
+	predict u, resid
 
 Test Serial Correlation with Durbin's alternative statistic, which is valid when 
 we don't have strictly exogenous regressors.
 	reg u l.u lmincov lprgnp lusgnp t, noconst 
 
-We can see that we reject the null hypothesis, since our rho-hat is 0.54 and
+We can see that we reject the null hypothesis, since our rho-hat is 0.48 and
 statistically significant.
 
 <h4>Test AR(3) serial correlation</h4>
@@ -195,7 +195,7 @@ behavior of foreign exporters. We may have higher order of serial correlation
 since we are using monthly data.
 
 	reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
-	predict u
+	predict u, resid
 
 Test for p1=p2=p3=0 jointly with an F-test.
 	reg u l.u l2.u l3.u lchempi lgas lrtwex befile6 affile6 afdec6, noconst
@@ -219,7 +219,7 @@ OLS
 	eststo OLS: reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
 Prais-Winsten
 	eststo Prais: prais lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
-	predict u
+	predict u, resid
 
 
 Our beta-hats in Prais-Winsten are similar to our OLS esimates, but our PW
@@ -285,7 +285,7 @@ Get Durban-Watson Statistic
 Critical values d(3,56)=.716, at the 5% level dL = 1.452 dU=1.681
 dwstat < dL so we reject the null hypothesis
 
-	predict u
+	predict u, resid
 	reg u l.u, noconst
 	drop u
 
@@ -297,7 +297,7 @@ First differencing
 	dwstat
 Critical values d(3,56)=1.796, at the 5% level dL = 1.452 dU=1.681
 dwstat > dU so we fail to reject the null hypothesis
-	predict u
+	predict u, resid
 	reg u l.u, noconst
 
 The serial correlation is no longer a problem with our first difference model, 
