@@ -248,6 +248,8 @@ the program.
 rates. What is the effect of job training on reducing the scrap rate for
 firm_i during time period t in terms of number of items scraped per 100
 due to defects?</p>
+<p><span
+class="math display"><em>s</em><em>c</em><em>r</em><em>a</em><em>p</em><sub><em>i</em><em>t</em></sub> = <em>β</em><sub>0</sub> + <em>δ</em><em>p</em><em>r</em><em>o</em><em>g</em><em>r</em><em>a</em><em>m</em><sub><em>i</em><em>t</em></sub> + <em>a</em><sub><em>i</em></sub> + <em>u</em><sub><em>i</em><em>t</em></sub></span></p>
 <p>Set the Panel</p>
 <pre class='stata'>. sort fcode year
 
@@ -388,6 +390,10 @@ Lesson: The 2-by-2 Difference-in-Difference estimator is simple to
 implement when we have our data set up correctly. We can use a
 sensitivity test to see if our results are robust.
 </h4>
+<p>
+<span
+class="math display"><em>r</em><em>p</em><em>r</em><em>i</em><em>c</em><em>e</em><sub><em>i</em><em>t</em></sub> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>n</em><em>e</em><em>a</em><em>r</em><em>i</em><em>n</em><em>c</em><sub><em>i</em><em>t</em></sub> + <em>β</em><sub>2</sub><em>y</em>81<sub><em>t</em></sub> + <em>δ</em><em>n</em><em>e</em><em>a</em><em>r</em><em>i</em><em>n</em><em>c</em> * <em>y</em>81<sub><em>i</em><em>t</em></sub> + <em>u</em><sub><em>i</em><em>t</em></sub></span>
+</p>
 <pre class='stata'>. use "kielmc.dta", clear
 </pre>
 <p>Kiel and McClain (1995) studied the effects of garbage incinerator’s
@@ -529,8 +535,8 @@ properly</p>
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
 <p>Our model ranges from a reduction of -11.9K to -21.9K</p>
-<pre class='stata'>. esttab m1 m2 m3, keep(1.y81 1.nearinc 1.nearinc#1.y81 age agesq intst land area rooms bath
-> s)
+<pre class='stata'>. esttab m1 m2 m3, keep(1.y81 1.nearinc 1.nearinc#1.y81 age agesq intst land area rooms b
+> aths)
 
 ────────────────────────────────────────────────────────────
                       (1)             (2)             (3)   
@@ -654,8 +660,8 @@ t statistics in parentheses
 </pre>
 <p>Our model ranges from a reduction housing prices between 6.1% and
 16.9%</p>
-<pre class='stata'>. esttab m1 m2 m3, keep(1.y81 1.nearinc 1.nearinc#1.y81 age agesq intst land area rooms bath
-> s)
+<pre class='stata'>. esttab m1 m2 m3, keep(1.y81 1.nearinc 1.nearinc#1.y81 age agesq intst land area rooms b
+> aths)
 
 ────────────────────────────────────────────────────────────
                       (1)             (2)             (3)   
@@ -697,8 +703,8 @@ t statistics in parentheses
 * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
 </pre>
 <p>Plot our results</p>
-<pre class='stata'>. coefplot (mod1, label(Model 1)) (mod2, label(Model2)) (mod3, label(Model 3)), keep(1.neari
-> nc#1.y81) xline(0) title("Diff-in-Diff Results")
+<pre class='stata'>. coefplot (mod1, label(Model 1)) (mod2, label(Model2)) (mod3, label(Model 3)), keep(1.ne
+> arinc#1.y81) xline(0) title("Diff-in-Diff Results")
 
 . graph export "/Users/Sam/Desktop/Econ 645/Stata/week5_housing.png", replace
 (file /Users/Sam/Desktop/Econ 645/Stata/week5_housing.png written in PNG format)
@@ -1109,9 +1115,9 @@ values of the generated variable are different</p>
 same variables)</p>
 <pre class='stata'>. dir br*.dta
 
--rw-r--r--  1 Sam  staff  2604 Aug 15 08:55 br_clarence.dta
--rw-r--r--  1 Sam  staff  2553 Aug 15 08:55 br_isaac.dta
--rw-r--r--  1 Sam  staff  2583 Aug 15 08:55 br_sally.dta
+-rw-r--r--  1 Sam  staff  2604 Aug 15  2023 br_clarence.dta
+-rw-r--r--  1 Sam  staff  2553 Aug 15  2023 br_isaac.dta
+-rw-r--r--  1 Sam  staff  2583 Aug 15  2023 br_sally.dta
 </pre>
 <pre class='stata'>. use "br_clarence.dta", clear
 
@@ -1282,16 +1288,16 @@ Contains data from momslab.dta
   obs:             8                          
  vars:             5                          27 Dec 2009 21:47
  size:           136                          
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
 famid           float   %5.0g                 Family ID
 age             float   %5.0g                 Mom's Age
 race            float   %9.0g      eth        Mom's Ethnicity
 hs              float   %15.0g     grad       Is Mom a HS Graduate?
 datascreen      byte    %8.0g                 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
      Note: Dataset has changed since last saved.
 </pre>
@@ -1326,18 +1332,18 @@ file dadslab1.dta saved
 
 Contains data from momslab1.dta
   obs:             8                          
- vars:             5                          25 Sep 2023 14:22
+ vars:             5                          24 Sep 2024 19:52
  size:           136                          
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
               storage   display    value
 variable name   type    format     label      variable label
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
 famid           float   %5.0g                 Family ID
 age             float   %5.0g                 Age
 race            float   %9.0g      eth        Race/Ethnicity
 hs              float   %15.0g     grad       High School Degree
 datascreen      byte    %8.0g                 
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
 Sorted by: 
      Note: Dataset has changed since last saved.
 </pre>
@@ -1361,9 +1367,9 @@ value label name and value labels’ values.</p>
 
 . codebook race hs
 
-────────────────────────────────────────────────────────────────────────────────────────────
-race                                                                         Mom's Ethnicity
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
+race                                                                      Mom's Ethnicity
+─────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  eth
@@ -1375,9 +1381,9 @@ race                                                                         Mom
                              2         1  Mom White
                              2         2  Mom Black
 
-────────────────────────────────────────────────────────────────────────────────────────────
-hs                                                                     Is Mom a HS Graduate?
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
+hs                                                                  Is Mom a HS Graduate?
+─────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  grad
@@ -1393,9 +1399,9 @@ hs                                                                     Is Mom a 
 
 . codebook race hs
 
-────────────────────────────────────────────────────────────────────────────────────────────
-race                                                                         Dad's Ethnicity
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
+race                                                                      Dad's Ethnicity
+─────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  eth
@@ -1407,9 +1413,9 @@ race                                                                         Dad
                              2         1  Dad White
                              2         2  Dad Black
 
-────────────────────────────────────────────────────────────────────────────────────────────
-hs                                                                     Is Dad a HS Graduate?
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
+hs                                                                  Is Dad a HS Graduate?
+─────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  hsgrad
@@ -1425,9 +1431,9 @@ hs                                                                     Is Dad a 
 
 . codebook race hs
 
-────────────────────────────────────────────────────────────────────────────────────────────
-race                                                                          Race/Ethnicity
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
+race                                                                       Race/Ethnicity
+─────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  eth
@@ -1439,9 +1445,9 @@ race                                                                          Ra
                              4         1  Mom White
                              4         2  Mom Black
 
-────────────────────────────────────────────────────────────────────────────────────────────
-hs                                                                        High School Degree
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
+hs                                                                     High School Degree
+─────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (float)
                  label:  grad
@@ -1540,8 +1546,8 @@ measurement error.</p>
 
 . append using "dadstr.dta", generate(datascreen)
 variable hs is float in master but str3 in using data
-    You could specify append's force option to ignore this numeric/string mismatch.  The
-    using variable would then be treated as if it contained numeric missing value.
+    You could specify append's force option to ignore this numeric/string mismatch.
+    The using variable would then be treated as if it contained numeric missing value.
 </pre>
 <h5>
 Solution:
@@ -1738,9 +1744,9 @@ master, only using). We can tabulate the _merge variable that is
 created</p>
 <pre class='stata'>. codebook _merge
 
-────────────────────────────────────────────────────────────────────────────────────────────
-_merge                                                                           (unlabeled)
-────────────────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────────────────
+_merge                                                                        (unlabeled)
+─────────────────────────────────────────────────────────────────────────────────────────
 
                   type:  numeric (byte)
                  label:  _merge
@@ -1820,12 +1826,21 @@ concerned with unmatched observations, then we can keep only when _merge
 
 . list
 
-     ┌─────────────────────────────────────────────────────────────────────────────────────┐
-     │ famid   mage   mrace   mhs   fr_moms2   dage   drace   dhs   fr_dads2        _merge │
-     ├─────────────────────────────────────────────────────────────────────────────────────┤
-  1. │     1     33       2     1          1     21       1     0          1   matched (3) │
-  2. │     4     21       1     0          1     25       2     1          1   matched (3) │
-     └─────────────────────────────────────────────────────────────────────────────────────┘
+     ┌───────┬──────┬───────┬─────┬──────────┬──────┬───────┬─────┬──────────┐
+  1. │ famid │ mage │ mrace │ mhs │ fr_moms2 │ dage │ drace │ dhs │ fr_dads2 │
+     │     1 │   33 │     2 │   1 │        1 │   21 │     1 │   0 │        1 │
+     ├───────┴──────┴───────┴─────┴──────────┴──────┴───────┴─────┴──────────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────────┬──────┬───────┬─────┬──────────┐
+  2. │ famid │ mage │ mrace │ mhs │ fr_moms2 │ dage │ drace │ dhs │ fr_dads2 │
+     │     4 │   21 │     1 │   0 │        1 │   25 │     2 │   1 │        1 │
+     ├───────┴──────┴───────┴─────┴──────────┴──────┴───────┴─────┴──────────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
 </pre>
 <h4>
 Potential Problem with 1-to-1 matching: duplicate ids
@@ -1994,8 +2009,8 @@ family it is the m of 1:m.</p>
   5. │     2     28       1     1       1      8      0   matched (3) │
      ├────────────────────────────────────────────────────────────────┤
   6. │     3     24       2     1       2      7      0   matched (3) │
-  7. │     4     21       1     0       1      1      0   matched (3) │
-  8. │     4     21       1     0       2      3      0   matched (3) │
+  7. │     4     21       1     0       2      3      0   matched (3) │
+  8. │     4     21       1     0       1      1      0   matched (3) │
      └────────────────────────────────────────────────────────────────┘
 </pre>
 <p>If we were using kids as the master</p>
@@ -2022,8 +2037,8 @@ family it is the m of 1:m.</p>
   4. │     3       1      4      1     24       2     1   matched (3) │
   5. │     3       2      7      0     24       2     1   matched (3) │
      ├────────────────────────────────────────────────────────────────┤
-  6. │     4       3      7      0     21       1     0   matched (3) │
-  7. │     4       1      1      0     21       1     0   matched (3) │
+  6. │     4       1      1      0     21       1     0   matched (3) │
+  7. │     4       3      7      0     21       1     0   matched (3) │
   8. │     4       2      3      0     21       1     0   matched (3) │
      └────────────────────────────────────────────────────────────────┘
 </pre>
@@ -2724,11 +2739,11 @@ need it, but it shouldn’t be your default go to for merge</p>
   2. │     1     33       2     1      .       .     . │
   3. │     2      .       .     .     25       1     1 │
   4. │     2     28       1     1      .       .     . │
-  5. │     3      .       .     .     31       2     1 │
+  5. │     3     24       2     1      .       .     . │
      ├─────────────────────────────────────────────────┤
-  6. │     3     24       2     1      .       .     . │
-  7. │     4     21       1     0      .       .     . │
-  8. │     4      .       .     .     25       2     1 │
+  6. │     3      .       .     .     31       2     1 │
+  7. │     4      .       .     .     25       2     1 │
+  8. │     4     21       1     0      .       .     . │
      └─────────────────────────────────────────────────┘
 </pre>
 <p>An example of a problem with m:m merging. We now have multiple famid
@@ -2745,20 +2760,77 @@ kids</p>
 
 . list
 
-     ┌─────────────────────────────────────────────────────────────────────────────────────┐
-     │ famid   mage   mrace   mhs   dage   drace   dhs   kidid   kage   kfem        _merge │
-     ├─────────────────────────────────────────────────────────────────────────────────────┤
-  1. │     1      .       .     .     21       1     0       1      3      1   matched (3) │
-  2. │     1     33       2     1      .       .     .       1      3      1   matched (3) │
-  3. │     2      .       .     .     25       1     1       1      8      0   matched (3) │
-  4. │     2     28       1     1      .       .     .       2      3      1   matched (3) │
-  5. │     3      .       .     .     31       2     1       2      7      0   matched (3) │
-     ├─────────────────────────────────────────────────────────────────────────────────────┤
-  6. │     3     24       2     1      .       .     .       1      4      1   matched (3) │
-  7. │     4     21       1     0      .       .     .       3      7      0   matched (3) │
-  8. │     4      .       .     .     25       2     1       2      3      0   matched (3) │
-  9. │     4      .       .     .     25       2     1       1      1      0   matched (3) │
-     └─────────────────────────────────────────────────────────────────────────────────────┘
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  1. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     1 │    . │     . │   . │   21 │     1 │   0 │     1 │    3 │    1 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  2. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     1 │   33 │     2 │   1 │    . │     . │   . │     1 │    3 │    1 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  3. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     2 │    . │     . │   . │   25 │     1 │   1 │     2 │    3 │    1 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  4. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     2 │   28 │     1 │   1 │    . │     . │   . │     1 │    8 │    0 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  5. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     3 │   24 │     2 │   1 │    . │     . │   . │     2 │    7 │    0 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  6. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     3 │    . │     . │   . │   31 │     2 │   1 │     1 │    4 │    1 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  7. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     4 │    . │     . │   . │   25 │     2 │   1 │     3 │    7 │    0 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  8. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     4 │   21 │     1 │   0 │    . │     . │   . │     2 │    3 │    0 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
+
+     ┌───────┬──────┬───────┬─────┬──────┬───────┬─────┬───────┬──────┬──────┐
+  9. │ famid │ mage │ mrace │ mhs │ dage │ drace │ dhs │ kidid │ kage │ kfem │
+     │     4 │   21 │     1 │   0 │    . │     . │   . │     1 │    1 │    0 │
+     ├───────┴──────┴───────┴─────┴──────┴───────┴─────┴───────┴──────┴──────┤
+     │                                   _merge                              │
+     │                              matched (3)                              │
+     └───────────────────────────────────────────────────────────────────────┘
 </pre>
 <p>We need to be careful, and observe our data for problems. We have a
 duplicative kidid since famid==1 only has one kid We have a duplicative
@@ -2826,8 +2898,8 @@ multiple kids.</p>
      ┌──────────────────────────────────┐
      │ famid   mom   age   race   pname │
      ├──────────────────────────────────┤
-  1. │     1     0    21      1     Sam │
-  2. │     1     1    33      2     Lil │
+  1. │     1     1    33      2     Lil │
+  2. │     1     0    21      1     Sam │
   3. │     2     1    28      1     Ula │
   4. │     2     0    25      1     Nik │
   5. │     3     1    24      2     Ann │
@@ -2934,24 +3006,24 @@ permutations, but I have never personally used this.</p>
      ┌─────────────────────────────────────────────────┐
      │ famid   mage   mrace   mhs   dage   drace   dhs │
      ├─────────────────────────────────────────────────┤
-  1. │     1     33       2     1     21       1     0 │
-  2. │     1     33       2     1     25       2     1 │
-  3. │     1     33       2     1     31       2     1 │
-  4. │     1     33       2     1     25       1     1 │
+  1. │     1     33       2     1     31       2     1 │
+  2. │     1     33       2     1     25       1     1 │
+  3. │     1     33       2     1     21       1     0 │
+  4. │     1     33       2     1     25       2     1 │
      ├─────────────────────────────────────────────────┤
-  5. │     2     28       1     1     25       2     1 │
-  6. │     2     28       1     1     25       1     1 │
-  7. │     2     28       1     1     31       2     1 │
-  8. │     2     28       1     1     21       1     0 │
+  5. │     2     28       1     1     21       1     0 │
+  6. │     2     28       1     1     31       2     1 │
+  7. │     2     28       1     1     25       2     1 │
+  8. │     2     28       1     1     25       1     1 │
      ├─────────────────────────────────────────────────┤
-  9. │     3     24       2     1     25       1     1 │
- 10. │     3     24       2     1     21       1     0 │
+  9. │     3     24       2     1     21       1     0 │
+ 10. │     3     24       2     1     25       1     1 │
  11. │     3     24       2     1     25       2     1 │
  12. │     3     24       2     1     31       2     1 │
      ├─────────────────────────────────────────────────┤
- 13. │     4     21       1     0     21       1     0 │
- 14. │     4     21       1     0     25       1     1 │
- 15. │     4     21       1     0     31       2     1 │
+ 13. │     4     21       1     0     25       1     1 │
+ 14. │     4     21       1     0     31       2     1 │
+ 15. │     4     21       1     0     21       1     0 │
  16. │     4     21       1     0     25       2     1 │
      └─────────────────────────────────────────────────┘
 </pre>
