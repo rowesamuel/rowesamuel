@@ -31,13 +31,13 @@ experience-squared, age, kids less than 6, kids greater than 6
 	est clear
 LPM
 	quietly reg inlf nwifeinc educ exper expersq age kidslt6 kidsge6
-	eststo LPM: margins, dydx(*)
+	eststo LPM: margins, dydx(*) post 
 Logit
 	quietly logit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
-	eststo Logit: margins, dydx(*)
+	eststo Logit: margins, dydx(*) post
 Probit
 	quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
-	eststo Probit: margins, dydx(*)
+	eststo Probit: margins, dydx(*) post
 
 	esttab LPM Logit Probit, mtitle 
 
@@ -45,13 +45,13 @@ Probit
 	est clear
 LPM
 	quietly reg inlf nwifeinc educ exper expersq age kidslt6 kidsge6
-	eststo LPM: margins, dydx(*) atmeans
+	eststo LPM: margins, dydx(*) atmeans post
 Logit
 	quietly logit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
-	eststo Logit: margins, dydx(*) atmeans
+	eststo Logit: margins, dydx(*) atmeans post
 Probit
 	quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
-	eststo Probit: margins, dydx(*) atmeans
+	eststo Probit: margins, dydx(*) atmeans post
 
 Compare
 	esttab LPM Logit Probit, mtitle 
@@ -100,8 +100,117 @@ Probit
 	quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 	margins, dydx(kidslt6) at(educ=(0(2)20))
 	marginsplot, yline(0)
-	
 
+<h3>Multinominal Logit</h3>
+
+
+	use "/Users/Sam/Desktop/Econ 645/Data/CPS/mlogit_example.dta", clear
+<p>Our multinominal logit model<p>
+<h3>Lesson: Interpreting a nominal categorical dependent variable</h3>
+<p>We will use Current Population Survey Data from September 2023 and 2024 to 
+estimate the following model for labor force participation:
+$$ lfs_{i}=\beta_{0}+\beta_1 edu_{i} + \beta_2 exper_i + ... + u_i $$.
+There are three alternatives: Employed, Unemployed, and Not in the Labor Force.</p>
+	mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital i.hryear4
+
+<p>Next, we need to test our Independence of Irrelevant Alternatives (IIA) assumption with a Hausman Test.</p>
+<p>Estimate an Unrestricted model - We'll remove unemployed</p>
+	quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital i.hryear4
+	estimates store unrestricted
+
+<p>Estimate a Restricted Model to test Independence of Irrelevant Alternatives assumption</p>
+	quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital if laborforce !=2
+	estimate store restricted
+
+<p>Use hausman command</p>
+	hausman restricted unrestricted, alleqs constant
+<p>Our chi-squared is 8.92, which means with reject the IIA assumption. We should consider a binary response here.</p>
+
+<h3>Predicted Probabilities</h3>
+<p>Next, we use Stata to estimate predicted probabilities</p>
+	quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital, base(1)
+	margins, atmeans predict(outcome(1))
+	margins, atmeans predict(outcome(2))
+	margins, atmeans predict(outcome(3))
+
+<h3>Average Marginal Effects</h3>
+	margins, dydx(*) predict(outcome(1))
+	margins, dydx(*) predict(outcome(2))
+	margins, dydx(*) predict(outcome(3))
+
+<h3>Marginal Effects at the Average</h3>
+	margins, dydx(*) atmeans predict(outcome(1))
+	margins, dydx(*) atmeans predict(outcome(2))
+	margins, dydx(*) atmeans predict(outcome(3))
+
+<h3>Change the Base Alternative</h3>
+<p>We can also change the base or reference alternative with the base() option</p>
+mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital, base(3)
+
+<h3>Marginal Effects and Marginsplot</h3>
+<p>Next, we will estimate and graph the average marginal effects for education and experience</p>
+	quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital, base(1)
+<h4>Education</h4>
+<h5>For Employed</h5>
+	margins, dydx(educat) predict(outcome(1))
+	marginsplot, allsimplelabels horizontal recast(scatter) name(Employed) yscale(reverse) ytitle("Effect on Pr(Employed)") ///
+	xtitle("Average Marginal Effects") xline(0) xlabel(-.3(.05).3)
+<h5>For Unemployed</h5>
+	margins, dydx(educat) predict(outcome(2))
+	marginsplot, allsimplelabels horizontal recast(scatter) name(Unemployed) yscale(reverse) ytitle("Effect on Pr(Unemployed)") ///
+	xtitle("Average Marginal Effects") xline(0) xlabel(-.3(.05).3)
+<h5>For Not in the Labor Force</h5>
+	margins, dydx(educat) predict(outcome(3))
+	marginsplot, allsimplelabels horizontal recast(scatter) name(NILF) yscale(reverse) ytitle("Effect on Pr(NILF)") ///
+	xtitle("Average Marginal Effects") xline(0) xlabel(-.3(.05).3)
+<p>Combine graphs</p>
+	graph combine Employed Unemployed NILF, ycommon title("AME of Education") ///
+	note("Source: Current Population Survey; 2 is HSD, 3 is Some College, 4 is AA, 5 is BA/BS, and 6 is Graduate Degree")
+	graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_mnlmeducation.png", replace
+![Marginal Effects of Education](week8_mnlmeducation.png)
+
+	graph drop Employed Unemployed NILF
+<h4>Potential Experience</h4>
+<h5>For Employed</h5>
+	margins, dydx(exp) at(exp=(0(2)60)) predict(outcome(1)) 
+	marginsplot, allsimplelabels name(Employed) ytitle("Effect on Pr(Employed)") xtitle("Average Marginal Effects")
+<h5>For Not in the Labor Force</h5>
+	margins, dydx(exp) at(exp=(0(2)60)) predict(outcome(3))
+<p>Combine Graphs</p>
+	marginsplot, allsimplelabels name(NILF) ytitle("Effect on Pr(NILF)") xtitle("Average Marginal Effects")
+	graph combine Employed NILF, ycommon title("AME of Potential Experience") 
+	graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_mnlmexp.png", replace
+
+![Marginal Effects of Potential Experience](week8_mnlmexp.png)
+	graph drop Employed NILF
+
+<h3>We can use coefplot with margins with eststo</h3>
+	est clear
+	eststo mnlm: quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital
+<p>Estimate the average marginal effects. Please note the post option when storing margin results</p>
+	eststo Employed: quietly margins, dydx(educat) predict(outcome(1)) post
+	estimates restore mnlm
+	eststo Unemployed: quietly margins, dydx(educat) predict(outcome(2)) post
+	estimates restore mnlm
+	eststo NILF: quietly margins, dydx(educat) predict(outcome(3)) post 
+<p>Use coefplot
+	coefplot Employed Unemployed NILF, ///
+	recast(bar) barw(0.15) vertical ///
+	ciopts(recast(rcap) color(gs8)) citop ///
+	xlab(1 "High School" 2 "Some College" 3 "Associates" 4 "Bachelor" 5 "Graduate") ///
+	ytitle("Average Marginal Effect") ///
+	xtitle("High Level of Education Attained") ///
+	title("MNLM: Probability of Labor Force Status", size(*0.7))	///
+	subtitle("By Education Relative to High School Dropout")	///
+	caption("Source: Current Population Survey", size(*0.75)) ///
+	name(coefplot3)
+	graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_mnlmcoefplot.png", replace
+![Using coefplot instead of marginsplot](week8_mnlmcoefplot.png)
+	graph drop coefplot3
+
+
+<h3>Tobit Estimator</h3>
+<p>We'll look at hours of labor being supplied.</p>
 <h3>Married Women's Annual Labor Supply</h3>
 
 <b>Lesson:</b> 1) Tobit and OLS have the same sign; 2) Tobit and OLS magnitudes are
