@@ -1,0 +1,322 @@
+---
+title: "Week 9: Limited Dependent Variables Part 2"
+author: "Samuel Rowe"
+date: "10/19/2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(Statamarkdown)
+```
+# Poisson, Negative Binominal Regression, Censored, Truncated, and Sample Selection
+**Source: Wooldridge (2014), Long and Freese (2005)**
+
+### Poisson Regression
+
+**Lesson: We should use a count model when we have a Poisson distribution for the outcome of interest.**
+
+Our coefficients are expected log counts so we need to transform our coefficients for interpretation.</h5>
+
+We want to look at arrest data to see the number of times a man was arrested in 1986. There are 1,970 zeros out of 2,725 men in the sample and only eight observations are greater than 5. An OLS will not account for a count model
+but a Poisson distribution will.
+
+1. narr86 - the number of times arrested in 1986 
+2. pcnv - proportion of prior arrest that lead to a conviction
+3. avgsen - the average sentence served from prior convictions (in months)
+4. tottime - months spent in prison since age 18 prior to 1986
+5. ptime86 - months spent in prison in 1986
+6. qemp86 - number of quarters that the person was legally employed in 1986
+7. inc86 - income in 1986
+8. Hispanic - Hispanic/Latino binary
+9. Black - Black binary
+10. ptime86 - months in prison during 1986
+
+$$ narr86_{i} = \beta_{0} + \beta_{1} pcnv_{i} + \beta_{2} avgsen_{i} + \beta_{3} tottime_{i} + \beta_{4} ptime86_{i} + \beta_{5} qemp86_{i} + \beta_{6} inc86_{i} + \beta_{7} black_{i} + \beta_{8} hispan_{i} + \beta_{9} born60_{i} + u_{i} $$
+
+#### OLS
+
+```{stata ols_narr86}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+reg narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+```
+
+#### Poisson
+Our coefficients are the change in expected log counts
+```{stata poisson_narr86}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+poisson narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+```
+**Test the Key assumption**
+
+We need to test $$ E(y|x)=Var(y|x) $$
+```{stata test1, eval=FALSE}
+	estat gof
+```
+```{stata test2, echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+quietly poisson narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+estat gof
+```
+### Factor Change Interpretation
+Pcnv is the percentage point change. If \(\Delta x=0.1\), then the percentage point change is 10%. If \(\Delta x=.01\), then the percentage points change is 1%. 
+Delta pcnv = .1 so 
+```{stata factor_change_pcnv}
+display (exp(-.402*.01)-1)*100
+```
+A 1 percentage point increase in prior arrest decreases **expected** number of arrests by 0.4%
+A discrete change in a binary - the coefficient on Black
+```{stata factor_change_blk}
+display (exp(0.6608)-1)*100 
+```
+
+This means that the number of expected number arrests for a Black person is 93.7% higher than the expected number of arrests for a White person.
+
+We can use the command listcoef as well, where \(e^\beta\) or \((e^\beta-1)*100\) depending upon the option called *percent*.
+
+```{stata, eval=FALSE}
+scc install listcoef
+listcoef, help
+listcoef, percent help
+```
+```{stata listcoef_poisson, echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+quietly poisson narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+listcoef, help
+listcoef, percent help
+```
+### Marginal Effects
+
+**Average Marginal Effects**
+
+```{stata poison_margins}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+quietly poisson narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+margins, dydx(*)
+```
+
+**Interpretation:** The marginal change in a continuous variable depends on the expected value of y given x, so we have to specify x with atmeans or average marginal effects
+
+**Note:** be careful with the change in percentage points for pcnv, we want a 1 percentage point or 10 percentage point change not a change of 1.
+
+### Negative Binomial Regression Model
+
+**Lesson: When overdispersion occurs, we could estimate a Negative Binomial Regression model. We'll see that our standard errors might be too large if our main Poisson assumption mean=variance fails.**
+
+```{stata nbrm}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+nbreg narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+```
+
+First, our coefficients are the change in expected log counts, so we need some transformations
+to provide interpretations. 
+Second, our test for over dispersion can be seen at the bottom of our NBRM output
+with the LR test of alpha=0
+
+We can use listcoef in ssc to for a different interpretation with listcoef command:
+```{stata listcoef_nbrm, eval=FALSE}
+listcoef, percent help
+listcoef, help
+```
+```{stata listcoef_nbrm2, echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+quietly nbreg narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+listcoef, percent help
+listcoef, help
+```
+
+**Proportion of prior arrest that lead to a conviction** 
+
+```{stata pcnv_nbrm}
+	display exp(-.4771*.1)-1
+```
+
+**Interpretation** A 10 percentage point increase in proportion of prior arrests that lead to conviction
+decrease the expected number of arrests by 4.7% holding all others constant.
+
+**The average sentence served from prior convictions (in months)**
+```{stata avgsen_nbrm}
+display (exp(0.01974)-1)
+```
+**Interpretation** A 1 month increase in total time served in prision from prior convictions before 1986 increases the expected number of arrests holding all others constant.
+
+**Compare Poisson and Negative Binominal Regression Models**
+```{stata est_nbrm_poisson,eval=FALSE}
+est clear
+eststo PRM: quietly poisson narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+eststo NBRM: quietly nbreg narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+esttab, mtitle
+```
+```{stata est_nbrm_poisson2,echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+est clear
+eststo PRM: quietly poisson narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+eststo NBRM: quietly nbreg narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+esttab, mtitle
+```
+
+### Marginal Effects for NBRM
+
+The interpretation is similar to Poisson. The marginal change in a continuous variable depends on the expected value of y given x, so we have to specify x with atmeans or average marginal effects
+
+```{stata nbrm_marginal_effects}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/crime1.dta", clear 
+quietly nbreg narr86 pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60 
+margins, dydx(*)
+```
+### Censored Regression Model - Right-Censoring
+
+**Lesson: We can use a Tobit estimator for right-censored model**
+
+We need to summarize the dependent variable to see the right-censored value. We know that weekly earnings in the Current Population Survey are top-coded or right-censored at $2884.61. This may bias our estimate, so we'll compare a OLS model and a Tobit model for right-censored data. Remember a Tobit estimator for a censored model is different from a corner solution.
+
+```{stata earnings_detail}
+use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+sum earnings if prerelg==1, detail
+histogram earnings if prerelg==1, normal title(Histogram of Weekly Earnings) caption("Source: Current Population Survey")
+graph export "/Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_earnings.png", replace
+```
+
+![Histogram of Earnings](/Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_earnings.png)
+
+
+Let us take a look at the natural log of earnings
+```{stata lnearnings_detail}
+use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+sum lnearnings, detail
+histogram lnearnings if prerelg==1, normal title(Histogram of LN Weekly Earnings) caption("Source: Current Population Survey")
+graph export "/Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_lnearnings.png", replace
+```
+![Histogram of LN of Weekly Earnings](/Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_lnearnings.png)
+We'll estimate the following Mincer Equation. 
+$$ ln(wwages_{i})=\beta_{0} + \beta_{1} edu_{i} + \beta_{2} exp + \beta_{3} exp^2 \beta_{4} marital_{i} + \beta_{5} veteran_{i} + \beta_{6} union_{i} + \beta_{7} female_{i} + \beta_{8} race_{i} + u_{i} $$
+We'll need to use the option, *ul(right-censored-value)* with our Tobit estimator.
+
+```{stata, eval=FALSE}
+est clear
+eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race
+eststo Tobit: quietly tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
+
+esttab OLS Tobit, drop(0.* 1.race* 1.mar* 1.edu) mtitle("OLS" "Tobit")
+```
+
+```{stata censored_ols, echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+sum lnearnings, detail
+return list
+local maxval `r(max)'
+est clear
+eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race
+eststo Tobit: quietly tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
+
+esttab OLS Tobit, drop(0.* 1.race* 1.mar* 1.edu) mtitle("OLS" "Tobit")
+```
+
+**Interpretation** A very similar interpretation to OLS, but we need normality and homoskedasticity for unbiased estimator. We can use a log-linear interpretation without a scaling factor, so the returns to education would only require \((e^\beta -1)*100\) interpretation.
+
+### Censored Regression Model - Duration analysis
+
+**Lesson: We can look at a censored data for duration analysis similar to Wooldridge's example.** 
+
+This differs from a top-coded data, which we can use a Tobit analysis that we just saw.
+
+
+
+We can look at the duration of time in months between an arrests for inmates 
+in a North Carolina prison after being released from prison. We want to 
+evaluate a work program to see if it is effective in increasing duration 
+before recidivism occurs.
+
+<b>Note</b>: 893 inmates have not been arrested during the period they were followed
+These observations are censored. The censoring times differed among inmates
+ranging from 70 to 81 months.
+
+Our dependent variable duration (time in months) is transformed by natural logarithm. 
+We have a bunch of observations that recidivate between 70 and 81 months.
+```{stata durat1, eval=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta", clear
+tab durat
+```
+We have a bunch of observations that are censored after 69 months (but not all)
+```{stata durat2}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta", clear
+tab durat cens
+```
+
+We'll use the stset command and set failure at cens==0. We'll use the *stset* command to time set survival.
+```{stata durat3}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta", clear
+stset ldurat, failure(cens==0)
+```
+
+We'll use the streg command and set the distribution
+```{stata durat4,eval=FALSE}
+streg workprg priors tserved felon alcohol drugs black married educ age, dist(weibull) nohr
+```
+```{stata durat5, echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta", clear
+*stset is survival time set
+stset ldurat, failure(cens==0)
+streg workprg priors tserved felon alcohol drugs black married educ age, dist(weibull) nohr
+```	
+
+**Interpretation:**
+Given the log-linear function form, we can easily determine the estimated percent change in duration before criminal recidivism.
+```{stata durat6}
+	display (exp(.0780722)-1)*100
+```
+Being a part of the work program increase the duration of time before recidivism, but it is not statistically significant.
+```{stata durat7}
+	display (exp(-.287139)-1)*100
+```
+Being a felon reduces the duration of time before recidivism, where a felon has as 24% decrease in duration of time before recidivism.
+
+### Sample Selection Correction
+**Lesson: Similar to tobit, when we don't account for the truncation of the data, or why certain parts of the population are not sampled, we will commit a type of omitted variable bias without our lambda(zy)-hat. We can use a Heckit method for sample selection correction.**
+
+We want to see if there is sample selection bias due to unobservable wage offers
+for non-working women.
+
+1. We need to estimate a logit or probit to test and correct for sample selection bias due to unobserved wage offer for nonworking women. Spousal income, education, experience, age, and number of kids less than 6. 
+$$ ln(wages_{i})=\beta_{0}+ \mathbf{x'\beta} + u_{i} $$
+Where \(\mathbf{x}\) is a vector that includes education, experience, and experience squared
+
+2. We use the Heckit command to implement a Heckman Method for sample selection correction.
+
+$$ ln(wages_{i})=\beta_{0}+ \mathbf{x'\beta} +\mathbf{z'\delta} + u_{i} $$
+Where \( \mathbf{z}\) is a vector that includes spousal income, education, experience, age, and number of kids less than 6.
+
+```{stata sample1}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta", clear
+reg lwage educ exper expersq 	
+```
+
+**Notice:** an assumption is used to exclude spousal income, age, kids less than 6, and kids greater than 6 from our main regression.
+
+### Heckman Method - Heckit
+We will use a subset of all exogenous variable
+1. What are the factors correlated with being in the labor force?
+2. What is the impact of education and experience on wages 
+
+```{stata sample2}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta", clear
+heckman lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep 
+```
+```{stata sample3,eval=FALSE}
+est clear
+eststo OLS: reg lwage educ exper expersq 	
+eststo Heckman: heckman lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep 
+esttab, mtitle
+```
+```{stata sample4,echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta", clear
+est clear
+eststo OLS: quietly reg lwage educ exper expersq 	
+eststo Heckman: quietly heckman lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep 
+esttab, mtitle
+```
+
+There is no real evidence of sample selection bias in the wage offer equation.
+Our lambda-hat is not statistically significant and we fail to reject \(H_0: \rho=0\). Also, we notice very little difference between our OLS and Heckman Method.
+
+**Interpretation:** we will have a similar interpretation to our OLS. We have a log-linear model so our interpretation of the return would be \(e^\beta\) or \((e^\beta-1)*100\). Our \(\hat{\lambda}\) would be a potential omitted variable, but our example shows that we fail to reject the null hypothesis and selection bias is does not appear to be problematic.
