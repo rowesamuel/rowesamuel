@@ -324,9 +324,20 @@ model
 </h5>
 <pre class='stata'>. use intdef.dta, clear
 </pre>
-<p>Looking inflation and deficits on interest rates. i3 is the 3-month
-T-bill rate, and inf is the annual inflation rate from CPI, and def is
-the federal budget deficit as a percentage of GDP.</p>
+Looking inflation and deficits on interest rates, our model is: <span
+class="math display"><em>i</em>3<sub><em>t</em></sub> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>i</em><em>n</em><em>f</em><em>l</em><em>a</em><em>t</em><em>i</em><em>o</em><em>n</em><sub><em>t</em></sub> + <em>β</em><sub>2</sub><em>d</em><em>e</em><em>f</em><em>i</em><em>c</em><em>i</em><em>t</em><em>p</em><em>c</em><em>t</em><sub><em>t</em></sub> + <em>u</em><sub><em>t</em></sub></span>
+Where
+<ul>
+<li>
+i3: the 3-month T-bill rate
+</li>
+<li>
+inf: the annual inflation rate from CPI
+</li>
+<li>
+def: is the federal budget deficit as a percentage of GDP
+</li>
+</ul>
 <p>Set the Time Series</p>
 <pre class='stata'>. tsset year
         time variable:  year, 1948 to 2003
@@ -360,12 +371,23 @@ Puerto Rican Employment and Minimum Wage
 </h3>
 <pre class='stata'>. use prminwge, clear
 </pre>
-<p>We’ll look at the association between employment and minimum wage in
-Puerto Rico. ln(prepop) is the natural log of the employment to
-population ratio in PR, ln(mincov) is the importance of minimum wage
-relative to average wages or mincov=average minimum wage/average
-wages)*average coverage rate or people actually covered by the minimum
-wage law</p>
+We’ll look at the association between employment and minimum wage in
+Puerto Rico. Our model will be: <span
+class="math display"><em>l</em><em>p</em><em>r</em><em>e</em><em>p</em><em>o</em><em>p</em><sub><em>t</em></sub> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>l</em><em>m</em><em>i</em><em>n</em><em>c</em><em>o</em><em>v</em><sub><em>t</em></sub> + <em>β</em><sub>2</sub><em>l</em><em>u</em><em>s</em><em>g</em><em>n</em><em>p</em> + <em>u</em><sub><em>t</em></sub></span>
+Where
+<ul>
+<li>
+ln(prepop): the natural log of the employment to population ratio in PR
+</li>
+<li>
+ln(mincov): natural log of the importance of minimum wage relative to
+average wages or mincov=average minimum wage/average wages)*average
+coverage rate or people actually covered by the minimum wage law
+</li>
+<li>
+lusgnp: natural log of US GNP
+</li>
+</ul>
 <p>Set Time Series</p>
 <pre class='stata'>. tsset year
         time variable:  year, 1950 to 1987
@@ -407,12 +429,31 @@ complaint?</p>
         time variable:  t, 1960m2 to 1970m12
                 delta:  1 month
 </pre>
-<p>Our model is the natural log of volume of imports of barium chloride
-as the dependent variable. affile6 is an indicator for 6 months after
-filing the complaint, while befile6 is and indicator for 6 month prior
-to the filing. The variable afdec6 denotes 6 months after the a positive
-decision. Other variables are gas - another demand variable and rtwex -
-strength of the dollar against other currencies</p>
+<p>Our model is the <span
+class="math display"><em>l</em><em>c</em><em>h</em><em>n</em><em>i</em><em>m</em><em>p</em><sub><em>t</em></sub> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>l</em><em>c</em><em>h</em><em>e</em><em>m</em><em>p</em><em>i</em><sub><em>t</em></sub> + <em>β</em><sub>2</sub><em>l</em><em>g</em><em>a</em><em>s</em><sub><em>t</em></sub> + <em>β</em><sub>3</sub><em>l</em><em>r</em><em>t</em><em>w</em><em>e</em><em>x</em><sub><em>t</em></sub> + <em>β</em><sub>4</sub><em>b</em><em>e</em><em>f</em><em>i</em><em>l</em><em>e</em>6<sub><em>t</em></sub> + <em>β</em><sub>5</sub><em>a</em><em>f</em><em>f</em><em>i</em><em>l</em><em>e</em>6<sub><em>t</em></sub> + <em>β</em><sub>6</sub><em>a</em><em>f</em><em>d</em><em>e</em><em>c</em>6 + <em>u</em><sub><em>t</em></sub></span></p>
+<ul>
+<li>
+lchnimp: natural log of the volume of Chinese imports of barium chloride
+</li>
+<li>
+lchempi: natural log of domestic chemical production index
+</li>
+<li>
+lgas: natural log of gasoline production
+</li>
+<li>
+lrtwex: natural log of the exchange rate index
+</li>
+<li>
+befile6: binary for 6 months before a complaint filing
+</li>
+<li>
+affile6: binary for 6 months after a complaint filing
+</li>
+<li>
+afdec6: binary for 6 months after a positive decision
+</li>
+</ul>
 <pre class='stata'>. reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
 
       Source │       SS           df       MS      Number of obs   =       131
@@ -456,7 +497,25 @@ Fertility Rates</p>
 children born to every 1,000 women of childbearing age. PE is the
 average real dollar value of the personal tax exemption and two binary
 variables for World War II and the introduction of the birth control
-pill in 1963. Set Time Series</p>
+pill in 1963.</p>
+<p>Our contemporenous model is: <span
+class="math display"><em>g</em><em>f</em><em>r</em><sub><em>t</em></sub> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>p</em><em>e</em><sub><em>t</em></sub> + <em>β</em><sub>2</sub><em>w</em><em>w</em>2<sub><em>t</em></sub> + <em>β</em><sub>3</sub><em>p</em><em>i</em><em>l</em><em>l</em><sub><em>t</em></sub> + <em>u</em><sub><em>t</em></sub></span></p>
+Where
+<ul>
+<li>
+gfr: the fertility rate or births per 1,000 women at time t
+</li>
+<li>
+pe: the personal tax exemptions at time t
+</li>
+<li>
+ww2: a binary for World War II
+</li>
+<li>
+pill: a binary for birth control pill
+</li>
+</ul>
+<p>Set Time Series</p>
 <pre class='stata'>. tsset year, yearly
         time variable:  year, 1913 to 1984
                 delta:  1 year
@@ -488,7 +547,8 @@ births per 1,000 women of child bearing age or a 12 dollar increase in
 the average real personal tax exemption increases 1 child per 1,000
 women of child bearing ago</p>
 <p>Next lets add lags in the average real value of the personal tax
-exemption.</p>
+exemption. Our Finite Distributed Lag model is: <span
+class="math display"><em>g</em><em>f</em><em>r</em><sub><em>t</em></sub> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>p</em><em>e</em><sub><em>t</em></sub> + <em>β</em><sub>2</sub><em>p</em><em>e</em><sub><em>t</em> − 1</sub> + <em>β</em><sub>3</sub><em>p</em><em>e</em><sub><em>t</em> − 2</sub> + <em>β</em><sub>4</sub><em>w</em><em>w</em>2<sub><em>t</em></sub> + <em>β</em><sub>5</sub><em>p</em><em>i</em><em>l</em><em>l</em><sub><em>t</em></sub> + <em>u</em><sub><em>t</em></sub></span></p>
 <pre class='stata'>. reg gfr pe pe_1 pe_2 i.ww2 i.pill if year &lt; 1985
 
       Source │       SS           df       MS      Number of obs   =        70
@@ -545,10 +605,10 @@ to get <span
 class="math display"><em>g</em><em>f</em><em>r</em><sub><em>t</em></sub> = <em>α</em><sub>0</sub> + (<em>θ</em><sub>0</sub>−<em>δ</em><sub>1</sub>−<em>δ</em><sub>2</sub>)<em>p</em><em>e</em><sub><em>t</em></sub> + <em>δ</em><sub>1</sub><em>p</em><em>e</em><sub><em>t</em> − 1</sub> + <em>δ</em><sub>2</sub><em>p</em><em>e</em><sub><em>t</em> − 2</sub> + ...</span>
 <span
 class="math display"><em>g</em><em>f</em><em>r</em><sub><em>t</em></sub> = <em>α</em><sub>0</sub> + <em>θ</em><sub>0</sub><em>p</em><em>e</em><sub><em>t</em></sub> + <em>δ</em><sub>1</sub>(<em>p</em><em>e</em><sub><em>t</em> − 1</sub>−<em>p</em><em>e</em><sub><em>t</em></sub>) + <em>δ</em><sub>2</sub>(<em>p</em><em>e</em><sub><em>t</em> − 2</sub>−<em>p</em><em>e</em><sub><em>t</em></sub>)+</span></p>
-<p><span
-class="math display"><em>W</em><em>e</em><em>c</em><em>a</em><em>n</em><em>e</em><em>s</em><em>t</em><em>i</em><em>m</em><em>a</em><em>t</em><em>e</em> <em>θ̂</em><sub>0</sub> <em>a</em><em>n</em><em>d</em><em>i</em><em>t</em><em>s</em><em>s</em><em>t</em><em>a</em><em>n</em><em>d</em><em>a</em><em>r</em><em>d</em><em>e</em><em>r</em><em>r</em><em>o</em><em>r</em></span>.
-We can regress gfr_t onto pe_t, (pe_(t-1) - pe_t), and (pe_t-2 - pe_t),
-ww2, and pill</p>
+<p>We can estimate <span
+class="math display"><em>θ̂</em><sub>0</sub></span> and its standard
+error. We can regress gfr_t onto pe_t, (pe_(t-1) - pe_t), and (pe_t-2 -
+pe_t), ww2, and pill</p>
 <pre class='stata'>. gen pe_1_1 = pe_1 - pe
 (1 missing value generated)
 
@@ -598,6 +658,8 @@ Lesson: Importance of time trends
 <p>Our model is the natural log of invpc or real per capita housing
 investment ($1,000) and price be the housing price index where 1982 = 1
 (or 100). We’ll assume constant elasticity with our log-log model.</p>
+<p><span
+class="math display"><em>l</em><em>i</em><em>n</em><em>v</em><em>p</em><em>c</em> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>l</em><em>p</em><em>r</em><em>i</em><em>c</em><em>e</em><sub><em>t</em></sub> + <em>u</em><sub><em>t</em></sub></span></p>
 <pre class='stata'>. reg linvpc lprice
 
       Source │       SS           df       MS      Number of obs   =        42
@@ -618,6 +680,8 @@ investment ($1,000) and price be the housing price index where 1982 = 1
 increases the investment per capita by 1.24 percent (or elastic
 response). <b>Note:</b> both investment and price have upward trends
 that we need to account for.</p>
+<p><span
+class="math display"><em>i</em><em>n</em><em>v</em><em>p</em><em>c</em> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>l</em><em>p</em><em>r</em><em>i</em><em>c</em><em>e</em><sub><em>t</em></sub> + <em>β</em><sub>2</sub><em>t</em> + <em>u</em><sub><em>t</em></sub></span></p>
 <pre class='stata'>. reg linvpc lprice t
 
       Source │       SS           df       MS      Number of obs   =        42
@@ -851,7 +915,9 @@ class="math display"><em>E</em>(<em>y</em><sub><em>t</em></sub>|<em>y</em><sub><
 <p>We will test EMH by specifying an AR(1) model and our hypothesis
 states that beta for y_(t-1) will be equal to 0. We’ll assume that stock
 returns are serially uncorrelated, so we can safetly assume that they
-are weakly dependent</p>
+are weakly dependent.</p>
+<p><span
+class="math display"><em>r</em><em>e</em><em>t</em><em>u</em><em>r</em><em>n</em><sub><em>t</em></sub> = <em>β</em><sub>0</sub> + <em>ρ</em><em>r</em><em>e</em><em>t</em><em>u</em><em>r</em><em>n</em><sub><em>t</em> − 1</sub> + <em>e</em><sub><em>t</em></sub></span></p>
 <pre class='stata'>. reg return l.return
 
       Source │       SS           df       MS      Number of obs   =       689

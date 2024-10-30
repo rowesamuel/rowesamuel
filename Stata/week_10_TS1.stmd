@@ -57,10 +57,14 @@ We can take the difference in the time series as well.
 <h3>Inflation and Deficits on Interest Rates</h3>
 <h5>Lesson: some static models explain time-series better than the prior model </h5>
 	use intdef.dta, clear
-
-Looking inflation and deficits on interest rates. i3 is the 3-month T-bill rate,
-and inf is the annual inflation rate from CPI, and def is the federal budget
-deficit as a percentage of GDP.
+Looking inflation and deficits on interest rates, our model is:
+$$ i3_t = \beta_0 + \beta_1 inflation_t + \beta_2 deficitpct_t + u_t $$
+Where
+<ul>
+<li>i3: the 3-month T-bill rate</li>
+<li>inf: the annual inflation rate from CPI </li>
+<li>def: is the federal budget deficit as a percentage of GDP</li>
+</ul>
 
 Set the Time Series
 	tsset year
@@ -79,10 +83,17 @@ rates.
 	use prminwge, clear
 
 We'll look at the association between employment and minimum wage in Puerto Rico.
-ln(prepop) is the natural log of the employment to population ratio in PR, 
-ln(mincov) is the importance of minimum wage relative to average wages or
+Our model will be:
+$$ lprepop_t = \beta_0 + \beta_1 lmincov_t + \beta_2 lusgnp + u_t $$
+Where
+<ul>
+<li>ln(prepop): the natural log of the employment to population ratio in PR</li>
+<li>ln(mincov): natural log of the importance of minimum wage relative to average wages or
 mincov=average minimum wage/average wages)*average coverage rate or people 
-actually covered by the minimum wage law
+actually covered by the minimum wage law</li>
+<li>lusgnp: natural log of US GNP</li>
+</ul>
+
 
 Set Time Series
 	tsset year
@@ -105,12 +116,19 @@ change after the dumping complaint?
 Set Time Series Monthly
 	tsset t, monthly
 
-Our model is the natural log of volume of imports of barium chloride as the dependent variable.
-affile6 is an indicator for 6 months after filing the complaint, while befile6 is and indicator
-for 6 month prior to the filing. The variable afdec6 denotes 6 months after the a positive
-decision. 
-Other variables are gas - another demand variable and rtwex - strength of the dollar against
-other currencies
+Our model is the 
+$$ lchnimp_t = \beta_0 + \beta_1 lchempi_t + \beta_2 lgas_t + \beta_3 lrtwex_t +\beta_4 befile6_t + \beta_5 affile6_t + \beta_6 afdec6 + u_t $$
+
+<ul>
+<li>lchnimp: natural log of the volume of Chinese imports of barium chloride</li>
+<li>lchempi: natural log of domestic chemical production index</li>
+<li>lgas: natural log of gasoline production</li>
+<li>lrtwex: natural log of the exchange rate index</li>
+<li>befile6: binary for 6 months before a complaint filing</li>
+<li>affile6: binary for 6 months after a complaint filing</li>
+<li>afdec6: binary for 6 months after a positive decision</li>
+</ul>
+
 
 	reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
 
@@ -134,6 +152,17 @@ Our interest the general fertility rate, which is the number of children born
 to every 1,000 women of childbearing age. PE is the average real dollar value
 of the personal tax exemption and two binary variables for World War II and 
 the introduction of the birth control pill in 1963.
+
+Our contemporenous model is:
+$$ gfr_t=\beta_0 + \beta_1 pe_t + \beta_2 ww2_t + \beta_3 pill_t + u_t $$
+
+Where
+<ul>
+<li>gfr: the fertility rate or births per 1,000 women at time t</li>
+<li>pe: the personal tax exemptions at time t </li>
+<li>ww2: a binary for World War II </li>
+<li>pill: a binary for birth control pill </li>
+</ul>
 Set Time Series
 
 	tsset year, yearly
@@ -149,6 +178,8 @@ bearing age or a 12 dollar increase in the average real personal
 tax exemption increases 1 child per 1,000 women of child bearing ago
 
 Next lets add lags in the average real value of the personal tax exemption.
+Our Finite Distributed Lag model is:
+$$ gfr_t=\beta_0 + \beta_1 pe_t + \beta_2 pe_{t-1} + \beta_3 pe_{t-2} + \beta_4 ww2_t + \beta_5 pill_t + u_t $$
 
 	reg gfr pe pe_1 pe_2 i.ww2 i.pill if year < 1985
 
@@ -170,7 +201,7 @@ to get
 $$ gfr_t = \alpha_0 + (\theta_0 - \delta_1 - \delta_2)pe_t + \delta_1 pe_{t-1} + \delta_2 pe_{t-2} + ... $$
 $$ gfr_t = \alpha_0 + \theta_0 pe_t + \delta_1 (pe_{t-1} - pe_t) + \delta_2 (pe_{t-2} - pe_t) + $$
 
-$$ We can estimate \, \hat{\theta}_{0} \, and its standard error $$.
+We can estimate $$ \hat{\theta}_{0} $$ and its standard error.
 We can regress gfr_t onto pe_t, (pe_(t-1) - pe_t), and (pe_t-2 - pe_t), ww2, and pill
 
 	gen pe_1_1 = pe_1 - pe
@@ -194,11 +225,15 @@ Our model is the natural log of invpc or real per capita housing investment ($1,
 and price be the housing price index where 1982 = 1 (or 100). We'll assume 
 constant elasticity with our log-log model. 
 
+$$ linvpc = \beta_0 + \beta_1 lprice_t + u_t $$
+
 	reg linvpc lprice
 
 Our output shows that a 1 percent increase in the pricing index increases
 the investment per capita by 1.24 percent (or elastic response).
 <b>Note:</b> both investment and price have upward trends that we need to account for.
+
+$$ invpc = \beta_0 + \beta_1 lprice_t + \beta_2 t + u_t $$
 
 	reg linvpc lprice t
 
@@ -284,7 +319,9 @@ $$ E(y_t|y_{t-1},y_{t-2},...)=E(y_t) $$
 
 We will test EMH by specifying an AR(1) model and our hypothesis states that
 beta for y_(t-1) will be equal to 0. We'll assume that stock returns are 
-serially uncorrelated, so we can safetly assume that they are weakly dependent
+serially uncorrelated, so we can safetly assume that they are weakly dependent.
+
+$$ return_t = \beta_0 + \rho return_{t-1} + e_t $$
 
 	reg return l.return
 Or
