@@ -451,7 +451,6 @@ so it seem like a good candidate for an instrument.</p>
 about instrument exogeneity? Can you think of possible ways father’s
 education is related to a child’s income? Social connections? Father’s
 income?</p>
-<div style="page-break-after: always;"></div>
 </div>
 </div>
 <div id="estimating-returns-to-education-for-men" class="section level3">
@@ -467,7 +466,8 @@ covariates.</p>
 <ol style="list-style-type: decimal">
 <li>Estimate the potentially biased OLS</li>
 <li>Estimate your first stage</li>
-<li>Test your first stage 4.Run your 2SLS</li>
+<li>Test your first stage</li>
+<li>Run your 2SLS</li>
 </ol>
 <p>First, our biased OLS estimate</p>
 <pre class="stata"><code>reg lwage educ</code></pre>
@@ -805,9 +805,11 @@ Instruments:   exper c.exper#c.exper fatheduc motheduc
 <h3>Exercise</h3>
 <p>Go to my website and download the mroz data. Use father’s and
 mother’s education as an instrument to estimate education with the
-ivregress 2sls command.</p>
+ivregress 2sls command. <a href="https://github.com/rowesamuel/Econ645/blob/main/Data/Wooldridge/mroz.dta" class="uri">https://github.com/rowesamuel/Econ645/blob/main/Data/Wooldridge/mroz.dta</a></p>
 <ol style="list-style-type: decimal">
-<li><p>Estimate OLS</p></li>
+<li><p>Estimate OLS using <span class="math inline">\(wage_{i} =
+\beta_{0} + \beta_{1}edu +\beta_{2} exper + \beta_{3}
+exper^{2}\)</span></p></li>
 <li><p>Estimate the 2SLS with ivregress 2sls command</p></li>
 </ol>
 <div id="answers" class="section level4">
@@ -1259,84 +1261,84 @@ to rename them in Excel before importing these files. For example, 2015
 becomes y2015</p>
 <pre class="stata"><code>import excel using &quot;tfp_major_sector_long.xlsx&quot;, firstrow clear
 list in 1/10 </code></pre>
-<pre><code>  1. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     | Total factor productivity | Index (2017=100) | 1987 |            78.664 |
-     +-------------------------------------------------------------------------+
+<pre><code>  1. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers | Total factor productivity |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                  78.664        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
-  2. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |   Real value-added output | Index (2017=100) | 1987 |            41.875 |
-     +-------------------------------------------------------------------------+
+     +-----------------------------------------------------------------------------------+
+  2. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |   Real value-added output |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                  41.875        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
-  3. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |           Combined inputs | Index (2017=100) | 1987 |            53.233 |
-     +-------------------------------------------------------------------------+
+     +-----------------------------------------------------------------------------------+
+  3. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |           Combined inputs |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                  53.233        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
-  4. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |             Capital input | Index (2017=100) | 1987 |            35.158 |
-     +-------------------------------------------------------------------------+
+     +-----------------------------------------------------------------------------------+
+  4. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |             Capital input |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                  35.158        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
-  5. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |               Labor input | Index (2017=100) | 1987 |            65.818 |
-     +-------------------------------------------------------------------------+
+     +-----------------------------------------------------------------------------------+
+  5. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |               Labor input |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                  65.818        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
-  6. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |              Hours worked | Index (2017=100) | 1987 | 75.78700000000001 |
-     +-------------------------------------------------------------------------+
+     +-----------------------------------------------------------------------------------+
+  6. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |              Hours worked |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |       75.78700000000001        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
-  7. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |         Labor composition | Index (2017=100) | 1987 |            86.846 |
-     +-------------------------------------------------------------------------+
+     +-----------------------------------------------------------------------------------+
+  7. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |         Labor composition |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                  86.846        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
-  8. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |        Labor productivity | Index (2017=100) | 1987 |            55.253 |
-     +-------------------------------------------------------------------------+
+     +-----------------------------------------------------------------------------------+
+  8. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |        Labor productivity |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                  55.253        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
-  9. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |      Capital productivity | Index (2017=100) | 1987 |           119.104 |
-     +-------------------------------------------------------------------------+
+     +-----------------------------------------------------------------------------------+
+  9. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |      Capital productivity |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                 119.104        |
+     +-----------------------------------------------------------------------------------+
 
-     +-------------------------------------------------------------------------+
- 10. |    NAICS    |                             Sector    |          Basis    |
-     |       XG    |    Private nonfarm business sector    |    All workers    |
-     |-----------------------------------------------------+-------------------|
-     |                   Measure |            Units | Year |             Value |
-     |         Capital intensity | Index (2017=100) | 1987 |            46.391 |
-     +-------------------------------------------------------------------------+</code></pre>
+     +-----------------------------------------------------------------------------------+
+ 10. | NAICS |                          Sector |       Basis |                   Measure |
+     |    XG | Private nonfarm business sector | All workers |         Capital intensity |
+     |-----------------------------------------------------------------------------------|
+     |                  Units       |       Year        |                   Value        |
+     |       Index (2017=100)       |       1987        |                  46.391        |
+     +-----------------------------------------------------------------------------------+</code></pre>
 <div id="pay-attention-to-the-excel-sheet-name" class="section level5">
 <h5>Pay attention to the Excel Sheet Name</h5>
 <p>We need to take caution of the sheet names of the excel files we are
@@ -1870,10 +1872,10 @@ describe</code></pre>
   obs:         2,246                          Working Women Survey
  vars:            30                          3 Jan 2010 00:42
  size:       163,958                          (_dta has notes)
------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
 idcode          int     %8.0g                 Unique ID
 age             byte    %8.0g                 age in current year
 race            byte    %8.0g                 race
@@ -1893,10 +1895,8 @@ currexp         float   %9.0g                 Years worked at current job
 prevexp         float   %9.0g                 Years worked at previous job
 everworked      float   %9.0g                 Has woman ever worked?
 uniondues       float   %9.0g                 Union Dues paid last week
-marriedyrs      float   %9.0g                 Years married (rounded to nearest
-                                                year)
-unempins        float   %9.0g                 Under/Unemployment insur. received
-                                                last week
+marriedyrs      float   %9.0g                 Years married (rounded to nearest year)
+unempins        float   %9.0g                 Under/Unemployment insur. received last week
 numkids         float   %9.0g                 Number of children
 kidage1         float   %9.0g                 Age of first child
 kidage2         float   %9.0g                 Age of second child
@@ -1906,7 +1906,7 @@ grade4          byte    %9.0g                 4 level Current Grade Completed
 wage2           float   %9.0g                 Wages, rounded to 2 digits
 fwt             float   %9.0g                 Frequency weight
 networth        float   %9.0g                 Net worth
------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
 Sorted by: </code></pre>
 <p>You will noticed that we lack value labels and a data dictionary or
 what each value is coded as.</p>
@@ -2192,14 +2192,14 @@ variable specified.</p>
 -------------+---------------------------------------------------------
    uniondues |      1,413     .094126    1.502237          0         27
 
------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
 -&gt; union = 1
 
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
    uniondues |        461    14.65944    8.707759          0         29
 
------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
 -&gt; union = .
 
     Variable |        Obs        Mean    Std. Dev.       Min        Max
@@ -2266,21 +2266,13 @@ continuous variables together: <em>tabstat</em></p>
 <pre><code>Summary for variables: marriedyrs
      by categories of: married (married)
 
- married |         N      mean        sd       min       max       p25       p50
----------+----------------------------------------------------------------------
-       0 |       804         0         0         0         0         0         0
-       1 |      1442  5.540915  3.552138         0        11         2         6
----------+----------------------------------------------------------------------
-   Total |      2246  3.557435  3.893349         0        11         0         2
---------------------------------------------------------------------------------
-
- married |       p75
----------+----------
-       0 |         0
-       1 |         9
----------+----------
-   Total |         7
---------------------</code></pre>
+ married |         N      mean        sd       min       max       p25       p50       p75
+---------+--------------------------------------------------------------------------------
+       0 |       804         0         0         0         0         0         0         0
+       1 |      1442  5.540915  3.552138         0        11         2         6         9
+---------+--------------------------------------------------------------------------------
+   Total |      2246  3.557435  3.893349         0        11         0         2         7
+------------------------------------------------------------------------------------------</code></pre>
 <p>No observation that said they were never married reported years of
 marriage.</p>
 <p>Let’s look at current years of experience and everworked binary.</p>
