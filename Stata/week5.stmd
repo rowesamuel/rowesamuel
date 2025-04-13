@@ -9,7 +9,7 @@
 Set Working Directory
 	cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
 
-<h3>FE and FD</h3>
+<h3>Two-Way Fixed Effects</h3>
 
 <h3>Effect of Grants on scrap rates</h3>
 <h4>Lesson: We can look at individual firm fixed effects and time fixed effects 
@@ -22,6 +22,8 @@ Michigan implemented a job training grant program to reduce scrap rates.
 What is the effect of job training on reducing the scrap rate for firm_i 
 during time period t in terms of number of items scraped per 100 due to
 defects?  
+
+$$ scrap_{it} = \beta_0 + \delta program_{it} + a_{i} + u_{it} $$
 
 Set the Panel
 	sort fcode year
@@ -39,7 +41,8 @@ Within Estimator
 The change in grant is basically receiving the grant or not, because grant
 in 1987 is always zero.
 
-<h5>Question:</h5> Who gets the grant and why? How were the grants distributed? 
+<h5>Question:</h5> Who gets the grant and why? How were the grants distributed? We will likely need to worry about self-selection, so our parallel trends assumptions is critical. Do we 
+know anything about the treatment and comparison group pre-trends or potential placebo test?
 
 <h3>Effect of Drunk Driving Laws on Traffic Fatalities</h3>
 <h4>Lesson: We can try to evaluate the effect of drunk driving laws by controlling
@@ -70,11 +73,14 @@ We can see that 3 states change their open container laws
 Estimate the First-Difference 
 	reg cdthrte copen cadmn
 
-Open containers laws, assuming the strict exogeniety assumption holds, reduce
+Open containers laws, assuming the parallel trends assumption holds, reduce
 deaths per 100 million miles driven by .42
 
-<b>Question:</b> what is a potential issue with this? How can we think that strict
-exogeneity assumption is not satisfied?
+<b>Question:</b> What is a potential issue with this? How can we think that parallel trends assumption is not satisfied?
+
+<b>Question:</b>Are treated groups being compared to previously treated groups? If so,
+we need to worry about potential bias from heterogeneous treatment effect bias (HTEB). 
+(See Goodman-Bacon 2021)
 
 <h3>Diff-in-Diff</h3>
 <h3>Effect of a garbage incinerator's location on housing prices</h3>
@@ -82,6 +88,8 @@ exogeneity assumption is not satisfied?
 <h4>Lesson: The 2-by-2 Difference-in-Difference estimator is simple to implement
 when we have our data set up correctly. We can use a sensitivity test to see
 if our results are robust.</h4>
+
+<p>$$ rprice_{it}=\beta_0 + \beta_1 nearinc_{it} + \beta_2 y81_t + \delta nearinc*y81_{it} + u_{it} $$</p>
 
 	use "kielmc.dta", clear
 
