@@ -13,6 +13,12 @@ Set Working Directory
 
 	use mroz.dta, clear
 
+We'll use the data from Mroz (1987) to look at the probability of a married woman 
+being in the labor force. Labor force participation is a binary response. $$ y=[0,1] $$
+We will estimate the coefficients of the linear probability model (LPM), the logit
+estimator, and the probit estimator. Then, we'll compare the marginal effects of
+all three estimators.
+
 Summarize in the labor force
 	tabulate inlf
 325 Women are not in the labor force and 428 Participating
@@ -141,6 +147,16 @@ does not appear to be statistically significant.
 estimate the following model for labor force participation:
 $$ lfs_{i}=\beta_{0}+\beta_1 edu_{i} + \beta_2 exper_i + ... + u_i $$.
 There are three alternatives: Employed, Unemployed, and Not in the Labor Force.</p>
+	tab laborforce
+	tab laborforce, nolabel
+
+Our dependent variable has three nominal categories.
+$$ y=[1,2,3] $$
+оr
+$$ y=[Employed, Unemployed, NILF] $$
+
+We use the <i>mlogit</i> command to run a multinomial logit to get log odds for J-1 logits.
+
 	mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital i.hryear4
 
 <p>Next, we need to test our Independence of Irrelevant Alternatives (IIA) assumption with a Hausman Test.</p>
@@ -282,7 +298,8 @@ Tobit Model
 	quietly sum exper
 	local exp2=r(mean)^2
 Using ystar tells Stata to act like there is no censoring even though the model allows for it 
-https://www.statalist.org/forums/forum/general-stata-discussion/general/1531196-tobit-marginal-effects
+<a href="https://www.statalist.org/forums/forum/general-stata-discussion/general/1531196-tobit-marginal-effects">
+Statelist Discussion 1531196</a>
 	margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
 <h4>Average Marginal Effects</h4>
 	margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')

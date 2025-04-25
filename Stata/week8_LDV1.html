@@ -237,6 +237,12 @@ Married Women’s Labor Force Participation
 </h3>
 <pre class='stata'>. use mroz.dta, clear
 </pre>
+<p>We’ll use the data from Mroz (1987) to look at the probability of a
+married woman being in the labor force. Labor force participation is a
+binary response. <span class="math display">\[ y=[0,1] \]</span> We will
+estimate the coefficients of the linear probability model (LPM), the
+logit estimator, and the probit estimator. Then, we’ll compare the
+marginal effects of all three estimators.</p>
 <p>Summarize in the labor force</p>
 <pre class='stata'>. tabulate inlf
 
@@ -1018,6 +1024,33 @@ class="math display">\[ lfs_{i}=\beta_{0}+\beta_1 edu_{i} + \beta_2
 exper_i + ... + u_i \]</span>. There are three alternatives: Employed,
 Unemployed, and Not in the Labor Force.
 </p>
+<pre class='stata'>. tab laborforce
+
+Labor Force │
+     Status │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+   Employed │     23,760       57.12       57.12
+ Unemployed │        832        2.00       59.12
+       NILF │     17,007       40.88      100.00
+────────────┼───────────────────────────────────
+      Total │     41,599      100.00
+
+. tab laborforce, nolabel
+
+Labor Force │
+     Status │      Freq.     Percent        Cum.
+────────────┼───────────────────────────────────
+          1 │     23,760       57.12       57.12
+          2 │        832        2.00       59.12
+          3 │     17,007       40.88      100.00
+────────────┼───────────────────────────────────
+      Total │     41,599      100.00
+</pre>
+<p>Our dependent variable has three nominal categories. <span
+class="math display">\[ y=[1,2,3] \]</span> оr <span
+class="math display">\[ y=[Employed, Unemployed, NILF] \]</span></p>
+<p>We use the <i>mlogit</i> command to run a multinomial logit to get
+log odds for J-1 logits.</p>
 <pre class='stata'>. mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital i.hryear4
 
 Iteration 0:   log likelihood = -31774.039  
@@ -2250,7 +2283,8 @@ Log likelihood = -3819.0946                     Pseudo R2         =     0.0343
 </pre>
 <p>Using ystar tells Stata to act like there is no censoring even though
 the model allows for it
-https://www.statalist.org/forums/forum/general-stata-discussion/general/1531196-tobit-marginal-effects</p>
+<a href="https://www.statalist.org/forums/forum/general-stata-discussion/general/1531196-tobit-marginal-effects">
+Statelist Discussion 1531196</a></p>
 <pre class='stata'>. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
 
 Average marginal effects                        Number of obs     =        753

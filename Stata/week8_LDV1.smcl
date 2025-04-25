@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week8_LDV1.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}15 Oct 2024, 22:01:09
+ {txt}opened on:  {res}25 Apr 2025, 15:54:39
 {txt}
 {com}. //_1
 . clear
@@ -420,6 +420,33 @@ Iteration 4:{space 3}log likelihood = {res:-421.80161}
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
 {com}. //_19
+. logit inlf nwifeinc educ exper expersq age kidslt6 kidsge6, or
+
+{res}{txt}Iteration 0:{space 3}log likelihood = {res: -514.8732}  
+Iteration 1:{space 3}log likelihood = {res:-402.38502}  
+Iteration 2:{space 3}log likelihood = {res:-401.76569}  
+Iteration 3:{space 3}log likelihood = {res:-401.76515}  
+Iteration 4:{space 3}log likelihood = {res:-401.76515}  
+{res}
+{txt}Logistic regression{col 49}Number of obs{col 67}= {res}       753
+{txt}{col 49}LR chi2({res}7{txt}){col 67}= {res}    226.22
+{txt}{col 49}Prob > chi2{col 67}= {res}    0.0000
+{txt}Log likelihood = {res}-401.76515{txt}{col 49}Pseudo R2{col 67}= {res}    0.2197
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}        inlf{col 14}{c |} Odds Ratio{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}nwifeinc {c |}{col 14}{res}{space 2}  .978881{col 26}{space 2} .0082436{col 37}{space 1}   -2.53{col 46}{space 3}0.011{col 54}{space 4} .9628565{col 67}{space 3} .9951723
+{txt}{space 8}educ {c |}{col 14}{res}{space 2} 1.247536{col 26}{space 2} .0541925{col 37}{space 1}    5.09{col 46}{space 3}0.000{col 54}{space 4} 1.145717{col 67}{space 3} 1.358404
+{txt}{space 7}exper {c |}{col 14}{res}{space 2} 1.228593{col 26}{space 2} .0393849{col 37}{space 1}    6.42{col 46}{space 3}0.000{col 54}{space 4} 1.153775{col 67}{space 3} 1.308263
+{txt}{space 5}expersq {c |}{col 14}{res}{space 2} .9968509{col 26}{space 2} .0010129{col 37}{space 1}   -3.10{col 46}{space 3}0.002{col 54}{space 4} .9948676{col 67}{space 3} .9988381
+{txt}{space 9}age {c |}{col 14}{res}{space 2} .9157386{col 26}{space 2} .0133451{col 37}{space 1}   -6.04{col 46}{space 3}0.000{col 54}{space 4} .8899527{col 67}{space 3} .9422715
+{txt}{space 5}kidslt6 {c |}{col 14}{res}{space 2} .2361344{col 26}{space 2} .0480734{col 37}{space 1}   -7.09{col 46}{space 3}0.000{col 54}{space 4}  .158441{col 67}{space 3} .3519257
+{txt}{space 5}kidsge6 {c |}{col 14}{res}{space 2} 1.061956{col 26}{space 2} .0794234{col 37}{space 1}    0.80{col 46}{space 3}0.422{col 54}{space 4} .9171603{col 67}{space 3}  1.22961
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.530283{col 26}{space 2} 1.316609{col 37}{space 1}    0.49{col 46}{space 3}0.621{col 54}{space 4} .2834155{col 67}{space 3} 8.262655
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. //_20
 . est clear
 {txt}
 {com}. quietly reg inlf nwifeinc educ exper expersq age kidslt6 kidsge6
@@ -499,7 +526,7 @@ Iteration 4:{space 3}log likelihood = {res:-421.80161}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: educ{p_end}
 {res}{txt}
-{com}. //_20
+{com}. //_21
 . quietly logit inlf nwifeinc educ exper expersq kidslt6 kidsge6
 {txt}
 {com}. eststo logit1: margins, at(educ=(0(2)20)) post
@@ -577,7 +604,7 @@ Iteration 4:{space 3}log likelihood = {res:-421.80161}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: educ{p_end}
 {res}{txt}
-{com}. //_21
+{com}. //_22
 . quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 {txt}
 {com}. eststo probit1: margins, at(educ=(0(2)20)) post
@@ -655,14 +682,14 @@ Iteration 4:{space 3}log likelihood = {res:-421.80161}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: educ{p_end}
 {res}{txt}
-{com}. //_22
+{com}. //_23
 . coefplot lpm logit1, at recast(line) ciopts(recast(rline) lpattern(dash))
 {res}{txt}
 {com}. coefplot lpm probit1, at recast(line) ciopts(recast(rline) lpattern(dash))
 {res}{txt}
 {com}. coefplot logit1 probit1, at recast(line) ciopts(recast(rline) lpattern(dash))
 {res}{txt}
-{com}. //_23
+{com}. //_24
 . quietly reg inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 {txt}
 {com}. margins, dydx(kidslt6) at(educ=(0(2)20))
@@ -744,7 +771,7 @@ Iteration 4:{space 3}log likelihood = {res:-421.80161}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: educ{p_end}
 {res}{txt}
-{com}. //_24
+{com}. //_25
 . quietly logit inlf nwifeinc educ exper expersq kidslt6 kidsge6
 {txt}
 {com}. margins, dydx(kidslt6) at(educ=(0(2)20))
@@ -829,7 +856,7 @@ Iteration 4:{space 3}log likelihood = {res:-421.80161}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_logitinlf.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_logitinlf.png written in PNG format)
 
-{com}. //_25
+{com}. //_26
 . quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 {txt}
 {com}. margins, dydx(kidslt6) at(educ=(0(2)20))
@@ -911,10 +938,33 @@ Iteration 4:{space 3}log likelihood = {res:-421.80161}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: educ{p_end}
 {res}{txt}
-{com}. //_26
+{com}. //_27
 . use "/Users/Sam/Desktop/Econ 645/Data/CPS/mlogit_example.dta", clear
 {txt}
-{com}. //_27
+{com}. //_28
+. tab laborforce
+
+{txt}Labor Force {c |}
+     Status {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+   Employed {c |}{res}     23,760       57.12       57.12
+{txt} Unemployed {c |}{res}        832        2.00       59.12
+{txt}       NILF {c |}{res}     17,007       40.88      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     41,599      100.00
+{txt}
+{com}. tab laborforce, nolabel
+
+{txt}Labor Force {c |}
+     Status {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+          1 {c |}{res}     23,760       57.12       57.12
+{txt}          2 {c |}{res}        832        2.00       59.12
+{txt}          3 {c |}{res}     17,007       40.88      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}     41,599      100.00
+{txt}
+{com}. //_29
 . mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital i.hryear4
 
 {res}{txt}Iteration 0:{space 3}log likelihood = {res:-31774.039}  
@@ -1017,17 +1067,17 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{hline 26}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {p 0 6 2}Note: 2044 observations completely determined.{txt}  Standard errors questionable.{p_end}
 
-{com}. //_28
+{com}. //_30
 . quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital i.hryear4
 {txt}
 {com}. estimates store unrestricted
 {txt}
-{com}. //_29
+{com}. //_31
 . quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital if laborforce !=2
 {txt}
 {com}. estimate store restricted
 {txt}
-{com}. //_30
+{com}. //_32
 . hausman restricted unrestricted, alleqs constant
 
 {txt}{p 0 8}Note: the rank of the differenced variance matrix ({result:2}) does not equal the number of coefficients being tested ({result:19}); be sure this is what you expect, or there may be problems computing the test.  Examine the output of your estimators for anything unexpected and possibly consider scaling your variables so that the coefficients are on a similar scale.
@@ -1070,7 +1120,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{col 17}Prob>chi2 =  {res}    0.0116
 {txt}{col 17}(V_b-V_B is not positive definite)
 
-{com}. //_31
+{com}. //_33
 . quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital, base(1)
 {txt}
 {com}. margins, atmeans predict(outcome(1))
@@ -1337,7 +1387,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {space 7}_cons {c |}{col 14}{res}{space 2} .2224751{col 26}{space 2} 4.825216{col 37}{space 1}    0.05{col 46}{space 3}0.963{col 54}{space 4}-9.234774{col 67}{space 3} 9.679725
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_32
+{com}. //_34
 . margins, dydx(*) predict(outcome(1))
 {res}
 {txt}Average marginal effects{col 49}Number of obs{col 67}= {res}    41,599
@@ -1485,7 +1535,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{hline 26}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {p 0 6 0 91}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
 {res}{txt}
-{com}. //_33
+{com}. //_35
 . margins, dydx(*) atmeans predict(outcome(1))
 {res}
 {txt}Conditional marginal effects{col 49}Number of obs{col 67}= {res}    41,599
@@ -1849,10 +1899,10 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{hline 26}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {p 0 6 0 91}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
 {res}{txt}
-{com}. //_34
+{com}. //_36
 . quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital, base(1)
 {txt}
-{com}. //_35
+{com}. //_37
 . margins, dydx(educat) predict(outcome(1))
 {res}
 {txt}Average marginal effects{col 49}Number of obs{col 67}= {res}    41,599
@@ -1883,7 +1933,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: _deriv{p_end}
 {res}{txt}
-{com}. //_36
+{com}. //_38
 . margins, dydx(educat) predict(outcome(2))
 {res}
 {txt}Average marginal effects{col 49}Number of obs{col 67}= {res}    41,599
@@ -1914,7 +1964,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: _deriv{p_end}
 {res}{txt}
-{com}. //_37
+{com}. //_39
 . margins, dydx(educat) predict(outcome(3))
 {res}
 {txt}Average marginal effects{col 49}Number of obs{col 67}= {res}    41,599
@@ -1945,17 +1995,17 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: _deriv{p_end}
 {res}{txt}
-{com}. //_38
+{com}. //_40
 . graph combine Employed Unemployed NILF, ycommon title("AME of Education") ///
 > note("Source: Current Population Survey; 2 is HSD, 3 is Some College, 4 is AA, 5 is BA/BS, and 6 is Graduate Degree")
 {res}{txt}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_mnlmeducation.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_mnlmeducation.png written in PNG format)
 
-{com}. //_39
+{com}. //_41
 . graph drop Employed Unemployed NILF
 {txt}
-{com}. //_40
+{com}. //_42
 . margins, dydx(exp) at(exp=(0(2)60)) predict(outcome(1)) 
 {res}
 {txt}Average marginal effects{col 49}Number of obs{col 67}= {res}    41,599
@@ -2135,7 +2185,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 {text}{p 2 6 2}Variables that uniquely identify margins: exp{p_end}
 {res}{txt}
-{com}. //_41
+{com}. //_43
 . margins, dydx(exp) at(exp=(0(2)60)) predict(outcome(3))
 {res}
 {txt}Average marginal effects{col 49}Number of obs{col 67}= {res}    41,599
@@ -2311,7 +2361,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{space 9}31  {c |}{col 14}{res}{space 2}-.0064935{col 26}{space 2} .0000362{col 37}{space 1} -179.60{col 46}{space 3}0.000{col 54}{space 4}-.0065643{col 67}{space 3}-.0064226
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_42
+{com}. //_44
 . marginsplot, allsimplelabels name(NILF) ytitle("Effect on Pr(NILF)") xtitle("Average Marginal Effects")
 
 {text}{p 2 6 2}Variables that uniquely identify margins: exp{p_end}
@@ -2321,15 +2371,15 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_mnlmexp.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_mnlmexp.png written in PNG format)
 
-{com}. //_43
+{com}. //_45
 . graph drop Employed NILF
 {txt}
-{com}. //_44
+{com}. //_46
 . est clear
 {txt}
 {com}. eststo mnlm: quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital
 {txt}
-{com}. //_45
+{com}. //_47
 . eststo Employed: quietly margins, dydx(educat) predict(outcome(1)) post
 {txt}
 {com}. estimates restore mnlm
@@ -2342,7 +2392,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 {com}. eststo NILF: quietly margins, dydx(educat) predict(outcome(3)) post 
 {txt}
-{com}. //_46
+{com}. //_48
 . coefplot Employed Unemployed NILF, ///
 > recast(bar) barw(0.15) vertical ///
 > ciopts(recast(rcap) color(gs8)) citop ///
@@ -2357,13 +2407,13 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_mnlmcoefplot.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_mnlmcoefplot.png written in PNG format)
 
-{com}. //_47
+{com}. //_49
 . graph drop coefplot3
 {txt}
-{com}. //_48
+{com}. //_50
 . use mroz.dta, clear
 {txt}
-{com}. //_49
+{com}. //_51
 . sum hours
 
 {txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
@@ -2378,7 +2428,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{hline 12}{c +}{hline 35}
       Total {c |}{res}        325      100.00
 {txt}
-{com}. //_50
+{com}. //_52
 . tabstat hours, by(inlf) stat(mean median sd)
 
 {txt}Summary for variables: hours
@@ -2399,21 +2449,21 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  {res} 740.5764       288  871.3142
 {txt}{hline 9}{c BT}{hline 30}
 
-{com}. //_51
+{com}. //_53
 . histogram hours
 {txt}(bin={res}27{txt}, start={res}0{txt}, width={res}183.33333{txt})
 {res}{txt}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_hourhist.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_hourhist.png written in PNG format)
 
-{com}. //_52
+{com}. //_54
 . sum hours if hours > 0
 
 {txt}    Variable {c |}        Obs        Mean    Std. Dev.       Min        Max
 {hline 13}{c +}{hline 57}
 {space 7}hours {c |}{res}        428     1302.93    776.2744         12       4950
 {txt}
-{com}. //_53
+{com}. //_55
 . est clear
 {txt}
 {com}. eststo OLS: reg hours nwifeinc educ exper expersq age kidslt6 kidsge6
@@ -2454,7 +2504,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {space 7}_cons {c |}{col 14}{res}{space 2} 740.5764{col 26}{space 2} 27.33803{col 37}{space 1}   27.09{col 46}{space 3}0.000{col 54}{space 4} 686.9076{col 67}{space 3} 794.2451
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_54
+{com}. //_56
 . eststo TOBIT: tobit hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)
 {res}
 {txt}Tobit regression{col 49}Number of obs{col 67}= {res}       753
@@ -2484,65 +2534,65 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}
 {com}. local exp2=r(mean)^2
 {txt}
-{com}. //_55
-. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
-{res}
-{txt}Average marginal effects{col 49}Number of obs{col 67}= {res}       753
-{txt}Model VCE{col 14}: {res}OIM
-
-{txt}{p2colset 1 14 16 2}{...}
-{p2col:Expression}:{space 1}{res:E(hours*|hours>0), predict(ystar(0,.))}{p_end}
-{p2colreset}{...}
-{txt}{p2colset 1 14 16 2}{...}
-{p2col:dy/dx w.r.t.}:{space 1}{res:nwifeinc educ exper expersq age kidslt6 kidsge6}{p_end}
-{p2colreset}{...}
-{txt}{p2colset 1 14 16 2}{...}
-{p2col:at}:{space 1}{res:{txt:expersq}{space 9}{txt:=} {space 3}113.0141}{p_end}
-{p2colreset}{...}
-
-{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 14}{c |}{col 26} Delta-method
-{col 14}{c |}      dy/dx{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 4}nwifeinc {c |}{col 14}{res}{space 2}-5.223903{col 26}{space 2} 2.639553{col 37}{space 1}   -1.98{col 46}{space 3}0.048{col 54}{space 4}-10.39733{col 67}{space 3}-.0504745
-{txt}{space 8}educ {c |}{col 14}{res}{space 2} 47.79592{col 26}{space 2}  12.7368{col 37}{space 1}    3.75{col 46}{space 3}0.000{col 54}{space 4} 22.83224{col 67}{space 3}  72.7596
-{txt}{space 7}exper {c |}{col 14}{res}{space 2}  77.9737{col 26}{space 2} 9.900685{col 37}{space 1}    7.88{col 46}{space 3}0.000{col 54}{space 4} 58.56872{col 67}{space 3} 97.37869
-{txt}{space 5}expersq {c |}{col 14}{res}{space 2}-1.104823{col 26}{space 2}  .316282{col 37}{space 1}   -3.49{col 46}{space 3}0.000{col 54}{space 4}-1.724724{col 67}{space 3}-.4849218
-{txt}{space 9}age {c |}{col 14}{res}{space 2}-32.24401{col 26}{space 2} 4.348403{col 37}{space 1}   -7.42{col 46}{space 3}0.000{col 54}{space 4}-40.76672{col 67}{space 3}-23.72129
-{txt}{space 5}kidslt6 {c |}{col 14}{res}{space 2}-529.8564{col 26}{space 2} 65.40462{col 37}{space 1}   -8.10{col 46}{space 3}0.000{col 54}{space 4}-658.0471{col 67}{space 3}-401.6657
-{txt}{space 5}kidsge6 {c |}{col 14}{res}{space 2}-9.611857{col 26}{space 2} 22.90535{col 37}{space 1}   -0.42{col 46}{space 3}0.675{col 54}{space 4}-54.50553{col 67}{space 3} 35.28181
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}
-{com}. //_56
-. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
-{res}
-{txt}Average marginal effects{col 49}Number of obs{col 67}= {res}       753
-{txt}Model VCE{col 14}: {res}OIM
-
-{txt}{p2colset 1 14 16 2}{...}
-{p2col:Expression}:{space 1}{res:E(hours*|hours>0), predict(ystar(0,.))}{p_end}
-{p2colreset}{...}
-{txt}{p2colset 1 14 16 2}{...}
-{p2col:dy/dx w.r.t.}:{space 1}{res:nwifeinc educ exper expersq age kidslt6 kidsge6}{p_end}
-{p2colreset}{...}
-{txt}{p2colset 1 14 16 2}{...}
-{p2col:at}:{space 1}{res:{txt:expersq}{space 9}{txt:=} {space 3}113.0141}{p_end}
-{p2colreset}{...}
-
-{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 14}{c |}{col 26} Delta-method
-{col 14}{c |}      dy/dx{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 4}nwifeinc {c |}{col 14}{res}{space 2}-5.223903{col 26}{space 2} 2.639553{col 37}{space 1}   -1.98{col 46}{space 3}0.048{col 54}{space 4}-10.39733{col 67}{space 3}-.0504745
-{txt}{space 8}educ {c |}{col 14}{res}{space 2} 47.79592{col 26}{space 2}  12.7368{col 37}{space 1}    3.75{col 46}{space 3}0.000{col 54}{space 4} 22.83224{col 67}{space 3}  72.7596
-{txt}{space 7}exper {c |}{col 14}{res}{space 2}  77.9737{col 26}{space 2} 9.900685{col 37}{space 1}    7.88{col 46}{space 3}0.000{col 54}{space 4} 58.56872{col 67}{space 3} 97.37869
-{txt}{space 5}expersq {c |}{col 14}{res}{space 2}-1.104823{col 26}{space 2}  .316282{col 37}{space 1}   -3.49{col 46}{space 3}0.000{col 54}{space 4}-1.724724{col 67}{space 3}-.4849218
-{txt}{space 9}age {c |}{col 14}{res}{space 2}-32.24401{col 26}{space 2} 4.348403{col 37}{space 1}   -7.42{col 46}{space 3}0.000{col 54}{space 4}-40.76672{col 67}{space 3}-23.72129
-{txt}{space 5}kidslt6 {c |}{col 14}{res}{space 2}-529.8564{col 26}{space 2} 65.40462{col 37}{space 1}   -8.10{col 46}{space 3}0.000{col 54}{space 4}-658.0471{col 67}{space 3}-401.6657
-{txt}{space 5}kidsge6 {c |}{col 14}{res}{space 2}-9.611857{col 26}{space 2} 22.90535{col 37}{space 1}   -0.42{col 46}{space 3}0.675{col 54}{space 4}-54.50553{col 67}{space 3} 35.28181
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}
 {com}. //_57
+. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
+{res}
+{txt}Average marginal effects{col 49}Number of obs{col 67}= {res}       753
+{txt}Model VCE{col 14}: {res}OIM
+
+{txt}{p2colset 1 14 16 2}{...}
+{p2col:Expression}:{space 1}{res:E(hours*|hours>0), predict(ystar(0,.))}{p_end}
+{p2colreset}{...}
+{txt}{p2colset 1 14 16 2}{...}
+{p2col:dy/dx w.r.t.}:{space 1}{res:nwifeinc educ exper expersq age kidslt6 kidsge6}{p_end}
+{p2colreset}{...}
+{txt}{p2colset 1 14 16 2}{...}
+{p2col:at}:{space 1}{res:{txt:expersq}{space 9}{txt:=} {space 3}113.0141}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}nwifeinc {c |}{col 14}{res}{space 2}-5.223903{col 26}{space 2} 2.639553{col 37}{space 1}   -1.98{col 46}{space 3}0.048{col 54}{space 4}-10.39733{col 67}{space 3}-.0504745
+{txt}{space 8}educ {c |}{col 14}{res}{space 2} 47.79592{col 26}{space 2}  12.7368{col 37}{space 1}    3.75{col 46}{space 3}0.000{col 54}{space 4} 22.83224{col 67}{space 3}  72.7596
+{txt}{space 7}exper {c |}{col 14}{res}{space 2}  77.9737{col 26}{space 2} 9.900685{col 37}{space 1}    7.88{col 46}{space 3}0.000{col 54}{space 4} 58.56872{col 67}{space 3} 97.37869
+{txt}{space 5}expersq {c |}{col 14}{res}{space 2}-1.104823{col 26}{space 2}  .316282{col 37}{space 1}   -3.49{col 46}{space 3}0.000{col 54}{space 4}-1.724724{col 67}{space 3}-.4849218
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-32.24401{col 26}{space 2} 4.348403{col 37}{space 1}   -7.42{col 46}{space 3}0.000{col 54}{space 4}-40.76672{col 67}{space 3}-23.72129
+{txt}{space 5}kidslt6 {c |}{col 14}{res}{space 2}-529.8564{col 26}{space 2} 65.40462{col 37}{space 1}   -8.10{col 46}{space 3}0.000{col 54}{space 4}-658.0471{col 67}{space 3}-401.6657
+{txt}{space 5}kidsge6 {c |}{col 14}{res}{space 2}-9.611857{col 26}{space 2} 22.90535{col 37}{space 1}   -0.42{col 46}{space 3}0.675{col 54}{space 4}-54.50553{col 67}{space 3} 35.28181
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_58
+. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
+{res}
+{txt}Average marginal effects{col 49}Number of obs{col 67}= {res}       753
+{txt}Model VCE{col 14}: {res}OIM
+
+{txt}{p2colset 1 14 16 2}{...}
+{p2col:Expression}:{space 1}{res:E(hours*|hours>0), predict(ystar(0,.))}{p_end}
+{p2colreset}{...}
+{txt}{p2colset 1 14 16 2}{...}
+{p2col:dy/dx w.r.t.}:{space 1}{res:nwifeinc educ exper expersq age kidslt6 kidsge6}{p_end}
+{p2colreset}{...}
+{txt}{p2colset 1 14 16 2}{...}
+{p2col:at}:{space 1}{res:{txt:expersq}{space 9}{txt:=} {space 3}113.0141}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}nwifeinc {c |}{col 14}{res}{space 2}-5.223903{col 26}{space 2} 2.639553{col 37}{space 1}   -1.98{col 46}{space 3}0.048{col 54}{space 4}-10.39733{col 67}{space 3}-.0504745
+{txt}{space 8}educ {c |}{col 14}{res}{space 2} 47.79592{col 26}{space 2}  12.7368{col 37}{space 1}    3.75{col 46}{space 3}0.000{col 54}{space 4} 22.83224{col 67}{space 3}  72.7596
+{txt}{space 7}exper {c |}{col 14}{res}{space 2}  77.9737{col 26}{space 2} 9.900685{col 37}{space 1}    7.88{col 46}{space 3}0.000{col 54}{space 4} 58.56872{col 67}{space 3} 97.37869
+{txt}{space 5}expersq {c |}{col 14}{res}{space 2}-1.104823{col 26}{space 2}  .316282{col 37}{space 1}   -3.49{col 46}{space 3}0.000{col 54}{space 4}-1.724724{col 67}{space 3}-.4849218
+{txt}{space 9}age {c |}{col 14}{res}{space 2}-32.24401{col 26}{space 2} 4.348403{col 37}{space 1}   -7.42{col 46}{space 3}0.000{col 54}{space 4}-40.76672{col 67}{space 3}-23.72129
+{txt}{space 5}kidslt6 {c |}{col 14}{res}{space 2}-529.8564{col 26}{space 2} 65.40462{col 37}{space 1}   -8.10{col 46}{space 3}0.000{col 54}{space 4}-658.0471{col 67}{space 3}-401.6657
+{txt}{space 5}kidsge6 {c |}{col 14}{res}{space 2}-9.611857{col 26}{space 2} 22.90535{col 37}{space 1}   -0.42{col 46}{space 3}0.675{col 54}{space 4}-54.50553{col 67}{space 3} 35.28181
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. //_59
 . margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') atmeans
 {res}
 {txt}Conditional marginal effects{col 49}Number of obs{col 67}= {res}       753
@@ -2589,7 +2639,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{space 5}kidsge6 {c |}{col 14}{res}{space 2}-10.46465{col 26}{space 2} 24.93972{col 37}{space 1}   -0.42{col 46}{space 3}0.675{col 54}{space 4}-59.34561{col 67}{space 3} 38.41632
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_58
+{com}. //_60
 . esttab OLS TOBIT, mtitle
 {res}
 {txt}{hline 44}
@@ -2630,10 +2680,10 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}t statistics in parentheses
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
-{com}. //_59
+{com}. //_61
 . est clear
 {txt}
-{com}. //_60
+{com}. //_62
 . quietly reg hours nwifeinc educ exper expersq age kidslt6 kidsge6
 {txt}
 {com}. eststo OLS: margins, at(educ=(0(2)20)) post
@@ -2707,7 +2757,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{space 9}11  {c |}{col 14}{res}{space 2} 962.4152{col 26}{space 2}  103.593{col 37}{space 1}    9.29{col 46}{space 3}0.000{col 54}{space 4} 759.0463{col 67}{space 3} 1165.784
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_61
+{com}. //_63
 . quietly tobit hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)
 {txt}
 {com}. eststo Tobit: margins, at(educ=(0(2)20)) predict(e(0,6000)) post
@@ -2781,18 +2831,18 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{space 9}11  {c |}{col 14}{res}{space 2} 1400.783{col 26}{space 2} 102.4283{col 37}{space 1}   13.68{col 46}{space 3}0.000{col 54}{space 4} 1200.027{col 67}{space 3} 1601.539
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_62
+{com}. //_64
 . coefplot (OLS, ciopts(recast(rline) lpattern(solid))) ///
 > (Tobit, ciopts(recast(rline) lpattern(dash))), at recast(line)
 {res}{txt}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_tobitols.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_tobitols.png written in PNG format)
 
-{com}. //_63
+{com}. //_65
 . cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
 {res}/Users/Sam/Desktop/Econ 645/Data/Mitchell
 {txt}
-{com}. //_64
+{com}. //_66
 . use wws2, clear
 {txt}(Working Women Survey w/fixes)
 
@@ -2806,7 +2856,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{hline 12}{c +}{hline 36}
       Total {c |}  {res} 7.7967807   5.8245895       2,244
 {txt}
-{com}. //_65
+{com}. //_67
 . bysort married: summarize wage
 
 {txt}{hline}
@@ -2824,7 +2874,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {space 8}wage {c |}{res}      1,440     7.63195    5.501786   1.004952   40.74659
 
 {txt}
-{com}. //_66
+{com}. //_68
 . correlate wage age if married == 0
 {txt}(obs=804)
 
@@ -2843,7 +2893,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
          {txt}age {c |}{res}   0.0049   1.0000
 
 {txt}
-{com}. //_67
+{com}. //_69
 . bysort married: correlate wage age
 
 {txt}{hline}
@@ -2867,7 +2917,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 
 {txt}
-{com}. //_68
+{com}. //_70
 . bysort race: correlate wage age
 
 {txt}{hline}
@@ -2901,7 +2951,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 
 {txt}
-{com}. //_69
+{com}. //_71
 . use tv1, clear
 {txt}
 {com}. list, sepby(kidid)
@@ -2924,7 +2974,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
 
-{com}. //_70
+{com}. //_72
 . bysort kidid: egen avgtv = mean(tv)
 {txt}
 {com}. sort kidid
@@ -2949,15 +2999,15 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4       4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 7}{c BRC}
 
-{com}. //_71
+{com}. //_73
 . bysort kidid: egen sdtv = sd(tv)
 {txt}(1 missing value generated)
 
-{com}. //_72
+{com}. //_74
 . generate ztv = (tv-avgtv)/sdtv
 {txt}(1 missing value generated)
 
-{com}. //_73
+{com}. //_75
 . list 
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 11}{c -}{hline 12}{c TRC}
@@ -2976,7 +3026,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0       4           3            0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 11}{c -}{hline 12}{c BRC}
 
-{com}. //_74
+{com}. //_76
 . bysort kidid: egen vac_total = total(vac)
 {txt}
 {com}. bysort kidid: egen vac_sd = sd(vac)
@@ -3006,10 +3056,10 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4     0           0           0         0         0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 11}{c -}{hline 11}{c -}{hline 9}{c -}{hline 9}{c BRC}
 
-{com}. //_75
+{com}. //_77
 . generate tvlo = (tv < 4) if !missing(tv)
 {txt}
-{com}. //_76
+{com}. //_78
 . bysort kidid: egen tvlocnt = count(tvlo)
 {txt}
 {com}. bysort kidid: egen tvlototal = total(tvlo)
@@ -3045,13 +3095,13 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4      0         3           1         1          1   .57735027         0          1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 6}{c -}{hline 9}{c -}{hline 11}{c -}{hline 9}{c -}{hline 10}{c -}{hline 11}{c -}{hline 9}{c -}{hline 10}{c BRC}
 
-{com}. //_77
+{com}. //_79
 . help egen
 {txt}
-{com}. //_78
+{com}. //_80
 . use tv1, clear
 {txt}
-{com}. //_79
+{com}. //_81
 . list, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c TRC}
@@ -3072,29 +3122,29 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
 
-{com}. //_80
+{com}. //_82
 . display tv[1]
 {res}1
 {txt}
-{com}. //_81
+{com}. //_83
 . display "kid: " kidid[1] ", Date: " dt[1] ", Sex: " female[1] ", TV Hours: " tv[1]
 {res}kid: 1, Date: 15347, Sex: 1, TV Hours: 1
 {txt}
-{com}. //_82
+{com}. //_84
 . display tv[2]
 {res}3
 {txt}
-{com}. //_83
+{com}. //_85
 . display tv[2]-tv[1]
 {res}2
 {txt}
-{com}. //_84
+{com}. //_86
 . help system variables
 {txt}
-{com}. //_85
+{com}. //_87
 . use tv1, clear
 {txt}
-{com}. //_86
+{com}. //_88
 . bysort kidid: gen tv_1ob = tv[1]
 {txt}
 {com}. list kidid tv tv_1ob, sepby(kidid)
@@ -3117,7 +3167,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4        7 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 8}{c BRC}
 
-{com}. //_87
+{com}. //_89
 . bysort kidid: gen tv_lastob = tv[_N]
 {txt}
 {com}. list kidid tv tv_lastob, sepby(kidid)
@@ -3140,7 +3190,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c BRC}
 
-{com}. //_88
+{com}. //_90
 . bysort kidid: gen tv_2tolastob = tv[_N-1]
 {txt}(1 missing value generated)
 
@@ -3164,7 +3214,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c BRC}
 
-{com}. //_89
+{com}. //_91
 . bysort kidid: gen tv_lagob = tv[_n-1]
 {txt}(4 missing values generated)
 
@@ -3188,7 +3238,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c BRC}
 
-{com}. //_90
+{com}. //_92
 . bysort kidid: gen tv_leadob = tv[_n+1]
 {txt}(4 missing values generated)
 
@@ -3212,15 +3262,15 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c BRC}
 
-{com}. //_91
+{com}. //_93
 . use tv1, clear
 {txt}
-{com}. //_92
+{com}. //_94
 . bysort kidid (dt): gen tv_1ob1 = tv[1]
 {txt}
 {com}. bysort kidid dt: gen tv_1ob2 = tv[1]
 {txt}
-{com}. //_93
+{com}. //_95
 . list kidid tv tv_1ob*, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 4}{c -}{hline 9}{c -}{hline 9}{c TRC}
@@ -3241,12 +3291,12 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4         7         4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 9}{c -}{hline 9}{c BRC}
 
-{com}. //_94
+{com}. //_96
 . bysort kidid (dt): gen tv_lastob1 = tv[_N]
 {txt}
 {com}. bysort kidid dt: gen tv_lastob2 = tv[_N]
 {txt}
-{com}. //_95
+{com}. //_97
 . list kidid tv tv_lastob*, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c -}{hline 10}{c TRC}
@@ -3267,14 +3317,14 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          4          4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c -}{hline 10}{c BRC}
 
-{com}. //_96
+{com}. //_98
 . bysort kidid (dt): gen tv_lagob1 = tv[_n-1]
 {txt}(4 missing values generated)
 
 {com}. bysort kidid dt: gen tv_lagob2 = tv[_n-1]
 {txt}(10 missing values generated)
 
-{com}. //_97
+{com}. //_99
 . list kidid tv tv_lagob*, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c -}{hline 10}{c TRC}
@@ -3295,28 +3345,28 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          1          . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c -}{hline 10}{c BRC}
 
-{com}. //_98
+{com}. //_100
 . use tv1, clear
 {txt}
-{com}. //_99
+{com}. //_101
 . bysort kidid (dt): generate tvdfp = tv - tv[_n-1]
 {txt}(4 missing values generated)
 
-{com}. //_100
+{com}. //_102
 . bysort kidid (dt): generate tvdfs = tv - tv[_n+1]
 {txt}(4 missing values generated)
 
-{com}. //_101
+{com}. //_103
 . bysort kidid (dt): generate tvdff = tv - tv[1]
 {txt}
-{com}. //_102
+{com}. //_104
 . bysort kidid (dt): generate tvdfl = tv - tv[_N]
 {txt}
-{com}. //_103
+{com}. //_105
 . bysort kidid (dt): generate tv3avg = (tv[_n-1] + tv[_n] + tv[_n+1])/3
 {txt}(7 missing values generated)
 
-{com}. //_104
+{com}. //_106
 . list kidid dt tvd* tv3avg
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 11}{c TRC}
@@ -3335,18 +3385,18 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002       3       .      -3       0           . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 11}{c BRC}
 
-{com}. //_105
+{com}. //_107
 . import excel using "cpi_1993_2023.xlsx", cellrange(A12:P42) firstrow clear
 {res}{txt}
 {com}. keep Year Annual
 {txt}
-{com}. //_106
+{com}. //_108
 . gen rebase93 = Annual/Annual[1]*100
 {txt}
-{com}. //_107
+{com}. //_109
 . gen rebase22 = Annual/Annual[_N]*100
 {txt}
-{com}. //_108
+{com}. //_110
 . gen rebase12 = Annual/Annual[_N-10]*100
 {txt}
 {com}. list
@@ -3391,7 +3441,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  30. {c |} {res}2022   292.655   202.52941         100   127.46631 {txt}{c |}
      {c BLC}{hline 6}{c -}{hline 9}{c -}{hline 11}{c -}{hline 11}{c -}{hline 11}{c BRC}
 
-{com}. //_109
+{com}. //_111
 . graph twoway line Annual Year || line rebase93 Year || ///
 > line rebase22 Year, yline(100) ///
 > legend(order(1 "100=1982" 2 "100=1993" 3 "100=2022"))
@@ -3399,28 +3449,28 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_bls.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_bls.png written in PNG format)
 
-{com}. //_110
+{com}. //_112
 . use tv1, clear
 {txt}
-{com}. //_111
+{com}. //_113
 . generate tvrunsum = sum(tv)
 {txt}
-{com}. //_112
+{com}. //_114
 . bysort kidid (dt): generate bytvrunsum=sum(tv)
 {txt}
-{com}. //_113
+{com}. //_115
 . bysort kidid (dt): egen bytvsum=total(tv)
 {txt}
-{com}. //_114
+{com}. //_116
 . egen tvsum = total(tv)
 {txt}
-{com}. //_115
+{com}. //_117
 . bysort kidid (dt): generate bytvrunavg=sum(tv)/_n
 {txt}
-{com}. //_116
+{com}. //_118
 . bysort kidid (dt): egen bytvavg = mean(tv)
 {txt}
-{com}. //_117
+{com}. //_119
 . list kidid tv tv* by*, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 4}{c -}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 9}{c -}{hline 11}{c -}{hline 9}{c TRC}
@@ -3441,16 +3491,16 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4    4         38      38         12        12           4         4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 9}{c -}{hline 11}{c -}{hline 9}{c BRC}
 
-{com}. //_118
+{com}. //_120
 . use tv1, clear
 {txt}
-{com}. //_119
+{com}. //_121
 . bysort kidid (dt): generate idcount=_N
 {txt}
-{com}. //_120
+{com}. //_122
 . bysort kidid (dt): egen idcount_nomiss = count(tv)
 {txt}
-{com}. //_121
+{com}. //_123
 . bysort kidid (dt): gen idruncount = _n
 {txt}
 {com}. list, sepby(kidid)
@@ -3473,16 +3523,16 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0         3          3          3 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c BRC}
 
-{com}. //_122
+{com}. //_124
 . use tv1, clear
 {txt}
-{com}. //_123
+{com}. //_125
 . bysort kidid (dt): generate singleob = (_N==1)
 {txt}
-{com}. //_124
+{com}. //_126
 . bysort kidid (dt): generate firstob = (_n==1)
 {txt}
-{com}. //_125
+{com}. //_127
 . bysort kidid (dt): generate lastob = (_n==_N)
 {txt}
 {com}. list, sepby(kidid)
@@ -3505,10 +3555,10 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0          0         0        1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 10}{c -}{hline 9}{c -}{hline 8}{c BRC}
 
-{com}. //_126
+{com}. //_128
 . use tv1, clear
 {txt}
-{com}. //_127
+{com}. //_129
 . bysort kidid (dt): generate vacstart=(vac==1) & (vac[_n-1]==0)
 {txt}
 {com}. bysort kidid (dt): generate vacend=(vac==1) & (vac[_n+1]==0)
@@ -3533,7 +3583,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002     0          0        0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 5}{c -}{hline 10}{c -}{hline 8}{c BRC}
 
-{com}. //_128
+{com}. //_130
 . use tv2, clear
 {txt}
 {com}. sort kidid dt
@@ -3558,14 +3608,14 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1    .    4     0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
 
-{com}. //_129
+{com}. //_131
 . generate tvimp1 = tv
 {txt}(3 missing values generated)
 
 {com}. bysort kidid (dt): replace tvimp1 = tv[_n-1] if missing(tv)
 {txt}(2 real changes made)
 
-{com}. //_130
+{com}. //_132
 . list kidid dt tv tvimp1, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 4}{c -}{hline 8}{c TRC}
@@ -3586,7 +3636,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002    4        4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 4}{c -}{hline 8}{c BRC}
 
-{com}. //_131
+{com}. //_133
 . generate tvimp2 = tvimp1
 {txt}(1 missing value generated)
 
@@ -3613,11 +3663,11 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4        4        4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 8}{c -}{hline 8}{c BRC}
 
-{com}. //_132
+{com}. //_134
 . generate tvimp3=tv
 {txt}(3 missing values generated)
 
-{com}. //_133
+{com}. //_135
 . bysort kidid (dt): replace tvimp3 = (tv[_n-1]+tv[_n+1])/2 if missing(tv)
 {txt}(1 real change made)
 
@@ -3641,7 +3691,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4        4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 8}{c BRC}
 
-{com}. //_134
+{com}. //_136
 . bysort kidid (dt): replace tvimp3 = ((tvimp3[4]-tvimp3[1])/3)+tvimp3[_n-1] if missing(tvimp3) & kidid==3
 {txt}(2 real changes made)
 
@@ -3665,7 +3715,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4           4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 11}{c BRC}
 
-{com}. //_135
+{com}. //_137
 . use tv1, clear
 {txt}
 {com}. bysort kidid (dt): generate tvchange = tv[_n]-tv[_n-1]
@@ -3694,7 +3744,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0          3            3 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 10}{c -}{hline 12}{c BRC}
 
-{com}. //_136
+{com}. //_138
 . gen tvchangeid=(tvchange <= -2) if !missing(tvchange)
 {txt}(4 missing values generated)
 
@@ -3718,7 +3768,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0          3            3          0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 10}{c -}{hline 12}{c -}{hline 10}{c BRC}
 
-{com}. //_137
+{com}. //_139
 . use tv1, clear
 {txt}
 {com}. bysort kidid (dt): generate ltv = tv[_n-1]
@@ -3744,22 +3794,22 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0     1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 5}{c BRC}
 
-{com}. //_138
+{com}. //_140
 . use tv1, clear
 {txt}
 {com}. sort kidid dt
 {txt}
-{com}. //_139
+{com}. //_141
 . tsset kidid dt, daily delta(1)
 {res}{txt}{col 8}panel variable:  {res}kidid (unbalanced)
 {txt}{col 9}time variable:  {res}{col 25}dt, 07jan2002 to 22jan2002, but with gaps
 {txt}{col 17}delta:  {res}1 day
 {txt}
-{com}. //_140
+{com}. //_142
 . generate lagtv = L.tv
 {txt}(6 missing values generated)
 
-{com}. //_141
+{com}. //_143
 . generate leadtv = F.tv
 {txt}(6 missing values generated)
 
@@ -3783,26 +3833,26 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0       .        . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 8}{c BRC}
 
-{com}. //_142
+{com}. //_144
 . use tv1, clear
 {txt}
 {com}. sort kidid dt
 {txt}
-{com}. //_143
+{com}. //_145
 . xtset kidid dt, daily delta(1)
 {res}{txt}{col 8}panel variable:  {res}kidid (unbalanced)
 {txt}{col 9}time variable:  {res}{col 25}dt, 07jan2002 to 22jan2002, but with gaps
 {txt}{col 17}delta:  {res}1 day
 {txt}
-{com}. //_144
+{com}. //_146
 . generate lagtv = l.tv
 {txt}(6 missing values generated)
 
-{com}. //_145
+{com}. //_147
 . generate leadtv = f.tv
 {txt}(6 missing values generated)
 
-{com}. //_146
+{com}. //_148
 . list, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 8}{c TRC}
@@ -3823,7 +3873,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0       .        . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 8}{c BRC}
 
-{com}. //_147
+{com}. //_149
 . bysort kidid (dt): gen bylagtv=tv[_n-1]
 {txt}(4 missing values generated)
 
@@ -3850,7 +3900,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0       .        .         1          . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 8}{c -}{hline 9}{c -}{hline 10}{c BRC}
 
-{com}. //_148
+{com}. //_150
 . use "/Users/Sam/Desktop/Econ 645/Data/CPS/jun23pub.dta",replace
 {txt}
 {com}. //_^
@@ -3858,7 +3908,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week8_LDV1.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}15 Oct 2024, 22:04:59
+ {txt}closed on:  {res}25 Apr 2025, 15:57:58
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
