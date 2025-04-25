@@ -2310,7 +2310,7 @@ at           : expersq         =    113.0141
 <h4>
 Average Marginal Effects
 </h4>
-<pre class='stata'>. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
+<pre class='stata'>. eststo AME: margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') post
 
 Average marginal effects                        Number of obs     =        753
 Model VCE    : OIM
@@ -2335,7 +2335,9 @@ at           : expersq         =    113.0141
 <h4>
 Marginal Effects at the Average
 </h4>
-<pre class='stata'>. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') atmeans
+<pre class='stata'>. quietly tobit hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)
+
+. eststo MEA: margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') atmeans post
 
 Conditional marginal effects                    Number of obs     =        753
 Model VCE    : OIM
@@ -2363,7 +2365,8 @@ at           : nwifeinc        =    20.12896 (mean)
      kidsge6 │  -10.46465   24.93972    -0.42   0.675    -59.34561    38.41632
 ─────────────┴────────────────────────────────────────────────────────────────
 </pre>
-<p>Compare our results</p>
+<p>Compare our results. Remember we cannot directly OLS and Tobit due to
+the scale factor.</p>
 <pre class='stata'>. esttab OLS TOBIT, mtitle
 
 ────────────────────────────────────────────
@@ -2404,6 +2407,47 @@ N                     753             753
 t statistics in parentheses
 * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
 </pre>
+<p>Compare OLS and Average Marginal Effects and Marginal Effects at the
+Average.</p>
+<pre class='stata'>. esttab OLS AME MEA, mtitle("OLS" "AME" "MEA")
+
+────────────────────────────────────────────────────────────
+                      (1)             (2)             (3)   
+                      OLS             AME             MEA   
+────────────────────────────────────────────────────────────
+nwifeinc           -3.447          -5.224*         -5.687*  
+                  (-1.35)         (-1.98)         (-1.98)   
+
+educ                28.76*          47.80***        52.04***
+                   (2.22)          (3.75)          (3.77)   
+
+exper               65.67***        77.97***        84.89***
+                   (6.59)          (7.88)          (6.85)   
+
+expersq            -0.700*         -1.105***       -1.203** 
+                  (-2.16)         (-3.49)         (-3.28)   
+
+age                -30.51***       -32.24***       -35.10***
+                  (-6.99)         (-7.42)         (-7.52)   
+
+kidslt6            -442.1***       -529.9***       -576.9***
+                  (-7.51)         (-8.10)         (-8.13)   
+
+kidsge6            -32.78          -9.612          -10.46   
+                  (-1.41)         (-0.42)         (-0.42)   
+
+_cons              1330.5***                                
+                   (4.91)                                   
+────────────────────────────────────────────────────────────
+N                     753             753             753   
+────────────────────────────────────────────────────────────
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
+</pre>
+<p>When we compare marginal effects, we see that an additional year of
+education increases annual hours by 48 to 52 hours with the Tobit
+estimator. We see that an additional child less than 6 reduces the
+annual hours by a range of 530 to 577 hours.</p>
 <p>Compare Graphs</p>
 <pre class='stata'>. est clear
 </pre>

@@ -302,12 +302,21 @@ Using ystar tells Stata to act like there is no censoring even though the model 
 Statelist Discussion 1531196</a>
 	margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
 <h4>Average Marginal Effects</h4>
-	margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
+	eststo AME: margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') post
 <h4>Marginal Effects at the Average</h4>
-	margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') atmeans
+	quietly tobit hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)
+	eststo MEA: margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') atmeans post
 
-Compare our results
+Compare our results. Remember we cannot directly OLS and Tobit due to the scale factor.
 	esttab OLS TOBIT, mtitle
+
+Compare OLS and Average Marginal Effects and Marginal Effects at the Average.
+	esttab OLS AME MEA, mtitle("OLS" "AME" "MEA")
+
+When we compare marginal effects, we see that an additional year of education
+increases annual hours by 48 to 52 hours with the Tobit estimator. We see that 
+an additional child less than 6 reduces the annual hours by a range of 530 to 577 hours.
+
 
 Compare Graphs
 	est clear

@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week8_LDV1.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Apr 2025, 15:54:39
+ {txt}opened on:  {res}25 Apr 2025, 16:38:47
 {txt}
 {com}. //_1
 . clear
@@ -2564,7 +2564,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
 {com}. //_58
-. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2')
+. eststo AME: margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') post
 {res}
 {txt}Average marginal effects{col 49}Number of obs{col 67}= {res}       753
 {txt}Model VCE{col 14}: {res}OIM
@@ -2593,7 +2593,9 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
 {com}. //_59
-. margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') atmeans
+. quietly tobit hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)
+{txt}
+{com}. eststo MEA: margins, dydx(*) predict(ystar(0,.)) at(expersq=`exp2') atmeans post
 {res}
 {txt}Conditional marginal effects{col 49}Number of obs{col 67}= {res}       753
 {txt}Model VCE{col 14}: {res}OIM
@@ -2681,9 +2683,45 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
 {com}. //_61
+. esttab OLS AME MEA, mtitle("OLS" "AME" "MEA")
+{res}
+{txt}{hline 60}
+{txt}                      (1)             (2)             (3)   
+{txt}                      OLS             AME             MEA   
+{txt}{hline 60}
+{txt}nwifeinc    {res}       -3.447          -5.224*         -5.687*  {txt}
+            {res} {ralign 12:{txt:(}-1.35{txt:)}}    {ralign 12:{txt:(}-1.98{txt:)}}    {ralign 12:{txt:(}-1.98{txt:)}}   {txt}
+
+{txt}educ        {res}        28.76*          47.80***        52.04***{txt}
+            {res} {ralign 12:{txt:(}2.22{txt:)}}    {ralign 12:{txt:(}3.75{txt:)}}    {ralign 12:{txt:(}3.77{txt:)}}   {txt}
+
+{txt}exper       {res}        65.67***        77.97***        84.89***{txt}
+            {res} {ralign 12:{txt:(}6.59{txt:)}}    {ralign 12:{txt:(}7.88{txt:)}}    {ralign 12:{txt:(}6.85{txt:)}}   {txt}
+
+{txt}expersq     {res}       -0.700*         -1.105***       -1.203** {txt}
+            {res} {ralign 12:{txt:(}-2.16{txt:)}}    {ralign 12:{txt:(}-3.49{txt:)}}    {ralign 12:{txt:(}-3.28{txt:)}}   {txt}
+
+{txt}age         {res}       -30.51***       -32.24***       -35.10***{txt}
+            {res} {ralign 12:{txt:(}-6.99{txt:)}}    {ralign 12:{txt:(}-7.42{txt:)}}    {ralign 12:{txt:(}-7.52{txt:)}}   {txt}
+
+{txt}kidslt6     {res}       -442.1***       -529.9***       -576.9***{txt}
+            {res} {ralign 12:{txt:(}-7.51{txt:)}}    {ralign 12:{txt:(}-8.10{txt:)}}    {ralign 12:{txt:(}-8.13{txt:)}}   {txt}
+
+{txt}kidsge6     {res}       -32.78          -9.612          -10.46   {txt}
+            {res} {ralign 12:{txt:(}-1.41{txt:)}}    {ralign 12:{txt:(}-0.42{txt:)}}    {ralign 12:{txt:(}-0.42{txt:)}}   {txt}
+
+{txt}_cons       {res}       1330.5***                                {txt}
+            {res} {ralign 12:{txt:(}4.91{txt:)}}                                   {txt}
+{txt}{hline 60}
+{txt}N           {res}          753             753             753   {txt}
+{txt}{hline 60}
+{txt}t statistics in parentheses
+{txt}* p<0.05, ** p<0.01, *** p<0.001
+
+{com}. //_62
 . est clear
 {txt}
-{com}. //_62
+{com}. //_63
 . quietly reg hours nwifeinc educ exper expersq age kidslt6 kidsge6
 {txt}
 {com}. eststo OLS: margins, at(educ=(0(2)20)) post
@@ -2757,7 +2795,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{space 9}11  {c |}{col 14}{res}{space 2} 962.4152{col 26}{space 2}  103.593{col 37}{space 1}    9.29{col 46}{space 3}0.000{col 54}{space 4} 759.0463{col 67}{space 3} 1165.784
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_63
+{com}. //_64
 . quietly tobit hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)
 {txt}
 {com}. eststo Tobit: margins, at(educ=(0(2)20)) predict(e(0,6000)) post
@@ -2831,18 +2869,18 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{space 9}11  {c |}{col 14}{res}{space 2} 1400.783{col 26}{space 2} 102.4283{col 37}{space 1}   13.68{col 46}{space 3}0.000{col 54}{space 4} 1200.027{col 67}{space 3} 1601.539
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_64
+{com}. //_65
 . coefplot (OLS, ciopts(recast(rline) lpattern(solid))) ///
 > (Tobit, ciopts(recast(rline) lpattern(dash))), at recast(line)
 {res}{txt}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_tobitols.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_tobitols.png written in PNG format)
 
-{com}. //_65
+{com}. //_66
 . cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
 {res}/Users/Sam/Desktop/Econ 645/Data/Mitchell
 {txt}
-{com}. //_66
+{com}. //_67
 . use wws2, clear
 {txt}(Working Women Survey w/fixes)
 
@@ -2856,7 +2894,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {txt}{hline 12}{c +}{hline 36}
       Total {c |}  {res} 7.7967807   5.8245895       2,244
 {txt}
-{com}. //_67
+{com}. //_68
 . bysort married: summarize wage
 
 {txt}{hline}
@@ -2874,7 +2912,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {space 8}wage {c |}{res}      1,440     7.63195    5.501786   1.004952   40.74659
 
 {txt}
-{com}. //_68
+{com}. //_69
 . correlate wage age if married == 0
 {txt}(obs=804)
 
@@ -2893,7 +2931,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
          {txt}age {c |}{res}   0.0049   1.0000
 
 {txt}
-{com}. //_69
+{com}. //_70
 . bysort married: correlate wage age
 
 {txt}{hline}
@@ -2917,7 +2955,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 
 {txt}
-{com}. //_70
+{com}. //_71
 . bysort race: correlate wage age
 
 {txt}{hline}
@@ -2951,7 +2989,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 
 
 {txt}
-{com}. //_71
+{com}. //_72
 . use tv1, clear
 {txt}
 {com}. list, sepby(kidid)
@@ -2974,7 +3012,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
 
-{com}. //_72
+{com}. //_73
 . bysort kidid: egen avgtv = mean(tv)
 {txt}
 {com}. sort kidid
@@ -2999,15 +3037,15 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4       4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 7}{c BRC}
 
-{com}. //_73
+{com}. //_74
 . bysort kidid: egen sdtv = sd(tv)
 {txt}(1 missing value generated)
 
-{com}. //_74
+{com}. //_75
 . generate ztv = (tv-avgtv)/sdtv
 {txt}(1 missing value generated)
 
-{com}. //_75
+{com}. //_76
 . list 
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 11}{c -}{hline 12}{c TRC}
@@ -3026,7 +3064,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0       4           3            0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 11}{c -}{hline 12}{c BRC}
 
-{com}. //_76
+{com}. //_77
 . bysort kidid: egen vac_total = total(vac)
 {txt}
 {com}. bysort kidid: egen vac_sd = sd(vac)
@@ -3056,10 +3094,10 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4     0           0           0         0         0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 5}{c -}{hline 11}{c -}{hline 11}{c -}{hline 9}{c -}{hline 9}{c BRC}
 
-{com}. //_77
+{com}. //_78
 . generate tvlo = (tv < 4) if !missing(tv)
 {txt}
-{com}. //_78
+{com}. //_79
 . bysort kidid: egen tvlocnt = count(tvlo)
 {txt}
 {com}. bysort kidid: egen tvlototal = total(tvlo)
@@ -3095,13 +3133,13 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4      0         3           1         1          1   .57735027         0          1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 6}{c -}{hline 9}{c -}{hline 11}{c -}{hline 9}{c -}{hline 10}{c -}{hline 11}{c -}{hline 9}{c -}{hline 10}{c BRC}
 
-{com}. //_79
+{com}. //_80
 . help egen
 {txt}
-{com}. //_80
+{com}. //_81
 . use tv1, clear
 {txt}
-{com}. //_81
+{com}. //_82
 . list, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c TRC}
@@ -3122,29 +3160,29 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
 
-{com}. //_82
+{com}. //_83
 . display tv[1]
 {res}1
 {txt}
-{com}. //_83
+{com}. //_84
 . display "kid: " kidid[1] ", Date: " dt[1] ", Sex: " female[1] ", TV Hours: " tv[1]
 {res}kid: 1, Date: 15347, Sex: 1, TV Hours: 1
 {txt}
-{com}. //_84
+{com}. //_85
 . display tv[2]
 {res}3
 {txt}
-{com}. //_85
+{com}. //_86
 . display tv[2]-tv[1]
 {res}2
 {txt}
-{com}. //_86
+{com}. //_87
 . help system variables
 {txt}
-{com}. //_87
+{com}. //_88
 . use tv1, clear
 {txt}
-{com}. //_88
+{com}. //_89
 . bysort kidid: gen tv_1ob = tv[1]
 {txt}
 {com}. list kidid tv tv_1ob, sepby(kidid)
@@ -3167,7 +3205,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4        7 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 8}{c BRC}
 
-{com}. //_89
+{com}. //_90
 . bysort kidid: gen tv_lastob = tv[_N]
 {txt}
 {com}. list kidid tv tv_lastob, sepby(kidid)
@@ -3190,7 +3228,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c BRC}
 
-{com}. //_90
+{com}. //_91
 . bysort kidid: gen tv_2tolastob = tv[_N-1]
 {txt}(1 missing value generated)
 
@@ -3214,7 +3252,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c BRC}
 
-{com}. //_91
+{com}. //_92
 . bysort kidid: gen tv_lagob = tv[_n-1]
 {txt}(4 missing values generated)
 
@@ -3238,7 +3276,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c BRC}
 
-{com}. //_92
+{com}. //_93
 . bysort kidid: gen tv_leadob = tv[_n+1]
 {txt}(4 missing values generated)
 
@@ -3262,15 +3300,15 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c BRC}
 
-{com}. //_93
+{com}. //_94
 . use tv1, clear
 {txt}
-{com}. //_94
+{com}. //_95
 . bysort kidid (dt): gen tv_1ob1 = tv[1]
 {txt}
 {com}. bysort kidid dt: gen tv_1ob2 = tv[1]
 {txt}
-{com}. //_95
+{com}. //_96
 . list kidid tv tv_1ob*, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 4}{c -}{hline 9}{c -}{hline 9}{c TRC}
@@ -3291,12 +3329,12 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4         7         4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 9}{c -}{hline 9}{c BRC}
 
-{com}. //_96
+{com}. //_97
 . bysort kidid (dt): gen tv_lastob1 = tv[_N]
 {txt}
 {com}. bysort kidid dt: gen tv_lastob2 = tv[_N]
 {txt}
-{com}. //_97
+{com}. //_98
 . list kidid tv tv_lastob*, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c -}{hline 10}{c TRC}
@@ -3317,14 +3355,14 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          4          4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c -}{hline 10}{c BRC}
 
-{com}. //_98
+{com}. //_99
 . bysort kidid (dt): gen tv_lagob1 = tv[_n-1]
 {txt}(4 missing values generated)
 
 {com}. bysort kidid dt: gen tv_lagob2 = tv[_n-1]
 {txt}(10 missing values generated)
 
-{com}. //_99
+{com}. //_100
 . list kidid tv tv_lagob*, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c -}{hline 10}{c TRC}
@@ -3345,28 +3383,28 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4          1          . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 10}{c -}{hline 10}{c BRC}
 
-{com}. //_100
+{com}. //_101
 . use tv1, clear
 {txt}
-{com}. //_101
+{com}. //_102
 . bysort kidid (dt): generate tvdfp = tv - tv[_n-1]
 {txt}(4 missing values generated)
 
-{com}. //_102
+{com}. //_103
 . bysort kidid (dt): generate tvdfs = tv - tv[_n+1]
 {txt}(4 missing values generated)
 
-{com}. //_103
+{com}. //_104
 . bysort kidid (dt): generate tvdff = tv - tv[1]
 {txt}
-{com}. //_104
+{com}. //_105
 . bysort kidid (dt): generate tvdfl = tv - tv[_N]
 {txt}
-{com}. //_105
+{com}. //_106
 . bysort kidid (dt): generate tv3avg = (tv[_n-1] + tv[_n] + tv[_n+1])/3
 {txt}(7 missing values generated)
 
-{com}. //_106
+{com}. //_107
 . list kidid dt tvd* tv3avg
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 11}{c TRC}
@@ -3385,18 +3423,18 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002       3       .      -3       0           . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 7}{c -}{hline 11}{c BRC}
 
-{com}. //_107
+{com}. //_108
 . import excel using "cpi_1993_2023.xlsx", cellrange(A12:P42) firstrow clear
 {res}{txt}
 {com}. keep Year Annual
 {txt}
-{com}. //_108
+{com}. //_109
 . gen rebase93 = Annual/Annual[1]*100
 {txt}
-{com}. //_109
+{com}. //_110
 . gen rebase22 = Annual/Annual[_N]*100
 {txt}
-{com}. //_110
+{com}. //_111
 . gen rebase12 = Annual/Annual[_N-10]*100
 {txt}
 {com}. list
@@ -3441,7 +3479,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  30. {c |} {res}2022   292.655   202.52941         100   127.46631 {txt}{c |}
      {c BLC}{hline 6}{c -}{hline 9}{c -}{hline 11}{c -}{hline 11}{c -}{hline 11}{c BRC}
 
-{com}. //_111
+{com}. //_112
 . graph twoway line Annual Year || line rebase93 Year || ///
 > line rebase22 Year, yline(100) ///
 > legend(order(1 "100=1982" 2 "100=1993" 3 "100=2022"))
@@ -3449,28 +3487,28 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_bls.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week8_bls.png written in PNG format)
 
-{com}. //_112
+{com}. //_113
 . use tv1, clear
 {txt}
-{com}. //_113
+{com}. //_114
 . generate tvrunsum = sum(tv)
 {txt}
-{com}. //_114
+{com}. //_115
 . bysort kidid (dt): generate bytvrunsum=sum(tv)
 {txt}
-{com}. //_115
+{com}. //_116
 . bysort kidid (dt): egen bytvsum=total(tv)
 {txt}
-{com}. //_116
+{com}. //_117
 . egen tvsum = total(tv)
 {txt}
-{com}. //_117
+{com}. //_118
 . bysort kidid (dt): generate bytvrunavg=sum(tv)/_n
 {txt}
-{com}. //_118
+{com}. //_119
 . bysort kidid (dt): egen bytvavg = mean(tv)
 {txt}
-{com}. //_119
+{com}. //_120
 . list kidid tv tv* by*, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 4}{c -}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 9}{c -}{hline 11}{c -}{hline 9}{c TRC}
@@ -3491,16 +3529,16 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4    4         38      38         12        12           4         4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 4}{c -}{hline 10}{c -}{hline 7}{c -}{hline 10}{c -}{hline 9}{c -}{hline 11}{c -}{hline 9}{c BRC}
 
-{com}. //_120
+{com}. //_121
 . use tv1, clear
 {txt}
-{com}. //_121
+{com}. //_122
 . bysort kidid (dt): generate idcount=_N
 {txt}
-{com}. //_122
+{com}. //_123
 . bysort kidid (dt): egen idcount_nomiss = count(tv)
 {txt}
-{com}. //_123
+{com}. //_124
 . bysort kidid (dt): gen idruncount = _n
 {txt}
 {com}. list, sepby(kidid)
@@ -3523,16 +3561,16 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0         3          3          3 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 9}{c -}{hline 10}{c -}{hline 10}{c BRC}
 
-{com}. //_124
+{com}. //_125
 . use tv1, clear
 {txt}
-{com}. //_125
+{com}. //_126
 . bysort kidid (dt): generate singleob = (_N==1)
 {txt}
-{com}. //_126
+{com}. //_127
 . bysort kidid (dt): generate firstob = (_n==1)
 {txt}
-{com}. //_127
+{com}. //_128
 . bysort kidid (dt): generate lastob = (_n==_N)
 {txt}
 {com}. list, sepby(kidid)
@@ -3555,10 +3593,10 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0          0         0        1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 10}{c -}{hline 9}{c -}{hline 8}{c BRC}
 
-{com}. //_128
+{com}. //_129
 . use tv1, clear
 {txt}
-{com}. //_129
+{com}. //_130
 . bysort kidid (dt): generate vacstart=(vac==1) & (vac[_n-1]==0)
 {txt}
 {com}. bysort kidid (dt): generate vacend=(vac==1) & (vac[_n+1]==0)
@@ -3583,7 +3621,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002     0          0        0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 5}{c -}{hline 10}{c -}{hline 8}{c BRC}
 
-{com}. //_130
+{com}. //_131
 . use tv2, clear
 {txt}
 {com}. sort kidid dt
@@ -3608,14 +3646,14 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1    .    4     0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c BRC}
 
-{com}. //_131
+{com}. //_132
 . generate tvimp1 = tv
 {txt}(3 missing values generated)
 
 {com}. bysort kidid (dt): replace tvimp1 = tv[_n-1] if missing(tv)
 {txt}(2 real changes made)
 
-{com}. //_132
+{com}. //_133
 . list kidid dt tv tvimp1, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 4}{c -}{hline 8}{c TRC}
@@ -3636,7 +3674,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002    4        4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 4}{c -}{hline 8}{c BRC}
 
-{com}. //_133
+{com}. //_134
 . generate tvimp2 = tvimp1
 {txt}(1 missing value generated)
 
@@ -3663,11 +3701,11 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4        4        4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 8}{c -}{hline 8}{c BRC}
 
-{com}. //_134
+{com}. //_135
 . generate tvimp3=tv
 {txt}(3 missing values generated)
 
-{com}. //_135
+{com}. //_136
 . bysort kidid (dt): replace tvimp3 = (tv[_n-1]+tv[_n+1])/2 if missing(tv)
 {txt}(1 real change made)
 
@@ -3691,7 +3729,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4        4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 8}{c BRC}
 
-{com}. //_136
+{com}. //_137
 . bysort kidid (dt): replace tvimp3 = ((tvimp3[4]-tvimp3[1])/3)+tvimp3[_n-1] if missing(tvimp3) & kidid==3
 {txt}(2 real changes made)
 
@@ -3715,7 +3753,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4    4           4 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 4}{c -}{hline 11}{c BRC}
 
-{com}. //_137
+{com}. //_138
 . use tv1, clear
 {txt}
 {com}. bysort kidid (dt): generate tvchange = tv[_n]-tv[_n-1]
@@ -3744,7 +3782,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0          3            3 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 10}{c -}{hline 12}{c BRC}
 
-{com}. //_138
+{com}. //_139
 . gen tvchangeid=(tvchange <= -2) if !missing(tvchange)
 {txt}(4 missing values generated)
 
@@ -3768,7 +3806,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0          3            3          0 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 10}{c -}{hline 12}{c -}{hline 10}{c BRC}
 
-{com}. //_139
+{com}. //_140
 . use tv1, clear
 {txt}
 {com}. bysort kidid (dt): generate ltv = tv[_n-1]
@@ -3794,22 +3832,22 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0     1 {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 5}{c BRC}
 
-{com}. //_140
+{com}. //_141
 . use tv1, clear
 {txt}
 {com}. sort kidid dt
 {txt}
-{com}. //_141
+{com}. //_142
 . tsset kidid dt, daily delta(1)
 {res}{txt}{col 8}panel variable:  {res}kidid (unbalanced)
 {txt}{col 9}time variable:  {res}{col 25}dt, 07jan2002 to 22jan2002, but with gaps
 {txt}{col 17}delta:  {res}1 day
 {txt}
-{com}. //_142
+{com}. //_143
 . generate lagtv = L.tv
 {txt}(6 missing values generated)
 
-{com}. //_143
+{com}. //_144
 . generate leadtv = F.tv
 {txt}(6 missing values generated)
 
@@ -3833,26 +3871,26 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0       .        . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 8}{c BRC}
 
-{com}. //_144
+{com}. //_145
 . use tv1, clear
 {txt}
 {com}. sort kidid dt
 {txt}
-{com}. //_145
+{com}. //_146
 . xtset kidid dt, daily delta(1)
 {res}{txt}{col 8}panel variable:  {res}kidid (unbalanced)
 {txt}{col 9}time variable:  {res}{col 25}dt, 07jan2002 to 22jan2002, but with gaps
 {txt}{col 17}delta:  {res}1 day
 {txt}
-{com}. //_146
+{com}. //_147
 . generate lagtv = l.tv
 {txt}(6 missing values generated)
 
-{com}. //_147
+{com}. //_148
 . generate leadtv = f.tv
 {txt}(6 missing values generated)
 
-{com}. //_148
+{com}. //_149
 . list, sepby(kidid)
 {txt}
      {c TLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 8}{c TRC}
@@ -3873,7 +3911,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0       .        . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 8}{c BRC}
 
-{com}. //_149
+{com}. //_150
 . bysort kidid (dt): gen bylagtv=tv[_n-1]
 {txt}(4 missing values generated)
 
@@ -3900,7 +3938,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
  10. {c |} {res}    4   13jan2002        1   55    4     0       .        .         1          . {txt}{c |}
      {c BLC}{hline 7}{c -}{hline 11}{c -}{hline 8}{c -}{hline 4}{c -}{hline 4}{c -}{hline 5}{c -}{hline 7}{c -}{hline 8}{c -}{hline 9}{c -}{hline 10}{c BRC}
 
-{com}. //_150
+{com}. //_151
 . use "/Users/Sam/Desktop/Econ 645/Data/CPS/jun23pub.dta",replace
 {txt}
 {com}. //_^
@@ -3908,7 +3946,7 @@ Iteration 12:{space 2}log likelihood = {res:-22563.922}
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week8_LDV1.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Apr 2025, 15:57:58
+ {txt}closed on:  {res}25 Apr 2025, 16:42:08
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
