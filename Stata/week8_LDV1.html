@@ -166,8 +166,11 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -574,6 +577,55 @@ N                     753             753             753
 t statistics in parentheses
 * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001
 </pre>
+<p>The analysis shows that the marginal effects are fairly close across
+the linear probability model, Logit model, and Probit model. One
+additional year of education increases the probability of being in the
+labor force by a range of 0.038 to 0.0395 percentage points.
+Interestingly, one additional child less than six is associated with a
+drop in the probability of being in the labor force by a range of 0.258
+to 0.262.</p>
+<p>Please not that around the means, our linear probability model,
+Logit, and Probit should be fairly similar. However, the marginal
+effects for the linear probability model are constant and will not vary
+across different values of x.</p>
+<h4>
+Odds Ratios
+</h4>
+<p>We can use the option, <i>or</i> to get odds ratios after running a
+logit.</p>
+<p><span class="math display">\[ OR = \frac{(Odds Success)}{(Odds
+Failure)} = \frac{p(1)/(1-p(1))}{p(0)/(1-p(0))} \]</span></p>
+<pre class='stata'>. logit inlf nwifeinc educ exper expersq age kidslt6 kidsge6, or
+
+Iteration 0:   log likelihood =  -514.8732  
+Iteration 1:   log likelihood = -402.38502  
+Iteration 2:   log likelihood = -401.76569  
+Iteration 3:   log likelihood = -401.76515  
+Iteration 4:   log likelihood = -401.76515  
+
+Logistic regression                             Number of obs     =        753
+                                                LR chi2(7)        =     226.22
+                                                Prob > chi2       =     0.0000
+Log likelihood = -401.76515                     Pseudo R2         =     0.2197
+
+─────────────┬────────────────────────────────────────────────────────────────
+        inlf │ Odds Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+─────────────┼────────────────────────────────────────────────────────────────
+    nwifeinc │    .978881   .0082436    -2.53   0.011     .9628565    .9951723
+        educ │   1.247536   .0541925     5.09   0.000     1.145717    1.358404
+       exper │   1.228593   .0393849     6.42   0.000     1.153775    1.308263
+     expersq │   .9968509   .0010129    -3.10   0.002     .9948676    .9988381
+         age │   .9157386   .0133451    -6.04   0.000     .8899527    .9422715
+     kidslt6 │   .2361344   .0480734    -7.09   0.000      .158441    .3519257
+     kidsge6 │   1.061956   .0794234     0.80   0.422     .9171603     1.22961
+       _cons │   1.530283   1.316609     0.49   0.621     .2834155    8.262655
+─────────────┴────────────────────────────────────────────────────────────────
+</pre>
+<p>One additional year of education is associated with a 1.25 times
+increase in the odds of being in the labor force by 1.25 times holding
+all other variables constant. One additional child less than six
+decreases the odds of being in the labor force by a factor of 0.24
+holding all other variables constant.</p>
 <h4>
 Marginal Effects of Education at different points along the curve
 </h4>
@@ -749,6 +801,9 @@ Expression   : Pr(inlf), predict()
 
   Variables that uniquely identify margins: educ
 </pre>
+<p>The predicted probability that a married women is in the labor force
+rises from 47.7% for 12 years of education to 71.2% for 16 years of
+education.</p>
 <figure>
 <img src="week8_inlfprobit.png" alt="Marginal Effect of Education" />
 <figcaption aria-hidden="true">Marginal Effect of Education</figcaption>
@@ -942,6 +997,9 @@ kidslt6      │
 
   Variables that uniquely identify margins: educ
 </pre>
+<p>The average marginal effect for an additional child less than 6 rises
+from -18.3 percentage points to -14.4 percentage points, but the
+difference does not appear to be statistically significant.</p>
 <h3>
 Multinominal Logit
 </h3>
@@ -956,9 +1014,9 @@ Lesson: Interpreting a nominal categorical dependent variable
 <p>
 We will use Current Population Survey Data from September 2023 and 2024
 to estimate the following model for labor force participation: <span
-class="math display"><em>l</em><em>f</em><em>s</em><sub><em>i</em></sub> = <em>β</em><sub>0</sub> + <em>β</em><sub>1</sub><em>e</em><em>d</em><em>u</em><sub><em>i</em></sub> + <em>β</em><sub>2</sub><em>e</em><em>x</em><em>p</em><em>e</em><em>r</em><sub><em>i</em></sub> + ... + <em>u</em><sub><em>i</em></sub></span>.
-There are three alternatives: Employed, Unemployed, and Not in the Labor
-Force.
+class="math display">\[ lfs_{i}=\beta_{0}+\beta_1 edu_{i} + \beta_2
+exper_i + ... + u_i \]</span>. There are three alternatives: Employed,
+Unemployed, and Not in the Labor Force.
 </p>
 <pre class='stata'>. mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital i.hryear4
 
@@ -1073,11 +1131,15 @@ Estimate an Unrestricted model - We’ll remove unemployed
 
 . estimates store unrestricted
 </pre>
+<p>We compare the log odds for unemployed and not in the labor force to
+being employed. Given that these are log odds, we’ll need to convert
+them to Odds Ratios or find the marginal effects.</p>
 <p>
 Estimate a Restricted Model to test Independence of Irrelevant
 Alternatives assumption
 </p>
-<pre class='stata'>. quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital if laborforce !=2
+<pre class='stata'>. quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital if laborforce
+>  !=2
 
 . estimate store restricted
 </pre>
@@ -1086,10 +1148,10 @@ Use hausman command
 </p>
 <pre class='stata'>. hausman restricted unrestricted, alleqs constant
 
-Note: the rank of the differenced variance matrix (2) does not equal the number of coefficients being tested (19); be
-        sure this is what you expect, or there may be problems computing the test.  Examine the output of your
-        estimators for anything unexpected and possibly consider scaling your variables so that the coefficients are on
-        a similar scale.
+Note: the rank of the differenced variance matrix (2) does not equal the number of coefficients being tested (19);
+        be sure this is what you expect, or there may be problems computing the test.  Examine the output of your
+        estimators for anything unexpected and possibly consider scaling your variables so that the coefficients
+        are on a similar scale.
 
                  ──── Coefficients ────
              │      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
@@ -1265,8 +1327,8 @@ Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Employed), predict(outcome(1))
 dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
-               3.marital
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
+               2.marital 3.marital
 
 ──────────────────────────┬────────────────────────────────────────────────────────────────
                           │            Delta-method
@@ -1312,8 +1374,8 @@ Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Unemployed), predict(outcome(2))
 dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
-               3.marital
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
+               2.marital 3.marital
 
 ──────────────────────────┬────────────────────────────────────────────────────────────────
                           │            Delta-method
@@ -1359,8 +1421,8 @@ Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==NILF), predict(outcome(3))
 dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
-               3.marital
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
+               2.marital 3.marital
 
 ──────────────────────────┬────────────────────────────────────────────────────────────────
                           │            Delta-method
@@ -1409,8 +1471,8 @@ Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Employed), predict(outcome(1))
 dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
-               3.marital
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
+               2.marital 3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1480,8 +1542,8 @@ Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Unemployed), predict(outcome(2))
 dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
-               3.marital
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
+               2.marital 3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1551,8 +1613,8 @@ Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==NILF), predict(outcome(3))
 dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
-               3.marital
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
+               2.marital 3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1660,8 +1722,8 @@ Graduate or Professional  │   .2789487    .008527    32.71   0.000     .262236
 ──────────────────────────┴────────────────────────────────────────────────────────────────
 Note: dy/dx for factor levels is the discrete change from the base level.
 
-. marginsplot, allsimplelabels horizontal recast(scatter) name(Employed) yscale(reverse) ytitle("Effect on Pr(Employed)"
-> ) ///
+. marginsplot, allsimplelabels horizontal recast(scatter) name(Employed) yscale(reverse) ytitle("Effect on Pr(Emplo
+> yed)") ///
 > xtitle("Average Marginal Effects") xline(0) xlabel(-.3(.05).3)
 
   Variables that uniquely identify margins: _deriv
@@ -1700,8 +1762,8 @@ Graduate or Professional  │  -.0081376   .0028311    -2.87   0.004    -.013686
 ──────────────────────────┴────────────────────────────────────────────────────────────────
 Note: dy/dx for factor levels is the discrete change from the base level.
 
-. marginsplot, allsimplelabels horizontal recast(scatter) name(Unemployed) yscale(reverse) ytitle("Effect on Pr(Unemploy
-> ed)") ///
+. marginsplot, allsimplelabels horizontal recast(scatter) name(Unemployed) yscale(reverse) ytitle("Effect on Pr(Une
+> mployed)") ///
 > xtitle("Average Marginal Effects") xline(0) xlabel(-.3(.05).3)
 
   Variables that uniquely identify margins: _deriv
@@ -1730,7 +1792,8 @@ Graduate or Professional  │  -.2708111   .0083689   -32.36   0.000    -.287213
 ──────────────────────────┴────────────────────────────────────────────────────────────────
 Note: dy/dx for factor levels is the discrete change from the base level.
 
-. marginsplot, allsimplelabels horizontal recast(scatter) name(NILF) yscale(reverse) ytitle("Effect on Pr(NILF)") ///
+. marginsplot, allsimplelabels horizontal recast(scatter) name(NILF) yscale(reverse) ytitle("Effect on Pr(NILF)") /
+> //
 > xtitle("Average Marginal Effects") xline(0) xlabel(-.3(.05).3)
 
   Variables that uniquely identify margins: _deriv
@@ -1739,7 +1802,8 @@ Note: dy/dx for factor levels is the discrete change from the base level.
 Combine graphs
 </p>
 <pre class='stata'>. graph combine Employed Unemployed NILF, ycommon title("AME of Education") ///
-> note("Source: Current Population Survey; 2 is HSD, 3 is Some College, 4 is AA, 5 is BA/BS, and 6 is Graduate Degree")
+> note("Source: Current Population Survey; 2 is HSD, 3 is Some College, 4 is AA, 5 is BA/BS, and 6 is Graduate Degr
+> ee")
 
 . graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_mnlmeducation.png", replace
 (file /Users/Sam/Desktop/Econ 645/Stata/week8_mnlmeducation.png written in PNG format)
@@ -2455,14 +2519,14 @@ a continuous variable when tabulating categorical variables.</p>
 <p>Another option is using the bysort prefix command</p>
 <pre class='stata'>. bysort married: summarize wage
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> married = 0
 
     Variable │        Obs        Mean    Std. Dev.       Min        Max
 ─────────────┼─────────────────────────────────────────────────────────
         wage │        804    8.092001    6.354849          0   40.19808
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> married = 1
 
     Variable │        Obs        Mean    Std. Dev.       Min        Max
@@ -2491,7 +2555,7 @@ and additional statements With qualifiers</p>
 <p>Using bysort accomplishes this in one command</p>
 <pre class='stata'>. bysort married: correlate wage age
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> married = 0
 (obs=804)
 
@@ -2501,7 +2565,7 @@ and additional statements With qualifiers</p>
          age │  -0.0185   1.0000
 
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> married = 1
 (obs=1,440)
 
@@ -2514,7 +2578,7 @@ and additional statements With qualifiers</p>
 variable with many categories</p>
 <pre class='stata'>. bysort race: correlate wage age
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> race = 1
 (obs=1,637)
 
@@ -2524,7 +2588,7 @@ variable with many categories</p>
          age │   0.0017   1.0000
 
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> race = 2
 (obs=581)
 
@@ -2534,7 +2598,7 @@ variable with many categories</p>
          age │  -0.0331   1.0000
 
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 -> race = 3
 (obs=26)
 

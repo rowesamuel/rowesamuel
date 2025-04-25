@@ -56,6 +56,29 @@ Probit
 Compare
 	esttab LPM Logit Probit, mtitle 
 
+The analysis shows that the marginal effects are fairly close across the linear probability
+model, Logit model, and Probit model. One additional year of education increases the probability
+of being in the labor force by a range of 0.038 to 0.0395 percentage points. Interestingly, 
+one additional child less than six is associated with a drop in the probability of being in 
+the labor force by a range of 0.258 to 0.262. 
+
+Please not that around the means, our linear probability model, Logit, and Probit should
+be fairly similar. However, the marginal effects for the linear probability model are
+constant and will not vary across different values of x.
+
+<h4>Odds Ratios</h4>
+
+We can use the option, <i>or</i> to get odds ratios after running a logit.
+
+$$ OR = \frac{(Odds Success)}{(Odds Failure)} = \frac{p(1)/(1-p(1))}{p(0)/(1-p(0))} $$
+
+	logit inlf nwifeinc educ exper expersq age kidslt6 kidsge6, or
+
+One additional year of education is associated with a 1.25 times increase in the odds of 
+being in the labor force by 1.25 times holding all other variables constant.
+One additional child less than six decreases the odds of being in the labor force 
+by a factor of 0.24 holding all other variables constant.
+
 <h4>Marginal Effects of Education at different points along the curve</h4>
 LPM
 	est clear
@@ -75,6 +98,9 @@ Probit
 	quietly probit inlf nwifeinc educ exper expersq age kidslt6 kidsge6
 	eststo probit1: margins, at(educ=(0(2)20)) post
 	marginsplot, yline(0)
+
+The predicted probability that a married women is in the labor force 
+rises from 47.7% for 12 years of education to 71.2% for 16 years of education.
 
 ![Marginal Effect of Education](week8_inlfprobit.png)
 
@@ -101,6 +127,10 @@ Probit
 	margins, dydx(kidslt6) at(educ=(0(2)20))
 	marginsplot, yline(0)
 
+The average marginal effect for an additional child less than 6 rises from
+-18.3 percentage points to -14.4 percentage points, but the difference 
+does not appear to be statistically significant.
+
 <h3>Multinominal Logit</h3>
 
 
@@ -117,6 +147,9 @@ There are three alternatives: Employed, Unemployed, and Not in the Labor Force.<
 <p>Estimate an Unrestricted model - We'll remove unemployed</p>
 	quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital i.hryear4
 	estimates store unrestricted
+
+We compare the log odds for unemployed and not in the labor force to being employed. Given that
+these are log odds, we'll need to convert them to Odds Ratios or find the marginal effects.
 
 <p>Estimate a Restricted Model to test Independence of Irrelevant Alternatives assumption</p>
 	quietly mlogit laborforce i.educat exp exp2 i.race_ethnicity i.female i.metroarea i.union i.marital if laborforce !=2
