@@ -118,7 +118,7 @@ Add lag of d.gfr and see it wasn't dynamically complete
 <h3>Testing for Serial Correlation</h3>
 
 <h4>Phillip's Curve</h4>
-<h5>Lesson: using our t-test, Durban Watson test, and Durban's alternative statistic to test for serial correlation</h5>
+<h5>Lesson: using our t-test, Durban Watson test, Breusch-Godfrey test, and Durban's alternative statistic to test for serial correlation</h5>
 We'll use our t-test for serial correlation with strictly exogenous regressors
 under the assumption that our regressors are exogenous.
 	use phillips.dta, clear
@@ -162,9 +162,11 @@ We can also use the estat dwatson or dwstat
 	estat dwatson
 Or
 	dwstat
-DW(3,48)=1.48 and dL ~ 1.4 and dU ~ 1.67, so our DW test is inconclusive
-https://www3.nd.edu/~wevans1/econ30331/Durbin_Watson_tables.pdf
-We'll look at Durban-Watson and DW Tables again a bit later
+First, let's find our critical values: <br>
+<a href="https://www3.nd.edu/~wevans1/econ30331/Durbin_Watson_tables.pdf">
+https://www3.nd.edu/~wevans1/econ30331/Durbin_Watson_tables.pdf</a>. <br>
+$$ DW(3,48)=1.48 $$ and $$ d_L \approx 1.4 $$ and $$ d_U \approx 1.67 $$
+so our DW test is inconclusive. We'll look at Durban-Watson and DW Tables again a bit later.
 
 <h4>Puerto Rican Employment and Minimum Wage</h4>
 <h5>Lesson: We can use Durban's alternative statistic to test for serial correlation
@@ -226,8 +228,18 @@ Prais-Winsten
 	eststo Prais: prais lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
 	predict u, resid
 
+First, let's find our critical values: <br>
+<a href="https://www3.nd.edu/~wevans1/econ30331/Durbin_Watson_tables.pdf">
+https://www3.nd.edu/~wevans1/econ30331/Durbin_Watson_tables.pdf</a>. <br><br>
+For the OLS Estimator 
+$$ DW(6,131) = 1.458414 $$
+For the Prasi-Winsten Estimator
+$$ DW(6,131) = 2.087181 $$
+ and $$ d_L \approx 1.60 $$ and $$ d_U \approx 1.81 $$
+We reject the null hypothesis for the OLS estimator, but we fail to reject 
+the null hypothesis for the Prais-Winsten Estimator.
 
-Our beta-hats in Prais-Winsten are similar to our OLS esimates, but our PW
+Our beta-hats in Prais-Winsten Estimator are similar to our OLS estimates, but our PW
 standard errors account for the serial correlation. Our OLS standard errors
 usually understate the actual sampling variation in the OLS estimators and 
 should be treated with suspicion.
