@@ -145,7 +145,17 @@ Test for serial correlation in Augmented
 Serial correlation is removed with the first-difference in inflation
 	reg d.inf unem if year < 1997
 	predict u2, resid
+Breusch-Godfrey Test
+	estat bgodfrey
+Durban-Watson Test
+	estat dwatson
 
+$$ d_L = 1.503 $$
+$$ d_U = 1.585 $$
+$$ 1.769648 > 1.585 $$
+We fail to reject the null hypothesis.
+
+AR(1) Test
 	reg u2 l.u2, noconst
 
 Test change in error terms for FD assumption on serial correlation so that
@@ -156,7 +166,9 @@ the differences in errors are not correlated.
 drop u u2
 
 We fail to reject the null hypothesis that there is no serial correlation in
-the difference in error term
+the difference in error term.
+
+Let's add a lag in inflation to change our static model into a FDL model.
 We can also use the estat dwatson or dwstat
 	reg inf l.inf unem if year < 1997
 	estat dwatson

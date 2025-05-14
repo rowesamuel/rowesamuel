@@ -637,6 +637,27 @@ removed with the first-difference in inflation</p>
 . predict u2, resid
 (1 missing value generated)
 </pre>
+<p>Breusch-Godfrey Test</p>
+<pre class='stata'>. estat bgodfrey
+
+Breusch-Godfrey LM test for autocorrelation
+─────────────┬─────────────────────────────────────────────────────────────
+    lags(p)  │          chi2               df                 Prob > chi2
+─────────────┼─────────────────────────────────────────────────────────────
+       1     │          0.062               1                   0.8039
+─────────────┴─────────────────────────────────────────────────────────────
+                        H0: no serial correlation
+</pre>
+<p>Durban-Watson Test</p>
+<pre class='stata'>. estat dwatson
+
+Durbin-Watson d-statistic(  2,    48) =  1.769648
+</pre>
+<p><span class="math display">\[ d_L = 1.503 \]</span> <span
+class="math display">\[ d_U = 1.585 \]</span> <span
+class="math display">\[ 1.769648 &gt; 1.585 \]</span> We fail to reject
+the null hypothesis.</p>
+<p>AR(1) Test</p>
 <pre class='stata'>. reg u2 l.u2, noconst
 
       Source │       SS           df       MS      Number of obs   =        54
@@ -676,8 +697,9 @@ that the differences in errors are not correlated.</p>
 </pre>
 <p>drop u u2</p>
 <p>We fail to reject the null hypothesis that there is no serial
-correlation in the difference in error term We can also use the estat
-dwatson or dwstat</p>
+correlation in the difference in error term.</p>
+<p>Let’s add a lag in inflation to change our static model into a FDL
+model. We can also use the estat dwatson or dwstat</p>
 <pre class='stata'>. reg inf l.inf unem if year &lt; 1997
 
       Source │       SS           df       MS      Number of obs   =        48
@@ -1704,6 +1726,7 @@ Forecasting
 </pre>
 <p>Forecast - One-step-ahead forecast</p>
 <pre class='stata'>. forecast create forecast1, replace
+  (Forecast model forecast2 ended.)
   Forecast model forecast1 started.
 
 . forecast estimates model1

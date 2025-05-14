@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week_11_TS2.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}10 May 2025, 12:04:55
+ {txt}opened on:  {res}13 May 2025, 18:36:37
 {txt}
 {com}. //_1
 . clear
@@ -329,6 +329,22 @@
 {txt}(1 missing value generated)
 
 {com}. //_28
+. estat bgodfrey
+
+{txt}Breusch-Godfrey LM test for autocorrelation
+{hline 13}{c TT}{hline 61}
+{col 5}lags({it:p}){col 14}{c |}{col 25}chi2{col 44}df{col 63}Prob > chi2
+{hline 13}{c +}{hline 61}
+{col 6}  1{col 14}{c |}{res}{col 20}     0.062{col 43}  1{col 63}  0.8039
+{txt}{hline 13}{c BT}{hline 61}
+{col 25}H0: no serial correlation
+
+{com}. //_29
+. estat dwatson
+
+{txt}Durbin-Watson d-statistic({res}  2{txt},{res}    48{txt}) = {res} 1.769648
+{txt}
+{com}. //_30
 . reg u2 l.u2, noconst
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        54
@@ -345,11 +361,11 @@
 {space 9}L1. {c |}{col 14}{res}{space 2}-.0308131{col 26}{space 2} .1154154{col 37}{space 1}   -0.27{col 46}{space 3}0.791{col 54}{space 4} -.262307{col 67}{space 3} .2006808
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_29
+{com}. //_31
 . gen u2_1=l.u2
 {txt}(2 missing values generated)
 
-{com}. //_30
+{com}. //_32
 . reg d.u2 d.u2_1, noconst
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        53
@@ -366,7 +382,7 @@
 {space 9}D1. {c |}{col 14}{res}{space 2}-.1661051{col 26}{space 2} .1171734{col 37}{space 1}   -1.42{col 46}{space 3}0.162{col 54}{space 4}-.4012307{col 67}{space 3} .0690204
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_31
+{com}. //_33
 . reg inf l.inf unem if year < 1997
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
@@ -390,20 +406,20 @@
 
 {txt}Durbin-Watson d-statistic({res}  3{txt},{res}    48{txt}) = {res} 1.477467
 {txt}
-{com}. //_32
+{com}. //_34
 . dwstat
 
 {txt}Durbin-Watson d-statistic({res}  3{txt},{res}    48{txt}) = {res} 1.477467
 {txt}
-{com}. //_33
+{com}. //_35
 . use prminwge, clear
 {txt}
-{com}. //_34
+{com}. //_36
 . tsset year
 {res}{txt}{col 9}time variable:  {res}{col 25}year, 1950 to 1987
 {txt}{col 17}delta:  {res}1 unit
 {txt}
-{com}. //_35
+{com}. //_37
 . reg lprepop lmincov lprgnp lusgnp t if year < 1988
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        38
@@ -425,7 +441,7 @@
 {res}{txt}
 {com}. predict u, resid
 {txt}
-{com}. //_36
+{com}. //_38
 . reg u l.u lmincov lprgnp lusgnp t, noconst 
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        37
@@ -447,15 +463,15 @@
 {txt}{space 11}t {c |}{col 14}{res}{space 2}-.0005264{col 26}{space 2} .0015194{col 37}{space 1}   -0.35{col 46}{space 3}0.731{col 54}{space 4}-.0036213{col 67}{space 3} .0025685
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_37
+{com}. //_39
 . use barium.dta, clear
 {txt}
-{com}. //_38
+{com}. //_40
 . tsset t, monthly
 {res}{txt}{col 9}time variable:  {res}{col 25}t, 1960m2 to 1970m12
 {txt}{col 17}delta:  {res}1 month
 {txt}
-{com}. //_39
+{com}. //_41
 . reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       131
@@ -479,7 +495,7 @@
 {res}{txt}
 {com}. predict u, resid
 {txt}
-{com}. //_40
+{com}. //_42
 . reg u l.u l2.u l3.u lchempi lgas lrtwex befile6 affile6 afdec6, noconst
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       128
@@ -505,7 +521,7 @@
 {txt}{space 6}afdec6 {c |}{col 14}{res}{space 2}-.0694522{col 26}{space 2} .2737453{col 37}{space 1}   -0.25{col 46}{space 3}0.800{col 54}{space 4}-.6114953{col 67}{space 3} .4725909
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_41
+{com}. //_43
 . test l.u l2.u l3.u
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}L.u = 0{p_end}
@@ -515,7 +531,7 @@
 {txt}       F(  3,   119) ={res}    4.98
 {txt}{col 13}Prob > F ={res}    0.0027
 {txt}
-{com}. //_42
+{com}. //_44
 . test l2.u l3.u
 
 {p 0 7}{space 1}{text:( 1)}{space 1} {res}L2.u = 0{p_end}
@@ -526,17 +542,17 @@
 {txt}
 {com}. drop u
 {txt}
-{com}. //_43
+{com}. //_45
 . use barium.dta, clear
 {txt}
-{com}. //_44
+{com}. //_46
 . tsset t, monthly
 {res}{txt}{col 9}time variable:  {res}{col 25}t, 1960m2 to 1970m12
 {txt}{col 17}delta:  {res}1 month
 {txt}
 {com}. est clear
 {txt}
-{com}. //_45
+{com}. //_47
 . eststo OLS: reg lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       131
@@ -558,7 +574,7 @@
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}  -17.803{col 26}{space 2} 21.04537{col 37}{space 1}   -0.85{col 46}{space 3}0.399{col 54}{space 4}-59.45769{col 67}{space 3} 23.85169
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_46
+{com}. //_48
 . eststo Prais: prais lchnimp lchempi lgas lrtwex befile6 affile6 afdec6
 
 {txt}Iteration 0:  rho = {res}0.0000
@@ -597,7 +613,7 @@ Durbin-Watson statistic (original)    {res}1.458414
 {txt}
 {com}. predict u, resid
 {txt}
-{com}. //_47
+{com}. //_49
 . esttab, mtitle se stat(N rho)
 {res}
 {txt}{hline 44}
@@ -631,7 +647,7 @@ Durbin-Watson statistic (original)    {res}1.458414
 {txt}Standard errors in parentheses
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
-{com}. //_48
+{com}. //_50
 . reg u l.u lchnimp lchempi lgas lrtwex befile6 affile6 afdec6, noconst
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       130
@@ -658,18 +674,18 @@ Durbin-Watson statistic (original)    {res}1.458414
 {res}{txt}
 {com}. drop u
 {txt}
-{com}. //_49
+{com}. //_51
 . use phillips.dta, clear
 {txt}
-{com}. //_50
+{com}. //_52
 . tsset year
 {res}{txt}{col 9}time variable:  {res}{col 25}year, 1948 to 2003
 {txt}{col 17}delta:  {res}1 unit
 {txt}
-{com}. //_51
+{com}. //_53
 . est clear
 {txt}
-{com}. //_52
+{com}. //_54
 . eststo OLS: reg inf unem if year < 1997
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        49
@@ -686,7 +702,7 @@ Durbin-Watson statistic (original)    {res}1.458414
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}  1.42361{col 26}{space 2} 1.719015{col 37}{space 1}    0.83{col 46}{space 3}0.412{col 54}{space 4}-2.034602{col 67}{space 3} 4.881822
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_53
+{com}. //_55
 . eststo PW: prais inf unem if year < 1997
 
 {txt}Iteration 0:  rho = {res}0.0000
@@ -720,7 +736,7 @@ Durbin-Watson statistic (original)    {res}1.458414
 Durbin-Watson statistic (original)    {res}0.802700
 {txt}Durbin-Watson statistic (transformed) {res}1.909865
 {txt}
-{com}. //_54
+{com}. //_56
 . eststo PW_CO: prais inf unem if year < 1997, corc
 
 {txt}Iteration 0:  rho = {res}0.0000
@@ -755,7 +771,7 @@ Durbin-Watson statistic (original)    {res}0.802700
 Durbin-Watson statistic (original)    {res}0.802700
 {txt}Durbin-Watson statistic (transformed) {res}1.593634
 {txt}
-{com}. //_55
+{com}. //_57
 . eststo FD: reg d.inf d.unem if year < 1997
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
@@ -774,7 +790,7 @@ Durbin-Watson statistic (original)    {res}0.802700
 {space 7}_cons {c |}{col 14}{res}{space 2}-.0781776{col 26}{space 2} .3484621{col 37}{space 1}   -0.22{col 46}{space 3}0.823{col 54}{space 4}-.7795954{col 67}{space 3} .6232401
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_56
+{com}. //_58
 . esttab, mtitle se stat(N rho)
 {res}
 {txt}{hline 76}
@@ -796,15 +812,15 @@ Durbin-Watson statistic (original)    {res}0.802700
 {txt}Standard errors in parentheses
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
-{com}. //_57
+{com}. //_59
 . use intdef.dta, clear
 {txt}
-{com}. //_58
+{com}. //_60
 . tsset year
 {res}{txt}{col 9}time variable:  {res}{col 25}year, 1948 to 2003
 {txt}{col 17}delta:  {res}1 unit
 {txt}
-{com}. //_59
+{com}. //_61
 . reg i3 inf def if year < 2004
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        56
@@ -822,12 +838,12 @@ Durbin-Watson statistic (original)    {res}0.802700
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.733266{col 26}{space 2}  .431967{col 37}{space 1}    4.01{col 46}{space 3}0.000{col 54}{space 4} .8668497{col 67}{space 3} 2.599682
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_60
+{com}. //_62
 . dwstat
 
 {txt}Durbin-Watson d-statistic({res}  3{txt},{res}    56{txt}) = {res} .7161527
 {txt}
-{com}. //_61
+{com}. //_63
 . predict u, resid
 {txt}
 {com}. reg u l.u, noconst
@@ -848,7 +864,7 @@ Durbin-Watson statistic (original)    {res}0.802700
 {res}{txt}
 {com}. drop u
 {txt}
-{com}. //_62
+{com}. //_64
 . reg d.i3 d.inf d.def if year < 2004
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        55
@@ -874,7 +890,7 @@ Durbin-Watson statistic (original)    {res}0.802700
 
 {txt}Durbin-Watson d-statistic({res}  3{txt},{res}    55{txt}) = {res} 1.796365
 {txt}
-{com}. //_63
+{com}. //_65
 . predict u, resid
 {txt}(1 missing value generated)
 
@@ -894,18 +910,18 @@ Durbin-Watson statistic (original)    {res}0.802700
 {space 9}L1. {c |}{col 14}{res}{space 2} .0717246{col 26}{space 2}  .133046{col 37}{space 1}    0.54{col 46}{space 3}0.592{col 54}{space 4}-.1951318{col 67}{space 3} .3385811
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_64
+{com}. //_66
 . use prminwge.dta, clear
 {txt}
-{com}. //_65
+{com}. //_67
 . tsset year, yearly
 {res}{txt}{col 9}time variable:  {res}{col 25}year, 1950 to 1987
 {txt}{col 17}delta:  {res}1 year
 {txt}
-{com}. //_66
+{com}. //_68
 . est clear
 {txt}
-{com}. //_67
+{com}. //_69
 . eststo OLS: reg lprepop lmincov lprgnp lusgnp t if year < 1988
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        38
@@ -925,7 +941,7 @@ Durbin-Watson statistic (original)    {res}0.802700
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.663432{col 26}{space 2} 1.257831{col 37}{space 1}   -5.30{col 46}{space 3}0.000{col 54}{space 4}-9.222508{col 67}{space 3}-4.104356
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_68
+{com}. //_70
 . eststo Newey1: newey lprepop lmincov lprgnp lusgnp t if year < 1988, lag(1)
 
 {txt}Regression with Newey-West standard errors{col 49}Number of obs{col 67}= {res}        38
@@ -943,7 +959,7 @@ Durbin-Watson statistic (original)    {res}0.802700
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.663432{col 26}{space 2} 1.475245{col 37}{space 1}   -4.52{col 46}{space 3}0.000{col 54}{space 4}-9.664841{col 67}{space 3}-3.662023
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 
-{com}. //_69
+{com}. //_71
 . eststo Newey2: newey lprepop lmincov lprgnp lusgnp t if year < 1988, lag(2)
 
 {txt}Regression with Newey-West standard errors{col 49}Number of obs{col 67}= {res}        38
@@ -961,7 +977,7 @@ Durbin-Watson statistic (original)    {res}0.802700
 {txt}{space 7}_cons {c |}{col 14}{res}{space 2}-6.663432{col 26}{space 2} 1.536433{col 37}{space 1}   -4.34{col 46}{space 3}0.000{col 54}{space 4}-9.789329{col 67}{space 3}-3.537535
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 
-{com}. //_70
+{com}. //_72
 . eststo PW: prais lprepop lmincov lprgnp lusgnp t if year < 1988
 
 {txt}Iteration 0:  rho = {res}0.0000
@@ -1005,7 +1021,7 @@ Durbin-Watson statistic (original)    {res}0.802700
 Durbin-Watson statistic (original)    {res}1.013709
 {txt}Durbin-Watson statistic (transformed) {res}1.736277
 {txt}
-{com}. //_71
+{com}. //_73
 . esttab, mtitle scalars(F N)
 {res}
 {txt}{hline 76}
@@ -1033,7 +1049,7 @@ Durbin-Watson statistic (original)    {res}1.013709
 {txt}t statistics in parentheses
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
-{com}. //_72
+{com}. //_74
 . esttab, mtitle se scalars(F N)
 {res}
 {txt}{hline 76}
@@ -1061,15 +1077,15 @@ Durbin-Watson statistic (original)    {res}1.013709
 {txt}Standard errors in parentheses
 {txt}* p<0.05, ** p<0.01, *** p<0.001
 
-{com}. //_73
+{com}. //_75
 . use nyse.dta, clear
 {txt}
-{com}. //_74
+{com}. //_76
 . tsset t, weekly
 {res}{txt}{col 9}time variable:  {res}{col 25}t, 1960w2 to 1973w16
 {txt}{col 17}delta:  {res}1 week
 {txt}
-{com}. //_75
+{com}. //_77
 . reg return l.return
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       689
@@ -1088,7 +1104,7 @@ Durbin-Watson statistic (original)    {res}1.013709
 {space 7}_cons {c |}{col 14}{res}{space 2}  .179634{col 26}{space 2} .0807419{col 37}{space 1}    2.22{col 46}{space 3}0.026{col 54}{space 4} .0211034{col 67}{space 3} .3381646
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_76
+{com}. //_78
 . estat hettest
 
 {txt}Breusch-Pagan / Cook-Weisberg test for heteroskedasticity 
@@ -1098,7 +1114,7 @@ Durbin-Watson statistic (original)    {res}1.013709
 {col 10}chi2({res}1{txt}){col 23}={res}    95.22
 {txt}{col 10}Prob > chi2{col 23}={res}   0.0000
 {txt}
-{com}. //_77
+{com}. //_79
 . predict u, residu
 {txt}(2 missing values generated)
 
@@ -1123,7 +1139,7 @@ Durbin-Watson statistic (original)    {res}1.013709
 {space 7}_cons {c |}{col 14}{res}{space 2} 4.656501{col 26}{space 2} .4276789{col 37}{space 1}   10.89{col 46}{space 3}0.000{col 54}{space 4} 3.816786{col 67}{space 3} 5.496216
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_78
+{com}. //_80
 . reg u l.u, noconst
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       688
@@ -1140,7 +1156,7 @@ Durbin-Watson statistic (original)    {res}1.013709
 {space 9}L1. {c |}{col 14}{res}{space 2}  .001405{col 26}{space 2} .0381496{col 37}{space 1}    0.04{col 46}{space 3}0.971{col 54}{space 4}-.0734987{col 67}{space 3} .0763087
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_79
+{com}. //_81
 . reg return l.return, robust
 
 {txt}Linear regression                               Number of obs     = {res}       689
@@ -1175,21 +1191,21 @@ Durbin-Watson statistic (original)    {res}1.013709
 {space 7}_cons {c |}{col 14}{res}{space 2}  .179634{col 26}{space 2} .0855634{col 37}{space 1}    2.10{col 46}{space 3}0.036{col 54}{space 4} .0116369{col 67}{space 3} .3476311
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 
-{com}. //_80
+{com}. //_82
 . use phillips.dta, clear
 {txt}
-{com}. //_81
+{com}. //_83
 . tsset year
 {res}{txt}{col 9}time variable:  {res}{col 25}year, 1948 to 2003
 {txt}{col 17}delta:  {res}1 unit
 {txt}
-{com}. //_82
+{com}. //_84
 . tsline inf
 {res}{txt}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_inflation.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week_11_inflation.png written in PNG format)
 
-{com}. //_83
+{com}. //_85
 . gen test = 0
 {txt}
 {com}. replace test = 1 if year >= 1997
@@ -1199,7 +1215,7 @@ Durbin-Watson statistic (original)    {res}1.013709
 {txt}
 {com}. label values test test1
 {txt}
-{com}. //_84
+{com}. //_86
 . reg unem l.unem if test == 0
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
@@ -1218,7 +1234,7 @@ Durbin-Watson statistic (original)    {res}1.013709
 {space 7}_cons {c |}{col 14}{res}{space 2} 1.571741{col 26}{space 2} .5771181{col 37}{space 1}    2.72{col 46}{space 3}0.009{col 54}{space 4} .4100629{col 67}{space 3}  2.73342
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_85
+{com}. //_87
 . reg unem l.unem l.inf if test == 0
 
 {txt}      Source {c |}       SS           df       MS      Number of obs   ={res}        48
@@ -1240,24 +1256,25 @@ Durbin-Watson statistic (original)    {res}1.013709
 {space 7}_cons {c |}{col 14}{res}{space 2} 1.303797{col 26}{space 2} .4896861{col 37}{space 1}    2.66{col 46}{space 3}0.011{col 54}{space 4} .3175188{col 67}{space 3} 2.290076
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. //_86
+{com}. //_88
 . quietly reg unem l.unem if test == 0
 {txt}
 {com}. estimates store model1
 {txt}
-{com}. //_87
+{com}. //_89
 . predict unem_est
 {txt}(option {bf:xb} assumed; fitted values)
 (1 missing value generated)
 
-{com}. //_88
+{com}. //_90
 . forecast create forecast1, replace
+{res}{txt}  (Forecast model {res:forecast2} ended.)
 {res}{txt}  Forecast model {res:forecast1} started.
 
 {com}. forecast estimates model1
 {res}{p 2 2 2}{txt}Added estimation results from {cmd:regress}.{p_end}{p 2 2 2}{txt}Forecast model {res:forecast1 }{txt}now contains {res}1 {txt}endogenous variable.{p_end}
 
-{com}. //_89
+{com}. //_91
 . forecast solve, prefix(st_) begin(1997) end(2003) static
 {res}
 {txt}Computing {res}static {txt}forecasts for model {res}forecast1.
@@ -1277,7 +1294,7 @@ Starting period:  {res}1997
 {res}{txt}Forecast {res}1{txt} variable spanning {res}7{txt} periods.
 {hline 39}
 {res}{txt}
-{com}. //_90
+{com}. //_92
 . forecast solve, prefix(dy_) begin(1997) end(2003)
 {res}
 {txt}Computing {res}dynamic {txt}forecasts for model {res}forecast1.
@@ -1297,13 +1314,13 @@ Starting period:  {res}1997
 {res}{txt}Forecast {res}1{txt} variable spanning {res}7{txt} periods.
 {hline 39}
 {res}{txt}
-{com}. //_91
+{com}. //_93
 . twoway line unem year || line st_unem year, lpattern(dash) || line dy_unem year, lpattern(dot)
 {res}{txt}
 {com}. graph export "/Users/Sam/Desktop/Econ 645/Stata/week_11_static_v_dynamic.png", replace
 {txt}(file /Users/Sam/Desktop/Econ 645/Stata/week_11_static_v_dynamic.png written in PNG format)
 
-{com}. //_92
+{com}. //_94
 . gen e = unem - st_unem
 {txt}
 {com}. gen e2 = e^2
@@ -1321,7 +1338,7 @@ Starting period:  {res}1997
 {com}. display model1_RMSE
 {res}.57611988
 {txt}
-{com}. //_93
+{com}. //_95
 . gen e_abs = abs(e) if test ==1
 {txt}(49 missing values generated)
 
@@ -1336,17 +1353,17 @@ Starting period:  {res}1997
 {com}. display model1_MAE
 {res}.54201399
 {txt}
-{com}. //_94
+{com}. //_96
 . quietly reg unem l.unem l.inf if year < 1997
 {txt}
-{com}. //_95
+{com}. //_97
 . predict p2
 {txt}(option {bf:xb} assumed; fitted values)
 (1 missing value generated)
 
 {com}. estimates store model2
 {txt}
-{com}. //_96
+{com}. //_98
 . forecast create forecast2, replace
 {res}{txt}  (Forecast model {res:forecast1} ended.)
 {res}{txt}  Forecast model {res:forecast2} started.
@@ -1354,7 +1371,7 @@ Starting period:  {res}1997
 {com}. forecast estimates model2
 {res}{p 2 2 2}{txt}Added estimation results from {cmd:regress}.{p_end}{p 2 2 2}{txt}Forecast model {res:forecast2 }{txt}now contains {res}1 {txt}endogenous variable.{p_end}
 
-{com}. //_97
+{com}. //_99
 . forecast solve, prefix(st2_) begin(1997) end(2003) static
 {res}
 {txt}Computing {res}static {txt}forecasts for model {res}forecast2.
@@ -1374,7 +1391,7 @@ Starting period:  {res}1997
 {res}{txt}Forecast {res}1{txt} variable spanning {res}7{txt} periods.
 {hline 39}
 {res}{txt}
-{com}. //_98
+{com}. //_100
 . forecast solve, prefix(dy2_) begin(1997) end(2003) 
 {res}
 {txt}Computing {res}dynamic {txt}forecasts for model {res}forecast2.
@@ -1394,7 +1411,7 @@ Starting period:  {res}1997
 {res}{txt}Forecast {res}1{txt} variable spanning {res}7{txt} periods.
 {hline 39}
 {res}{txt}
-{com}. //_99
+{com}. //_101
 . drop e e2 e_abs
 {txt}
 {com}. gen e = unem - st2_unem
@@ -1414,7 +1431,7 @@ Starting period:  {res}1997
 {com}. display model2_RMSE
 {res}.52175434
 {txt}
-{com}. //_100
+{com}. //_102
 . gen e_abs = abs(e)
 {txt}
 {com}. sum e_abs if test==1
@@ -1425,7 +1442,7 @@ Starting period:  {res}1997
 {txt}
 {com}. scalar model2_MAE=`r(mean)'
 {txt}
-{com}. //_101
+{com}. //_103
 . display "Model 1: RMSE="model1_RMSE " and MAE="model1_MAE
 {res}Model 1: RMSE=.57611988 and MAE=.54201399
 {txt}
@@ -1435,7 +1452,7 @@ Starting period:  {res}1997
 {com}. display "Model 2 with lagged unemployment and lagged inflation has lower RMSE and MAE."
 {res}Model 2 with lagged unemployment and lagged inflation has lower RMSE and MAE.
 {txt}
-{com}. //_102
+{com}. //_104
 . twoway line unem year || line st_unem year, lpattern(dash) || line st2_unem year, lpattern(dot) ///
 > title("Forecast of Unemployment") xtitle("Year") subtitle("One-Step-Ahead") ytitle("Unemployment Rate") xline(1996) ///
 > legend(order(1 "Actual" 2 "Model 1" 3 "Model 2"))
@@ -1448,7 +1465,7 @@ Starting period:  {res}1997
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Sam/Desktop/Econ 645/Stata/week_11_TS2.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}10 May 2025, 12:05:01
+ {txt}closed on:  {res}13 May 2025, 18:36:42
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}
