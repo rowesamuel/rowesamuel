@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Stata Programming Techniques Helpful for Econ 645 | Week 1: Econ 645 Introduction</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Stata Programming Techniques Helpful for Econ 645 | Week 1: Econ 645 Introduction" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Stata Programming Techniques Helpful for Econ 645 | Week 1: Econ 645 Introduction" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe" />
+
+
+<meta name="date" content="2025-08-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="automate-graphs-and-figures.html"/>
+<link rel="next" href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="coding-guide-for-folder-structure.html"><a href="coding-guide-for-folder-structure.html"><i class="fa fa-check"></i><b>2</b> Coding Guide for Folder Structure</a></li>
+<li class="chapter" data-level="3" data-path="executing-do-files-and-making-log-files.html"><a href="executing-do-files-and-making-log-files.html"><i class="fa fa-check"></i><b>3</b> Executing do-files and making log files</a></li>
+<li class="chapter" data-level="4" data-path="automate-graphs-and-figures.html"><a href="automate-graphs-and-figures.html"><i class="fa fa-check"></i><b>4</b> Automate Graphs and Figures</a></li>
+<li class="chapter" data-level="5" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html"><i class="fa fa-check"></i><b>5</b> Stata Programming Techniques Helpful for Econ 645</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#stata-programming-macros"><i class="fa fa-check"></i><b>5.1</b> Stata Programming: Macros</a></li>
+<li class="chapter" data-level="5.2" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#local-macros"><i class="fa fa-check"></i><b>5.2</b> Local Macros</a></li>
+<li class="chapter" data-level="5.3" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#global-macros"><i class="fa fa-check"></i><b>5.3</b> Global Macros</a></li>
+<li class="chapter" data-level="5.4" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#looping"><i class="fa fa-check"></i><b>5.4</b> Looping</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#loop-over-a-number"><i class="fa fa-check"></i><b>5.4.1</b> Loop over a number</a></li>
+<li class="chapter" data-level="5.4.2" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#loop-over-a-local-macro"><i class="fa fa-check"></i><b>5.4.2</b> Loop over a local macro</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#data-frames-and-tempfiles"><i class="fa fa-check"></i><b>5.5</b> Data Frames and Tempfiles</a></li>
+<li class="chapter" data-level="5.6" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#appending-multiple-cps-files"><i class="fa fa-check"></i><b>5.6</b> Appending multiple CPS files</a></li>
+<li class="chapter" data-level="5.7" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#by-sort-and-egen"><i class="fa fa-check"></i><b>5.7</b> By Sort and EGEN</a></li>
+<li class="chapter" data-level="5.8" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#retrieving-estimates-stored-in-statas-memory"><i class="fa fa-check"></i><b>5.8</b> Retrieving estimates stored in Stata’s memory</a></li>
+<li class="chapter" data-level="5.9" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#survey-weights"><i class="fa fa-check"></i><b>5.9</b> Survey Weights</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><i class="fa fa-check"></i><b>6</b> Displaying your results with publication-quality tables with estout and outreg</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#estout"><i class="fa fa-check"></i><b>6.1</b> Estout</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#esttab-examples"><i class="fa fa-check"></i><b>6.1.1</b> Esttab Examples</a></li>
+<li class="chapter" data-level="6.1.2" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#exporting-into-word-excel-or-latex-format"><i class="fa fa-check"></i><b>6.1.2</b> Exporting into Word, Excel, or LaTex format</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#outreg2"><i class="fa fa-check"></i><b>6.2</b> Outreg2</a></li>
+<li class="chapter" data-level="6.3" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#example-mincer-equations---replicate-tables"><i class="fa fa-check"></i><b>6.3</b> Example: Mincer Equations - Replicate Tables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 1: Econ 645 Introduction</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="stata-programming-techniques-helpful-for-econ-645" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Stata Programming Techniques Helpful for Econ 645<a href="stata-programming-techniques-helpful-for-econ-645.html#stata-programming-techniques-helpful-for-econ-645" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>A brief overview of techniques that will be helpful for completing assignments and empirical project topics include - Local Macros, Loops, Tempfiles, By Sort and Egen, and Weights&lt;</p>
+<ol style="list-style-type: decimal">
+<li>Macros</li>
+<li>Local Macros</li>
+<li>Global Macros</li>
+<li>Loops</li>
+<li>Dataframes and Tempfiles</li>
+<li>Appending<br />
+</li>
+<li>Bysort and EGEN</li>
+<li>Survey Weights</li>
+<li>Accessing results in Stata’s stored memory</li>
+</ol>
+<div id="stata-programming-macros" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Stata Programming: Macros<a href="stata-programming-techniques-helpful-for-econ-645.html#stata-programming-macros" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One of the essential parts of Stata programming are macros. Macros variables have many uses and can contain strings or numerics. We can use them in loops, in regressions, in calling temporary files, etc. There are two kinds of macros: local and global.</p>
+</div>
+<div id="local-macros" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Local Macros<a href="stata-programming-techniques-helpful-for-econ-645.html#local-macros" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Local macros work within a single executed do file and removed once the session is run. If you are running local macros you must run the line of code that initializes the macro and the command that utilizes it.</p>
+<p>You need to initialize the local macro
+E.g.: local i = 1
+<em>Key</em>: You need to call the macro with <code>key (or left quote key just above tab key) and ' key. E.g.: display "</code>i’”
+*E.g.: replace x = 0 if y = `i’</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb13-1" tabindex="-1"></a><span class="kw">local</span> i = 1</span>
+<span id="cb13-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb13-2" tabindex="-1"></a><span class="kw">display</span> <span class="st">&quot;`i&#39;&quot;</span></span></code></pre></div>
+<pre><code>1</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb15-1" tabindex="-1"></a><span class="kw">local</span> <span class="kw">k</span> = <span class="ot">`i&#39;</span> + 1</span>
+<span id="cb15-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb15-2" tabindex="-1"></a><span class="kw">display</span> <span class="st">&quot;`k&#39;&quot;</span></span></code></pre></div>
+<pre><code>2</code></pre>
+</div>
+<div id="global-macros" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Global Macros<a href="stata-programming-techniques-helpful-for-econ-645.html#global-macros" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Global macros are variables that stays within memory even after a new session is run. These macro varibles can work across multiple do files, as well. You need to initialize a global macro E.g.:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb17-1" tabindex="-1"></a><span class="kw">global</span> j = 2</span></code></pre></div>
+<p>Next, you call the macro with $</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb18-1" tabindex="-1"></a><span class="kw">display</span> <span class="st">&quot;$j&quot;</span></span></code></pre></div>
+<pre><code>2</code></pre>
+<p>You can use local and global macro variables for qualifiers, as well</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb20-1" tabindex="-1"></a><span class="kw">replace</span> z = 1 <span class="kw">if</span> <span class="fu">y</span> = <span class="ot">$i</span></span></code></pre></div>
+<p>Another great use of macros is to find a list of for local levels of a categorical variable, and store it in macro variable</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb21-1" tabindex="-1"></a><span class="kw">levelsof</span> varname, <span class="kw">local</span>(<span class="kw">levels</span>) </span>
+<span id="cb21-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb21-2" tabindex="-1"></a><span class="kw">foreach</span> <span class="ot">l</span> <span class="kw">of</span> <span class="kw">local</span> <span class="kw">levels</span> {</span>
+<span id="cb21-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb21-3" tabindex="-1"></a>  command <span class="kw">if</span> varname == <span class="ot">`l&#39;</span></span>
+<span id="cb21-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb21-4" tabindex="-1"></a>}</span></code></pre></div>
+<p>We’ll demo this later, but it is quite useful</p>
+<p>You can also use local macros to test regression models
+We’ll demo this later, as well</p>
+</div>
+<div id="looping" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Looping<a href="stata-programming-techniques-helpful-for-econ-645.html#looping" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><em>Looping has many uses when you want to apply a function or command over
+</em>a repeated set of values
+<em>There is forvalues and foreach - I typically use foreach given it’s versatility
+</em>but Stata says that forvalues can be more efficient
+*E.g.: Loop over years and iterate i</p>
+<div id="loop-over-a-number" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Loop over a number<a href="stata-programming-techniques-helpful-for-econ-645.html#loop-over-a-number" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb22-1" tabindex="-1"></a><span class="kw">local</span> i = 0</span>
+<span id="cb22-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb22-2" tabindex="-1"></a><span class="kw">foreach</span> num <span class="kw">of</span> numlist 2015/2019 {</span>
+<span id="cb22-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb22-3" tabindex="-1"></a>  <span class="kw">display</span> <span class="st">&quot;`num&#39;&quot;</span></span>
+<span id="cb22-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb22-4" tabindex="-1"></a>  <span class="kw">local</span> i = <span class="ot">`i&#39;</span>+1</span>
+<span id="cb22-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb22-5" tabindex="-1"></a>  <span class="kw">display</span> <span class="st">&quot;This is the `i&#39; loop&quot;</span></span>
+<span id="cb22-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb22-6" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>2015
+This is the 1 loop
+2016
+This is the 2 loop
+2017
+This is the 3 loop
+2018
+This is the 4 loop
+2019
+This is the 5 loop</code></pre>
+</div>
+<div id="loop-over-a-local-macro" class="section level3 hasAnchor" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Loop over a local macro<a href="stata-programming-techniques-helpful-for-econ-645.html#loop-over-a-local-macro" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>*E.g.: Loop over months and years to read in new files</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb24-1" tabindex="-1"></a><span class="kw">local</span> <span class="fu">month</span> jan feb mar apr may jun jul aug sep oct nov dec</span>
+<span id="cb24-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb24-2" tabindex="-1"></a><span class="kw">foreach</span> <span class="fu">y</span> <span class="kw">of</span> numlist 2018/2019 {</span>
+<span id="cb24-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb24-3" tabindex="-1"></a>  <span class="kw">foreach</span> <span class="fu">m</span> <span class="kw">of</span> <span class="kw">local</span> <span class="fu">month</span> {</span>
+<span id="cb24-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb24-4" tabindex="-1"></a>    <span class="kw">local</span> filename = <span class="st">&quot;`m&#39;`y&#39;.dta&quot;</span></span>
+<span id="cb24-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb24-5" tabindex="-1"></a>    <span class="kw">display</span> <span class="st">&quot;`filename&#39;&quot;</span></span>
+<span id="cb24-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb24-6" tabindex="-1"></a>  }</span>
+<span id="cb24-7"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb24-7" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>jan2018.dta
+feb2018.dta
+mar2018.dta
+apr2018.dta
+may2018.dta
+jun2018.dta
+jul2018.dta
+aug2018.dta
+sep2018.dta
+oct2018.dta
+nov2018.dta
+dec2018.dta
+jan2019.dta
+feb2019.dta
+mar2019.dta
+apr2019.dta
+may2019.dta
+jun2019.dta
+jul2019.dta
+aug2019.dta
+sep2019.dta
+oct2019.dta
+nov2019.dta
+dec2019.dta</code></pre>
+</div>
+</div>
+<div id="data-frames-and-tempfiles" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Data Frames and Tempfiles<a href="stata-programming-techniques-helpful-for-econ-645.html#data-frames-and-tempfiles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Data frames are a relatively new part of Stata (Stata 16+) that let you switch between datasets. Before you could only work on one dataset at a time. You can read an introduction to Stata data frames from <a href="https://medium.com/the-stata-guide/the-stata-frames-guide-1149b50864e3">
+Asjad Naqvi</a>.</p>
+<p>For older versions of Stata, we have the tempfiles workaround. Tempfiles are useful since they are a bypass around an older Stata limitation of one dataframe at a time. Later iterations of Stata introduced the dataframe functionality, but the tempfile method still works well.
+We will append three years of CPS MORG data from NBER and generate short 1-year panels. <em>Note</em>: Tempfiles are really just macros.</p>
+</div>
+<div id="appending-multiple-cps-files" class="section level2 hasAnchor" number="5.6">
+<h2><span class="header-section-number">5.6</span> Appending multiple CPS files<a href="stata-programming-techniques-helpful-for-econ-645.html#appending-multiple-cps-files" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Get CPS Data</p>
+<p>Small CPS Files have only a few variables in them compared to the usual.
+The full Census CPS micro data files found at:
+<a href="https://www.census.gov/data/datasets/time-series/demo/cps/cps-basic.html">
+https://www.census.gov/data/datasets/time-series/demo/cps/cps-basic.html</a>.</p>
+<p>Set up initial tempfile so we can add each year of CPS data. Save the macro and set it to emptyok.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb26-1" tabindex="-1"></a><span class="kw">tempfile</span> cps</span>
+<span id="cb26-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb26-2" tabindex="-1"></a><span class="kw">save</span> <span class="ot">`cps&#39;</span>, emptyok</span></code></pre></div>
+<p>Create a local variable to loop over each year and month to append monthly CPS files into 1 cps file.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS&quot;</span></span>
+<span id="cb27-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-2" tabindex="-1"></a>*Set <span class="fu">month</span> <span class="kw">macro</span></span>
+<span id="cb27-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-3" tabindex="-1"></a><span class="kw">local</span> <span class="fu">month</span> jan feb mar apr may jun jul aug sep oct nov dec</span>
+<span id="cb27-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-4" tabindex="-1"></a><span class="kw">local</span> filecount = 0</span>
+<span id="cb27-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-5" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-6" tabindex="-1"></a><span class="kw">tempfile</span> cps</span>
+<span id="cb27-7"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-7" tabindex="-1"></a><span class="kw">save</span> <span class="ot">`cps&#39;</span>, emptyok</span>
+<span id="cb27-8"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-8" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-9" tabindex="-1"></a><span class="kw">foreach</span> <span class="fu">y</span> <span class="kw">of</span> numlist 23/24 {</span>
+<span id="cb27-10"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-10" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-11" tabindex="-1"></a>  <span class="kw">foreach</span> <span class="fu">m</span> <span class="kw">of</span> <span class="kw">local</span> <span class="fu">month</span> {</span>
+<span id="cb27-12"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-12" tabindex="-1"></a>        </span>
+<span id="cb27-13"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-13" tabindex="-1"></a>    *Show the <span class="fu">year</span> and <span class="fu">month</span></span>
+<span id="cb27-14"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-14" tabindex="-1"></a>    <span class="kw">display</span> <span class="st">&quot;`m&#39;`y&#39;&quot;</span></span>
+<span id="cb27-15"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-15" tabindex="-1"></a>    <span class="kw">local</span> filename <span class="st">&quot;small`m&#39;`y&#39;pub.dta&quot;</span></span>
+<span id="cb27-16"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-16" tabindex="-1"></a>    <span class="kw">display</span> <span class="st">&quot;`filename&#39;&quot;</span></span>
+<span id="cb27-17"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-17" tabindex="-1"></a>        </span>
+<span id="cb27-18"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-18" tabindex="-1"></a>    *Open the <span class="fu">monthly</span> <span class="kw">data</span> file</span>
+<span id="cb27-19"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-19" tabindex="-1"></a>    <span class="kw">use</span> <span class="st">&quot;`filename&#39;&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb27-20"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-20" tabindex="-1"></a></span>
+<span id="cb27-21"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-21" tabindex="-1"></a>      *Append <span class="fu">monthly</span> <span class="kw">data</span> file to cps <span class="kw">tempfile</span></span>
+<span id="cb27-22"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-22" tabindex="-1"></a>      <span class="kw">quietly</span> <span class="kw">append</span> <span class="kw">using</span> <span class="ot">`cps&#39;</span></span>
+<span id="cb27-23"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-23" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-24" tabindex="-1"></a>      <span class="kw">save</span> <span class="ot">`cps&#39;</span>, <span class="kw">replace</span></span>
+<span id="cb27-25"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-25" tabindex="-1"></a>      <span class="kw">clear</span></span>
+<span id="cb27-26"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-26" tabindex="-1"></a>      </span>
+<span id="cb27-27"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-27" tabindex="-1"></a>      *Count the number <span class="kw">of</span> <span class="fu">monthly</span> files appended</span>
+<span id="cb27-28"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-28" tabindex="-1"></a>      <span class="kw">local</span> filecount = <span class="ot">`filecount&#39;</span> + 1</span>
+<span id="cb27-29"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-29" tabindex="-1"></a>    }</span>
+<span id="cb27-30"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-30" tabindex="-1"></a>}</span>
+<span id="cb27-31"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-31" tabindex="-1"></a>*Get the appended CPS File</span>
+<span id="cb27-32"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-32" tabindex="-1"></a><span class="kw">use</span> <span class="ot">`cps&#39;</span></span>
+<span id="cb27-33"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-33" tabindex="-1"></a><span class="kw">tab</span> hrmonth hryear4</span>
+<span id="cb27-34"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb27-34" tabindex="-1"></a><span class="kw">save</span> <span class="st">&quot;cps23_24.dta&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Data/CPS
+
+
+
+
+(note: dataset contains 0 observations)
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+
+jan23
+smalljan23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+feb23
+smallfeb23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+mar23
+smallmar23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+apr23
+smallapr23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+may23
+smallmay23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+jun23
+smalljun23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+jul23
+smalljul23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+aug23
+smallaug23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+sep23
+smallsep23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+oct23
+smalloct23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+nov23
+smallnov23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+dec23
+smalldec23pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+jan24
+smalljan24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+feb24
+smallfeb24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+mar24
+smallmar24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+apr24
+smallapr24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+may24
+smallmay24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+jun24
+smalljun24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+jul24
+smalljul24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+aug24
+smallaug24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+sep24
+smallsep24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+oct24
+smalloct24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+nov24
+smallnov24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+dec24
+smalldec24pub.dta
+file /var/folders/tz/fwgb6p8923dg6yvb_kt_pw3c0000gn/T//S_36639.000001 saved
+
+           |        HRYEAR4
+   HRMONTH |      2023       2024 |     Total
+-----------+----------------------+----------
+         1 |   125,982    126,802 |   252,784 
+         2 |   124,754    126,784 |   251,538 
+         3 |   124,477    124,581 |   249,058 
+         4 |   126,798    126,850 |   253,648 
+         5 |   127,559    126,945 |   254,504 
+         6 |   127,491    126,112 |   253,603 
+         7 |   127,424    126,158 |   253,582 
+         8 |   127,930    127,031 |   254,961 
+         9 |   126,665    126,590 |   253,255 
+        10 |   127,941    126,387 |   254,328 
+        11 |   126,917    126,686 |   253,603 
+        12 |   126,832    126,743 |   253,575 
+-----------+----------------------+----------
+     Total | 1,520,770  1,517,669 | 3,038,439 
+
+
+file cps23_24.dta saved</code></pre>
+CPS Basic Data Dictionary can be found at:
+<a href="https://www2.census.gov/programs-surveys/cps/datasets/2022/basic/2020_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt">
+CPS Basic Data Dictionary</a>.
+</p>
+<p>Check all years are there</p>
+</div>
+<div id="by-sort-and-egen" class="section level2 hasAnchor" number="5.7">
+<h2><span class="header-section-number">5.7</span> By Sort and EGEN<a href="stata-programming-techniques-helpful-for-econ-645.html#by-sort-and-egen" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Please note that we will get into bysort egen later in the semester. However, bysort: egen is a powerful combination that it is worth bring up now. You can summarize, replace, or create new variables by multiple groups
+with the by sort and egen commands
+Let’s generate laborforce</p>
+<ol style="list-style-type: decimal">
+<li>1 is employed at work;</li>
+<li>2 is employed absent;</li>
+<li>3 is unemployed layoff;</li>
+<li>4 is unemployed looking;</li>
+<li>5 is NILF retired;</li>
+<li>6 is NILF disabiled; and</li>
+<li>7 is NILF other</li>
+</ol>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-1" tabindex="-1"></a><span class="kw">gen</span> laborforce = .</span>
+<span id="cb29-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-2" tabindex="-1"></a><span class="kw">replace</span> laborforce = 0 <span class="kw">if</span> pemlr &gt;= 5 &amp; pemlr &lt;= 7</span>
+<span id="cb29-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-3" tabindex="-1"></a><span class="kw">replace</span> laborforce = 1 <span class="kw">if</span> pemlr &gt;= 1 &amp; pemlr &lt;= 4</span>
+<span id="cb29-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-4" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> laborforce1 0 <span class="st">&quot;NILF&quot;</span> 1 <span class="st">&quot;Labor Force&quot;</span></span>
+<span id="cb29-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> laborforce laborforce1</span>
+<span id="cb29-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-6" tabindex="-1"></a><span class="kw">tab</span> laborforce</span>
+<span id="cb29-7"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-7" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-8" tabindex="-1"></a><span class="kw">gen</span> employed = .</span>
+<span id="cb29-9"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-9" tabindex="-1"></a><span class="kw">replace</span> employed = 0 <span class="kw">if</span> pemlr &gt;= 3 &amp; pemlr &lt;= 7</span>
+<span id="cb29-10"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-10" tabindex="-1"></a><span class="kw">replace</span> employed = 1 <span class="kw">if</span> pemlr &gt;= 1 &amp; pemlr &lt;= 2</span>
+<span id="cb29-11"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-11" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> employed1 0 <span class="st">&quot;Not Employed&quot;</span> 1 <span class="st">&quot;Employed&quot;</span></span>
+<span id="cb29-12"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-12" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> employed employed1</span>
+<span id="cb29-13"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb29-13" tabindex="-1"></a><span class="kw">tab</span> employed</span></code></pre></div>
+<p>Generate a race/ethnicity category from existing</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-1" tabindex="-1"></a><span class="kw">gen</span> race_ethnicity = .</span>
+<span id="cb30-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-2" tabindex="-1"></a><span class="kw">replace</span> race_ethnicity = 1 <span class="kw">if</span> ptdtrace == 1 &amp; pehspnon == 2</span>
+<span id="cb30-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-3" tabindex="-1"></a><span class="kw">replace</span> race_ethnicity = 2 <span class="kw">if</span> ptdtrace == 2 &amp; pehspnon == 2 </span>
+<span id="cb30-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-4" tabindex="-1"></a><span class="kw">replace</span> race_ethnicity = 3 <span class="kw">if</span> pehspnon == 1</span>
+<span id="cb30-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-5" tabindex="-1"></a><span class="kw">replace</span> race_ethnicity = 4 <span class="kw">if</span> ptdtrace == 3 &amp; pehspnon == 2</span>
+<span id="cb30-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-6" tabindex="-1"></a><span class="kw">replace</span> race_ethnicity = 5 <span class="kw">if</span> (ptdtrace == 4 | ptdtrace == 5) &amp; pehspnon == 2</span>
+<span id="cb30-7"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-7" tabindex="-1"></a><span class="kw">replace</span> race_ethnicity = 6 <span class="kw">if</span> (ptdtrace &gt;= 6 &amp; ptdtrace &lt;= 26) &amp; pehspnon == 2</span>
+<span id="cb30-8"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-8" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> race_ethnicity1 1 <span class="st">&quot;White NH&quot;</span> 2 <span class="st">&quot;Black NH&quot;</span> 3 <span class="st">&quot;Hispanic or Latino/a&quot;</span> <span class="co">///</span></span>
+<span id="cb30-9"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-9" tabindex="-1"></a>4 <span class="st">&quot;Native American NH&quot;</span> 5 <span class="st">&quot;Asian or Pacific Islander NH&quot;</span> 6 <span class="st">&quot;Multiracial NH&quot;</span></span>
+<span id="cb30-10"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-10" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> race_ethnicity race_ethnicity1</span>
+<span id="cb30-11"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb30-11" tabindex="-1"></a><span class="kw">tab</span> race_ethnicity </span></code></pre></div>
+<p>Sort by Sex</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb31-1" tabindex="-1"></a><span class="kw">sort</span> pesex</span>
+<span id="cb31-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb31-2" tabindex="-1"></a>*Summarize laborforce <span class="kw">by</span> sex</span>
+<span id="cb31-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb31-3" tabindex="-1"></a><span class="kw">by</span> pesex: <span class="kw">sum</span> laborforce</span>
+<span id="cb31-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb31-4" tabindex="-1"></a><span class="kw">bysort</span>: <span class="kw">sum</span> laborforce</span></code></pre></div>
+<p>Sort by Sex and Race.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb32-1" tabindex="-1"></a><span class="kw">sort</span> pesex race_ethnicity</span>
+<span id="cb32-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb32-2" tabindex="-1"></a>*Summarize laborforce <span class="kw">by</span> sex and race</span>
+<span id="cb32-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb32-3" tabindex="-1"></a><span class="kw">by</span> pesex race_ethnicity: <span class="kw">sum</span> laborforce</span>
+<span id="cb32-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb32-4" tabindex="-1"></a><span class="kw">bysort</span> pesex race_ethnicity: <span class="kw">sum</span> laborforce</span></code></pre></div>
+<p>Generate Age Bin to find individuals over 16.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb33-1" tabindex="-1"></a><span class="kw">gen</span> over_16 = .</span>
+<span id="cb33-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb33-2" tabindex="-1"></a><span class="kw">replace</span> over_16 = 0 <span class="kw">if</span> prtage &lt; 16</span>
+<span id="cb33-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb33-3" tabindex="-1"></a><span class="kw">replace</span> over_16 = 1 <span class="kw">if</span> prtage &gt;= 16</span>
+<span id="cb33-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb33-4" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> over_16a 0 <span class="st">&quot;Under 16&quot;</span> 1 <span class="st">&quot;16 and older&quot;</span></span>
+<span id="cb33-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb33-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> over_16 over_16a</span>
+<span id="cb33-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb33-6" tabindex="-1"></a><span class="kw">tab</span> over_16</span></code></pre></div>
+<p>Generate unweighted laborforce participation rate for each group with by sort and egen. Bysort works, as well, but I usually use sort on one line and by on the other</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb34-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb34-1" tabindex="-1"></a><span class="kw">sort</span> pesex race_ethnicity</span>
+<span id="cb34-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb34-2" tabindex="-1"></a><span class="kw">by</span> pesex race_ethnicity: <span class="kw">egen</span> mean_lfpr = <span class="kw">mean</span>(laborforce) <span class="kw">if</span> over_16 == 1</span>
+<span id="cb34-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb34-3" tabindex="-1"></a><span class="kw">by</span> pesex race_ethnicity: <span class="kw">sum</span> mean_lfpr</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb35-1" tabindex="-1"></a>*Counting and indexing/subscripting within groups</span>
+<span id="cb35-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb35-2" tabindex="-1"></a><span class="kw">gen</span> idcount = .</span>
+<span id="cb35-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb35-3" tabindex="-1"></a><span class="kw">by</span> pesex race_ethnicity: <span class="kw">replace</span> idcount = <span class="dt">_n</span></span>
+<span id="cb35-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb35-4" tabindex="-1"></a><span class="kw">gen</span> idcount2 = .</span>
+<span id="cb35-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb35-5" tabindex="-1"></a><span class="kw">by</span> pesex race_ethnicity: <span class="kw">replace</span> idcount2 = idcount[_N]</span></code></pre></div>
+</div>
+<div id="retrieving-estimates-stored-in-statas-memory" class="section level2 hasAnchor" number="5.8">
+<h2><span class="header-section-number">5.8</span> Retrieving estimates stored in Stata’s memory<a href="stata-programming-techniques-helpful-for-econ-645.html#retrieving-estimates-stored-in-statas-memory" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Instead manually entering summary or regression results, we can use scalars in Stata’s memory to retrieve the information. This reduces human error of copying and pasting.</p>
+<p>For summary statistics we can use the <strong>return list</strong> command.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb36-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb36-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS&quot;</span></span>
+<span id="cb36-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb36-2" tabindex="-1"></a><span class="kw">use</span> smalljan24pub.dta, <span class="kw">clear</span></span>
+<span id="cb36-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb36-3" tabindex="-1"></a><span class="kw">sum</span> pternwa <span class="kw">if</span> prerelg==1</span>
+<span id="cb36-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb36-4" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb36-5" tabindex="-1"></a><span class="fu">return</span> <span class="ot">list</span></span>
+<span id="cb36-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb36-6" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb36-7" tabindex="-1"></a><span class="kw">gen</span> demean_earnings=pternwa-<span class="ot">`r(mean)&#39;</span> <span class="kw">if</span> prerelg==1</span>
+<span id="cb36-8"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb36-8" tabindex="-1"></a><span class="kw">summarize</span> demean_earnings</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Data/CPS
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+     pternwa |     10,666    137274.8    146839.5          0    1125627
+
+
+scalars:
+                  r(N) =  10666
+              r(sum_w) =  10666
+               r(mean) =  137274.7503281455
+                r(Var) =  21561833661.67427
+                 r(sd) =  146839.4826389492
+                r(min) =  0
+                r(max) =  1125627
+                r(sum) =  1464172487
+
+(116,136 missing values generated)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+demean_ear~s |     10,666   -3.79e-12    146839.5  -137274.8   988352.2</code></pre>
+<p>We can also grab information about a regression</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb38-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS&quot;</span></span>
+<span id="cb38-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-2" tabindex="-1"></a><span class="kw">use</span> smalljan24pub.dta, <span class="kw">clear</span></span>
+<span id="cb38-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-3" tabindex="-1"></a><span class="kw">gen</span> lnearn=<span class="fu">ln</span>(pternwa) <span class="kw">if</span> prerelg==1</span>
+<span id="cb38-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-4" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">exp</span>=prtage-16</span>
+<span id="cb38-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-5" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">exp</span>=0 <span class="kw">if</span> <span class="fu">exp</span>==-1</span>
+<span id="cb38-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-6" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-7" tabindex="-1"></a><span class="kw">reg</span> lnearn c.exp##c.<span class="fu">exp</span> i.peeduca i.peernlab <span class="kw">if</span> prerelg==1</span>
+<span id="cb38-8"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-8" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-9" tabindex="-1"></a><span class="kw">ereturn</span> <span class="ot">list</span></span>
+<span id="cb38-10"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-10" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-11" tabindex="-1"></a><span class="fu">matrix</span> <span class="ot">list</span> <span class="fu">e</span>(b)</span>
+<span id="cb38-12"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-12" tabindex="-1"></a></span>
+<span id="cb38-13"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-13" tabindex="-1"></a>*Coefficients and standard errors</span>
+<span id="cb38-14"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb38-14" tabindex="-1"></a><span class="kw">display</span> _b[1.peernlab] _se[1.peernlab]</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Data/CPS
+
+
+(116,150 missing values generated)
+
+(27,667 missing values generated)
+
+(1,209 real changes made)
+
+      Source |       SS           df       MS      Number of obs   =    10,652
+-------------+----------------------------------   F(18, 10633)    =    238.75
+       Model |  2310.98949        18  128.388305   Prob &gt; F        =    0.0000
+    Residual |  5717.80316    10,633  .537741292   R-squared       =    0.2878
+-------------+----------------------------------   Adj R-squared   =    0.2866
+       Total |  8028.79265    10,651  .753806465   Root MSE        =    .73331
+
+------------------------------------------------------------------------------
+      lnearn |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         exp |   .0654986   .0019087    34.31   0.000     .0617571    .0692401
+             |
+ c.exp#c.exp |  -.0010166   .0000324   -31.38   0.000    -.0010801   -.0009531
+             |
+     peeduca |
+         32  |   .2151811   .2348611     0.92   0.360    -.2451906    .6755528
+         33  |   .1297205   .2243499     0.58   0.563    -.3100474    .5694884
+         34  |   .1947927   .2240222     0.87   0.385    -.2443328    .6339181
+         35  |  -.0479483   .2153955    -0.22   0.824    -.4701637    .3742672
+         36  |  -.1032521   .2123809    -0.49   0.627    -.5195583    .3130541
+         37  |   .0602974   .2103972     0.29   0.774    -.3521206    .4727154
+         38  |   .1407128   .2128599     0.66   0.509    -.2765325    .5579581
+         39  |   .4391957    .203923     2.15   0.031     .0394684     .838923
+         40  |   .4534936   .2043117     2.22   0.026     .0530045    .8539827
+         41  |   .5707234   .2059659     2.77   0.006     .1669917     .974455
+         42  |   .5189681   .2053085     2.53   0.011     .1165251    .9214112
+         43  |    .914999   .2038914     4.49   0.000     .5153337    1.314664
+         44  |   1.025085   .2044413     5.01   0.000     .6243415    1.425828
+         45  |   1.463769   .2108507     6.94   0.000     1.050462    1.877076
+         46  |     1.3309   .2076626     6.41   0.000     .9238427    1.737958
+             |
+  2.peernlab |  -.0496265    .024125    -2.06   0.040    -.0969159   -.0023371
+       _cons |   10.07725   .2065816    48.78   0.000     9.672309    10.48219
+------------------------------------------------------------------------------
+
+
+scalars:
+                  e(N) =  10652
+               e(df_m) =  18
+               e(df_r) =  10633
+                  e(F) =  238.7547824846974
+                 e(r2) =  .2878377352595289
+               e(rmse) =  .7333084563678371
+                e(mss) =  2310.989494457061
+                e(rss) =  5717.803159756108
+               e(r2_a) =  .2866321563292809
+                 e(ll) =  -11800.89312136709
+               e(ll_0) =  -13608.80112438194
+               e(rank) =  19
+
+macros:
+            e(cmdline) : &quot;regress lnearn c.exp##c.exp i.peeduca i.peernlab if prerelg==1&quot;
+              e(title) : &quot;Linear regression&quot;
+          e(marginsok) : &quot;XB default&quot;
+                e(vce) : &quot;ols&quot;
+             e(depvar) : &quot;lnearn&quot;
+                e(cmd) : &quot;regress&quot;
+         e(properties) : &quot;b V&quot;
+            e(predict) : &quot;regres_p&quot;
+          e(estat_cmd) : &quot;regress_estat&quot;
+
+matrices:
+                  e(b) :  1 x 21
+                  e(V) :  21 x 21
+
+functions:
+             e(sample)   
+
+
+e(b)[1,21]
+                     c.exp#        31b.         32.         33.         34.         35.         36.         37.
+           exp       c.exp     peeduca     peeduca     peeduca     peeduca     peeduca     peeduca     peeduca
+y1   .06549863  -.00101659           0   .21518108   .12972052   .19479266  -.04794826   -.1032521   .06029741
+
+            38.         39.         40.         41.         42.         43.         44.         45.         46.
+       peeduca     peeduca     peeduca     peeduca     peeduca     peeduca     peeduca     peeduca     peeduca
+y1    .1407128   .43919568    .4534936   .57072336   .51896812   .91499896   1.0250848    1.463769   1.3309002
+
+            1b.          2.            
+      peernlab    peernlab       _cons
+y1           0  -.04962649   10.077247
+
+00</code></pre>
+</div>
+<div id="survey-weights" class="section level2 hasAnchor" number="5.9">
+<h2><span class="header-section-number">5.9</span> Survey Weights<a href="stata-programming-techniques-helpful-for-econ-645.html#survey-weights" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can use the Current Population Survey public use microdata and replicate published BLS numbers. We need to adjust our numbers with the appropriate weights in order to replicate the published numbers.</p>
+<p>First, we need to adjust weights the weights. In the CSV files the weights need to be divided by 1000 since the documentation says implies 4 decimals.</p>
+<p>Composite weights <em>cmpwgt2</em></b>* are used for final BLS tabulations of labor force</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb40-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb40-1" tabindex="-1"></a></span>
+<span id="cb40-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb40-2" tabindex="-1"></a><span class="kw">gen</span> cmpwgt2 = pwcmpwgt/10000</span></code></pre></div>
+<p>Outgoing Rotation Weights <em>pworwgt</em> are used for earnings only person in interviews 4 and 8</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb41-1" tabindex="-1"></a><span class="kw">gen</span> orwgt2 = pworwgt/10000</span></code></pre></div>
+<p>PWSSWGT weights are used for general tabulations of sex, race, states, etc.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb42-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb42-1" tabindex="-1"></a><span class="kw">gen</span> sswgt2 = pwsswgt/10000</span></code></pre></div>
+<p><em>PWVETWGT</em> are used to study the veteran population</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb43-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb43-1" tabindex="-1"></a><span class="kw">gen</span> vetwgt2 = pwvetwgt/10000</span></code></pre></div>
+<p><em>PWLWGT</em> are weights used to study someone over multiple CPS interviews</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb44-1" tabindex="-1"></a><span class="kw">gen</span> lgwgt2 = pwlgwgt/10000</span></code></pre></div>
+<p>If we are appending all months, we need to divide by 12 for the Basic CPS to get annual weights.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb45-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb45-1" tabindex="-1"></a>    <span class="kw">replace</span> cmpwgt2 = cmpwgt2/12</span></code></pre></div>
+<p>If we are appending all months across multiple years, we need to get a composite weight for all of the CPS files</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb46-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS&quot;</span></span>
+<span id="cb46-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb46-2" tabindex="-1"></a><span class="kw">use</span> cps23_24.dta</span>
+<span id="cb46-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb46-3" tabindex="-1"></a><span class="kw">gen</span> cmpwgt3 = pwcmpwgt/24</span></code></pre></div>
+<p>Use the SvySet command to set up the survey design.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb47-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb47-1" tabindex="-1"></a>    <span class="kw">svyset</span> [pw=cmpwgt3]</span></code></pre></div>
+<p>Use the svy: command vars to utilize the survey design.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb48-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb48-1" tabindex="-1"></a>    <span class="kw">svy</span>: <span class="kw">tab</span> employed hryear4, <span class="fu">count</span> cellwidth(20) <span class="kw">format</span>(%20.2gc)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb49-1"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS&quot;</span></span>
+<span id="cb49-2"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-2" tabindex="-1"></a><span class="kw">use</span> cps23_24.dta</span>
+<span id="cb49-3"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-3" tabindex="-1"></a><span class="kw">gen</span> cmpwgt3 = pwcmpwgt/10000</span>
+<span id="cb49-4"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-4" tabindex="-1"></a><span class="kw">replace</span> cmpwgt3 = cmpwgt3/12</span>
+<span id="cb49-5"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-5" tabindex="-1"></a><span class="kw">svyset</span> [pw=cmpwgt3]</span>
+<span id="cb49-6"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-6" tabindex="-1"></a><span class="kw">gen</span> employed = .</span>
+<span id="cb49-7"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-7" tabindex="-1"></a><span class="kw">replace</span> employed = 0 <span class="kw">if</span> pemlr &gt;= 3 &amp; pemlr &lt;= 7</span>
+<span id="cb49-8"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-8" tabindex="-1"></a><span class="kw">replace</span> employed = 1 <span class="kw">if</span> pemlr &gt;= 1 &amp; pemlr &lt;= 2</span>
+<span id="cb49-9"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-9" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> employed1 0 <span class="st">&quot;Not Employed&quot;</span> 1 <span class="st">&quot;Employed&quot;</span></span>
+<span id="cb49-10"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-10" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> employed employed1</span>
+<span id="cb49-11"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-11" tabindex="-1"></a><span class="kw">tab</span> employed</span>
+<span id="cb49-12"><a href="stata-programming-techniques-helpful-for-econ-645.html#cb49-12" tabindex="-1"></a><span class="kw">svy</span>: <span class="kw">tab</span> employed hryear4, <span class="fu">count</span> cellwidth(20) <span class="kw">format</span>(%20.2gc)</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Data/CPS
+
+
+(655,995 missing values generated)
+
+(1,946,105 real changes made)
+
+      pweight: cmpwgt3
+          VCE: linearized
+  Single unit: missing
+     Strata 1: &lt;one&gt;
+         SU 1: &lt;observations&gt;
+        FPC 1: &lt;zero&gt;
+
+(3,038,439 missing values generated)
+
+(838,080 real changes made)
+
+(1,138,576 real changes made)
+
+    employed |      Freq.     Percent        Cum.
+-------------+-----------------------------------
+Not Employed |    838,080       42.40       42.40
+    Employed |  1,138,576       57.60      100.00
+-------------+-----------------------------------
+       Total |  1,976,656      100.00
+
+(running tabulate on estimation sample)
+
+Number of strata   =         1                Number of obs     =    1,976,656
+Number of PSUs     = 1,976,656                Population size   =  535,513,623
+                                              Design df         =    1,976,655
+
+----------------------------------------------------------------------------
+          |                             HRYEAR4                             
+ employed |                 2023                  2024                 Total
+----------+-----------------------------------------------------------------
+ Not Empl |          105,905,668           107,225,904           213,131,572
+ Employed |          161,036,522           161,345,530           322,382,051
+          | 
+    Total |          266,942,190           268,571,433           535,513,623
+----------------------------------------------------------------------------
+  Key:  weighted count
+
+  Pearson:
+    Uncorrected   chi2(1)         =   12.9838
+    Design-based  F(1, 1976655)   =    9.8919     P = 0.0017</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="automate-graphs-and-figures.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-useful_commands.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

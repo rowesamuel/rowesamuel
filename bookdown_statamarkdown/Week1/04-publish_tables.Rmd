@@ -1,0 +1,313 @@
+
+# Displaying your results with publication-quality tables with estout and outreg
+
+Stata has two suites of functions that help produce publication-quality tables: estout and outreg2. While it is easy to copy and paste tables, this is not a best practice. You want to have your Stata scripts reduce the amounts of pointing-and-clicking. Pointing-and-clicking is highly repeative and more prone to user error. It is better to avoid doing this! Using estout or outreg2 will help you in the long-run.
+
+## Estout
+Estout and its functions are a way to produce publication-quality tables of descriptive statistics or regression results. The main function will be *esttab*. 
+
+You can install estout by running the following ssc install command:
+http://repec.sowi.unibe.ch/stata/estout/index.html
+```{stata estout, eval=FALSE}
+ssc install estout
+```
+
+Esttab is the main function in estout that provides publication-quality tables. The basics of esttab are the following:
+```{stata esttab1, eval=FALSE}
+esttab [ namelist ] [ using filename ] [ , options estout_options ]
+```
+
+### Esttab Examples
+Here is an example of a simple regression output comparing two models. We use eststo to store the model and use esttab to display the results.
+```{stata esttab2}
+quietly sysuse auto
+eststo m1: quietly regress price weight mpg
+eststo m2: quietly regress price weight mpg foreign
+esttab m1 m2
+```
+We can replace t-statistics with pvalues with "p". Or, we can use "se" for standard errors, and we can use ci "ci" for confidence interval. We can add scalars to the model output as well. We can use "F" to display the overall F-statistic, "df_r" for degrees of freedom, and "rmse" for root mean squared error. We can also use "r2" for R-Squared and "ar2" for adjusted R-Squared.
+```{stata esttab3}
+quietly sysuse auto
+eststo m1: quietly regress price weight mpg
+eststo m2: quietly regress price weight mpg foreign
+esttab m1 m2, p scalars(F df_r rmse) r2 ar2
+```
+
+With the title() option, we can add a title to the table output. We can also change the model names at the top of the columns with the mtitle() option. We can move the p-values, t-statistics, or standard errors to the right of the beta coefficients with the option "wide". We can also add a note with the addnote() option
+```{stata esttab4}
+quietly sysuse auto
+eststo m1: quietly regress price weight mpg
+eststo m2: quietly regress price weight mpg foreign
+esttab m1 m2, title("Regression Analysis Example") p scalars(F df_r rmse) r2 ar2 mtitle("Model 1" "Model 2") wide
+```
+
+### Exporting into Word, Excel, or LaTex format
+**Do not copy and paste! Automate!* 
+
+We can use esttab with the export options to export into an RTF (Word), Excel, or LaTex format. 
+
+#### Export into Excel format
+If you want to use your table in Excel. Don't copy and paste! Just add "using" after esttab and include the ".csv" file format to the file name
+```{stata esttab5, eval=FALSE}
+sysuse auto
+eststo m1: quietly regress price weight mpg
+eststo m2: quietly regress price weight mpg foreign
+esttab m1 m2 using example.csv, title("Regression Analysis Example") p scalars(F df_r rmse) r2 ar2 mtitle("Model 1" "Model 2")
+```
+
+#### Export into Word format
+If you want to add your table to a Word document, add "using" after esttab and include the ".rtf" file format to the file name.
+```{stata esttab6, eval=FALSE}
+sysuse auto
+eststo m1: quietly regress price weight mpg
+eststo m2: quietly regress price weight mpg foreign
+esttab m1 m2 using example.rtf, title("Regression Analysis Example") p scalars(F df_r rmse) r2 ar2 mtitle("Model 1" "Model 2")
+```
+#### Export into LaTex format
+You can also export your tables into a LaTex table. You can export your file and load it directly into Overleaf. 
+Add "using" after esttab and include the ".tex" file format to the file name
+```{stata esttab7, eval=FALSE}
+sysuse auto
+eststo m1: quietly regress price weight mpg
+eststo m2: quietly regress price weight mpg foreign
+esttab m1 m2 using example.tex, title("Regression Analysis Example") p scalars(F df_r rmse) r2 ar2 mtitle("Model 1" "Model 2")
+```
+
+
+
+## Outreg2
+Outreg2 is another set of functions that help produce publication-quality tables. My preference is for esttab in estout, so I will provide you with a reference to get started with outreg2 if you are interested.
+
+https://www.princeton.edu/~otorres/Outreg2.pdf
+```{stata outreg, eval=FALSE}
+ssc install outreg2
+```
+
+
+## Example: Mincer Equations - Replicate Tables
+*Important Note:* Missing values are set to -1 in the CPS PUMS (public-use micro dataset). If you do not account for missing, you will have an incorrect analysis.</p>
+
+First, let's generate some mutually exclusive categories of interest.
+Recategorize Female:
+```{stata estout1, eval=FALSE}
+gen female = .
+replace female = 0 if pesex == 1
+replace female = 1 if pesex == 2
+label define female1 0 "Male" 1 "Female"
+label values female female1
+```
+
+Generate Union
+```{stata estout2, eval=FALSE}
+gen union = .
+replace union = 0 if peernlab == 2
+replace union = 1 if peernlab == 1
+label define union1 0 "Nonunion" 1 "Union"
+label values union union1
+```
+
+Our outcome of interest: Weekly Earnings - *PTERNWA*.
+*Note:* Documentation says that the data in pternwa imply 2 decimals, so we need to divide by 100. We will also use the variable PRERELG to flag individuals with valid earnings.
+```{stata estout3, eval=FALSE}
+gen earnings = .
+replace earnings = pternwa if prerelg==1
+*Divide by 100 for decimals
+replace earnings = earnings/100
+```
+
+Generate Educational Bins
+```{stata estout4, eval=FALSE}
+tab peeduca
+gen educ = .
+*High School Drop Out: from Less than 1st Grade to 12th Grade No Diploma
+replace educ = 1 if peeduca >= 31 & peeduca <38
+*Graduated High School or GED
+replace educ = 2 if peeduca == 39
+*Some College
+replace educ = 3 if peeduca == 40
+*AA Degree: Vocational or Academic
+replace educ = 4 if peeduca == 41 | peeduca == 42
+*Bachelor's Degree
+replace educ = 5 if peeduca == 43
+*Advanced Degree: Master's, Professional, or Doctorate
+replace educ = 6 if peeduca >= 44 & peeduca <= 46
+label define educ1 1 "High School Dropout" 2 "High School Graduate" ///
+                   3 "Some College" 4 "Associates (VorA) Degree" ///
+        				   5 "Bachelor's Degree" 6 "Advanced Degree"
+label values educ educ1
+```
+
+*Caveat with Generating Categorical Variables in Stata*
+Don't do peeduca >= 44 without peeduca <= 46 since missing values are very large. So you if do peeduca >= 44 and missing educational status is ".", then missing observations will get categorized as an advanced degree which will be a measurement error.
+
+Generate Potential Experience
+```{stata estout5, eval=FALSE}
+gen exp = prtage - 16
+gen exp2 = exp*exp
+```
+
+You can use local macros for testing models
+```{stata estout6, eval=FALSE}
+local rhs1 i.educ exp exp2
+local rhs2 i.educ exp exp2 i.female
+local rhs3 i.educ exp exp2 i.female i.union
+local rhs4 i.educ exp exp2 i.female i.union i.hryear4 
+local rhs5 i.educ exp exp2 i.female i.union i.hryear4 i.peio1icd
+*Add interaction between female and union
+local rhs6 i.educ exp exp2 i.female##i.union i.hryear4 i.peio1icd
+```
+
+Run our regression
+```{stata estout7, eval=FALSE}
+reg earnings `rhs1', robust
+reg earnings `rhs2', robust
+reg earnings `rhs3', robust
+reg earnings `rhs4', robust
+reg earnings `rhs5', robust
+reg earnings `rhs6', robust
+```
+```{stata estout7.1, echo=FALSE}
+quietly {
+  cd "/Users/Sam/Desktop/Data/CPS"
+  use cps23_24.dta, clear
+
+  gen earnings = .
+  replace earnings = pternwa if prerelg==1
+  *Divide by 100 for decimals
+  replace earnings = earnings/100
+  gen lnearnings = ln(earnings)
+  
+  gen exp = prtage - 16
+  gen exp2 = exp*exp
+  gen female = .
+  
+  replace female = 0 if pesex == 1
+  replace female = 1 if pesex == 2
+  label define female1 0 "Male" 1 "Female"
+  label values female female1
+
+  gen union = .
+  replace union = 0 if peernlab == 2
+  replace union = 1 if peernlab == 1
+  label define union1 0 "Nonunion" 1 "Union"
+  label values union union1
+  
+  gen educ = .
+  *High School Drop Out: from Less than 1st Grade to 12th Grade No Diploma
+  replace educ = 1 if peeduca >= 31 & peeduca <38
+  *Graduated High School or GED
+  replace educ = 2 if peeduca == 39
+  *Some College
+  replace educ = 3 if peeduca == 40
+  *AA Degree: Vocational or Academic
+  replace educ = 4 if peeduca == 41 | peeduca == 42
+  *Bachelor's Degree
+  replace educ = 5 if peeduca == 43
+  *Advanced Degree: Master's, Professional, or Doctorate
+  replace educ = 6 if peeduca >= 44 & peeduca <= 46
+  label define educ1 1 "High School Dropout" 2 "High School Graduate" ///
+                     3 "Some College" 4 "Associates (VorA) Degree" ///
+          				   5 "Bachelor's Degree" 6 "Advanced Degree"
+  label values educ educ1
+  
+    label define prmjind1_label 1 "NAICS 11: Agriculture" 2 "NAICS 21: Mining" 3 "NAICS 23: Construction" 4 "NAICS 31-33: Manufacturing" 5 "NAICS 42,44-45: Wholesale & Retail" 6 "NAICS 22,48-49: Utilities & Transportation" 7 "NAICS 51: Information" 8 "NAICS 52-53: Financial Activities" 9 "NAICS 53,55,56: Professional & Business Services" 10 "NAICS 61-62: Education & Health" 11 "NAICS 71-72: Leisure & Hospitality" 12 "NAICS 81: Other Services" 13 "NAICS 92: Public Administration"
+  label values prmjind1 prmjind1_label
+  
+  local rhs1 i.educ exp exp2
+  local rhs2 i.educ exp exp2 i.female
+  local rhs3 i.educ exp exp2 i.female i.union
+  local rhs4 i.educ exp exp2 i.female i.union i.hryear4 
+  local rhs5 i.educ exp exp2 i.female i.union i.hryear4 i.prmjind1
+  local rhs6 i.educ exp exp2 i.female##i.union i.hryear4 i.prmjind1
+}
+reg lnearnings `rhs1', robust
+reg lnearnings `rhs2', robust
+reg lnearnings `rhs3', robust
+reg lnearnings `rhs4', robust
+reg lnearnings `rhs5', robust
+reg lnearnings `rhs6', robust
+```
+Use esttab for formatted results: 
+<a href="http://repec.org/bocode/e/estout/esttab.html">esttab documentation</a>.
+```{stata estout8, eval=FALSE}
+local rhs4 i.educ exp exp2 i.female i.union i.hryear4 
+local rhs5 i.educ exp exp2 i.female i.union i.hryear4 i.peio1icd
+*Add interaction between female and union
+local rhs6 i.educ exp exp2 i.female##i.union i.hryear4 i.peio1icd
+```
+
+Use est clear to clear out your prior estimates. 
+```{stata estout9, eval=FALSE}	
+est clear
+```
+We use eststo to save a model to compare it to another.
+```{stata estout10, eval=FALSE}
+eststo reg1: reg earnings `rhs4'
+eststo reg2: reg earnings `rhs5'
+eststo reg3: reg earnings `rhs6'
+```
+Output the results
+```{stata estout11, eval=FALSE}
+esttab, title (Mincer Equation) r2 se noconstant star(* .10 ** .05 *** .01) ///
+b(%10.3f) drop (*peio1icd) wide label.
+```
+```{stata estout12, echo=FALSE}
+quietly {
+  cd "/Users/Sam/Desktop/Data/CPS"
+  use cps23_24.dta, clear
+
+  gen earnings = .
+  replace earnings = pternwa if prerelg==1
+  *Divide by 100 for decimals
+  replace earnings = earnings/100
+  gen lnearnings = ln(earnings)
+  
+  gen exp = prtage - 16
+  gen exp2 = exp*exp
+  gen female = .
+  
+  replace female = 0 if pesex == 1
+  replace female = 1 if pesex == 2
+  label define female1 0 "Male" 1 "Female"
+  label values female female1
+
+  gen union = .
+  replace union = 0 if peernlab == 2
+  replace union = 1 if peernlab == 1
+  label define union1 0 "Nonunion" 1 "Union"
+  label values union union1
+  
+  gen educ = .
+  *High School Drop Out: from Less than 1st Grade to 12th Grade No Diploma
+  replace educ = 1 if peeduca >= 31 & peeduca <38
+  *Graduated High School or GED
+  replace educ = 2 if peeduca == 39
+  *Some College
+  replace educ = 3 if peeduca == 40
+  *AA Degree: Vocational or Academic
+  replace educ = 4 if peeduca == 41 | peeduca == 42
+  *Bachelor's Degree
+  replace educ = 5 if peeduca == 43
+  *Advanced Degree: Master's, Professional, or Doctorate
+  replace educ = 6 if peeduca >= 44 & peeduca <= 46
+  label define educ1 1 "High School Dropout" 2 "High School Graduate" ///
+                     3 "Some College" 4 "Associates (VorA) Degree" ///
+          				   5 "Bachelor's Degree" 6 "Advanced Degree"
+  label values educ educ1
+  
+  label define prmjind1_label 1 "NAICS 11: Agriculture" 2 "NAICS 21: Mining" 3 "NAICS 23: Construction" 4 "NAICS 31-33: Manufacturing" 5 "NAICS 42,44-45: Wholesale & Retail" 6 "NAICS 22,48-49: Utilities & Transportation" 7 "NAICS 51: Information" 8 "NAICS 52-53: Financial Activities" 9 "NAICS 53,55,56: Professional & Business Services" 10 "NAICS 61-62: Education & Health" 11 "NAICS 71-72: Leisure & Hospitality" 12 "NAICS 81: Other Services" 13 "NAICS 92: Public Administration"
+  label values prmjind1 prmjind1_label
+  
+  local rhs1 i.educ exp exp2
+  local rhs2 i.educ exp exp2 i.female
+  local rhs3 i.educ exp exp2 i.female i.union
+  local rhs4 i.educ exp exp2 i.female i.union i.hryear4 
+  local rhs5 i.educ exp exp2 i.female i.union i.hryear4 i.prmjind1
+  local rhs6 i.educ exp exp2 i.female##i.union i.hryear4 i.prmjind1
+  eststo reg1: reg lnearnings `rhs4'
+  eststo reg2: reg lnearnings `rhs5'
+  eststo reg3: reg lnearnings `rhs6'
+}
+esttab, title (Mincer Equation) r2 se noconstant star(* .10 ** .05 *** .01) ///
+b(%10.3f) drop(1.educ 0.female 0.union 2023.hryear4 0.female#0.union 0.female#1.union 1.female#0.union) compress wide label mtitle("OLS1" "OLS2" "OLS3")
+```
