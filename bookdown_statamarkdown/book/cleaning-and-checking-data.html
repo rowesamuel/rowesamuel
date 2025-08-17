@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Cleaning and Checking Data | Week 2: Reading, Exporting, and Checking Data</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Cleaning and Checking Data | Week 2: Reading, Exporting, and Checking Data" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Cleaning and Checking Data | Week 2: Reading, Exporting, and Checking Data" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe" />
+
+
+<meta name="date" content="2025-08-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="saving-and-exporting-data.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Reading, Exporting, and Checking Data</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="ingesting-data.html"><a href="ingesting-data.html"><i class="fa fa-check"></i><b>2</b> Ingesting Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ingesting-data.html"><a href="ingesting-data.html#getting-our-data"><i class="fa fa-check"></i><b>2.1</b> Getting our data</a></li>
+<li class="chapter" data-level="2.2" data-path="ingesting-data.html"><a href="ingesting-data.html#reading-stata-data"><i class="fa fa-check"></i><b>2.2</b> Reading Stata data</a></li>
+<li class="chapter" data-level="2.3" data-path="ingesting-data.html"><a href="ingesting-data.html#reading-stata-data-with-subsets"><i class="fa fa-check"></i><b>2.3</b> Reading Stata data with subsets</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="ingesting-data.html"><a href="ingesting-data.html#subsetting-by-columns-variables"><i class="fa fa-check"></i><b>2.3.1</b> Subsetting by columns (variables)</a></li>
+<li class="chapter" data-level="2.3.2" data-path="ingesting-data.html"><a href="ingesting-data.html#subsetting-by-rows-observations"><i class="fa fa-check"></i><b>2.3.2</b> Subsetting by rows (observations)</a></li>
+<li class="chapter" data-level="2.3.3" data-path="ingesting-data.html"><a href="ingesting-data.html#system-data"><i class="fa fa-check"></i><b>2.3.3</b> System data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-excel-files"><i class="fa fa-check"></i><b>2.4</b> Importing Excel files</a></li>
+<li class="chapter" data-level="2.5" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-sas-spss-dbase-files"><i class="fa fa-check"></i><b>2.5</b> Importing SAS, SPSS, dbase files</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-.sas7bdat"><i class="fa fa-check"></i><b>2.5.1</b> Importing .sas7bdat</a></li>
+<li class="chapter" data-level="2.5.2" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-sas-xport-version-5"><i class="fa fa-check"></i><b>2.5.2</b> Importing SAS XPORT Version 5</a></li>
+<li class="chapter" data-level="2.5.3" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-sas-xport-version-8"><i class="fa fa-check"></i><b>2.5.3</b> Importing SAS XPORT Version 8</a></li>
+<li class="chapter" data-level="2.5.4" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-spss-files"><i class="fa fa-check"></i><b>2.5.4</b> Importing SPSS files</a></li>
+<li class="chapter" data-level="2.5.5" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-dbase-files"><i class="fa fa-check"></i><b>2.5.5</b> Importing dBase files</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-raw-data-files"><i class="fa fa-check"></i><b>2.6</b> Importing Raw Data files</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="ingesting-data.html"><a href="ingesting-data.html#import-delimited"><i class="fa fa-check"></i><b>2.6.1</b> Import Delimited</a></li>
+<li class="chapter" data-level="2.6.2" data-path="ingesting-data.html"><a href="ingesting-data.html#import-space-separated-files"><i class="fa fa-check"></i><b>2.6.2</b> Import space-separated files</a></li>
+<li class="chapter" data-level="2.6.3" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-fixed-column-files"><i class="fa fa-check"></i><b>2.6.3</b> Importing fixed-column files</a></li>
+<li class="chapter" data-level="2.6.4" data-path="ingesting-data.html"><a href="ingesting-data.html#subsetting-fixed-column-width-files"><i class="fa fa-check"></i><b>2.6.4</b> Subsetting fixed-column width files</a></li>
+<li class="chapter" data-level="2.6.5" data-path="ingesting-data.html"><a href="ingesting-data.html#common-errors-when-reading-and-importing-files"><i class="fa fa-check"></i><b>2.6.5</b> 2.8 Common errors when reading and importing files</a></li>
+<li class="chapter" data-level="2.6.6" data-path="ingesting-data.html"><a href="ingesting-data.html#entering-data-directly-into-stata-data-editor"><i class="fa fa-check"></i><b>2.6.6</b> Entering data directly into Stata Data Editor</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="saving-and-exporting-data.html"><a href="saving-and-exporting-data.html"><i class="fa fa-check"></i><b>3</b> Saving and Exporting Data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="saving-and-exporting-data.html"><a href="saving-and-exporting-data.html#saving-stata-files"><i class="fa fa-check"></i><b>3.1</b> Saving Stata files</a></li>
+<li class="chapter" data-level="3.2" data-path="saving-and-exporting-data.html"><a href="saving-and-exporting-data.html#exporting-excel-files"><i class="fa fa-check"></i><b>3.2</b> Exporting Excel Files</a></li>
+<li class="chapter" data-level="3.3" data-path="saving-and-exporting-data.html"><a href="saving-and-exporting-data.html#exporting-sas-spss-and-dbase-files"><i class="fa fa-check"></i><b>3.3</b> Exporting SAS, SPSS, and dBase files</a></li>
+<li class="chapter" data-level="3.4" data-path="saving-and-exporting-data.html"><a href="saving-and-exporting-data.html#exporting-comma-and-tab-delimited-files"><i class="fa fa-check"></i><b>3.4</b> Exporting comma and tab delimited files</a></li>
+<li class="chapter" data-level="3.5" data-path="saving-and-exporting-data.html"><a href="saving-and-exporting-data.html#exporting-space-separated-files"><i class="fa fa-check"></i><b>3.5</b> Exporting space-separated files</a></li>
+<li class="chapter" data-level="3.6" data-path="saving-and-exporting-data.html"><a href="saving-and-exporting-data.html#creating-excel-reports"><i class="fa fa-check"></i><b>3.6</b> Creating Excel Reports</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html"><i class="fa fa-check"></i><b>4</b> Cleaning and Checking Data</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#checking-individual-variables"><i class="fa fa-check"></i><b>4.1</b> Checking individual variables</a></li>
+<li class="chapter" data-level="4.2" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#one-way-tabulation"><i class="fa fa-check"></i><b>4.2</b> One way tabulation</a></li>
+<li class="chapter" data-level="4.3" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#summarize"><i class="fa fa-check"></i><b>4.3</b> Summarize</a></li>
+<li class="chapter" data-level="4.4" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#crosstabulation---categorical-by-categorical-variables"><i class="fa fa-check"></i><b>4.4</b> Crosstabulation - categorical by categorical variables</a></li>
+<li class="chapter" data-level="4.5" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#checking-categorical-by-continuous-variables"><i class="fa fa-check"></i><b>4.5</b> Checking categorical by continuous variables</a></li>
+<li class="chapter" data-level="4.6" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#checking-continuous-by-continuous-variables"><i class="fa fa-check"></i><b>4.6</b> Checking continuous by continuous variables</a></li>
+<li class="chapter" data-level="4.7" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#fixing-and-correcting-errors-in-data"><i class="fa fa-check"></i><b>4.7</b> Fixing and correcting errors in data</a></li>
+<li class="chapter" data-level="4.8" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#identifying-duplicates"><i class="fa fa-check"></i><b>4.8</b> Identifying duplicates</a></li>
+<li class="chapter" data-level="4.9" data-path="cleaning-and-checking-data.html"><a href="cleaning-and-checking-data.html#practice"><i class="fa fa-check"></i><b>4.9</b> Practice</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 2: Reading, Exporting, and Checking Data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="cleaning-and-checking-data" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Cleaning and Checking Data<a href="cleaning-and-checking-data.html#cleaning-and-checking-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><em>Mitchell Chapter 4</em></p>
+<p>Good note from Mitchell at the beginning: Garbage In; Garbage Out.</p>
+<p>Before doing analysis, you really need to check your data to look for data quality issues.</p>
+<div id="checking-individual-variables" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Checking individual variables<a href="cleaning-and-checking-data.html#checking-individual-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We start off with looking from problems in individual variables. Mitchell uses Working Women’s Survey (WWS) dataset, but we’ll use Current Population Survey (CPS) data, as well.</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb90-1"><a href="cleaning-and-checking-data.html#cb90-1" tabindex="-1"></a><span class="kw">use</span> wws, <span class="kw">clear</span></span></code></pre></div>
+<p>The <em>describe</em> command is a useful command to see an overview of your data
+with variables labels, storage type, and value lables (if any)</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb91-1"><a href="cleaning-and-checking-data.html#cb91-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS/&quot;</span></span>
+<span id="cb91-2"><a href="cleaning-and-checking-data.html#cb91-2" tabindex="-1"></a><span class="kw">use</span> smalljul25pub</span>
+<span id="cb91-3"><a href="cleaning-and-checking-data.html#cb91-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from smalljul25pub.dta
+  obs:       122,252                          
+ vars:            50                          12 Aug 2025 19:17
+ size:     8,313,136                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+hrhhid2         int     %8.0g                 
+hrmis           byte    %8.0g                 HRMIS
+hrmonth         byte    %8.0g                 HRMONTH
+hryear4         int     %8.0g                 HRYEAR4
+gestfips        byte    %8.0g                 
+gediv           byte    %8.0g                 
+pulineno        byte    %8.0g                 PULINENO
+pudis           byte    %8.0g                 PUDIS
+puiodp1         byte    %8.0g                 PUIODP1
+puiodp2         byte    %8.0g                 PUIODP2
+puiodp3         byte    %8.0g                 PUIODP3
+perrp           byte    %8.0g                 
+pesex           byte    %8.0g                 
+pemaritl        byte    %8.0g                 
+pehspnon        byte    %8.0g                 
+peeduca         byte    %8.0g                 
+peafever        byte    %8.0g                 
+ptdtrace        byte    %8.0g                 
+prpertyp        byte    %8.0g                 
+prtage          byte    %8.0g                 
+pehractt        int     %8.0g                 
+pehract1        byte    %8.0g                 
+pehract2        byte    %8.0g                 
+pemlr           byte    %8.0g                 
+peio1icd        int     %8.0g                 
+peio1cow        byte    %8.0g                 
+peio2cow        byte    %8.0g                 
+prmjind1        byte    %8.0g                 
+prmjind2        byte    %8.0g                 
+prmjocc1        byte    %8.0g                 
+prmjocc2        byte    %8.0g                 
+prdtind1        byte    %8.0g                 
+prdtind2        byte    %8.0g                 
+prdtocc1        byte    %8.0g                 
+prdtocc2        byte    %8.0g                 
+prsjmj          byte    %8.0g                 
+peernhry        byte    %8.0g                 
+peernhro        byte    %8.0g                 
+peernlab        byte    %8.0g                 
+prerelg         byte    %8.0g                 
+prdisflg        byte    %8.0g                 
+pecert1         byte    %8.0g                 
+pecert2         byte    %8.0g                 
+pecert3         byte    %8.0g                 
+pwcmpwgt        long    %12.0g                
+pternwa         long    %12.0g                
+ptio1ocd        int     %8.0g                 
+hrhhid          double  %10.0g                
+ptwk            byte    %8.0g                 
+gtmetsta        byte    %8.0g                 
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>You will noticed that we lack value labels and variable labels. Luckily we have a data dictionary on Census’s website. Let’s label the variables and use the <em>describe</em> command again.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb93-1"><a href="cleaning-and-checking-data.html#cb93-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> gestfips <span class="st">&quot;State&quot;</span></span>
+<span id="cb93-2"><a href="cleaning-and-checking-data.html#cb93-2" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> gediv <span class="st">&quot;Census Region&quot;</span></span>
+<span id="cb93-3"><a href="cleaning-and-checking-data.html#cb93-3" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> pternwa <span class="st">&quot;Weekly earnings&quot;</span></span>
+<span id="cb93-4"><a href="cleaning-and-checking-data.html#cb93-4" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> peio1cow <span class="st">&quot;Class of worker in Main Job&quot;</span></span>
+<span id="cb93-5"><a href="cleaning-and-checking-data.html#cb93-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> peio1cow <span class="st">&quot;Class of worker in Second Job&quot;</span></span>
+<span id="cb93-6"><a href="cleaning-and-checking-data.html#cb93-6" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> pemlr <span class="st">&quot;Labor Force Status&quot;</span></span>
+<span id="cb93-7"><a href="cleaning-and-checking-data.html#cb93-7" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from smalljul25pub.dta
+  obs:       122,252                          
+ vars:            50                          12 Aug 2025 19:17
+ size:     8,313,136                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+hrhhid2         int     %8.0g                 
+hrmis           byte    %8.0g                 HRMIS
+hrmonth         byte    %8.0g                 HRMONTH
+hryear4         int     %8.0g                 HRYEAR4
+gestfips        byte    %8.0g                 State
+gediv           byte    %8.0g                 Census Region
+pulineno        byte    %8.0g                 PULINENO
+pudis           byte    %8.0g                 PUDIS
+puiodp1         byte    %8.0g                 PUIODP1
+puiodp2         byte    %8.0g                 PUIODP2
+puiodp3         byte    %8.0g                 PUIODP3
+perrp           byte    %8.0g                 
+pesex           byte    %8.0g                 
+pemaritl        byte    %8.0g                 
+pehspnon        byte    %8.0g                 
+peeduca         byte    %8.0g                 
+peafever        byte    %8.0g                 
+ptdtrace        byte    %8.0g                 
+prpertyp        byte    %8.0g                 
+prtage          byte    %8.0g                 
+pehractt        int     %8.0g                 
+pehract1        byte    %8.0g                 
+pehract2        byte    %8.0g                 
+pemlr           byte    %8.0g                 Labor Force Status
+peio1icd        int     %8.0g                 
+peio1cow        byte    %8.0g                 Class of worker in Second Job
+peio2cow        byte    %8.0g                 
+prmjind1        byte    %8.0g                 
+prmjind2        byte    %8.0g                 
+prmjocc1        byte    %8.0g                 
+prmjocc2        byte    %8.0g                 
+prdtind1        byte    %8.0g                 
+prdtind2        byte    %8.0g                 
+prdtocc1        byte    %8.0g                 
+prdtocc2        byte    %8.0g                 
+prsjmj          byte    %8.0g                 
+peernhry        byte    %8.0g                 
+peernhro        byte    %8.0g                 
+peernlab        byte    %8.0g                 
+prerelg         byte    %8.0g                 
+prdisflg        byte    %8.0g                 
+pecert1         byte    %8.0g                 
+pecert2         byte    %8.0g                 
+pecert3         byte    %8.0g                 
+pwcmpwgt        long    %12.0g                
+pternwa         long    %12.0g                Weekly earnings
+ptio1ocd        int     %8.0g                 
+hrhhid          double  %10.0g                
+ptwk            byte    %8.0g                 
+gtmetsta        byte    %8.0g                 
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+</div>
+<div id="one-way-tabulation" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> One way tabulation<a href="cleaning-and-checking-data.html#one-way-tabulation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <em>tabulation</em> or <em>tab</em> command is very useful to inspect categorical variables.</p>
+<p>The tabulation or tab command is very useful to inspect categorical variables.
+Let’s look at collgrad, which is a binary for college graduate status in wws data, and let’s look at race data, which is a categorical variable. Let’s include the missing option to make sure no observations are missing data</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb95-1"><a href="cleaning-and-checking-data.html#cb95-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb95-2"><a href="cleaning-and-checking-data.html#cb95-2" tabindex="-1"></a><span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb95-3"><a href="cleaning-and-checking-data.html#cb95-3" tabindex="-1"></a><span class="kw">tabulate</span> collgrad, <span class="fu">missing</span></span>
+<span id="cb95-4"><a href="cleaning-and-checking-data.html#cb95-4" tabindex="-1"></a><span class="kw">tabulate</span> race, <span class="fu">missing</span></span></code></pre></div>
+<pre><code>(Working Women Survey)
+
+    college |
+   graduate |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      1,713       76.27       76.27
+          1 |        533       23.73      100.00
+------------+-----------------------------------
+      Total |      2,246      100.00
+
+       race |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      1,636       72.84       72.84
+          2 |        583       25.96       98.80
+          3 |         26        1.16       99.96
+          4 |          1        0.04      100.00
+------------+-----------------------------------
+      Total |      2,246      100.00</code></pre>
+<p>Race should only be coded between 1 and 3, so we have one miscoded observation.
+Let’s find the observation’s idcode</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb97-1"><a href="cleaning-and-checking-data.html#cb97-1" tabindex="-1"></a><span class="ot">list</span> idcode race <span class="kw">if</span> race==4</span></code></pre></div>
+<pre><code>(Working Women Survey)
+
+      +---------------+
+      | idcode   race |
+      |---------------|
+2013. |    543      4 |
+      +---------------+</code></pre>
+</div>
+<div id="summarize" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Summarize<a href="cleaning-and-checking-data.html#summarize" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <em>summarize</em> or <em>sum</em> command is very useful to inspect continuous variables. Let’s look at the amount of unemployment insurance in unempins. The values range between 0 and 300 dollars for unemployed insurance received last week.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb99-1"><a href="cleaning-and-checking-data.html#cb99-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb99-2"><a href="cleaning-and-checking-data.html#cb99-2" tabindex="-1"></a><span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb99-3"><a href="cleaning-and-checking-data.html#cb99-3" tabindex="-1"></a><span class="kw">summarize</span> unempins</span></code></pre></div>
+<pre><code>(Working Women Survey)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+    unempins |      2,246    30.50401    73.16682          0        299</code></pre>
+<p>Let’s look at weekly earnings in CPS.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb101-1"><a href="cleaning-and-checking-data.html#cb101-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS/&quot;</span></span>
+<span id="cb101-2"><a href="cleaning-and-checking-data.html#cb101-2" tabindex="-1"></a><span class="kw">use</span> smalljul25pub.dta, <span class="kw">replace</span></span>
+<span id="cb101-3"><a href="cleaning-and-checking-data.html#cb101-3" tabindex="-1"></a><span class="kw">gen</span> earnings=pternwa/100</span>
+<span id="cb101-4"><a href="cleaning-and-checking-data.html#cb101-4" tabindex="-1"></a><span class="kw">summarize</span> earnings <span class="kw">if</span> prerelg==1</span></code></pre></div>
+<pre><code>(28,617 missing values generated)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+    earnings |      9,635    1408.951     1251.25          0    6930.64</code></pre>
+<p>The data range between $0 and $6,930.64 in weekly earnings last week with a mean of 1,408.95 dollars and a standard deviation of 1,251,25 dollars. The max seems
+a bit high. Let’s add the detail option to get more information.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb103-1"><a href="cleaning-and-checking-data.html#cb103-1" tabindex="-1"></a><span class="kw">summarize</span> earnings <span class="kw">if</span> prerelg==1, <span class="kw">detail</span></span></code></pre></div>
+<pre><code>                          earnings
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%           88              0
+ 5%          250              0
+10%          384              0       Obs               9,635
+25%          680              0       Sum of Wgt.       9,635
+
+50%         1060                      Mean           1408.951
+                        Largest       Std. Dev.       1251.25
+75%         1730        6930.64
+90%         2700        6930.64       Variance        1565626
+95%         3460        6930.64       Skewness       2.688217
+99%      6930.64        6930.64       Kurtosis        11.9109</code></pre>
+<p>We can see that the mean is $1,408.95, while the median is $1,060.00. The mean appears to be skewed rightward, where the skewness is 2.7 and the kurtosis is 11.9. The 95th percentile is 3,460.00 while the 99th percentile is $6,930.64.</p>
+<p>Let’s look at wage data in the wws data set</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb105-1"><a href="cleaning-and-checking-data.html#cb105-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb105-2"><a href="cleaning-and-checking-data.html#cb105-2" tabindex="-1"></a><span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb105-3"><a href="cleaning-and-checking-data.html#cb105-3" tabindex="-1"></a><span class="kw">summarize</span> wage, <span class="kw">detail</span></span></code></pre></div>
+<pre><code>(Working Women Survey)
+
+                         hourly wage
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     1.892108              0
+ 5%     2.801002       1.004952
+10%     3.220612       1.032247       Obs               2,246
+25%     4.259257       1.151368       Sum of Wgt.       2,246
+
+50%     6.276297                      Mean           288.2885
+                        Largest       Std. Dev.      9595.692
+75%     9.661837       40.19808
+90%     12.77777       40.74659       Variance       9.21e+07
+95%     16.73912         250000       Skewness       35.45839
+99%     38.70926         380000       Kurtosis       1297.042</code></pre>
+<p>For our wws data, our mean of 288.29 dollars/hour appears to be highly skewed rightward and heavily influenced by outliers. Our median hourly wage is 6.7 dollars per hour and our 99th percentile hourly wage is 38.7 dollars per hour, but our mean is 288.29 dollar/hour. Our skewness is 35, which means our wage data are highly skewed. Our Kurtosis shows that the max outliers are heavily skewing the results. A normal distributed variable should have a kurtosis of 3, and our kurtosis is 1297. When we see the 2 largets observations, they are 250,000 and 380,000 dollars/hour.</p>
+<p>This means we have found potential data measurement issues. Let’s look at the outliers</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb107-1"><a href="cleaning-and-checking-data.html#cb107-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb107-2"><a href="cleaning-and-checking-data.html#cb107-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb107-3"><a href="cleaning-and-checking-data.html#cb107-3" tabindex="-1"></a><span class="ot">list</span> idcode wage <span class="kw">if</span> wage &gt; 1000</span></code></pre></div>
+<pre><code>      | idcode     wage |
+      |-----------------|
+ 893. |   3145   380000 |
+1241. |   2341   250000 |
+      +-----------------+</code></pre>
+<p>Let’s look at ages, which should range frm 21 to 50 years old. We can use both
+the <em>summarize</em> and <em>tabulate</em> commands. <em>Tabulate</em> can be very useful with
+continuous variables if the range is not too large.</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb109-1"><a href="cleaning-and-checking-data.html#cb109-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb109-2"><a href="cleaning-and-checking-data.html#cb109-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb109-3"><a href="cleaning-and-checking-data.html#cb109-3" tabindex="-1"></a><span class="kw">summarize</span> age</span>
+<span id="cb109-4"><a href="cleaning-and-checking-data.html#cb109-4" tabindex="-1"></a><span class="kw">tabulate</span> age</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+         age |      2,246    36.25111    5.437983         21         83
+
+     age in |
+    current |
+       year |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         21 |          2        0.09        0.09
+         22 |          8        0.36        0.45
+         23 |         16        0.71        1.16
+         24 |         35        1.56        2.72
+         25 |         44        1.96        4.67
+         26 |         50        2.23        6.90
+         27 |         50        2.23        9.13
+         28 |         63        2.80       11.93
+         29 |         49        2.18       14.11
+         30 |         55        2.45       16.56
+         31 |         57        2.54       19.10
+         32 |         60        2.67       21.77
+         33 |         56        2.49       24.27
+         34 |         95        4.23       28.50
+         35 |        213        9.48       37.98
+         36 |        224        9.97       47.95
+         37 |        171        7.61       55.57
+         38 |        175        7.79       63.36
+         39 |        167        7.44       70.79
+         40 |        139        6.19       76.98
+         41 |        148        6.59       83.57
+         42 |        111        4.94       88.51
+         43 |        110        4.90       93.41
+         44 |         98        4.36       97.77
+         45 |         45        2.00       99.78
+         46 |          1        0.04       99.82
+         47 |          1        0.04       99.87
+         48 |          1        0.04       99.91
+         54 |          1        0.04       99.96
+         83 |          1        0.04      100.00
+------------+-----------------------------------
+      Total |      2,246      100.00</code></pre>
+<p>Let’s look at the outliers</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb111-1"><a href="cleaning-and-checking-data.html#cb111-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb111-2"><a href="cleaning-and-checking-data.html#cb111-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb111-3"><a href="cleaning-and-checking-data.html#cb111-3" tabindex="-1"></a><span class="ot">list</span> idcode age <span class="kw">if</span> age &gt; 50</span></code></pre></div>
+<pre><code>      | idcode   age |
+      |--------------|
+2205. |     80    54 |
+2219. |     51    83 |
+      +--------------+</code></pre>
+<p>We have again found potential data measurement problems. The data is supposed to range from 21 to 50, but there are two observations with 54 and 83. It is possible that they were incorrectly entered, and they are supposed to be 45 and 38, respectively.</p>
+</div>
+<div id="crosstabulation---categorical-by-categorical-variables" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Crosstabulation - categorical by categorical variables<a href="cleaning-and-checking-data.html#crosstabulation---categorical-by-categorical-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The two-way tabulation through the <em>tabulate</em> command is a very useful way to look for data quality problems or to double check binaries created. Let’s look at variables metro, which is a binary for whether or not the observation lives in a metropolitian areas, and ccity, which is whether or not the observation lives in the center of the city.</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb113-1"><a href="cleaning-and-checking-data.html#cb113-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb113-2"><a href="cleaning-and-checking-data.html#cb113-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb113-3"><a href="cleaning-and-checking-data.html#cb113-3" tabindex="-1"></a><span class="kw">tabulate</span> metro ccity, <span class="fu">missing</span></span></code></pre></div>
+<pre><code>Does woman |
+   live in |  Does woman live in
+     metro |     city center?
+     area? |         0          1 |     Total
+-----------+----------------------+----------
+         0 |       665          0 |       665 
+         1 |       926        655 |     1,581 
+-----------+----------------------+----------
+     Total |     1,591        655 |     2,246 </code></pre>
+<p>An alternative is to count the number of observations that shouldn’t be there. So we’ll count the number of observations not in a metro area but in a city center. I personally don’t use it, but it has it’s uses.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb115-1"><a href="cleaning-and-checking-data.html#cb115-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb115-2"><a href="cleaning-and-checking-data.html#cb115-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb115-3"><a href="cleaning-and-checking-data.html#cb115-3" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> metro==0 &amp; ccity==1</span></code></pre></div>
+<pre><code>  0</code></pre>
+<p>Let’s look at married and nevermarriaged. There should be no individuals that appear in both married and nevermarried.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb117-1"><a href="cleaning-and-checking-data.html#cb117-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb117-2"><a href="cleaning-and-checking-data.html#cb117-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb117-3"><a href="cleaning-and-checking-data.html#cb117-3" tabindex="-1"></a><span class="kw">tabulate</span> married nevermarried, <span class="fu">missing</span></span></code></pre></div>
+<pre><code>           |   Woman never been
+           |        married
+   married |         0          1 |     Total
+-----------+----------------------+----------
+         0 |       570        234 |       804 
+         1 |     1,440          2 |     1,442 
+-----------+----------------------+----------
+     Total |     2,010        236 |     2,246 </code></pre>
+<p>There may be observation that have been married, but not currently married. There should be no observations that are both married and never married.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb119-1"><a href="cleaning-and-checking-data.html#cb119-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb119-2"><a href="cleaning-and-checking-data.html#cb119-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb119-3"><a href="cleaning-and-checking-data.html#cb119-3" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> married == 1 &amp; nevermarried == 1</span>
+<span id="cb119-4"><a href="cleaning-and-checking-data.html#cb119-4" tabindex="-1"></a><span class="ot">list</span> idcode married nevermarried <span class="kw">if</span> married == 1 &amp; nevermarried == 1</span></code></pre></div>
+<pre><code>  2
+
+      +-----------------------------+
+      | idcode   married   neverm~d |
+      |-----------------------------|
+1523. |   1758         1          1 |
+2231. |     22         1          1 |
+      +-----------------------------+</code></pre>
+<p>We have found another potential data measurement issue. There are 2 observations that are married and never married.</p>
+<p>Let’s look at college graduates and years of school completed. We can use <em>tabulate</em> or the <em>table</em> commands. I personally prefer <em>tabulate</em>, since we can look for missing.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb121-1"><a href="cleaning-and-checking-data.html#cb121-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb121-2"><a href="cleaning-and-checking-data.html#cb121-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb121-3"><a href="cleaning-and-checking-data.html#cb121-3" tabindex="-1"></a><span class="kw">tabulate</span> yrschool collgrad, <span class="fu">missing</span></span></code></pre></div>
+<pre><code>  Years of |
+    school |   college graduate
+ completed |         0          1 |     Total
+-----------+----------------------+----------
+         8 |        69          1 |        70 
+         9 |        55          0 |        55 
+        10 |        84          0 |        84 
+        11 |       123          0 |       123 
+        12 |       943          0 |       943 
+        13 |       174          2 |       176 
+        14 |       180          7 |       187 
+        15 |        81         11 |        92 
+        16 |         0        252 |       252 
+        17 |         0        106 |       106 
+        18 |         0        154 |       154 
+         . |         4          0 |         4 
+-----------+----------------------+----------
+     Total |     1,713        533 |     2,246 </code></pre>
+<p>We can use the <em>table</em> command</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb123-1"><a href="cleaning-and-checking-data.html#cb123-1" tabindex="-1"></a><span class="kw">table</span> yrschool collgrad</span></code></pre></div>
+<pre><code>Years of  |  college  
+school    |  graduate 
+completed |    0     1
+----------+-----------
+        8 |   69     1
+        9 |   55      
+       10 |   84      
+       11 |  123      
+       12 |  943      
+       13 |  174     2
+       14 |  180     7
+       15 |   81    11
+       16 |        252
+       17 |        106
+       18 |        154
+----------------------</code></pre>
+<p>Now let’s find the ID with potential problems</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb125-1"><a href="cleaning-and-checking-data.html#cb125-1" tabindex="-1"></a><span class="ot">list</span> idcode <span class="kw">if</span> yrschool &lt; 16 &amp; collgrad == 1</span></code></pre></div>
+<pre><code>      | idcode |
+      |--------|
+ 195. |   4721 |
+ 369. |   4334 |
+ 464. |   4131 |
+ 553. |   3929 |
+ 690. |   3589 |
+      |--------|
+1092. |   2681 |
+1098. |   2674 |
+1114. |   2640 |
+1124. |   2613 |
+1221. |   2384 |
+      |--------|
+1493. |   1810 |
+1829. |    993 |
+1843. |    972 |
+1972. |    689 |
+2114. |    312 |
+      |--------|
+2174. |    172 |
+2198. |    107 |
+2215. |     63 |
+2228. |     25 |
+2229. |     24 |
+      |--------|
+2230. |     23 |
+      +--------+</code></pre>
+<p>There is at least one potential measurement problem. There is an observation with 8 years of schooling completed listed as a college graduate. We also see that there are 2 observations with 13 years and 7 with 14 years. These may be two-year college graduates, and these observations may not be problematic.</p>
+</div>
+<div id="checking-categorical-by-continuous-variables" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Checking categorical by continuous variables<a href="cleaning-and-checking-data.html#checking-categorical-by-continuous-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It is also helpful to look at continuous variables by different categories. Let’s look at the binary variable for union, if the observation is a union member or not by uniondues.</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb127-1"><a href="cleaning-and-checking-data.html#cb127-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb127-2"><a href="cleaning-and-checking-data.html#cb127-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb127-3"><a href="cleaning-and-checking-data.html#cb127-3" tabindex="-1"></a><span class="kw">summarize</span> uniondues, <span class="kw">detail</span></span></code></pre></div>
+<pre><code>                  Union Dues paid last week
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs               2,242
+25%            0              0       Sum of Wgt.       2,242
+
+50%            0                      Mean           5.603479
+                        Largest       Std. Dev.      9.029045
+75%           10             29
+90%           22             29       Variance       81.52365
+95%           26             29       Skewness        1.35268
+99%           29             29       Kurtosis       3.339635</code></pre>
+<p>The median union dues is 0 dollars, which makes sense. The meand is 5.6 dollars, while the maximum value is 29 dollars.</p>
+<p>Let’s use the <em>bysort</em> command, which will sort our data by the categorical variable specified.</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb129-1"><a href="cleaning-and-checking-data.html#cb129-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb129-2"><a href="cleaning-and-checking-data.html#cb129-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb129-3"><a href="cleaning-and-checking-data.html#cb129-3" tabindex="-1"></a><span class="kw">bysort</span> <span class="kw">union</span>: <span class="kw">summarize</span> uniondues</span></code></pre></div>
+<pre><code>-&gt; union = 0
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   uniondues |      1,413     .094126    1.502237          0         27
+
+------------------------------------------------------------------------------------------------------------------
+-&gt; union = 1
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   uniondues |        461    14.65944    8.707759          0         29
+
+------------------------------------------------------------------------------------------------------------------
+-&gt; union = .
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+   uniondues |        368    15.41304    8.815582          0         29</code></pre>
+<p>The mean for not in a union is less than 1 dollar with 1,413 observations
+The mean for union is about 15 dollars with 461 observations
+The mean for missing is about 15 dollars with 368 observations</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb131-1"><a href="cleaning-and-checking-data.html#cb131-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb131-2"><a href="cleaning-and-checking-data.html#cb131-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb131-3"><a href="cleaning-and-checking-data.html#cb131-3" tabindex="-1"></a><span class="kw">tabulate</span> uniondues <span class="kw">if</span> <span class="kw">union</span>==0, <span class="fu">missing</span></span></code></pre></div>
+<pre><code> Union Dues |
+  paid last |
+       week |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      1,407       99.29       99.29
+         10 |          1        0.07       99.36
+         17 |          1        0.07       99.44
+         26 |          2        0.14       99.58
+         27 |          2        0.14       99.72
+          . |          4        0.28      100.00
+------------+-----------------------------------
+      Total |      1,417      100.00</code></pre>
+<p>We see about 4 observations have union dues. We may or may not need to recode them to 0. It is possible that someone may be not be a union members, but still have to pay an agency fee. Let’s assume that they are not in 14(b) state..</p>
+<p>The recode command can to create a new variable if a person pay union dues. Now let’s compare union members to those who pay union dues</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb133-1"><a href="cleaning-and-checking-data.html#cb133-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb133-2"><a href="cleaning-and-checking-data.html#cb133-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb133-3"><a href="cleaning-and-checking-data.html#cb133-3" tabindex="-1"></a><span class="kw">recode</span> uniondues (0=0) (1/<span class="fu">max</span>=1), <span class="kw">generate</span>(paysdues)</span>
+<span id="cb133-4"><a href="cleaning-and-checking-data.html#cb133-4" tabindex="-1"></a><span class="kw">tabulate</span> <span class="kw">union</span> paysdues, <span class="fu">missing</span></span></code></pre></div>
+<pre><code>(784 differences between uniondues and paysdues)
+
+           | RECODE of uniondues (Union Dues
+     union |         paid last week)
+    worker |         0          1          . |     Total
+-----------+---------------------------------+----------
+         0 |     1,407          6          4 |     1,417 
+         1 |        17        444          0 |       461 
+         . |         7        361          0 |       368 
+-----------+---------------------------------+----------
+     Total |     1,431        811          4 |     2,246 </code></pre>
+<p>Let’s list the non-union members paying union dues.
+Note: we use the abb(#) option to abbreviate the observation to 20 characters</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb135-1"><a href="cleaning-and-checking-data.html#cb135-1" tabindex="-1"></a><span class="ot">list</span> idcode <span class="kw">union</span> uniondues <span class="kw">if</span> <span class="kw">union</span>==0 &amp; (uniondues &gt; 0) &amp; !<span class="fu">missing</span>(uniondues), abb(20)</span></code></pre></div>
+<pre><code>      | idcode   union   uniondues |
+      |----------------------------|
+ 561. |   3905       0          10 |
+ 582. |   3848       0          26 |
+ 736. |   3464       0          17 |
+1158. |   2541       0          27 |
+1668. |   1411       0          27 |
+      |----------------------------|
+2100. |    345       0          26 |
+      +----------------------------+</code></pre>
+<p>Let’s look at another great command for observing categorical and continuous
+variables together: <em>tabstat</em></p>
+<p>We could use <em>tab</em> with a sum option</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb137-1"><a href="cleaning-and-checking-data.html#cb137-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb137-2"><a href="cleaning-and-checking-data.html#cb137-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb137-3"><a href="cleaning-and-checking-data.html#cb137-3" tabindex="-1"></a><span class="kw">tab</span> married, <span class="kw">sum</span>(marriedyrs)</span></code></pre></div>
+<pre><code>            |  Summary of Years married (rounded
+            |          to nearest year)
+    married |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+          0 |           0           0         804
+          1 |   5.5409154   3.5521383       1,442
+------------+------------------------------------
+      Total |   3.5574354   3.8933494       2,246</code></pre>
+<p>Or, we can use <em>tabstat</em> which gives us more options</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb139-1"><a href="cleaning-and-checking-data.html#cb139-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb139-2"><a href="cleaning-and-checking-data.html#cb139-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb139-3"><a href="cleaning-and-checking-data.html#cb139-3" tabindex="-1"></a><span class="kw">tabstat</span> marriedyrs, <span class="kw">by</span>(married) <span class="kw">statistics</span>(n <span class="kw">mean</span> <span class="fu">sd</span> <span class="fu">min</span> <span class="fu">max</span> p25 p50 p75) <span class="fu">missing</span></span></code></pre></div>
+<pre><code>Summary for variables: marriedyrs
+     by categories of: married (married)
+
+ married |         N      mean        sd       min       max       p25       p50       p75
+---------+--------------------------------------------------------------------------------
+       0 |       804         0         0         0         0         0         0         0
+       1 |      1442  5.540915  3.552138         0        11         2         6         9
+---------+--------------------------------------------------------------------------------
+   Total |      2246  3.557435  3.893349         0        11         0         2         7
+------------------------------------------------------------------------------------------</code></pre>
+<p>No observation that said they were never married reported years of marriage</p>
+<p>Let’s look at current years of experience and everworked binary</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb141-1"><a href="cleaning-and-checking-data.html#cb141-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb141-2"><a href="cleaning-and-checking-data.html#cb141-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb141-3"><a href="cleaning-and-checking-data.html#cb141-3" tabindex="-1"></a><span class="kw">tabstat</span> currexp, <span class="kw">by</span>(everworked) <span class="kw">statistics</span>(n <span class="kw">mean</span> <span class="fu">sd</span> <span class="fu">min</span> <span class="fu">max</span>) <span class="fu">missing</span></span></code></pre></div>
+<pre><code>Summary for variables: currexp
+     by categories of: everworked (Has woman ever worked?)
+
+everworked |         N      mean        sd       min       max
+-----------+--------------------------------------------------
+         0 |        60         0         0         0         0
+         1 |      2171  5.328881  5.042181         0        26
+-----------+--------------------------------------------------
+     Total |      2231  5.185567  5.048073         0        26
+--------------------------------------------------------------</code></pre>
+<p>Let’s total years of experience, which is currexp plus prevexp</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb143-1"><a href="cleaning-and-checking-data.html#cb143-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb143-2"><a href="cleaning-and-checking-data.html#cb143-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb143-3"><a href="cleaning-and-checking-data.html#cb143-3" tabindex="-1"></a><span class="kw">generate</span> totexp=currexp+prevexp</span>
+<span id="cb143-4"><a href="cleaning-and-checking-data.html#cb143-4" tabindex="-1"></a><span class="kw">tabstat</span> totexp, <span class="kw">by</span>(everworked) <span class="kw">statistics</span>(n <span class="kw">mean</span> <span class="fu">sd</span> <span class="fu">min</span> <span class="fu">max</span>) <span class="fu">missing</span></span></code></pre></div>
+<pre><code>(15 missing values generated)
+
+
+Summary for variables: totexp
+     by categories of: everworked (Has woman ever worked?)
+
+everworked |         N      mean        sd       min       max
+-----------+--------------------------------------------------
+         0 |        60         0         0         0         0
+         1 |      2171  11.57761  4.552392         1        29
+-----------+--------------------------------------------------
+     Total |      2231  11.26625  4.865816         0        29
+--------------------------------------------------------------</code></pre>
+<p>Everyone with at least one year experience has experience working</p>
+<p><strong>Note:</strong>
+Three ways to
+1. bysort x_cat: summarize x_con
+2. tab x_cat, sum(x_con)
+3. tabstat x_con, by(x_cat) statistics(…)</p>
+</div>
+<div id="checking-continuous-by-continuous-variables" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Checking continuous by continuous variables<a href="cleaning-and-checking-data.html#checking-continuous-by-continuous-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will compare two continuous variables to continuous variables Let’s look at unemployment insuranced received last week if the hours were greater than 30 and hours are not missing.</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb145-1"><a href="cleaning-and-checking-data.html#cb145-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb145-2"><a href="cleaning-and-checking-data.html#cb145-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb145-3"><a href="cleaning-and-checking-data.html#cb145-3" tabindex="-1"></a><span class="kw">summarize</span> unempins <span class="kw">if</span> hours &gt; 30 &amp; !<span class="fu">missing</span>(hours)</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+    unempins |      1,800    1.333333    16.04617          0        287</code></pre>
+<p>The mean is around 1.3 and our range is between our expected 0 and 287</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb147-1"><a href="cleaning-and-checking-data.html#cb147-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb147-2"><a href="cleaning-and-checking-data.html#cb147-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb147-3"><a href="cleaning-and-checking-data.html#cb147-3" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> (hours&gt;30) &amp; !<span class="fu">missing</span>(hours) &amp; (unempins&gt;0) &amp; !<span class="fu">missing</span>(unempins)</span></code></pre></div>
+<pre><code>  19</code></pre>
+<p>Let’s look at the hours count</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb149-1"><a href="cleaning-and-checking-data.html#cb149-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb149-2"><a href="cleaning-and-checking-data.html#cb149-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb149-3"><a href="cleaning-and-checking-data.html#cb149-3" tabindex="-1"></a><span class="kw">tabulate</span> hours <span class="kw">if</span> (hours&gt;30) &amp; !<span class="fu">missing</span>(hours) &amp; (unempins&gt;0) &amp; !<span class="fu">missing</span>(unempins)</span></code></pre></div>
+<pre><code>usual hours |
+     worked |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         35 |          1        5.26        5.26
+         38 |          2       10.53       15.79
+         40 |         14       73.68       89.47
+         65 |          1        5.26       94.74
+         70 |          1        5.26      100.00
+------------+-----------------------------------
+      Total |         19      100.00</code></pre>
+<p>It seems that 19 observations worked more than 30 hours and received unemployment insurance. This could be potential data issues, or it is possible that the person got unemployment insurance before working again. It depends on the data collection and data generation process.</p>
+<p>Let’s look at age and and years married to find any unusual observations</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb151-1"><a href="cleaning-and-checking-data.html#cb151-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb151-2"><a href="cleaning-and-checking-data.html#cb151-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb151-3"><a href="cleaning-and-checking-data.html#cb151-3" tabindex="-1"></a><span class="kw">generate</span> agewhenmarried = age - marriedyrs</span>
+<span id="cb151-4"><a href="cleaning-and-checking-data.html#cb151-4" tabindex="-1"></a><span class="kw">summarize</span> agewhenmarried </span>
+<span id="cb151-5"><a href="cleaning-and-checking-data.html#cb151-5" tabindex="-1"></a><span class="kw">tabulate</span> agewhenmarried</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+agewhenmar~d |      2,246    32.69368    6.709341         13         73
+
+
+agewhenmarr |
+        ied |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         13 |          1        0.04        0.04
+         14 |          4        0.18        0.22
+         15 |         11        0.49        0.71
+         16 |          8        0.36        1.07
+         17 |         18        0.80        1.87
+         18 |         19        0.85        2.72
+         19 |         14        0.62        3.34
+         20 |         20        0.89        4.23
+         21 |         36        1.60        5.83
+         22 |         42        1.87        7.70
+         23 |         52        2.32       10.02
+         24 |         65        2.89       12.91
+         25 |         67        2.98       15.89
+         26 |         81        3.61       19.50
+         27 |         73        3.25       22.75
+         28 |         93        4.14       26.89
+         29 |         90        4.01       30.90
+         30 |        118        5.25       36.15
+         31 |         91        4.05       40.20
+         32 |        124        5.52       45.73
+         33 |        109        4.85       50.58
+         34 |        109        4.85       55.43
+         35 |        149        6.63       62.07
+         36 |        138        6.14       68.21
+         37 |        119        5.30       73.51
+         38 |        124        5.52       79.03
+         39 |        119        5.30       84.33
+         40 |         89        3.96       88.29
+         41 |         80        3.56       91.85
+         42 |         62        2.76       94.61
+         43 |         50        2.23       96.84
+         44 |         43        1.91       98.75
+         45 |         23        1.02       99.78
+         46 |          2        0.09       99.87
+         47 |          1        0.04       99.91
+         48 |          1        0.04       99.96
+         73 |          1        0.04      100.00
+------------+-----------------------------------
+      Total |      2,246      100.00</code></pre>
+<p>There was one person who was 73. However, the dataset is for women 21 to 50, so this observation may have been accidentally entered incorrectly. The correct value may be 37.</p>
+<p>Let’s look for anyone under 18. Some states allow under 18 marriages, but
+it still is suspicious.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb153-1"><a href="cleaning-and-checking-data.html#cb153-1" tabindex="-1"></a><span class="kw">tabulate</span> agewhenmarried <span class="kw">if</span> agewhenmarried &lt; 18</span></code></pre></div>
+<pre><code>agewhenmarr |
+        ied |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         13 |          1        2.38        2.38
+         14 |          4        9.52       11.90
+         15 |         11       26.19       38.10
+         16 |          8       19.05       57.14
+         17 |         18       42.86      100.00
+------------+-----------------------------------
+      Total |         42      100.00</code></pre>
+<p>Let’s use the same strategy for years of experience deducted from age to find the first age working.</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb155-1"><a href="cleaning-and-checking-data.html#cb155-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb155-2"><a href="cleaning-and-checking-data.html#cb155-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb155-3"><a href="cleaning-and-checking-data.html#cb155-3" tabindex="-1"></a><span class="kw">generate</span> agewhenstartwork = age - (prevexp + currexp)</span>
+<span id="cb155-4"><a href="cleaning-and-checking-data.html#cb155-4" tabindex="-1"></a><span class="kw">tabulate</span> agewhenstartwork <span class="kw">if</span> agewhenstartwork &lt; 16</span></code></pre></div>
+<pre><code>(15 missing values generated)
+
+
+agewhenstar |
+      twork |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          8 |          1        1.49        1.49
+          9 |          1        1.49        2.99
+         12 |          1        1.49        4.48
+         14 |         20       29.85       34.33
+         15 |         44       65.67      100.00
+------------+-----------------------------------
+      Total |         67      100.00</code></pre>
+<p>Some states allow work at the age of 15, but anything below looks suspicious and would need to be investigated for potential data issues.</p>
+<p>We can also look for the number of age of children. We should expect that
+the age of the third child is never older than the second child</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb157-1"><a href="cleaning-and-checking-data.html#cb157-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb157-2"><a href="cleaning-and-checking-data.html#cb157-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb157-3"><a href="cleaning-and-checking-data.html#cb157-3" tabindex="-1"></a><span class="kw">table</span> kidage2 kidage3 <span class="kw">if</span> numkids==3</span>
+<span id="cb157-4"><a href="cleaning-and-checking-data.html#cb157-4" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> (kidage3 &gt; kidage2) &amp; (numkids==3) &amp; !<span class="fu">missing</span>(kidage3)</span>
+<span id="cb157-5"><a href="cleaning-and-checking-data.html#cb157-5" tabindex="-1"></a><span class="fu">count</span> <span class="kw">if</span> (kidage2 &gt; kidage1) &amp; (numkids&gt;=2) &amp; !<span class="fu">missing</span>(kidage2)</span></code></pre></div>
+<pre><code>Age of    |
+second    |               Age of third child              
+child     |    0     1     2     3     4     5     6     7
+----------+-----------------------------------------------
+        0 |   12                                          
+        1 |   10     9                                    
+        2 |   11     8    10                              
+        3 |   10    12     6     8                        
+        4 |   10    12    10     7     5                  
+        5 |   12    11     9     3     6     8            
+        6 |    9     8    10     6     5     6     6      
+        7 |    7     6     7     9     4    14    12     6
+        8 |          5    11     7     6    14     6    11
+        9 |                8    13    10     7    12     9
+       10 |                     15     3    10     6    12
+       11 |                            9     8     3    13
+       12 |                                 16     9     6
+       13 |                                       11     5
+       14 |                                              8
+----------------------------------------------------------
+
+  0
+
+  0</code></pre>
+<p>Now let’s check the age of the observation when the first child was born</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb159-1"><a href="cleaning-and-checking-data.html#cb159-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb159-2"><a href="cleaning-and-checking-data.html#cb159-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb159-3"><a href="cleaning-and-checking-data.html#cb159-3" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">generate</span> agewhenfirstkid = age - kidage1</span>
+<span id="cb159-4"><a href="cleaning-and-checking-data.html#cb159-4" tabindex="-1"></a><span class="kw">tabulate</span> agewhenfirstkid <span class="kw">if</span> agewhenfirstkid &lt; 18</span></code></pre></div>
+<pre><code>agewhenfirs |
+       tkid |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          3 |          1        0.51        0.51
+          5 |          2        1.01        1.52
+          7 |          2        1.01        2.53
+          8 |          5        2.53        5.05
+          9 |          8        4.04        9.09
+         10 |          7        3.54       12.63
+         11 |         10        5.05       17.68
+         12 |         10        5.05       22.73
+         13 |         20       10.10       32.83
+         14 |         30       15.15       47.98
+         15 |         27       13.64       61.62
+         16 |         39       19.70       81.31
+         17 |         37       18.69      100.00
+------------+-----------------------------------
+      Total |        198      100.00</code></pre>
+<p>There are some suspicious observations after this tabulation. This would require investigation into data quality issues.</p>
+<p>Scatter plots can be helpful as well</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb161-1"><a href="cleaning-and-checking-data.html#cb161-1" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">scatter</span> hours wage <span class="kw">if</span> hours &gt; 0 &amp; wage &gt;0 &amp; wage &lt; 1000</span>
+<span id="cb161-2"><a href="cleaning-and-checking-data.html#cb161-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/hour_wage.png&quot;</span>, <span class="kw">width</span>(500) <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="hour_wage.png" alt="Hours and Wages" />
+<div class="figcaption">Hours and Wages</div>
+</div>
+</div>
+<div id="fixing-and-correcting-errors-in-data" class="section level2 hasAnchor" number="4.7">
+<h2><span class="header-section-number">4.7</span> Fixing and correcting errors in data<a href="cleaning-and-checking-data.html#fixing-and-correcting-errors-in-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let go ahead and fix some of these errors that we have found. A word of caution is that you may need to talk to the data stewards about the best ways to correct the data. You don’t want to attempt to fix the measurement error and introduce additional problems. Institutional knowledge of the data is very helpful before correcting errors.</p>
+<p>Let’s fix when race was equal to 4 when there are only 3 categories. Let’s add a note for future users, which is good practice for replication.</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb162-1"><a href="cleaning-and-checking-data.html#cb162-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb162-2"><a href="cleaning-and-checking-data.html#cb162-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb162-3"><a href="cleaning-and-checking-data.html#cb162-3" tabindex="-1"></a><span class="ot">list</span> idcode race <span class="kw">if</span> race==4</span>
+<span id="cb162-4"><a href="cleaning-and-checking-data.html#cb162-4" tabindex="-1"></a><span class="kw">replace</span> race=1 <span class="kw">if</span> idcode == 543</span>
+<span id="cb162-5"><a href="cleaning-and-checking-data.html#cb162-5" tabindex="-1"></a><span class="kw">note</span> race: race changed to 1 (from 4) <span class="kw">for</span> idcode 543</span>
+<span id="cb162-6"><a href="cleaning-and-checking-data.html#cb162-6" tabindex="-1"></a><span class="kw">tabulate</span> race</span></code></pre></div>
+<pre><code>      | idcode   race |
+      |---------------|
+2013. |    543      4 |
+      +---------------+
+
+(1 real change made)
+
+       race |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |      1,637       72.89       72.89
+          2 |        583       25.96       98.84
+          3 |         26        1.16      100.00
+------------+-----------------------------------
+      Total |      2,246      100.00</code></pre>
+<p>Let’s fix college gradudate when there were only 8 years of education.</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb164-1"><a href="cleaning-and-checking-data.html#cb164-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb164-2"><a href="cleaning-and-checking-data.html#cb164-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb164-3"><a href="cleaning-and-checking-data.html#cb164-3" tabindex="-1"></a><span class="ot">list</span> idcode collgrad <span class="kw">if</span> yrschool &lt; 12 &amp; collgrad == 1</span>
+<span id="cb164-4"><a href="cleaning-and-checking-data.html#cb164-4" tabindex="-1"></a><span class="kw">replace</span> collgrad = 0 <span class="kw">if</span> idcode == 107</span>
+<span id="cb164-5"><a href="cleaning-and-checking-data.html#cb164-5" tabindex="-1"></a></span>
+<span id="cb164-6"><a href="cleaning-and-checking-data.html#cb164-6" tabindex="-1"></a><span class="kw">note</span> collgrad: collgrad changed to 0 (from 1) <span class="kw">for</span> idcode 107</span>
+<span id="cb164-7"><a href="cleaning-and-checking-data.html#cb164-7" tabindex="-1"></a><span class="kw">tab</span> yrschool collgrad</span></code></pre></div>
+<pre><code>      | idcode   collgrad |
+      |-------------------|
+2198. |    107          1 |
+      +-------------------+
+
+(1 real change made)
+
+
+
+  Years of |
+    school |   college graduate
+ completed |         0          1 |     Total
+-----------+----------------------+----------
+         8 |        70          0 |        70 
+         9 |        55          0 |        55 
+        10 |        84          0 |        84 
+        11 |       123          0 |       123 
+        12 |       943          0 |       943 
+        13 |       174          2 |       176 
+        14 |       180          7 |       187 
+        15 |        81         11 |        92 
+        16 |         0        252 |       252 
+        17 |         0        106 |       106 
+        18 |         0        154 |       154 
+-----------+----------------------+----------
+     Total |     1,710        532 |     2,242 </code></pre>
+<p>Let’s fix age which where the digits were switched, and we will make a note of it.</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb166-1"><a href="cleaning-and-checking-data.html#cb166-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb166-2"><a href="cleaning-and-checking-data.html#cb166-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb166-3"><a href="cleaning-and-checking-data.html#cb166-3" tabindex="-1"></a><span class="ot">list</span> idcode age <span class="kw">if</span> age &gt; 50</span>
+<span id="cb166-4"><a href="cleaning-and-checking-data.html#cb166-4" tabindex="-1"></a><span class="kw">replace</span> age = 38 <span class="kw">if</span> idcode == 51</span>
+<span id="cb166-5"><a href="cleaning-and-checking-data.html#cb166-5" tabindex="-1"></a><span class="kw">replace</span> age = 45 <span class="kw">if</span> idcode == 80</span>
+<span id="cb166-6"><a href="cleaning-and-checking-data.html#cb166-6" tabindex="-1"></a><span class="kw">note</span> age: the <span class="ot">value</span> <span class="kw">of</span> 83 was corrected to 38 <span class="kw">for</span> idcode 51</span>
+<span id="cb166-7"><a href="cleaning-and-checking-data.html#cb166-7" tabindex="-1"></a><span class="kw">note</span> age: the <span class="ot">value</span> <span class="kw">of</span> 54 was corrected to 45 <span class="kw">for</span> idcode 80</span>
+<span id="cb166-8"><a href="cleaning-and-checking-data.html#cb166-8" tabindex="-1"></a><span class="kw">tab</span> age</span></code></pre></div>
+<pre><code>      | idcode   age |
+      |--------------|
+2205. |     80    54 |
+2219. |     51    83 |
+      +--------------+
+
+(1 real change made)
+
+(1 real change made)
+
+     age in |
+    current |
+       year |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         21 |          2        0.09        0.09
+         22 |          8        0.36        0.45
+         23 |         16        0.71        1.16
+         24 |         35        1.56        2.72
+         25 |         44        1.96        4.67
+         26 |         50        2.23        6.90
+         27 |         50        2.23        9.13
+         28 |         63        2.80       11.93
+         29 |         49        2.18       14.11
+         30 |         55        2.45       16.56
+         31 |         57        2.54       19.10
+         32 |         60        2.67       21.77
+         33 |         56        2.49       24.27
+         34 |         95        4.23       28.50
+         35 |        213        9.48       37.98
+         36 |        224        9.97       47.95
+         37 |        171        7.61       55.57
+         38 |        176        7.84       63.40
+         39 |        167        7.44       70.84
+         40 |        139        6.19       77.03
+         41 |        148        6.59       83.62
+         42 |        111        4.94       88.56
+         43 |        110        4.90       93.46
+         44 |         98        4.36       97.82
+         45 |         46        2.05       99.87
+         46 |          1        0.04       99.91
+         47 |          1        0.04       99.96
+         48 |          1        0.04      100.00
+------------+-----------------------------------
+      Total |      2,246      100.00</code></pre>
+<p>Let’s look at our notes with the <em>note</em> command.</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb168-1"><a href="cleaning-and-checking-data.html#cb168-1" tabindex="-1"></a><span class="kw">note</span></span></code></pre></div>
+<pre><code>_dta:
+  1.  This is a hypothetical dataset and should not be used for analysis purposes
+
+age:
+  1.  the value of 83 was corrected to 38 for idcode 51
+  2.  the value of 54 was corrected to 45 for idcode 80
+
+race:
+  1.  race changed to 1 (from 4) for idcode 543
+
+collgrad:
+  1.  collgrad changed to 0 (from 1) for idcode 107</code></pre>
+</div>
+<div id="identifying-duplicates" class="section level2 hasAnchor" number="4.8">
+<h2><span class="header-section-number">4.8</span> Identifying duplicates<a href="cleaning-and-checking-data.html#identifying-duplicates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The duplicates command can be helpful, but it will only find duplicates that are exactly the same <strong>unless you specify which variables with duplicates list vars</strong>.
+We’ll cover this a bit later.</p>
+<p>We need to be careful with duplicate observations. When working with panel data we will want multiple observations of the same cross-sectional unit, but there should be multiple observations for different time units and not the same time unit.</p>
+<p>We can start with our <em>duplicates</em> list command to find rows that are completely the same. This command will show all the duplicates. <strong>Note:</strong> for duplicate records to be found, all data needs to be the same.</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb170-1"><a href="cleaning-and-checking-data.html#cb170-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb170-2"><a href="cleaning-and-checking-data.html#cb170-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> <span class="st">&quot;dentists_dups.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb170-3"><a href="cleaning-and-checking-data.html#cb170-3" tabindex="-1"></a><span class="kw">duplicates</span> <span class="ot">list</span></span></code></pre></div>
+<pre><code>Duplicates in terms of all variables
+
+  +-----------------------------------------------------------+
+  | group:   obs:             name   years   fulltime   recom |
+  |-----------------------------------------------------------|
+  |      1      4       Mike Avity     8.5          0       0 |
+  |      1      6       Mike Avity     8.5          0       0 |
+  |      1      8       Mike Avity     8.5          0       0 |
+  |      2      1   Olive Tu&#39;Drill   10.25          1       1 |
+  |      2     11   Olive Tu&#39;Drill   10.25          1       1 |
+  |-----------------------------------------------------------|
+  |      3      2     Ruth Canaale      22          1       1 |
+  |      3      3     Ruth Canaale      22          1       1 |
+  +-----------------------------------------------------------+</code></pre>
+<p>We’ll have a more condensed version with duplicates examples. It will give an
+example of the duplicate records for each group of duplicate records.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb172-1"><a href="cleaning-and-checking-data.html#cb172-1" tabindex="-1"></a><span class="kw">duplicates</span> examples </span></code></pre></div>
+<pre><code>Duplicates in terms of all variables
+
+  +-------------------------------------------------------------------+
+  | group:   #   e.g. obs             name   years   fulltime   recom |
+  |-------------------------------------------------------------------|
+  |      1   3          4       Mike Avity     8.5          0       0 |
+  |      2   2          1   Olive Tu&#39;Drill   10.25          1       1 |
+  |      3   2          2     Ruth Canaale      22          1       1 |
+  +-------------------------------------------------------------------+</code></pre>
+<p>We can find the a consice list of duplicate records with duplicates report.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb174-1"><a href="cleaning-and-checking-data.html#cb174-1" tabindex="-1"></a><span class="kw">duplicates</span> <span class="kw">report</span></span></code></pre></div>
+<pre><code>Duplicates in terms of all variables
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |            4             0
+        2 |            4             2
+        3 |            3             2
+--------------------------------------</code></pre>
+<p>The duplicates tag command can return the number of duplicates for each group of duplicates (note the separator option puts a line in the table after # rows.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb176-1"><a href="cleaning-and-checking-data.html#cb176-1" tabindex="-1"></a><span class="kw">duplicates</span> <span class="fu">tag</span>, <span class="kw">generate</span>(dup)</span>
+<span id="cb176-2"><a href="cleaning-and-checking-data.html#cb176-2" tabindex="-1"></a><span class="ot">list</span>, separator(2)</span></code></pre></div>
+<pre><code>Duplicates in terms of all variables
+
+     +----------------------------------------------------+
+     |              name   years   fulltime   recom   dup |
+     |----------------------------------------------------|
+  1. |    Olive Tu&#39;Drill   10.25          1       1     1 |
+  2. |      Ruth Canaale      22          1       1     1 |
+     |----------------------------------------------------|
+  3. |      Ruth Canaale      22          1       1     1 |
+  4. |        Mike Avity     8.5          0       0     2 |
+     |----------------------------------------------------|
+  5. |        Mary Smith       3          1       1     0 |
+  6. |        Mike Avity     8.5          0       0     2 |
+     |----------------------------------------------------|
+  7. | Y. Don Uflossmore    7.25          0       1     0 |
+  8. |        Mike Avity     8.5          0       0     2 |
+     |----------------------------------------------------|
+  9. |        Mary Smith      27          0       0     0 |
+ 10. | Isaac O&#39;Yerbreath   32.75          1       1     0 |
+     |----------------------------------------------------|
+ 11. |    Olive Tu&#39;Drill   10.25          1       1     1 |
+     +----------------------------------------------------+</code></pre>
+<p>Let’s sort our data for better legibility, and then we will add lines in our output table whenever there is a new group.</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb178-1"><a href="cleaning-and-checking-data.html#cb178-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb178-2"><a href="cleaning-and-checking-data.html#cb178-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> <span class="st">&quot;dentists_dups.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb178-3"><a href="cleaning-and-checking-data.html#cb178-3" tabindex="-1"></a><span class="kw">sort</span> <span class="bn">name</span> years</span>
+<span id="cb178-4"><a href="cleaning-and-checking-data.html#cb178-4" tabindex="-1"></a><span class="ot">list</span>, sepby(<span class="bn">name</span> years)</span></code></pre></div>
+<pre><code>     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Isaac O&#39;Yerbreath   32.75          1       1 |
+     |----------------------------------------------|
+  2. |        Mary Smith       3          1       1 |
+     |----------------------------------------------|
+  3. |        Mary Smith      27          0       0 |
+     |----------------------------------------------|
+  4. |        Mike Avity     8.5          0       0 |
+  5. |        Mike Avity     8.5          0       0 |
+  6. |        Mike Avity     8.5          0       0 |
+     |----------------------------------------------|
+  7. |    Olive Tu&#39;Drill   10.25          1       1 |
+  8. |    Olive Tu&#39;Drill   10.25          1       1 |
+     |----------------------------------------------|
+  9. |      Ruth Canaale      22          1       1 |
+ 10. |      Ruth Canaale      22          1       1 |
+     |----------------------------------------------|
+ 11. | Y. Don Uflossmore    7.25          0       1 |
+     +----------------------------------------------+</code></pre>
+<p><strong>Notice!</strong> There are two observations for Mary Smith, but one has 3 years of experience and the other one has 27 years, so it does not appear as a duplicate.</p>
+<p>If there were too many variables, which could use our data browser.</p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb180-1"><a href="cleaning-and-checking-data.html#cb180-1" tabindex="-1"></a>browse <span class="kw">if</span> dup &gt; 0</span></code></pre></div>
+<p>We will want to drop our duplicates, but not the first observation. The duplicates drop command will drop the duplicate records but still keep one observation of the duplicate group.</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb181-1"><a href="cleaning-and-checking-data.html#cb181-1" tabindex="-1"></a><span class="kw">duplicates</span> <span class="kw">drop</span></span></code></pre></div>
+<p>Let’s use a new dataset that is a bit more practical</p>
+<pre><code>use &quot;wws.dta&quot;, replace</code></pre>
+<p>Let’s check for duplicate idcodes with the <em>isid command</em>. If there is a duplicate idcode, the command will return an error.</p>
+<div class="sourceCode" id="cb183"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb183-1"><a href="cleaning-and-checking-data.html#cb183-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb183-2"><a href="cleaning-and-checking-data.html#cb183-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;wws.dta&quot;</span>, <span class="kw">replace</span></span>
+<span id="cb183-3"><a href="cleaning-and-checking-data.html#cb183-3" tabindex="-1"></a><span class="kw">isid</span> idcode</span></code></pre></div>
+<pre><code>(Working Women Survey)</code></pre>
+<p>Or just use duplicates list for the variable of interest</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb185-1"><a href="cleaning-and-checking-data.html#cb185-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb185-2"><a href="cleaning-and-checking-data.html#cb185-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> <span class="st">&quot;wws.dta&quot;</span>, <span class="kw">replace</span></span>
+<span id="cb185-3"><a href="cleaning-and-checking-data.html#cb185-3" tabindex="-1"></a><span class="kw">duplicates</span> <span class="ot">list</span> idcode</span></code></pre></div>
+<pre><code>Duplicates in terms of idcode
+
+(0 observations are duplicates)</code></pre>
+<p>There are no duplicate idcodes, so we should expect that duplicates list will not return any duplicates, since every single values needs to be the same for there to be a dupicate record.</p>
+<p>Let’s use a dataset that does have duplicates. Let’s check for duplicate idcodes.</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb187-1"><a href="cleaning-and-checking-data.html#cb187-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb187-2"><a href="cleaning-and-checking-data.html#cb187-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;wws_dups.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb187-3"><a href="cleaning-and-checking-data.html#cb187-3" tabindex="-1"></a><span class="kw">isid</span> idcode</span></code></pre></div>
+<pre><code>variable idcode does not uniquely identify the observations
+r(459);
+
+r(459);</code></pre>
+<p>Or</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb189-1"><a href="cleaning-and-checking-data.html#cb189-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb189-2"><a href="cleaning-and-checking-data.html#cb189-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;wws_dups.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb189-3"><a href="cleaning-and-checking-data.html#cb189-3" tabindex="-1"></a><span class="kw">duplicates</span> <span class="ot">list</span> idcode, sepby(idcode)</span></code></pre></div>
+<pre><code>Duplicates in terms of idcode
+
+  +------------------------+
+  | group:   obs:   idcode |
+  |------------------------|
+  |      1   1088     2831 |
+  |      1   2248     2831 |
+  |------------------------|
+  |      2   1244     3905 |
+  |      2   1245     3905 |
+  |------------------------|
+  |      3    277     4214 |
+  |      3   2247     4214 |
+  +------------------------+</code></pre>
+<p>I prefer <em>duplicates list var1</em>, since an error will break the do file.</p>
+<p>Let’s generate our dup variable for identifying the number of duplicates per
+group of duplicates.</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb191-1"><a href="cleaning-and-checking-data.html#cb191-1" tabindex="-1"></a><span class="kw">duplicates</span> <span class="fu">tag</span> idcode, <span class="kw">generate</span>(iddup)</span></code></pre></div>
+<p>Let’s generate a different duplicate variable to find complete duplicate
+records. Notice that we do not specify a variable after tag.</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb192-1"><a href="cleaning-and-checking-data.html#cb192-1" tabindex="-1"></a><span class="kw">duplicates</span> <span class="fu">tag</span>, <span class="kw">generate</span>(alldup)</span></code></pre></div>
+<p>Let’s list the data</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb193-1"><a href="cleaning-and-checking-data.html#cb193-1" tabindex="-1"></a><span class="ot">list</span> idcode age race yrschool occupation wage <span class="kw">if</span> iddup==1 &amp; alldup==0</span></code></pre></div>
+<pre><code>Duplicates in terms of idcode
+
+
+Duplicates in terms of all variables
+
+      +------------------------------------------------------+
+      | idcode   age   race   yrschool   occupa~n       wage |
+      |------------------------------------------------------|
+1244. |   3905    36      1         14         11   4.339774 |
+1245. |   3905    41      1         10          5   7.004828 |
+      +------------------------------------------------------+</code></pre>
+<p>It seems that idcode 3905 is a different person with a possible incorrect idcode. Let’s fix that.</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb195-1"><a href="cleaning-and-checking-data.html#cb195-1" tabindex="-1"></a><span class="kw">replace</span> idcode=5160 <span class="kw">if</span> idcode==3905 &amp; age==41</span>
+<span id="cb195-2"><a href="cleaning-and-checking-data.html#cb195-2" tabindex="-1"></a><span class="ot">list</span> idcode age race yrschool occupation wage <span class="kw">if</span> iddup==1 &amp; alldup==0</span></code></pre></div>
+<pre><code>(1 real change made)
+
+      +------------------------------------------------------+
+      | idcode   age   race   yrschool   occupa~n       wage |
+      |------------------------------------------------------|
+1244. |   3905    36      1         14         11   4.339774 |
+1245. |   5160    41      1         10          5   7.004828 |
+      +------------------------------------------------------+</code></pre>
+<p>Let’s look observation that are complete duplicates.</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb197-1"><a href="cleaning-and-checking-data.html#cb197-1" tabindex="-1"></a><span class="kw">duplicates</span> <span class="kw">report</span></span>
+<span id="cb197-2"><a href="cleaning-and-checking-data.html#cb197-2" tabindex="-1"></a><span class="ot">list</span> idcode age race yrschool occupation wage <span class="kw">if</span> iddup==1 &amp; alldup==1</span></code></pre></div>
+<pre><code>Duplicates in terms of all variables
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |         2244             0
+        2 |            4             2
+--------------------------------------
+
+      +------------------------------------------------------+
+      | idcode   age   race   yrschool   occupa~n       wage |
+      |------------------------------------------------------|
+ 277. |   4214    35      1         17         13   11.27214 |
+1088. |   2831    37      2          8          8   2.697261 |
+2247. |   4214    35      1         17         13   11.27214 |
+2248. |   2831    37      2          8          8   2.697261 |
+      +------------------------------------------------------+</code></pre>
+<p>We need to keep 1 observation of the duplicates. Use the <em>duplicates drop</em> command.</p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb199-1"><a href="cleaning-and-checking-data.html#cb199-1" tabindex="-1"></a><span class="kw">duplicates</span> <span class="kw">drop</span></span>
+<span id="cb199-2"><a href="cleaning-and-checking-data.html#cb199-2" tabindex="-1"></a><span class="kw">duplicates</span> <span class="kw">report</span></span></code></pre></div>
+<pre><code>Duplicates in terms of all variables
+
+(2 observations deleted)
+
+
+Duplicates in terms of all variables
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |         2246             0
+--------------------------------------</code></pre>
+</div>
+<div id="practice" class="section level2 hasAnchor" number="4.9">
+<h2><span class="header-section-number">4.9</span> Practice<a href="cleaning-and-checking-data.html#practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s work the Census CPS.</p>
+<p>Pull the Census CPS.
+- You can download the file and import it, or
+- You can use Stata to pull the file.</p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb201-1"><a href="cleaning-and-checking-data.html#cb201-1" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;https://www2.census.gov/programs-surveys/cps/datasets/2025/basic/jul25pub.csv&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<p>Let’s save a copy of the csv file in Stata</p>
+<p>Let’s grab the data dictionary. Hint search: “Census CPS 2025 data dictionary”</p>
+<p>Let’s check our data.
+- What variable contains our laborforce status?
+- What variable contains our weekly earnings?
+- Does everyone employed have weekly earnings? Hint: Try <em>summarize</em>
+- What flag with our weekly earning that provides information about available data?
+- Try <em>tabstat</em> with the flag and weekly earnings. What do you find?
+- Try <em>tabstat</em> with statistics(n mean sd p25 p50 p75)
+- What are our identifier variable(s)? How many did you find?
+- Are there any duplicate records?</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="saving-and-exporting-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-parts.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,310 @@
+
+# Ingesting Data
+*Mitchell Chapter 2*
+
+Note when your working directory, I recommend using "/" instead of "\"
+Stata will use both, and the backslash "\" often runs into string issues.
+
+## Getting our data
+
+We'll get our data that we will use for the course. 
+```{stata download, eval=FALSE}
+pwd
+*Set your working directory
+cd "/Users/Sam/Desktop/Econ 645/Data/"
+
+*Use:
+net from https://www.stata-press.com/data/dmus2
+net get dmus1
+net get dmus2
+
+*All commands:
+net install dmus1
+```
+
+## Reading Stata data
+We use the *use* command to read Stata data. Use the clear option to clear the data from memory so you can read the data file. Otherwise, you will get an error
+
+We'll add the clear option to clear our memory to provide an error
+```{stata read1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+use "dentists.dta", clear
+list  
+```
+
+We can read Stata data from websources. From Stata Press website:
+```{stata read2}
+use "https://www.stata-press.com/data/dmus2/dentists.dta", clear
+list
+```
+
+From NBER website
+```{stata read3}
+use "https://data.nber.org/morg/annual/morg20.dta", clear
+list lfsr94 stfips sex in f/10
+```
+
+## Reading Stata data with subsets
+
+Subsetting can be a helpful method to read in extremely large data sets, such as American Community Survey (ACS) public use file. We can subset by variables, observations, or both.
+
+### Subsetting by columns (variables)
+You can read in a subset of Stata data by columns. This can be helpful when you have a large dataset but only need a few columns of data. However, you need to know the variable names. We will need to have a data dictionary in order to do this. The January CPS data dictionary can be found on Census's website. https://www2.census.gov/programs-surveys/cps/datasets/2025/basic/2025_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt
+
+```{stata subset1}
+quietly cd "/Users/Sam/Desktop/Data/CPS/"
+use gestfips pemlr pternwa using "smalljul25pub.dta", clear
+list in 1/3
+```
+If it is a large dataset, I don't recommend using list by itself. Use in *1/N*
+
+### Subsetting by rows (observations)
+You can read in a subset of data by rows. In my opinion, this is a better method to subset than by columns. You are able to see the entire dataset. 
+```{stata subset2}
+quietly cd "/Users/Sam/Desktop/Data/CPS/"
+use "smalljul25pub.dta" if gestfip == 24 & prtage == 30, clear
+list in 1/10
+```
+
+Subsetting by row and columns
+```{stata subset3}
+quietly cd "/Users/Sam/Desktop/Data/CPS/"
+use gestfips pemlr pternwa prerelg using "smalljul25pub.dta" if gestfip == 24 & prerelg==1, clear
+list in 60/69
+```
+
+### System data
+There are data sets that are included in Stata and use the *sysuse* command.
+```{stata subset4}
+sysuse auto, clear
+list make price mpg rep78 foreign, sepby(5)
+```
+
+You can use Stata files that are available, but didn't ship with Stata and
+they use the *webuse* command
+```{stata subset5}
+webuse fullauto, clear
+list make price mpg rep78 foreign in 1/5
+```
+## Importing Excel files
+
+Many times you will need to grab data from a website and these data may be in an Excel format such as ".xls" or ".xlsx". Our main command is *import excel*. We need to specify the firstrow option if we want the headers as variable names. Be careful if the headers are numerics, such as years, in the firstrow. This will throw an error and we'll need to rename them in Excel before importing these files.  For example, 2015 becomes y2015.
+```{stata excel1}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+import excel using "dentists.xls", firstrow clear
+list 
+```
+
+We need to take caution of the sheet names of the excel files we are importing. If you don't pay attention you may import the wrong sheet.
+```{stata excel2}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+import excel using "dentists2.xls", firstrow clear
+list
+
+import excel using "dentists2.xls", firstrow clear sheet("dentists")
+list
+```
+## Importing SAS, SPSS, dbase files
+
+In my opinion, importing files from other statistical packages is a pain. If you are using another statistical software packages like R, SAS, Python, or heaven-forbid SPSS, then export the data from those software package as CSV files. CSV files are fairly universal. There maybe some labeling issues, but if labels are not a concern then use CSV file formats.
+
+Luckily, SAS data files are becoming less common. Even the Census Bureau has seen the light and provides their data in a csv format.
+
+### Importing .sas7bdat
+For me, it is unavailable in Stata 14, but if you have Stata 16 or higher you can use this command.
+
+Import sas is our main command to import SAS from version 7 or higher.
+```{stata sas1, eval=FALSE}
+import sas "dentists.sas7bdat", clear
+list
+```
+
+### Importing SAS XPORT Version 5
+
+```{stata sasxport, eval=FALSE}
+import sasxport5 "dentists.xpt", clear
+list
+```
+
+### Importing SAS XPORT Version 8
+```{stata sasxport8, eval=FALSE}
+import sasxport8 "dentists.xpt", clear
+list
+```
+
+### Importing SPSS files
+For me, it is unavailable in Stata 14, but if you have Stata 16 or higher 
+you can use this command.
+
+```{stata spss, eval=FALSE}
+import spss "dentlab.sav", clear
+list
+```
+
+### Importing dBase files
+For me, it is unavailable in Stata 14, but if you have Stata 16 or higher you can use this command.
+```{stata dbase, eval=FALSE}
+import dbase "dentlab.dbf", clear
+list
+```
+## Importing Raw Data files
+We use the *import delimited* command to read in csv, txt, dat, etc. files.
+
+### Import Delimited
+
+Importing csv files will likely be more common than other types of files so far with the exception of Stata and Excel files. *Note:* there are other types of delimited files, but comman-delimited are the most common. Other types of delimiters include "tab", "space", or "|" delimited.
+
+CSV file
+If you read the manual you'll noticed that "," and "\t" are the default delimiters
+Using "," delimiter:
+```{stata csv1}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+import delimited using "dentists.csv", clear
+list
+
+quietly cd "/Users/Sam/Desktop/Data/CPS/"
+import delimited using "jul25pub.csv", clear
+list gestfips pemlr pternwa in 1/10
+```
+
+CSV files may come in .txt files or .csv files using "," delimiter
+```{stata txt1}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+import delimited using "dentists1.txt", clear
+list
+```
+There may be "tab"-delimited files that use "\t" delimiter
+```{stata txt2}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+import delimited using "dentists2.txt", clear
+list
+```
+
+This will produce the same results as above since "\t" is a default
+```{stata txt3}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+import delimited using "dentists2.txt", clear delimiters("\t")
+list
+```
+
+If we set the delimiter to ":", we can import a ":"-delimited file
+```{stata txt4}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+import delimited using "dentists4.txt", clear delimiters(":") 
+list
+```
+
+We can subset columns and rows with import delimited, which can be helpful for large files. Variable names will be defaulted for the first few rows, so when we use rowrange(1:3) this will only include 2 rows of data.
+```{stata csv2}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+import delimited using "dentists2.txt", clear rowrange(1:3)
+list
+```
+
+Import delimited from the web
+```{stata csv3, eval=FALSE}
+import delimited using "https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/jun23pub.csv", clear
+pwd
+save "jun23pub.dta", replace
+```
+
+### Import space-separated files
+
+Sometimes files have space-delimited files (which is a bad idea when strings are involved). Dentists5.txt is an example of such a file. We can use the *infile* command to import these data, but we need to specify that the name variable is a string at least 17 characters wide.
+```{stata ssf11}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+infile str17 name years full rec using "dentists5.txt", clear
+list
+```
+Infile does not read in variable names in the first row.
+
+We can also use import delimited with delimiters(" ")
+```{stata ssf12}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+import delimited using "dentists6.txt", delimiters(" ") clear
+list
+```
+
+### Importing fixed-column files
+
+Unfortunately, fixed-column files are more common than I prefer.  They are a pain, since you need to specify each column length. I have found this with files with a ".dat" file extension.
+
+We can use the *infix* command to read in fixed-column files. Let's look at our fixed-column width files.
+```{stata fcf1}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+type "dentists7.txt"
+```
+
+Our name variable is between 1 and 17, years are between 18 and 22. Our fulltime and recommend binaries are only length of 1 with 23 and 24.
+```{stata fcf2}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+infix str name 1-17 years 18-22 fulltime 23 recom 24 using "dentists7.txt", clear
+list
+```
+
+This is a real pain, but luckily Stata has dictionary files to help if one of these files are available. They have a .dct file extension. We already have a fixed-column dictionary with dentists1.dct and we can use it to open a fixed-column width file dentists7.txt
+
+Let's look at our dictionary file.
+```{stata fcf3}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+type "dentists1.dct"
+```
+Let's look at our fixed-column width file
+```{stata fcf4}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+type "dentists7.txt"
+```
+
+Let's use the two together to import the data file
+```{stata fcf5}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+infix using "dentists1.dct", using(dentists7.txt) clear
+list
+```
+
+We can combine infile command with a dictionary file. 
+```{stata fcf6}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+type "dentists3.dct"
+```
+Notice that the first line of the dictionary file is 
+infile dictionary using dentists7.txt and then the column widths
+```{stata fcf7}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+infile using "dentists3.dct", clear
+list
+```
+
+Dictionary .dct files are very helpful when they are available with fixed-column width files.
+
+### Subsetting fixed-column width files
+
+We can use the "in" qualifier to subset the number of rows to import with either *infix* or *infile*.
+```{stata fcf8}
+quietly cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell/"
+infix str name 1-17 years 18-22 fulltime 23 recom 24 using "dentists7.txt" in 1/3, clear
+list
+
+infix using "dentists1.dct" in 1/3, using(dentists7.txt) clear
+list
+```
+
+### 2.8 Common errors when reading and importing files
+
+Tip: Don't forget to clear your data.
+Either the line before or add it as an option , clear
+
+*Error 1*
+If you do not clear your data with the use command, then you will get the message "No; dataset in memory has changed since last saved" - Use *clear* in the line before ingesting the data, or use *clear* as an option.
+
+*Error 2*
+If you do not clear your data with the import, infix, or infile commands, then you will get the message:
+"You must start with an empty dataset" 
+
+### Entering data directly into Stata Data Editor
+
+My opinion: Please do not do this. If you need to manually enter data, I don't recommend manually entering data into STATA. I recommend using a spreadsheet, then import the
+spreadsheet.
+
+If for some reason you don't have access to Excel or a spreadsheet application
+like OSX Numbers or Google Sheets, then read pages 43-50.
