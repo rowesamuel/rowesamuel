@@ -1,0 +1,548 @@
+
+# Instrumental Variables
+
+## Estimating Returns to Education for Married Women
+
+We'll use the data from A. Mroz (1987), “The Sensitivity of an Empirical Model of Married Women’s Hours of Work to Economic and Statistical Assumptions,” Econometrica 55, 765-799.
+
+We'll use the data on married working women to estimate the return to education
+using a simple OLS model.
+
+Our likely biased OLS model results in the following
+
+```{stata mroz1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+reg lwage educ
+```
+
+Our estimate implies that the returns to education is exp(.109)-1*100 about 11.5%. Notice that we are using stored values for \( \hat{\beta}_{edu}\) with _b[edu].
+```{stata mroz2, eval=FALSE}
+display (exp(_b[educ])-1)*100
+```
+```{stata mroz3, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+reg lwage educ
+}
+display (exp(_b[educ])-1)*100
+```
+
+We will use father's education as an instrument for the observation's level of education if the women is in the labor force. We will use the *predict* command to get estimates of \( \hat{x} \)
+```{stata mroz4, eval=FALSE}
+reg educ fathedu if inlf==1
+predict edu_hat
+```	
+```{stata mroz5, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear 
+}
+reg educ fathedu if inlf==1
+predict edu_hat
+```
+
+For instrument relevance, let's obtain the F-Statistic after regressing education onto father's education.
+```{stata mroz6, eval=FALSE}
+test fathedu
+```
+```{stata mroz7, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear 
+reg educ fathedu if inlf==1
+}
+test fathedu
+```
+Our F-test shows that the instrument is greater than \( F-stat > 15 \), so it seem like a relevant candidate for an instrument. This does not mean it is a good instrument, though.
+
+Father's Education as an instrument
+```{stata mroz8, eval=FALSE}
+reg lwage edu_hat
+```
+```{stata mroz9, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear 
+reg educ fathedu if inlf==1
+predict edu_hat
+}
+reg lwage edu_hat
+```
+One additional year of education increases wages by (exp(0.059)-1)*100%=6.1%
+```{stata mroz10, eval=FALSE}
+display (exp(_b[edu_hat])-1)*100
+```
+```{stata mroz11, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear 
+reg educ fathedu if inlf==1
+predict edu_hat
+reg lwage edu_hat
+}
+display (exp(_b[edu_hat])-1)*100
+```
+Question?
+The F-test passed the instrument relevance \(F-stat > 15 \), but what
+about instrument exogeneity?
+
+## Exercise: Estimating Returns to Education for Men
+Let's estimate the returns to education for men. We'll use data from M. Blackburn and D. Neumark (1992), “Unobserved Ability, Efficiency Wages, and Interindustry Wage Differentials,” Quarterly Journal of Economics 107, 1421-1436.
+
+Use number of siblings as an instrument to predict an observation's level of education. We'll keep it simple and have no other covariates.
+
+
+  1. Estimate the potentially biased OLS
+  2. Estimate your first stage \( \hat{x} \)
+  3. Test your first stage
+  4. Run your second regression using \( \hat{x} \) from your first regression
+
+
+1) Estimate the potential biased OLS
+```{stata neu1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "wage2.dta", clear
+reg lwage educ
+```
+
+We have a estimated return of education of (exp(.0598392)-1)*100
+```{stata neu2, eval=FALSE}
+display (exp(_b[educ])-1)*100
+```
+```{stata neu3, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "wage2.dta", clear
+reg lwage educ
+}
+display (exp(_b[educ])-1)*100
+```
+
+2) Use Number of siblings as an instrument for the first stage and predict \( \hat{x} \)  
+```{stata neu4, eval=FALSE}
+reg educ sibs
+predict edu_hat
+```
+```{stata neu5, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "wage2.dta", clear
+}
+reg educ sibs
+predict edu_hat
+```
+3) Get F-statistic
+```{stata neu6, eval=FALSE}
+test sibs
+```
+```{stata neu7, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "wage2.dta", clear
+reg educ sibs
+predict edu_hat
+}
+test sibs
+```
+
+4) Number of siblings as an instrument
+```{stata neu8, eval=FALSE}
+reg lwage edu_hat
+```
+```{stata neu9, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "wage2.dta", clear
+reg educ sibs
+predict edu_hat
+}
+reg lwage edu_hat
+```
+
+One additional year of education increases wages by (exp(0.1224)-1)*100%=13.0%
+```{stata neu10, eval=FALSE}
+display (exp(_b[edu_hat])-1)*100 
+```
+```{stata neu11, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "wage2.dta", clear
+reg educ sibs
+predict edu_hat
+reg lwage edu_hat
+}
+display (exp(_b[edu_hat])-1)*100
+```
+Another thing that is interesting here is the the OLS estimate is biased downward, which is not what we would expect.
+
+Possible reasons:
+  1. Siblings could be correlated with ability - more siblings, less partental attention which could result in lower ability.
+  2. The OLS estimator is downward biased due to measurement error in educ, but this is less likely to satisfy the classic error-in-variables (CEM) assumption.
+
+## Smoking on Birthweight
+It is important to see an example of a poor instrument. We'll use data from . Mullahy (1997), “Instrumental-Variable Estimation of Count Data Models: Applications to Models of Cigarette Smoking Behavior,” Review of Economics and Statistics 79, 596-593.
+
+The biased OLS regression looks at the natural log of birth weight and cigarette packs smoked per day by the mother. We would expect that smoking is correlated with unobserved health and parental decisions, so it is like biased due to unobserved confounders.
+```{stata mul1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "bwght.dta", clear
+reg lbwght packs
+```
+
+An additional package smoked per day decreases birthweight by exp(-.08981)-1~-8.6%
+```{stata mul2, eval=FALSE}
+display (exp(-.08981)-1)*100
+```
+```{stata mul2_1, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "bwght.dta", clear
+reg lbwght packs
+}
+display (exp(-.08981)-1)*100
+```
+We'll use cigarette prices as an instrument for cigarette packs smoked per day. We assume that cigarette prices and the error term u are uncorrelated (instrument exogeneity). Note that some states fund health care with cigarette tax revenue.
+We will use cigarette price and quantity of packs smoked should be negatively
+correlated.
+```{stata mul3, eval=FALSE}
+reg packs cigprice
+```
+```{stata mul4, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "bwght.dta", clear
+}
+reg packs cigprice
+```
+The result shows that we fail to result the null hypothesis that \( \beta_{cigprice} \)  is equal to 0. From theory, we know that something is wrong, since our instrument, price of cigarettes, is not associated with packs of cigarettes consumed.
+
+We will still check instrument revelance:
+```{stata mul5, eval=FALSE}
+test cigprice
+```
+```{stata mul6, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "bwght.dta", clear
+reg packs cigprice
+}
+test cigprice
+```
+
+Our instrumennt fails the F-test - we have a **weak instrument**. 
+
+Cigarette price as an instrument for packs smoked is a poor instrument and our use of predicted packs smoked is in the wrong direction.
+
+```{stata mul7, eval=FALSE}
+predict packs_hat
+reg lbwght packs_hat
+```
+
+```{stata mul8, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "bwght.dta", clear
+reg packs cigprice
+}
+predict packs_hat
+reg lbwght packs_hat
+```
+
+Our results show that something is terribly wrong. An additional package of cigarette is correlated with an massive increase in birth weight, which is not supported empirically. Our biased OLS was a better model than our poor instrument model.
+
+We can and should always test Instrument Relevance. If we have a poor instrument, we should go back to the drawing board.
+
+Another issue here is that price is a poor instrument, since price and quantity are simultaneously determined. We would need a second set of instruments on price to estimate our first-stage.
+
+## Estimating Returns to Education for Married Women Part 2
+We'll use Mroz data again on working women. We'll use both parent's education as instruments to identify the effect of education on wages for working women. We overidentify the endogenous variable with two instruments: father's education and mother's education.
+
+Potentially Biased OLS
+```{stata mroz12}
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+reg lwage educ c.exper##c.exper
+```
+Our result is (exp(.1074896)-1)*100~11.3%
+```{stata mroz13, eval=FALSE}
+display (exp(_b[educ])-1)*100
+```
+```{stata mroz14, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+reg lwage educ c.exper##c.exper
+}
+display (exp(_b[educ])-1)*100
+```
+
+We'll use two instruments for one endogenous variable, which will be parent's education as an instrument for women in the labor force.
+```{stata mroz15, eval=FALSE}
+reg educ c.exper##c.exper fathedu mothedu if inlf==1
+```
+```{stata mroz16, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+}
+reg educ c.exper##c.exper fathedu mothedu if inlf==1
+```
+
+Get the F-Statistic.
+```{stata mroz17, eval=FALSE}
+test fathedu mothedu
+```
+```{stata mroz18, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+reg educ c.exper##c.exper fathedu mothedu if inlf==1
+}
+test fathedu mothedu
+```
+The result shows that the instruments are potential candidates for good instruments, since \( F>15 \).
+
+Using Father's Education and Mother's Education as an instrument.
+```{stata mroz19, eval=FALSE}
+predict edu_hat
+reg lwage edu_hat c.exper##c.exper
+```
+
+```{stata mroz20, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+reg educ c.exper##c.exper fathedu mothedu if inlf==1
+}
+predict edu_hat
+reg lwage edu_hat c.exper##c.exper
+```
+
+One additional year of education increases wages by (exp(0.061)-1)*100%=6.3%
+
+This can be more easily done with our *ivregress 2sls* command: 
+
+*ivregress 2sls* *<dependent variable>* (*<explantatory var>*=*<IV>*) \( x_1, x_2...,x_k \)
+```{stata mroz21, eval=FALSE}
+ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
+display (exp(_b[educ])-1)*100
+```
+```{stata mroz22, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+}
+ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
+display (exp(_b[educ])-1)*100
+```
+
+# Testing Assumptions
+
+## Testing for Endogeneity - Returns to Education for Working Women
+We'll keep using Mroz's data on working women.
+
+Use father's and mother's education as an instrument to estimate education with the *ivregress 2sls* command. 
+```{stata test1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper
+```
+
+If want to see if our explanatory variable of interest is potentially 
+endogenous with the error term, then we can conduct an endogeneity test.
+There are two ways to test for potential endogeneity in the OLS model
+
+  1. Manually
+  2. *estat* postestimation command
+  
+### Manually Test  
+
+To calculate the test manually, first we estimate the reduced form for \( \hat{x}_{edu} \)  by regressing all exogenous variables onto \( x_{edu} \) by including all other \( x_{i} \) in the structural model and the additional IVs \( z_i \).
+
+First, estimate the reduced form equation (first stage).
+```{stata test2, eval=FALSE}
+reg educ c.exper##c.exper fathedu mothedu if inlf==1
+```
+```{stata test3, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+}
+reg educ c.exper##c.exper fathedu mothedu if inlf==1
+```
+Next, obtains residuals \( \hat{v}_2 \).
+```{stata test4, eval=FALSE}
+predict v, residual
+```
+
+Then, add \( \hat{v}_2 \) to the structural equation (our OLS model)
+```{stata test5, eval=FALSE}
+reg lwage educ c.exper##c.exper v
+```
+```{stata test6, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+reg educ c.exper##c.exper fathedu mothedu if inlf==1
+predict v, residual
+}
+reg lwage educ c.exper##c.exper v
+```
+There is possible evidence of endogeneity since \( p < .1 \) but \(p > .05 \). You should report IV and OLS. 
+
+```{stata test7, eval=FALSE}
+eststo m1: quietly reg lwage educ c.exper##c.exper
+eststo m2: quietly ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper
+esttab m1 m2, mtitle(OLS IV)
+```
+```{stata test8, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+est clear
+}
+eststo m1: quietly reg lwage educ c.exper##c.exper
+eststo m2: quietly ivregress 2sls lwage (educ=fatheduc motheduc) c.exper##c.exper
+esttab m1 m2, mtitle(OLS IV)
+```
+
+### Using estat endogenous
+
+We can also use a postestimation command estat endogenous.
+```{stata test9, eval=FALSE}
+ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
+estat endogenous
+```
+```{stata test10, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+est clear
+}
+ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper
+estat endogenous
+```
+We have weak evidence that education is endogenous, since \( p<.1 \) but \( p >.05 \). However, we know from theory that ability is a confounder on wages and education. We should report both OLS and IV models.
+
+## Testing Overidentifying Restrictions
+
+We will testing overidentifying restrictions using the data from "Returns to Education for Working Women". When we have one IV for one endogenous explanatory variable, we have a just identified equation. When we have two instruments and one endogenous 
+explanatory variable we have overidentification.
+
+When we have multiple IVs, we can test to see some of our instruments are correlated with the structural error term.
+
+We can estimate two 2sls models (one for each IV) and then compare them. They should only differ by the sampling error. If our two beta coefficients on our fitted explanatory variable of interest are different then, we conclude that at least one instrument or maybe both is/are correlated with the structural error term.
+
+When we add too many instrumental variables (or overidentification), we can increase the efficiency of the 2SLS estimator. However, we may run the risk of violating the instrument exogeneity assumption. 
+
+When we use motheredu and fatheredu as IVS for education, we have a single overidentification restriction. We have two IVs and 1 endogenous explanatory variable. We have two ways to calculate this test: manually and estat.
+
+### Manually Test
+
+Use an 2SLS model with mother's education and father's education as two IVs.
+```{stata test11}
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+```
+
+Get our residuals \( r \) ane regress \( r \) onto all exogenous variables.
+```{stata test12, eval=FALSE}
+predict r, resid
+reg r mothedu fathedu c.exper##c.exper
+```
+```{stata test13, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+}
+predict r, resid
+reg r mothedu fathedu c.exper##c.exper
+```
+Next, obtain \( R^2 \) and \( N \)
+```{stata test14, eval=FALSE}
+ereturn list
+local N=`e(N)'
+display "`N'"
+local rsq=`e(r2)'
+display "`rsq'"
+local nR=`N'*`rsq'
+display "`nR'"
+```
+```{stata test15, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+predict r, resid
+reg r mothedu fathedu c.exper##c.exper
+}
+ereturn list
+local N=`e(N)'
+display "`N'"
+local rsq=`e(r2)'
+display "`rsq'"
+local nR=`N'*`rsq'
+display "`nR'"
+```
+
+Under the null hypothesis that all IVs are uncorrelated with \( u_1 \)
+\( NR^2 \thicksim \chi^2_{q} \), where \( q \) is the number of instruments from outside the model minus the total number of endogenous explanatory variables. If \( N R^2 \) exceeds the 5% critical value in \( \chi^2_q \), then we reject the null hypothesis and conclude that at least some of the IVs are not exogenous.
+
+Here we have \( q=2-1=1 \) df for the chi-squared test and we fail to reject the
+null hypothesis since \( N R^2=0.37807 \) and \( \chi^2_1 \) at the 5% critical value is 3.841.
+
+### Estat overid
+
+We can also use the postestimation command of *estat overid*.
+```{stata test16, eval=FALSE}
+ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+estat overid
+```
+```{stata test17, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+}
+ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+estat overid
+```
+We get our \( N R^2 \) with this postestimation command.
+
+Let's add husband's education, so we have 2 overidentification restrictions.
+```{stata test18, eval=FALSE}
+ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper
+estat overid
+```
+```{stata test18_1, eval=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+}
+ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper
+estat overid
+```
+
+Notice that we still fail reject the null hypothesis, so we might consider adding it as an IV. Also, notice that the coefficient and standard error around education have changed as well.
+
+It is a good idea to report both in a sensitivity analysis.
+```{stata test19, eval=FALSE}
+est clear
+eststo m1: quietly ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+eststo m2: quietly ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper
+esttab m1 m2, mtitle(2IVs 3IVs)
+```
+```{stata test20, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "mroz.dta", clear
+}
+est clear
+eststo m1: quietly reg lwage educ c.exper##c.exper
+eststo m2: quietly ivregress 2sls lwage (educ=motheduc fatheduc) c.exper##c.exper
+eststo m3: quietly ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper
+esttab m1 m2 m3, mtitle(OLS 2IVs 3IVs)
+```

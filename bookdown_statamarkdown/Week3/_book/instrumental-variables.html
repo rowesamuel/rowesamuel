@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Instrumental Variables | Instrument Variables and Creating Variables</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Instrumental Variables | Instrument Variables and Creating Variables" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Instrumental Variables | Instrument Variables and Creating Variables" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe" />
+
+
+<meta name="date" content="2025-08-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="testing-assumptions.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Instrumental Variables and Creating and Modifying Variables</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="instrumental-variables.html"><a href="instrumental-variables.html"><i class="fa fa-check"></i><b>2</b> Instrumental Variables</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="instrumental-variables.html"><a href="instrumental-variables.html#estimating-returns-to-education-for-married-women"><i class="fa fa-check"></i><b>2.1</b> Estimating Returns to Education for Married Women</a></li>
+<li class="chapter" data-level="2.2" data-path="instrumental-variables.html"><a href="instrumental-variables.html#exercise-estimating-returns-to-education-for-men"><i class="fa fa-check"></i><b>2.2</b> Exercise: Estimating Returns to Education for Men</a></li>
+<li class="chapter" data-level="2.3" data-path="instrumental-variables.html"><a href="instrumental-variables.html#smoking-on-birthweight"><i class="fa fa-check"></i><b>2.3</b> Smoking on Birthweight</a></li>
+<li class="chapter" data-level="2.4" data-path="instrumental-variables.html"><a href="instrumental-variables.html#estimating-returns-to-education-for-married-women-part-2"><i class="fa fa-check"></i><b>2.4</b> Estimating Returns to Education for Married Women Part 2</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="testing-assumptions.html"><a href="testing-assumptions.html"><i class="fa fa-check"></i><b>3</b> Testing Assumptions</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="testing-assumptions.html"><a href="testing-assumptions.html#testing-for-endogeneity---returns-to-education-for-working-women"><i class="fa fa-check"></i><b>3.1</b> Testing for Endogeneity - Returns to Education for Working Women</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="testing-assumptions.html"><a href="testing-assumptions.html#manually-test"><i class="fa fa-check"></i><b>3.1.1</b> Manually Test</a></li>
+<li class="chapter" data-level="3.1.2" data-path="testing-assumptions.html"><a href="testing-assumptions.html#using-estat-endogenous"><i class="fa fa-check"></i><b>3.1.2</b> Using estat endogenous</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="testing-assumptions.html"><a href="testing-assumptions.html#testing-overidentifying-restrictions"><i class="fa fa-check"></i><b>3.2</b> Testing Overidentifying Restrictions</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="testing-assumptions.html"><a href="testing-assumptions.html#manually-test-1"><i class="fa fa-check"></i><b>3.2.1</b> Manually Test</a></li>
+<li class="chapter" data-level="3.2.2" data-path="testing-assumptions.html"><a href="testing-assumptions.html#estat-overid"><i class="fa fa-check"></i><b>3.2.2</b> Estat overid</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="creating-variables.html"><a href="creating-variables.html"><i class="fa fa-check"></i><b>4</b> Creating Variables</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="creating-variables.html"><a href="creating-variables.html#creating-and-changing-variables"><i class="fa fa-check"></i><b>4.1</b> Creating and changing variables</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="creating-variables.html"><a href="creating-variables.html#generate-command"><i class="fa fa-check"></i><b>4.1.1</b> Generate command</a></li>
+<li class="chapter" data-level="4.1.2" data-path="creating-variables.html"><a href="creating-variables.html#replace"><i class="fa fa-check"></i><b>4.1.2</b> Replace</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="creating-variables.html"><a href="creating-variables.html#numeric-expressions-and-functions"><i class="fa fa-check"></i><b>4.2</b> Numeric expressions and functions</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="creating-variables.html"><a href="creating-variables.html#random-numbers-and-setting-seeds"><i class="fa fa-check"></i><b>4.2.1</b> Random Numbers and setting seeds</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="creating-variables.html"><a href="creating-variables.html#string-expressions-and-functions"><i class="fa fa-check"></i><b>4.3</b> String Expressions and functions</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="creating-variables.html"><a href="creating-variables.html#substr-functions"><i class="fa fa-check"></i><b>4.3.1</b> substr functions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="creating-variables.html"><a href="creating-variables.html#recoding"><i class="fa fa-check"></i><b>4.4</b> Recoding</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="creating-variables.html"><a href="creating-variables.html#recoding-with-categorical-variables"><i class="fa fa-check"></i><b>4.4.1</b> Recoding with categorical variables</a></li>
+<li class="chapter" data-level="4.4.2" data-path="creating-variables.html"><a href="creating-variables.html#recoding-with-continuous-variables"><i class="fa fa-check"></i><b>4.4.2</b> Recoding with continuous variables</a></li>
+<li class="chapter" data-level="4.4.3" data-path="creating-variables.html"><a href="creating-variables.html#recoding-values-to-missing"><i class="fa fa-check"></i><b>4.4.3</b> Recoding values to missing</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="creating-variables.html"><a href="creating-variables.html#i.-operator"><i class="fa fa-check"></i><b>4.5</b> <em>i.</em> Operator</a>
+<ul>
+<li class="chapter" data-level="4.5.1" data-path="creating-variables.html"><a href="creating-variables.html#creating-binary-and-categorical-variables"><i class="fa fa-check"></i><b>4.5.1</b> Creating Binary and Categorical variables</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="creating-variables.html"><a href="creating-variables.html#interactions"><i class="fa fa-check"></i><b>4.6</b> Interactions</a>
+<ul>
+<li class="chapter" data-level="4.6.1" data-path="creating-variables.html"><a href="creating-variables.html#categorical-categorical-interaction---changes-intercepts"><i class="fa fa-check"></i><b>4.6.1</b> Categorical-Categorical Interaction - Changes Intercepts</a></li>
+<li class="chapter" data-level="4.6.2" data-path="creating-variables.html"><a href="creating-variables.html#categorical-continuous---changes-intercepts-and-slopes"><i class="fa fa-check"></i><b>4.6.2</b> Categorical-continuous - changes intercepts and slopes</a></li>
+<li class="chapter" data-level="4.6.3" data-path="creating-variables.html"><a href="creating-variables.html#continuous-continuous-interaction---add-n-polynomials"><i class="fa fa-check"></i><b>4.6.3</b> Continuous-Continuous Interaction - add n polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="creating-variables.html"><a href="creating-variables.html#date-variables"><i class="fa fa-check"></i><b>4.7</b> Date Variables</a>
+<ul>
+<li class="chapter" data-level="4.7.1" data-path="creating-variables.html"><a href="creating-variables.html#create-dates-from-numerical-variables"><i class="fa fa-check"></i><b>4.7.1</b> Create Dates from numerical variables</a></li>
+<li class="chapter" data-level="4.7.2" data-path="creating-variables.html"><a href="creating-variables.html#create-dates-from-string-variables"><i class="fa fa-check"></i><b>4.7.2</b> Create Dates from string variables</a></li>
+<li class="chapter" data-level="4.7.3" data-path="creating-variables.html"><a href="creating-variables.html#calculate-differences-between-dates"><i class="fa fa-check"></i><b>4.7.3</b> Calculate differences between dates</a></li>
+<li class="chapter" data-level="4.7.4" data-path="creating-variables.html"><a href="creating-variables.html#return-day-month-or-year-from-a-date-variable"><i class="fa fa-check"></i><b>4.7.4</b> Return day, month, or year from a date variable</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="creating-variables.html"><a href="creating-variables.html#date-and-time-variables"><i class="fa fa-check"></i><b>4.8</b> Date and Time Variables</a></li>
+<li class="chapter" data-level="4.9" data-path="creating-variables.html"><a href="creating-variables.html#computations-across-variables"><i class="fa fa-check"></i><b>4.9</b> Computations across variables</a></li>
+<li class="chapter" data-level="4.10" data-path="creating-variables.html"><a href="creating-variables.html#egen-computation-across-observations"><i class="fa fa-check"></i><b>4.10</b> EGEN Computation across observations</a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="creating-variables.html"><a href="creating-variables.html#subscripting"><i class="fa fa-check"></i><b>4.10.1</b> Subscripting</a></li>
+<li class="chapter" data-level="4.10.2" data-path="creating-variables.html"><a href="creating-variables.html#more-egen"><i class="fa fa-check"></i><b>4.10.2</b> More Egen</a></li>
+</ul></li>
+<li class="chapter" data-level="4.11" data-path="creating-variables.html"><a href="creating-variables.html#converting-strings-to-numerics"><i class="fa fa-check"></i><b>4.11</b> Converting Strings to numerics</a>
+<ul>
+<li class="chapter" data-level="4.11.1" data-path="creating-variables.html"><a href="creating-variables.html#destring"><i class="fa fa-check"></i><b>4.11.1</b> Destring</a></li>
+<li class="chapter" data-level="4.11.2" data-path="creating-variables.html"><a href="creating-variables.html#encode"><i class="fa fa-check"></i><b>4.11.2</b> Encode</a></li>
+<li class="chapter" data-level="4.11.3" data-path="creating-variables.html"><a href="creating-variables.html#converting-numerics-to-strings"><i class="fa fa-check"></i><b>4.11.3</b> Converting numerics to strings</a></li>
+</ul></li>
+<li class="chapter" data-level="4.12" data-path="creating-variables.html"><a href="creating-variables.html#renaming-and-reordering"><i class="fa fa-check"></i><b>4.12</b> Renaming and reordering</a>
+<ul>
+<li class="chapter" data-level="4.12.1" data-path="creating-variables.html"><a href="creating-variables.html#rename"><i class="fa fa-check"></i><b>4.12.1</b> Rename</a></li>
+<li class="chapter" data-level="4.12.2" data-path="creating-variables.html"><a href="creating-variables.html#order"><i class="fa fa-check"></i><b>4.12.2</b> Order</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Instrument Variables and Creating Variables</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="instrumental-variables" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Instrumental Variables<a href="instrumental-variables.html#instrumental-variables" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="estimating-returns-to-education-for-married-women" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Estimating Returns to Education for Married Women<a href="instrumental-variables.html#estimating-returns-to-education-for-married-women" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’ll use the data from A. Mroz (1987), “The Sensitivity of an Empirical Model of Married Women’s Hours of Work to Economic and Statistical Assumptions,” Econometrica 55, 765-799.</p>
+<p>We’ll use the data on married working women to estimate the return to education
+using a simple OLS model.</p>
+<p>Our likely biased OLS model results in the following</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="instrumental-variables.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb2-2"><a href="instrumental-variables.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;mroz.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb2-3"><a href="instrumental-variables.html#cb2-3" tabindex="-1"></a><span class="kw">reg</span> lwage educ</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(1, 426)       =     56.93
+       Model |  26.3264193         1  26.3264193   Prob &gt; F        =    0.0000
+    Residual |  197.001022       426  .462443713   R-squared       =    0.1179
+-------------+----------------------------------   Adj R-squared   =    0.1158
+       Total |  223.327441       427  .523015084   Root MSE        =    .68003
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .1086487   .0143998     7.55   0.000     .0803451    .1369523
+       _cons |  -.1851968   .1852259    -1.00   0.318    -.5492673    .1788736
+------------------------------------------------------------------------------</code></pre>
+<p>Our estimate implies that the returns to education is exp(.109)-1*100 about 11.5%. Notice that we are using stored values for <span class="math inline">\(\hat{\beta}_{edu}\)</span> with _b[edu].</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="instrumental-variables.html#cb4-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
+<pre><code>11.477061</code></pre>
+<p>We will use father’s education as an instrument for the observation’s level of education if the women is in the labor force. We will use the <em>predict</em> command to get estimates of <span class="math inline">\(\hat{x}\)</span></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="instrumental-variables.html#cb6-1" tabindex="-1"></a><span class="kw">reg</span> educ fathedu <span class="kw">if</span> inlf==1</span>
+<span id="cb6-2"><a href="instrumental-variables.html#cb6-2" tabindex="-1"></a><span class="kw">predict</span> edu_hat</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(1, 426)       =     88.84
+       Model |  384.841983         1  384.841983   Prob &gt; F        =    0.0000
+    Residual |  1845.35428       426  4.33181756   R-squared       =    0.1726
+-------------+----------------------------------   Adj R-squared   =    0.1706
+       Total |  2230.19626       427  5.22294206   Root MSE        =    2.0813
+
+------------------------------------------------------------------------------
+        educ |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    fatheduc |   .2694416   .0285863     9.43   0.000     .2132538    .3256295
+       _cons |   10.23705   .2759363    37.10   0.000     9.694685    10.77942
+------------------------------------------------------------------------------
+
+(option xb assumed; fitted values)</code></pre>
+<p>For instrument relevance, let’s obtain the F-Statistic after regressing education onto father’s education.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="instrumental-variables.html#cb8-1" tabindex="-1"></a><span class="kw">test</span> fathedu</span></code></pre></div>
+<pre><code> ( 1)  fatheduc = 0
+
+       F(  1,   426) =   88.84
+            Prob &gt; F =    0.0000</code></pre>
+<p>Our F-test shows that the instrument is greater than <span class="math inline">\(F-stat &gt; 15\)</span>, so it seem like a relevant candidate for an instrument. This does not mean it is a good instrument, though.</p>
+<p>Father’s Education as an instrument</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="instrumental-variables.html#cb10-1" tabindex="-1"></a><span class="kw">reg</span> lwage edu_hat</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(1, 426)       =      2.59
+       Model |  1.34752449         1  1.34752449   Prob &gt; F        =    0.1086
+    Residual |  221.979916       426  .521079616   R-squared       =    0.0060
+-------------+----------------------------------   Adj R-squared   =    0.0037
+       Total |  223.327441       427  .523015084   Root MSE        =    .72186
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     edu_hat |   .0591735   .0367969     1.61   0.109    -.0131525    .1314995
+       _cons |   .4411034   .4671121     0.94   0.346    -.4770279    1.359235
+------------------------------------------------------------------------------</code></pre>
+<p>One additional year of education increases wages by (exp(0.059)-1)*100%=6.1%</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="instrumental-variables.html#cb12-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[edu_hat])-1)*100</span></code></pre></div>
+<pre><code>6.095928</code></pre>
+<p>Question?
+The F-test passed the instrument relevance <span class="math inline">\(F-stat &gt; 15\)</span>, but what
+about instrument exogeneity?</p>
+</div>
+<div id="exercise-estimating-returns-to-education-for-men" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Exercise: Estimating Returns to Education for Men<a href="instrumental-variables.html#exercise-estimating-returns-to-education-for-men" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s estimate the returns to education for men. We’ll use data from M. Blackburn and D. Neumark (1992), “Unobserved Ability, Efficiency Wages, and Interindustry Wage Differentials,” Quarterly Journal of Economics 107, 1421-1436.</p>
+<p>Use number of siblings as an instrument to predict an observation’s level of education. We’ll keep it simple and have no other covariates.</p>
+<ol style="list-style-type: decimal">
+<li>Estimate the potentially biased OLS</li>
+<li>Estimate your first stage <span class="math inline">\(\hat{x}\)</span></li>
+<li>Test your first stage</li>
+<li>Run your second regression using <span class="math inline">\(\hat{x}\)</span> from your first regression</li>
+</ol>
+<ol style="list-style-type: decimal">
+<li>Estimate the potential biased OLS</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="instrumental-variables.html#cb14-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb14-2"><a href="instrumental-variables.html#cb14-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;wage2.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb14-3"><a href="instrumental-variables.html#cb14-3" tabindex="-1"></a><span class="kw">reg</span> lwage educ</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+      Source |       SS           df       MS      Number of obs   =       935
+-------------+----------------------------------   F(1, 933)       =    100.70
+       Model |  16.1377042         1  16.1377042   Prob &gt; F        =    0.0000
+    Residual |  149.518579       933  .160255712   R-squared       =    0.0974
+-------------+----------------------------------   Adj R-squared   =    0.0964
+       Total |  165.656283       934  .177362188   Root MSE        =    .40032
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .0598392   .0059631    10.03   0.000     .0481366    .0715418
+       _cons |   5.973063   .0813737    73.40   0.000     5.813366    6.132759
+------------------------------------------------------------------------------</code></pre>
+<p>We have a estimated return of education of (exp(.0598392)-1)*100</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="instrumental-variables.html#cb16-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
+<pre><code>6.1665821</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Use Number of siblings as an instrument for the first stage and predict <span class="math inline">\(\hat{x}\)</span></li>
+</ol>
+<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="instrumental-variables.html#cb18-1" tabindex="-1"></a><span class="kw">reg</span> educ sibs</span>
+<span id="cb18-2"><a href="instrumental-variables.html#cb18-2" tabindex="-1"></a><span class="kw">predict</span> edu_hat</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       935
+-------------+----------------------------------   F(1, 933)       =     56.67
+       Model |  258.055048         1  258.055048   Prob &gt; F        =    0.0000
+    Residual |   4248.7642       933  4.55387374   R-squared       =    0.0573
+-------------+----------------------------------   Adj R-squared   =    0.0562
+       Total |  4506.81925       934  4.82528828   Root MSE        =     2.134
+
+------------------------------------------------------------------------------
+        educ |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        sibs |  -.2279164   .0302768    -7.53   0.000     -.287335   -.1684979
+       _cons |   14.13879   .1131382   124.97   0.000     13.91676    14.36083
+------------------------------------------------------------------------------
+
+(option xb assumed; fitted values)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Get F-statistic</li>
+</ol>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="instrumental-variables.html#cb20-1" tabindex="-1"></a><span class="kw">test</span> sibs</span></code></pre></div>
+<pre><code> ( 1)  sibs = 0
+
+       F(  1,   933) =   56.67
+            Prob &gt; F =    0.0000</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Number of siblings as an instrument</li>
+</ol>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="instrumental-variables.html#cb22-1" tabindex="-1"></a><span class="kw">reg</span> lwage edu_hat</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       935
+-------------+----------------------------------   F(1, 933)       =     22.31
+       Model |  3.86818074         1  3.86818074   Prob &gt; F        =    0.0000
+    Residual |  161.788103       933  .173406326   R-squared       =    0.0234
+-------------+----------------------------------   Adj R-squared   =    0.0223
+       Total |  165.656283       934  .177362188   Root MSE        =    .41642
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     edu_hat |   .1224326   .0259225     4.72   0.000     .0715595    .1733057
+       _cons |   5.130026   .3494009    14.68   0.000     4.444323    5.815729
+------------------------------------------------------------------------------</code></pre>
+<p>One additional year of education increases wages by (exp(0.1224)-1)*100%=13.0%</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="instrumental-variables.html#cb24-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[edu_hat])-1)*100 </span></code></pre></div>
+<pre><code>13.024298</code></pre>
+<p>Another thing that is interesting here is the the OLS estimate is biased downward, which is not what we would expect.</p>
+<p>Possible reasons:
+1. Siblings could be correlated with ability - more siblings, less partental attention which could result in lower ability.
+2. The OLS estimator is downward biased due to measurement error in educ, but this is less likely to satisfy the classic error-in-variables (CEM) assumption.</p>
+</div>
+<div id="smoking-on-birthweight" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Smoking on Birthweight<a href="instrumental-variables.html#smoking-on-birthweight" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It is important to see an example of a poor instrument. We’ll use data from . Mullahy (1997), “Instrumental-Variable Estimation of Count Data Models: Applications to Models of Cigarette Smoking Behavior,” Review of Economics and Statistics 79, 596-593.</p>
+<p>The biased OLS regression looks at the natural log of birth weight and cigarette packs smoked per day by the mother. We would expect that smoking is correlated with unobserved health and parental decisions, so it is like biased due to unobserved confounders.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="instrumental-variables.html#cb26-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb26-2"><a href="instrumental-variables.html#cb26-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;bwght.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb26-3"><a href="instrumental-variables.html#cb26-3" tabindex="-1"></a><span class="kw">reg</span> lbwght packs</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+      Source |       SS           df       MS      Number of obs   =     1,388
+-------------+----------------------------------   F(1, 1386)      =     27.98
+       Model |  .997781141         1  .997781141   Prob &gt; F        =    0.0000
+    Residual |  49.4225525     1,386  .035658407   R-squared       =    0.0198
+-------------+----------------------------------   Adj R-squared   =    0.0191
+       Total |  50.4203336     1,387  .036352079   Root MSE        =    .18883
+
+------------------------------------------------------------------------------
+      lbwght |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       packs |  -.0898131   .0169786    -5.29   0.000    -.1231197   -.0565065
+       _cons |   4.769404   .0053694   888.26   0.000     4.758871    4.779937
+------------------------------------------------------------------------------</code></pre>
+<p>An additional package smoked per day decreases birthweight by exp(-.08981)-1~-8.6%</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="instrumental-variables.html#cb28-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(-.08981)-1)*100</span></code></pre></div>
+<pre><code>-8.5895151</code></pre>
+<p>We’ll use cigarette prices as an instrument for cigarette packs smoked per day. We assume that cigarette prices and the error term u are uncorrelated (instrument exogeneity). Note that some states fund health care with cigarette tax revenue.
+We will use cigarette price and quantity of packs smoked should be negatively
+correlated.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="instrumental-variables.html#cb30-1" tabindex="-1"></a><span class="kw">reg</span> packs cigprice</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     1,388
+-------------+----------------------------------   F(1, 1386)      =      0.13
+       Model |  .011648626         1  .011648626   Prob &gt; F        =    0.7179
+    Residual |  123.684481     1,386  .089238442   R-squared       =    0.0001
+-------------+----------------------------------   Adj R-squared   =   -0.0006
+       Total |  123.696129     1,387  .089182501   Root MSE        =    .29873
+
+------------------------------------------------------------------------------
+       packs |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    cigprice |   .0002829    .000783     0.36   0.718    -.0012531    .0018188
+       _cons |   .0674257   .1025384     0.66   0.511    -.1337215    .2685728
+------------------------------------------------------------------------------</code></pre>
+<p>The result shows that we fail to result the null hypothesis that <span class="math inline">\(\beta_{cigprice}\)</span> is equal to 0. From theory, we know that something is wrong, since our instrument, price of cigarettes, is not associated with packs of cigarettes consumed.</p>
+<p>We will still check instrument revelance:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="instrumental-variables.html#cb32-1" tabindex="-1"></a><span class="kw">test</span> cigprice</span></code></pre></div>
+<pre><code> ( 1)  cigprice = 0
+
+       F(  1,  1386) =    0.13
+            Prob &gt; F =    0.7179</code></pre>
+<p>Our instrumennt fails the F-test - we have a <strong>weak instrument</strong>.</p>
+<p>Cigarette price as an instrument for packs smoked is a poor instrument and our use of predicted packs smoked is in the wrong direction.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb34-1"><a href="instrumental-variables.html#cb34-1" tabindex="-1"></a><span class="kw">predict</span> packs_hat</span>
+<span id="cb34-2"><a href="instrumental-variables.html#cb34-2" tabindex="-1"></a><span class="kw">reg</span> lbwght packs_hat</span></code></pre></div>
+<pre><code>(option xb assumed; fitted values)
+
+      Source |       SS           df       MS      Number of obs   =     1,388
+-------------+----------------------------------   F(1, 1386)      =      2.87
+       Model |  .104047659         1  .104047659   Prob &gt; F        =    0.0907
+    Residual |   50.316286     1,386  .036303237   R-squared       =    0.0021
+-------------+----------------------------------   Adj R-squared   =    0.0013
+       Total |  50.4203336     1,387  .036352079   Root MSE        =    .19053
+
+------------------------------------------------------------------------------
+      lbwght |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+   packs_hat |   2.988676   1.765368     1.69   0.091    -.4744067    6.451758
+       _cons |   4.448136   .1843027    24.13   0.000     4.086594    4.809679
+------------------------------------------------------------------------------</code></pre>
+<p>Our results show that something is terribly wrong. An additional package of cigarette is correlated with an massive increase in birth weight, which is not supported empirically. Our biased OLS was a better model than our poor instrument model.</p>
+<p>We can and should always test Instrument Relevance. If we have a poor instrument, we should go back to the drawing board.</p>
+<p>Another issue here is that price is a poor instrument, since price and quantity are simultaneously determined. We would need a second set of instruments on price to estimate our first-stage.</p>
+</div>
+<div id="estimating-returns-to-education-for-married-women-part-2" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Estimating Returns to Education for Married Women Part 2<a href="instrumental-variables.html#estimating-returns-to-education-for-married-women-part-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’ll use Mroz data again on working women. We’ll use both parent’s education as instruments to identify the effect of education on wages for working women. We overidentify the endogenous variable with two instruments: father’s education and mother’s education.</p>
+<p>Potentially Biased OLS</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb36-1"><a href="instrumental-variables.html#cb36-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb36-2"><a href="instrumental-variables.html#cb36-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;mroz.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb36-3"><a href="instrumental-variables.html#cb36-3" tabindex="-1"></a><span class="kw">reg</span> lwage educ c.exper##c.exper</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(3, 424)       =     26.29
+       Model |  35.0222967         3  11.6740989   Prob &gt; F        =    0.0000
+    Residual |  188.305144       424  .444115906   R-squared       =    0.1568
+-------------+----------------------------------   Adj R-squared   =    0.1509
+       Total |  223.327441       427  .523015084   Root MSE        =    .66642
+
+---------------------------------------------------------------------------------
+          lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+           educ |   .1074896   .0141465     7.60   0.000     .0796837    .1352956
+          exper |   .0415665   .0131752     3.15   0.002     .0156697    .0674633
+                |
+c.exper#c.exper |  -.0008112   .0003932    -2.06   0.040    -.0015841   -.0000382
+                |
+          _cons |  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
+---------------------------------------------------------------------------------</code></pre>
+<p>Our result is (exp(.1074896)-1)*100~11.3%</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb38-1"><a href="instrumental-variables.html#cb38-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
+<pre><code>11.347933</code></pre>
+<p>We’ll use two instruments for one endogenous variable, which will be parent’s education as an instrument for women in the labor force.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb40-1"><a href="instrumental-variables.html#cb40-1" tabindex="-1"></a><span class="kw">reg</span> educ c.exper##c.exper fathedu mothedu <span class="kw">if</span> inlf==1</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(4, 423)       =     28.36
+       Model |  471.620998         4   117.90525   Prob &gt; F        =    0.0000
+    Residual |  1758.57526       423  4.15738833   R-squared       =    0.2115
+-------------+----------------------------------   Adj R-squared   =    0.2040
+       Total |  2230.19626       427  5.22294206   Root MSE        =     2.039
+
+---------------------------------------------------------------------------------
+           educ |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+          exper |   .0452254   .0402507     1.12   0.262    -.0338909    .1243417
+                |
+c.exper#c.exper |  -.0010091   .0012033    -0.84   0.402    -.0033744    .0013562
+                |
+       fatheduc |   .1895484   .0337565     5.62   0.000     .1231971    .2558997
+       motheduc |    .157597   .0358941     4.39   0.000      .087044    .2281501
+          _cons |    9.10264   .4265614    21.34   0.000     8.264196    9.941084
+---------------------------------------------------------------------------------</code></pre>
+<p>Get the F-Statistic.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb42-1"><a href="instrumental-variables.html#cb42-1" tabindex="-1"></a><span class="kw">test</span> fathedu mothedu</span></code></pre></div>
+<pre><code> ( 1)  fatheduc = 0
+ ( 2)  motheduc = 0
+
+       F(  2,   423) =   55.40
+            Prob &gt; F =    0.0000</code></pre>
+<p>The result shows that the instruments are potential candidates for good instruments, since <span class="math inline">\(F&gt;15\)</span>.</p>
+<p>Using Father’s Education and Mother’s Education as an instrument.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="instrumental-variables.html#cb44-1" tabindex="-1"></a><span class="kw">predict</span> edu_hat</span>
+<span id="cb44-2"><a href="instrumental-variables.html#cb44-2" tabindex="-1"></a><span class="kw">reg</span> lwage edu_hat c.exper##c.exper</span></code></pre></div>
+<pre><code>(option xb assumed; fitted values)
+
+      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(3, 424)       =      7.40
+       Model |   11.117828         3  3.70594265   Prob &gt; F        =    0.0001
+    Residual |  212.209613       424   .50049437   R-squared       =    0.0498
+-------------+----------------------------------   Adj R-squared   =    0.0431
+       Total |  223.327441       427  .523015084   Root MSE        =    .70746
+
+---------------------------------------------------------------------------------
+          lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+        edu_hat |   .0613966   .0329624     1.86   0.063    -.0033933    .1261866
+          exper |   .0441704   .0140844     3.14   0.002     .0164865    .0718543
+                |
+c.exper#c.exper |   -.000899   .0004212    -2.13   0.033    -.0017268   -.0000711
+                |
+          _cons |   .0481003   .4197565     0.11   0.909    -.7769624     .873163
+---------------------------------------------------------------------------------</code></pre>
+<p>One additional year of education increases wages by (exp(0.061)-1)*100%=6.3%</p>
+<p>This can be more easily done with our <em>ivregress 2sls</em> command:</p>
+<p><em>ivregress 2sls</em> <em><dependent variable></em> (<em><explantatory var></em>=<em><IV></em>) <span class="math inline">\(x_1, x_2...,x_k\)</span></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="instrumental-variables.html#cb46-1" tabindex="-1"></a>ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper</span>
+<span id="cb46-2"><a href="instrumental-variables.html#cb46-2" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
+<pre><code>Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(3)    =      24.65
+                                                  Prob &gt; chi2     =     0.0000
+                                                  R-squared       =     0.1357
+                                                  Root MSE        =     .67155
+
+---------------------------------------------------------------------------------
+          lwage |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+           educ |   .0613966   .0312895     1.96   0.050     .0000704    .1227228
+          exper |   .0441704   .0133696     3.30   0.001     .0179665    .0703742
+                |
+c.exper#c.exper |   -.000899   .0003998    -2.25   0.025    -.0016826   -.0001154
+                |
+          _cons |   .0481003    .398453     0.12   0.904    -.7328532    .8290538
+---------------------------------------------------------------------------------
+Instrumented:  educ
+Instruments:   exper c.exper#c.exper fatheduc motheduc
+
+6.3320574</code></pre>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="testing-assumptions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-IV.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
