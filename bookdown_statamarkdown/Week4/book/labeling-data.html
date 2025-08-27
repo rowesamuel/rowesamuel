@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Labeling Data | Panel Data Part 1 and Labeling Data</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Labeling Data | Panel Data Part 1 and Labeling Data" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Labeling Data | Panel Data Part 1 and Labeling Data" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe" />
+
+
+<meta name="date" content="2025-08-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="panel-data-part-1---pooled-data-and-first-difference.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Panel Data Part 1 and Labeling Data</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html"><i class="fa fa-check"></i><b>2</b> Panel Data Part 1 - Pooled Data and First Difference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html#pooled-ols-estimator"><i class="fa fa-check"></i><b>2.1</b> Pooled OLS Estimator</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html#fertility-over-time"><i class="fa fa-check"></i><b>2.1.1</b> Fertility over time</a></li>
+<li class="chapter" data-level="2.1.2" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html#changes-in-the-returns-to-education-and-the-sex-wage-gap"><i class="fa fa-check"></i><b>2.1.2</b> Changes in the Returns to Education and the Sex Wage Gap</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html#first-difference-estimator"><i class="fa fa-check"></i><b>2.2</b> First Difference Estimator</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html#sleep-vs-working"><i class="fa fa-check"></i><b>2.2.1</b> Sleep vs Working</a></li>
+<li class="chapter" data-level="2.2.2" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html#distributed-lag-of-crime-rates-on-clear-up-rate"><i class="fa fa-check"></i><b>2.2.2</b> Distributed Lag of Crime Rates on Clear-up Rate</a></li>
+<li class="chapter" data-level="2.2.3" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html#enterprise-zones-and-unemployment"><i class="fa fa-check"></i><b>2.2.3</b> Enterprise Zones and Unemployment</a></li>
+<li class="chapter" data-level="2.2.4" data-path="panel-data-part-1---pooled-data-and-first-difference.html"><a href="panel-data-part-1---pooled-data-and-first-difference.html#county-crimes-in-north-carolina"><i class="fa fa-check"></i><b>2.2.4</b> County Crimes in North Carolina</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="labeling-data.html"><a href="labeling-data.html"><i class="fa fa-check"></i><b>3</b> Labeling Data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="labeling-data.html"><a href="labeling-data.html#describing-datasets"><i class="fa fa-check"></i><b>3.1</b> Describing datasets</a></li>
+<li class="chapter" data-level="3.2" data-path="labeling-data.html"><a href="labeling-data.html#labeling-variables"><i class="fa fa-check"></i><b>3.2</b> Labeling variables</a></li>
+<li class="chapter" data-level="3.3" data-path="labeling-data.html"><a href="labeling-data.html#labeling-values"><i class="fa fa-check"></i><b>3.3</b> Labeling values</a></li>
+<li class="chapter" data-level="3.4" data-path="labeling-data.html"><a href="labeling-data.html#labeling-utilities"><i class="fa fa-check"></i><b>3.4</b> Labeling utilities</a></li>
+<li class="chapter" data-level="3.5" data-path="labeling-data.html"><a href="labeling-data.html#labeling-variables-and-values-in-different-languages"><i class="fa fa-check"></i><b>3.5</b> Labeling variables and values in different languages</a></li>
+<li class="chapter" data-level="3.6" data-path="labeling-data.html"><a href="labeling-data.html#using-notes"><i class="fa fa-check"></i><b>3.6</b> Using Notes</a></li>
+<li class="chapter" data-level="3.7" data-path="labeling-data.html"><a href="labeling-data.html#formatting-the-display-of-variables"><i class="fa fa-check"></i><b>3.7</b> Formatting the display of variables</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="labeling-data.html"><a href="labeling-data.html#format-numerics"><i class="fa fa-check"></i><b>3.7.1</b> Format numerics</a></li>
+<li class="chapter" data-level="3.7.2" data-path="labeling-data.html"><a href="labeling-data.html#format-strings"><i class="fa fa-check"></i><b>3.7.2</b> Format Strings</a></li>
+<li class="chapter" data-level="3.7.3" data-path="labeling-data.html"><a href="labeling-data.html#format-dates"><i class="fa fa-check"></i><b>3.7.3</b> Format dates</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="labeling-data.html"><a href="labeling-data.html#changing-the-order-of-variables-in-a-dataset"><i class="fa fa-check"></i><b>3.8</b> Changing the order of variables in a dataset</a></li>
+<li class="chapter" data-level="3.9" data-path="labeling-data.html"><a href="labeling-data.html#practice"><i class="fa fa-check"></i><b>3.9</b> Practice</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Panel Data Part 1 and Labeling Data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="labeling-data" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Labeling Data<a href="labeling-data.html#labeling-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Mitchell’s 5th chapter has a bunch of useful information, but the most
+important parts are <em>label define</em> (and its two options of <em>add</em> and <em>modify</em>), <em>label values</em>, and time formatting.</p>
+<div id="describing-datasets" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Describing datasets<a href="labeling-data.html#describing-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We have seen the <em>describe</em> command before, but it is a very useful command to being working with data. It provides the varible name, storage type, display format, value label, and variable label, Let’s get some data on the survey of graduate students.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb83-1"><a href="labeling-data.html#cb83-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb83-2"><a href="labeling-data.html#cb83-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;survey7.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb83-3"><a href="labeling-data.html#cb83-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+(Survey of graduate students)
+
+
+Contains data from survey7.dta
+  obs:             8                          Survey of graduate students
+ vars:            11                          5 May 2020 14:37
+ size:           400                          (_dta has notes)
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 Unique identification variable
+STUDENTVARS     float   %9.0g                 STUDENT VARIABLES ===============
+gender          float   %9.0g      mf         Gender of student
+race            float   %19.0g     racelab  * Race of student
+bday            float   %td..                 Date of birth of student
+income          float   %11.1fc               Income of student
+havechild       float   %18.0g     havelab  * Given birth to a child?
+KIDVARS         float   %9.0g                 KID VARIABLES ===================
+kidname         str10   %-10s                 Name of child
+ksex            float   %15.0g     mfkid    * Sex of child
+kbday           float   %td..                 Date of birth of child
+                                            * indicated variables have notes
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>We also have a short option, but it just contain general information.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb85-1"><a href="labeling-data.html#cb85-1" tabindex="-1"></a><span class="kw">describe</span>, <span class="kw">short</span></span></code></pre></div>
+<pre><code>Contains data from survey7.dta
+  obs:             8                          Survey of graduate students
+ vars:            11                          5 May 2020 14:37
+ size:           400                          
+Sorted by: </code></pre>
+<p>We can subset the variables we want to describe if we want</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb87-1"><a href="labeling-data.html#cb87-1" tabindex="-1"></a><span class="kw">describe</span> id gender race</span></code></pre></div>
+<pre><code>              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 Unique identification variable
+gender          float   %9.0g      mf         Gender of student
+race            float   %19.0g     racelab  * Race of student</code></pre>
+<p>Finally, the command <em>codebook</em> provides a deep dive into your dataset. This is very useful for looking at the value labels. We only see the value label name in the <em>describe</em> command, but the <em>codebook</em> command provides more information, such as type of variable, label name, range of values, unique values, missing, value labels, missing value labels (if any).</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb89-1"><a href="labeling-data.html#cb89-1" tabindex="-1"></a><span class="kw">codebook</span></span></code></pre></div>
+<pre><code>id                                                                                  Unique identification variable
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [1,8]                        units:  1
+         unique values:  8                        missing .:  0/8
+
+            tabulation:  Freq.  Value
+                             1  1
+                             1  2
+                             1  3
+                             1  4
+                             1  5
+                             1  6
+                             1  7
+                             1  8
+
+------------------------------------------------------------------------------------------------------------------
+STUDENTVARS                                                                      STUDENT VARIABLES ===============
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [.,.]                        units:  .
+         unique values:  0                        missing .:  8/8
+
+            tabulation:  Freq.  Value
+                             8  .
+
+------------------------------------------------------------------------------------------------------------------
+gender                                                                                           Gender of student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  mf
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/8
+
+            tabulation:  Freq.   Numeric  Label
+                             3         1  Male
+                             5         2  Female
+
+------------------------------------------------------------------------------------------------------------------
+race                                                                                               Race of student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  racelab
+
+                 range:  [1,5]                        units:  1
+         unique values:  5                        missing .:  0/8
+
+            tabulation:  Freq.   Numeric  Label
+                             2         1  White
+                             2         2  Asian
+                             2         3  Hispanic
+                             1         4  African American
+                             1         5  Other
+
+------------------------------------------------------------------------------------------------------------------
+bday                                                                                      Date of birth of student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric daily date (float)
+
+                 range:  [389,7935]                   units:  1
+       or equivalently:  [24jan1961,22sep1981]        units:  days
+         unique values:  8                        missing .:  0/8
+
+            tabulation:  Freq.  Value
+                             1  389    24jan1961
+                             1  3027   15apr1968
+                             1  4160   23may1971
+                             1  4924   25jun1973
+                             1  5036   15oct1973
+                             1  6059   03aug1976
+                             1  6391   01jul1977
+                             1  7935   22sep1981
+
+------------------------------------------------------------------------------------------------------------------
+income                                                                                           Income of student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [545.23,1284354.5]           units:  .01
+         unique values:  8                        missing .:  0/8
+
+            tabulation:  Freq.  Value
+                             1  545.22998
+                             1  4500.9199
+                             1  10500.93
+                             1  45234.129
+                             1  109452.11
+                             1  120102.32
+                             1  124313.45
+                             1  1284354.5
+
+------------------------------------------------------------------------------------------------------------------
+havechild                                                                                  Given birth to a child?
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  havelab
+
+                 range:  [0,1]                        units:  1
+         unique values:  2                        missing .:  0/8
+       unique mv codes:  1                       missing .*:  3/8
+
+            tabulation:  Freq.   Numeric  Label
+                             1         0  Dont Have Child
+                             4         1  Have Child
+                             3        .n  NA
+
+------------------------------------------------------------------------------------------------------------------
+KIDVARS                                                                          KID VARIABLES ===================
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [.,.]                        units:  .
+         unique values:  0                        missing .:  8/8
+
+            tabulation:  Freq.  Value
+                             8  .
+
+------------------------------------------------------------------------------------------------------------------
+kidname                                                                                              Name of child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  string (str10), but longest is str9
+
+         unique values:  5                        missing &quot;&quot;:  0/8
+
+            tabulation:  Freq.  Value
+                             4  &quot;&quot;
+                             1  &quot;Catherine&quot;
+                             1  &quot;Robin&quot;
+                             1  &quot;Sally&quot;
+                             1  &quot;Samuell&quot;
+
+               warning:  variable has leading and trailing blanks
+
+------------------------------------------------------------------------------------------------------------------
+ksex                                                                                                  Sex of child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  mfkid
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/8
+       unique mv codes:  2                       missing .*:  5/8
+
+            tabulation:  Freq.   Numeric  Label
+                             1         1  Male
+                             2         2  Female
+                             4        .n  NA
+                             1        .u  Unknown
+
+------------------------------------------------------------------------------------------------------------------
+kbday                                                                                       Date of birth of child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric daily date (float)
+
+                 range:  [12888,15932]                units:  1
+       or equivalently:  [15apr1995,15aug2003]        units:  days
+         unique values:  4                        missing .:  4/8
+
+            tabulation:  Freq.  Value
+                             1  12888  15apr1995
+                             1  14019  20may1998
+                             1  14256  12jan1999
+                             1  15932  15aug2003
+                             4  .              .</code></pre>
+<p>We can go by variables.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb91-1"><a href="labeling-data.html#cb91-1" tabindex="-1"></a><span class="kw">codebook</span> race</span></code></pre></div>
+<pre><code>race                                                                                               Race of student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  racelab
+
+                 range:  [1,5]                        units:  1
+         unique values:  5                        missing .:  0/8
+
+            tabulation:  Freq.   Numeric  Label
+                             2         1  White
+                             2         2  Asian
+                             2         3  Hispanic
+                             1         4  African American
+                             1         5  Other</code></pre>
+<p>We can go by variables and notes</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb93-1"><a href="labeling-data.html#cb93-1" tabindex="-1"></a><span class="kw">codebook</span> havechild, <span class="kw">notes</span></span></code></pre></div>
+<pre><code>havechild                                                                                  Given birth to a child?
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  havelab
+
+                 range:  [0,1]                        units:  1
+         unique values:  2                        missing .:  0/8
+       unique mv codes:  1                       missing .*:  3/8
+
+            tabulation:  Freq.   Numeric  Label
+                             1         0  Dont Have Child
+                             4         1  Have Child
+                             3        .n  NA
+
+havechild:
+  1.  This variable measures whether a woman has given birth to a child, not just whether she is a parent.
+  2.  The .n (NA) missing code is used for males, because they cannot bear children.
+  3.  The .u (Unknown) missing code for a female indicating it is unknown if she has a child.</code></pre>
+<p>We can look at the variable and missing value labels with the option <em>mv</em>. I recommend that you don’t label the missing values unless it is absolutely necessary. Different types of missing values besides “.” cause problems down the road, especially with the <em>marginsplot</em> command.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb95-1"><a href="labeling-data.html#cb95-1" tabindex="-1"></a><span class="kw">codebook</span> ksex, mv</span></code></pre></div>
+<pre><code>ksex                                                                                                  Sex of child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  mfkid
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/8
+       unique mv codes:  2                       missing .*:  5/8
+
+            tabulation:  Freq.   Numeric  Label
+                             1         1  Male
+                             2         2  Female
+                             4        .n  NA
+                             1        .u  Unknown
+
+        missing values:     havechild==mv --&gt; ksex==mv
+                                kbday==mv --&gt; ksex==mv</code></pre>
+<p>If you are interested in the different languages labels it is on page 112.</p>
+<p>The <em>lookfor</em> command will return all variables with the search word. This is a bit redundent, since this is available in the variable window. But, it provides more space to look.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb97-1"><a href="labeling-data.html#cb97-1" tabindex="-1"></a><span class="kw">lookfor</span> birth</span></code></pre></div>
+<pre><code>              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+bday            float   %td..                 Date of birth of student
+havechild       float   %18.0g     havelab  * Given birth to a child?
+kbday           float   %td..                 Date of birth of child</code></pre>
+<p>We can also search for the notes by the search word</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb99-1"><a href="labeling-data.html#cb99-1" tabindex="-1"></a><span class="kw">notes</span> <span class="kw">search</span> birth</span></code></pre></div>
+<pre><code>havechild:
+  1.  This variable measures whether a woman has given birth to a child, not just whether she is a parent.</code></pre>
+<p>We can see the formats of the variables as well</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb101-1"><a href="labeling-data.html#cb101-1" tabindex="-1"></a><span class="ot">list</span> income bday</span>
+<span id="cb101-2"><a href="labeling-data.html#cb101-2" tabindex="-1"></a><span class="kw">describe</span> income bday</span></code></pre></div>
+<pre><code>     |      income       bday |
+     |------------------------|
+  1. |    10,500.9   01/24/61 |
+  2. |    45,234.1   04/15/68 |
+  3. | 1,284,354.5   05/23/71 |
+  4. |   124,313.5   06/25/73 |
+  5. |   120,102.3   09/22/81 |
+     |------------------------|
+  6. |       545.2   10/15/73 |
+  7. |   109,452.1   07/01/77 |
+  8. |     4,500.9   08/03/76 |
+     +------------------------+
+
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+income          float   %11.1fc               Income of student
+bday            float   %td..                 Date of birth of student</code></pre>
+<p>We can see that the format for income is %11.1fc and the format for bday is %td</p>
+</div>
+<div id="labeling-variables" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Labeling variables<a href="labeling-data.html#labeling-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Labeling the variables is a very helpful shortcut to describe what the variable contain without having to go back to the data dicionary. Sometimes we want a short and concise label if we are exporting labels to regression tables, or sometimes we want longer variable labels to give us context of the variable.</p>
+<p>Let’s get some data on graduate students and use the <em>describe</em> command.</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb103-1"><a href="labeling-data.html#cb103-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb103-2"><a href="labeling-data.html#cb103-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;survey1.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb103-3"><a href="labeling-data.html#cb103-3" tabindex="-1"></a><span class="kw">describe</span> </span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+
+
+Contains data from survey1.dta
+  obs:             8                          
+ vars:             9                          1 Jan 2010 12:13
+ size:           432                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 
+gender          float   %9.0g                 
+race            float   %9.0g                 
+havechild       float   %9.0g                 
+ksex            float   %9.0g                 
+bdays           str10   %10s                  
+income          float   %9.0g                 
+kbdays          str10   %10s                  
+kidname         str10   %10s                  
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>We have no variable labels, so we will need to provide some so future users have an understand what the data are. We will use the <em>label variable</em> command to describe the variable.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb105-1"><a href="labeling-data.html#cb105-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> id <span class="st">&quot;Identification variable&quot;</span></span>
+<span id="cb105-2"><a href="labeling-data.html#cb105-2" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> gender <span class="st">&quot;Gender of the student&quot;</span></span>
+<span id="cb105-3"><a href="labeling-data.html#cb105-3" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> race <span class="st">&quot;Race of the student&quot;</span></span>
+<span id="cb105-4"><a href="labeling-data.html#cb105-4" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> havechild <span class="st">&quot;Given birth to a child&quot;</span></span>
+<span id="cb105-5"><a href="labeling-data.html#cb105-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> ksex <span class="st">&quot;Sex of child&quot;</span></span>
+<span id="cb105-6"><a href="labeling-data.html#cb105-6" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> bday <span class="st">&quot;Birthday of student&quot;</span></span>
+<span id="cb105-7"><a href="labeling-data.html#cb105-7" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> income <span class="st">&quot;Income of student&quot;</span></span>
+<span id="cb105-8"><a href="labeling-data.html#cb105-8" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> kbdays <span class="st">&quot;Birthday of child&quot;</span></span>
+<span id="cb105-9"><a href="labeling-data.html#cb105-9" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> kidname <span class="st">&quot;Name of child&quot;</span></span>
+<span id="cb105-10"><a href="labeling-data.html#cb105-10" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from survey1.dta
+  obs:             8                          
+ vars:             9                          1 Jan 2010 12:13
+ size:           432                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 Identification variable
+gender          float   %9.0g                 Gender of the student
+race            float   %9.0g                 Race of the student
+havechild       float   %9.0g                 Given birth to a child
+ksex            float   %9.0g                 Sex of child
+bdays           str10   %10s                  Birthday of student
+income          float   %9.0g                 Income of student
+kbdays          str10   %10s                  Birthday of child
+kidname         str10   %10s                  Name of child
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>We can simply change the variable label with running the command again with the new variable label.</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb107-1"><a href="labeling-data.html#cb107-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> id <span class="st">&quot;Unique identification variable&quot;</span></span>
+<span id="cb107-2"><a href="labeling-data.html#cb107-2" tabindex="-1"></a><span class="kw">describe</span></span>
+<span id="cb107-3"><a href="labeling-data.html#cb107-3" tabindex="-1"></a><span class="kw">save</span> survey2, <span class="kw">replace</span></span></code></pre></div>
+<pre><code>Contains data from survey1.dta
+  obs:             8                          
+ vars:             9                          1 Jan 2010 12:13
+ size:           432                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 Unique identification variable
+gender          float   %9.0g                 Gender of the student
+race            float   %9.0g                 Race of the student
+havechild       float   %9.0g                 Given birth to a child
+ksex            float   %9.0g                 Sex of child
+bdays           str10   %10s                  Birthday of student
+income          float   %9.0g                 Income of student
+kbdays          str10   %10s                  Birthday of child
+kidname         str10   %10s                  Name of child
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+
+file survey2.dta saved</code></pre>
+</div>
+<div id="labeling-values" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Labeling values<a href="labeling-data.html#labeling-values" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Labeling values is a very practice way of analyzing data without having to go back to the data dictionary. Labeling values requires two commands:</p>
+<ol style="list-style-type: decimal">
+<li><em>label define</em> to define a label that can be used across many different variables.</li>
+<li><em>label variable</em> to place a label onto a variable.</li>
+</ol>
+<p>Labeling values is a bit different than labeling variables, since we need to modify or replace after a label has been defined. If you try to change a label, then you will get an error unless you use <em>add</em>, <em>modify</em> or <em>replace</em></p>
+<p>Let’s look at our codebook</p>
+<div class="sourceCode" id="cb109"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb109-1"><a href="labeling-data.html#cb109-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb109-2"><a href="labeling-data.html#cb109-2" tabindex="-1"></a><span class="kw">use</span> survey2, <span class="kw">clear</span></span>
+<span id="cb109-3"><a href="labeling-data.html#cb109-3" tabindex="-1"></a><span class="kw">codebook</span> </span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+
+
+------------------------------------------------------------------------------------------------------------------
+id                                                                                  Unique identification variable
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [1,8]                        units:  1
+         unique values:  8                        missing .:  0/8
+
+            tabulation:  Freq.  Value
+                             1  1
+                             1  2
+                             1  3
+                             1  4
+                             1  5
+                             1  6
+                             1  7
+                             1  8
+
+------------------------------------------------------------------------------------------------------------------
+gender                                                                                       Gender of the student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/8
+
+            tabulation:  Freq.  Value
+                             3  1
+                             5  2
+
+------------------------------------------------------------------------------------------------------------------
+race                                                                                           Race of the student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [1,5]                        units:  1
+         unique values:  5                        missing .:  0/8
+
+            tabulation:  Freq.  Value
+                             2  1
+                             2  2
+                             2  3
+                             1  4
+                             1  5
+
+------------------------------------------------------------------------------------------------------------------
+havechild                                                                                   Given birth to a child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [0,1]                        units:  1
+         unique values:  2                        missing .:  0/8
+       unique mv codes:  1                       missing .*:  3/8
+
+            tabulation:  Freq.  Value
+                             1  0
+                             4  1
+                             3  .n
+
+------------------------------------------------------------------------------------------------------------------
+ksex                                                                                                  Sex of child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/8
+       unique mv codes:  2                       missing .*:  5/8
+
+            tabulation:  Freq.  Value
+                             1  1
+                             2  2
+                             4  .n
+                             1  .u
+
+------------------------------------------------------------------------------------------------------------------
+bdays                                                                                          Birthday of student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  string (str10)
+
+         unique values:  8                        missing &quot;&quot;:  0/8
+
+            tabulation:  Freq.  Value
+                             1  &quot;1/24/1961&quot;
+                             1  &quot;10/15/1973&quot;
+                             1  &quot;4/15/1968&quot;
+                             1  &quot;5/23/1971&quot;
+                             1  &quot;6/25/1973&quot;
+                             1  &quot;7/1/1977&quot;
+                             1  &quot;8/3/1976&quot;
+                             1  &quot;9/22/1981&quot;
+
+------------------------------------------------------------------------------------------------------------------
+income                                                                                           Income of student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+
+                 range:  [545.23,1284354.5]           units:  .01
+         unique values:  8                        missing .:  0/8
+
+            tabulation:  Freq.  Value
+                             1  545.22998
+                             1  4500.9199
+                             1  10500.93
+                             1  45234.129
+                             1  109452.11
+                             1  120102.32
+                             1  124313.45
+                             1  1284354.5
+
+------------------------------------------------------------------------------------------------------------------
+kbdays                                                                                           Birthday of child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  string (str10), but longest is str9
+
+         unique values:  5                        missing &quot;&quot;:  0/8
+
+            tabulation:  Freq.  Value
+                             4  &quot;&quot;
+                             1  &quot;1/12/1999&quot;
+                             1  &quot;4/15/1995&quot;
+                             1  &quot;5/20/1998&quot;
+                             1  &quot;8/15/2003&quot;
+
+               warning:  variable has leading and trailing blanks
+
+------------------------------------------------------------------------------------------------------------------
+kidname                                                                                              Name of child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  string (str10), but longest is str9
+
+         unique values:  5                        missing &quot;&quot;:  0/8
+
+            tabulation:  Freq.  Value
+                             4  &quot;&quot;
+                             1  &quot;Catherine&quot;
+                             1  &quot;Robin&quot;
+                             1  &quot;Sally&quot;
+                             1  &quot;Samuell&quot;
+
+               warning:  variable has leading and trailing blanks</code></pre>
+<p>We have our variable labels from 5.3, but now we need to label the values so replicators can know what the data are without having to reference the data dictionary for every variable. We will use the <em>label define</em> command to create a new label.</p>
+<p>First we need to define a label with label define</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb111-1"><a href="labeling-data.html#cb111-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> racelabel 1 <span class="st">&quot;White&quot;</span> 2 <span class="st">&quot;Asian&quot;</span> 3 <span class="st">&quot;Hispanic&quot;</span> 4 <span class="st">&quot;Black&quot;</span></span></code></pre></div>
+<p>Next we need to label the values of the variable with <em>label values</em> command and we’ll look at the codebook again.</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb112-1"><a href="labeling-data.html#cb112-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> race racelabel</span>
+<span id="cb112-2"><a href="labeling-data.html#cb112-2" tabindex="-1"></a><span class="kw">codebook</span> race</span></code></pre></div>
+<pre><code>race                                                                                           Race of the student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  racelabel, but 1 nonmissing value is not labeled
+
+                 range:  [1,5]                        units:  1
+         unique values:  5                        missing .:  0/8
+
+            tabulation:  Freq.   Numeric  Label
+                             2         1  White
+                             2         2  Asian
+                             2         3  Hispanic
+                             1         4  Black
+                             1         5  </code></pre>
+<p>We are still missing a value label for 5, which is Other, so we need to modify our defined label race1. If we do not modify our label, we will get an error if we try to label values again. We can use the <em>add</em> option in label define.</p>
+<div class="sourceCode" id="cb114"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb114-1"><a href="labeling-data.html#cb114-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> racelabel 5 <span class="st">&quot;Other&quot;</span>, add</span></code></pre></div>
+<p>If we want to modify an existing label, we can use the <em>modify</em> option in label define.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb115-1"><a href="labeling-data.html#cb115-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> racelabel 4 <span class="st">&quot;African American&quot;</span>, modify</span>
+<span id="cb115-2"><a href="labeling-data.html#cb115-2" tabindex="-1"></a><span class="kw">codebook</span> race</span></code></pre></div>
+<pre><code>race                                                                                           Race of the student
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  racelabel
+
+                 range:  [1,5]                        units:  1
+         unique values:  5                        missing .:  0/8
+
+            tabulation:  Freq.   Numeric  Label
+                             2         1  White
+                             2         2  Asian
+                             2         3  Hispanic
+                             1         4  African American
+                             1         5  Other</code></pre>
+<p>Labeling missing is something that I don’t recommend, but we’ll show an example here.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb117-1"><a href="labeling-data.html#cb117-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> mfkid 1 <span class="st">&quot;Male&quot;</span> 2 <span class="st">&quot;Female&quot;</span> .u <span class="st">&quot;Unknown&quot;</span> .n <span class="st">&quot;NA&quot;</span></span>
+<span id="cb117-2"><a href="labeling-data.html#cb117-2" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> ksex mfkid</span>
+<span id="cb117-3"><a href="labeling-data.html#cb117-3" tabindex="-1"></a><span class="kw">codebook</span> ksex</span>
+<span id="cb117-4"><a href="labeling-data.html#cb117-4" tabindex="-1"></a></span>
+<span id="cb117-5"><a href="labeling-data.html#cb117-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> havechildlabel 0 <span class="st">&quot;Don&#39;t have a child&quot;</span> 1 <span class="st">&quot;Have a child&quot;</span> .u <span class="st">&quot;Unknown&quot;</span> .n <span class="st">&quot;NA&quot;</span></span>
+<span id="cb117-6"><a href="labeling-data.html#cb117-6" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> havechild havechildlabel</span>
+<span id="cb117-7"><a href="labeling-data.html#cb117-7" tabindex="-1"></a><span class="kw">codebook</span> havechild</span></code></pre></div>
+<pre><code>ksex                                                                                                  Sex of child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  mfkid
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/8
+       unique mv codes:  2                       missing .*:  5/8
+
+            tabulation:  Freq.   Numeric  Label
+                             1         1  Male
+                             2         2  Female
+                             4        .n  NA
+                             1        .u  Unknown
+
+
+
+
+------------------------------------------------------------------------------------------------------------------
+havechild                                                                                   Given birth to a child
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  havechildlabel
+
+                 range:  [0,1]                        units:  1
+         unique values:  2                        missing .:  0/8
+       unique mv codes:  1                       missing .*:  3/8
+
+            tabulation:  Freq.   Numeric  Label
+                             1         0  Don&#39;t have a child
+                             4         1  Have a child
+                             3        .n  NA</code></pre>
+<p>We can look at our label list to see what we have define so far. We can use the <em>label list</em> command to see our labels.</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb119-1"><a href="labeling-data.html#cb119-1" tabindex="-1"></a><span class="kw">label</span> <span class="ot">list</span></span></code></pre></div>
+<pre><code>havechildlabel:
+           0 Don&#39;t have a child
+           1 Have a child
+          .n NA
+          .u Unknown
+mfkid:
+           1 Male
+           2 Female
+          .n NA
+          .u Unknown
+racelabel:
+           1 White
+           2 Asian
+           3 Hispanic
+           4 African American
+           5 Other</code></pre>
+<p>The <em>numlabel</em> command is an interesting command. It takes the guess work out of knowing the numeric value of the category by appending the numeric value with the label value.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb121-1"><a href="labeling-data.html#cb121-1" tabindex="-1"></a><span class="kw">numlabel</span> racelabel, add</span>
+<span id="cb121-2"><a href="labeling-data.html#cb121-2" tabindex="-1"></a><span class="kw">label</span> <span class="ot">list</span> racelabel</span>
+<span id="cb121-3"><a href="labeling-data.html#cb121-3" tabindex="-1"></a><span class="kw">tabulate</span> race</span></code></pre></div>
+<pre><code>racelabel:
+           1 1. White
+           2 2. Asian
+           3 3. Hispanic
+           4 4. African American
+           5 5. Other
+
+
+Race of the |
+    student |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |          2       25.00       25.00
+          2 |          2       25.00       50.00
+          3 |          2       25.00       75.00
+          4 |          1       12.50       87.50
+          5 |          1       12.50      100.00
+------------+-----------------------------------
+      Total |          8      100.00</code></pre>
+<p>And, if we don’t like it or don’t need it any more, we can remove the numeric values with the <em>remove</em> option.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb123-1"><a href="labeling-data.html#cb123-1" tabindex="-1"></a><span class="kw">numlabel</span> racelabel, remove</span>
+<span id="cb123-2"><a href="labeling-data.html#cb123-2" tabindex="-1"></a><span class="kw">tabulate</span> race</span></code></pre></div>
+<pre><code>Race of the |
+    student |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |          2       25.00       25.00
+          2 |          2       25.00       50.00
+          3 |          2       25.00       75.00
+          4 |          1       12.50       87.50
+          5 |          1       12.50      100.00
+------------+-----------------------------------
+      Total |          8      100.00</code></pre>
+<p>We can add additional characters with <em>numlabel</em> as well, such as “#=” or “#)” with the <em>mask</em> option</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb125-1"><a href="labeling-data.html#cb125-1" tabindex="-1"></a><span class="kw">numlabel</span> racelabel, add mask(<span class="st">&quot;#) &quot;</span>)</span>
+<span id="cb125-2"><a href="labeling-data.html#cb125-2" tabindex="-1"></a><span class="kw">tabulate</span> race</span></code></pre></div>
+<pre><code>Race of the |
+    student |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |          2       25.00       25.00
+          2 |          2       25.00       50.00
+          3 |          2       25.00       75.00
+          4 |          1       12.50       87.50
+          5 |          1       12.50      100.00
+------------+-----------------------------------
+      Total |          8      100.00</code></pre>
+<p>We can remove the mask with <em>remove</em> plus the <em>mask</em> option</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb127-1"><a href="labeling-data.html#cb127-1" tabindex="-1"></a><span class="kw">numlabel</span> racelabel, remove mask(<span class="st">&quot;#) &quot;</span>)</span>
+<span id="cb127-2"><a href="labeling-data.html#cb127-2" tabindex="-1"></a><span class="kw">tabulate</span> race</span></code></pre></div>
+<pre><code>Race of the |
+    student |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |          2       25.00       25.00
+          2 |          2       25.00       50.00
+          3 |          2       25.00       75.00
+          4 |          1       12.50       87.50
+          5 |          1       12.50      100.00
+------------+-----------------------------------
+      Total |          8      100.00</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb129-1"><a href="labeling-data.html#cb129-1" tabindex="-1"></a><span class="kw">save</span> survey3, <span class="kw">replace</span></span></code></pre></div>
+</div>
+<div id="labeling-utilities" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Labeling utilities<a href="labeling-data.html#labeling-utilities" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Stata has label utilities to manage the labels defined. The first one is <em>label dir</em> to see the labels names available in a quick and more concise way than using the codebook command.</p>
+<p>For me, I think that <em>label list</em> will be your most useful command here.</p>
+<p>Quick check of your label directory</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb130-1"><a href="labeling-data.html#cb130-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb130-2"><a href="labeling-data.html#cb130-2" tabindex="-1"></a><span class="kw">use</span> survey3, <span class="kw">clear</span></span>
+<span id="cb130-3"><a href="labeling-data.html#cb130-3" tabindex="-1"></a><span class="kw">label</span> <span class="ot">dir</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+
+mfkid
+havechildlabel
+racelabel</code></pre>
+<p>The <em>label list</em> command gives a more comprehensive view of your labels that includes the value labels associated with the value label name</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb132-1"><a href="labeling-data.html#cb132-1" tabindex="-1"></a><span class="kw">label</span> <span class="ot">list</span></span></code></pre></div>
+<pre><code>mfkid:
+           1 Male
+           2 Female
+          .n NA
+          .u Unknown
+havechildlabel:
+           0 Don&#39;t have a child
+           1 Have a child
+          .n NA
+          .u Unknown
+racelabel:
+           1 White
+           2 Asian
+           3 Hispanic
+           4 African American
+           5 Other</code></pre>
+<p>The <em>label save</em> command will save your labels into a do file for future use. Our do file name is stated after the using statement.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb134-1"><a href="labeling-data.html#cb134-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">save</span> havechildlabel racelabel <span class="kw">using</span> surveylabs, <span class="kw">replace</span></span>
+<span id="cb134-2"><a href="labeling-data.html#cb134-2" tabindex="-1"></a><span class="dv">type</span> surveylabs.<span class="kw">do</span></span></code></pre></div>
+<pre><code>label define havechildlabel 0 `&quot;Don&#39;t have a child&quot;&#39;, modify
+label define havechildlabel 1 `&quot;Have a child&quot;&#39;, modify
+label define havechildlabel .n `&quot;NA&quot;&#39;, modify
+label define havechildlabel .u `&quot;Unknown&quot;&#39;, modify
+label define racelabel 1 `&quot;White&quot;&#39;, modify
+label define racelabel 2 `&quot;Asian&quot;&#39;, modify
+label define racelabel 3 `&quot;Hispanic&quot;&#39;, modify
+label define racelabel 4 `&quot;African American&quot;&#39;, modify
+label define racelabel 5 `&quot;Other&quot;&#39;, modify</code></pre>
+<p>The <em>labelbook</em> command provides information similar to <em>codebook</em> but only for the labels that are defined.</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb136-1"><a href="labeling-data.html#cb136-1" tabindex="-1"></a><span class="kw">labelbook</span></span>
+<span id="cb136-2"><a href="labeling-data.html#cb136-2" tabindex="-1"></a><span class="kw">labelbook</span> racelabel</span></code></pre></div>
+<pre><code>value label havechildlabel 
+------------------------------------------------------------------------------------------------------------------
+
+      values                                    labels
+       range:  [0,1]                     string length:  [2,18]
+           N:  4                 unique at full length:  yes
+        gaps:  no                  unique at length 12:  yes
+  missing .*:  2                           null string:  no
+                               leading/trailing blanks:  no
+                                    numeric -&gt; numeric:  no
+  definition
+           0   Don&#39;t have a child
+           1   Have a child
+          .n   NA
+          .u   Unknown
+
+   variables:  havechild
+
+
+------------------------------------------------------------------------------------------------------------------
+value label mfkid 
+------------------------------------------------------------------------------------------------------------------
+
+      values                                    labels
+       range:  [1,2]                     string length:  [2,7]
+           N:  4                 unique at full length:  yes
+        gaps:  no                  unique at length 12:  yes
+  missing .*:  2                           null string:  no
+                               leading/trailing blanks:  no
+                                    numeric -&gt; numeric:  no
+  definition
+           1   Male
+           2   Female
+          .n   NA
+          .u   Unknown
+
+   variables:  ksex
+
+
+------------------------------------------------------------------------------------------------------------------
+value label racelabel 
+------------------------------------------------------------------------------------------------------------------
+
+      values                                    labels
+       range:  [1,5]                     string length:  [5,16]
+           N:  5                 unique at full length:  yes
+        gaps:  no                  unique at length 12:  yes
+  missing .*:  0                           null string:  no
+                               leading/trailing blanks:  no
+                                    numeric -&gt; numeric:  no
+  definition
+           1   White
+           2   Asian
+           3   Hispanic
+           4   African American
+           5   Other
+
+   variables:  race
+
+
+
+------------------------------------------------------------------------------------------------------------------
+value label racelabel 
+------------------------------------------------------------------------------------------------------------------
+
+      values                                    labels
+       range:  [1,5]                     string length:  [5,16]
+           N:  5                 unique at full length:  yes
+        gaps:  no                  unique at length 12:  yes
+  missing .*:  0                           null string:  no
+                               leading/trailing blanks:  no
+                                    numeric -&gt; numeric:  no
+  definition
+           1   White
+           2   Asian
+           3   Hispanic
+           4   African American
+           5   Other
+
+   variables:  race</code></pre>
+<p>The <em>problem</em> option for <em>labelbook</em> provides information to alert the users of any problems</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb138-1"><a href="labeling-data.html#cb138-1" tabindex="-1"></a><span class="kw">labelbook</span>, problem</span></code></pre></div>
+<pre><code>no potential problems in dataset survey3.dta</code></pre>
+<p>We can have a more detailed look with the <em>detail</em> and <em>problem</em> options</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb140-1"><a href="labeling-data.html#cb140-1" tabindex="-1"></a><span class="kw">labelbook</span> racelabel, problem <span class="kw">detail</span></span></code></pre></div>
+<pre><code>value label racelabel 
+------------------------------------------------------------------------------------------------------------------
+
+      values                                    labels
+       range:  [1,5]                     string length:  [5,16]
+           N:  5                 unique at full length:  yes
+        gaps:  no                  unique at length 12:  yes
+  missing .*:  0                           null string:  no
+                               leading/trailing blanks:  no
+                                    numeric -&gt; numeric:  no
+  definition
+           1   White
+           2   Asian
+           3   Hispanic
+           4   African American
+           5   Other
+
+   variables:  race
+
+
+no potential problems in dataset survey3.dta</code></pre>
+</div>
+<div id="labeling-variables-and-values-in-different-languages" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Labeling variables and values in different languages<a href="labeling-data.html#labeling-variables-and-values-in-different-languages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will not be covering this, but if you are interested, please review pages 127-132.</p>
+</div>
+<div id="using-notes" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Using Notes<a href="labeling-data.html#using-notes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <em>note</em> commmand can be helpful for future users or for replicators. If you use the <em>note</em> command without specifying the variable, then it is a general note that will show up under the _dta note. If you add a variable in front of the <em>note</em> command, like note var1:, then you will add a note to the variable</p>
+<p>Let’s add some general notes.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb142-1"><a href="labeling-data.html#cb142-1" tabindex="-1"></a><span class="kw">note</span>: This was based <span class="kw">on</span> the dataset called survey1.txt</span></code></pre></div>
+<p>Adding <em>TS</em> to the end adds a timestamp, which is a nice feature.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb143-1"><a href="labeling-data.html#cb143-1" tabindex="-1"></a><span class="kw">note</span>: The <span class="fu">missing</span> <span class="kw">values</span> <span class="kw">for</span> havechild and childage were coded <span class="kw">using</span> -1 and -2 but were converted to .n and .u TS</span></code></pre></div>
+<p>Let’s call our notes with the <em>notes</em> command.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb144-1"><a href="labeling-data.html#cb144-1" tabindex="-1"></a><span class="kw">notes</span></span></code></pre></div>
+<pre><code>_dta:
+  1.  This was based on the dataset called survey1.txt
+  2.  The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u 27
+      Aug 2025 16:44</code></pre>
+<p>Let’s add some notes to our variables</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb146-1"><a href="labeling-data.html#cb146-1" tabindex="-1"></a><span class="kw">note</span> race: The other category includes people who specified multiple races</span>
+<span id="cb146-2"><a href="labeling-data.html#cb146-2" tabindex="-1"></a><span class="kw">note</span> race: This is another <span class="kw">note</span></span>
+<span id="cb146-3"><a href="labeling-data.html#cb146-3" tabindex="-1"></a><span class="kw">note</span> race: This is a third <span class="kw">note</span></span></code></pre></div>
+<p>We can just call a particular variable for notes</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb147-1"><a href="labeling-data.html#cb147-1" tabindex="-1"></a><span class="kw">notes</span> race</span></code></pre></div>
+<p>We can just call a particular variable for notes</p>
+<pre><code>race:
+  1.  The other category includes people who specified multiple races
+  2.  This is another note
+  3.  This is a third note</code></pre>
+<p>Let say we added an unhelpful note, then we can drop it with the <em>notes drop</em> command and we want to drop the second note.</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb149-1"><a href="labeling-data.html#cb149-1" tabindex="-1"></a><span class="kw">notes</span> <span class="kw">drop</span> race <span class="kw">in</span> 2</span>
+<span id="cb149-2"><a href="labeling-data.html#cb149-2" tabindex="-1"></a><span class="kw">notes</span> race</span></code></pre></div>
+<pre><code>  (1 note dropped)
+
+
+race:
+  1.  The other category includes people who specified multiple races
+  3.  This is a third note</code></pre>
+<p>Notice that we have a gap in the sequence of numbering. We can fix that with the <em>notes renumber</em> command.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb151-1"><a href="labeling-data.html#cb151-1" tabindex="-1"></a><span class="kw">notes</span> renumber race</span>
+<span id="cb151-2"><a href="labeling-data.html#cb151-2" tabindex="-1"></a><span class="kw">notes</span> race</span></code></pre></div>
+<pre><code>race:
+  1.  The other category includes people who specified multiple races
+  2.  This is a third note</code></pre>
+<p>We can also search notes with the notes search “string” command.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb153-1"><a href="labeling-data.html#cb153-1" tabindex="-1"></a><span class="kw">notes</span> <span class="kw">search</span> .u</span></code></pre></div>
+<pre><code>_dta:
+  2.  The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u 27
+      Aug 2025 16:44</code></pre>
+</div>
+<div id="formatting-the-display-of-variables" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> Formatting the display of variables<a href="labeling-data.html#formatting-the-display-of-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Formatting data will be more common than you expect. It can be a pain when dealing with numbers in the millions or billions and you lack commas. We can format our data with the <em>format</em> command.</p>
+<div id="format-numerics" class="section level3 hasAnchor" number="3.7.1">
+<h3><span class="header-section-number">3.7.1</span> Format numerics<a href="labeling-data.html#format-numerics" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s get our survey data and list the first 5 observations for id and income</p>
+<p>Let’s look at the format of income.</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb155-1"><a href="labeling-data.html#cb155-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb155-2"><a href="labeling-data.html#cb155-2" tabindex="-1"></a><span class="kw">use</span> survey5, <span class="kw">clear</span></span>
+<span id="cb155-3"><a href="labeling-data.html#cb155-3" tabindex="-1"></a><span class="kw">describe</span> income</span>
+<span id="cb155-4"><a href="labeling-data.html#cb155-4" tabindex="-1"></a><span class="ot">list</span> id income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+(Survey of graduate students)
+
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+income          float   %9.0g                 Income of student
+
+     +---------------+
+     | id     income |
+     |---------------|
+  1. |  1   10500.93 |
+  2. |  2   45234.13 |
+  3. |  3    1284355 |
+  4. |  4   124313.5 |
+  5. |  5   120102.3 |
+     +---------------+</code></pre>
+<p>The format is <em>%9.0g</em>. We always have <em>%</em> in front of our format and <em>g</em> is a general way of displaying incomes using a width of nine digits and decides for us the best way to display the values. <em>g</em> means general here.</p>
+<p><em>%<w>.0g</em> means general - find the best way to show the decimals.</p>
+<p>Note: <em>%<w>.<d>g</em> will change the format to exponent if necessary. Also <em><d></em> is usually set to 0 with <em>g</em>.</p>
+<p><em>%<w>.<d>f</em> means fixed - <em>w</em> is the width, <em>d</em> is the decimals, and <em>f</em> means fixed</p>
+<p><em>%<w>.<d>fc</em> means fixed with commas - <em>w</em> is the width, <em>d</em> is the decimals, <em>f</em> means fixed, and <em>c</em> means comma</p>
+<p><em>%<w>.0gc</em> means general with commas - <em>w</em> is the width, setting 0 means Stata will decide the decimals, <em>g</em> means general, and <em>c</em> means comma</p>
+<p>The manual is helpful for formatting: <a href="https://www.stata.com/manuals/dformat.pdf" class="uri">https://www.stata.com/manuals/dformat.pdf</a></p>
+<p>Example 1: <em>format</em> v1 <em>%10.0g</em> - Width of 10 digits and decimals will be decided.</p>
+<p>Example 2: <em>format</em> v2 <em>%4.1f</em> - Show 3 digits in v3 and 1 decimal</p>
+<p>Example 3: <em>format</em> v3 <em>%6.1fc</em> - Show 4 digits plus the comma plus 1 digit</p>
+<p>Let’s get more control over the income format and use the <em>%w.df</em> format. We want a total of 12 digits with 2 decimals places, which means we have 10 digits on the left side of the “.”</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb157-1"><a href="labeling-data.html#cb157-1" tabindex="-1"></a><span class="kw">format</span> income %12.2f</span>
+<span id="cb157-2"><a href="labeling-data.html#cb157-2" tabindex="-1"></a><span class="ot">list</span> income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>     |     income |
+     |------------|
+  1. |   10500.93 |
+  2. |   45234.13 |
+  3. | 1284354.50 |
+  4. |  124313.45 |
+  5. |  120102.32 |
+     +------------+</code></pre>
+<p>Notice that we now can see observation #3’s decimal places.</p>
+<p>If we don’t care to see the decimal place (even though it is still there).</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb159-1"><a href="labeling-data.html#cb159-1" tabindex="-1"></a><span class="kw">format</span> income %7.0f</span>
+<span id="cb159-2"><a href="labeling-data.html#cb159-2" tabindex="-1"></a><span class="ot">list</span> income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>     |  income |
+     |---------|
+  1. |   10501 |
+  2. |   45234 |
+  3. | 1284354 |
+  4. |  124313 |
+  5. |  120102 |
+     +---------+</code></pre>
+<p>We we want to see one decimal place</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb161-1"><a href="labeling-data.html#cb161-1" tabindex="-1"></a><span class="kw">format</span> income %9.1f</span>
+<span id="cb161-2"><a href="labeling-data.html#cb161-2" tabindex="-1"></a><span class="ot">list</span> income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>     |    income |
+     |-----------|
+  1. |   10500.9 |
+  2. |   45234.1 |
+  3. | 1284354.5 |
+  4. |  124313.5 |
+  5. |  120102.3 |
+     +-----------+</code></pre>
+<p>Now let’s add commas, but we need to add two additional digit widths for the commas and we’ll add two decimal places.</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb163-1"><a href="labeling-data.html#cb163-1" tabindex="-1"></a><span class="kw">format</span> income %12.2fc</span>
+<span id="cb163-2"><a href="labeling-data.html#cb163-2" tabindex="-1"></a><span class="ot">list</span> income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>     |       income |
+     |--------------|
+  1. |    10,500.93 |
+  2. |    45,234.13 |
+  3. | 1,284,354.50 |
+  4. |   124,313.45 |
+  5. |   120,102.32 |
+     +--------------+</code></pre>
+</div>
+<div id="format-strings" class="section level3 hasAnchor" number="3.7.2">
+<h3><span class="header-section-number">3.7.2</span> Format Strings<a href="labeling-data.html#format-strings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s use the <em>format</em> command with strings.</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb165-1"><a href="labeling-data.html#cb165-1" tabindex="-1"></a><span class="kw">describe</span> kidname</span></code></pre></div>
+<pre><code>              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+kidname         str10   %10s                  Name of child</code></pre>
+<p>The format is <em>%10s</em>, which is a (s)tring of 10 characters wide that is right-justified.</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb167-1"><a href="labeling-data.html#cb167-1" tabindex="-1"></a><span class="ot">list</span> kidname</span></code></pre></div>
+<pre><code>     |   kidname |
+     |-----------|
+  1. |           |
+  2. |     Sally |
+  3. | Catherine |
+  4. |           |
+  5. |   Samuell |
+     |-----------|
+  6. |           |
+  7. |     Robin |
+  8. |           |
+     +-----------+</code></pre>
+<p>If we wanted to left-justify the string, we can add a ‘-’ in between % and #s.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb169-1"><a href="labeling-data.html#cb169-1" tabindex="-1"></a><span class="kw">format</span> kidname %-10s</span>
+<span id="cb169-2"><a href="labeling-data.html#cb169-2" tabindex="-1"></a><span class="ot">list</span> kidname</span></code></pre></div>
+<pre><code>     | kidname   |
+     |-----------|
+  1. |           |
+  2. | Sally     |
+  3. | Catherine |
+  4. |           |
+  5. | Samuell   |
+     |-----------|
+  6. |           |
+  7. | Robin     |
+  8. |           |
+     +-----------+</code></pre>
+</div>
+<div id="format-dates" class="section level3 hasAnchor" number="3.7.3">
+<h3><span class="header-section-number">3.7.3</span> Format dates<a href="labeling-data.html#format-dates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Dates in Stata are a bit of a pain, so learning how to format the dates will be helpful in the future.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb171-1"><a href="labeling-data.html#cb171-1" tabindex="-1"></a><span class="ot">list</span> bdays kbdays</span></code></pre></div>
+<pre><code>     |      bdays      kbdays |
+     |------------------------|
+  1. |  1/24/1961             |
+  2. |  4/15/1968   4/15/1995 |
+  3. |  5/23/1971   8/15/2003 |
+  4. |  6/25/1973             |
+  5. |  9/22/1981   1/12/1999 |
+     |------------------------|
+  6. | 10/15/1973             |
+  7. |   7/1/1977   5/20/1998 |
+  8. |   8/3/1976             |
+     +------------------------+</code></pre>
+<p>Our birthdays are in a MM/DD/YYYY format currently. Let’s generate a new variable with the <em>date</em> function. The <em>date</em> function will convert a string that is in a date format into a Stata date, but it still needs to be formatted. The option “MDY” tells Stata that the string is in the Month-Day-Year format and needs to be converted.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb173-1"><a href="labeling-data.html#cb173-1" tabindex="-1"></a><span class="kw">generate</span> bday = <span class="fu">date</span>(bdays, <span class="st">&quot;MDY&quot;</span>)</span>
+<span id="cb173-2"><a href="labeling-data.html#cb173-2" tabindex="-1"></a><span class="kw">generate</span> kbday = <span class="fu">date</span>(kbdays, <span class="st">&quot;MDY&quot;</span>)</span></code></pre></div>
+<p>Let’s list the days.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb174-1"><a href="labeling-data.html#cb174-1" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays   bday      kbdays   kbday |
+     |---------------------------------------|
+  1. |  1/24/1961    389                   . |
+  2. |  4/15/1968   3027   4/15/1995   12888 |
+  3. |  5/23/1971   4160   8/15/2003   15932 |
+  4. |  6/25/1973   4924                   . |
+  5. |  9/22/1981   7935   1/12/1999   14256 |
+     |---------------------------------------|
+  6. | 10/15/1973   5036                   . |
+  7. |   7/1/1977   6391   5/20/1998   14019 |
+  8. |   8/3/1976   6059                   . |
+     +---------------------------------------+</code></pre>
+<p>The Stata dates are actually stored as the number of days from Jan 1, 1960. This method is convenient for the computer storing and performing date computations, but is difficult for us to read.</p>
+<p>Let’s use the <em>%td</em> format - for example 01Jan2000</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb176-1"><a href="labeling-data.html#cb176-1" tabindex="-1"></a><span class="kw">format</span> bday %td </span>
+<span id="cb176-2"><a href="labeling-data.html#cb176-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays        bday      kbdays   kbday |
+     |--------------------------------------------|
+  1. |  1/24/1961   24jan1961                   . |
+  2. |  4/15/1968   15apr1968   4/15/1995   12888 |
+  3. |  5/23/1971   23may1971   8/15/2003   15932 |
+  4. |  6/25/1973   25jun1973                   . |
+  5. |  9/22/1981   22sep1981   1/12/1999   14256 |
+     |--------------------------------------------|
+  6. | 10/15/1973   15oct1973                   . |
+  7. |   7/1/1977   01jul1977   5/20/1998   14019 |
+  8. |   8/3/1976   03aug1976                   . |
+     +--------------------------------------------+</code></pre>
+<p>Let’s use the <em>%tdNN/DD/YY</em> format…<em>NN</em> is used for 01-12 and <em>nn</em> is for 1-12,<em>DD</em> for the day 01-31, and <em>YY</em> is for the last two digits of the year.</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb178-1"><a href="labeling-data.html#cb178-1" tabindex="-1"></a><span class="kw">format</span> bday %tdNN/DD/YY</span>
+<span id="cb178-2"><a href="labeling-data.html#cb178-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays       bday      kbdays   kbday |
+     |-------------------------------------------|
+  1. |  1/24/1961   01/24/61                   . |
+  2. |  4/15/1968   04/15/68   4/15/1995   12888 |
+  3. |  5/23/1971   05/23/71   8/15/2003   15932 |
+  4. |  6/25/1973   06/25/73                   . |
+  5. |  9/22/1981   09/22/81   1/12/1999   14256 |
+     |-------------------------------------------|
+  6. | 10/15/1973   10/15/73                   . |
+  7. |   7/1/1977   07/01/77   5/20/1998   14019 |
+  8. |   8/3/1976   08/03/76                   . |
+     +-------------------------------------------+</code></pre>
+<p><em>Mon</em> is Jan-Dec, and <em>Month</em> is January-December.</p>
+<div class="sourceCode" id="cb180"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb180-1"><a href="labeling-data.html#cb180-1" tabindex="-1"></a><span class="kw">format</span> bday %tdMonth/DD/YY </span>
+<span id="cb180-2"><a href="labeling-data.html#cb180-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays              bday      kbdays   kbday |
+     |--------------------------------------------------|
+  1. |  1/24/1961     January/24/61                   . |
+  2. |  4/15/1968       April/15/68   4/15/1995   12888 |
+  3. |  5/23/1971         May/23/71   8/15/2003   15932 |
+  4. |  6/25/1973        June/25/73                   . |
+  5. |  9/22/1981   September/22/81   1/12/1999   14256 |
+     |--------------------------------------------------|
+  6. | 10/15/1973     October/15/73                   . |
+  7. |   7/1/1977        July/01/77   5/20/1998   14019 |
+  8. |   8/3/1976      August/03/76                   . |
+     +--------------------------------------------------+</code></pre>
+<p>We can use a standard Month DD, YYYY with the format <em>%tdMonth_DD,CCYY</em>. Where <em>Month</em> is the full name of the month, <em>DD</em> is our days in digits, and <em>CC</em> is Century, such as 19- and 20- and <em>YY</em> is 2-digit year, such as -88, -97</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb182-1"><a href="labeling-data.html#cb182-1" tabindex="-1"></a><span class="kw">format</span> bday %tdMonth_DD,CCYY</span>
+<span id="cb182-2"><a href="labeling-data.html#cb182-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays                bday      kbdays   kbday |
+     |----------------------------------------------------|
+  1. |  1/24/1961     January 24,1961                   . |
+  2. |  4/15/1968       April 15,1968   4/15/1995   12888 |
+  3. |  5/23/1971         May 23,1971   8/15/2003   15932 |
+  4. |  6/25/1973        June 25,1973                   . |
+  5. |  9/22/1981   September 22,1981   1/12/1999   14256 |
+     |----------------------------------------------------|
+  6. | 10/15/1973     October 15,1973                   . |
+  7. |   7/1/1977        July 01,1977   5/20/1998   14019 |
+  8. |   8/3/1976      August 03,1976                   . |
+     +----------------------------------------------------+</code></pre>
+<p>Let’s use a standard format, but don’t use <em>YYYY</em> - it just repeats the 2-digit year twice.</p>
+<div class="sourceCode" id="cb184"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb184-1"><a href="labeling-data.html#cb184-1" tabindex="-1"></a><span class="kw">format</span> bday %tdNN/DD/YYYY</span>
+<span id="cb184-2"><a href="labeling-data.html#cb184-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays         bday      kbdays   kbday |
+     |---------------------------------------------|
+  1. |  1/24/1961   01/24/6161                   . |
+  2. |  4/15/1968   04/15/6868   4/15/1995   12888 |
+  3. |  5/23/1971   05/23/7171   8/15/2003   15932 |
+  4. |  6/25/1973   06/25/7373                   . |
+  5. |  9/22/1981   09/22/8181   1/12/1999   14256 |
+     |---------------------------------------------|
+  6. | 10/15/1973   10/15/7373                   . |
+  7. |   7/1/1977   07/01/7777   5/20/1998   14019 |
+  8. |   8/3/1976   08/03/7676                   . |
+     +---------------------------------------------+</code></pre>
+<p>Use <em>%tdNN/DD/CCYY</em> instead for the desired result.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb186-1"><a href="labeling-data.html#cb186-1" tabindex="-1"></a><span class="kw">format</span> bday %tdNN/DD/CCYY</span>
+<span id="cb186-2"><a href="labeling-data.html#cb186-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span>
+<span id="cb186-3"><a href="labeling-data.html#cb186-3" tabindex="-1"></a></span>
+<span id="cb186-4"><a href="labeling-data.html#cb186-4" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> bday <span class="st">&quot;Date of birth of student&quot;</span></span>
+<span id="cb186-5"><a href="labeling-data.html#cb186-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> kbdays <span class="st">&quot;Date of birth of child&quot;</span></span></code></pre></div>
+<pre><code>     |      bdays         bday      kbdays   kbday |
+     |---------------------------------------------|
+  1. |  1/24/1961   01/24/1961                   . |
+  2. |  4/15/1968   04/15/1968   4/15/1995   12888 |
+  3. |  5/23/1971   05/23/1971   8/15/2003   15932 |
+  4. |  6/25/1973   06/25/1973                   . |
+  5. |  9/22/1981   09/22/1981   1/12/1999   14256 |
+     |---------------------------------------------|
+  6. | 10/15/1973   10/15/1973                   . |
+  7. |   7/1/1977   07/01/1977   5/20/1998   14019 |
+  8. |   8/3/1976   08/03/1976                   . |
+     +---------------------------------------------+</code></pre>
+<p>bday and bdays are redundent and we’ll only keep one.</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb188-1"><a href="labeling-data.html#cb188-1" tabindex="-1"></a><span class="kw">drop</span> bday kbdays</span>
+<span id="cb188-2"><a href="labeling-data.html#cb188-2" tabindex="-1"></a><span class="kw">save</span> survey6, <span class="kw">replace</span></span></code></pre></div>
+</div>
+</div>
+<div id="changing-the-order-of-variables-in-a-dataset" class="section level2 hasAnchor" number="3.8">
+<h2><span class="header-section-number">3.8</span> Changing the order of variables in a dataset<a href="labeling-data.html#changing-the-order-of-variables-in-a-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>I personally find reordering the order of variables with the <em>order</em> command to be useful. This is especially true when working with panel data. I like to order the panel data to have the cross-sectional unit first, such as personal id, firm id, etc.first and then have the time period second, so we have our N and T next to one another.</p>
+<p>Let’s pull our survey of graduate students and describe our dataset</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb189-1"><a href="labeling-data.html#cb189-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb189-2"><a href="labeling-data.html#cb189-2" tabindex="-1"></a><span class="kw">use</span> survey6, <span class="kw">clear</span></span>
+<span id="cb189-3"><a href="labeling-data.html#cb189-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+(Survey of graduate students)
+
+
+Contains data from survey6.dta
+  obs:             8                          Survey of graduate students
+ vars:             9                          11 Mar 2024 14:40
+ size:           416                          (_dta has notes)
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 Unique identification variable
+gender          float   %9.0g      mf         Gender of student
+race            float   %19.0g     racelab  * Race of student
+havechild       float   %18.0g     havelab  * Given birth to a child?
+ksex            float   %15.0g     mfkid    * Sex of child
+bdays           str10   %10s                  Birthday of student
+income          float   %12.2fc               Income of student
+kidname         str10   %-10s                 Name of child
+kbday           double  %td                   
+                                            * indicated variables have notes
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>We might want to group our variables with similar types of variables. This can be helpful when you have a large dataset with hundreds of variables, such as the CPS.</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb191-1"><a href="labeling-data.html#cb191-1" tabindex="-1"></a><span class="kw">order</span> id gender race bday income havechild</span>
+<span id="cb191-2"><a href="labeling-data.html#cb191-2" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from survey6.dta
+  obs:             8                          Survey of graduate students
+ vars:             9                          11 Mar 2024 14:40
+ size:           416                          (_dta has notes)
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 Unique identification variable
+gender          float   %9.0g      mf         Gender of student
+race            float   %19.0g     racelab  * Race of student
+bdays           str10   %10s                  Birthday of student
+income          float   %12.2fc               Income of student
+havechild       float   %18.0g     havelab  * Given birth to a child?
+ksex            float   %15.0g     mfkid    * Sex of child
+kidname         str10   %-10s                 Name of child
+kbday           double  %td                   
+                                            * indicated variables have notes
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>The variables that we leave off will remain in the same order as before after the new variables are moved to the left.</p>
+<p>With the <em>before</em> option, we can move variable(s) before a defined variable. Let’s move kidname before ksex</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb193-1"><a href="labeling-data.html#cb193-1" tabindex="-1"></a><span class="kw">order</span> kidname, before(ksex)</span>
+<span id="cb193-2"><a href="labeling-data.html#cb193-2" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from survey6.dta
+  obs:             8                          Survey of graduate students
+ vars:             9                          11 Mar 2024 14:40
+ size:           416                          (_dta has notes)
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 Unique identification variable
+gender          float   %9.0g      mf         Gender of student
+race            float   %19.0g     racelab  * Race of student
+bdays           str10   %10s                  Birthday of student
+income          float   %12.2fc               Income of student
+havechild       float   %18.0g     havelab  * Given birth to a child?
+kidname         str10   %-10s                 Name of child
+ksex            float   %15.0g     mfkid    * Sex of child
+kbday           double  %td                   
+                                            * indicated variables have notes
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>We can move newly created variables with the before and after options with the generate command</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb195-1"><a href="labeling-data.html#cb195-1" tabindex="-1"></a><span class="kw">generate</span> STUDENTVARS = ., before(gender)</span>
+<span id="cb195-2"><a href="labeling-data.html#cb195-2" tabindex="-1"></a><span class="kw">generate</span> KIDSVARS = ., after(havechild)</span>
+<span id="cb195-3"><a href="labeling-data.html#cb195-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>(8 missing values generated)
+
+(8 missing values generated)
+
+
+Contains data from survey6.dta
+  obs:             8                          Survey of graduate students
+ vars:            11                          11 Mar 2024 14:40
+ size:           544                          (_dta has notes)
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              float   %9.0g                 Unique identification variable
+STUDENTVARS     double  %10.0g                
+gender          float   %9.0g      mf         Gender of student
+race            float   %19.0g     racelab  * Race of student
+bdays           str10   %10s                  Birthday of student
+income          float   %12.2fc               Income of student
+havechild       float   %18.0g     havelab  * Given birth to a child?
+KIDSVARS        double  %10.0g                
+kidname         str10   %-10s                 Name of child
+ksex            float   %15.0g     mfkid    * Sex of child
+kbday           double  %td                   
+                                            * indicated variables have notes
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.</code></pre>
+</div>
+<div id="practice" class="section level2 hasAnchor" number="3.9">
+<h2><span class="header-section-number">3.9</span> Practice<a href="labeling-data.html#practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s bring in the CPS
+use “/Users/Sam/Desktop/Econ 645/Data/CPS/jun23pub.dta”, clear</p>
+<ol style="list-style-type: decimal">
+<li>Generate a new variable from pemlr called employed where employed = 1 if the individual is employed (present or absent) and employed = 0 if the individual is unemployed. The value should be missing if the individual is not in the labor force.</li>
+<li>Label the variable “Currently employed”.</li>
+<li>Label the values for 0 “Not employed” 1 “Employed” . “Not in the Labor Force”.</li>
+<li>Move the variable after pemlr.</li>
+<li>Generate a date that appends hrmonth (month of interview), the string “12”, and the hryear4 (year of interview). We use 12 because the week of the 12th is the reference period.</li>
+<li>Now format the date so it is like 06/12/2023</li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="panel-data-part-1---pooled-data-and-first-difference.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-Mitchell5.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
