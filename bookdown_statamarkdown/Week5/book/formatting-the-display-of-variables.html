@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Formatting the display of variables | A Minimal Book Example</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Formatting the display of variables | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Formatting the display of variables | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe Adapted from Wooldridge (2009) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-08-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="random-effects.html"/>
+<link rel="next" href="changing-the-order-of-variables-in-a-dataset.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Panel Data Part 2 and Formatting</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="fixed-effects-within-estimator.html"><a href="fixed-effects-within-estimator.html"><i class="fa fa-check"></i><b>2</b> Fixed Effects (Within) Estimator</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="fixed-effects-within-estimator.html"><a href="fixed-effects-within-estimator.html#union-premium"><i class="fa fa-check"></i><b>2.1</b> Union Premium</a></li>
+<li class="chapter" data-level="2.2" data-path="fixed-effects-within-estimator.html"><a href="fixed-effects-within-estimator.html#has-returns-to-education-changed-over-time"><i class="fa fa-check"></i><b>2.2</b> Has returns to education changed over time</a></li>
+<li class="chapter" data-level="2.3" data-path="fixed-effects-within-estimator.html"><a href="fixed-effects-within-estimator.html#rental-prices"><i class="fa fa-check"></i><b>2.3</b> Rental Prices</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="random-effects.html"><a href="random-effects.html"><i class="fa fa-check"></i><b>3</b> Random Effects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="random-effects.html"><a href="random-effects.html#returns-to-marriage-for-men"><i class="fa fa-check"></i><b>3.1</b> Returns to Marriage for Men</a>
+<ul>
+<li class="chapter" data-level="" data-path="random-effects.html"><a href="random-effects.html#hausman-test"><i class="fa fa-check"></i>Hausman Test</a></li>
+<li class="chapter" data-level="" data-path="random-effects.html"><a href="random-effects.html#plot-the-coefficients"><i class="fa fa-check"></i>Plot the Coefficients</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="random-effects.html"><a href="random-effects.html#airline-prices-and-market-concentration"><i class="fa fa-check"></i><b>3.2</b> Airline prices and market concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="formatting-the-display-of-variables.html"><a href="formatting-the-display-of-variables.html"><i class="fa fa-check"></i><b>4</b> Formatting the display of variables</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="formatting-the-display-of-variables.html"><a href="formatting-the-display-of-variables.html#format-numerics"><i class="fa fa-check"></i><b>4.1</b> Format numerics</a></li>
+<li class="chapter" data-level="4.2" data-path="formatting-the-display-of-variables.html"><a href="formatting-the-display-of-variables.html#format-strings"><i class="fa fa-check"></i><b>4.2</b> Format Strings</a></li>
+<li class="chapter" data-level="4.3" data-path="formatting-the-display-of-variables.html"><a href="formatting-the-display-of-variables.html#format-dates"><i class="fa fa-check"></i><b>4.3</b> Format dates</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="changing-the-order-of-variables-in-a-dataset.html"><a href="changing-the-order-of-variables-in-a-dataset.html"><i class="fa fa-check"></i><b>5</b> Changing the order of variables in a dataset</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="changing-the-order-of-variables-in-a-dataset.html"><a href="changing-the-order-of-variables-in-a-dataset.html#practice"><i class="fa fa-check"></i><b>5.1</b> Practice</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="formatting-the-display-of-variables" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Formatting the display of variables<a href="formatting-the-display-of-variables.html#formatting-the-display-of-variables" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Formatting data will be more common than you expect. It can be a pain when dealing with numbers in the millions or billions and you lack commas. We can format our data with the <em>format</em> command.</p>
+<div id="format-numerics" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Format numerics<a href="formatting-the-display-of-variables.html#format-numerics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s get our survey data and list the first 5 observations for id and income</p>
+<p>Let’s look at the format of income.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb63-1"><a href="formatting-the-display-of-variables.html#cb63-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb63-2"><a href="formatting-the-display-of-variables.html#cb63-2" tabindex="-1"></a><span class="kw">use</span> survey5, <span class="kw">clear</span></span>
+<span id="cb63-3"><a href="formatting-the-display-of-variables.html#cb63-3" tabindex="-1"></a><span class="kw">describe</span> income</span>
+<span id="cb63-4"><a href="formatting-the-display-of-variables.html#cb63-4" tabindex="-1"></a><span class="ot">list</span> id income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+(Survey of graduate students)
+
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+income          float   %9.0g                 Income of student
+
+     +---------------+
+     | id     income |
+     |---------------|
+  1. |  1   10500.93 |
+  2. |  2   45234.13 |
+  3. |  3    1284355 |
+  4. |  4   124313.5 |
+  5. |  5   120102.3 |
+     +---------------+</code></pre>
+<p>The format is <em>%9.0g</em>. We always have <em>%</em> in front of our format and <em>g</em> is a general way of displaying incomes using a width of nine digits and decides for us the best way to display the values. <em>g</em> means general here.</p>
+<p><em>%<w>.0g</em> means general - find the best way to show the decimals.</p>
+<p>Note: <em>%<w>.<d>g</em> will change the format to exponent if necessary. Also <em><d></em> is usually set to 0 with <em>g</em>.</p>
+<p><em>%<w>.<d>f</em> means fixed - <em>w</em> is the width, <em>d</em> is the decimals, and <em>f</em> means fixed</p>
+<p><em>%<w>.<d>fc</em> means fixed with commas - <em>w</em> is the width, <em>d</em> is the decimals, <em>f</em> means fixed, and <em>c</em> means comma</p>
+<p><em>%<w>.0gc</em> means general with commas - <em>w</em> is the width, setting 0 means Stata will decide the decimals, <em>g</em> means general, and <em>c</em> means comma</p>
+<p>The manual is helpful for formatting: <a href="https://www.stata.com/manuals/dformat.pdf" class="uri">https://www.stata.com/manuals/dformat.pdf</a></p>
+<p>Example 1: <em>format</em> v1 <em>%10.0g</em> - Width of 10 digits and decimals will be decided.</p>
+<p>Example 2: <em>format</em> v2 <em>%4.1f</em> - Show 3 digits in v3 and 1 decimal</p>
+<p>Example 3: <em>format</em> v3 <em>%6.1fc</em> - Show 4 digits plus the comma plus 1 digit</p>
+<p>Let’s get more control over the income format and use the <em>%w.df</em> format. We want a total of 12 digits with 2 decimals places, which means we have 10 digits on the left side of the “.”</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb65-1"><a href="formatting-the-display-of-variables.html#cb65-1" tabindex="-1"></a><span class="kw">format</span> income %12.2f</span>
+<span id="cb65-2"><a href="formatting-the-display-of-variables.html#cb65-2" tabindex="-1"></a><span class="ot">list</span> income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>     |     income |
+     |------------|
+  1. |   10500.93 |
+  2. |   45234.13 |
+  3. | 1284354.50 |
+  4. |  124313.45 |
+  5. |  120102.32 |
+     +------------+</code></pre>
+<p>Notice that we now can see observation #3’s decimal places.</p>
+<p>If we don’t care to see the decimal place (even though it is still there).</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb67-1"><a href="formatting-the-display-of-variables.html#cb67-1" tabindex="-1"></a><span class="kw">format</span> income %7.0f</span>
+<span id="cb67-2"><a href="formatting-the-display-of-variables.html#cb67-2" tabindex="-1"></a><span class="ot">list</span> income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>     |  income |
+     |---------|
+  1. |   10501 |
+  2. |   45234 |
+  3. | 1284354 |
+  4. |  124313 |
+  5. |  120102 |
+     +---------+</code></pre>
+<p>We we want to see one decimal place</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb69-1"><a href="formatting-the-display-of-variables.html#cb69-1" tabindex="-1"></a><span class="kw">format</span> income %9.1f</span>
+<span id="cb69-2"><a href="formatting-the-display-of-variables.html#cb69-2" tabindex="-1"></a><span class="ot">list</span> income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>     |    income |
+     |-----------|
+  1. |   10500.9 |
+  2. |   45234.1 |
+  3. | 1284354.5 |
+  4. |  124313.5 |
+  5. |  120102.3 |
+     +-----------+</code></pre>
+<p>Now let’s add commas, but we need to add two additional digit widths for the commas and we’ll add two decimal places.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb71-1"><a href="formatting-the-display-of-variables.html#cb71-1" tabindex="-1"></a><span class="kw">format</span> income %12.2fc</span>
+<span id="cb71-2"><a href="formatting-the-display-of-variables.html#cb71-2" tabindex="-1"></a><span class="ot">list</span> income <span class="kw">in</span> 1/5</span></code></pre></div>
+<pre><code>     |       income |
+     |--------------|
+  1. |    10,500.93 |
+  2. |    45,234.13 |
+  3. | 1,284,354.50 |
+  4. |   124,313.45 |
+  5. |   120,102.32 |
+     +--------------+</code></pre>
+</div>
+<div id="format-strings" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Format Strings<a href="formatting-the-display-of-variables.html#format-strings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s use the <em>format</em> command with strings.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb73-1"><a href="formatting-the-display-of-variables.html#cb73-1" tabindex="-1"></a><span class="kw">describe</span> kidname</span></code></pre></div>
+<pre><code>              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+kidname         str10   %10s                  Name of child</code></pre>
+<p>The format is <em>%10s</em>, which is a (s)tring of 10 characters wide that is right-justified.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb75-1"><a href="formatting-the-display-of-variables.html#cb75-1" tabindex="-1"></a><span class="ot">list</span> kidname</span></code></pre></div>
+<pre><code>     |   kidname |
+     |-----------|
+  1. |           |
+  2. |     Sally |
+  3. | Catherine |
+  4. |           |
+  5. |   Samuell |
+     |-----------|
+  6. |           |
+  7. |     Robin |
+  8. |           |
+     +-----------+</code></pre>
+<p>If we wanted to left-justify the string, we can add a ‘-’ in between % and #s.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb77-1"><a href="formatting-the-display-of-variables.html#cb77-1" tabindex="-1"></a><span class="kw">format</span> kidname %-10s</span>
+<span id="cb77-2"><a href="formatting-the-display-of-variables.html#cb77-2" tabindex="-1"></a><span class="ot">list</span> kidname</span></code></pre></div>
+<pre><code>     | kidname   |
+     |-----------|
+  1. |           |
+  2. | Sally     |
+  3. | Catherine |
+  4. |           |
+  5. | Samuell   |
+     |-----------|
+  6. |           |
+  7. | Robin     |
+  8. |           |
+     +-----------+</code></pre>
+</div>
+<div id="format-dates" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Format dates<a href="formatting-the-display-of-variables.html#format-dates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Dates in Stata are a bit of a pain, so learning how to format the dates will be helpful in the future.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb79-1"><a href="formatting-the-display-of-variables.html#cb79-1" tabindex="-1"></a><span class="ot">list</span> bdays kbdays</span></code></pre></div>
+<pre><code>     |      bdays      kbdays |
+     |------------------------|
+  1. |  1/24/1961             |
+  2. |  4/15/1968   4/15/1995 |
+  3. |  5/23/1971   8/15/2003 |
+  4. |  6/25/1973             |
+  5. |  9/22/1981   1/12/1999 |
+     |------------------------|
+  6. | 10/15/1973             |
+  7. |   7/1/1977   5/20/1998 |
+  8. |   8/3/1976             |
+     +------------------------+</code></pre>
+<p>Our birthdays are in a MM/DD/YYYY format currently. Let’s generate a new variable with the <em>date</em> function. The <em>date</em> function will convert a string that is in a date format into a Stata date, but it still needs to be formatted. The option “MDY” tells Stata that the string is in the Month-Day-Year format and needs to be converted.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb81-1"><a href="formatting-the-display-of-variables.html#cb81-1" tabindex="-1"></a><span class="kw">generate</span> bday = <span class="fu">date</span>(bdays, <span class="st">&quot;MDY&quot;</span>)</span>
+<span id="cb81-2"><a href="formatting-the-display-of-variables.html#cb81-2" tabindex="-1"></a><span class="kw">generate</span> kbday = <span class="fu">date</span>(kbdays, <span class="st">&quot;MDY&quot;</span>)</span></code></pre></div>
+<p>Let’s list the days.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb82-1"><a href="formatting-the-display-of-variables.html#cb82-1" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays   bday      kbdays   kbday |
+     |---------------------------------------|
+  1. |  1/24/1961    389                   . |
+  2. |  4/15/1968   3027   4/15/1995   12888 |
+  3. |  5/23/1971   4160   8/15/2003   15932 |
+  4. |  6/25/1973   4924                   . |
+  5. |  9/22/1981   7935   1/12/1999   14256 |
+     |---------------------------------------|
+  6. | 10/15/1973   5036                   . |
+  7. |   7/1/1977   6391   5/20/1998   14019 |
+  8. |   8/3/1976   6059                   . |
+     +---------------------------------------+</code></pre>
+<p>The Stata dates are actually stored as the number of days from Jan 1, 1960. This method is convenient for the computer storing and performing date computations, but is difficult for us to read.</p>
+<p>Let’s use the <em>%td</em> format - for example 01Jan2000</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb84-1"><a href="formatting-the-display-of-variables.html#cb84-1" tabindex="-1"></a><span class="kw">format</span> bday %td </span>
+<span id="cb84-2"><a href="formatting-the-display-of-variables.html#cb84-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays        bday      kbdays   kbday |
+     |--------------------------------------------|
+  1. |  1/24/1961   24jan1961                   . |
+  2. |  4/15/1968   15apr1968   4/15/1995   12888 |
+  3. |  5/23/1971   23may1971   8/15/2003   15932 |
+  4. |  6/25/1973   25jun1973                   . |
+  5. |  9/22/1981   22sep1981   1/12/1999   14256 |
+     |--------------------------------------------|
+  6. | 10/15/1973   15oct1973                   . |
+  7. |   7/1/1977   01jul1977   5/20/1998   14019 |
+  8. |   8/3/1976   03aug1976                   . |
+     +--------------------------------------------+</code></pre>
+<p>Let’s use the <em>%tdNN/DD/YY</em> format…<em>NN</em> is used for 01-12 and <em>nn</em> is for 1-12,<em>DD</em> for the day 01-31, and <em>YY</em> is for the last two digits of the year.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb86-1"><a href="formatting-the-display-of-variables.html#cb86-1" tabindex="-1"></a><span class="kw">format</span> bday %tdNN/DD/YY</span>
+<span id="cb86-2"><a href="formatting-the-display-of-variables.html#cb86-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays       bday      kbdays   kbday |
+     |-------------------------------------------|
+  1. |  1/24/1961   01/24/61                   . |
+  2. |  4/15/1968   04/15/68   4/15/1995   12888 |
+  3. |  5/23/1971   05/23/71   8/15/2003   15932 |
+  4. |  6/25/1973   06/25/73                   . |
+  5. |  9/22/1981   09/22/81   1/12/1999   14256 |
+     |-------------------------------------------|
+  6. | 10/15/1973   10/15/73                   . |
+  7. |   7/1/1977   07/01/77   5/20/1998   14019 |
+  8. |   8/3/1976   08/03/76                   . |
+     +-------------------------------------------+</code></pre>
+<p><em>Mon</em> is Jan-Dec, and <em>Month</em> is January-December.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb88-1"><a href="formatting-the-display-of-variables.html#cb88-1" tabindex="-1"></a><span class="kw">format</span> bday %tdMonth/DD/YY </span>
+<span id="cb88-2"><a href="formatting-the-display-of-variables.html#cb88-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays              bday      kbdays   kbday |
+     |--------------------------------------------------|
+  1. |  1/24/1961     January/24/61                   . |
+  2. |  4/15/1968       April/15/68   4/15/1995   12888 |
+  3. |  5/23/1971         May/23/71   8/15/2003   15932 |
+  4. |  6/25/1973        June/25/73                   . |
+  5. |  9/22/1981   September/22/81   1/12/1999   14256 |
+     |--------------------------------------------------|
+  6. | 10/15/1973     October/15/73                   . |
+  7. |   7/1/1977        July/01/77   5/20/1998   14019 |
+  8. |   8/3/1976      August/03/76                   . |
+     +--------------------------------------------------+</code></pre>
+<p>We can use a standard Month DD, YYYY with the format <em>%tdMonth_DD,CCYY</em>. Where <em>Month</em> is the full name of the month, <em>DD</em> is our days in digits, and <em>CC</em> is Century, such as 19- and 20- and <em>YY</em> is 2-digit year, such as -88, -97</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb90-1"><a href="formatting-the-display-of-variables.html#cb90-1" tabindex="-1"></a><span class="kw">format</span> bday %tdMonth_DD,CCYY</span>
+<span id="cb90-2"><a href="formatting-the-display-of-variables.html#cb90-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays                bday      kbdays   kbday |
+     |----------------------------------------------------|
+  1. |  1/24/1961     January 24,1961                   . |
+  2. |  4/15/1968       April 15,1968   4/15/1995   12888 |
+  3. |  5/23/1971         May 23,1971   8/15/2003   15932 |
+  4. |  6/25/1973        June 25,1973                   . |
+  5. |  9/22/1981   September 22,1981   1/12/1999   14256 |
+     |----------------------------------------------------|
+  6. | 10/15/1973     October 15,1973                   . |
+  7. |   7/1/1977        July 01,1977   5/20/1998   14019 |
+  8. |   8/3/1976      August 03,1976                   . |
+     +----------------------------------------------------+</code></pre>
+<p>Let’s use a standard format, but don’t use <em>YYYY</em> - it just repeats the 2-digit year twice.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb92-1"><a href="formatting-the-display-of-variables.html#cb92-1" tabindex="-1"></a><span class="kw">format</span> bday %tdNN/DD/YYYY</span>
+<span id="cb92-2"><a href="formatting-the-display-of-variables.html#cb92-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span></code></pre></div>
+<pre><code>     |      bdays         bday      kbdays   kbday |
+     |---------------------------------------------|
+  1. |  1/24/1961   01/24/6161                   . |
+  2. |  4/15/1968   04/15/6868   4/15/1995   12888 |
+  3. |  5/23/1971   05/23/7171   8/15/2003   15932 |
+  4. |  6/25/1973   06/25/7373                   . |
+  5. |  9/22/1981   09/22/8181   1/12/1999   14256 |
+     |---------------------------------------------|
+  6. | 10/15/1973   10/15/7373                   . |
+  7. |   7/1/1977   07/01/7777   5/20/1998   14019 |
+  8. |   8/3/1976   08/03/7676                   . |
+     +---------------------------------------------+</code></pre>
+<p>Use <em>%tdNN/DD/CCYY</em> instead for the desired result.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb94-1"><a href="formatting-the-display-of-variables.html#cb94-1" tabindex="-1"></a><span class="kw">format</span> bday %tdNN/DD/CCYY</span>
+<span id="cb94-2"><a href="formatting-the-display-of-variables.html#cb94-2" tabindex="-1"></a><span class="ot">list</span> bdays bday kbdays kbday</span>
+<span id="cb94-3"><a href="formatting-the-display-of-variables.html#cb94-3" tabindex="-1"></a></span>
+<span id="cb94-4"><a href="formatting-the-display-of-variables.html#cb94-4" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> bday <span class="st">&quot;Date of birth of student&quot;</span></span>
+<span id="cb94-5"><a href="formatting-the-display-of-variables.html#cb94-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> kbdays <span class="st">&quot;Date of birth of child&quot;</span></span></code></pre></div>
+<pre><code>     |      bdays         bday      kbdays   kbday |
+     |---------------------------------------------|
+  1. |  1/24/1961   01/24/1961                   . |
+  2. |  4/15/1968   04/15/1968   4/15/1995   12888 |
+  3. |  5/23/1971   05/23/1971   8/15/2003   15932 |
+  4. |  6/25/1973   06/25/1973                   . |
+  5. |  9/22/1981   09/22/1981   1/12/1999   14256 |
+     |---------------------------------------------|
+  6. | 10/15/1973   10/15/1973                   . |
+  7. |   7/1/1977   07/01/1977   5/20/1998   14019 |
+  8. |   8/3/1976   08/03/1976                   . |
+     +---------------------------------------------+</code></pre>
+<p>bday and bdays are redundent and we’ll only keep one.</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb96-1"><a href="formatting-the-display-of-variables.html#cb96-1" tabindex="-1"></a><span class="kw">drop</span> bday kbdays</span>
+<span id="cb96-2"><a href="formatting-the-display-of-variables.html#cb96-2" tabindex="-1"></a><span class="kw">save</span> survey6, <span class="kw">replace</span></span></code></pre></div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="random-effects.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="changing-the-order-of-variables-in-a-dataset.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-formatting.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,380 @@
+
+# Formatting the display of variables
+Formatting data will be more common than you expect. It can be a pain when dealing with numbers in the millions or billions and you lack commas. We can format our data with the *format* command.
+
+## Format numerics
+
+Let's get our survey data and list the first 5 observations for id and income
+
+
+Let's look at the format of income.
+```{stata for1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+describe income
+list id income in 1/5
+```
+
+The format is *%9.0g*. We always have *%* in front of our format and *g* is a general way of displaying incomes using a width of nine digits and decides for us the best way to display the values. *g* means general here.
+
+*%<w>.0g* means general - find the best way to show the decimals.
+
+Note: *%<w>.<d>g* will change the format to exponent if necessary. Also *<d>* is usually set to 0 with *g*.
+
+*%<w>.<d>f* means fixed - *w* is the width, *d* is the decimals, and *f* means fixed
+
+*%<w>.<d>fc* means fixed with commas - *w* is the width, *d* is the decimals, *f* means fixed, and *c* means comma
+
+*%<w>.0gc* means general with commas - *w* is the width, setting 0 means Stata will decide the decimals, *g* means general, and *c* means comma
+
+The manual is helpful for formatting: https://www.stata.com/manuals/dformat.pdf
+
+Example 1: *format* v1 *%10.0g* - Width of 10 digits and decimals will be decided.
+
+Example 2: *format* v2 *%4.1f* - Show 3 digits in v3 and 1 decimal
+
+Example 3: *format* v3 *%6.1fc* - Show 4 digits plus the comma plus 1 digit
+
+Let's get more control over the income format and use the *%w.df* format. We want a total of 12 digits with 2 decimals places, which means we have 10 digits on the left side of the "."
+```{stata for2, eval=FALSE}
+format income %12.2f
+list income in 1/5
+```
+
+```{stata for2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+}
+format income %12.2f
+list income in 1/5
+```
+
+Notice that we now can see observation #3's decimal places.
+
+If we don't care to see the decimal place (even though it is still there).
+```{stata for3, eval=FALSE}
+format income %7.0f
+list income in 1/5
+```
+
+```{stata for3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+format income %12.2f
+}
+format income %7.0f
+list income in 1/5
+```
+
+We we want to see one decimal place
+```{stata for4, eval=FALSE}
+format income %9.1f
+list income in 1/5
+```
+
+```{stata for4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+format income %12.2f
+format income %7.0f
+}
+format income %9.1f
+list income in 1/5
+```
+
+Now let's add commas, but we need to add two additional digit widths for the commas and we'll add two decimal places.
+```{stata for5, eval=FALSE}
+format income %12.2fc
+list income in 1/5
+```
+
+```{stata for5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+format income %12.2f
+format income %7.0f
+format income %9.1f
+}
+format income %12.2fc
+list income in 1/5
+```
+
+## Format Strings
+
+Let's use the *format* command with strings.
+```{stata for6, eval=FALSE}
+describe kidname
+```
+
+```{stata for6_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+}
+describe kidname
+```
+
+The format is *%10s*, which is a (s)tring of 10 characters wide that is right-justified.
+```{stata for7, eval=FALSE}
+list kidname
+```
+
+```{stata for7_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+}
+list kidname
+```
+
+If we wanted to left-justify the string, we can add a '-' in between % and #s.
+```{stata for8, eval=FALSE}
+format kidname %-10s
+list kidname
+```
+
+```{stata for8_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+}
+format kidname %-10s
+list kidname
+```
+
+
+## Format dates
+
+Dates in Stata are a bit of a pain, so learning how to format the dates will be helpful in the future.
+```{stata date1, eval=FALSE}
+list bdays kbdays
+```
+
+```{stata date1_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear
+}
+list bdays kbdays
+```
+
+Our birthdays are in a MM/DD/YYYY format currently. Let's generate a new variable with the *date* function. The *date* function will convert a string that is in a date format into a Stata date, but it still needs to be formatted. The option "MDY" tells Stata that the string is in the Month-Day-Year format and needs to be converted.
+```{stata date2, eval=FALSE}
+generate bday = date(bdays, "MDY")
+generate kbday = date(kbdays, "MDY")
+```
+
+Let's list the days.
+```{stata date3, eval=FALSE}
+list bdays bday kbdays kbday
+```
+
+```{stata date3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear 
+generate bday = date(bdays, "MDY")
+generate kbday = date(kbdays, "MDY")
+}
+list bdays bday kbdays kbday
+```
+
+The Stata dates are actually stored as the number of days from Jan 1, 1960. This method is convenient for the computer storing and performing date computations, but is difficult for us to read.
+
+Let's use the *%td* format - for example 01Jan2000
+```{stata date4, eval=FALSE}
+format bday %td 
+list bdays bday kbdays kbday
+```
+
+```{stata date4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear 
+generate bday = date(bdays, "MDY")
+generate kbday = date(kbdays, "MDY")
+}
+format bday %td 
+list bdays bday kbdays kbday
+```
+
+Let's use the *%tdNN/DD/YY* format...*NN* is used for 01-12 and *nn* is for 1-12,*DD* for the day 01-31, and *YY* is for the last two digits of the year.
+```{stata date5, eval=FALSE}
+format bday %tdNN/DD/YY
+list bdays bday kbdays kbday
+```
+
+```{stata date5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear 
+generate bday = date(bdays, "MDY")
+generate kbday = date(kbdays, "MDY")
+}
+format bday %tdNN/DD/YY
+list bdays bday kbdays kbday
+```
+
+*Mon* is Jan-Dec, and *Month* is January-December.
+```{stata date5_5, eval=FALSE}
+format bday %tdMonth/DD/YY 
+list bdays bday kbdays kbday
+```
+
+```{stata date5_51, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear 
+generate bday = date(bdays, "MDY")
+generate kbday = date(kbdays, "MDY")
+}
+format bday %tdMonth/DD/YY 
+list bdays bday kbdays kbday
+```
+
+We can use a standard Month DD, YYYY with the format *%tdMonth_DD,CCYY*. Where *Month* is the full name of the month, *DD* is our days in digits, and *CC* is Century, such as 19- and 20- and *YY* is 2-digit year, such as -88, -97
+```{stata date6, eval=FALSE}
+format bday %tdMonth_DD,CCYY
+list bdays bday kbdays kbday
+```
+
+```{stata date6_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear 
+generate bday = date(bdays, "MDY")
+generate kbday = date(kbdays, "MDY")
+}
+format bday %tdMonth_DD,CCYY
+list bdays bday kbdays kbday
+```
+
+Let's use a standard format, but don't use *YYYY* - it just repeats the 2-digit year twice.
+```{stata date7, eval=FALSE}
+format bday %tdNN/DD/YYYY
+list bdays bday kbdays kbday
+```
+
+```{stata date7_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear 
+generate bday = date(bdays, "MDY")
+generate kbday = date(kbdays, "MDY")
+}
+format bday %tdNN/DD/YYYY
+list bdays bday kbdays kbday
+```
+
+Use *%tdNN/DD/CCYY* instead for the desired result.
+```{stata date8, eval=FALSE}
+format bday %tdNN/DD/CCYY
+list bdays bday kbdays kbday
+
+label variable bday "Date of birth of student"
+label variable kbdays "Date of birth of child"
+```
+
+```{stata date8_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey5, clear 
+generate bday = date(bdays, "MDY")
+generate kbday = date(kbdays, "MDY")
+}
+format bday %tdNN/DD/CCYY
+list bdays bday kbdays kbday
+
+label variable bday "Date of birth of student"
+label variable kbdays "Date of birth of child"
+```
+
+bday and bdays are redundent and we'll only keep one.
+```{stata date9, eval=FALSE}
+drop bday kbdays
+save survey6, replace
+```
+
+# Changing the order of variables in a dataset
+
+I personally find reordering the order of variables with the *order* command to be useful. This is especially true when working with panel data. I like to order the panel data to have the cross-sectional unit first, such as personal id, firm id, etc.first and then have the time period second, so we have our N and T next to one another.
+
+Let's pull our survey of graduate students and describe our dataset
+```{stata order1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey6, clear
+describe
+```
+
+We might want to group our variables with similar types of variables. This can be helpful when you have a large dataset with hundreds of variables, such as the CPS.
+```{stata order2, eval=FALSE}
+order id gender race bday income havechild
+describe
+```
+
+```{stata order2_1, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey6, clear
+}
+order id gender race bday income havechild
+describe
+```
+The variables that we leave off will remain in the same order as before after the new variables are moved to the left.
+
+With the *before* option, we can move variable(s) before a defined variable. Let's move kidname before ksex
+```{stata order3, eval=FALSE}
+order kidname, before(ksex)
+describe
+```
+
+```{stata order3_1, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey6, clear
+order id gender race bday income havechild
+}
+order kidname, before(ksex)
+describe
+```
+
+We can move newly created variables with the before and after options with the generate command
+```{stata order4, eval=FALSE}
+generate STUDENTVARS = ., before(gender)
+generate KIDSVARS = ., after(havechild)
+describe
+```
+
+```{stata order4_1, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey6, clear
+order id gender race bday income havechild
+order kidname, before(ksex)
+}
+generate STUDENTVARS = ., before(gender)
+generate KIDSVARS = ., after(havechild)
+describe
+```
+
+## Practice
+
+Let's bring in the CPS:
+https://www.census.gov/data/datasets/time-series/demo/cps/cps-basic.html
+
+```{stata practice1,eval=FALSE}
+cd "/Users/Sam/Desktop/Econ 645/Data/CPS/
+use jul25pub.dta, clear
+```
+
+  1. Generate a new variable from pemlr called employed where employed = 1 if the individual is employed (present or absent) and employed = 0 if the individual is unemployed. The value should be missing if the individual is not in the labor force.
+  2. Label the variable "Currently employed".
+  3. Label the values for 0 "Not employed" 1 "Employed" . "Not in the Labor Force".
+  4. Move the variable after pemlr.
+  5. Generate a date that appends hrmonth (month of interview), the string "12", and the hryear4 (year of interview). We use 12 because the week of the 12th is the reference period.
+  6. Now format the date so it is like 07/12/2025
+

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Fixed Effects (Within) Estimator | A Minimal Book Example</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Fixed Effects (Within) Estimator | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Fixed Effects (Within) Estimator | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe Adapted from Wooldridge (2009) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-08-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="random-effects.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Panel Data Part 2 and Formatting</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="fixed-effects-within-estimator.html"><a href="fixed-effects-within-estimator.html"><i class="fa fa-check"></i><b>2</b> Fixed Effects (Within) Estimator</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="fixed-effects-within-estimator.html"><a href="fixed-effects-within-estimator.html#union-premium"><i class="fa fa-check"></i><b>2.1</b> Union Premium</a></li>
+<li class="chapter" data-level="2.2" data-path="fixed-effects-within-estimator.html"><a href="fixed-effects-within-estimator.html#has-returns-to-education-changed-over-time"><i class="fa fa-check"></i><b>2.2</b> Has returns to education changed over time</a></li>
+<li class="chapter" data-level="2.3" data-path="fixed-effects-within-estimator.html"><a href="fixed-effects-within-estimator.html#rental-prices"><i class="fa fa-check"></i><b>2.3</b> Rental Prices</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="random-effects.html"><a href="random-effects.html"><i class="fa fa-check"></i><b>3</b> Random Effects</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="random-effects.html"><a href="random-effects.html#returns-to-marriage-for-men"><i class="fa fa-check"></i><b>3.1</b> Returns to Marriage for Men</a>
+<ul>
+<li class="chapter" data-level="" data-path="random-effects.html"><a href="random-effects.html#hausman-test"><i class="fa fa-check"></i>Hausman Test</a></li>
+<li class="chapter" data-level="" data-path="random-effects.html"><a href="random-effects.html#plot-the-coefficients"><i class="fa fa-check"></i>Plot the Coefficients</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="random-effects.html"><a href="random-effects.html#airline-prices-and-market-concentration"><i class="fa fa-check"></i><b>3.2</b> Airline prices and market concentration</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="formatting-the-display-of-variables.html"><a href="formatting-the-display-of-variables.html"><i class="fa fa-check"></i><b>4</b> Formatting the display of variables</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="formatting-the-display-of-variables.html"><a href="formatting-the-display-of-variables.html#format-numerics"><i class="fa fa-check"></i><b>4.1</b> Format numerics</a></li>
+<li class="chapter" data-level="4.2" data-path="formatting-the-display-of-variables.html"><a href="formatting-the-display-of-variables.html#format-strings"><i class="fa fa-check"></i><b>4.2</b> Format Strings</a></li>
+<li class="chapter" data-level="4.3" data-path="formatting-the-display-of-variables.html"><a href="formatting-the-display-of-variables.html#format-dates"><i class="fa fa-check"></i><b>4.3</b> Format dates</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="changing-the-order-of-variables-in-a-dataset.html"><a href="changing-the-order-of-variables-in-a-dataset.html"><i class="fa fa-check"></i><b>5</b> Changing the order of variables in a dataset</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="changing-the-order-of-variables-in-a-dataset.html"><a href="changing-the-order-of-variables-in-a-dataset.html#practice"><i class="fa fa-check"></i><b>5.1</b> Practice</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="fixed-effects-within-estimator" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Fixed Effects (Within) Estimator<a href="fixed-effects-within-estimator.html#fixed-effects-within-estimator" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will implement the fixed effects (within) estimator. We will need to use the <em>xtset</em> command to establish our unit of analysis dimension and our time dimension in our panel data. Our main stata command to implement a FD is <em>xtreg</em> with the option <em>fe</em>. It is important to include the option <em>fe</em>. If you forget, your model will be a random effects model.</p>
+<div id="union-premium" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Union Premium<a href="fixed-effects-within-estimator.html#union-premium" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Lesson:</strong> we can control for ability and preference for unionization to control for unobserved time-invariant confounders.</p>
+<p>We want to estimate the union premium, and we will use a fixed effects (within) estimator to control for time-invariant heterogeneity, such as ability and performance.</p>
+<p><span class="math display">\[ ln(wage_{i,t}) = \beta_0 + \beta_1 edu_{i,t} + \beta_2 exp_{i,t} + \beta_3 exp^2_{i,t} + \beta_4 Black_{i} + \beta_7 South_{i,t} \\ + \beta_8 married_{i,t} + union_{i,t} + a_t + a_i + \varepsilon_{i,t} \]</span></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="fixed-effects-within-estimator.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb2-2"><a href="fixed-effects-within-estimator.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;wagepan.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<p>Set the Panel and estimate the Pooled OLS model</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb3-1"><a href="fixed-effects-within-estimator.html#cb3-1" tabindex="-1"></a>xtset <span class="kw">nr</span> <span class="fu">year</span></span>
+<span id="cb3-2"><a href="fixed-effects-within-estimator.html#cb3-2" tabindex="-1"></a>eststo OLS: <span class="kw">reg</span> lwage c.edu exper expersq i.<span class="bn">black</span> i.south i.married i.<span class="kw">union</span> i.d8*</span></code></pre></div>
+<pre><code>       panel variable:  nr (strongly balanced)
+        time variable:  year, 1980 to 1987
+                delta:  1 unit
+
+      Source |       SS           df       MS      Number of obs   =     4,360
+-------------+----------------------------------   F(14, 4345)     =     73.43
+       Model |  236.577196        14  16.8983712   Prob &gt; F        =    0.0000
+    Residual |  999.952446     4,345  .230138653   R-squared       =    0.1913
+-------------+----------------------------------   Adj R-squared   =    0.1887
+       Total |  1236.52964     4,359  .283672779   Root MSE        =    .47973
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .0895815   .0051762    17.31   0.000     .0794334    .0997295
+       exper |   .0665418   .0136722     4.87   0.000     .0397372    .0933463
+     expersq |  -.0023832   .0008183    -2.91   0.004    -.0039875   -.0007789
+     1.black |  -.1275978   .0236068    -5.41   0.000    -.1738791   -.0813165
+     1.south |  -.0529354   .0155534    -3.40   0.001    -.0834281   -.0224428
+   1.married |   .1122106   .0157149     7.14   0.000     .0814014    .1430198
+     1.union |   .1802554   .0171339    10.52   0.000     .1466642    .2138466
+       1.d81 |    .058693   .0303147     1.94   0.053    -.0007393    .1181253
+       1.d82 |   .0638086   .0331714     1.92   0.054    -.0012242    .1288414
+       1.d83 |   .0633355   .0366129     1.73   0.084    -.0084444    .1351153
+       1.d84 |   .0915252   .0400387     2.29   0.022     .0130289    .1700216
+       1.d85 |   .1105424   .0432973     2.55   0.011     .0256575    .1954272
+       1.d86 |   .1437822   .0463663     3.10   0.002     .0528806    .2346837
+       1.d87 |   .1756699   .0493736     3.56   0.000     .0788725    .2724673
+       _cons |   .1333638   .0774193     1.72   0.085    -.0184175     .285145
+------------------------------------------------------------------------------</code></pre>
+<p>If we use FE or FD, we cannot assess race, education, or experience since they remain constant.</p>
+<p>FE Within.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="fixed-effects-within-estimator.html#cb5-1" tabindex="-1"></a>eststo Within: <span class="kw">xtreg</span> lwage c.edu exper expersq i.<span class="bn">black</span> i.south i.married i.<span class="kw">union</span> i.d8*, <span class="kw">fe</span></span></code></pre></div>
+<pre><code>note: educ omitted because of collinearity
+note: 1.black omitted because of collinearity
+note: 1.d87 omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,360
+Group variable: nr                              Number of groups  =        545
+
+R-sq:                                           Obs per group:
+     within  = 0.1815                                         min =          8
+     between = 0.0009                                         avg =        8.0
+     overall = 0.0497                                         max =          8
+
+                                                F(11,3804)        =      76.71
+corr(u_i, Xb)  = -0.1739                        Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |          0  (omitted)
+       exper |   .1313318   .0098277    13.36   0.000     .1120638    .1505999
+     expersq |  -.0051475   .0007043    -7.31   0.000    -.0065284   -.0037666
+     1.black |          0  (omitted)
+     1.south |   .1018493   .0479605     2.12   0.034     .0078186      .19588
+   1.married |   .0462057   .0183034     2.52   0.012     .0103203     .082091
+     1.union |   .0809394   .0193065     4.19   0.000     .0430874    .1187914
+       1.d81 |   .0190821   .0203532     0.94   0.349    -.0208222    .0589864
+       1.d82 |  -.0117214   .0202191    -0.58   0.562    -.0513627    .0279199
+       1.d83 |  -.0425071   .0203126    -2.09   0.036    -.0823318   -.0026825
+       1.d84 |  -.0378955   .0203069    -1.87   0.062    -.0777089    .0019179
+       1.d85 |  -.0427598   .0202377    -2.11   0.035    -.0824377   -.0030819
+       1.d86 |  -.0276303   .0203773    -1.36   0.175    -.0675818    .0123211
+       1.d87 |          0  (omitted)
+       _cons |   .9952994    .033587    29.63   0.000      .929449     1.06115
+-------------+----------------------------------------------------------------
+     sigma_u |  .40924292
+     sigma_e |  .35082825
+         rho |  .57640294   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(544, 3804) = 9.54                   Prob &gt; F = 0.0000</code></pre>
+<p>Compare with <em>esttab</em></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="fixed-effects-within-estimator.html#cb7-1" tabindex="-1"></a>esttab OLS Within, mtitles se scalars(<span class="fu">F</span> r2) <span class="kw">drop</span>(0.<span class="kw">d</span>* 0.<span class="kw">union</span> 0.married)</span></code></pre></div>
+<pre><code>                      (1)             (2)   
+                      OLS          Within   
+--------------------------------------------
+educ               0.0896***            0   
+                (0.00518)             (.)   
+
+exper              0.0665***        0.131***
+                 (0.0137)       (0.00983)   
+
+expersq          -0.00238**      -0.00515***
+               (0.000818)      (0.000704)   
+
+0.black                 0               0   
+                      (.)             (.)   
+
+1.black            -0.128***            0   
+                 (0.0236)             (.)   
+
+0.south                 0               0   
+                      (.)             (.)   
+
+1.south           -0.0529***        0.102*  
+                 (0.0156)        (0.0480)   
+
+1.married           0.112***       0.0462*  
+                 (0.0157)        (0.0183)   
+
+1.union             0.180***       0.0809***
+                 (0.0171)        (0.0193)   
+
+1.d81              0.0587          0.0191   
+                 (0.0303)        (0.0204)   
+
+1.d82              0.0638         -0.0117   
+                 (0.0332)        (0.0202)   
+
+1.d83              0.0633         -0.0425*  
+                 (0.0366)        (0.0203)   
+
+1.d84              0.0915*        -0.0379   
+                 (0.0400)        (0.0203)   
+
+1.d85               0.111*        -0.0428*  
+                 (0.0433)        (0.0202)   
+
+1.d86               0.144**       -0.0276   
+                 (0.0464)        (0.0204)   
+
+1.d87               0.176***            0   
+                 (0.0494)             (.)   
+
+_cons               0.133           0.995***
+                 (0.0774)        (0.0336)   
+--------------------------------------------
+N                    4360            4360   
+F                   73.43           76.71   
+r2                  0.191           0.182   
+--------------------------------------------
+Standard errors in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>After controlling for time-invariant individual fixed effects the Pooled OLS is seen to be upward biased. The union wage premium is about 19.7% with the Pooled OLS model, while the union wage premium is estimated to be 8.4% after accounting for individual fixed effects.</p>
+<p>Pooled OLS Wage Premium Estimate</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="fixed-effects-within-estimator.html#cb9-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[1.<span class="kw">union</span>])-1)*100</span></code></pre></div>
+<pre><code>19.752317</code></pre>
+<p>FE Within Wage Premium Estimate</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="fixed-effects-within-estimator.html#cb11-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[1.<span class="kw">union</span>])-1)*100</span></code></pre></div>
+<pre><code>8.4305206</code></pre>
+<p>Plot the Coefficients of Interest
+<em>Credit:</em> John Kane: <a href="https://medium.com/the-stata-gallery/making-regression-coefficient-plots-in-stata-7b100feac0cb">Making Regression Coefficients Plots in Stata</a></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="fixed-effects-within-estimator.html#cb13-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> lwage c.edu exper expersq i.<span class="bn">black</span> i.south i.married i.<span class="kw">union</span> i.d8*</span>
+<span id="cb13-2"><a href="fixed-effects-within-estimator.html#cb13-2" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> pooled</span>
+<span id="cb13-3"><a href="fixed-effects-within-estimator.html#cb13-3" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">xtreg</span> lwage c.edu i.<span class="bn">black</span> i.south i.married i.<span class="kw">union</span> i.d8*, <span class="kw">fe</span></span>
+<span id="cb13-4"><a href="fixed-effects-within-estimator.html#cb13-4" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> <span class="kw">fe</span></span>
+<span id="cb13-5"><a href="fixed-effects-within-estimator.html#cb13-5" tabindex="-1"></a>coefplot (pooled, <span class="kw">label</span>(<span class="st">&quot;{bf:Pooled OLS}&quot;</span>) mcolor(<span class="bn">midblue</span>) mlcolor(<span class="bn">cyan</span>) <span class="co">///</span></span>
+<span id="cb13-6"><a href="fixed-effects-within-estimator.html#cb13-6" tabindex="-1"></a>      ciopts(lcolor(<span class="bn">magenta</span> <span class="bn">midblue</span>))) <span class="co">/// options for first group</span></span>
+<span id="cb13-7"><a href="fixed-effects-within-estimator.html#cb13-7" tabindex="-1"></a>      (<span class="kw">fe</span>, <span class="kw">label</span>(<span class="st">&quot;{bf: Within}&quot;</span>) mcolor(<span class="kw">green</span>) mlcolor(<span class="bn">lime</span>) <span class="co">///</span></span>
+<span id="cb13-8"><a href="fixed-effects-within-estimator.html#cb13-8" tabindex="-1"></a>      ciopts(lcolor(<span class="bn">lime</span> <span class="kw">green</span>))), <span class="co">/// options for second group</span></span>
+<span id="cb13-9"><a href="fixed-effects-within-estimator.html#cb13-9" tabindex="-1"></a>      <span class="bn">title</span>(Union and Marriage Wage Premiums) <span class="co">///</span></span>
+<span id="cb13-10"><a href="fixed-effects-within-estimator.html#cb13-10" tabindex="-1"></a>      <span class="kw">drop</span>(<span class="dt">_cons</span> 1.<span class="kw">d</span>* 0.<span class="bn">black</span> 0.south) <span class="co">///</span></span>
+<span id="cb13-11"><a href="fixed-effects-within-estimator.html#cb13-11" tabindex="-1"></a>      <span class="bn">xline</span>(0, lcolor(<span class="kw">red</span>) lwidth(medium)) <span class="dv">scheme</span>(jet_white) <span class="co">///</span></span>
+<span id="cb13-12"><a href="fixed-effects-within-estimator.html#cb13-12" tabindex="-1"></a>      <span class="bn">xtitle</span>(<span class="st">&quot;{bf: Effect of Union}&quot;</span>) <span class="co">///</span></span>
+<span id="cb13-13"><a href="fixed-effects-within-estimator.html#cb13-13" tabindex="-1"></a>      graphregion(<span class="bn">margin</span>(small)) <span class="co">///</span></span>
+<span id="cb13-14"><a href="fixed-effects-within-estimator.html#cb13-14" tabindex="-1"></a>      coeflabels(educ=<span class="st">&quot;Education&quot;</span> exper=<span class="st">&quot;Experience&quot;</span> expersq=<span class="st">&quot;Experience Squared&quot;</span> <span class="co">///</span></span>
+<span id="cb13-15"><a href="fixed-effects-within-estimator.html#cb13-15" tabindex="-1"></a>      1.<span class="bn">black</span>=<span class="st">&quot;Black&quot;</span> 1.south=<span class="st">&quot;South&quot;</span> 1.married=<span class="st">&quot;Married&quot;</span> <span class="co">///</span></span>
+<span id="cb13-16"><a href="fixed-effects-within-estimator.html#cb13-16" tabindex="-1"></a>      1.<span class="kw">union</span>=<span class="st">&quot;Union&quot;</span>) <span class="co">///</span></span>
+<span id="cb13-17"><a href="fixed-effects-within-estimator.html#cb13-17" tabindex="-1"></a>      msize(large) mcolor(%85) mlwidth(medium) <span class="bn">msymbol</span>(<span class="bn">circle</span>) <span class="co">/// marker options</span></span>
+<span id="cb13-18"><a href="fixed-effects-within-estimator.html#cb13-18" tabindex="-1"></a>      <span class="kw">levels</span>(95 90) ciopts(lwidth(<span class="bn">medthick</span> thick) <span class="kw">recast</span>(rspike rcap)) <span class="co">///ci options for all groups</span></span>
+<span id="cb13-19"><a href="fixed-effects-within-estimator.html#cb13-19" tabindex="-1"></a>      <span class="bn">legend</span>(<span class="bn">ring</span>(1) col(1) pos(3) <span class="kw">size</span>(medsmall))</span>
+<span id="cb13-20"><a href="fixed-effects-within-estimator.html#cb13-20" tabindex="-1"></a>      <span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week4_union_wage_premium.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week4_union_wage_premium.png" alt="Plot the Coefficients of Interest" />
+<div class="figcaption">Plot the Coefficients of Interest</div>
+</div>
+</div>
+<div id="has-returns-to-education-changed-over-time" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Has returns to education changed over time<a href="fixed-effects-within-estimator.html#has-returns-to-education-changed-over-time" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Lesson:</strong> We can interact time binaries with continuous time-invariant data to see if returns to education have changed over time&lt;</p>
+<p>With fixed effects or first differencing, we cannot assess time-invariant variables. Variables that do not vary over time, such as sex, race, or education (assuming) education is static. But, if we interact education with time binaries, we can assess whether returns to education have increased
+over time.</p>
+<p>We can test to see if returns to education are constant over time.</p>
+<p>Vella and Verbeek (1998) estimate to see if the returns to education have change over time. We have some variables that are not time-invariant, such as union status and marital status. Experience does growth but it grows at a constant rate. We have a few variable that do not (or we would expect
+not to change), such as race and education (for older workers).</p>
+<p>We use the natural log of wages, which has nice properties, such as being are more normally distributed and providing elasticities. It also can take care of inflation when we add time period binaries.</p>
+<p>Set up the Panel</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="fixed-effects-within-estimator.html#cb14-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb14-2"><a href="fixed-effects-within-estimator.html#cb14-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;wagepan.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb14-3"><a href="fixed-effects-within-estimator.html#cb14-3" tabindex="-1"></a>xtset <span class="kw">nr</span> <span class="fu">year</span></span></code></pre></div>
+<p>Pooled OLS</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="fixed-effects-within-estimator.html#cb15-1" tabindex="-1"></a>eststo OLS: <span class="kw">reg</span> lwage c.edu##i.d8* exper expersq i.married i.<span class="kw">union</span></span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     4,360
+-------------+----------------------------------   F(19, 4340)     =     50.92
+       Model |  225.412805        19  11.8638318   Prob &gt; F        =    0.0000
+    Residual |  1011.11684     4,340   .23297623   R-squared       =    0.1823
+-------------+----------------------------------   Adj R-squared   =    0.1787
+       Total |  1236.52964     4,359  .283672779   Root MSE        =    .48268
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |    .081673   .0125675     6.50   0.000     .0570343    .1063117
+       1.d81 |  -.0356958    .199359    -0.18   0.858    -.4265413    .3551497
+       1.d82 |  -.0315288   .1998095    -0.16   0.875    -.4232575       .3602
+       1.d83 |  -.0342801   .2007839    -0.17   0.864    -.4279192    .3593589
+       1.d84 |   .0242933   .2025167     0.12   0.905    -.3727429    .4213294
+       1.d85 |   .0058838   .2052301     0.03   0.977    -.3964719    .4082395
+       1.d86 |   .0251586   .2092184     0.12   0.904    -.3850164    .4353336
+       1.d87 |   .0372565   .2148364     0.17   0.862    -.3839326    .4584456
+             |
+  d81#c.educ |
+          1  |   .0084448   .0167792     0.50   0.615     -.024451    .0413407
+             |
+  d82#c.educ |
+          1  |   .0088899   .0168742     0.53   0.598    -.0241921     .041972
+             |
+  d83#c.educ |
+          1  |   .0093544   .0170326     0.55   0.583    -.0240381     .042747
+             |
+  d84#c.educ |
+          1  |   .0070671   .0172551     0.41   0.682    -.0267617    .0408958
+             |
+  d85#c.educ |
+          1  |   .0104027   .0175306     0.59   0.553    -.0239662    .0447716
+             |
+  d86#c.educ |
+          1  |   .0116562   .0178614     0.65   0.514    -.0233613    .0466737
+             |
+  d87#c.educ |
+          1  |   .0134166   .0182525     0.74   0.462    -.0223676    .0492008
+             |
+       exper |   .0568876   .0154436     3.68   0.000     .0266102     .087165
+     expersq |   -.001919   .0009455    -2.03   0.042    -.0037726   -.0000654
+   1.married |   .1229473   .0155752     7.89   0.000     .0924119    .1534827
+     1.union |   .1720565   .0171378    10.04   0.000     .1384575    .2056554
+       _cons |   .2175863   .1641736     1.33   0.185    -.1042777    .5394503
+------------------------------------------------------------------------------</code></pre>
+<p>Fixed Effects (Within)</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="fixed-effects-within-estimator.html#cb17-1" tabindex="-1"></a>eststo Within: <span class="kw">xtreg</span> lwage c.edu##i.d8* i.married i.<span class="kw">union</span>, <span class="kw">fe</span></span></code></pre></div>
+<pre><code>note: educ omitted because of collinearity
+
+Fixed-effects (within) regression               Number of obs     =      4,360
+Group variable: nr                              Number of groups  =        545
+
+R-sq:                                           Obs per group:
+     within  = 0.1708                                         min =          8
+     between = 0.1900                                         avg =        8.0
+     overall = 0.1325                                         max =          8
+
+                                                F(16,3799)        =      48.91
+corr(u_i, Xb)  = 0.0991                         Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |          0  (omitted)
+       1.d81 |  -.0224158   .1458885    -0.15   0.878    -.3084431    .2636114
+       1.d82 |  -.0057611   .1458558    -0.04   0.968    -.2917243    .2802021
+       1.d83 |   .0104297   .1458579     0.07   0.943    -.2755377    .2963971
+       1.d84 |   .0843743   .1458518     0.58   0.563    -.2015811    .3703297
+       1.d85 |   .0497253   .1458602     0.34   0.733    -.2362465    .3356971
+       1.d86 |   .0656064   .1458917     0.45   0.653    -.2204273    .3516401
+       1.d87 |   .0904448   .1458505     0.62   0.535     -.195508    .3763977
+             |
+  d81#c.educ |
+          1  |   .0115854   .0122625     0.94   0.345    -.0124562    .0356271
+             |
+  d82#c.educ |
+          1  |   .0147905   .0122635     1.21   0.228    -.0092533    .0388342
+             |
+  d83#c.educ |
+          1  |   .0171182   .0122633     1.40   0.163    -.0069251    .0411615
+             |
+  d84#c.educ |
+          1  |   .0165839   .0122657     1.35   0.176     -.007464    .0406319
+             |
+  d85#c.educ |
+          1  |   .0237085   .0122738     1.93   0.053    -.0003554    .0477725
+             |
+  d86#c.educ |
+          1  |   .0274123    .012274     2.23   0.026     .0033481    .0514765
+             |
+  d87#c.educ |
+          1  |   .0304332   .0122723     2.48   0.013     .0063722    .0544942
+             |
+   1.married |   .0548205   .0184126     2.98   0.003      .018721      .09092
+     1.union |   .0829785   .0194461     4.27   0.000     .0448527    .1211042
+       _cons |   1.362459   .0162385    83.90   0.000     1.330622    1.394296
+-------------+----------------------------------------------------------------
+     sigma_u |  .37264193
+     sigma_e |  .35335713
+         rho |  .52654439   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(544, 3799) = 8.09                   Prob &gt; F = 0.0000</code></pre>
+<p>If we use FE or FD, we cannot assess race, education, or experience since they remain constant, but we can include dummy interactions.</p>
+<p>These are changes in the returns to education compared to the base year of 1980
+And only <span class="math inline">\(1987 * education\)</span> and <span class="math inline">\(1986 * education\)</span> appear to be insignificant</p>
+<p>Compare</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="fixed-effects-within-estimator.html#cb19-1" tabindex="-1"></a>esttab OLS Within, mtitles se scalars(<span class="fu">F</span> r2) <span class="kw">drop</span>(0.<span class="kw">d</span>* 0.<span class="kw">union</span> 0.married)</span></code></pre></div>
+<pre><code>                      (1)             (2)   
+                      OLS          Within   
+--------------------------------------------
+educ               0.0817***            0   
+                 (0.0126)             (.)   
+
+1.d81             -0.0357         -0.0224   
+                  (0.199)         (0.146)   
+
+1.d82             -0.0315        -0.00576   
+                  (0.200)         (0.146)   
+
+1.d83             -0.0343          0.0104   
+                  (0.201)         (0.146)   
+
+1.d84              0.0243          0.0844   
+                  (0.203)         (0.146)   
+
+1.d85             0.00588          0.0497   
+                  (0.205)         (0.146)   
+
+1.d86              0.0252          0.0656   
+                  (0.209)         (0.146)   
+
+1.d87              0.0373          0.0904   
+                  (0.215)         (0.146)   
+
+1.d81#c.educ      0.00844          0.0116   
+                 (0.0168)        (0.0123)   
+
+1.d82#c.educ      0.00889          0.0148   
+                 (0.0169)        (0.0123)   
+
+1.d83#c.educ      0.00935          0.0171   
+                 (0.0170)        (0.0123)   
+
+1.d84#c.educ      0.00707          0.0166   
+                 (0.0173)        (0.0123)   
+
+1.d85#c.educ       0.0104          0.0237   
+                 (0.0175)        (0.0123)   
+
+1.d86#c.educ       0.0117          0.0274*  
+                 (0.0179)        (0.0123)   
+
+1.d87#c.educ       0.0134          0.0304*  
+                 (0.0183)        (0.0123)   
+
+exper              0.0569***                
+                 (0.0154)                   
+
+expersq          -0.00192*                  
+               (0.000945)                   
+
+1.married           0.123***       0.0548** 
+                 (0.0156)        (0.0184)   
+
+1.union             0.172***       0.0830***
+                 (0.0171)        (0.0194)   
+
+_cons               0.218           1.362***
+                  (0.164)        (0.0162)   
+--------------------------------------------
+N                    4360            4360   
+F                   50.92           48.91   
+r2                  0.182           0.171   
+--------------------------------------------
+Standard errors in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>Returns to education have increased by about 3.1% between 1987 and 1980.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="fixed-effects-within-estimator.html#cb21-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(0.0304)-1)*100</span></code></pre></div>
+<pre><code>3.0866798</code></pre>
+<p>Plot the Coefficients</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="fixed-effects-within-estimator.html#cb23-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> lwage c.edu##i.d8* exper expersq i.married i.<span class="kw">union</span></span>
+<span id="cb23-2"><a href="fixed-effects-within-estimator.html#cb23-2" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> pooled</span>
+<span id="cb23-3"><a href="fixed-effects-within-estimator.html#cb23-3" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">xtreg</span> lwage c.edu##i.d8* i.married i.<span class="kw">union</span>, <span class="kw">fe</span></span>
+<span id="cb23-4"><a href="fixed-effects-within-estimator.html#cb23-4" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> <span class="kw">fe</span></span>
+<span id="cb23-5"><a href="fixed-effects-within-estimator.html#cb23-5" tabindex="-1"></a>coefplot <span class="co">///</span></span>
+<span id="cb23-6"><a href="fixed-effects-within-estimator.html#cb23-6" tabindex="-1"></a>      (pooled, <span class="kw">label</span>(<span class="st">&quot;{bf:Pooled OLS}&quot;</span>) mcolor(<span class="bn">midblue</span>) mlcolor(<span class="bn">cyan</span>) <span class="co">///</span></span>
+<span id="cb23-7"><a href="fixed-effects-within-estimator.html#cb23-7" tabindex="-1"></a>        ciopts(lcolor(<span class="bn">magenta</span> <span class="bn">midblue</span>))) <span class="co">/// options for first group</span></span>
+<span id="cb23-8"><a href="fixed-effects-within-estimator.html#cb23-8" tabindex="-1"></a>      (<span class="kw">fe</span>, <span class="kw">label</span>(<span class="st">&quot;{bf: Within}&quot;</span>) mcolor(<span class="kw">green</span>) mlcolor(<span class="bn">lime</span>) <span class="co">///</span></span>
+<span id="cb23-9"><a href="fixed-effects-within-estimator.html#cb23-9" tabindex="-1"></a>        ciopts(lcolor(<span class="bn">lime</span> <span class="kw">green</span>))), <span class="co">/// options for second gropu</span></span>
+<span id="cb23-10"><a href="fixed-effects-within-estimator.html#cb23-10" tabindex="-1"></a>      <span class="bn">title</span>(<span class="st">&quot;Change in Return to Education&quot;</span>) <span class="co">///</span></span>
+<span id="cb23-11"><a href="fixed-effects-within-estimator.html#cb23-11" tabindex="-1"></a>      <span class="kw">keep</span>(educ 1.d81#c.educ 1.d82#c.educ 1.d83#c.educ 1.d84#c.educ <span class="co">///</span></span>
+<span id="cb23-12"><a href="fixed-effects-within-estimator.html#cb23-12" tabindex="-1"></a>        1.d85#c.educ 1.d86#c.educ 1.d87#c.educ) <span class="co">///</span></span>
+<span id="cb23-13"><a href="fixed-effects-within-estimator.html#cb23-13" tabindex="-1"></a>      <span class="bn">xline</span>(0, lcolor(<span class="kw">red</span>) lwidth(medium)) <span class="dv">scheme</span>(jet_white) <span class="co">///</span></span>
+<span id="cb23-14"><a href="fixed-effects-within-estimator.html#cb23-14" tabindex="-1"></a>      <span class="bn">xtitle</span>(<span class="st">&quot;{bf: Coefficients}&quot;</span>) <span class="co">///</span></span>
+<span id="cb23-15"><a href="fixed-effects-within-estimator.html#cb23-15" tabindex="-1"></a>      graphregion(<span class="bn">margin</span>(small)) <span class="co">///</span></span>
+<span id="cb23-16"><a href="fixed-effects-within-estimator.html#cb23-16" tabindex="-1"></a>      coeflabels(educ=<span class="st">&quot;Education&quot;</span> 1.d81#c.educ=<span class="st">&quot;1981 Returns&quot;</span> <span class="co">///</span></span>
+<span id="cb23-17"><a href="fixed-effects-within-estimator.html#cb23-17" tabindex="-1"></a>        1.d82#c.educ=<span class="st">&quot;1982 Returns&quot;</span> 1.d83#c.educ=<span class="st">&quot;1983 Returns&quot;</span> <span class="co">///</span></span>
+<span id="cb23-18"><a href="fixed-effects-within-estimator.html#cb23-18" tabindex="-1"></a>        1.d84#c.educ=<span class="st">&quot;1984 Returns&quot;</span> 1.d85#c.educ=<span class="st">&quot;1985 Returns&quot;</span> <span class="co">///</span></span>
+<span id="cb23-19"><a href="fixed-effects-within-estimator.html#cb23-19" tabindex="-1"></a>        1.d86#c.educ=<span class="st">&quot;1986 Returns&quot;</span> 1.d87#c.educ=<span class="st">&quot;1987 Returns&quot;</span>) <span class="co">///</span></span>
+<span id="cb23-20"><a href="fixed-effects-within-estimator.html#cb23-20" tabindex="-1"></a>      msize(large) mcolor(%85) mlwidth(medium) <span class="bn">msymbol</span>(<span class="bn">circle</span>) <span class="co">/// marker options</span></span>
+<span id="cb23-21"><a href="fixed-effects-within-estimator.html#cb23-21" tabindex="-1"></a>      <span class="kw">levels</span>(95 90) ciopts(lwidth(<span class="bn">medthick</span> thick) <span class="kw">recast</span>(rspike rcap)) <span class="co">///ci options for all groups</span></span>
+<span id="cb23-22"><a href="fixed-effects-within-estimator.html#cb23-22" tabindex="-1"></a>      <span class="bn">legend</span>(<span class="bn">ring</span>(1) col(1) pos(3) <span class="kw">size</span>(medsmall))</span>
+<span id="cb23-23"><a href="fixed-effects-within-estimator.html#cb23-23" tabindex="-1"></a>    <span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week4_edu_returns.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week4_edu_returns.png" alt="Plot the Coefficients of Interest" />
+<div class="figcaption">Plot the Coefficients of Interest</div>
+</div>
+<div id="test-for-serial-correlation" class="section level4 unnumbered hasAnchor">
+<h4>Test for Serial Correlation<a href="fixed-effects-within-estimator.html#test-for-serial-correlation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Test for Serial Correlation. Use the option <em>residuals</em> or <em>resid</em> to get post-estimation residuals. If you don’t specify <em>resid</em>, Stata will return ( hat_{y} ) instead of ( hat_{u} )</p>
+<p>Our null hypothesis is that there is no serial correlation or the coefficient on our lagged residuals is zero. We’ll regress u on lag of u AR(1) model without a constant</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="fixed-effects-within-estimator.html#cb24-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">xtreg</span> lwage c.edu##i.d8* i.married i.<span class="kw">union</span>, <span class="kw">fe</span></span>
+<span id="cb24-2"><a href="fixed-effects-within-estimator.html#cb24-2" tabindex="-1"></a><span class="kw">predict</span> u, <span class="kw">resid</span></span>
+<span id="cb24-3"><a href="fixed-effects-within-estimator.html#cb24-3" tabindex="-1"></a><span class="kw">reg</span> u <span class="ot">l</span>.u, noconst</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     3,815
+-------------+----------------------------------   F(1, 3814)      =   2181.06
+       Model |  332.737937         1  332.737937   Prob &gt; F        =    0.0000
+    Residual |  581.856111     3,814  .152557973   R-squared       =    0.3638
+-------------+----------------------------------   Adj R-squared   =    0.3636
+       Total |  914.594048     3,815  .239736317   Root MSE        =    .39059
+
+------------------------------------------------------------------------------
+           u |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+           u |
+         L1. |   .5857228   .0125418    46.70   0.000     .5611336     .610312
+------------------------------------------------------------------------------</code></pre>
+<p>We can see that we have positive serial correlation since the coefficient on our lagged residual is positive and statistically significant. We will need to cluster our standard errors to account for the positive serial correlation.</p>
+</div>
+</div>
+<div id="rental-prices" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Rental Prices<a href="fixed-effects-within-estimator.html#rental-prices" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Exercise 1: Compare Pooled OLS, First Difference, and Fixed Effects Within</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="fixed-effects-within-estimator.html#cb26-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb26-2"><a href="fixed-effects-within-estimator.html#cb26-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;rental.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<p>Get the data here: <a href="./rental.dta">rental.dta</a></p>
+<p>The data on rental prices and other variables in college towns from 1980 to 1990. Do more students affect the prices? The general model with unobserved fixed effects is
+<span class="math display">\[ ln(rent_{i,t}) = \beta_0 + \delta_0 y90_t + \beta_1 ln(pop_{i,t})+\beta_2 ln(avginc_{i,t})+\beta_4 pctstu_{i,t} + a_t + a_i + \varepsilon_{i,t} \]</span>
+Where <em>pop</em> is city population, <em>avginc</em> is average income, <em>pctstu</em> is the student percent of the population, and <em>rent</em> is the nominal rental prices</p>
+<ol style="list-style-type: decimal">
+<li>Estimate a Pooled OLS. What does the estimate on y90 tell you?</li>
+<li>Are there concerns with the standard errors in the Pooled OLS?</li>
+<li>Use a First difference model. Does the coefficient on b3 change?</li>
+<li>Use a FE Within model. Are the results the same as the FD model?</li>
+</ol>
+<p>Set the Panel</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="fixed-effects-within-estimator.html#cb27-1" tabindex="-1"></a>xtset city <span class="fu">year</span>, delta(10)</span></code></pre></div>
+<pre><code>       panel variable:  city (strongly balanced)
+        time variable:  year, 80 to 90
+                delta:  10 units</code></pre>
+<p>Pooled OLS</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="fixed-effects-within-estimator.html#cb29-1" tabindex="-1"></a><span class="kw">reg</span> lrent i.y90 lpop lavginc pctstu, <span class="kw">robust</span></span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =        128
+                                                F(4, 123)         =     223.26
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.8613
+                                                Root MSE          =     .12592
+
+------------------------------------------------------------------------------
+             |               Robust
+       lrent |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       1.y90 |   .2622267   .0579584     4.52   0.000     .1475017    .3769517
+        lpop |   .0406863   .0223732     1.82   0.071       -.0036    .0849726
+     lavginc |   .5714461   .0989016     5.78   0.000     .3756765    .7672157
+      pctstu |   .0050436   .0011488     4.39   0.000     .0027696    .0073176
+       _cons |  -.5688069   .8506229    -0.67   0.505    -2.252563    1.114949
+------------------------------------------------------------------------------</code></pre>
+<p>First Difference</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="fixed-effects-within-estimator.html#cb31-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.lrent i.y90 <span class="kw">d</span>.lpop <span class="kw">d</span>.lavginc <span class="kw">d</span>.pctstu</span></code></pre></div>
+<pre><code>note: 1.y90 omitted because of collinearity
+
+      Source |       SS           df       MS      Number of obs   =        64
+-------------+----------------------------------   F(3, 60)        =      9.51
+       Model |  .231738668         3  .077246223   Prob &gt; F        =    0.0000
+    Residual |  .487362198        60  .008122703   R-squared       =    0.3223
+-------------+----------------------------------   Adj R-squared   =    0.2884
+       Total |  .719100867        63  .011414299   Root MSE        =    .09013
+
+------------------------------------------------------------------------------
+     D.lrent |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       1.y90 |          0  (omitted)
+             |
+        lpop |
+         D1. |   .0722456   .0883426     0.82   0.417     -.104466    .2489571
+             |
+     lavginc |
+         D1. |   .3099605   .0664771     4.66   0.000     .1769865    .4429346
+             |
+      pctstu |
+         D1. |   .0112033   .0041319     2.71   0.009     .0029382    .0194684
+             |
+       _cons |   .3855214   .0368245    10.47   0.000     .3118615    .4591813
+------------------------------------------------------------------------------</code></pre>
+<p>Fixed Effects</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="fixed-effects-within-estimator.html#cb33-1" tabindex="-1"></a><span class="kw">xtreg</span> lrent i.y90 lpop lavginc pctstu, <span class="kw">fe</span></span></code></pre></div>
+<pre><code>Fixed-effects (within) regression               Number of obs     =        128
+Group variable: city                            Number of groups  =         64
+
+R-sq:                                           Obs per group:
+     within  = 0.9765                                         min =          2
+     between = 0.2173                                         avg =        2.0
+     overall = 0.7597                                         max =          2
+
+                                                F(4,60)           =     624.15
+corr(u_i, Xb)  = -0.1297                        Prob &gt; F          =     0.0000
+
+------------------------------------------------------------------------------
+       lrent |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       1.y90 |   .3855214   .0368245    10.47   0.000     .3118615    .4591813
+        lpop |   .0722456   .0883426     0.82   0.417     -.104466    .2489571
+     lavginc |   .3099605   .0664771     4.66   0.000     .1769865    .4429346
+      pctstu |   .0112033   .0041319     2.71   0.009     .0029382    .0194684
+       _cons |   1.409384   1.167238     1.21   0.232    -.9254394    3.744208
+-------------+----------------------------------------------------------------
+     sigma_u |  .15905877
+     sigma_e |  .06372873
+         rho |   .8616755   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(63, 60) = 6.67                      Prob &gt; F = 0.0000</code></pre>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="random-effects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-fixed_effects.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
