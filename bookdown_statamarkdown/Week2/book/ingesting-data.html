@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe" />
 
 
-<meta name="date" content="2025-08-15" />
+<meta name="date" content="2025-09-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -169,11 +169,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-raw-data-files"><i class="fa fa-check"></i><b>2.6</b> Importing Raw Data files</a>
 <ul>
 <li class="chapter" data-level="2.6.1" data-path="ingesting-data.html"><a href="ingesting-data.html#import-delimited"><i class="fa fa-check"></i><b>2.6.1</b> Import Delimited</a></li>
-<li class="chapter" data-level="2.6.2" data-path="ingesting-data.html"><a href="ingesting-data.html#import-space-separated-files"><i class="fa fa-check"></i><b>2.6.2</b> Import space-separated files</a></li>
-<li class="chapter" data-level="2.6.3" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-fixed-column-files"><i class="fa fa-check"></i><b>2.6.3</b> Importing fixed-column files</a></li>
-<li class="chapter" data-level="2.6.4" data-path="ingesting-data.html"><a href="ingesting-data.html#subsetting-fixed-column-width-files"><i class="fa fa-check"></i><b>2.6.4</b> Subsetting fixed-column width files</a></li>
-<li class="chapter" data-level="2.6.5" data-path="ingesting-data.html"><a href="ingesting-data.html#common-errors-when-reading-and-importing-files"><i class="fa fa-check"></i><b>2.6.5</b> 2.8 Common errors when reading and importing files</a></li>
-<li class="chapter" data-level="2.6.6" data-path="ingesting-data.html"><a href="ingesting-data.html#entering-data-directly-into-stata-data-editor"><i class="fa fa-check"></i><b>2.6.6</b> Entering data directly into Stata Data Editor</a></li>
+<li class="chapter" data-level="2.6.2" data-path="ingesting-data.html"><a href="ingesting-data.html#import-delimited-with-subset-of-rows"><i class="fa fa-check"></i><b>2.6.2</b> Import delimited with subset of rows</a></li>
+<li class="chapter" data-level="2.6.3" data-path="ingesting-data.html"><a href="ingesting-data.html#import-space-separated-files"><i class="fa fa-check"></i><b>2.6.3</b> Import space-separated files</a></li>
+<li class="chapter" data-level="2.6.4" data-path="ingesting-data.html"><a href="ingesting-data.html#importing-fixed-column-files"><i class="fa fa-check"></i><b>2.6.4</b> Importing fixed-column files</a></li>
+<li class="chapter" data-level="2.6.5" data-path="ingesting-data.html"><a href="ingesting-data.html#subsetting-fixed-column-width-files"><i class="fa fa-check"></i><b>2.6.5</b> Subsetting fixed-column width files</a></li>
+<li class="chapter" data-level="2.6.6" data-path="ingesting-data.html"><a href="ingesting-data.html#common-errors-when-reading-and-importing-files"><i class="fa fa-check"></i><b>2.6.6</b> 2.8 Common errors when reading and importing files</a></li>
+<li class="chapter" data-level="2.6.7" data-path="ingesting-data.html"><a href="ingesting-data.html#entering-data-directly-into-stata-data-editor"><i class="fa fa-check"></i><b>2.6.7</b> Entering data directly into Stata Data Editor</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="saving-and-exporting-data.html"><a href="saving-and-exporting-data.html"><i class="fa fa-check"></i><b>3</b> Saving and Exporting Data</a>
@@ -304,7 +305,7 @@ Stata will use both, and the backslash”" often runs into string issues.</p>
 </div>
 <div id="subsetting-by-rows-observations" class="section level3 hasAnchor" number="2.3.2">
 <h3><span class="header-section-number">2.3.2</span> Subsetting by rows (observations)<a href="ingesting-data.html#subsetting-by-rows-observations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>You can read in a subset of data by rows. In my opinion, this is a better method to subset than by columns. You are able to see the entire dataset.</p>
+<p>You can read in a subset of data by rows. In my opinion, this is a better method to subset than by columns. You are able to see the entire dataset. You can use a qualifiers <em>if</em> or <em>in</em></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="ingesting-data.html#cb10-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS/&quot;</span></span>
 <span id="cb10-2"><a href="ingesting-data.html#cb10-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;smalljul25pub.dta&quot;</span> <span class="kw">if</span> gestfip == 24 &amp; prtage == 30, <span class="kw">clear</span></span>
 <span id="cb10-3"><a href="ingesting-data.html#cb10-3" tabindex="-1"></a><span class="ot">list</span> <span class="kw">in</span> 1/10</span></code></pre></div>
@@ -476,10 +477,181 @@ Stata will use both, and the backslash”" often runs into string issues.</p>
      | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
      |       2  |      -1  |      -1  |  87833706  |       -1  |      1006  |  2.911e+14  |     0  |         1  |
      +----------------------------------------------------------------------------------------------------------+</code></pre>
-<p>Subsetting by row and columns</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="ingesting-data.html#cb12-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS/&quot;</span></span>
-<span id="cb12-2"><a href="ingesting-data.html#cb12-2" tabindex="-1"></a><span class="kw">use</span> gestfips pemlr pternwa prerelg <span class="kw">using</span> <span class="st">&quot;smalljul25pub.dta&quot;</span> <span class="kw">if</span> gestfip == 24 &amp; prerelg==1, <span class="kw">clear</span></span>
-<span id="cb12-3"><a href="ingesting-data.html#cb12-3" tabindex="-1"></a><span class="ot">list</span> <span class="kw">in</span> 60/69</span></code></pre></div>
+<span id="cb12-2"><a href="ingesting-data.html#cb12-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;smalljul25pub.dta&quot;</span> <span class="kw">in</span> 1/10, <span class="kw">clear</span></span>
+<span id="cb12-3"><a href="ingesting-data.html#cb12-3" tabindex="-1"></a><span class="ot">list</span> </span></code></pre></div>
+<pre><code>  1. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        . |     . |       . |       . |       .  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |     . |     . |        . |        . |       .  |        .  |        .  |        .  |      .  |        .  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        . |        . |     . |        . |        . |        . |        . |        . |        . |        . |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        . |        . |        . |        . |      . |        . |        . |        . |       . |        . |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       .  |       .  |       .  |         .  |        .  |         .  |  1.617e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  2. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     2 |        1 |        2 |      43  |        2  |        1  |        2  |     61  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  18467177  |       -1  |        -1  |  1.090e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  3. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        2 |     1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    42 |     1 |        1 |        2 |      43  |        1  |        1  |        2  |     61  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     6 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  27264237  |       -1  |        -1  |  1.090e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  4. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     1 |        1 |        2 |      43  |        1  |        1  |        2  |     66  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  24488360  |       -1  |        -1  |  6.101e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  5. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        2 |    -1 |       1 |       2 |       1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    42 |     2 |        1 |        2 |      39  |        2  |        1  |        2  |     64  |        4  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        4 |       -1 |     1 |     7390 |        4 |       -1 |        9 |       -1 |        1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       36 |       -1 |        2 |       -1 |      1 |        1 |        4 |        2 |       1 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  18946917  |     8800  |       710  |  6.101e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  6. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     7 |       7 |    2025 |        1 |     6 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    41 |     2 |        3 |        2 |      36  |        2  |        1  |        2  |     63  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  20570322  |       -1  |        -1  |  9.101e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  7. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        . |     . |       . |       . |       .  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |     . |     . |        . |        . |       .  |        .  |        .  |        .  |      .  |        .  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        . |        . |     . |        . |        . |        . |        . |        . |        . |        . |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        . |        . |        . |        . |      . |        . |        . |        . |       . |        . |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       .  |       .  |       .  |         .  |        .  |         .  |  4.524e+13  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  8. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        . |     . |       . |       . |       .  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |     . |     . |        . |        . |       .  |        .  |        .  |        .  |      .  |        .  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        . |        . |     . |        . |        . |        . |        . |        . |        . |        . |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        . |        . |        . |        . |      . |        . |        . |        . |       . |        . |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       .  |       .  |       .  |         .  |        .  |         .  |  1.101e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  9. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     2 |        1 |        2 |      44  |        2  |        1  |        2  |     67  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  19775533  |       -1  |        -1  |  5.314e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+ 10. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        2 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    42 |     1 |        1 |        2 |      43  |        2  |        1  |        2  |     68  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  24488360  |       -1  |        -1  |  5.314e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+</code></pre>
+<p>Subsetting by row and columns</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="ingesting-data.html#cb14-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS/&quot;</span></span>
+<span id="cb14-2"><a href="ingesting-data.html#cb14-2" tabindex="-1"></a><span class="kw">use</span> gestfips pemlr pternwa prerelg <span class="kw">using</span> <span class="st">&quot;smalljul25pub.dta&quot;</span> <span class="kw">if</span> gestfip == 24 &amp; prerelg==1, <span class="kw">clear</span></span>
+<span id="cb14-3"><a href="ingesting-data.html#cb14-3" tabindex="-1"></a><span class="ot">list</span> <span class="kw">in</span> 60/69</span></code></pre></div>
 <pre><code>     | gestfips   pemlr   prerelg   pternwa |
      |--------------------------------------|
  60. |       24       1         1    132000 |
@@ -498,19 +670,106 @@ Stata will use both, and the backslash”" often runs into string issues.</p>
 <div id="system-data" class="section level3 hasAnchor" number="2.3.3">
 <h3><span class="header-section-number">2.3.3</span> System data<a href="ingesting-data.html#system-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>There are data sets that are included in Stata and use the <em>sysuse</em> command.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="ingesting-data.html#cb14-1" tabindex="-1"></a><span class="kw">sysuse</span> auto, <span class="kw">clear</span></span>
-<span id="cb14-2"><a href="ingesting-data.html#cb14-2" tabindex="-1"></a><span class="ot">list</span> make price mpg rep78 foreign, sepby(5)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="ingesting-data.html#cb16-1" tabindex="-1"></a><span class="kw">sysuse</span> auto, <span class="kw">clear</span></span>
+<span id="cb16-2"><a href="ingesting-data.html#cb16-2" tabindex="-1"></a><span class="ot">list</span> make price mpg rep78 foreign, sep(5)</span></code></pre></div>
 <pre><code>(1978 Automobile Data)
 
-5 invalid name
-option sepby() incorrectly specified
-r(198);
-
-r(198);</code></pre>
+     +-----------------------------------------------------+
+     | make                 price   mpg   rep78    foreign |
+     |-----------------------------------------------------|
+  1. | AMC Concord          4,099    22       3   Domestic |
+  2. | AMC Pacer            4,749    17       3   Domestic |
+  3. | AMC Spirit           3,799    22       .   Domestic |
+  4. | Buick Century        4,816    20       3   Domestic |
+  5. | Buick Electra        7,827    15       4   Domestic |
+     |-----------------------------------------------------|
+  6. | Buick LeSabre        5,788    18       3   Domestic |
+  7. | Buick Opel           4,453    26       .   Domestic |
+  8. | Buick Regal          5,189    20       3   Domestic |
+  9. | Buick Riviera       10,372    16       3   Domestic |
+ 10. | Buick Skylark        4,082    19       3   Domestic |
+     |-----------------------------------------------------|
+ 11. | Cad. Deville        11,385    14       3   Domestic |
+ 12. | Cad. Eldorado       14,500    14       2   Domestic |
+ 13. | Cad. Seville        15,906    21       3   Domestic |
+ 14. | Chev. Chevette       3,299    29       3   Domestic |
+ 15. | Chev. Impala         5,705    16       4   Domestic |
+     |-----------------------------------------------------|
+ 16. | Chev. Malibu         4,504    22       3   Domestic |
+ 17. | Chev. Monte Carlo    5,104    22       2   Domestic |
+ 18. | Chev. Monza          3,667    24       2   Domestic |
+ 19. | Chev. Nova           3,955    19       3   Domestic |
+ 20. | Dodge Colt           3,984    30       5   Domestic |
+     |-----------------------------------------------------|
+ 21. | Dodge Diplomat       4,010    18       2   Domestic |
+ 22. | Dodge Magnum         5,886    16       2   Domestic |
+ 23. | Dodge St. Regis      6,342    17       2   Domestic |
+ 24. | Ford Fiesta          4,389    28       4   Domestic |
+ 25. | Ford Mustang         4,187    21       3   Domestic |
+     |-----------------------------------------------------|
+ 26. | Linc. Continental   11,497    12       3   Domestic |
+ 27. | Linc. Mark V        13,594    12       3   Domestic |
+ 28. | Linc. Versailles    13,466    14       3   Domestic |
+ 29. | Merc. Bobcat         3,829    22       4   Domestic |
+ 30. | Merc. Cougar         5,379    14       4   Domestic |
+     |-----------------------------------------------------|
+ 31. | Merc. Marquis        6,165    15       3   Domestic |
+ 32. | Merc. Monarch        4,516    18       3   Domestic |
+ 33. | Merc. XR-7           6,303    14       4   Domestic |
+ 34. | Merc. Zephyr         3,291    20       3   Domestic |
+ 35. | Olds 98              8,814    21       4   Domestic |
+     |-----------------------------------------------------|
+ 36. | Olds Cutl Supr       5,172    19       3   Domestic |
+ 37. | Olds Cutlass         4,733    19       3   Domestic |
+ 38. | Olds Delta 88        4,890    18       4   Domestic |
+ 39. | Olds Omega           4,181    19       3   Domestic |
+ 40. | Olds Starfire        4,195    24       1   Domestic |
+     |-----------------------------------------------------|
+ 41. | Olds Toronado       10,371    16       3   Domestic |
+ 42. | Plym. Arrow          4,647    28       3   Domestic |
+ 43. | Plym. Champ          4,425    34       5   Domestic |
+ 44. | Plym. Horizon        4,482    25       3   Domestic |
+ 45. | Plym. Sapporo        6,486    26       .   Domestic |
+     |-----------------------------------------------------|
+ 46. | Plym. Volare         4,060    18       2   Domestic |
+ 47. | Pont. Catalina       5,798    18       4   Domestic |
+ 48. | Pont. Firebird       4,934    18       1   Domestic |
+ 49. | Pont. Grand Prix     5,222    19       3   Domestic |
+ 50. | Pont. Le Mans        4,723    19       3   Domestic |
+     |-----------------------------------------------------|
+ 51. | Pont. Phoenix        4,424    19       .   Domestic |
+ 52. | Pont. Sunbird        4,172    24       2   Domestic |
+ 53. | Audi 5000            9,690    17       5    Foreign |
+ 54. | Audi Fox             6,295    23       3    Foreign |
+ 55. | BMW 320i             9,735    25       4    Foreign |
+     |-----------------------------------------------------|
+ 56. | Datsun 200           6,229    23       4    Foreign |
+ 57. | Datsun 210           4,589    35       5    Foreign |
+ 58. | Datsun 510           5,079    24       4    Foreign |
+ 59. | Datsun 810           8,129    21       4    Foreign |
+ 60. | Fiat Strada          4,296    21       3    Foreign |
+     |-----------------------------------------------------|
+ 61. | Honda Accord         5,799    25       5    Foreign |
+ 62. | Honda Civic          4,499    28       4    Foreign |
+ 63. | Mazda GLC            3,995    30       4    Foreign |
+ 64. | Peugeot 604         12,990    14       .    Foreign |
+ 65. | Renault Le Car       3,895    26       3    Foreign |
+     |-----------------------------------------------------|
+ 66. | Subaru               3,798    35       5    Foreign |
+ 67. | Toyota Celica        5,899    18       5    Foreign |
+ 68. | Toyota Corolla       3,748    31       5    Foreign |
+ 69. | Toyota Corona        5,719    18       5    Foreign |
+ 70. | VW Dasher            7,140    23       4    Foreign |
+     |-----------------------------------------------------|
+ 71. | VW Diesel            5,397    41       5    Foreign |
+ 72. | VW Rabbit            4,697    25       4    Foreign |
+ 73. | VW Scirocco          6,850    25       4    Foreign |
+ 74. | Volvo 260           11,995    17       5    Foreign |
+     +-----------------------------------------------------+</code></pre>
 <p>You can use Stata files that are available, but didn’t ship with Stata and
 they use the <em>webuse</em> command</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="ingesting-data.html#cb16-1" tabindex="-1"></a><span class="kw">webuse</span> fullauto, <span class="kw">clear</span></span>
-<span id="cb16-2"><a href="ingesting-data.html#cb16-2" tabindex="-1"></a><span class="ot">list</span> make price mpg rep78 foreign <span class="kw">in</span> 1/5</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="ingesting-data.html#cb18-1" tabindex="-1"></a><span class="kw">webuse</span> fullauto, <span class="kw">clear</span></span>
+<span id="cb18-2"><a href="ingesting-data.html#cb18-2" tabindex="-1"></a><span class="ot">list</span> make price mpg rep78 foreign <span class="kw">in</span> 1/5</span></code></pre></div>
 <pre><code>(Automobile Models)
 
      +-------------------------------------------+
@@ -527,9 +786,9 @@ they use the <em>webuse</em> command</p>
 <div id="importing-excel-files" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Importing Excel files<a href="ingesting-data.html#importing-excel-files" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Many times you will need to grab data from a website and these data may be in an Excel format such as “.xls” or “.xlsx”. Our main command is <em>import excel</em>. We need to specify the firstrow option if we want the headers as variable names. Be careful if the headers are numerics, such as years, in the firstrow. This will throw an error and we’ll need to rename them in Excel before importing these files. For example, 2015 becomes y2015.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="ingesting-data.html#cb18-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb18-2"><a href="ingesting-data.html#cb18-2" tabindex="-1"></a>import excel <span class="kw">using</span> <span class="st">&quot;dentists.xls&quot;</span>, firstrow <span class="kw">clear</span></span>
-<span id="cb18-3"><a href="ingesting-data.html#cb18-3" tabindex="-1"></a><span class="ot">list</span> </span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="ingesting-data.html#cb20-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb20-2"><a href="ingesting-data.html#cb20-2" tabindex="-1"></a>import excel <span class="kw">using</span> <span class="st">&quot;dentists.xls&quot;</span>, firstrow <span class="kw">clear</span></span>
+<span id="cb20-3"><a href="ingesting-data.html#cb20-3" tabindex="-1"></a><span class="ot">list</span> </span></code></pre></div>
 <pre><code>     |              name   years   fulltime   recom |
      |----------------------------------------------|
   1. | Y. Don Uflossmore    7.25          0       1 |
@@ -539,12 +798,12 @@ they use the <em>webuse</em> command</p>
   5. |        Mike Avity     8.5          0       0 |
      +----------------------------------------------+</code></pre>
 <p>We need to take caution of the sheet names of the excel files we are importing. If you don’t pay attention you may import the wrong sheet.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="ingesting-data.html#cb20-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb20-2"><a href="ingesting-data.html#cb20-2" tabindex="-1"></a>import excel <span class="kw">using</span> <span class="st">&quot;dentists2.xls&quot;</span>, firstrow <span class="kw">clear</span></span>
-<span id="cb20-3"><a href="ingesting-data.html#cb20-3" tabindex="-1"></a><span class="ot">list</span></span>
-<span id="cb20-4"><a href="ingesting-data.html#cb20-4" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="ingesting-data.html#cb20-5" tabindex="-1"></a>import excel <span class="kw">using</span> <span class="st">&quot;dentists2.xls&quot;</span>, firstrow <span class="kw">clear</span> sheet(<span class="st">&quot;dentists&quot;</span>)</span>
-<span id="cb20-6"><a href="ingesting-data.html#cb20-6" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="ingesting-data.html#cb22-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb22-2"><a href="ingesting-data.html#cb22-2" tabindex="-1"></a>import excel <span class="kw">using</span> <span class="st">&quot;dentists2.xls&quot;</span>, firstrow <span class="kw">clear</span></span>
+<span id="cb22-3"><a href="ingesting-data.html#cb22-3" tabindex="-1"></a><span class="ot">list</span></span>
+<span id="cb22-4"><a href="ingesting-data.html#cb22-4" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="ingesting-data.html#cb22-5" tabindex="-1"></a>import excel <span class="kw">using</span> <span class="st">&quot;dentists2.xls&quot;</span>, firstrow <span class="kw">clear</span> sheet(<span class="st">&quot;dentists&quot;</span>)</span>
+<span id="cb22-6"><a href="ingesting-data.html#cb22-6" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>     |       name   years |
      |--------------------|
   1. | I. Sue Yoo       3 |
@@ -571,31 +830,31 @@ they use the <em>webuse</em> command</p>
 <h3><span class="header-section-number">2.5.1</span> Importing .sas7bdat<a href="ingesting-data.html#importing-.sas7bdat" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>For me, it is unavailable in Stata 14, but if you have Stata 16 or higher you can use this command.</p>
 <p>Import sas is our main command to import SAS from version 7 or higher.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="ingesting-data.html#cb22-1" tabindex="-1"></a>import sas <span class="st">&quot;dentists.sas7bdat&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb22-2"><a href="ingesting-data.html#cb22-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="ingesting-data.html#cb24-1" tabindex="-1"></a>import sas <span class="st">&quot;dentists.sas7bdat&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb24-2"><a href="ingesting-data.html#cb24-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 </div>
 <div id="importing-sas-xport-version-5" class="section level3 hasAnchor" number="2.5.2">
 <h3><span class="header-section-number">2.5.2</span> Importing SAS XPORT Version 5<a href="ingesting-data.html#importing-sas-xport-version-5" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="ingesting-data.html#cb23-1" tabindex="-1"></a>import sasxport5 <span class="st">&quot;dentists.xpt&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb23-2"><a href="ingesting-data.html#cb23-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="ingesting-data.html#cb25-1" tabindex="-1"></a>import sasxport5 <span class="st">&quot;dentists.xpt&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb25-2"><a href="ingesting-data.html#cb25-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 </div>
 <div id="importing-sas-xport-version-8" class="section level3 hasAnchor" number="2.5.3">
 <h3><span class="header-section-number">2.5.3</span> Importing SAS XPORT Version 8<a href="ingesting-data.html#importing-sas-xport-version-8" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="ingesting-data.html#cb24-1" tabindex="-1"></a>import sasxport8 <span class="st">&quot;dentists.xpt&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb24-2"><a href="ingesting-data.html#cb24-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="ingesting-data.html#cb26-1" tabindex="-1"></a>import sasxport8 <span class="st">&quot;dentists.xpt&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb26-2"><a href="ingesting-data.html#cb26-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 </div>
 <div id="importing-spss-files" class="section level3 hasAnchor" number="2.5.4">
 <h3><span class="header-section-number">2.5.4</span> Importing SPSS files<a href="ingesting-data.html#importing-spss-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>For me, it is unavailable in Stata 14, but if you have Stata 16 or higher
 you can use this command.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="ingesting-data.html#cb25-1" tabindex="-1"></a>import spss <span class="st">&quot;dentlab.sav&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb25-2"><a href="ingesting-data.html#cb25-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="ingesting-data.html#cb27-1" tabindex="-1"></a>import spss <span class="st">&quot;dentlab.sav&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb27-2"><a href="ingesting-data.html#cb27-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 </div>
 <div id="importing-dbase-files" class="section level3 hasAnchor" number="2.5.5">
 <h3><span class="header-section-number">2.5.5</span> Importing dBase files<a href="ingesting-data.html#importing-dbase-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>For me, it is unavailable in Stata 14, but if you have Stata 16 or higher you can use this command.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="ingesting-data.html#cb26-1" tabindex="-1"></a>import dbase <span class="st">&quot;dentlab.dbf&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb26-2"><a href="ingesting-data.html#cb26-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="ingesting-data.html#cb28-1" tabindex="-1"></a>import dbase <span class="st">&quot;dentlab.dbf&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb28-2"><a href="ingesting-data.html#cb28-2" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 </div>
 </div>
 <div id="importing-raw-data-files" class="section level2 hasAnchor" number="2.6">
@@ -607,13 +866,13 @@ you can use this command.</p>
 <p>CSV file
 If you read the manual you’ll noticed that “,” and “ are the default delimiters
 Using”,” delimiter:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="ingesting-data.html#cb27-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb27-2"><a href="ingesting-data.html#cb27-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists.csv&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb27-3"><a href="ingesting-data.html#cb27-3" tabindex="-1"></a><span class="ot">list</span></span>
-<span id="cb27-4"><a href="ingesting-data.html#cb27-4" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="ingesting-data.html#cb27-5" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS/&quot;</span></span>
-<span id="cb27-6"><a href="ingesting-data.html#cb27-6" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;jul25pub.csv&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb27-7"><a href="ingesting-data.html#cb27-7" tabindex="-1"></a><span class="ot">list</span> gestfips pemlr pternwa <span class="kw">in</span> 1/10</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="ingesting-data.html#cb29-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb29-2"><a href="ingesting-data.html#cb29-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists.csv&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb29-3"><a href="ingesting-data.html#cb29-3" tabindex="-1"></a><span class="ot">list</span></span>
+<span id="cb29-4"><a href="ingesting-data.html#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="ingesting-data.html#cb29-5" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS/&quot;</span></span>
+<span id="cb29-6"><a href="ingesting-data.html#cb29-6" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;jul25pub.csv&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb29-7"><a href="ingesting-data.html#cb29-7" tabindex="-1"></a><span class="ot">list</span> gestfips pemlr pternwa <span class="kw">in</span> 1/10</span></code></pre></div>
 <pre><code>(4 vars, 5 obs)
 
      +----------------------------------------------+
@@ -645,23 +904,8 @@ Using”,” delimiter:</p>
  10. |        1       5        -1 |
      +----------------------------+</code></pre>
 <p>CSV files may come in .txt files or .csv files using “,” delimiter</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="ingesting-data.html#cb29-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb29-2"><a href="ingesting-data.html#cb29-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists1.txt&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb29-3"><a href="ingesting-data.html#cb29-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
-<pre><code>(4 vars, 5 obs)
-
-     +----------------------------------------------+
-     |              name   years   fulltime   recom |
-     |----------------------------------------------|
-  1. | Y. Don Uflossmore    7.25          0       1 |
-  2. |    Olive Tu&#39;Drill   10.25          1       1 |
-  3. | Isaac O&#39;Yerbreath   32.75          1       1 |
-  4. |      Ruth Canaale      22          1       1 |
-  5. |        Mike Avity     8.5          0       0 |
-     +----------------------------------------------+</code></pre>
-<p>There may be “tab”-delimited files that use “ delimiter</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="ingesting-data.html#cb31-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb31-2"><a href="ingesting-data.html#cb31-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists2.txt&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb31-2"><a href="ingesting-data.html#cb31-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists1.txt&quot;</span>, <span class="kw">clear</span></span>
 <span id="cb31-3"><a href="ingesting-data.html#cb31-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>(4 vars, 5 obs)
 
@@ -674,9 +918,9 @@ Using”,” delimiter:</p>
   4. |      Ruth Canaale      22          1       1 |
   5. |        Mike Avity     8.5          0       0 |
      +----------------------------------------------+</code></pre>
-<p>This will produce the same results as above since “ is a default</p>
+<p>There may be “tab”-delimited files that use “ delimiter</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="ingesting-data.html#cb33-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb33-2"><a href="ingesting-data.html#cb33-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists2.txt&quot;</span>, <span class="kw">clear</span> delimiters(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb33-2"><a href="ingesting-data.html#cb33-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists2.txt&quot;</span>, <span class="kw">clear</span></span>
 <span id="cb33-3"><a href="ingesting-data.html#cb33-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>(4 vars, 5 obs)
 
@@ -689,10 +933,25 @@ Using”,” delimiter:</p>
   4. |      Ruth Canaale      22          1       1 |
   5. |        Mike Avity     8.5          0       0 |
      +----------------------------------------------+</code></pre>
-<p>If we set the delimiter to “:”, we can import a “:”-delimited file</p>
+<p>This will produce the same results as above since “ is a default</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="ingesting-data.html#cb35-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb35-2"><a href="ingesting-data.html#cb35-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists4.txt&quot;</span>, <span class="kw">clear</span> delimiters(<span class="st">&quot;:&quot;</span>) </span>
+<span id="cb35-2"><a href="ingesting-data.html#cb35-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists2.txt&quot;</span>, <span class="kw">clear</span> delimiters(<span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span>
 <span id="cb35-3"><a href="ingesting-data.html#cb35-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<pre><code>(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu&#39;Drill   10.25          1       1 |
+  3. | Isaac O&#39;Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+</code></pre>
+<p>If we set the delimiter to “:”, we can import a “:”-delimited file</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="ingesting-data.html#cb37-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb37-2"><a href="ingesting-data.html#cb37-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists4.txt&quot;</span>, <span class="kw">clear</span> delimiters(<span class="st">&quot;:&quot;</span>) </span>
+<span id="cb37-3"><a href="ingesting-data.html#cb37-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>(4 vars, 5 obs)
 
      +-------------------------------------+
@@ -705,9 +964,9 @@ Using”,” delimiter:</p>
   5. |        Mike Avity     8.5    0    0 |
      +-------------------------------------+</code></pre>
 <p>We can subset columns and rows with import delimited, which can be helpful for large files. Variable names will be defaulted for the first few rows, so when we use rowrange(1:3) this will only include 2 rows of data.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="ingesting-data.html#cb37-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb37-2"><a href="ingesting-data.html#cb37-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists2.txt&quot;</span>, <span class="kw">clear</span> rowrange(1:3)</span>
-<span id="cb37-3"><a href="ingesting-data.html#cb37-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="ingesting-data.html#cb39-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb39-2"><a href="ingesting-data.html#cb39-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists2.txt&quot;</span>, <span class="kw">clear</span> rowrange(1:3)</span>
+<span id="cb39-3"><a href="ingesting-data.html#cb39-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>(4 vars, 2 obs)
 
      +----------------------------------------------+
@@ -717,16 +976,22 @@ Using”,” delimiter:</p>
   2. |    Olive Tu&#39;Drill   10.25          1       1 |
      +----------------------------------------------+</code></pre>
 <p>Import delimited from the web</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="ingesting-data.html#cb39-1" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/jun23pub.csv&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb39-2"><a href="ingesting-data.html#cb39-2" tabindex="-1"></a>pwd</span>
-<span id="cb39-3"><a href="ingesting-data.html#cb39-3" tabindex="-1"></a><span class="kw">save</span> <span class="st">&quot;jun23pub.dta&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="ingesting-data.html#cb41-1" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;https://www2.census.gov/programs-surveys/cps/datasets/2023/basic/jun23pub.csv&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb41-2"><a href="ingesting-data.html#cb41-2" tabindex="-1"></a>pwd</span>
+<span id="cb41-3"><a href="ingesting-data.html#cb41-3" tabindex="-1"></a><span class="kw">save</span> <span class="st">&quot;jun23pub.dta&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
 </div>
-<div id="import-space-separated-files" class="section level3 hasAnchor" number="2.6.2">
-<h3><span class="header-section-number">2.6.2</span> Import space-separated files<a href="ingesting-data.html#import-space-separated-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="import-delimited-with-subset-of-rows" class="section level3 hasAnchor" number="2.6.2">
+<h3><span class="header-section-number">2.6.2</span> Import delimited with subset of rows<a href="ingesting-data.html#import-delimited-with-subset-of-rows" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can use the <em>rowrange</em> option to subset large dataset. For example, the NPPES admin data is over 10 GB. If we want to inspect the data, we can just use rowrange. Another example would be the American Community Survey Public Use File.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb42-1"><a href="ingesting-data.html#cb42-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Data/NPPES/&quot;</span></span>
+<span id="cb42-2"><a href="ingesting-data.html#cb42-2" tabindex="-1"></a>import delimited <span class="kw">using</span> npidata_pfile_20050523-20241208.csv, varnames(1) rowrange(1:10) <span class="kw">clear</span></span></code></pre></div>
+</div>
+<div id="import-space-separated-files" class="section level3 hasAnchor" number="2.6.3">
+<h3><span class="header-section-number">2.6.3</span> Import space-separated files<a href="ingesting-data.html#import-space-separated-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Sometimes files have space-delimited files (which is a bad idea when strings are involved). Dentists5.txt is an example of such a file. We can use the <em>infile</em> command to import these data, but we need to specify that the name variable is a string at least 17 characters wide.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb40-1"><a href="ingesting-data.html#cb40-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb40-2"><a href="ingesting-data.html#cb40-2" tabindex="-1"></a>infile str17 <span class="bn">name</span> years full rec <span class="kw">using</span> <span class="st">&quot;dentists5.txt&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb40-3"><a href="ingesting-data.html#cb40-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb43-1"><a href="ingesting-data.html#cb43-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb43-2"><a href="ingesting-data.html#cb43-2" tabindex="-1"></a>infile str17 <span class="bn">name</span> years full rec <span class="kw">using</span> <span class="st">&quot;dentists5.txt&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb43-3"><a href="ingesting-data.html#cb43-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>(5 observations read)
 
      +----------------------------------------+
@@ -740,9 +1005,9 @@ Using”,” delimiter:</p>
      +----------------------------------------+</code></pre>
 <p>Infile does not read in variable names in the first row.</p>
 <p>We can also use import delimited with delimiters(” “)</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb42-1"><a href="ingesting-data.html#cb42-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb42-2"><a href="ingesting-data.html#cb42-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists6.txt&quot;</span>, delimiters(<span class="st">&quot; &quot;</span>) <span class="kw">clear</span></span>
-<span id="cb42-3"><a href="ingesting-data.html#cb42-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb45-1"><a href="ingesting-data.html#cb45-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb45-2"><a href="ingesting-data.html#cb45-2" tabindex="-1"></a>import delimited <span class="kw">using</span> <span class="st">&quot;dentists6.txt&quot;</span>, delimiters(<span class="st">&quot; &quot;</span>) <span class="kw">clear</span></span>
+<span id="cb45-3"><a href="ingesting-data.html#cb45-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>(4 vars, 5 obs)
 
      +----------------------------------------------+
@@ -755,21 +1020,21 @@ Using”,” delimiter:</p>
   5. |        Mike Avity     8.5          0       0 |
      +----------------------------------------------+</code></pre>
 </div>
-<div id="importing-fixed-column-files" class="section level3 hasAnchor" number="2.6.3">
-<h3><span class="header-section-number">2.6.3</span> Importing fixed-column files<a href="ingesting-data.html#importing-fixed-column-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="importing-fixed-column-files" class="section level3 hasAnchor" number="2.6.4">
+<h3><span class="header-section-number">2.6.4</span> Importing fixed-column files<a href="ingesting-data.html#importing-fixed-column-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Unfortunately, fixed-column files are more common than I prefer. They are a pain, since you need to specify each column length. I have found this with files with a “.dat” file extension.</p>
 <p>We can use the <em>infix</em> command to read in fixed-column files. Let’s look at our fixed-column width files.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="ingesting-data.html#cb44-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb44-2"><a href="ingesting-data.html#cb44-2" tabindex="-1"></a><span class="dv">type</span> <span class="st">&quot;dentists7.txt&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb47-1"><a href="ingesting-data.html#cb47-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb47-2"><a href="ingesting-data.html#cb47-2" tabindex="-1"></a><span class="dv">type</span> <span class="st">&quot;dentists7.txt&quot;</span></span></code></pre></div>
 <pre><code>Y. Don Uflossmore 7.2501
 Olive Tu&#39;Drill   10.2511
 Isaac O&#39;Yerbreath32.7511
 Ruth Canaale     22.0011
 Mike Avity        8.5000</code></pre>
 <p>Our name variable is between 1 and 17, years are between 18 and 22. Our fulltime and recommend binaries are only length of 1 with 23 and 24.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="ingesting-data.html#cb46-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb46-2"><a href="ingesting-data.html#cb46-2" tabindex="-1"></a>infix str <span class="bn">name</span> 1-17 years 18-22 fulltime 23 recom 24 <span class="kw">using</span> <span class="st">&quot;dentists7.txt&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb46-3"><a href="ingesting-data.html#cb46-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb49-1"><a href="ingesting-data.html#cb49-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb49-2"><a href="ingesting-data.html#cb49-2" tabindex="-1"></a>infix str <span class="bn">name</span> 1-17 years 18-22 fulltime 23 recom 24 <span class="kw">using</span> <span class="st">&quot;dentists7.txt&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb49-3"><a href="ingesting-data.html#cb49-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>(5 observations read)
 
      +----------------------------------------------+
@@ -783,23 +1048,23 @@ Mike Avity        8.5000</code></pre>
      +----------------------------------------------+</code></pre>
 <p>This is a real pain, but luckily Stata has dictionary files to help if one of these files are available. They have a .dct file extension. We already have a fixed-column dictionary with dentists1.dct and we can use it to open a fixed-column width file dentists7.txt</p>
 <p>Let’s look at our dictionary file.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb48-1"><a href="ingesting-data.html#cb48-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb48-2"><a href="ingesting-data.html#cb48-2" tabindex="-1"></a><span class="dv">type</span> <span class="st">&quot;dentists1.dct&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb51-1"><a href="ingesting-data.html#cb51-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb51-2"><a href="ingesting-data.html#cb51-2" tabindex="-1"></a><span class="dv">type</span> <span class="st">&quot;dentists1.dct&quot;</span></span></code></pre></div>
 <pre><code>infix dictionary {
   str name 1-17 years 18-22 fulltime 23 recom 24
 }</code></pre>
 <p>Let’s look at our fixed-column width file</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb50-1"><a href="ingesting-data.html#cb50-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb50-2"><a href="ingesting-data.html#cb50-2" tabindex="-1"></a><span class="dv">type</span> <span class="st">&quot;dentists7.txt&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb53-1"><a href="ingesting-data.html#cb53-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb53-2"><a href="ingesting-data.html#cb53-2" tabindex="-1"></a><span class="dv">type</span> <span class="st">&quot;dentists7.txt&quot;</span></span></code></pre></div>
 <pre><code>Y. Don Uflossmore 7.2501
 Olive Tu&#39;Drill   10.2511
 Isaac O&#39;Yerbreath32.7511
 Ruth Canaale     22.0011
 Mike Avity        8.5000</code></pre>
 <p>Let’s use the two together to import the data file</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb52-1"><a href="ingesting-data.html#cb52-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb52-2"><a href="ingesting-data.html#cb52-2" tabindex="-1"></a>infix <span class="kw">using</span> <span class="st">&quot;dentists1.dct&quot;</span>, <span class="kw">using</span>(dentists7.txt) <span class="kw">clear</span></span>
-<span id="cb52-3"><a href="ingesting-data.html#cb52-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb55-1"><a href="ingesting-data.html#cb55-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb55-2"><a href="ingesting-data.html#cb55-2" tabindex="-1"></a>infix <span class="kw">using</span> <span class="st">&quot;dentists1.dct&quot;</span>, <span class="kw">using</span>(dentists7.txt) <span class="kw">clear</span></span>
+<span id="cb55-3"><a href="ingesting-data.html#cb55-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>infix dictionary {
   str name 1-17 years 18-22 fulltime 23 recom 24
 }
@@ -815,8 +1080,8 @@ Mike Avity        8.5000</code></pre>
   5. |        Mike Avity     8.5          0       0 |
      +----------------------------------------------+</code></pre>
 <p>We can combine infile command with a dictionary file.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb54-1"><a href="ingesting-data.html#cb54-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb54-2"><a href="ingesting-data.html#cb54-2" tabindex="-1"></a><span class="dv">type</span> <span class="st">&quot;dentists3.dct&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb57-1"><a href="ingesting-data.html#cb57-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb57-2"><a href="ingesting-data.html#cb57-2" tabindex="-1"></a><span class="dv">type</span> <span class="st">&quot;dentists3.dct&quot;</span></span></code></pre></div>
 <pre><code>infile dictionary using dentists7.txt {
   str17 name     %17s  &quot;Name of dentist&quot;
         years    %5f   &quot;Years in practice&quot;
@@ -825,9 +1090,9 @@ Mike Avity        8.5000</code></pre>
 }</code></pre>
 <p>Notice that the first line of the dictionary file is
 infile dictionary using dentists7.txt and then the column widths</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb56-1"><a href="ingesting-data.html#cb56-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb56-2"><a href="ingesting-data.html#cb56-2" tabindex="-1"></a>infile <span class="kw">using</span> <span class="st">&quot;dentists3.dct&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb56-3"><a href="ingesting-data.html#cb56-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb59-1"><a href="ingesting-data.html#cb59-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb59-2"><a href="ingesting-data.html#cb59-2" tabindex="-1"></a>infile <span class="kw">using</span> <span class="st">&quot;dentists3.dct&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb59-3"><a href="ingesting-data.html#cb59-3" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>infile dictionary using dentists7.txt {
   str17 name     %17s  &quot;Name of dentist&quot;
         years    %5f   &quot;Years in practice&quot;
@@ -848,15 +1113,15 @@ infile dictionary using dentists7.txt and then the column widths</p>
      +----------------------------------------------+</code></pre>
 <p>Dictionary .dct files are very helpful when they are available with fixed-column width files.</p>
 </div>
-<div id="subsetting-fixed-column-width-files" class="section level3 hasAnchor" number="2.6.4">
-<h3><span class="header-section-number">2.6.4</span> Subsetting fixed-column width files<a href="ingesting-data.html#subsetting-fixed-column-width-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="subsetting-fixed-column-width-files" class="section level3 hasAnchor" number="2.6.5">
+<h3><span class="header-section-number">2.6.5</span> Subsetting fixed-column width files<a href="ingesting-data.html#subsetting-fixed-column-width-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can use the “in” qualifier to subset the number of rows to import with either <em>infix</em> or <em>infile</em>.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb58-1"><a href="ingesting-data.html#cb58-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
-<span id="cb58-2"><a href="ingesting-data.html#cb58-2" tabindex="-1"></a>infix str <span class="bn">name</span> 1-17 years 18-22 fulltime 23 recom 24 <span class="kw">using</span> <span class="st">&quot;dentists7.txt&quot;</span> <span class="kw">in</span> 1/3, <span class="kw">clear</span></span>
-<span id="cb58-3"><a href="ingesting-data.html#cb58-3" tabindex="-1"></a><span class="ot">list</span></span>
-<span id="cb58-4"><a href="ingesting-data.html#cb58-4" tabindex="-1"></a></span>
-<span id="cb58-5"><a href="ingesting-data.html#cb58-5" tabindex="-1"></a>infix <span class="kw">using</span> <span class="st">&quot;dentists1.dct&quot;</span> <span class="kw">in</span> 1/3, <span class="kw">using</span>(dentists7.txt) <span class="kw">clear</span></span>
-<span id="cb58-6"><a href="ingesting-data.html#cb58-6" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb61-1"><a href="ingesting-data.html#cb61-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb61-2"><a href="ingesting-data.html#cb61-2" tabindex="-1"></a>infix str <span class="bn">name</span> 1-17 years 18-22 fulltime 23 recom 24 <span class="kw">using</span> <span class="st">&quot;dentists7.txt&quot;</span> <span class="kw">in</span> 1/3, <span class="kw">clear</span></span>
+<span id="cb61-3"><a href="ingesting-data.html#cb61-3" tabindex="-1"></a><span class="ot">list</span></span>
+<span id="cb61-4"><a href="ingesting-data.html#cb61-4" tabindex="-1"></a></span>
+<span id="cb61-5"><a href="ingesting-data.html#cb61-5" tabindex="-1"></a>infix <span class="kw">using</span> <span class="st">&quot;dentists1.dct&quot;</span> <span class="kw">in</span> 1/3, <span class="kw">using</span>(dentists7.txt) <span class="kw">clear</span></span>
+<span id="cb61-6"><a href="ingesting-data.html#cb61-6" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
 <pre><code>(3 observations read)
 
      +----------------------------------------------+
@@ -880,8 +1145,8 @@ infix dictionary {
   3. | Isaac O&#39;Yerbreath   32.75          1       1 |
      +----------------------------------------------+</code></pre>
 </div>
-<div id="common-errors-when-reading-and-importing-files" class="section level3 hasAnchor" number="2.6.5">
-<h3><span class="header-section-number">2.6.5</span> 2.8 Common errors when reading and importing files<a href="ingesting-data.html#common-errors-when-reading-and-importing-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="common-errors-when-reading-and-importing-files" class="section level3 hasAnchor" number="2.6.6">
+<h3><span class="header-section-number">2.6.6</span> 2.8 Common errors when reading and importing files<a href="ingesting-data.html#common-errors-when-reading-and-importing-files" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Tip: Don’t forget to clear your data.
 Either the line before or add it as an option , clear</p>
 <p><em>Error 1</em>
@@ -890,8 +1155,8 @@ If you do not clear your data with the use command, then you will get the messag
 If you do not clear your data with the import, infix, or infile commands, then you will get the message:
 “You must start with an empty dataset”</p>
 </div>
-<div id="entering-data-directly-into-stata-data-editor" class="section level3 hasAnchor" number="2.6.6">
-<h3><span class="header-section-number">2.6.6</span> Entering data directly into Stata Data Editor<a href="ingesting-data.html#entering-data-directly-into-stata-data-editor" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="entering-data-directly-into-stata-data-editor" class="section level3 hasAnchor" number="2.6.7">
+<h3><span class="header-section-number">2.6.7</span> Entering data directly into Stata Data Editor<a href="ingesting-data.html#entering-data-directly-into-stata-data-editor" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>My opinion: Please do not do this. If you need to manually enter data, I don’t recommend manually entering data into STATA. I recommend using a spreadsheet, then import the
 spreadsheet.</p>
 <p>If for some reason you don’t have access to Excel or a spreadsheet application
