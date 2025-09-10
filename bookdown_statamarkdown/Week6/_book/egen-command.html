@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 EGEN Command | Week 6: Difference-in-Differences and EGEN Commands</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 EGEN Command | Week 6: Difference-in-Differences and EGEN Commands" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 EGEN Command | Week 6: Difference-in-Differences and EGEN Commands" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-09-02" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="difference-in-differences-and-two-way-fixed-effects.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Difference-in-Differences, TWFE, and EGEN</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html"><i class="fa fa-check"></i><b>2</b> Difference-in-Differences and Two-Way Fixed Effects</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#diff-in-diff"><i class="fa fa-check"></i><b>2.1</b> Diff-in-Diff</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-a-garbage-incinerators-location-on-housing-prices"><i class="fa fa-check"></i><b>2.1.1</b> Effect of a garbage incinerator’s location on housing prices</a></li>
+<li class="chapter" data-level="2.1.2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-worker-compensation-laws-on-weeks-out-of-work"><i class="fa fa-check"></i><b>2.1.2</b> Effect of Worker Compensation Laws on Weeks out of Work</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#two-way-fixed-effects"><i class="fa fa-check"></i><b>2.2</b> Two-Way Fixed Effects</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-grants-on-scrap-rates"><i class="fa fa-check"></i><b>2.2.1</b> Effect of Grants on scrap rates</a></li>
+<li class="chapter" data-level="2.2.2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-drunk-driving-laws-on-traffic-fatalities"><i class="fa fa-check"></i><b>2.2.2</b> Effect of Drunk Driving Laws on Traffic Fatalities</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#exercises"><i class="fa fa-check"></i><b>2.3</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-1"><i class="fa fa-check"></i><b>2.3.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.3.2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-2"><i class="fa fa-check"></i><b>2.3.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="2.3.3" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-3"><i class="fa fa-check"></i><b>2.3.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="egen-command.html"><a href="egen-command.html"><i class="fa fa-check"></i><b>3</b> EGEN Command</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="egen-command.html"><a href="egen-command.html#egen-computations-across-variables"><i class="fa fa-check"></i><b>3.1</b> EGEN Computations across variables</a></li>
+<li class="chapter" data-level="3.2" data-path="egen-command.html"><a href="egen-command.html#egen-computation-across-observations"><i class="fa fa-check"></i><b>3.2</b> EGEN Computation across observations</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="egen-command.html"><a href="egen-command.html#subscripting"><i class="fa fa-check"></i><b>3.2.1</b> Subscripting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="egen-command.html"><a href="egen-command.html#more-egen"><i class="fa fa-check"></i><b>3.2.2</b> More Egen</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="egen-command.html"><a href="egen-command.html#converting-strings-to-numerics"><i class="fa fa-check"></i><b>3.3</b> Converting Strings to numerics</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="egen-command.html"><a href="egen-command.html#destring"><i class="fa fa-check"></i><b>3.3.1</b> Destring</a></li>
+<li class="chapter" data-level="3.3.2" data-path="egen-command.html"><a href="egen-command.html#encode"><i class="fa fa-check"></i><b>3.3.2</b> Encode</a></li>
+<li class="chapter" data-level="3.3.3" data-path="egen-command.html"><a href="egen-command.html#converting-numerics-to-strings"><i class="fa fa-check"></i><b>3.3.3</b> Converting numerics to strings</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="egen-command.html"><a href="egen-command.html#renaming-and-reordering"><i class="fa fa-check"></i><b>3.4</b> Renaming and reordering</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="egen-command.html"><a href="egen-command.html#rename"><i class="fa fa-check"></i><b>3.4.1</b> Rename</a></li>
+<li class="chapter" data-level="3.4.2" data-path="egen-command.html"><a href="egen-command.html#order"><i class="fa fa-check"></i><b>3.4.2</b> Order</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 6: Difference-in-Differences and EGEN Commands</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="egen-command" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> EGEN Command<a href="egen-command.html#egen-command" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="egen-computations-across-variables" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> EGEN Computations across variables<a href="egen-command.html#egen-computations-across-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <em>egen</em> command is something that I miss in other statistical packages since it is so useful. We can do computation across columns or we can do computation across observations with <em>egen</em></p>
+<p>For computations across columns/variables, we can look at row means, row mins, row maxs, row missing, row nonmissing, etc. On a personal note, I do not use computations across variables too often. If you have have panel data set, it should be in a long-form format instead of a wide-form format. When you use data in a long-form format, <em>egen</em> across variables has limited uses.</p>
+<p>Let’s find the mean across pl1-pl5 with <i>row mean</i> instead of <em>gen avgpl=(pl1+…+pl5)/5</em></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="egen-command.html#cb37-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb37-2"><a href="egen-command.html#cb37-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;cardio2miss.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb37-3"><a href="egen-command.html#cb37-3" tabindex="-1"></a><span class="kw">egen</span> avgpl=<span class="fu">rowmean</span>(pl1-pl5)</span>
+<span id="cb37-4"><a href="egen-command.html#cb37-4" tabindex="-1"></a><span class="ot">list</span> id pl1-pl5 avgpl</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +------------------------------------------+
+     | id   pl1   pl2   pl3   pl4   pl5   avgpl |
+     |------------------------------------------|
+  1. |  1    54   115    87    86    93      87 |
+  2. |  2    92   123    88   136   125   112.8 |
+  3. |  3   105    .a    97   122   128     113 |
+  4. |  4    52   105    79   115    71    84.4 |
+  5. |  5    70   116    .a   128    52    91.5 |
+     +------------------------------------------+</code></pre>
+<p><em>rowmeans()</em> will ignore the missing values. (I wish other statistical packages did this)</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="egen-command.html#cb39-1" tabindex="-1"></a><span class="kw">egen</span> avgbp=<span class="fu">rowmean</span>(bp1-bp5)</span>
+<span id="cb39-2"><a href="egen-command.html#cb39-2" tabindex="-1"></a><span class="ot">list</span> id bp1-bp5 avgbp</span></code></pre></div>
+<pre><code>     | id   bp1   bp2   bp3   bp4   bp5   avgbp |
+     |------------------------------------------|
+  1. |  1   129    81   105    .b    .b     105 |
+  2. |  2   107    87   111    58   120    96.6 |
+  3. |  3   101    57   109    68   112    89.4 |
+  4. |  4   121   106   129    39   137   106.4 |
+  5. |  5   112    68   125    59   111      95 |
+     +------------------------------------------+</code></pre>
+<p><em>rowmin()</em> returns the row minimum, while <em>rowmax()</em> returns the row maximum.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="egen-command.html#cb41-1" tabindex="-1"></a><span class="kw">egen</span> maxbp=<span class="fu">rowmax</span>(bp1-bp5)</span>
+<span id="cb41-2"><a href="egen-command.html#cb41-2" tabindex="-1"></a><span class="kw">egen</span> minbp=<span class="fu">rowmin</span>(bp1-bp5)</span>
+<span id="cb41-3"><a href="egen-command.html#cb41-3" tabindex="-1"></a><span class="ot">list</span> id bp1-bp5 avgbp maxbp minbp</span></code></pre></div>
+<pre><code>     | id   bp1   bp2   bp3   bp4   bp5   avgbp   maxbp   minbp |
+     |----------------------------------------------------------|
+  1. |  1   129    81   105    .b    .b     105     129      81 |
+  2. |  2   107    87   111    58   120    96.6     120      58 |
+  3. |  3   101    57   109    68   112    89.4     112      57 |
+  4. |  4   121   106   129    39   137   106.4     137      39 |
+  5. |  5   112    68   125    59   111      95     125      59 |
+     +----------------------------------------------------------+</code></pre>
+<p>We can find missing or not missing with the <em>rowmiss()</em> and <em>rownonmiss()</em></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb43-1"><a href="egen-command.html#cb43-1" tabindex="-1"></a>    <span class="kw">egen</span> missbp = <span class="fu">rowmiss</span>(bp?)</span></code></pre></div>
+<p><strong>Note</strong>: the <em>?</em> operator differs from the wildcard * operator. The <em>?</em> operator is a wildcard for 1 character in between so <em>bp?</em> will pick up bp1, bp2, bp3, bp4, and bp5, and <em>bp?</em> will exlude bpavg, bpmin, bpmax
+Examples:
+1. <i>my*var</i> variables starting with my &amp; ending with var with any number of other characters between.
+2. <i>my~var</i> one variable starting with my &amp; ending with var with any number of other characters between.
+3. <i>my?var</i> variables starting with my &amp; ending with var with one other character between.</p>
+<p>Recap:
+1. <em>myvar</em> is just one variable
+2. <em>myvar</em> <em>thisvar</em> <em>thatvar</em> are three variables
+3. <em>myvar</em> are all variables starting with myvar
+4. <i><em>var</i> are all variables ending with var
+5. </em>myvar1<em>-</em>myvar6* includes myvar1, myvar2, …, myvar6
+6. <em>this</em>-<em>that</em> includes variables <em>this</em> through <em>that</em>, inclusive</p>
+</div>
+<div id="egen-computation-across-observations" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> EGEN Computation across observations<a href="egen-command.html#egen-computation-across-observations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><em>EGEN</em> and <em>bysort</em> are a powerful combination for working across groups
+of observations. This can be very helpful when working with panel
+data or time series by groups. We will sort by id and then time and
+perform our egen commands
+We have our egen <em>sum, egen total, egen max, egen min, egen mean</em> which will be the main egen commands.</p>
+<p>Let’s use <em>egen</em> to find the average for groups. <em>Egen</em> without a bysort will return the mean for the entire column, which may or may not be helpful. If we want a mean within a group (or an individual’s panel data), we want to sort by groups (or individuals) first and then perform the egen mean.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="egen-command.html#cb44-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb44-2"><a href="egen-command.html#cb44-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;gasctrysmall.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb44-3"><a href="egen-command.html#cb44-3" tabindex="-1"></a><span class="kw">egen</span> avggas = <span class="kw">mean</span>(gas)</span>
+<span id="cb44-4"><a href="egen-command.html#cb44-4" tabindex="-1"></a><span class="kw">bysort</span> ctry: <span class="kw">egen</span> avggas_ctry = <span class="kw">mean</span>(gas)</span>
+<span id="cb44-5"><a href="egen-command.html#cb44-5" tabindex="-1"></a><span class="ot">list</span> ctry <span class="fu">year</span> gas avggas avggas_ctry, sepby(ctry)</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +----------------------------------------+
+     | ctry   year   gas   avggas   avggas_~y |
+     |----------------------------------------|
+  1. |    1   1974   .78    .7675        .805 |
+  2. |    1   1975   .83    .7675        .805 |
+     |----------------------------------------|
+  3. |    2   1971   .69    .7675   .78333333 |
+  4. |    2   1971   .77    .7675   .78333333 |
+  5. |    2   1973   .89    .7675   .78333333 |
+     |----------------------------------------|
+  6. |    3   1974   .42    .7675         .42 |
+     |----------------------------------------|
+  7. |    4   1974   .82    .7675         .88 |
+  8. |    4   1975   .94    .7675         .88 |
+     +----------------------------------------+</code></pre>
+<p>Let’s get the <em>max</em> and <em>min</em> for each country.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="egen-command.html#cb46-1" tabindex="-1"></a><span class="kw">bysort</span> ctry: <span class="kw">egen</span> mingas_ctry = <span class="fu">min</span>(gas)</span>
+<span id="cb46-2"><a href="egen-command.html#cb46-2" tabindex="-1"></a><span class="kw">bysort</span> ctry: <span class="kw">egen</span> maxgas_ctry = <span class="fu">max</span>(gas)</span></code></pre></div>
+<p>We can count our observations.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb47-1"><a href="egen-command.html#cb47-1" tabindex="-1"></a><span class="kw">bysort</span> ctry: <span class="kw">egen</span> count_ctry=<span class="fu">count</span>(gas)</span>
+<span id="cb47-2"><a href="egen-command.html#cb47-2" tabindex="-1"></a><span class="ot">list</span>, sepby(ctry)</span></code></pre></div>
+<pre><code>     | ctry   year   gas   infl   avggas   avggas_~y   mingas~y   maxgas~y   count_~y |
+     |--------------------------------------------------------------------------------|
+  1. |    1   1974   .78   1.32    .7675        .805        .78        .83          2 |
+  2. |    1   1975   .83    1.4    .7675        .805        .78        .83          2 |
+     |--------------------------------------------------------------------------------|
+  3. |    2   1971   .69   1.15    .7675   .78333333        .69        .89          3 |
+  4. |    2   1971   .77   1.15    .7675   .78333333        .69        .89          3 |
+  5. |    2   1973   .89   1.29    .7675   .78333333        .69        .89          3 |
+     |--------------------------------------------------------------------------------|
+  6. |    3   1974   .42   1.14    .7675         .42        .42        .42          1 |
+     |--------------------------------------------------------------------------------|
+  7. |    4   1974   .82   1.12    .7675         .88        .82        .94          2 |
+  8. |    4   1975   .94   1.18    .7675         .88        .82        .94          2 |
+     +--------------------------------------------------------------------------------+</code></pre>
+<p>We also have <em>egen count()</em>, <em>egen iqr()</em>, <em>egen median()</em>, and <em>egen pctile(#,p(#))</em>
+See more egen commands:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb49-1"><a href="egen-command.html#cb49-1" tabindex="-1"></a><span class="kw">help</span> <span class="kw">egen</span></span></code></pre></div>
+<pre><code>request ignored because of batch mode</code></pre>
+<div id="subscripting" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Subscripting<a href="egen-command.html#subscripting" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><em>(Head start to Mitchell 8.4)</em></p>
+<p><em>Bysort</em> can be combined with indexes/subscripting to find the first, last, or #
+observaration within a group</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb51-1"><a href="egen-command.html#cb51-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb51-2"><a href="egen-command.html#cb51-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;gasctrysmall.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<p>Find first year and last year</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb52-1"><a href="egen-command.html#cb52-1" tabindex="-1"></a><span class="kw">bysort</span> ctry: <span class="kw">gen</span> firstyr = <span class="fu">year</span>[1]</span>
+<span id="cb52-2"><a href="egen-command.html#cb52-2" tabindex="-1"></a><span class="kw">bysort</span> ctry: <span class="kw">gen</span> lastyr = <span class="fu">year</span>[_N]</span></code></pre></div>
+<pre><code>     | ctry   year   gas   infl   firstyr   lastyr |
+     |---------------------------------------------|
+  1. |    1   1974   .78   1.32      1974     1975 |
+  2. |    1   1975   .83    1.4      1974     1975 |
+     |---------------------------------------------|
+  3. |    2   1971   .69   1.15      1971     1973 |
+  4. |    2   1971   .77   1.15      1971     1973 |
+  5. |    2   1973   .89   1.29      1971     1973 |
+     |---------------------------------------------|
+  6. |    3   1974   .42   1.14      1974     1974 |
+     |---------------------------------------------|
+  7. |    4   1974   .82   1.12      1974     1975 |
+  8. |    4   1975   .94   1.18      1974     1975 |
+     +---------------------------------------------+</code></pre>
+<p>Take a difference between periods (same as l.var)</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb54-1"><a href="egen-command.html#cb54-1" tabindex="-1"></a><span class="kw">bysort</span> ctry: <span class="kw">gen</span> diffgas = gas-gas[<span class="dt">_n</span>-1]</span></code></pre></div>
+<pre><code>(4 missing values generated)
+
+     +-------------------------------------------------------+
+     | ctry   year   gas   infl   firstyr   lastyr   diffgas |
+     |-------------------------------------------------------|
+  1. |    1   1974   .78   1.32      1974     1975         . |
+  2. |    1   1975   .83    1.4      1974     1975       .05 |
+     |-------------------------------------------------------|
+  3. |    2   1971   .69   1.15      1971     1973         . |
+  4. |    2   1971   .77   1.15      1971     1973       .08 |
+  5. |    2   1973   .89   1.29      1971     1973       .12 |
+     |-------------------------------------------------------|
+  6. |    3   1974   .42   1.14      1974     1974         . |
+     |-------------------------------------------------------|
+  7. |    4   1974   .82   1.12      1974     1975         . |
+  8. |    4   1975   .94   1.18      1974     1975       .12 |
+     +-------------------------------------------------------+</code></pre>
+<p>Create Indexes for Rate of change to base year</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb56-1"><a href="egen-command.html#cb56-1" tabindex="-1"></a><span class="kw">bysort</span> ctry: <span class="kw">gen</span> gasindex = gas/gas[1]*100</span></code></pre></div>
+<pre><code>     | ctry   year   gas   infl   firstyr   lastyr   diffgas    gasindex |
+     |-------------------------------------------------------------------|
+  1. |    1   1974   .78   1.32      1974     1975         .         100 |
+  2. |    1   1975   .83    1.4      1974     1975       .05   106.41026 |
+     |-------------------------------------------------------------------|
+  3. |    2   1971   .69   1.15      1971     1973         .         100 |
+  4. |    2   1971   .77   1.15      1971     1973       .08    111.5942 |
+  5. |    2   1973   .89   1.29      1971     1973       .12   128.98551 |
+     |-------------------------------------------------------------------|
+  6. |    3   1974   .42   1.14      1974     1974         .         100 |
+     |-------------------------------------------------------------------|
+  7. |    4   1974   .82   1.12      1974     1975         .         100 |
+  8. |    4   1975   .94   1.18      1974     1975       .12   114.63415 |
+     +-------------------------------------------------------------------+</code></pre>
+</div>
+<div id="more-egen" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> More Egen<a href="egen-command.html#more-egen" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This section has more interesting egen commands that you can review if you would like. The workhorse egen commands are above.</p>
+</div>
+</div>
+<div id="converting-strings-to-numerics" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Converting Strings to numerics<a href="egen-command.html#converting-strings-to-numerics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>These next two section have a lot of practical implications that you find when working with survey and especially administrative data. First we will cover converting numerical characters in strings to numerical data to analyze.</p>
+<p>Let’s summarize our data, but it comes back blank.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb58-1"><a href="egen-command.html#cb58-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb58-2"><a href="egen-command.html#cb58-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;cardio1str.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb58-3"><a href="egen-command.html#cb58-3" tabindex="-1"></a><span class="kw">sum</span> wt bp1 bp2 bp3</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          wt |          0
+         bp1 |          0
+         bp2 |          0
+         bp3 |          0</code></pre>
+<p>All of our numerical data are in string formats.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb60-1"><a href="egen-command.html#cb60-1" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from cardio1str.dta
+  obs:             5                          
+ vars:            11                          22 Dec 2009 19:51
+ size:           205                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              str1    %3s                   Identification variable
+wt              str5    %5s                   Weight of person
+age             str2    %2s                   Age of person
+bp1             str3    %3s                   Systolic BP: Trial 1
+bp2             str3    %3s                   Systolic BP: Trial 2
+bp3             str3    %3s                   Systolic BP: Trial 3
+pl1             str3    %3s                   Pulse: Trial 1
+pl2             str2    %3s                   Pulse: Trial 2
+pl3             str3    %3s                   Pulse: Trial 3
+income          str10   %10s                  Income
+gender          str6    %6s                   Gender of person
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<div id="destring" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Destring<a href="egen-command.html#destring" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <em>destring</em> command is our main command to convert numerical characters to numerics. With <em>destring</em>, we have to choose an option of generating a new variable or replace the current variable</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb62-1"><a href="egen-command.html#cb62-1" tabindex="-1"></a><span class="kw">destring</span> age, <span class="kw">gen</span>(agen)</span>
+<span id="cb62-2"><a href="egen-command.html#cb62-2" tabindex="-1"></a><span class="kw">sum</span> age agen</span>
+<span id="cb62-3"><a href="egen-command.html#cb62-3" tabindex="-1"></a><span class="kw">drop</span> agen</span></code></pre></div>
+<pre><code>age: all characters numeric; agen generated as byte
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+         age |          0
+        agen |          5        37.4    10.83051         23         48</code></pre>
+<p>We can destring all of our numerics.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb64-1"><a href="egen-command.html#cb64-1" tabindex="-1"></a><span class="kw">destring</span> id-income, <span class="kw">replace</span></span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb65-1"><a href="egen-command.html#cb65-1" tabindex="-1"></a><span class="kw">quietly</span> {</span>
+<span id="cb65-2"><a href="egen-command.html#cb65-2" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb65-3"><a href="egen-command.html#cb65-3" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;cardio1str.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb65-4"><a href="egen-command.html#cb65-4" tabindex="-1"></a>}</span>
+<span id="cb65-5"><a href="egen-command.html#cb65-5" tabindex="-1"></a><span class="kw">destring</span> id-income, <span class="kw">replace</span></span></code></pre></div>
+<p>Notice that the replace failed for income and pl3. This is becuase pl3 has a letter, so all of the data are not all digits. Income has $ and , so it can not convert the data.</p>
+<p>We can use the force option with pl3 to convert the X to missing.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb66-1"><a href="egen-command.html#cb66-1" tabindex="-1"></a><span class="ot">list</span> pl3</span>
+<span id="cb66-2"><a href="egen-command.html#cb66-2" tabindex="-1"></a><span class="kw">destring</span> pl3, <span class="kw">replace</span> <span class="kw">force</span></span>
+<span id="cb66-3"><a href="egen-command.html#cb66-3" tabindex="-1"></a><span class="ot">list</span> pl3</span></code></pre></div>
+<pre><code>     | pl3 |
+     |-----|
+  1. |  93 |
+  2. | 125 |
+  3. |   X |
+  4. |  71 |
+  5. |  52 |
+     +-----+
+
+pl3: contains nonnumeric characters; replaced as int
+(1 missing value generated)
+
+     +-----+
+     | pl3 |
+     |-----|
+  1. |  93 |
+  2. | 125 |
+  3. |   . |
+  4. |  71 |
+  5. |  52 |
+     +-----+</code></pre>
+<p>We cannot use the force option with income, since it contains important information. We need to get rid of the two non-numerical characters of $ and ,</p>
+<p>We have two options: eliminate the “$” and “,” or use the ignore option in destring. The latter option is easier.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb68-1"><a href="egen-command.html#cb68-1" tabindex="-1"></a><span class="ot">list</span> income</span>
+<span id="cb68-2"><a href="egen-command.html#cb68-2" tabindex="-1"></a><span class="kw">destring</span> income, <span class="kw">replace</span> ignore(<span class="st">&quot;$,&quot;</span>)</span>
+<span id="cb68-3"><a href="egen-command.html#cb68-3" tabindex="-1"></a><span class="ot">list</span> income</span></code></pre></div>
+<pre><code>     |     income |
+     |------------|
+  1. | $25,308.92 |
+  2. | $46,213.31 |
+  3. | $65,234.11 |
+  4. | $89,234.23 |
+  5. | $54,989.87 |
+     +------------+
+
+income: characters $ , removed; replaced as double
+
+     +----------+
+     |   income |
+     |----------|
+  1. | 25308.92 |
+  2. | 46213.31 |
+  3. | 65234.11 |
+  4. | 89234.23 |
+  5. | 54989.87 |
+     +----------+</code></pre>
+</div>
+<div id="encode" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Encode<a href="egen-command.html#encode" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sometimes we have categorical variables or ID variables that come in as strings. We need to code them as categorical, but strings can be tricky with leading or lagging zeros or misspellings.</p>
+<p>One option is to use the <em>encode</em> command, which will generate a new variable that codifies the string variable. This can be very helpful when our id variable in panel data are in string format.</p>
+<p>Remember: trim any white space around the string just in case,
+1. <em>strtrim()</em> - remove leading and lagging white space
+2. <em>strrtrim()</em> - removes lagging white spaces
+3. <em>strltrim()</em> - removes leading white spaces
+4. <em>stritrim()</em> - removes leading, lagging, and consecutive white spaces</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb70-1"><a href="egen-command.html#cb70-1" tabindex="-1"></a><span class="ot">list</span> id gender</span>
+<span id="cb70-2"><a href="egen-command.html#cb70-2" tabindex="-1"></a><span class="kw">replace</span> gender = stritrim(gender)</span>
+<span id="cb70-3"><a href="egen-command.html#cb70-3" tabindex="-1"></a><span class="kw">encode</span> gender, <span class="kw">generate</span>(gendercode)</span>
+<span id="cb70-4"><a href="egen-command.html#cb70-4" tabindex="-1"></a><span class="ot">list</span> gender gendercode</span></code></pre></div>
+<pre><code>     | id   gender |
+     |-------------|
+  1. |  1     male |
+  2. |  2     male |
+  3. |  3     male |
+  4. |  4     male |
+  5. |  5   female |
+     +-------------+
+
+(0 real changes made)
+
+     +-------------------+
+     | gender   gender~e |
+     |-------------------|
+  1. |   male       male |
+  2. |   male       male |
+  3. |   male       male |
+  4. |   male       male |
+  5. | female     female |
+     +-------------------+</code></pre>
+<p>They look the same, but let’s use tabulation</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb72-1"><a href="egen-command.html#cb72-1" tabindex="-1"></a><span class="kw">tab</span> gender gendercode, <span class="kw">nolabel</span></span></code></pre></div>
+<pre><code> Gender of |   Gender of person
+    person |         1          2 |     Total
+-----------+----------------------+----------
+    female |         1          0 |         1 
+      male |         0          4 |         4 
+-----------+----------------------+----------
+     Total |         1          4 |         5 </code></pre>
+<p>The encode creates label values around the new variable</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb74-1"><a href="egen-command.html#cb74-1" tabindex="-1"></a><span class="kw">codebook</span> gendercode</span></code></pre></div>
+<pre><code>gendercode                                                                                        Gender of person
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (long)
+                 label:  gendercode
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/5
+
+            tabulation:  Freq.   Numeric  Label
+                             1         1  female
+                             4         2  male</code></pre>
+</div>
+<div id="converting-numerics-to-strings" class="section level3 hasAnchor" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> Converting numerics to strings<a href="egen-command.html#converting-numerics-to-strings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In my experience, it is more common to <em>destring</em>, but there are situtations where you need to convert a numeric to a string. The most common examples from me are zip codes and FIPS codes. We use the <em>tostring</em> command for this process.</p>
+<p>As a side note, whenever working with or merging with state-level <strong>data, always, always</strong> use FIPS codes and not state names or state abbreviations. The probability of a problematic merge is much higher matching on strings than it is on numerics.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb76-1"><a href="egen-command.html#cb76-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb76-2"><a href="egen-command.html#cb76-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;cardio3.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb76-3"><a href="egen-command.html#cb76-3" tabindex="-1"></a><span class="ot">list</span> zipcode</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +---------+
+     | zipcode |
+     |---------|
+  1. |    1003 |
+  2. |   90095 |
+  3. |   43409 |
+  4. |   23219 |
+  5. |   66214 |
+     +---------+</code></pre>
+<p>This zip code list is a problem and likely will not merge properly, since zipcodes that have a leading 0 will not match.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb78-1"><a href="egen-command.html#cb78-1" tabindex="-1"></a><span class="kw">tostring</span> zipcode, <span class="kw">generate</span>(zips)</span>
+<span id="cb78-2"><a href="egen-command.html#cb78-2" tabindex="-1"></a><span class="kw">replace</span> zips = <span class="st">&quot;0&quot;</span> + zips <span class="kw">if</span> <span class="fu">strlen</span>(zips) == 4</span>
+<span id="cb78-3"><a href="egen-command.html#cb78-3" tabindex="-1"></a><span class="kw">replace</span> zips = <span class="st">&quot;00&quot;</span> + zips <span class="kw">if</span> <span class="fu">strlen</span>(zips) == 3</span>
+<span id="cb78-4"><a href="egen-command.html#cb78-4" tabindex="-1"></a><span class="ot">list</span> zipcode zips</span></code></pre></div>
+<pre><code>zips generated as str5
+
+(1 real change made)
+
+(0 real changes made)
+
+     +-----------------+
+     | zipcode    zips |
+     |-----------------|
+  1. |    1003   01003 |
+  2. |   90095   90095 |
+  3. |   43409   43409 |
+  4. |   23219   23219 |
+  5. |   66214   66214 |
+     +-----------------+</code></pre>
+<p>I don’t recommend just formatting the data to 5 digits. The data should be formatted exactly for matching and merging between datasets on the key merging variable.</p>
+<p>I recommend using <em>tostring</em>, but there is decode which is the opposite of <em>encode</em>. If we want to use the variable labels instead of the numeric for some reason, the <em>decode</em> command can be used.</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb80-1"><a href="egen-command.html#cb80-1" tabindex="-1"></a><span class="kw">decode</span> famhist, <span class="kw">gen</span>(famhists)</span>
+<span id="cb80-2"><a href="egen-command.html#cb80-2" tabindex="-1"></a><span class="ot">list</span> famhist famhists, <span class="kw">nolabel</span></span>
+<span id="cb80-3"><a href="egen-command.html#cb80-3" tabindex="-1"></a><span class="kw">codebook</span> famhist famhists</span></code></pre></div>
+<pre><code>     | famhist   famhists |
+     |--------------------|
+  1. |       0      No HD |
+  2. |       1     Yes HD |
+  3. |       0      No HD |
+  4. |       1     Yes HD |
+  5. |       1     Yes HD |
+     +--------------------+
+
+
+------------------------------------------------------------------------------------------------------------------
+famhist                                                                            Family history of heart disease
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (long)
+                 label:  famhistl
+
+                 range:  [0,1]                        units:  1
+         unique values:  2                        missing .:  0/5
+
+            tabulation:  Freq.   Numeric  Label
+                             2         0  No HD
+                             3         1  Yes HD
+
+------------------------------------------------------------------------------------------------------------------
+famhists                                                                           Family history of heart disease
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  string (str6)
+
+         unique values:  2                        missing &quot;&quot;:  0/5
+
+            tabulation:  Freq.  Value
+                             2  &quot;No HD&quot;
+                             3  &quot;Yes HD&quot;
+
+               warning:  variable has embedded blanks</code></pre>
+</div>
+</div>
+<div id="renaming-and-reordering" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Renaming and reordering<a href="egen-command.html#renaming-and-reordering" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Reordering and renaming seems straightforward enough, but there are some useful tips that will help consolidate your scripts. For example, you don’t need to a new rename command for every single variable to be renamed. We can use group renaming.</p>
+<div id="rename" class="section level3 hasAnchor" number="3.4.1">
+<h3><span class="header-section-number">3.4.1</span> Rename<a href="egen-command.html#rename" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The rename command is straightfoward, and allows us to rename
+our variable(s) of interest.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb82-1"><a href="egen-command.html#cb82-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb82-2"><a href="egen-command.html#cb82-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;cardio2.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb82-3"><a href="egen-command.html#cb82-3" tabindex="-1"></a><span class="kw">describe</span></span>
+<span id="cb82-4"><a href="egen-command.html#cb82-4" tabindex="-1"></a><span class="kw">rename</span> age age_yrs</span>
+<span id="cb82-5"><a href="egen-command.html#cb82-5" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+
+
+Contains data from cardio2.dta
+  obs:             5                          
+ vars:            12                          22 Dec 2009 19:51
+ size:           100                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              byte    %3.0f                 Identification variable
+age             byte    %3.0f                 Age of person
+pl1             int     %3.0f                 Pulse: Trial 1
+bp1             int     %3.0f                 Systolic BP: Trial 1
+pl2             byte    %3.0f                 Pulse: Trial 2
+bp2             int     %3.0f                 Systolic BP: Trial 2
+pl3             int     %3.0f                 Pulse: Trial 3
+bp3             int     %3.0f                 Systolic BP: Trial 3
+pl4             int     %3.0f                 Pulse: Trial 4
+bp4             int     %3.0f                 Systolic BP: Trial 4
+pl5             byte    %3.0f                 Pulse: Trial 5
+bp5             int     %3.0f                 Systolic BP: Trial 5
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+
+
+
+Contains data from cardio2.dta
+  obs:             5                          
+ vars:            12                          22 Dec 2009 19:51
+ size:           100                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              byte    %3.0f                 Identification variable
+age_yrs         byte    %3.0f                 Age of person
+pl1             int     %3.0f                 Pulse: Trial 1
+bp1             int     %3.0f                 Systolic BP: Trial 1
+pl2             byte    %3.0f                 Pulse: Trial 2
+bp2             int     %3.0f                 Systolic BP: Trial 2
+pl3             int     %3.0f                 Pulse: Trial 3
+bp3             int     %3.0f                 Systolic BP: Trial 3
+pl4             int     %3.0f                 Pulse: Trial 4
+bp4             int     %3.0f                 Systolic BP: Trial 4
+pl5             byte    %3.0f                 Pulse: Trial 5
+bp5             int     %3.0f                 Systolic BP: Trial 5
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.</code></pre>
+<p>We also can do bulk renames if the group of variables have common
+characters in the variable name. We can rename our pl group to pulse</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb84-1"><a href="egen-command.html#cb84-1" tabindex="-1"></a><span class="kw">rename</span> pl? pulse? </span>
+<span id="cb84-2"><a href="egen-command.html#cb84-2" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from cardio2.dta
+  obs:             5                          
+ vars:            12                          22 Dec 2009 19:51
+ size:           100                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              byte    %3.0f                 Identification variable
+age_yrs         byte    %3.0f                 Age of person
+pulse1          int     %3.0f                 Pulse: Trial 1
+bp1             int     %3.0f                 Systolic BP: Trial 1
+pulse2          byte    %3.0f                 Pulse: Trial 2
+bp2             int     %3.0f                 Systolic BP: Trial 2
+pulse3          int     %3.0f                 Pulse: Trial 3
+bp3             int     %3.0f                 Systolic BP: Trial 3
+pulse4          int     %3.0f                 Pulse: Trial 4
+bp4             int     %3.0f                 Systolic BP: Trial 4
+pulse5          byte    %3.0f                 Pulse: Trial 5
+bp5             int     %3.0f                 Systolic BP: Trial 5
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.</code></pre>
+<p>Where ? is an operator for just one character to be different.</p>
+<p>An alternate way is to rename by grouping and it prevents any unintended renaming with the ? or * operators.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb86-1"><a href="egen-command.html#cb86-1" tabindex="-1"></a><span class="kw">rename</span> (bp1 bp2 bp3 bp4 bp5) (bpress1 bpress2 bpress3 bpress4 bpress5)</span>
+<span id="cb86-2"><a href="egen-command.html#cb86-2" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from cardio2.dta
+  obs:             5                          
+ vars:            12                          22 Dec 2009 19:51
+ size:           100                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              byte    %3.0f                 Identification variable
+age_yrs         byte    %3.0f                 Age of person
+pulse1          int     %3.0f                 Pulse: Trial 1
+bpress1         int     %3.0f                 Systolic BP: Trial 1
+pulse2          byte    %3.0f                 Pulse: Trial 2
+bpress2         int     %3.0f                 Systolic BP: Trial 2
+pulse3          int     %3.0f                 Pulse: Trial 3
+bpress3         int     %3.0f                 Systolic BP: Trial 3
+pulse4          int     %3.0f                 Pulse: Trial 4
+bpress4         int     %3.0f                 Systolic BP: Trial 4
+pulse5          byte    %3.0f                 Pulse: Trial 5
+bpress5         int     %3.0f                 Systolic BP: Trial 5
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.</code></pre>
+</div>
+<div id="order" class="section level3 hasAnchor" number="3.4.2">
+<h3><span class="header-section-number">3.4.2</span> Order<a href="egen-command.html#order" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can move our variables around with the <em>order</em> command. This command can be especially helpful with panel data, since we want the unit id and the time period to be next to one another.</p>
+<p>Our variables are out of order and pl and bp alternate, but we may want to keep our pl variables and bp variables next to one another.</p>
+<p>Reorder blood pressure and pulse</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb88-1"><a href="egen-command.html#cb88-1" tabindex="-1"></a><span class="kw">order</span> id age_yrs bp* pul*</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb89-1"><a href="egen-command.html#cb89-1" tabindex="-1"></a><span class="kw">quietly</span> {</span>
+<span id="cb89-2"><a href="egen-command.html#cb89-2" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell/&quot;</span></span>
+<span id="cb89-3"><a href="egen-command.html#cb89-3" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;cardio2.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb89-4"><a href="egen-command.html#cb89-4" tabindex="-1"></a><span class="kw">rename</span> age age_yrs</span>
+<span id="cb89-5"><a href="egen-command.html#cb89-5" tabindex="-1"></a><span class="kw">rename</span> pl? pulse? </span>
+<span id="cb89-6"><a href="egen-command.html#cb89-6" tabindex="-1"></a><span class="kw">rename</span> (bp1 bp2 bp3 bp4 bp5) (bpress1 bpress2 bpress3 bpress4 bpress5)</span>
+<span id="cb89-7"><a href="egen-command.html#cb89-7" tabindex="-1"></a>}</span>
+<span id="cb89-8"><a href="egen-command.html#cb89-8" tabindex="-1"></a><span class="kw">order</span> id age_yrs bp* pul*</span></code></pre></div>
+<p>Or,</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb90-1"><a href="egen-command.html#cb90-1" tabindex="-1"></a><span class="kw">order</span> pul* bp*, after(age_yrs) </span></code></pre></div>
+<p>Or,</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb91-1"><a href="egen-command.html#cb91-1" tabindex="-1"></a><span class="kw">order</span> bp*, before(pulse1)</span></code></pre></div>
+<p>If you generate a new variable, it will default to the end, but we may want it somewhere else. Let’s say we want age-squared, but we want age-squared to be next to age. We can use the <em>after</em> (or before) option in the <em>generate</em> command.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb92-1"><a href="egen-command.html#cb92-1" tabindex="-1"></a><span class="kw">gen</span> age2=age_yrs*age_yrs, after(age_yrs)</span></code></pre></div>
+<p>If you wanted to reorder the whole dataset alphabetically, then</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb93-1"><a href="egen-command.html#cb93-1" tabindex="-1"></a><span class="kw">order</span> <span class="dt">_all</span>, alphabetic</span>
+<span id="cb93-2"><a href="egen-command.html#cb93-2" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from cardio2.dta
+  obs:             5                          
+ vars:            13                          22 Dec 2009 19:51
+ size:           140                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+age2            double  %10.0g                
+age_yrs         byte    %3.0f                 Age of person
+bpress1         int     %3.0f                 Systolic BP: Trial 1
+bpress2         int     %3.0f                 Systolic BP: Trial 2
+bpress3         int     %3.0f                 Systolic BP: Trial 3
+bpress4         int     %3.0f                 Systolic BP: Trial 4
+bpress5         int     %3.0f                 Systolic BP: Trial 5
+id              byte    %3.0f                 Identification variable
+pulse1          int     %3.0f                 Pulse: Trial 1
+pulse2          byte    %3.0f                 Pulse: Trial 2
+pulse3          int     %3.0f                 Pulse: Trial 3
+pulse4          int     %3.0f                 Pulse: Trial 4
+pulse5          byte    %3.0f                 Pulse: Trial 5
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.</code></pre>
+<p>There is a sequential option as well if your var1, …, vark are out of order</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb95-1"><a href="egen-command.html#cb95-1" tabindex="-1"></a><span class="kw">order</span> bpress5 bpress1-bpress4, after(age2)</span>
+<span id="cb95-2"><a href="egen-command.html#cb95-2" tabindex="-1"></a><span class="kw">describe</span></span>
+<span id="cb95-3"><a href="egen-command.html#cb95-3" tabindex="-1"></a><span class="kw">order</span> bp*, sequential</span>
+<span id="cb95-4"><a href="egen-command.html#cb95-4" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from cardio2.dta
+  obs:             5                          
+ vars:            13                          22 Dec 2009 19:51
+ size:           140                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+id              byte    %3.0f                 Identification variable
+age_yrs         byte    %3.0f                 Age of person
+pulse1          int     %3.0f                 Pulse: Trial 1
+pulse2          byte    %3.0f                 Pulse: Trial 2
+pulse3          int     %3.0f                 Pulse: Trial 3
+pulse4          int     %3.0f                 Pulse: Trial 4
+pulse5          byte    %3.0f                 Pulse: Trial 5
+age2            double  %10.0g                
+bpress5         int     %3.0f                 Systolic BP: Trial 5
+bpress1         int     %3.0f                 Systolic BP: Trial 1
+bpress2         int     %3.0f                 Systolic BP: Trial 2
+bpress3         int     %3.0f                 Systolic BP: Trial 3
+bpress4         int     %3.0f                 Systolic BP: Trial 4
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.
+
+
+
+Contains data from cardio2.dta
+  obs:             5                          
+ vars:            13                          22 Dec 2009 19:51
+ size:           140                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+bpress1         int     %3.0f                 Systolic BP: Trial 1
+bpress2         int     %3.0f                 Systolic BP: Trial 2
+bpress3         int     %3.0f                 Systolic BP: Trial 3
+bpress4         int     %3.0f                 Systolic BP: Trial 4
+bpress5         int     %3.0f                 Systolic BP: Trial 5
+id              byte    %3.0f                 Identification variable
+age_yrs         byte    %3.0f                 Age of person
+pulse1          int     %3.0f                 Pulse: Trial 1
+pulse2          byte    %3.0f                 Pulse: Trial 2
+pulse3          int     %3.0f                 Pulse: Trial 3
+pulse4          int     %3.0f                 Pulse: Trial 4
+pulse5          byte    %3.0f                 Pulse: Trial 5
+age2            double  %10.0g                
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="difference-in-differences-and-two-way-fixed-effects.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-egen.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

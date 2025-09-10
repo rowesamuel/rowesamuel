@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Difference-in-Differences and Two-Way Fixed Effects | Week 6: Difference-in-Differences and EGEN Commands</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Difference-in-Differences and Two-Way Fixed Effects | Week 6: Difference-in-Differences and EGEN Commands" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Difference-in-Differences and Two-Way Fixed Effects | Week 6: Difference-in-Differences and EGEN Commands" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-09-02" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="egen-command.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Difference-in-Differences, TWFE, and EGEN</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html"><i class="fa fa-check"></i><b>2</b> Difference-in-Differences and Two-Way Fixed Effects</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#diff-in-diff"><i class="fa fa-check"></i><b>2.1</b> Diff-in-Diff</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-a-garbage-incinerators-location-on-housing-prices"><i class="fa fa-check"></i><b>2.1.1</b> Effect of a garbage incinerator’s location on housing prices</a></li>
+<li class="chapter" data-level="2.1.2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-worker-compensation-laws-on-weeks-out-of-work"><i class="fa fa-check"></i><b>2.1.2</b> Effect of Worker Compensation Laws on Weeks out of Work</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#two-way-fixed-effects"><i class="fa fa-check"></i><b>2.2</b> Two-Way Fixed Effects</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-grants-on-scrap-rates"><i class="fa fa-check"></i><b>2.2.1</b> Effect of Grants on scrap rates</a></li>
+<li class="chapter" data-level="2.2.2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-drunk-driving-laws-on-traffic-fatalities"><i class="fa fa-check"></i><b>2.2.2</b> Effect of Drunk Driving Laws on Traffic Fatalities</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#exercises"><i class="fa fa-check"></i><b>2.3</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-1"><i class="fa fa-check"></i><b>2.3.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="2.3.2" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-2"><i class="fa fa-check"></i><b>2.3.2</b> Exercise 2</a></li>
+<li class="chapter" data-level="2.3.3" data-path="difference-in-differences-and-two-way-fixed-effects.html"><a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-3"><i class="fa fa-check"></i><b>2.3.3</b> Exercise 3</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="egen-command.html"><a href="egen-command.html"><i class="fa fa-check"></i><b>3</b> EGEN Command</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="egen-command.html"><a href="egen-command.html#egen-computations-across-variables"><i class="fa fa-check"></i><b>3.1</b> EGEN Computations across variables</a></li>
+<li class="chapter" data-level="3.2" data-path="egen-command.html"><a href="egen-command.html#egen-computation-across-observations"><i class="fa fa-check"></i><b>3.2</b> EGEN Computation across observations</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="egen-command.html"><a href="egen-command.html#subscripting"><i class="fa fa-check"></i><b>3.2.1</b> Subscripting</a></li>
+<li class="chapter" data-level="3.2.2" data-path="egen-command.html"><a href="egen-command.html#more-egen"><i class="fa fa-check"></i><b>3.2.2</b> More Egen</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="egen-command.html"><a href="egen-command.html#converting-strings-to-numerics"><i class="fa fa-check"></i><b>3.3</b> Converting Strings to numerics</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="egen-command.html"><a href="egen-command.html#destring"><i class="fa fa-check"></i><b>3.3.1</b> Destring</a></li>
+<li class="chapter" data-level="3.3.2" data-path="egen-command.html"><a href="egen-command.html#encode"><i class="fa fa-check"></i><b>3.3.2</b> Encode</a></li>
+<li class="chapter" data-level="3.3.3" data-path="egen-command.html"><a href="egen-command.html#converting-numerics-to-strings"><i class="fa fa-check"></i><b>3.3.3</b> Converting numerics to strings</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="egen-command.html"><a href="egen-command.html#renaming-and-reordering"><i class="fa fa-check"></i><b>3.4</b> Renaming and reordering</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="egen-command.html"><a href="egen-command.html#rename"><i class="fa fa-check"></i><b>3.4.1</b> Rename</a></li>
+<li class="chapter" data-level="3.4.2" data-path="egen-command.html"><a href="egen-command.html#order"><i class="fa fa-check"></i><b>3.4.2</b> Order</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 6: Difference-in-Differences and EGEN Commands</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="difference-in-differences-and-two-way-fixed-effects" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Difference-in-Differences and Two-Way Fixed Effects<a href="difference-in-differences-and-two-way-fixed-effects.html#difference-in-differences-and-two-way-fixed-effects" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will cover two of the most popular policy evaluation tools: difference-in-differences and the related two-way fixed effects (TWFE).</p>
+<div id="diff-in-diff" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Diff-in-Diff<a href="difference-in-differences-and-two-way-fixed-effects.html#diff-in-diff" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will cover the implementation of the difference-in-difference research design. We only need the <em>reg</em> command to implement the design, but we will utilize the interaction operator. You only need pooled data for a difference-in-difference research design.</p>
+<div id="effect-of-a-garbage-incinerators-location-on-housing-prices" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Effect of a garbage incinerator’s location on housing prices<a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-a-garbage-incinerators-location-on-housing-prices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Lesson:</strong> The 2-by-2 Difference-in-Difference estimator is simple to implement
+when we have our data set up correctly. We can use a sensitivity test to see
+if our results are robust.</p>
+<p><span class="math display">\[ rprice_{it}=\beta_0 + \beta_1 nearinc_{it} + \beta_2 y81_t + \delta (nearinc*y81)_{i,t} + u_{it} \]</span></p>
+<p>Kiel and McClain (1995) studied the effects of garbage incinerator’s location
+on housing prices in North Andover, MA. There were rumors of a new incinerator
+in 1978 and construction began in 1981, but did not begin operating until
+1985. A house that is within 3 miles of the incinerator is considered close
+All housing prices are in 1978 dollars (rprice) or log of nominal price
+(lprice)</p>
+<p>Naive and biased OLS model only using data from 1981</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb2-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;kielmc.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb2-3"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb2-3" tabindex="-1"></a><span class="kw">reg</span> rprice nearinc <span class="kw">if</span> y81==1</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+      Source |       SS           df       MS      Number of obs   =       142
+-------------+----------------------------------   F(1, 140)       =     27.73
+       Model |  2.7059e+10         1  2.7059e+10   Prob &gt; F        =    0.0000
+    Residual |  1.3661e+11       140   975815048   R-squared       =    0.1653
+-------------+----------------------------------   Adj R-squared   =    0.1594
+       Total |  1.6367e+11       141  1.1608e+09   Root MSE        =     31238
+
+------------------------------------------------------------------------------
+      rprice |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     nearinc |  -30688.27   5827.709    -5.27   0.000    -42209.97   -19166.58
+       _cons |   101307.5   3093.027    32.75   0.000     95192.43    107422.6
+------------------------------------------------------------------------------</code></pre>
+<p>Naive and biased OLS model only using data from 1978</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb4-1" tabindex="-1"></a><span class="kw">reg</span> rprice nearinc <span class="kw">if</span> y81==0</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       179
+-------------+----------------------------------   F(1, 177)       =     15.74
+       Model |  1.3636e+10         1  1.3636e+10   Prob &gt; F        =    0.0001
+    Residual |  1.5332e+11       177   866239953   R-squared       =    0.0817
+-------------+----------------------------------   Adj R-squared   =    0.0765
+       Total |  1.6696e+11       178   937979126   Root MSE        =     29432
+
+------------------------------------------------------------------------------
+      rprice |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     nearinc |  -18824.37   4744.594    -3.97   0.000    -28187.62   -9461.117
+       _cons |   82517.23    2653.79    31.09   0.000     77280.09    87754.37
+------------------------------------------------------------------------------</code></pre>
+<p>Results in a decrease in housing prices of almost 24.5K</p>
+<p>Diff-in-Diff is easy enough to implement if our data are prepared properly</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb6-1" tabindex="-1"></a><span class="kw">reg</span> rprice i.nearinc##i.y81</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       321
+-------------+----------------------------------   F(3, 317)       =     22.25
+       Model |  6.1055e+10         3  2.0352e+10   Prob &gt; F        =    0.0000
+    Residual |  2.8994e+11       317   914632739   R-squared       =    0.1739
+-------------+----------------------------------   Adj R-squared   =    0.1661
+       Total |  3.5099e+11       320  1.0969e+09   Root MSE        =     30243
+
+------------------------------------------------------------------------------
+      rprice |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+   1.nearinc |  -18824.37   4875.322    -3.86   0.000    -28416.45   -9232.293
+       1.y81 |   18790.29   4050.065     4.64   0.000     10821.88    26758.69
+             |
+ nearinc#y81 |
+        1 1  |   -11863.9   7456.646    -1.59   0.113    -26534.67    2806.867
+             |
+       _cons |   82517.23    2726.91    30.26   0.000      77152.1    87882.36
+------------------------------------------------------------------------------</code></pre>
+<p>Our Diff-in-Diff yields a decrease in housing prices of 11.9K</p>
+<p>Let add a sensitivity analysis by adding more variables</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb8-1" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">reg</span> rprice i.nearinc##i.y81</span>
+<span id="cb8-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb8-2" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">reg</span> rprice i.nearinc##i.y81 age agesq</span>
+<span id="cb8-3"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb8-3" tabindex="-1"></a>eststo m3: <span class="kw">quietly</span> <span class="kw">reg</span> rprice i.nearinc##i.y81 age agesq intst land area rooms baths</span></code></pre></div>
+<p>Our model ranges from a reduction of -11.9K to -21.9K</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb9-1" tabindex="-1"></a>esttab m1 m2 m3, <span class="kw">keep</span>(1.y81 1.nearinc 1.nearinc#1.y81 age agesq intst land area rooms baths)</span></code></pre></div>
+<pre><code>                      (1)             (2)             (3)   
+                   rprice          rprice          rprice   
+------------------------------------------------------------
+1.nearinc        -18824.4***       9397.9          3780.3   
+                  (-3.86)          (1.95)          (0.85)   
+
+1.y81             18790.3***      21321.0***      13928.5***
+                   (4.64)          (6.19)          (4.98)   
+
+1.nearinc~81     -11863.9        -21920.3***     -14177.9** 
+                  (-1.59)         (-3.45)         (-2.84)   
+
+age                               -1494.4***       -739.5***
+                                 (-11.33)         (-5.64)   
+
+agesq                               8.691***        3.453***
+                                  (10.25)          (4.25)   
+
+intst                                              -0.539** 
+                                                  (-2.74)   
+
+land                                                0.141***
+                                                   (4.55)   
+
+area                                                18.09***
+                                                   (7.84)   
+
+rooms                                              3304.2*  
+                                                   (1.99)   
+
+baths                                              6977.3** 
+                                                   (2.70)   
+------------------------------------------------------------
+N                     321             321             321   
+------------------------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>Let’s use elasticities by usig a log-linear model. We’ll use the <em>estimates store</em> command for plotting the coefficients.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb11-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb11-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb11-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">reg</span> lprice i.nearinc##i.y81</span>
+<span id="cb11-3"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb11-3" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> mod1</span>
+<span id="cb11-4"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb11-4" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">reg</span> lprice i.nearinc##i.y81 age agesq</span>
+<span id="cb11-5"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb11-5" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> mod2</span>
+<span id="cb11-6"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb11-6" tabindex="-1"></a>eststo m3: <span class="kw">quietly</span> <span class="kw">reg</span> lprice i.nearinc##i.y81 age agesq intst land area rooms baths</span>
+<span id="cb11-7"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb11-7" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> mod3</span></code></pre></div>
+<p>Our model ranges from a reduction housing prices between 6.1% and 16.9%</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb12-1" tabindex="-1"></a>    esttab m1 m2 m3, <span class="kw">keep</span>(1.y81 1.nearinc 1.nearinc#1.y81 age agesq intst land area rooms baths)</span></code></pre></div>
+<pre><code>                      (1)             (2)             (3)   
+                   lprice          lprice          lprice   
+------------------------------------------------------------
+1.nearinc          -0.340***      0.00711         -0.0346   
+                  (-6.23)          (0.14)         (-0.75)   
+
+1.y81               0.457***        0.484***        0.403***
+                  (10.08)         (13.10)         (13.79)   
+
+1.nearinc~81      -0.0626          -0.185**       -0.0925   
+                  (-0.75)         (-2.71)         (-1.78)   
+
+age                               -0.0181***     -0.00851***
+                                 (-12.79)         (-6.22)   
+
+agesq                            0.000101***    0.0000365***
+                                  (11.14)          (4.31)   
+
+intst                                         -0.00000355   
+                                                  (-1.73)   
+
+land                                          0.000000922** 
+                                                   (2.84)   
+
+area                                             0.000184***
+                                                   (7.64)   
+
+rooms                                              0.0528** 
+                                                   (3.04)   
+
+baths                                               0.103***
+                                                   (3.83)   
+------------------------------------------------------------
+N                     321             321             321   
+------------------------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>Plot our results</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb14-1" tabindex="-1"></a>coefplot (mod1, <span class="kw">label</span>(Model 1)) (mod2, <span class="kw">label</span>(Model2)) (mod3, <span class="kw">label</span>(Model 3)), <span class="kw">keep</span>(1.nearinc#1.y81) <span class="bn">xline</span>(0) <span class="bn">title</span>(<span class="st">&quot;Diff-in-Diff Results&quot;</span>)</span>
+<span id="cb14-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb14-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week5_housing.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week5_housing.png" alt="Coefficients" />
+<div class="figcaption">Coefficients</div>
+</div>
+<p>More on coefplot:
+<a href="https://repec.sowi.unibe.ch/stata/coefplot/getting-started.html" class="uri">https://repec.sowi.unibe.ch/stata/coefplot/getting-started.html</a></p>
+<p>We see that the results are sensitive to the specification. The coefficients range from -6.1% to -16.9%, but their statistical significance varies as well. It would have been helpful to have a larger sample size.</p>
+</div>
+<div id="effect-of-worker-compensation-laws-on-weeks-out-of-work" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Effect of Worker Compensation Laws on Weeks out of Work<a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-worker-compensation-laws-on-weeks-out-of-work" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Lesson:</strong> We need a comparison group for the parallel trends assumption.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb15-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb15-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb15-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;injury.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<p>Meyer, Viscusi, and Durbin (1995) studied the length of time that an injured worker receives workers’ compensation (in weeks). On July 15, 1980 Kentucky raised the cap on weekly earnings that were covered by workers’ compensation. An increase in the cap should affect high-wage workers and not affect low-wage workers, so low-wage workers are our control group and high-wage workers
+are our treatment group.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb16-1" tabindex="-1"></a><span class="kw">tab</span> highearn afchnge</span></code></pre></div>
+<pre><code>           |        afchnge
+  highearn |         0          1 |     Total
+-----------+----------------------+----------
+         0 |     2,294      2,004 |     4,298 
+         1 |     1,472      1,380 |     2,852 
+-----------+----------------------+----------
+     Total |     3,766      3,384 |     7,150 </code></pre>
+<p>Our diff-in-diff - limited to only KY
+The policy increased duration of workers’ compensation by 21% to 26%.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb18-1" tabindex="-1"></a><span class="kw">reg</span> ldurat i.afchnge##i.highearn <span class="kw">if</span> ky==1</span>
+<span id="cb18-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb18-2" tabindex="-1"></a><span class="kw">reg</span> ldurat i.afchnge##i.highearn i.male i.married i.indust i.injtype <span class="kw">if</span> ky==1</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     5,626
+-------------+----------------------------------   F(3, 5622)      =     39.54
+       Model |  191.071442         3  63.6904807   Prob &gt; F        =    0.0000
+    Residual |   9055.9345     5,622  1.61080301   R-squared       =    0.0207
+-------------+----------------------------------   Adj R-squared   =    0.0201
+       Total |  9247.00594     5,625  1.64391217   Root MSE        =    1.2692
+
+----------------------------------------------------------------------------------
+          ldurat |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-----------------+----------------------------------------------------------------
+       1.afchnge |   .0076573   .0447173     0.17   0.864    -.0800058    .0953204
+      1.highearn |   .2564785   .0474464     5.41   0.000     .1634652    .3494918
+                 |
+afchnge#highearn |
+            1 1  |   .1906012   .0685089     2.78   0.005     .0562973    .3249051
+                 |
+           _cons |   1.125615   .0307368    36.62   0.000     1.065359    1.185871
+----------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =     5,349
+-------------+----------------------------------   F(14, 5334)     =     16.37
+       Model |  358.441793        14  25.6029852   Prob &gt; F        =    0.0000
+    Residual |  8341.41206     5,334  1.56381928   R-squared       =    0.0412
+-------------+----------------------------------   Adj R-squared   =    0.0387
+       Total |  8699.85385     5,348  1.62674904   Root MSE        =    1.2505
+
+----------------------------------------------------------------------------------
+          ldurat |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-----------------+----------------------------------------------------------------
+       1.afchnge |   .0106274   .0449167     0.24   0.813    -.0774276    .0986824
+      1.highearn |   .1757598   .0517462     3.40   0.001     .0743161    .2772035
+                 |
+afchnge#highearn |
+            1 1  |   .2308768   .0695248     3.32   0.001     .0945798    .3671738
+                 |
+          1.male |  -.0979407   .0445498    -2.20   0.028    -.1852766   -.0106049
+       1.married |   .1220995   .0391228     3.12   0.002     .0454027    .1987962
+                 |
+          indust |
+              2  |   .2708676    .058666     4.62   0.000     .1558581     .385877
+              3  |   .1606709   .0409038     3.93   0.000     .0804827    .2408591
+                 |
+         injtype |
+              2  |   .7838129    .156167     5.02   0.000     .4776617    1.089964
+              3  |   .3353613   .0923382     3.63   0.000     .1543407     .516382
+              4  |   .6403517   .1008698     6.35   0.000     .4426058    .8380977
+              5  |   .5053036   .0928059     5.44   0.000     .3233661    .6872411
+              6  |   .3936092   .0935647     4.21   0.000     .2101841    .5770344
+              7  |   .7866121    .207028     3.80   0.000     .3807527    1.192472
+              8  |   .5139003   .1292776     3.98   0.000     .2604634    .7673372
+                 |
+           _cons |   .5713505     .10266     5.57   0.000     .3700949    .7726061
+----------------------------------------------------------------------------------</code></pre>
+<div id="not-in-wooldridge" class="section level4 unnumbered hasAnchor">
+<h4>Not in Wooldridge:<a href="difference-in-differences-and-two-way-fixed-effects.html#not-in-wooldridge" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Is this an appropriate comparison group? I would say no, but high earners vs low earners would be appropriate if we wanted to test a triple difference.</p>
+<p>Placebo test: A triple DDD a way to test our DD. We would expect high earners in KY to have an increase in duration but not other states. We want to check to make sure low earners are not affected by the policy change.</p>
+<p>Our DD estimate i.afchgne#i.highearn is about the same but not statistically significant. Furthermore, our high earners in KY after the policy are not affected, so our original DD design might not be rigourous enough.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb20-1" tabindex="-1"></a><span class="kw">reg</span> ldurat i.afchnge##i.highearn##i.ky </span>
+<span id="cb20-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb20-2" tabindex="-1"></a><span class="kw">reg</span> ldurat i.afchnge##i.highearn##i.ky i.male i.married i.indust i.injtype</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     7,150
+-------------+----------------------------------   F(7, 7142)      =     26.09
+       Model |  305.206353         7  43.6009075   Prob &gt; F        =    0.0000
+    Residual |  11935.9043     7,142  1.67122715   R-squared       =    0.0249
+-------------+----------------------------------   Adj R-squared   =    0.0240
+       Total |  12241.1107     7,149  1.71228293   Root MSE        =    1.2928
+
+-------------------------------------------------------------------------------------
+             ldurat |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+          1.afchnge |   .0973808   .0796305     1.22   0.221    -.0587186    .2534802
+         1.highearn |   .1691388   .0991463     1.71   0.088    -.0252172    .3634948
+                    |
+   afchnge#highearn |
+               1 1  |   .1919906   .1447922     1.33   0.185    -.0918449    .4758262
+                    |
+               1.ky |  -.2871215   .0617866    -4.65   0.000    -.4082416   -.1660014
+                    |
+         afchnge#ky |
+               1 1  |  -.0897235   .0917369    -0.98   0.328     -.269555     .090108
+                    |
+        highearn#ky |
+               1 1  |   .0873397   .1102977     0.79   0.428    -.1288765     .303556
+                    |
+afchnge#highearn#ky |
+             1 1 1  |  -.0013894   .1607305    -0.01   0.993    -.3164689      .31369
+                    |
+              _cons |   1.412737   .0532672    26.52   0.000     1.308317    1.517156
+-------------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =     6,824
+-------------+----------------------------------   F(18, 6805)     =     18.54
+       Model |  541.162741        18  30.0645967   Prob &gt; F        =    0.0000
+    Residual |  11032.8204     6,805  1.62128147   R-squared       =    0.0468
+-------------+----------------------------------   Adj R-squared   =    0.0442
+       Total |  11573.9832     6,823   1.6963188   Root MSE        =    1.2733
+
+-------------------------------------------------------------------------------------
+             ldurat |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+          1.afchnge |   .0827475    .079902     1.04   0.300    -.0738854    .2393804
+         1.highearn |   .1221972   .1003454     1.22   0.223    -.0745112    .3189055
+                    |
+   afchnge#highearn |
+               1 1  |   .1284847   .1448497     0.89   0.375     -.155466    .4124354
+                    |
+               1.ky |  -.3143542   .0625179    -5.03   0.000    -.4369089   -.1917995
+                    |
+         afchnge#ky |
+               1 1  |  -.0722899   .0921073    -0.78   0.433     -.252849    .1082691
+                    |
+        highearn#ky |
+               1 1  |   .0689824    .110881     0.62   0.534    -.1483789    .2863438
+                    |
+afchnge#highearn#ky |
+             1 1 1  |   .1068157   .1612465     0.66   0.508    -.2092779    .4229093
+                    |
+             1.male |  -.1501867   .0406318    -3.70   0.000    -.2298379   -.0705356
+          1.married |   .1123736   .0349374     3.22   0.001     .0438852    .1808619
+                    |
+             indust |
+                 2  |   .3311585   .0510768     6.48   0.000     .2310319    .4312851
+                 3  |   .1485384   .0362317     4.10   0.000     .0775128    .2195639
+                    |
+            injtype |
+                 2  |    .743044    .143936     5.16   0.000     .4608844    1.025204
+                 3  |   .3823176   .0852825     4.48   0.000     .2151373     .549498
+                 4  |   .6882625   .0923365     7.45   0.000      .507254     .869271
+                 5  |    .470878   .0858058     5.49   0.000     .3026718    .6390842
+                 6  |   .4012535   .0864441     4.64   0.000     .2317961    .5707109
+                 7  |    .923648    .174211     5.30   0.000       .58214    1.265156
+                 8  |   .5755271   .1166551     4.93   0.000     .3468466    .8042077
+                    |
+              _cons |   .9102316   .1051194     8.66   0.000     .7041647    1.116299
+-------------------------------------------------------------------------------------</code></pre>
+<p><strong>Questions:</strong> Are worker compensation trends similar between low earners and high earners? Why or why not? Would Michigan make a good comparison group? Can we test this?</p>
+</div>
+</div>
+</div>
+<div id="two-way-fixed-effects" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Two-Way Fixed Effects<a href="difference-in-differences-and-two-way-fixed-effects.html#two-way-fixed-effects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When we utilize a two-way fixed effects research design, we will need a panel and use <em>xtset</em> command to set the panel. We can use the <em>d.</em> operator for a first-difference regression or <em>xtreg</em> command for a fixed effects regression</p>
+<div id="effect-of-grants-on-scrap-rates" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Effect of Grants on scrap rates<a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-grants-on-scrap-rates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Lesson:</strong> We can look at individual firm fixed effects and time fixed effects or a two-way fixed effects method. This is very similar to our Diff-in-Diff method in certain ways, but we have staggered adoption of the program.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb22-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb22-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb22-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;jtrain.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<p>Michigan implemented a job training grant program to reduce scrap rates. What is the effect of job training on reducing the scrap rate for $ firm_i $ during time period $ t $ in terms of number of items scraped per 100 due to
+defects?</p>
+<p><span class="math display">\[ scrap_{it} = \beta_0 + \delta program_{it} + a_{i} + a_{t} + u_{it} \]</span></p>
+<p>Set the Panel</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb23-1" tabindex="-1"></a><span class="kw">sort</span> fcode <span class="fu">year</span></span>
+<span id="cb23-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb23-2" tabindex="-1"></a>xtset fcode <span class="fu">year</span></span></code></pre></div>
+<pre><code>       panel variable:  fcode (strongly balanced)
+        time variable:  year, 1987 to 1989
+                delta:  1 unit</code></pre>
+<p>We have 3 years of data for each firm. Some firms get the grant in 1988 and some get the grant in 1989. This staggered adoption can lead to problems down the road when we compare treated to already treated.</p>
+<p>Use FD or FE to take care of unobserved firm effects</p>
+<p>First-Difference Estimator</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb25-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.scrap <span class="kw">d</span>.grant <span class="kw">if</span> <span class="fu">year</span> &lt; 1989</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        54
+-------------+----------------------------------   F(1, 52)        =      1.17
+       Model |  6.73345593         1  6.73345593   Prob &gt; F        =    0.2837
+    Residual |  298.400031        52  5.73846214   R-squared       =    0.0221
+-------------+----------------------------------   Adj R-squared   =    0.0033
+       Total |  305.133487        53  5.75723561   Root MSE        =    2.3955
+
+------------------------------------------------------------------------------
+     D.scrap |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       grant |
+         D1. |  -.7394436   .6826276    -1.08   0.284    -2.109236    .6303488
+             |
+       _cons |  -.5637143   .4049149    -1.39   0.170    -1.376235    .2488069
+------------------------------------------------------------------------------</code></pre>
+<p>Within Estimator</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb27-1" tabindex="-1"></a><span class="kw">xtreg</span> scrap i.grant i.d88 <span class="kw">if</span> <span class="fu">year</span> &lt; 1989, <span class="kw">fe</span></span></code></pre></div>
+<pre><code>Fixed-effects (within) regression               Number of obs     =        108
+Group variable: fcode                           Number of groups  =         54
+
+R-sq:                                           Obs per group:
+     within  = 0.1269                                         min =          2
+     between = 0.0038                                         avg =        2.0
+     overall = 0.0081                                         max =          2
+
+                                                F(2,52)           =       3.78
+corr(u_i, Xb)  = 0.0119                         Prob &gt; F          =     0.0293
+
+------------------------------------------------------------------------------
+       scrap |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     1.grant |  -.7394436   .6826276    -1.08   0.284    -2.109236    .6303488
+       1.d88 |  -.5637143   .4049149    -1.39   0.170    -1.376235    .2488069
+       _cons |   4.611667   .2305079    20.01   0.000     4.149119    5.074215
+-------------+----------------------------------------------------------------
+     sigma_u |   6.077795
+     sigma_e |  1.6938805
+         rho |  .92792475   (fraction of variance due to u_i)
+------------------------------------------------------------------------------
+F test that all u_i=0: F(53, 52) = 25.74                     Prob &gt; F = 0.0000</code></pre>
+<p>The change in grant is basically receiving the grant or not, because grant in 1987 is always zero.</p>
+<p><strong>Question:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Who gets the grant and why?</li>
+<li>How were the grants distributed?</li>
+</ol>
+<p>We will likely need to worry about self-selection, so our parallel trends assumptions is critical. Do we know anything about the treatment and comparison group pre-trends or potential placebo test?</p>
+</div>
+<div id="effect-of-drunk-driving-laws-on-traffic-fatalities" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Effect of Drunk Driving Laws on Traffic Fatalities<a href="difference-in-differences-and-two-way-fixed-effects.html#effect-of-drunk-driving-laws-on-traffic-fatalities" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><strong>Lesson:</strong> We can try to evaluate the effect of drunk driving laws by controlling for unobserved time-invariant effects at the state level by looking at states that changed their laws.</p>
+<p>We want to assess open container laws that make it illegal for passengers to have open containers of alcoholic beverages and administrative per se laws that allow courts to suspend licneses after a driver is arrested for drunk driving but before the driver is convicted.</p>
+<p>The data contains the number of traffic deathts for all 50 states plus D.C. in 1985 and 1990. Our dependent variable is number of traffic deaths per 100 million miles driven (dthrte). In 1985, 19 states had open container laws, and 22 states had open container laws in 1990. In 1985, 21 states
+had per se laws, which grew to 29 states by 1990. Note that some states had both.</p>
+<p>We can use a first difference here. We have two options. Subtract across columns, or reshape and set a panel data set.</p>
+<p><span class="math display">\[ \Delta deathrate_{i,t} = \delta_0 + \beta_1 \Delta openlaw_{i,t} + \Delta admin_{i,t} + \Delta \varepsilon_{i,t} \]</span></p>
+<p>We can see that 3 states change their open container laws</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb29-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb29-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb29-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;traffic1.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb29-3"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb29-3" tabindex="-1"></a><span class="kw">tab</span> copen</span>
+<span id="cb29-4"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb29-4" tabindex="-1"></a><span class="kw">tab</span> open85 open90</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+      copen |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |         48       94.12       94.12
+          1 |          3        5.88      100.00
+------------+-----------------------------------
+      Total |         51      100.00
+
+           |        open90
+    open85 |         0          1 |     Total
+-----------+----------------------+----------
+         0 |        29          3 |        32 
+         1 |         0         19 |        19 
+-----------+----------------------+----------
+     Total |        29         22 |        51 </code></pre>
+<p>Estimate the First-Difference</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb31-1" tabindex="-1"></a><span class="kw">reg</span> cdthrte copen cadmn</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        51
+-------------+----------------------------------   F(2, 48)        =      3.23
+       Model |  .762579785         2  .381289893   Prob &gt; F        =    0.0482
+    Residual |  5.66369475        48  .117993641   R-squared       =    0.1187
+-------------+----------------------------------   Adj R-squared   =    0.0819
+       Total |  6.42627453        50  .128525491   Root MSE        =     .3435
+
+------------------------------------------------------------------------------
+     cdthrte |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       copen |  -.4196787   .2055948    -2.04   0.047    -.8330547   -.0063028
+       cadmn |  -.1506024   .1168223    -1.29   0.204    -.3854894    .0842846
+       _cons |  -.4967872   .0524256    -9.48   0.000    -.6021959   -.3913784
+------------------------------------------------------------------------------</code></pre>
+<p>Open containers laws, assuming the parallel trends assumption holds, reduce deaths per 100 million miles driven by .42</p>
+<p><strong>Questions:</strong>
+1. What is a potential data management issue here?
+2. What is a potential issue with this?
+3. How can we think that parallel trends assumption is not satisfied?
+4. Are treated groups being compared to previously treated groups?</p>
+<p>If treated groups are being compared to previously trated group, then we need to worry about potential bias from heterogeneous treatment effect bias (HTEB).
+(See Goodman-Bacon 2021)</p>
+</div>
+</div>
+<div id="exercises" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Exercises<a href="difference-in-differences-and-two-way-fixed-effects.html#exercises" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="exercise-1" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Exercise 1<a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will use the following data set:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb33-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb33-2"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb33-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;kielmc.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb33-3"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb33-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+
+
+Contains data from kielmc.dta
+  obs:           321                          
+ vars:            25                          21 Aug 2023 10:45
+ size:        51,360                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+year            long    %12.0g                
+age             long    %12.0g                
+agesq           double  %10.0g                
+nbh             long    %12.0g                
+cbd             double  %10.0g                
+intst           double  %10.0g                
+lintst          double  %10.0g                
+price           double  %10.0g                
+rooms           long    %12.0g                
+area            long    %12.0g                
+land            double  %10.0g                
+baths           long    %12.0g                
+dist            double  %10.0g                
+ldist           double  %10.0g                
+wind            long    %12.0g                
+lprice          double  %10.0g                
+y81             long    %12.0g                
+larea           double  %10.0g                
+lland           double  %10.0g                
+y81ldist        double  %10.0g                
+lintstsq        double  %10.0g                
+nearinc         long    %12.0g                
+y81nrinc        long    %12.0g                
+rprice          double  %10.0g                
+lrprice         double  %10.0g                
+------------------------------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<ol style="list-style-type: decimal">
+<li><p>What is a potential problem with using a binary variable (nearinc) from a continuous variable (dist)?</p></li>
+<li><p>Estimate <span class="math inline">\(ln(price_{i,t}) = \alpha + \beta_{1} y81_{t} + \beta_2 nearinc_{i,t} + \delta_0 (y81*nearinc)_{i,t}\)</span></p></li>
+<li><p>Do a sensitivity test using additional covariates. Are the results robust, or are they sensitive to the specification?</p></li>
+<li><p>Plot the coefficients of the model.</p></li>
+</ol>
+</div>
+<div id="exercise-2" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Exercise 2<a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s use the worker injury dataset:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb35-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;injury.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li><p>Estimate <span class="math inline">\(ln(durat_{i,t})=\alpha + \beta_1 afchnge_{i,t} + \beta_2 highearn_{i,t} + \delta_0 (afchnge*highearn)_{i,t} + \varepsilon_{i,t}\)</span></p></li>
+<li><p>Do a sensitivity tests using additional covariates. Are the results robust, or</p></li>
+<li><p>Are they sensitive to the specification?</p></li>
+<li><p>Plot the coefficients of the model.</p></li>
+</ol>
+</div>
+<div id="exercise-3" class="section level3 hasAnchor" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> Exercise 3<a href="difference-in-differences-and-two-way-fixed-effects.html#exercise-3" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb36"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb36-1"><a href="difference-in-differences-and-two-way-fixed-effects.html#cb36-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;traffic1_reshaped.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Set a panel data for the states for 1985 and 1990. Note: You cannot set a panel data set when the unit of analysis is in a string format.</li>
+<li>Don’t forget the delta option.</li>
+<li>Estimate a fixed effects model <span class="math inline">\(dthrte_{i,t}= \delta_0 + \beta_1 open_{i,t} + \beta_2  admn_{i,t} + a_i + a_t +  \varepsilon_{i,t}\)</span></li>
+<li>Do you get the same results as above when we used a</li>
+<li>Now try a sensitivity analysis with additional covariates.</li>
+</ol>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="egen-command.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-diff_in_diff.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
