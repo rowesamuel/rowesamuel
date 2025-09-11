@@ -1,0 +1,2610 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{booktabs}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Week 7: Simultaneous Equation Models},
+  pdfauthor={Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Week 7: Simultaneous Equation Models}
+\author{Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)}
+\date{2025-09-11}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bookdown}\SpecialCharTok{::}\FunctionTok{render\_book}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\chapter*{Overview}\label{overview}
+\addcontentsline{toc}{chapter}{Overview}
+
+This week we will cover the implementation of simultaneous equation models for econometric analysis. We will also cover appending and merging for data management.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Simultaneous Equation Models
+\item
+  Appending
+\item
+  Merging
+\end{enumerate}
+
+\chapter{Simultaneous Equation Models and Mitchell Chapter 9}\label{simultaneous-equation-models-and-mitchell-chapter-9}
+
+\section{Labor Supply of Married, Working Women}\label{labor-supply-of-married-working-women}
+
+Let's look at the data for married working women
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Wooldridge"}
+\KeywordTok{use}\NormalTok{ mroz.dta, }\KeywordTok{clear}
+\end{Highlighting}
+\end{Shaded}
+
+Our labor supply equation
+\[ hours_i= \beta_{10}+ \alpha_1 ln(wage_i) + \beta_{11} educ_i + \beta_{12} age_i + \beta_{13} kidslt6_i + \beta_{14} nwifeinc + u_1 \]
+
+Our labor demand equation in term of wages as a function of productivity
+\[ ln(wage_i)= \beta_{20} + \alpha_2 hours_i  + \beta_{21}*educ_i+ \beta_{22} exper_i + \beta_{23} exper^2_i + u_2 \]
+
+We will use the \emph{ivregress 2sls} command o estimate our labor supply we use educ, age, kidslt6, nwifeinc, exper, and exper-squared.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ivregress 2sls hours (lwage=exper expersq) educ age kidslt6 nwifeinc, }\KeywordTok{robust}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(5)    =      12.60
+                                                  Prob > chi2     =     0.0274
+                                                  R-squared       =          .
+                                                  Root MSE        =     1344.7
+
+------------------------------------------------------------------------------
+             |               Robust
+       hours |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lwage |   1639.556   593.3108     2.76   0.006     476.6879    2802.423
+        educ |  -183.7513   67.78742    -2.71   0.007    -316.6122   -50.89039
+         age |  -7.806092   10.48746    -0.74   0.457    -28.36114    12.74896
+     kidslt6 |  -198.1543   208.4247    -0.95   0.342    -606.6592    210.3506
+    nwifeinc |  -10.16959   5.287486    -1.92   0.054    -20.53287    .1936911
+       _cons |   2225.662   603.0964     3.69   0.000     1043.615    3407.709
+------------------------------------------------------------------------------
+Instrumented:  lwage
+Instruments:   educ age kidslt6 nwifeinc exper expersq
+\end{verbatim}
+
+Test exper and expersq as instruments
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{reg}\NormalTok{ lwage exper expersq educ age kidslt6 nwifeinc, }\KeywordTok{robust}
+\KeywordTok{test}\NormalTok{ exper expersq}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Linear regression                               Number of obs     =        428
+                                                F(6, 421)         =      14.76
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.1633
+                                                Root MSE          =     .66622
+
+------------------------------------------------------------------------------
+             |               Robust
+       lwage |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       exper |   .0418643   .0151135     2.77   0.006     .0121569    .0715718
+     expersq |  -.0007625   .0004065    -1.88   0.061    -.0015614    .0000365
+        educ |   .1011113   .0141358     7.15   0.000     .0733257     .128897
+         age |  -.0025561   .0059149    -0.43   0.666    -.0141826    .0090704
+     kidslt6 |  -.0532185   .1047899    -0.51   0.612    -.2591951    .1527581
+    nwifeinc |     .00556   .0027435     2.03   0.043     .0001673    .0109527
+       _cons |  -.4471607   .2889008    -1.55   0.122    -1.015028    .1207069
+------------------------------------------------------------------------------
+
+
+ ( 1)  exper = 0
+ ( 2)  expersq = 0
+
+       F(  2,   421) =    6.17
+            Prob > F =    0.0023
+\end{verbatim}
+
+\textbf{Note:} Our instrument is rather weak. What is a possible problem with this first-stage?
+
+\textbf{Interpretation:}
+Our results show that the labor supply curve slopes upward. The estimated coefficient is
+\[ \Delta hours = 1640/100 * (\% \Delta wages) \]
+
+Our results can be interpreted through linear-log elasticity.
+
+\[ 100*(\Delta hours/hours) \approx (1,640/hours)(\% \Delta wages) \]
+Or
+\[ \% \Delta hours \approx (1,640/hours)(\% \Delta wages) \]
+
+This implies that the labor supply elasticity with respect to wages is \[ \eta =  1,640/hours \]
+
+The elasticity is not constant since it is a linear-log model instead of log-log model.
+Using average hours worked of 1,303
+Our estimated elasticity is \[ (1,640/hours)(\%\Delta wages) = 1,640/1,303=1.26 \]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display}\NormalTok{ 1640/1303}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+1.2586339
+\end{verbatim}
+
+Our estimated elasticity around mean hours is 1.26\%, which means a 1\% increase in wages around mean hours increases hours by 1.26\%. This mean wage elasticity of supply is elastic (\textgreater1) around mean hours.
+
+With a linear-log model, the estimated elasticity is not constant elasticity.
+
+When hours are higher, full time 40 hours every week, a 1\% increase in wages increase the supply of hours around 0.79\%
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \KeywordTok{display}\NormalTok{ 1640/(40*52)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+.78846154
+\end{verbatim}
+
+Our wage elasticity of supply is inelastic since (\textless1)
+
+At lower hours, our estimated wage elasticity of supply is more elastic. When hours are equal to 800, then our wage elasticity of supply is almost 2
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{display}\NormalTok{ 1640/800}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+2.05
+\end{verbatim}
+
+A 1\% increase in wages increases hours by 2.05\%
+
+\section{Inflation and Openness}\label{inflation-and-openness}
+
+Romer (1993) proposes that more open countries should have lower inflation rates. Romer (1993) tries to explain inflation rates in terms of a country's average share of imports in gross domestic (or national) product since 1973. Average share of imports in GDP is his measure of opennes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Wooldridge"}
+\KeywordTok{use}\NormalTok{ openness.dta, }\KeywordTok{clear}
+\end{Highlighting}
+\end{Shaded}
+
+\[ inf_{i,t} = \beta_{10} + \alpha_1 open_{i,t} + \beta_{11} ln(pcinc_{i,t}) + u_1 \]
+\[ open_{i,t} = \beta_{20} + \alpha_2 inf_{i,t} + \beta_{21} ln(pcinc)_{i,t} + \beta_{22} ln(land)_{i,t} + u_2 \]
+
+Where open is the average share of imports in terms of GDP, pcinc is the 1980 per capita income, and land is land area of a country in square miles
+
+We can look at the reduced form equation to see the instruments impact on openness.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{reg}\NormalTok{ open lland lpcinc, }\KeywordTok{robust}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Linear regression                               Number of obs     =        114
+                                                F(2, 111)         =      22.22
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4487
+                                                Root MSE          =     17.796
+
+------------------------------------------------------------------------------
+             |               Robust
+        open |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       lland |  -7.567103   1.141798    -6.63   0.000    -9.829652   -5.304554
+      lpcinc |   .5464812   1.436115     0.38   0.704    -2.299276    3.392238
+       _cons |   117.0845   18.24808     6.42   0.000     80.92473    153.2443
+------------------------------------------------------------------------------
+\end{verbatim}
+
+Let's test the instrument and use an F-test.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{test}\NormalTok{ lland}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ ( 1)  lland = 0
+
+       F(  1,   111) =   43.92
+            Prob > F =    0.0000
+\end{verbatim}
+
+We want to see if a country's openness impacts a country's inflation rate using natural log of square miles as an instrument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ivregress 2sls inf (open=lland) lpcinc, }\KeywordTok{robust}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Instrumental variables (2SLS) regression          Number of obs   =        114
+                                                  Wald chi2(2)    =       5.19
+                                                  Prob > chi2     =     0.0745
+                                                  R-squared       =     0.0309
+                                                  Root MSE        =      23.52
+
+------------------------------------------------------------------------------
+             |               Robust
+         inf |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        open |  -.3374871   .1504296    -2.24   0.025    -.6323238   -.0426504
+      lpcinc |   .3758247   1.360282     0.28   0.782     -2.29028    3.041929
+       _cons |   26.89934   10.77526     2.50   0.013     5.780212    48.01846
+------------------------------------------------------------------------------
+Instrumented:  open
+Instruments:   lpcinc lland
+\end{verbatim}
+
+\textbf{Interpretation:} For every percentage point increase in average share of imports of GDP,
+inflation decreases by 0.337 percentage points
+
+\section{Exercises}\label{exercises}
+
+On ELMS, pull CPS data and recreate MROZ.dta with CPS data, expect use all individuals not just working women
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ smalljul25pub.dta, }\KeywordTok{clear}
+\end{Highlighting}
+\end{Shaded}
+
+Estimate linear-log and test elasticity at different hours. Estimate constant elasticity with a log-log model.
+
+\chapter{Appending and Merging}\label{appending-and-merging}
+
+Appending and merging datasets are a crucial part of learning Stata or any other statistical package. Many times we are merging datasets by State FIPS, year, Zip Codes, Unit ID, County FIPS, etc. If we wanted to analyze local-level unemployment data to our analysis of county-level crime, then we will likely be using data from BLS and data from FBI or other local admin data.
+
+\textbf{Note:} Working with multiple datasets:
+I do not have frames in Stata 14, but using frames is encouraged. Using the temp files workaround is a bit cumbersome (but it works). Using Stata frames will help work with those datasets simultaneously to get them ready to merge.
+
+\chapter{Appending}\label{appending}
+
+The \emph{append} command appends two or more datasets into one data set. We are appending rows with the same columns. Appending is more straightforward than merging, but still an important tool for examining multiple datasets.
+
+\section{Appending Datasets}\label{appending-datasets}
+
+Let's say we have two datasets with the same variables. We can append these files together using the \emph{append} command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use} \StringTok{"moms.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\KeywordTok{use} \StringTok{"dads.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +-------------------------+
+     | famid   age   race   hs |
+     |-------------------------|
+  1. |     3    24      2    1 |
+  2. |     2    28      1    1 |
+  3. |     4    21      1    0 |
+  4. |     1    33      2    1 |
+     +-------------------------+
+
+     +-------------------------+
+     | famid   age   race   hs |
+     |-------------------------|
+  1. |     1    21      1    0 |
+  2. |     4    25      2    1 |
+  3. |     2    25      1    1 |
+  4. |     3    31      2    1 |
+     +-------------------------+
+\end{verbatim}
+
+We can append the mom.dta file with \emph{append} using filename.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{append} \KeywordTok{using} \StringTok{"moms.dta"}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   age   race   hs |
+     |-------------------------|
+  1. |     1    21      1    0 |
+  2. |     4    25      2    1 |
+  3. |     2    25      1    1 |
+  4. |     3    31      2    1 |
+  5. |     3    24      2    1 |
+     |-------------------------|
+  6. |     2    28      1    1 |
+  7. |     4    21      1    0 |
+  8. |     1    33      2    1 |
+     +-------------------------+
+\end{verbatim}
+
+Or,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"moms.dta"} \StringTok{"dads.dta"}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   age   race   hs |
+     |-------------------------|
+  1. |     3    24      2    1 |
+  2. |     2    28      1    1 |
+  3. |     4    21      1    0 |
+  4. |     1    33      2    1 |
+  5. |     1    21      1    0 |
+     |-------------------------|
+  6. |     4    25      2    1 |
+  7. |     2    25      1    1 |
+  8. |     3    31      2    1 |
+     +-------------------------+
+\end{verbatim}
+
+\textbf{Note:} What is a clear problem here? After the append, how do we identify which data are for dads and for moms?
+
+There are two ways.
+1. We can generate a variable in both files and code it.
+2. We can use the \emph{generate} option in the append.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"moms.dta"} \StringTok{"dads.dta"}\NormalTok{, }\KeywordTok{generate}\NormalTok{(datascreen)}
+\OtherTok{list}\NormalTok{, sepby(datascreen)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | datasc~n   famid   age   race   hs |
+     |------------------------------------|
+  1. |        1       3    24      2    1 |
+  2. |        1       2    28      1    1 |
+  3. |        1       4    21      1    0 |
+  4. |        1       1    33      2    1 |
+     |------------------------------------|
+  5. |        2       1    21      1    0 |
+  6. |        2       4    25      2    1 |
+  7. |        2       2    25      1    1 |
+  8. |        2       3    31      2    1 |
+     +------------------------------------+
+\end{verbatim}
+
+Since moms.dta is first, the new variable datascreen will set moms.dta datascreen variable = 1, and since dads.dta is second, the datascreen variable = 2.
+
+You could just generate a variable called parent in both files and set moms equal to 1 and dads equal to 0. But, the \emph{generate} option is nice and concise.
+
+It's a good idea to label the data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{label} \KeywordTok{define}\NormalTok{ datascreenl 1 }\StringTok{"From moms.dta"}\NormalTok{ 2 }\StringTok{"From dads.dta"}
+\KeywordTok{label} \KeywordTok{values}\NormalTok{ datascreen datascreenl}
+\OtherTok{list}\NormalTok{, sepby(datascreen)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     |    datascreen   famid   age   race   hs |
+     |-----------------------------------------|
+  1. | From moms.dta       3    24      2    1 |
+  2. | From moms.dta       2    28      1    1 |
+  3. | From moms.dta       4    21      1    0 |
+  4. | From moms.dta       1    33      2    1 |
+     |-----------------------------------------|
+  5. | From dads.dta       1    21      1    0 |
+  6. | From dads.dta       4    25      2    1 |
+  7. | From dads.dta       2    25      1    1 |
+  8. | From dads.dta       3    31      2    1 |
+     +-----------------------------------------+
+\end{verbatim}
+
+If we use the \emph{generate} option in append with one file open, the values of the generated variable are different.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{clear}
+\KeywordTok{use} \StringTok{"moms.dta"}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"dads.dta"}\NormalTok{, }\KeywordTok{generate}\NormalTok{(datascreen)}
+\OtherTok{list}\NormalTok{, sepby(datascreen)}
+\KeywordTok{label} \KeywordTok{define}\NormalTok{ datascreenl 0 }\StringTok{"From moms.dta"}\NormalTok{ 1 }\StringTok{"From dads.dta"}
+\KeywordTok{label} \KeywordTok{values}\NormalTok{ datascreen datascreenl}
+\OtherTok{list}\NormalTok{, sepby(datascreen)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   age   race   hs   datasc~n |
+     |------------------------------------|
+  1. |     3    24      2    1          0 |
+  2. |     2    28      1    1          0 |
+  3. |     4    21      1    0          0 |
+  4. |     1    33      2    1          0 |
+     |------------------------------------|
+  5. |     1    21      1    0          1 |
+  6. |     4    25      2    1          1 |
+  7. |     2    25      1    1          1 |
+  8. |     3    31      2    1          1 |
+     +------------------------------------+
+
+     +-----------------------------------------+
+     | famid   age   race   hs      datascreen |
+     |-----------------------------------------|
+  1. |     3    24      2    1   From moms.dta |
+  2. |     2    28      1    1   From moms.dta |
+  3. |     4    21      1    0   From moms.dta |
+  4. |     1    33      2    1   From moms.dta |
+     |-----------------------------------------|
+  5. |     1    21      1    0   From dads.dta |
+  6. |     4    25      2    1   From dads.dta |
+  7. |     2    25      1    1   From dads.dta |
+  8. |     3    31      2    1   From dads.dta |
+     +-----------------------------------------+
+\end{verbatim}
+
+We can append multiple datafiles together (as long as they have the same variables).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{dir}\NormalTok{ br*.dta}
+\KeywordTok{use} \StringTok{"br\_clarence.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+
+\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"br\_clarence.dta"} \StringTok{"br\_isaac"} \StringTok{"br\_sally"}\NormalTok{, }\KeywordTok{generate}\NormalTok{(rev)}
+\KeywordTok{label} \KeywordTok{define}\NormalTok{ revl 1 }\StringTok{"clarence"}\NormalTok{ 2 }\StringTok{"isaac"}\NormalTok{ 3 }\StringTok{"sally"}
+\KeywordTok{label} \KeywordTok{values}\NormalTok{ rev revl}
+\OtherTok{list}\NormalTok{, sepby(rev)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-rw-r--r--  1 Sam  staff  2604 Aug 15  2023 br_clarence.dta
+-rw-r--r--  1 Sam  staff  2553 Aug 15  2023 br_isaac.dta
+-rw-r--r--  1 Sam  staff  2583 Aug 15  2023 br_sally.dta
+
+     +--------------------------------------------------------------+
+     | booknum                                        book   rating |
+     |--------------------------------------------------------------|
+  1. |       1                   A Fistful of Significance        5 |
+  2. |       2    For Whom the Null Hypothesis is Rejected       10 |
+  3. |       3   Journey to the Center of the Normal Curve        6 |
+     +--------------------------------------------------------------+
+
+     +-------------------------------------------------------------------------+
+     |      rev   booknum                                        book   rating |
+     |-------------------------------------------------------------------------|
+  1. | clarence         1                   A Fistful of Significance        5 |
+  2. | clarence         2    For Whom the Null Hypothesis is Rejected       10 |
+  3. | clarence         3   Journey to the Center of the Normal Curve        6 |
+     |-------------------------------------------------------------------------|
+  4. |    isaac         1                    The Dreaded Type I Error        6 |
+  5. |    isaac         2                           How to Find Power        9 |
+  6. |    isaac         3                                The Outliers        8 |
+     |-------------------------------------------------------------------------|
+  7. |    sally         1           Random Effects for Fun and Profit        6 |
+  8. |    sally         2                           A Tale of t-tests        9 |
+  9. |    sally         3          Days of Correlation and Regression        8 |
+     +-------------------------------------------------------------------------+
+\end{verbatim}
+
+\section{Appending Problems}\label{appending-problems}
+
+We can check the two datasets for potential problems with the \emph{precombine} command. You will need to install this community-user command. Using \emph{precombine} with the \emph{describe} option, we can check to see if the components of the datasets are similar to prevent problem:
+1. Storage type
+2. Format
+3. Variable labels
+4. Values labels
+5. Type of variable - string or numeric
+6. Position of the variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{search}\NormalTok{ precombine}
+\KeywordTok{clear}
+\NormalTok{precombine }\StringTok{"moms.dta"} \StringTok{"dads.dta"}\NormalTok{, }\KeywordTok{describe}\NormalTok{(}\DecValTok{type} \KeywordTok{format}\NormalTok{ varlab vallab ndta) uniquevars}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+request ignored because of batch mode
+
+
+
+Reports relevant to the combining of the following datasets:
+[vars: 4     obs: 4]        moms.dta
+[vars: 4     obs: 4]        dads.dta
+
+Variables that appear in multiple datasets:
+  +-------------------------------------------------------------------------+
+  | variable    dataset    type   format         varlab   vallabname   ndta |
+  |-------------------------------------------------------------------------|
+  |      age   dads.dta   float    %5.0g            Age                   2 |
+  |      age   moms.dta   float    %5.0g            Age                   2 |
+  |-------------------------------------------------------------------------|
+  |    famid   dads.dta   float    %5.0g      Family ID                   2 |
+  |    famid   moms.dta   float    %5.0g      Family ID                   2 |
+  |-------------------------------------------------------------------------|
+  |       hs   dads.dta   float    %7.0g   HS Graduate?                   2 |
+  |       hs   moms.dta   float    %7.0g   HS Graduate?                   2 |
+  |-------------------------------------------------------------------------|
+  |     race   dads.dta   float    %5.0g           Race                   2 |
+  |     race   moms.dta   float    %5.0g      Ethnicity                   2 |
+  +-------------------------------------------------------------------------+
+
+There are no variables that appear in only one dataset, 
+ i.e. every variable appears in multiple datasets. 
+\end{verbatim}
+
+\subsection{Different variable names}\label{different-variable-names}
+
+If the same variable intent has two different variable names between the data sets, then they will become two different columns when you only want one column of data.
+
+For example, when we append moms1 and dads1 which have different variable names for the different variables, the variables do not append correctly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"moms1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"dads1.dta"}\NormalTok{, }\KeywordTok{generate}\NormalTok{(datascreen)}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   mhs   datasc~n   dage   drace   dhs |
+     |------------------------------------------------------------|
+  1. |     1     33       2     1          0      .       .     . |
+  2. |     2     28       1     1          0      .       .     . |
+  3. |     3     24       2     1          0      .       .     . |
+  4. |     4     21       1     0          0      .       .     . |
+  5. |     1      .       .     .          1     21       1     0 |
+     |------------------------------------------------------------|
+  6. |     2      .       .     .          1     25       1     1 |
+  7. |     3      .       .     .          1     31       2     1 |
+  8. |     4      .       .     .          1     25       2     1 |
+     +------------------------------------------------------------+
+\end{verbatim}
+
+\textbf{Solution}
+
+It's an easy fix. Just rename the variables to a common variable name and append.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"moms1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{rename}\NormalTok{ (mage mrace mhs) (age race hs)}
+\KeywordTok{save} \StringTok{"moms1temp.dta"}\NormalTok{, }\KeywordTok{replace}
+
+\KeywordTok{use} \StringTok{"dads1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{rename}\NormalTok{ (dage drace dhs) (age race hs)}
+\KeywordTok{save} \StringTok{"dads1temp.dta"}\NormalTok{, }\KeywordTok{replace}
+
+\KeywordTok{append} \KeywordTok{using} \StringTok{"moms1temp.dta"} \StringTok{"dads1temp.dta"}\NormalTok{, }\KeywordTok{generate}\NormalTok{(datascreen)}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+file moms1temp.dta saved
+
+
+
+file dads1temp.dta saved
+
+     +------------------------------------+
+     | famid   age   race   hs   datasc~n |
+     |------------------------------------|
+  1. |     1    21      1    0          0 |
+  2. |     2    25      1    1          0 |
+  3. |     3    31      2    1          0 |
+  4. |     4    25      2    1          0 |
+  5. |     1    33      2    1          1 |
+     |------------------------------------|
+  6. |     2    28      1    1          1 |
+  7. |     3    24      2    1          1 |
+  8. |     4    21      1    0          1 |
+  9. |     1    21      1    0          2 |
+ 10. |     2    25      1    1          2 |
+     |------------------------------------|
+ 11. |     3    31      2    1          2 |
+ 12. |     4    25      2    1          2 |
+     +------------------------------------+
+\end{verbatim}
+
+\subsection{Conflicting variable labels}\label{conflicting-variable-labels}
+
+If we have conflicting variable labels, then the variable labels of the primary dataset will overwrite the appended dataset. The solution is to use a neutral variable label.
+For example, instead of Mom's HS and Dad's HS, just have ``high school'' as the variable label in both datasets
+
+\textbf{Solution:} For appending, use neutral variable label names.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"momslab.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"dadslab.dta"}\NormalTok{, }\KeywordTok{generate}\NormalTok{(datascreen)}
+\KeywordTok{describe}
+
+\KeywordTok{use} \StringTok{"momslab.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{label} \KeywordTok{variable}\NormalTok{ hs }\StringTok{"High School Degree"}
+\KeywordTok{label} \KeywordTok{variable}\NormalTok{ race }\StringTok{"Race/Ethnicity"}
+\KeywordTok{label} \KeywordTok{variable}\NormalTok{ age }\StringTok{"Age"}
+\KeywordTok{save} \StringTok{"momslab1.dta"}\NormalTok{, }\KeywordTok{replace}
+
+\KeywordTok{use} \StringTok{"dadslab.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{label} \KeywordTok{variable}\NormalTok{ hs }\StringTok{"High School Degree"}
+\KeywordTok{label} \KeywordTok{variable}\NormalTok{ race }\StringTok{"Race/Ethnicity"}
+\KeywordTok{label} \KeywordTok{variable}\NormalTok{ age }\StringTok{"Age"}
+\KeywordTok{save} \StringTok{"dadslab1.dta"}\NormalTok{, }\KeywordTok{replace}
+
+\KeywordTok{use} \StringTok{"momslab1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"dadslab1.dta"}\NormalTok{, }\KeywordTok{generate}\NormalTok{(datascreen)}
+\KeywordTok{describe}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(label eth already defined)
+
+
+Contains data from momslab.dta
+  obs:             8                          
+ vars:             5                          27 Dec 2009 21:47
+ size:           136                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+famid           float   %5.0g                 Family ID
+age             float   %5.0g                 Mom's Age
+race            float   %9.0g      eth        Mom's Ethnicity
+hs              float   %15.0g     grad       Is Mom a HS Graduate?
+datascreen      byte    %8.0g                 
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.
+
+
+
+
+
+file momslab1.dta saved
+
+
+
+
+
+file dadslab1.dta saved
+
+
+(label eth already defined)
+
+
+Contains data from momslab1.dta
+  obs:             8                          
+ vars:             5                          11 Sep 2025 15:11
+ size:           136                          
+------------------------------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+------------------------------------------------------------------------------------------------------------------
+famid           float   %5.0g                 Family ID
+age             float   %5.0g                 Age
+race            float   %9.0g      eth        Race/Ethnicity
+hs              float   %15.0g     grad       High School Degree
+datascreen      byte    %8.0g                 
+------------------------------------------------------------------------------------------------------------------
+Sorted by: 
+     Note: Dataset has changed since last saved.
+\end{verbatim}
+
+\textbf{Note:} we will use unique variable label names for merging.
+
+\subsection{Conflicting value labels}\label{conflicting-value-labels}
+
+Using our previous files, we find that the value labels may also be incorrect when appending. The primary file (the open one) will supersede the values in the appended file.
+
+\textbf{Note:} this will not throw an error and your data will append, but it might be confusing for yourself in the future or for a replicator. It is good practice to use neutral value labels and value label names.
+
+Let's look at our files again.
+If you will notice that the value label names and the value labels will rename as the primary dataset's value label name and value labels' values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ momslab, }\KeywordTok{clear}
+\KeywordTok{codebook}\NormalTok{ race hs}
+
+\KeywordTok{use}\NormalTok{ dadslab, }\KeywordTok{clear}
+\KeywordTok{codebook}\NormalTok{ race hs}
+
+\KeywordTok{use} \StringTok{"momsdadlab1.dta"}\NormalTok{, }\KeywordTok{replace}
+\KeywordTok{codebook}\NormalTok{ race hs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+race                                                                                               Mom's Ethnicity
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  eth
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/4
+
+            tabulation:  Freq.   Numeric  Label
+                             2         1  Mom White
+                             2         2  Mom Black
+
+------------------------------------------------------------------------------------------------------------------
+hs                                                                                           Is Mom a HS Graduate?
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  grad
+
+                 range:  [0,1]                        units:  1
+         unique values:  2                        missing .:  0/4
+
+            tabulation:  Freq.   Numeric  Label
+                             1         0  Mom Not HS Grad
+                             3         1  Mom HS Grad
+
+
+
+------------------------------------------------------------------------------------------------------------------
+race                                                                                               Dad's Ethnicity
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  eth
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/4
+
+            tabulation:  Freq.   Numeric  Label
+                             2         1  Dad White
+                             2         2  Dad Black
+
+------------------------------------------------------------------------------------------------------------------
+hs                                                                                           Is Dad a HS Graduate?
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  hsgrad
+
+                 range:  [0,1]                        units:  1
+         unique values:  2                        missing .:  0/4
+
+            tabulation:  Freq.   Numeric  Label
+                             1         0  Dad Not HS Grad
+                             3         1  Dad HS Grad
+
+
+
+------------------------------------------------------------------------------------------------------------------
+race                                                                                                Race/Ethnicity
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  eth
+
+                 range:  [1,2]                        units:  1
+         unique values:  2                        missing .:  0/8
+
+            tabulation:  Freq.   Numeric  Label
+                             4         1  Mom White
+                             4         2  Mom Black
+
+------------------------------------------------------------------------------------------------------------------
+hs                                                                                              High School Degree
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (float)
+                 label:  grad
+
+                 range:  [0,1]                        units:  1
+         unique values:  2                        missing .:  0/8
+
+            tabulation:  Freq.   Numeric  Label
+                             2         0  Mom Not HS Grad
+                             6         1  Mom HS Grad
+\end{verbatim}
+
+You will notice that the value label name in the dads file is hsgrad, while the moms file is grad. Grad supersedes the value label name hsgrad in the dads file. You will also notice that when you describe the data, a message for the value labels will say eth (which is the same for both), but
+all the data say Mom White or Mom Black.
+
+\textbf{Solution:} Use neutral value labels and neutral value label names.
+
+\textbf{Solution:} Label your variables and values after appending if the labels do not exist before appending.
+
+\subsection{Inconsistent variable coding}\label{inconsistent-variable-coding}
+
+Another problem that will not throw an error, but it will cause problems are inconsistent variable coding. If we have a binary variable for high school degree or note, where one data set is 0-No and 1-Yes and the other is 1-No 2-Yes, an error will not be thrown when the datasets are appended.
+However, it will be a problem if you try to use a factor variable, since there conflicting and inconsistent coding.
+
+\textbf{Solution:} Check your data, and check the data dictionaries of all the datasets.
+Summarize and tabulate your data by the datasets after appending will help prevent this. When you find the issue, just recode the variables to be consistent.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"momshs.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"dads.dta"}\NormalTok{, }\KeywordTok{gen}\NormalTok{(datascreen)}
+\OtherTok{list}
+\KeywordTok{tab}\NormalTok{ hs datascreen}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   age   race   hs   datasc~n |
+     |------------------------------------|
+  1. |     3    24      2    2          0 |
+  2. |     2    28      1    2          0 |
+  3. |     4    21      1    1          0 |
+  4. |     1    33      2    1          0 |
+  5. |     1    21      1    0          1 |
+     |------------------------------------|
+  6. |     4    25      2    1          1 |
+  7. |     2    25      1    1          1 |
+  8. |     3    31      2    1          1 |
+     +------------------------------------+
+
+        HS |      datascreen
+ Graduate? |         0          1 |     Total
+-----------+----------------------+----------
+         0 |         0          1 |         1 
+         1 |         2          3 |         5 
+         2 |         2          0 |         2 
+-----------+----------------------+----------
+     Total |         4          4 |         8 
+\end{verbatim}
+
+Just recode the data to be consistent after finding the problem
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"momshs.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{recode}\NormalTok{ hs (1=0) (2=1)}
+\end{Highlighting}
+\end{Shaded}
+
+Or
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{replace}\NormalTok{ hs=0 }\KeywordTok{if}\NormalTok{ hs == 1}
+\KeywordTok{replace}\NormalTok{ hs=1 }\KeywordTok{if}\NormalTok{ hs == 2}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"dads.dta"}\NormalTok{, }\KeywordTok{gen}\NormalTok{(datascreen)}
+\KeywordTok{tab}\NormalTok{ hs datascreen}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(2 real changes made)
+
+(2 real changes made)
+
+        HS |      datascreen
+ Graduate? |         0          1 |     Total
+-----------+----------------------+----------
+         0 |         2          1 |         3 
+         1 |         2          3 |         5 
+-----------+----------------------+----------
+     Total |         4          4 |         8 
+\end{verbatim}
+
+\subsection{Mixing variable types across datasets}\label{mixing-variable-types-across-datasets}
+
+When we try to append data of a different time an error will be thrown. We can use the force option to prevent the error, but as we have seen before this can cause numeric string variables with nonnumeric characters to become missing. This will cause data lose and additional measurement error.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use} \StringTok{"moms.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"dadstr.dta"}\NormalTok{, }\KeywordTok{generate}\NormalTok{(datascreen)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+
+variable hs is float in master but str3 in using data
+    You could specify append's force option to ignore this numeric/string mismatch.  The using variable would
+    then be treated as if it contained numeric missing value.
+\end{verbatim}
+
+\textbf{Solution:}
+Resolve the discrepency in variable type before converting. Use the \emph{destring} command on the string variable containing numeric data in string format. The option \emph{force} with the \emph{append} command forces string to numeric or numeric to string during the append. \textbf{Please note that using the option \emph{force} with the \emph{append} command may result in data loss if not properly analyzed beforehand.}
+
+\subsection{When we have a small dataset with clean numerics in string}\label{when-we-have-a-small-dataset-with-clean-numerics-in-string}
+
+Unfortunately, sometimes numeric variables are stored in a string type. We need to use the \emph{destring} command to convert clean numerics that are stored as strings into a numeric type.
+
+\textbf{Solution:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use} \StringTok{"dadstr.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{destring}\NormalTok{ hs, }\KeywordTok{replace}
+\KeywordTok{save} \StringTok{"dadstrtemp.dta"}\NormalTok{, }\KeywordTok{replace}
+
+\KeywordTok{use} \StringTok{"moms.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using} \StringTok{"dadstrtemp.dta"}\NormalTok{, }\KeywordTok{gen}\NormalTok{(datascreen)}
+\OtherTok{list}\NormalTok{, sepby(datascreen)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+
+hs: all characters numeric; replaced as byte
+
+file dadstrtemp.dta saved
+
+     +------------------------------------+
+     | famid   age   race   hs   datasc~n |
+     |------------------------------------|
+  1. |     3    24      2    1          0 |
+  2. |     2    28      1    1          0 |
+  3. |     4    21      1    0          0 |
+  4. |     1    33      2    1          0 |
+     |------------------------------------|
+  5. |     1    21      1    0          1 |
+  6. |     4    25      2    1          1 |
+  7. |     2    25      1    1          1 |
+  8. |     3    31      2    1          1 |
+     +------------------------------------+
+\end{verbatim}
+
+\subsection{When we have a large dataset with messy numerics and characters in string}\label{when-we-have-a-large-dataset-with-messy-numerics-and-characters-in-string}
+
+When we have a small dataset, we can usually visually inspect the data before realizing that the numeric stored as a string is clean. With a large data file with thousands, tens of thousands, hundreds of thousands, or over a million observation, we cannot visually inspect the data. We need to use commands to summarize the data to look for problematic characteristics in numerics stored as strings. (E.g.: We want to get rid of \$)
+
+Let's go back to \textbf{6.13 converting strings to numerics}.
+
+In small datasets, this is easy to check and fix. HOWEVER, in large datasets, you will need different techniques. I found this on Statalist using regular expressions. As I have said before,
+regular expressions can be a pain, but they are powerful.
+
+This statement below extracts the numerics from the string.
+\url{https://www.statalist.org/forums/forum/general-stata-discussion/general/967675-removing-non-numeric-characters-from-strings}
+\emph{regexm()} looks for a numerics with ``({[}0-9{]}+)'' from the string hs
+\emph{regexs()} looks for the nth part of the string.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use} \StringTok{"dadstr.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{gen}\NormalTok{ n = }\FunctionTok{real}\NormalTok{(}\FunctionTok{regexs}\NormalTok{(1)) }\KeywordTok{if} \FunctionTok{regexm}\NormalTok{(hs,}\StringTok{"([0{-}9]+)"}\NormalTok{)}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +-----------------------------+
+     | famid   age   race   hs   n |
+     |-----------------------------|
+  1. |     1    21      1    0   0 |
+  2. |     4    25      2    1   1 |
+  3. |     2    25      1    1   1 |
+  4. |     3    31      2    1   1 |
+     +-----------------------------+
+\end{verbatim}
+
+An example of how regexm and regexs work from the help file
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{clear}
+\NormalTok{input str15 number}
+\StringTok{"(123) 456{-}7890"}
+\StringTok{"(800) STATAPC"}
+\KeywordTok{end}
+
+\KeywordTok{gen}\NormalTok{ str newnum1 = }\FunctionTok{regexs}\NormalTok{(1) }\KeywordTok{if} \FunctionTok{regexm}\NormalTok{(number, }\StringTok{"\^{}\textbackslash{}(([0{-}9]+)\textbackslash{}) (.*)"}\NormalTok{)}
+\KeywordTok{gen}\NormalTok{ str newnum2 = }\FunctionTok{regexs}\NormalTok{(2) }\KeywordTok{if} \FunctionTok{regexm}\NormalTok{(number, }\StringTok{"\^{}\textbackslash{}(([0{-}9]+)\textbackslash{}) (.*)"}\NormalTok{)}
+\KeywordTok{gen}\NormalTok{ str newnum = }\FunctionTok{regexs}\NormalTok{(1) + }\StringTok{"{-}"}\NormalTok{ + }\FunctionTok{regexs}\NormalTok{(2) }\KeywordTok{if} \FunctionTok{regexm}\NormalTok{(number, }\StringTok{"\^{}\textbackslash{}(([0{-}9]+)\textbackslash{}) (.*)"}\NormalTok{)}
+\OtherTok{list}\NormalTok{ number newnum}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+              number
+  1. "(123) 456-7890"
+  2. "(800) STATAPC"
+  3. end
+
+     +-------------------------------+
+     |         number         newnum |
+     |-------------------------------|
+  1. | (123) 456-7890   123-456-7890 |
+  2. |  (800) STATAPC    800-STATAPC |
+     +-------------------------------+
+\end{verbatim}
+
+\textbf{The point:} The \emph{regexm} command can be a lifesaver if you have numerical data stuck in string format with nonnumeric characters in a large file.
+
+\#Merging
+
+Merging means we are append column based on key identifiers. Without a key variable or variables to merge upon, Stata will not be able to merge/join the datasets. Our main command to merge is \emph{merge}
+
+\section{Merging: One-to-one}\label{merging-one-to-one}
+
+Appending is straightforward and relatively easy to check to make sure everything was appended well. Mergering is a bit tricker, since additional problems can occur, along with different types of merging. Our command for merging is \textbf{merge}.
+
+\textbf{Note:} Before discussing merging. It is \textbf{KEY} to have a key identifier variable that is common between two datasets if they will merge. Examples include personal id, firm id, state FIPS, county FIPS, zipcode, etc.
+
+You may need multiple variables besides the identifier to properly merge. Let's say we want to merge state-level employment from the BLS QCEW with state-level GDP from BEA. We will likely need the county 2-digit FIPS code AND a time identifier, such as quarter or year. If the second identifier is missing we will not be able to properly merge the data.
+
+\textbf{Note:} In Stata, there are two datasets when merging. One is called the \emph{master}
+dataset and the other is called the \emph{using} dataset.
+
+\textbf{Note:} In Stata, we have four possible ways to merge:
+1. 1:1 one-to-one merge
+2. 1:m one-to-many merge (one in master and many in using)
+3. m:1 many-to-one merge (many in master and one in using)
+4. m:m many-to-many. DO NOT USE m:m!
+
+From our moms and dads datasets our \textbf{KEY} variable to merge is family id (famid), and the moms1 dataset will be the master and the dads1 will be the using dataset
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ moms1, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   mhs |
+     |----------------------------|
+  1. |     1     33       2     1 |
+  2. |     2     28       1     1 |
+  3. |     3     24       2     1 |
+  4. |     4     21       1     0 |
+     +----------------------------+
+\end{verbatim}
+
+There is only 1 observation per family, so we can do a 1-to-1 match.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using}\NormalTok{ dads1}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                                 4  (_merge==3)
+    -----------------------------------------
+
+     +---------------------------------------------------------------+
+     | famid   mage   mrace   mhs   dage   drace   dhs        _merge |
+     |---------------------------------------------------------------|
+  1. |     1     33       2     1     21       1     0   matched (3) |
+  2. |     2     28       1     1     25       1     1   matched (3) |
+  3. |     3     24       2     1     31       2     1   matched (3) |
+  4. |     4     21       1     0     25       2     1   matched (3) |
+     +---------------------------------------------------------------+
+\end{verbatim}
+
+\textbf{Notice:} Our focus should be on \_merge. If \_merge == 3, then that means all of our
+matches worked. If \_merge == 1 or \_merge ==2, then we have some non-merged observations. We may want this, or we might not expect this. Either way, it is a good idea to investigate.
+
+\textbf{Notice:} Ironically enough, having two different variable names works well with merge
+compared to append. We now have two variables for hs, race, and age, but with m or d to distinguish moms and dads. You can easily reshape these data into a long format if necessary.
+
+\textbf{Problem:} When we don't have perfect matches?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"moms2.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using} \StringTok{"dads2.dta"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             3
+        from master                         2  (_merge==1)
+        from using                          1  (_merge==2)
+
+    matched                                 2  (_merge==3)
+    -----------------------------------------
+\end{verbatim}
+
+We can see that when we merge, a variable called \_merge is created to identify which observations merged and which did not and why (only master, only using). We can tabulate the \_merge variable that is created.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{codebook} \DataTypeTok{\_merge}
+\KeywordTok{tab} \DataTypeTok{\_merge}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+_merge                                                                                                 (unlabeled)
+------------------------------------------------------------------------------------------------------------------
+
+                  type:  numeric (byte)
+                 label:  _merge
+
+                 range:  [1,3]                        units:  1
+         unique values:  3                        missing .:  0/5
+
+            tabulation:  Freq.   Numeric  Label
+                             2         1  master only (1)
+                             1         2  using only (2)
+                             2         3  matched (3)
+
+                 _merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        master only (1) |          2       40.00       40.00
+         using only (2) |          1       20.00       60.00
+            matched (3) |          2       40.00      100.00
+------------------------+-----------------------------------
+                  Total |          5      100.00
+\end{verbatim}
+
+Not every family was in both datasets
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sort}\NormalTok{ famid}
+\OtherTok{list}\NormalTok{ famid mage mrace dage drace }\DataTypeTok{\_merge}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   dage   drace            _merge |
+     |-------------------------------------------------------|
+  1. |     1     33       2     21       1       matched (3) |
+  2. |     2      .       .     25       1    using only (2) |
+  3. |     3     24       2      .       .   master only (1) |
+  4. |     4     21       1     25       2       matched (3) |
+  5. |     5     39       2      .       .   master only (1) |
+     +-------------------------------------------------------+
+\end{verbatim}
+
+We have two matches between the data set, only 1 non-match that was only in the using data set (\_merge==2), and 2 non-matches that were only in the master dataset (\_merge==1).
+
+It is a good idea to investigate why there were no matches between the master and using datasets. We may want that or we may not want depending upon the goal. We can use a qualifier to look at which variables were only in the master, using, and ones that matched
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{list}\NormalTok{ famid mage mrace dage drace }\DataTypeTok{\_merge} \KeywordTok{if} \DataTypeTok{\_merge}\NormalTok{==1}
+\OtherTok{list}\NormalTok{ famid mage mrace dage drace }\DataTypeTok{\_merge} \KeywordTok{if} \DataTypeTok{\_merge}\NormalTok{==2}
+\OtherTok{list}\NormalTok{ famid mage mrace dage drace }\DataTypeTok{\_merge} \KeywordTok{if} \DataTypeTok{\_merge}\NormalTok{==3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   dage   drace            _merge |
+     |-------------------------------------------------------|
+  2. |     3     24       2      .       .   master only (1) |
+  4. |     5     39       2      .       .   master only (1) |
+     +-------------------------------------------------------+
+
+     +------------------------------------------------------+
+     | famid   mage   mrace   dage   drace           _merge |
+     |------------------------------------------------------|
+  5. |     2      .       .     25       1   using only (2) |
+     +------------------------------------------------------+
+
+     +---------------------------------------------------+
+     | famid   mage   mrace   dage   drace        _merge |
+     |---------------------------------------------------|
+  1. |     1     33       2     21       1   matched (3) |
+  3. |     4     21       1     25       2   matched (3) |
+     +---------------------------------------------------+
+\end{verbatim}
+
+Only famid 1 and 4 had observations in both datasets.
+
+Let's say if we only want matched observations, and we are not concerned with unmatched observations, then we can keep only when \_merge == 3 and drop the non-matched observations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{keep} \KeywordTok{if} \DataTypeTok{\_merge}\NormalTok{ == 3}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(3 observations deleted)
+
+     +-------------------------------------------------------------------------------------+
+     | famid   mage   mrace   mhs   fr_moms2   dage   drace   dhs   fr_dads2        _merge |
+     |-------------------------------------------------------------------------------------|
+  1. |     1     33       2     1          1     21       1     0          1   matched (3) |
+  2. |     4     21       1     0          1     25       2     1          1   matched (3) |
+     +-------------------------------------------------------------------------------------+
+\end{verbatim}
+
+\subsection{Potential Problem with 1-to-1 matching: duplicate ids}\label{potential-problem-with-1-to-1-matching-duplicate-ids}
+
+What is we have duplicate ids with a 1-to-1 matching?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"momsdup.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using} \StringTok{"dads2.dta"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   mhs   fr_moms2 |
+     |---------------------------------------|
+  1. |     1     33       2     1          1 |
+  2. |     3     24       2     1          1 |
+  3. |     4     21       1     0          1 |
+  4. |     4     39       2     0          1 |
+     +---------------------------------------+
+
+variable famid does not uniquely identify observations in the master data
+r(459);
+
+r(459);
+\end{verbatim}
+
+We have two observations for famid==4
+If we use \emph{merge 1:1 famid using ``dads2.dta''}, it will throw an error, since famid does not unique identify units for matching. You would want to double check that famid is supposed to have two observations before proceeding.
+
+\subsection{1-to-1 Matching with more than one key variable}\label{to-1-matching-with-more-than-one-key-variable}
+
+In our prior example we had duplicate for famid, and we might expect that if we had multiple family members. But, for 1-to-1 matching, we need a unique identifier(s) to properly match.
+Let's use kids1 for multiple kids for the same family.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"kids1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{sort}\NormalTok{ famid kidid}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   kidid   kage   kfem |
+     |-----------------------------|
+  1. |     1       1      3      1 |
+  2. |     2       1      8      0 |
+  3. |     2       2      3      1 |
+  4. |     3       1      4      1 |
+  5. |     3       2      7      0 |
+     |-----------------------------|
+  6. |     4       1      1      0 |
+  7. |     4       2      3      0 |
+  8. |     4       3      7      0 |
+     +-----------------------------+
+\end{verbatim}
+
+We now have a family id (famid) and kid id (kidid).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"kidname.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{sort}\NormalTok{ famid kidid}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   kidid   kname |
+     |-----------------------|
+  1. |     1       1     Sue |
+  2. |     2       1     Vic |
+  3. |     2       2     Flo |
+  4. |     3       1     Ivy |
+  5. |     3       2     Abe |
+     |-----------------------|
+  6. |     4       1     Tom |
+  7. |     4       2     Bob |
+  8. |     4       3     Cam |
+     +-----------------------+
+\end{verbatim}
+
+Let's merge using two key matching variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"kids1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:1 famid kidid }\KeywordTok{using} \StringTok{"kidname.dta"}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                                 8  (_merge==3)
+    -----------------------------------------
+
+     +---------------------------------------------------+
+     | famid   kidid   kage   kfem   kname        _merge |
+     |---------------------------------------------------|
+  1. |     1       1      3      1     Sue   matched (3) |
+  2. |     2       1      8      0     Vic   matched (3) |
+  3. |     2       2      3      1     Flo   matched (3) |
+  4. |     3       1      4      1     Ivy   matched (3) |
+  5. |     3       2      7      0     Abe   matched (3) |
+     |---------------------------------------------------|
+  6. |     4       1      1      0     Tom   matched (3) |
+  7. |     4       2      3      0     Bob   matched (3) |
+  8. |     4       3      7      0     Cam   matched (3) |
+     +---------------------------------------------------+
+\end{verbatim}
+
+\section{Merging One-to-many}\label{merging-one-to-many}
+
+Sometimes we need to match file's observations to multiple observations in another data set. Maybe we have CPS data and we want to merge unemployment rates at the state-level to individuals units within those states. We have one values at the state-level for month \(m\) that needs to match multilple individuals in state \(s\).
+
+When we have multiple to one observation, we cannot use 1-to-1 merge. We need a 1:m merge.
+We can illustrate this with moms1.dta and kids1.dta. One mom may have multiple kids, so when we merge kids and moms data, we will need a 1:m merge.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"moms1.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\KeywordTok{use} \StringTok{"kids1.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   mhs |
+     |----------------------------|
+  1. |     1     33       2     1 |
+  2. |     2     28       1     1 |
+  3. |     3     24       2     1 |
+  4. |     4     21       1     0 |
+     +----------------------------+
+
+     +-----------------------------+
+     | famid   kidid   kage   kfem |
+     |-----------------------------|
+  1. |     3       1      4      1 |
+  2. |     3       2      7      0 |
+  3. |     2       1      8      0 |
+  4. |     2       2      3      1 |
+  5. |     4       1      1      0 |
+     |-----------------------------|
+  6. |     4       2      3      0 |
+  7. |     4       3      7      0 |
+  8. |     1       1      3      1 |
+     +-----------------------------+
+\end{verbatim}
+
+Each kid and mom has a family id (famid) that we will use to match multiple kids to moms. Our moms have 1 observation while the kids have m observations. Since our moms have 1 observation and there are multiple kids, we need to align our 1:m properly. Since moms is the master the 1 is one the left of 1:m, while the using kids has multiple obervations to family it is the m of 1:m.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"moms1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:}\FunctionTok{m}\NormalTok{ famid }\KeywordTok{using} \StringTok{"kids1.dta"}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                                 8  (_merge==3)
+    -----------------------------------------
+
+     +----------------------------------------------------------------+
+     | famid   mage   mrace   mhs   kidid   kage   kfem        _merge |
+     |----------------------------------------------------------------|
+  1. |     1     33       2     1       1      3      1   matched (3) |
+  2. |     2     28       1     1       2      3      1   matched (3) |
+  3. |     3     24       2     1       1      4      1   matched (3) |
+  4. |     4     21       1     0       1      1      0   matched (3) |
+  5. |     2     28       1     1       1      8      0   matched (3) |
+     |----------------------------------------------------------------|
+  6. |     3     24       2     1       2      7      0   matched (3) |
+  7. |     4     21       1     0       2      3      0   matched (3) |
+  8. |     4     21       1     0       3      7      0   matched (3) |
+     +----------------------------------------------------------------+
+\end{verbatim}
+
+If we were using kids as the master.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"kids1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{merge} \FunctionTok{m}\NormalTok{:1 famid }\KeywordTok{using} \StringTok{"moms1.dta"}
+\OtherTok{list}\NormalTok{, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                                 8  (_merge==3)
+    -----------------------------------------
+
+     +----------------------------------------------------------------+
+     | famid   kidid   kage   kfem   mage   mrace   mhs        _merge |
+     |----------------------------------------------------------------|
+  1. |     1       1      3      1     33       2     1   matched (3) |
+     |----------------------------------------------------------------|
+  2. |     2       2      3      1     28       1     1   matched (3) |
+  3. |     2       1      8      0     28       1     1   matched (3) |
+     |----------------------------------------------------------------|
+  4. |     3       1      4      1     24       2     1   matched (3) |
+  5. |     3       2      7      0     24       2     1   matched (3) |
+     |----------------------------------------------------------------|
+  6. |     4       1      1      0     21       1     0   matched (3) |
+  7. |     4       2      3      0     21       1     0   matched (3) |
+  8. |     4       3      7      0     21       1     0   matched (3) |
+     +----------------------------------------------------------------+
+\end{verbatim}
+
+If we tried to use 1 on the kids data and m on the moms side, then an error will be thrown saying that famid does not identify observation in the master dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"kids1.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\KeywordTok{use}\NormalTok{ moms1.dta, }\KeywordTok{clear}
+\OtherTok{list}
+\KeywordTok{use} \StringTok{"kids1.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:}\FunctionTok{m}\NormalTok{ famid }\KeywordTok{using} \StringTok{"moms1.dta"}
+\end{Highlighting}
+\end{Shaded}
+
+If we use \emph{merge 1:m famid using ``moms1.dta''}, an error will be thrown.
+
+\begin{verbatim}
+     | famid   kidid   kage   kfem |
+     |-----------------------------|
+  1. |     3       1      4      1 |
+  2. |     3       2      7      0 |
+  3. |     2       1      8      0 |
+  4. |     2       2      3      1 |
+  5. |     4       1      1      0 |
+     |-----------------------------|
+  6. |     4       2      3      0 |
+  7. |     4       3      7      0 |
+  8. |     1       1      3      1 |
+     +-----------------------------+
+
+     +----------------------------+
+     | famid   mage   mrace   mhs |
+     |----------------------------|
+  1. |     1     33       2     1 |
+  2. |     2     28       1     1 |
+  3. |     3     24       2     1 |
+  4. |     4     21       1     0 |
+     +----------------------------+
+
+
+variable famid does not uniquely identify observations in the master data
+r(459);
+
+r(459);
+\end{verbatim}
+
+\textbf{Reminder:}
+1. 1:m means ``one-to-many'' where one in master and many in using
+2. m:1 means ``many-to-one'' where many in master and one in using
+
+Make sure your data are properly ordered in the merge command.
+
+\subsection{One-to-many merge with problems}\label{one-to-many-merge-with-problems}
+
+Many times our data are not so clean for a perfect match, so what happens
+when not all observations in both files have the same identifier (ex: famid)?
+Let's use data without all of the same identifiers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"moms2.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\KeywordTok{use} \StringTok{"kids2.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}\NormalTok{, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   mhs   fr_moms2 |
+     |---------------------------------------|
+  1. |     1     33       2     1          1 |
+  2. |     3     24       2     1          1 |
+  3. |     4     21       1     0          1 |
+  4. |     5     39       2     0          1 |
+     +---------------------------------------+
+
+     +-----------------------------+
+     | famid   kidid   kage   kfem |
+     |-----------------------------|
+  1. |     2       2      3      1 |
+  2. |     2       1      8      0 |
+     |-----------------------------|
+  3. |     3       2      7      0 |
+  4. |     3       1      4      1 |
+     |-----------------------------|
+  5. |     4       2      3      0 |
+  6. |     4       3      7      0 |
+  7. |     4       1      1      0 |
+     +-----------------------------+
+\end{verbatim}
+
+Merge 1-to-many
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"moms2.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:}\FunctionTok{m}\NormalTok{ famid }\KeywordTok{using} \StringTok{"kids2.dta"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             4
+        from master                         2  (_merge==1)
+        from using                          2  (_merge==2)
+
+    matched                                 5  (_merge==3)
+    -----------------------------------------
+\end{verbatim}
+
+We have 5 matched observations and 4 unmatched observations. 2 observations were only in the moms dataset and 2 observations were in the kids dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab} \DataTypeTok{\_merge}
+\KeywordTok{sort}\NormalTok{ famid kidid}
+\OtherTok{list}\NormalTok{, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                 _merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        master only (1) |          2       22.22       22.22
+         using only (2) |          2       22.22       44.44
+            matched (3) |          5       55.56      100.00
+------------------------+-----------------------------------
+                  Total |          9      100.00
+
+     +-------------------------------------------------------------------------------+
+     | famid   mage   mrace   mhs   fr_moms2   kidid   kage   kfem            _merge |
+     |-------------------------------------------------------------------------------|
+  1. |     1     33       2     1          1       .      .      .   master only (1) |
+     |-------------------------------------------------------------------------------|
+  2. |     2      .       .     .          .       1      8      0    using only (2) |
+  3. |     2      .       .     .          .       2      3      1    using only (2) |
+     |-------------------------------------------------------------------------------|
+  4. |     3     24       2     1          1       1      4      1       matched (3) |
+  5. |     3     24       2     1          1       2      7      0       matched (3) |
+     |-------------------------------------------------------------------------------|
+  6. |     4     21       1     0          1       1      1      0       matched (3) |
+  7. |     4     21       1     0          1       2      3      0       matched (3) |
+  8. |     4     21       1     0          1       3      7      0       matched (3) |
+     |-------------------------------------------------------------------------------|
+  9. |     5     39       2     0          1       .      .      .   master only (1) |
+     +-------------------------------------------------------------------------------+
+\end{verbatim}
+
+When \_merge==1 we have missing observations in the kids variables, and when \_merge==2 we have missing observations in the moms variables.
+Non-matched data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{list} \KeywordTok{if} \DataTypeTok{\_merge}\NormalTok{ == 1 | }\DataTypeTok{\_merge}\NormalTok{ == 2, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   mhs   fr_moms2   kidid   kage   kfem            _merge |
+     |-------------------------------------------------------------------------------|
+  1. |     1     33       2     1          1       .      .      .   master only (1) |
+     |-------------------------------------------------------------------------------|
+  2. |     2      .       .     .          .       1      8      0    using only (2) |
+  3. |     2      .       .     .          .       2      3      1    using only (2) |
+     |-------------------------------------------------------------------------------|
+  9. |     5     39       2     0          1       .      .      .   master only (1) |
+     +-------------------------------------------------------------------------------+
+\end{verbatim}
+
+Matched data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{list} \KeywordTok{if} \DataTypeTok{\_merge}\NormalTok{ == 3, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   mhs   fr_moms2   kidid   kage   kfem        _merge |
+     |---------------------------------------------------------------------------|
+  4. |     3     24       2     1          1       1      4      1   matched (3) |
+  5. |     3     24       2     1          1       2      7      0   matched (3) |
+     |---------------------------------------------------------------------------|
+  6. |     4     21       1     0          1       1      1      0   matched (3) |
+  7. |     4     21       1     0          1       2      3      0   matched (3) |
+  8. |     4     21       1     0          1       3      7      0   matched (3) |
+     +---------------------------------------------------------------------------+
+\end{verbatim}
+
+\section{Merging multiple datasets}\label{merging-multiple-datasets}
+
+Sometimes we need to merge more than 2 datasets together. The examples in the book have nogenerate in the merge command. \textbf{I don't recommend this}, and after you have inspected your first merge and are satisfied with the results use the drop command to drop \_merge, and then proceed with your second merge.
+
+Let's say we have four datasets: ``moms2.dta'', ``momsbest2.dta'', ``dads2.dta'', ``dadsbest2.dta''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"moms2.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using} \StringTok{"momsbest2.dta"}
+\KeywordTok{sort}\NormalTok{ famid}
+\OtherTok{list}\NormalTok{, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             3
+        from master                         2  (_merge==1)
+        from using                          1  (_merge==2)
+
+    matched                                 2  (_merge==3)
+    -----------------------------------------
+
+     +----------------------------------------------------------------------------+
+     | famid   mage   mrace   mhs   fr_moms2   mbage   fr_mo~t2            _merge |
+     |----------------------------------------------------------------------------|
+  1. |     1     33       2     1          1       .          .   master only (1) |
+     |----------------------------------------------------------------------------|
+  2. |     2      .       .     .          .      29          1    using only (2) |
+     |----------------------------------------------------------------------------|
+  3. |     3     24       2     1          1      23          1       matched (3) |
+     |----------------------------------------------------------------------------|
+  4. |     4     21       1     0          1      37          1       matched (3) |
+     |----------------------------------------------------------------------------|
+  5. |     5     39       2     0          1       .          .   master only (1) |
+     +----------------------------------------------------------------------------+
+\end{verbatim}
+
+Inspect the merge
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab} \DataTypeTok{\_merge} 
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                 _merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        master only (1) |          2       40.00       40.00
+         using only (2) |          1       20.00       60.00
+            matched (3) |          2       40.00      100.00
+------------------------+-----------------------------------
+                  Total |          5      100.00
+\end{verbatim}
+
+You may want another variable to inspect in the tabulation, which is helpful with large datasets where you cannot eyeball every observation.
+For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab}\NormalTok{ mage }\DataTypeTok{\_merge}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+           |        _merge
+       Age | master on  matched ( |     Total
+-----------+----------------------+----------
+        21 |         0          1 |         1 
+        24 |         0          1 |         1 
+        33 |         1          0 |         1 
+        39 |         1          0 |         1 
+-----------+----------------------+----------
+     Total |         2          2 |         4 
+\end{verbatim}
+
+Drop the \_merge after successful inspection. If you are doing multiple merging, \emph{do not forget} to drop *\_merge* or Stata will throw an error.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{drop} \DataTypeTok{\_merge}
+\end{Highlighting}
+\end{Shaded}
+
+Merge the 3rd dataset and inspect
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using} \StringTok{"dads2.dta"}
+\KeywordTok{tab} \DataTypeTok{\_merge}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             2
+        from master                         2  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                                 3  (_merge==3)
+    -----------------------------------------
+
+                 _merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        master only (1) |          2       40.00       40.00
+            matched (3) |          3       60.00      100.00
+------------------------+-----------------------------------
+                  Total |          5      100.00
+\end{verbatim}
+
+Drop the 2nd merge for 3rd merge
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{drop} \DataTypeTok{\_merge}
+\end{Highlighting}
+\end{Shaded}
+
+Merge the 4th dataset and inspect the merge
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using} \StringTok{"dadsandbest.dta"}
+\KeywordTok{sort}\NormalTok{ famid}
+\OtherTok{list}\NormalTok{ famid fr\_*, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             1
+        from master                         1  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                                 4  (_merge==3)
+    -----------------------------------------
+
+     +---------------------------------------------------+
+     | famid   fr_moms2   fr_mo~t2   fr_dads2   fr_da~t2 |
+     |---------------------------------------------------|
+  1. |     1          1          .          1          1 |
+     |---------------------------------------------------|
+  2. |     2          .          1          1          1 |
+     |---------------------------------------------------|
+  3. |     3          1          1          .          1 |
+     |---------------------------------------------------|
+  4. |     4          1          1          1          1 |
+     |---------------------------------------------------|
+  5. |     5          1          .          .          . |
+     +---------------------------------------------------+
+\end{verbatim}
+
+Drop for 4th merge
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{drop} \DataTypeTok{\_merge}
+\end{Highlighting}
+\end{Shaded}
+
+Now add a 4th merge but with a 1-to-many, and inspect the merge
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{merge}\NormalTok{ 1:}\FunctionTok{m}\NormalTok{ famid }\KeywordTok{using} \StringTok{"kidname.dta"}
+\KeywordTok{tab} \DataTypeTok{\_merge}
+\OtherTok{list}\NormalTok{ famid fr\_* kidname, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             1
+        from master                         1  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                                 8  (_merge==3)
+    -----------------------------------------
+
+                 _merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        master only (1) |          1       11.11       11.11
+            matched (3) |          8       88.89      100.00
+------------------------+-----------------------------------
+                  Total |          9      100.00
+
+variable kidname not found
+r(111);
+
+r(111);
+\end{verbatim}
+
+Mitchell suggests a user-contribution command called \emph{dmtablist}. You must have Stata 16 or higher, so I'm unable to demonstrate it.
+
+\subsection{Update mergers}\label{update-mergers}
+
+There is an interesting update option with the merge if for some reason, you wanted to check an older version of your data. It will replace the data in your master file with data in your using file. I have never used this set of options, but they may have value in future situations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use}\NormalTok{ moms5, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +--------------------------------+
+     | famid   mage   mrace   mhsgrad |
+     |--------------------------------|
+  1. |     1      .       2         1 |
+  2. |     2     82       .         1 |
+  3. |     3     24       2         . |
+  4. |     4     21       1         0 |
+     +--------------------------------+
+\end{verbatim}
+
+Here is an updated file with error corrections and previously missing data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ moms5fixes, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mage   mrace   mhsgrad |
+     |--------------------------------|
+  1. |     1     33       .         . |
+  2. |     2     28       1         . |
+  3. |     3      .       .         1 |
+     +--------------------------------+
+\end{verbatim}
+
+If we use the update option, then it will find matching data, missing data to update, and conflicting data, which are data that match on the key variable, but are of different values.
+
+We'll need to inspect the merge:
+1. We have 1 observation famid==4 that there are no corresponding observations in our using data
+2. We have 2 missing data in our master that are updated with data from using
+3. We have 1 conflict data between the master and using datasets: 82 vs 28.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ moms5, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using}\NormalTok{ moms5fixes, update }
+\KeywordTok{sort}\NormalTok{ famid}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             1
+        from master                         1  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                                 3
+        not updated                         0  (_merge==3)
+        missing updated                     2  (_merge==4)
+        nonmissing conflict                 1  (_merge==5)
+    -----------------------------------------
+
+     +----------------------------------------------------------+
+     | famid   mage   mrace   mhsgrad                    _merge |
+     |----------------------------------------------------------|
+  1. |     1     33       2         1       missing updated (4) |
+  2. |     2     82       1         1   nonmissing conflict (5) |
+  3. |     3     24       2         1       missing updated (4) |
+  4. |     4     21       1         0           master only (1) |
+     +----------------------------------------------------------+
+\end{verbatim}
+
+If we want to update the conflicting data, then we need to the \emph{replace} option along with the \emph{update} option. Next, we'll need to inspect the merge. Remember, if it is a large data set, then the \emph{tab} command by variables may be more appropriate than the \emph{list} command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ moms5, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using}\NormalTok{ moms5fixes, update }\KeywordTok{replace}
+
+\KeywordTok{sort}\NormalTok{ famid}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             1
+        from master                         1  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                                 3
+        not updated                         0  (_merge==3)
+        missing updated                     2  (_merge==4)
+        nonmissing conflict                 1  (_merge==5)
+    -----------------------------------------
+
+     +----------------------------------------------------------+
+     | famid   mage   mrace   mhsgrad                    _merge |
+     |----------------------------------------------------------|
+  1. |     1     33       2         1       missing updated (4) |
+  2. |     2     28       1         1   nonmissing conflict (5) |
+  3. |     3     24       2         1       missing updated (4) |
+  4. |     4     21       1         0           master only (1) |
+     +----------------------------------------------------------+
+\end{verbatim}
+
+\subsection{Merging Additional options}\label{merging-additional-options}
+
+There are some additional options in merge, which may be of interest that
+we will cover.
+
+\subsubsection*{keepusing()}\label{keepusing}
+\addcontentsline{toc}{subsubsection}{keepusing()}
+
+The \emph{keepusing()} option can be helpful when merging two datasets with hundreds of variables. Our data sets here are small, but the CPS, ACS, etc. can have hundreds of variables and we may only want a few additional variables from a using dataset
+
+Let's say we only want dads age and dads race from our using dataset. We can use the \emph{keepusing()} option to keep dage drace
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use}\NormalTok{ dads1, }\KeywordTok{clear}
+\OtherTok{list}
+\KeywordTok{use}\NormalTok{ moms1, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using}\NormalTok{ dads1, keepusing(dage drace)}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+We do not keep dhs after the merge since we specify dage and drace with the \emph{keepusing()} option
+
+\subsubsection*{assert()}\label{assert}
+\addcontentsline{toc}{subsubsection}{assert()}
+
+Another interesting option is \emph{assert()}, which could be useful in certain situations. If we specify \emph{assert(match)}, Stata will throw an error if all observations are not matched. This may or may not be helpful when inspecting the data post-merge. An option of \emph{assert(match master)} makes sure that all merges are matched or from the original dataset.
+
+More information is on pages 247-248.
+
+\subsection*{Other options}\label{other-options}
+\addcontentsline{toc}{subsection}{Other options}
+
+\textbf{I do not recommend} using \emph{noreport} or \emph{nogenerate} options, since these are
+essential for inspecting your merges.
+
+The \emph{generate} option is just basically a rename of \_merge
+
+I don't recommend the \emph{keep()} option either. You should inspect your data and then when you are satisfied, you can use the drop command with a qualifier using \_merge: drop if \_merge == 1 \textbar{} \_merge == 2
+
+\section{Merging Problems}\label{merging-problems}
+
+Merging can be trickier than appending. Appending is fairly straightfoward,
+but some of the topics are similar
+
+\subsection*{Common variable names}\label{common-variable-names}
+\addcontentsline{toc}{subsection}{Common variable names}
+
+This is a similar problem to append, but we need different variable names instead of the same variable names. If we have common or the same variable names with merge, then we will lose data.
+
+In our example we have similar columns of data, but with different names except for mom's age and dad's age which are both named ``age''. For example the race column in moms data is called race, while the race column in dads data is called eth. But, both datasets have age named as age.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use}\NormalTok{ moms3, }\KeywordTok{clear}
+\OtherTok{list}
+\KeywordTok{use}\NormalTok{ dads3, }\KeywordTok{clear}
+\OtherTok{list}
+\KeywordTok{use}\NormalTok{ moms3, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using}\NormalTok{ dads3}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +-------------------------+
+     | famid   age   race   hs |
+     |-------------------------|
+  1. |     1    33      2    1 |
+  2. |     2    28      1    1 |
+  3. |     3    24      2    1 |
+  4. |     4    21      1    0 |
+     +-------------------------+
+
+     +----------------------------+
+     | famid   age   eth   gradhs |
+     |----------------------------|
+  1. |     1    21     1        0 |
+  2. |     2    25     1        1 |
+  3. |     3    31     2        1 |
+  4. |     4    25     2        1 |
+     +----------------------------+
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                                 4  (_merge==3)
+    -----------------------------------------
+
+     +------------------------------------------------------+
+     | famid   age   race   hs   eth   gradhs        _merge |
+     |------------------------------------------------------|
+  1. |     1    33      2    1     1        0   matched (3) |
+  2. |     2    28      1    1     1        1   matched (3) |
+  3. |     3    24      2    1     2        1   matched (3) |
+  4. |     4    21      1    0     2        1   matched (3) |
+     +------------------------------------------------------+
+\end{verbatim}
+
+Even though our merge is successful, but we lost dads age. Please note that even when a merge appears successful, we still need to inspect our data to look for any problem such as lost data. This easy to notice in a small dataset, but what about datasets with hundreds of variables? We should inspect our data systematically beforehand to prevent this problem.
+
+\textbf{Solution:}
+There is a helpful command called \emph{cf} (compare files) that can detect variables that are common/same and different between datasets. Once detected, rename the variable to a name that would make sense e.g: momsage.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ moms3, }\KeywordTok{clear}
+\KeywordTok{cf} \DataTypeTok{\_all} \KeywordTok{using}\NormalTok{ dads3, }\OtherTok{all}\NormalTok{ verbose}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+           famid:  match
+             age:  4 mismatches
+                   obs 1. 33 in master; 21 in using
+                   obs 2. 28 in master; 25 in using
+                   obs 3. 24 in master; 31 in using
+                   obs 4. 21 in master; 25 in using
+            race:  does not exist in using
+              hs:  does not exist in using
+r(9);
+
+r(9);
+\end{verbatim}
+
+From the \emph{cf} command, we want to compare variables and we find that race and hs are not in the master file, but age is and there are 4 mismatched observations. We can easily enough rename our age variable in the master before performing our merge. Our all option will compare all the variables, but if we don't use this option, only mismatched will appear. There is a \emph{verbose} option that will give a detailed listing of each observation that differs. \emph{verbose} is probably not practical when merging data between large datasets.
+
+\textbf{Notice:} our key variable famid does not appear as a mismatch.
+
+Remember, In append, when we had different variable names, we would create new and inconsistent columns of data. In merge we want new variable names to preserve all of our data.
+
+Mitchell recommends that you check out a blog on Merges Gone Bad:
+\url{https://blog.stata.com/2011/04/18/merging-data-part-1-merges-gone-bad/}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{search}\NormalTok{ merges gone bad}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection*{Same value label names}\label{same-value-label-names}
+\addcontentsline{toc}{subsection}{Same value label names}
+
+This is a similiar but slightly different problem that we saw in append. When there are two value labels of the same name, the master value label name will overwrite the using value label name. A message will pop up, but an error will not be thrown.
+
+In our example, high school has label dhs and label mhs so they are unique, but race is common between moms4 and dads4, and when merging the master label values will overwrite the using.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use}\NormalTok{ moms4, }\KeywordTok{clear}
+\KeywordTok{merge}\NormalTok{ 1:1 famid }\KeywordTok{using}\NormalTok{ dads4}
+\OtherTok{list}\NormalTok{ famid mrace drace mhs dhs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+
+(label race already defined)
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                                 4  (_merge==3)
+    -----------------------------------------
+
+     +-------------------------------------------------------------------+
+     | famid       mrace       drace               mhs               dhs |
+     |-------------------------------------------------------------------|
+  1. |     1   Mom Black   Mom White       Mom HS Grad   Dad Not HS Grad |
+  2. |     2   Mom White   Mom White       Mom HS Grad       Dad HS Grad |
+  3. |     3   Mom Black   Mom Black       Mom HS Grad       Dad HS Grad |
+  4. |     4   Mom White   Mom Black   Mom Not HS Grad       Dad HS Grad |
+     +-------------------------------------------------------------------+
+\end{verbatim}
+
+A message saying ``label race already defined'')
+
+\textbf{Solution:} create a new label values for dad's race.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{label} \KeywordTok{define}\NormalTok{ dracel 1 }\StringTok{"White"}\NormalTok{ 2 }\StringTok{"Black"}
+\KeywordTok{label} \KeywordTok{values}\NormalTok{ drace drace1}
+\OtherTok{list}\NormalTok{ famid mrace drace mhs dhs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid       mrace   drace               mhs               dhs |
+     |---------------------------------------------------------------|
+  1. |     1   Mom Black       1       Mom HS Grad   Dad Not HS Grad |
+  2. |     2   Mom White       1       Mom HS Grad       Dad HS Grad |
+  3. |     3   Mom Black       2       Mom HS Grad       Dad HS Grad |
+  4. |     4   Mom White       2   Mom Not HS Grad       Dad HS Grad |
+     +---------------------------------------------------------------+
+\end{verbatim}
+
+\subsection*{Conflicts in key variables}\label{conflicts-in-key-variables}
+\addcontentsline{toc}{subsection}{Conflicts in key variables}
+
+\textbf{Solutions:}
+1. Precheck all variable names with describe to prevent this (but this may be unreasonable in large datasets), and then label value labels of the common value labels to a more generic value label.
+2. An alternative could be to relabel your data after a merge.
+3. Mitchell recommends the precombine command which is available in later versions of Stata.
+
+\textbf{Note:} your key variables need to be in the same type numerics or strings.
+Please check your key variables before merging.
+
+\subsection*{m:m matching}\label{mm-matching}
+\addcontentsline{toc}{subsection}{m:m matching}
+
+You need to be careful when doing m:m matching, and I don't think Mitchell even talks about this. It is preferable to have your main dataset as your unique observations (your 1), and your using having multiple observation (your m). There could be situations where you might need it, but it shouldn't be your default go to for merge
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use}\NormalTok{ moms1, }\KeywordTok{clear}
+\KeywordTok{append} \KeywordTok{using}\NormalTok{ dads1}
+\KeywordTok{sort}\NormalTok{ famid}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +-------------------------------------------------+
+     | famid   mage   mrace   mhs   dage   drace   dhs |
+     |-------------------------------------------------|
+  1. |     1      .       .     .     21       1     0 |
+  2. |     1     33       2     1      .       .     . |
+  3. |     2      .       .     .     25       1     1 |
+  4. |     2     28       1     1      .       .     . |
+  5. |     3      .       .     .     31       2     1 |
+     |-------------------------------------------------|
+  6. |     3     24       2     1      .       .     . |
+  7. |     4      .       .     .     25       2     1 |
+  8. |     4     21       1     0      .       .     . |
+     +-------------------------------------------------+
+\end{verbatim}
+
+An example of a problem with m:m merging.
+We now have multiple famid ids: one for moms, one for dads. And now if we want to merge kids data, we try a m:m matching since we have multiple parents and multiple kids.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{merge} \FunctionTok{m}\NormalTok{:}\FunctionTok{m}\NormalTok{ famid }\KeywordTok{using}\NormalTok{ kids1}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                             0
+    matched                                 9  (_merge==3)
+    -----------------------------------------
+
+     +-------------------------------------------------------------------------------------+
+     | famid   mage   mrace   mhs   dage   drace   dhs   kidid   kage   kfem        _merge |
+     |-------------------------------------------------------------------------------------|
+  1. |     1      .       .     .     21       1     0       1      3      1   matched (3) |
+  2. |     1     33       2     1      .       .     .       1      3      1   matched (3) |
+  3. |     2      .       .     .     25       1     1       1      8      0   matched (3) |
+  4. |     2     28       1     1      .       .     .       2      3      1   matched (3) |
+  5. |     3      .       .     .     31       2     1       2      7      0   matched (3) |
+     |-------------------------------------------------------------------------------------|
+  6. |     3     24       2     1      .       .     .       1      4      1   matched (3) |
+  7. |     4      .       .     .     25       2     1       2      3      0   matched (3) |
+  8. |     4     21       1     0      .       .     .       3      7      0   matched (3) |
+  9. |     4     21       1     0      .       .     .       1      1      0   matched (3) |
+     +-------------------------------------------------------------------------------------+
+\end{verbatim}
+
+We need to be careful, and observe our data for problems. We have a duplicative kidid since famid==1 only has one kid. We have a duplicative mom in famid==4. This is likely very problematic.
+
+\textbf{Solution:}
+A better approach would be to merge moms and dads data, and then merge the kids data with a 1:m.
+A \emph{joinby} might be preferable here, which will be discussed next
+
+\section{Joining datasets}\label{joining-datasets}
+
+The \emph{joinby} command is similar to the merge command but there are some differences.
+
+There are different types of joinby that can be changed by the unmatched() option.
+There is inner joinby where unmatched() is left off. This is only the
+matched observations.
+There is a left joinby where unmatched(master) is added as an option, and we
+keep all master observation matched or unmatched and drop all unmatched
+using observations.
+There is a right joinby where unmatched(using) is added as an option, and we
+keep all using observations matched or unmatched and drop all unmatched
+master observation.
+
+\emph{joinby} command only keeps matched observations by default, but this can be
+very problematic. I suggest using the unmatched(master) option as it is a
+left join. You should probably keep your observations in at least one dataset.
+
+I personally recommend that you use merge instead of joinby, since you have
+more inspection diagnostics to make sure your data merged properly. But there
+my be situtations where a left-join is a better option instead of a m:m merge.
+This usually deals with multiple observations for an id variable such as
+moms and dads and multiple kids.
+
+We have multiple kids for each family ranging from 1 to 3.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use}\NormalTok{ kidname, }\KeywordTok{clear}
+\KeywordTok{sort}\NormalTok{ famid kname}
+\OtherTok{list}\NormalTok{, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +-----------------------+
+     | famid   kidid   kname |
+     |-----------------------|
+  1. |     1       1     Sue |
+     |-----------------------|
+  2. |     2       2     Flo |
+  3. |     2       1     Vic |
+     |-----------------------|
+  4. |     3       2     Abe |
+  5. |     3       1     Ivy |
+     |-----------------------|
+  6. |     4       2     Bob |
+  7. |     4       3     Cam |
+  8. |     4       1     Tom |
+     +-----------------------+
+\end{verbatim}
+
+We have two parents in each family
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ parname, }\KeywordTok{clear}
+\KeywordTok{sort}\NormalTok{ famid}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mom   age   race   pname |
+     |----------------------------------|
+  1. |     1     0    21      1     Sam |
+  2. |     1     1    33      2     Lil |
+  3. |     2     0    25      1     Nik |
+  4. |     2     1    28      1     Ula |
+  5. |     3     0    31      2      Al |
+     |----------------------------------|
+  6. |     3     1    24      2     Ann |
+  7. |     4     0    25      2     Ted |
+  8. |     4     1    21      1     Bev |
+     +----------------------------------+
+\end{verbatim}
+
+We'll look at an \emph{inner join} first
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{joinby}\NormalTok{ famid }\KeywordTok{using}\NormalTok{ kidname}
+\KeywordTok{sort}\NormalTok{ famid kname pname}
+\OtherTok{list}\NormalTok{, sepby(famid kidid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mom   age   race   pname   kidid   kname |
+     |--------------------------------------------------|
+  1. |     1     1    33      2     Lil       1     Sue |
+  2. |     1     0    21      1     Sam       1     Sue |
+     |--------------------------------------------------|
+  3. |     2     0    25      1     Nik       2     Flo |
+  4. |     2     1    28      1     Ula       2     Flo |
+     |--------------------------------------------------|
+  5. |     2     0    25      1     Nik       1     Vic |
+  6. |     2     1    28      1     Ula       1     Vic |
+     |--------------------------------------------------|
+  7. |     3     0    31      2      Al       2     Abe |
+  8. |     3     1    24      2     Ann       2     Abe |
+     |--------------------------------------------------|
+  9. |     3     0    31      2      Al       1     Ivy |
+ 10. |     3     1    24      2     Ann       1     Ivy |
+     |--------------------------------------------------|
+ 11. |     4     1    21      1     Bev       2     Bob |
+ 12. |     4     0    25      2     Ted       2     Bob |
+     |--------------------------------------------------|
+ 13. |     4     1    21      1     Bev       3     Cam |
+ 14. |     4     0    25      2     Ted       3     Cam |
+     |--------------------------------------------------|
+ 15. |     4     1    21      1     Bev       1     Tom |
+ 16. |     4     0    25      2     Ted       1     Tom |
+     +--------------------------------------------------+
+\end{verbatim}
+
+Notice we have a family id, but also a parent id in the mom variable (0,1). We can have a \textbf{left-join}, but it will be the same as an \textbf{inner join}.
+This might be preferable, since not all parents may have kids and we would want to keep their data.
+
+We'll look at a \textbf{left-join}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ parname, }\KeywordTok{clear}
+\KeywordTok{joinby}\NormalTok{ famid }\KeywordTok{using}\NormalTok{ kidname, unmatched(master)}
+\KeywordTok{sort}\NormalTok{ famid kname pname}
+\OtherTok{list}\NormalTok{, sepby(famid kidid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | famid   mom   age   race   pname                          _merge   kidid   kname |
+     |----------------------------------------------------------------------------------|
+  1. |     1     1    33      2     Lil   both in master and using data       1     Sue |
+  2. |     1     0    21      1     Sam   both in master and using data       1     Sue |
+     |----------------------------------------------------------------------------------|
+  3. |     2     0    25      1     Nik   both in master and using data       2     Flo |
+  4. |     2     1    28      1     Ula   both in master and using data       2     Flo |
+     |----------------------------------------------------------------------------------|
+  5. |     2     0    25      1     Nik   both in master and using data       1     Vic |
+  6. |     2     1    28      1     Ula   both in master and using data       1     Vic |
+     |----------------------------------------------------------------------------------|
+  7. |     3     0    31      2      Al   both in master and using data       2     Abe |
+  8. |     3     1    24      2     Ann   both in master and using data       2     Abe |
+     |----------------------------------------------------------------------------------|
+  9. |     3     0    31      2      Al   both in master and using data       1     Ivy |
+ 10. |     3     1    24      2     Ann   both in master and using data       1     Ivy |
+     |----------------------------------------------------------------------------------|
+ 11. |     4     1    21      1     Bev   both in master and using data       2     Bob |
+ 12. |     4     0    25      2     Ted   both in master and using data       2     Bob |
+     |----------------------------------------------------------------------------------|
+ 13. |     4     1    21      1     Bev   both in master and using data       3     Cam |
+ 14. |     4     0    25      2     Ted   both in master and using data       3     Cam |
+     |----------------------------------------------------------------------------------|
+ 15. |     4     1    21      1     Bev   both in master and using data       1     Tom |
+ 16. |     4     0    25      2     Ted   both in master and using data       1     Tom |
+     +----------------------------------------------------------------------------------+
+\end{verbatim}
+
+\section{Crossing datasets}\label{crossing-datasets}
+
+If you are interested in cross data, it can be found on pages 255-257.
+
+The cross command matches each observation in the master dataset to the using dataset.
+
+In our moms and dads data set, we have 4 moms and 4 dads. The cross command will match every possible combination, so we have a 4x4 outcome. This might be of interest, and have some usefulness with combination and permutations, but I have never personally used this.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\KeywordTok{use}\NormalTok{ moms1, }\KeywordTok{clear}
+\KeywordTok{cross} \KeywordTok{using}\NormalTok{ dads1}
+\KeywordTok{sort}\NormalTok{ famid}
+\OtherTok{list}\NormalTok{, sepby(famid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +-------------------------------------------------+
+     | famid   mage   mrace   mhs   dage   drace   dhs |
+     |-------------------------------------------------|
+  1. |     1     33       2     1     25       1     1 |
+  2. |     1     33       2     1     31       2     1 |
+  3. |     1     33       2     1     21       1     0 |
+  4. |     1     33       2     1     25       2     1 |
+     |-------------------------------------------------|
+  5. |     2     28       1     1     31       2     1 |
+  6. |     2     28       1     1     25       2     1 |
+  7. |     2     28       1     1     25       1     1 |
+  8. |     2     28       1     1     21       1     0 |
+     |-------------------------------------------------|
+  9. |     3     24       2     1     21       1     0 |
+ 10. |     3     24       2     1     31       2     1 |
+ 11. |     3     24       2     1     25       2     1 |
+ 12. |     3     24       2     1     25       1     1 |
+     |-------------------------------------------------|
+ 13. |     4     21       1     0     25       1     1 |
+ 14. |     4     21       1     0     21       1     0 |
+ 15. |     4     21       1     0     31       2     1 |
+ 16. |     4     21       1     0     25       2     1 |
+     +-------------------------------------------------+
+\end{verbatim}
+
+Mitchell, N.M. (2020). \emph{Data Management Using Stata: A Practical Handbook}. (2nd ed.). Stata Press.
+
+UCLA Advanced Research Computing. (2025). \emph{Stata Learning Modules.} Retrieved from \url{https://stats.oarc.ucla.edu/stata/modules/}
+
+Wooldridge (2009). \emph{Introductory Econometrics: A Modern Approach}. (4th ed.). South-Western Cengage Learning.
+
+\bibliography{book.bib,packages.bib}
+
+\end{document}

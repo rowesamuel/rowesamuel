@@ -1,0 +1,1276 @@
+# Appending and Merging
+Appending and merging datasets are a crucial part of learning Stata or any other statistical package. Many times we are merging datasets by State FIPS, year, Zip Codes, Unit ID, County FIPS, etc. If we wanted to analyze local-level unemployment data to our analysis of county-level crime, then we will likely be using data from BLS and data from FBI or other local admin data.
+
+**Note:** Working with multiple datasets:
+I do not have frames in Stata 14, but using frames is encouraged. Using the temp files workaround is a bit cumbersome (but it works). Using Stata frames will help work with those datasets simultaneously to get them ready to merge.
+
+# Appending
+
+The *append* command appends two or more datasets into one data set. We are appending rows with the same columns. Appending is more straightforward than merging, but still an important tool for examining multiple datasets.
+
+## Appending Datasets
+
+Let's say we have two datasets with the same variables. We can append these files together using the *append* command.
+```{stata append1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms.dta", clear
+list
+use "dads.dta", clear
+list
+```
+
+We can append the mom.dta file with *append* using filename.
+```{stata append2, eval=FALSE}
+append using "moms.dta"
+list
+```
+
+```{stata append2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms.dta", clear
+use "dads.dta", clear
+}
+append using "moms.dta"
+list
+```
+Or,
+```{stata append3, eval=FALSE}
+clear
+append using "moms.dta" "dads.dta"
+list
+```
+
+```{stata append3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+clear
+append using "moms.dta" "dads.dta"
+list
+```
+
+**Note:** What is a clear problem here? After the append, how do we identify which data are for dads and for moms? 
+
+There are two ways. 
+  1. We can generate a variable in both files and code it. 
+  2. We can use the *generate* option in the append.
+
+```{stata append4, eval=FALSE}
+clear
+append using "moms.dta" "dads.dta", generate(datascreen)
+list, sepby(datascreen)
+```
+
+```{stata append4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+clear
+append using "moms.dta" "dads.dta", generate(datascreen)
+list, sepby(datascreen)
+```
+
+Since moms.dta is first, the new variable datascreen will set moms.dta datascreen variable = 1, and since dads.dta is second, the datascreen variable = 2.
+
+You could just generate a variable called parent in both files and set moms equal to 1 and dads equal to 0. But, the *generate* option is nice and concise. 
+
+It's a good idea to label the data
+```{stata append5, eval=FALSE}
+label define datascreenl 1 "From moms.dta" 2 "From dads.dta"
+label values datascreen datascreenl
+list, sepby(datascreen)
+```
+
+```{stata append5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+clear
+append using "moms.dta" "dads.dta", generate(datascreen)
+}
+label define datascreenl 1 "From moms.dta" 2 "From dads.dta"
+label values datascreen datascreenl
+list, sepby(datascreen)
+```
+
+If we use the *generate* option in append with one file open, the values of the generated variable are different.
+```{stata append6, eval=FALSE}
+clear
+use "moms.dta"
+append using "dads.dta", generate(datascreen)
+list, sepby(datascreen)
+label define datascreenl 0 "From moms.dta" 1 "From dads.dta"
+label values datascreen datascreenl
+list, sepby(datascreen)
+```
+
+```{stata append6_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+clear
+use "moms.dta"
+append using "dads.dta", generate(datascreen)
+list, sepby(datascreen)
+label define datascreenl 0 "From moms.dta" 1 "From dads.dta"
+label values datascreen datascreenl
+list, sepby(datascreen)
+```
+
+We can append multiple datafiles together (as long as they have the same variables).
+```{stata append7, eval=FALSE}
+dir br*.dta
+use "br_clarence.dta", clear
+list
+
+clear
+append using "br_clarence.dta" "br_isaac" "br_sally", generate(rev)
+label define revl 1 "clarence" 2 "isaac" 3 "sally"
+label values rev revl
+list, sepby(rev)
+```
+
+```{stata append7_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+dir br*.dta
+use "br_clarence.dta", clear
+list
+
+clear
+append using "br_clarence.dta" "br_isaac" "br_sally", generate(rev)
+label define revl 1 "clarence" 2 "isaac" 3 "sally"
+label values rev revl
+list, sepby(rev)
+```
+
+## Appending Problems
+
+We can check the two datasets for potential problems with the *precombine* command. You will need to install this community-user command. Using *precombine* with the *describe* option, we can check to see if the components of the datasets are similar to prevent problem: 
+  1. Storage type
+  2. Format
+  3. Variable labels
+  4. Values labels
+  5. Type of variable - string or numeric
+  6. Position of the variable.
+  
+```{stata problem1, eval=FALSE}
+search precombine
+clear
+precombine "moms.dta" "dads.dta", describe(type format varlab vallab ndta) uniquevars
+```
+
+```{stata problem1_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+search precombine
+clear
+precombine "moms.dta" "dads.dta", describe(type format varlab vallab ndta) uniquevars
+```
+
+### Different variable names
+
+If the same variable intent has two different variable names between the data sets, then they will become two different columns when you only want one column of data. 
+
+For example, when we append moms1 and dads1 which have different variable names for the different variables, the variables do not append correctly.
+```{stata problem2, eval=FALSE}
+use "moms1.dta", clear
+append using "dads1.dta", generate(datascreen)
+list
+```
+
+```{stata problem2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "moms1.dta", clear
+append using "dads1.dta", generate(datascreen)
+list
+```
+
+**Solution**
+
+It's an easy fix. Just rename the variables to a common variable name and append.
+```{stata problem3, eval=FALSE}
+use "moms1.dta", clear
+rename (mage mrace mhs) (age race hs)
+save "moms1temp.dta", replace
+
+use "dads1.dta", clear
+rename (dage drace dhs) (age race hs)
+save "dads1temp.dta", replace
+
+append using "moms1temp.dta" "dads1temp.dta", generate(datascreen)
+list
+
+```
+
+```{stata problem3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "moms1.dta", clear
+rename (mage mrace mhs) (age race hs)
+save "moms1temp.dta", replace
+
+use "dads1.dta", clear
+rename (dage drace dhs) (age race hs)
+save "dads1temp.dta", replace
+
+append using "moms1temp.dta" "dads1temp.dta", generate(datascreen)
+list
+
+```
+
+### Conflicting variable labels
+
+If we have conflicting variable labels, then the variable labels of the primary dataset will overwrite the appended dataset. The solution is to use a neutral variable label.
+For example, instead of Mom's HS and Dad's HS, just have "high school" as the variable label in both datasets
+
+**Solution:** For appending, use neutral variable label names.
+```{stata problem4, eval=FALSE}
+use "momslab.dta", clear
+append using "dadslab.dta", generate(datascreen)
+describe
+
+use "momslab.dta", clear
+label variable hs "High School Degree"
+label variable race "Race/Ethnicity"
+label variable age "Age"
+save "momslab1.dta", replace
+
+use "dadslab.dta", clear
+label variable hs "High School Degree"
+label variable race "Race/Ethnicity"
+label variable age "Age"
+save "dadslab1.dta", replace
+
+use "momslab1.dta", clear
+append using "dadslab1.dta", generate(datascreen)
+describe
+```
+
+```{stata problem4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "momslab.dta", clear
+append using "dadslab.dta", generate(datascreen)
+describe
+
+use "momslab.dta", clear
+label variable hs "High School Degree"
+label variable race "Race/Ethnicity"
+label variable age "Age"
+save "momslab1.dta", replace
+
+use "dadslab.dta", clear
+label variable hs "High School Degree"
+label variable race "Race/Ethnicity"
+label variable age "Age"
+save "dadslab1.dta", replace
+
+use "momslab1.dta", clear
+append using "dadslab1.dta", generate(datascreen)
+describe
+```
+
+**Note:** we will use unique variable label names for merging.
+
+### Conflicting value labels
+
+Using our previous files, we find that the value labels may also be incorrect when appending. The primary file (the open one) will supersede the values in the appended file. 
+
+**Note:** this will not throw an error and your data will append, but it might be confusing for yourself in the future or for a replicator. It is good practice to use neutral value labels and value label names.
+
+Let's look at our files again.
+If you will notice that the value label names and the value labels will rename as the primary dataset's value label name and value labels' values.
+```{stata problem5, eval=FALSE}
+use momslab, clear
+codebook race hs
+
+use dadslab, clear
+codebook race hs
+
+use "momsdadlab1.dta", replace
+codebook race hs
+```
+
+```{stata problem5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use momslab, clear
+codebook race hs
+
+use dadslab, clear
+codebook race hs
+
+use "momsdadlab1.dta", replace
+codebook race hs
+```
+
+You will notice that the value label name in the dads file is hsgrad, while the moms file is grad. Grad supersedes the  value label name hsgrad in the dads file. You will also notice that when you describe the data, a message for the value labels will say eth (which is the same for both), but 
+all the data say Mom White or Mom Black. 
+
+**Solution:** Use neutral value labels and neutral value label names.
+
+**Solution:** Label your variables and values after appending if the labels do not exist before appending.
+
+
+### Inconsistent variable coding
+
+Another problem that will not throw an error, but it will cause problems are inconsistent variable coding. If we have a binary variable for high school degree or note, where one data set is 0-No and 1-Yes and the other is 1-No 2-Yes, an error will not be thrown when the datasets are appended.
+However, it will be a problem if you try to use a factor variable, since there conflicting and inconsistent coding.
+
+**Solution:** Check your data, and check the data dictionaries of all the datasets.
+Summarize and tabulate your data by the datasets after appending will help prevent this. When you find the issue, just recode the variables to be consistent.
+```{stata problem6, eval=FALSE}
+use "momshs.dta", clear
+append using "dads.dta", gen(datascreen)
+list
+tab hs datascreen
+```
+
+```{stata problem6_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "momshs.dta", clear
+append using "dads.dta", gen(datascreen)
+list
+tab hs datascreen
+```
+
+Just recode the data to be consistent after finding the problem 
+```{stata problem7, eval=FALSE}
+use "momshs.dta", clear
+recode hs (1=0) (2=1)
+```
+Or
+```{stata problem8, eval=FALSE}
+replace hs=0 if hs == 1
+replace hs=1 if hs == 2
+append using "dads.dta", gen(datascreen)
+tab hs datascreen
+```
+
+```{stata problem8_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "momshs.dta", clear
+}
+replace hs=0 if hs == 1
+replace hs=1 if hs == 2
+append using "dads.dta", gen(datascreen)
+tab hs datascreen
+```
+
+### Mixing variable types across datasets
+When we try to append data of a different time an error will be thrown. We can use the force option to prevent the error, but as we have seen before this can cause numeric string variables with nonnumeric characters to become missing. This will cause data lose and additional measurement error.
+```{stata problem9}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms.dta", clear
+append using "dadstr.dta", generate(datascreen)
+```
+
+**Solution:**
+Resolve the discrepency in variable type before converting. Use the *destring* command on the string variable containing numeric data in string format. The option *force* with the *append* command forces string to numeric or numeric to string during the append. **Please note that using the option *force* with the *append* command may result in data loss if not properly analyzed beforehand.**
+
+### When we have a small dataset with clean numerics in string
+
+Unfortunately, sometimes numeric variables are stored in a string type. We need to use the *destring* command to convert clean numerics that are stored as strings into a numeric type.
+
+**Solution:**
+```{stata prob10}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "dadstr.dta", clear
+destring hs, replace
+save "dadstrtemp.dta", replace
+
+use "moms.dta", clear
+append using "dadstrtemp.dta", gen(datascreen)
+list, sepby(datascreen)
+```
+
+### When we have a large dataset with messy numerics and characters in string
+
+When we have a small dataset, we can usually visually inspect the data before realizing that the numeric stored as a string is clean. With a large data file with thousands, tens of thousands, hundreds of thousands, or over a million observation, we cannot visually inspect the data. We need to use commands to summarize the data to look for problematic characteristics in numerics stored as strings. (E.g.: We want to get rid of $)
+
+Let's go back to **6.13 converting strings to numerics**.
+
+
+In small datasets, this is easy to check and fix. HOWEVER, in large datasets, you will need different techniques. I found this on Statalist using regular expressions. As I have said before,
+regular expressions can be a pain, but they are powerful. 
+
+This statement below extracts the numerics from the string.
+https://www.statalist.org/forums/forum/general-stata-discussion/general/967675-removing-non-numeric-characters-from-strings
+*regexm()* looks for a numerics with "([0-9]+)" from the string hs
+*regexs()* looks for the nth part of the string.
+```{stata prob11}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "dadstr.dta", clear
+gen n = real(regexs(1)) if regexm(hs,"([0-9]+)")
+list
+```
+
+An example of how <i>regexm</i> and <i>regexs</i> work from the help file
+```{stata prob12}
+clear
+input str15 number
+"(123) 456-7890"
+"(800) STATAPC"
+end
+
+gen str newnum1 = regexs(1) if regexm(number, "^\(([0-9]+)\) (.*)")
+gen str newnum2 = regexs(2) if regexm(number, "^\(([0-9]+)\) (.*)")
+gen str newnum = regexs(1) + "-" + regexs(2) if regexm(number, "^\(([0-9]+)\) (.*)")
+list number newnum
+```
+
+**The point:** The *regexm* command can be a lifesaver if you have numerical data stuck in string format with nonnumeric characters in a large file.
+
+#Merging
+
+Merging means we are append column based on key identifiers. Without a key variable or variables to merge upon, Stata will not be able to merge/join the datasets. Our main command to merge is *merge*
+
+## Merging: One-to-one
+
+Appending is straightforward and relatively easy to check to make sure everything was appended well. Mergering is a bit tricker, since additional problems can occur, along with different types of merging. Our command for merging is **merge**.
+
+**Note:** Before discussing merging. It is **KEY** to have a key identifier variable that is common between two datasets if they will merge. Examples include personal id, firm id, state FIPS, county FIPS, zipcode, etc.
+
+You may need multiple variables besides the identifier to properly merge. Let's say we want to merge state-level employment from the BLS QCEW with state-level GDP from BEA. We will likely need the county 2-digit FIPS code AND a time identifier, such as quarter or year. If the second identifier is missing we will not be able to properly merge the data.
+
+**Note:** In Stata, there are two datasets when merging. One is called the *master*
+dataset and the other is called the *using* dataset.
+
+**Note:** In Stata, we have four possible ways to merge: 
+  1. 1:1 one-to-one merge
+  2. 1:m one-to-many merge (one in master and many in using)
+  3. m:1 many-to-one merge (many in master and one in using)
+  4. m:m many-to-many. DO NOT USE m:m!
+
+From our moms and dads datasets our **KEY** variable to merge is family id (famid), and the moms1 dataset will be the master and the dads1 will be the using dataset
+```{stata merge1, eval=FALSE}
+use moms1, clear
+list
+```
+```{stata merge1_1, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms1, clear
+}
+list
+```
+There is only 1 observation per family, so we can do a 1-to-1 match. 
+```{stata merge2, eval=FALSE}
+merge 1:1 famid using dads1
+list
+```
+```{stata merge2_1, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms1, clear
+}
+merge 1:1 famid using dads1
+list
+```
+
+**Notice:** Our focus should be on _merge. If _merge == 3, then that means all of our
+matches worked. If _merge == 1 or _merge ==2, then we have some non-merged observations. We may want this, or we might not expect this. Either way, it is a good idea to investigate.
+
+**Notice:** Ironically enough, having two different variable names works well with merge
+compared to append. We now have two variables for hs, race, and age, but with m or d to distinguish moms and dads. You can easily reshape these data into a long format if necessary.
+
+**Problem:** When we don't have perfect matches?
+```{stata merge3, eval=FALSE}
+use "moms2.dta", clear
+merge 1:1 famid using "dads2.dta"
+```
+```{stata merge3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "moms2.dta", clear
+merge 1:1 famid using "dads2.dta"
+```
+
+We can see that when we merge, a variable called _merge is created to identify which observations merged and which did not and why (only master, only using). We can tabulate the _merge variable that is created.
+```{stata merge4, eval=FALSE}
+codebook _merge
+tab _merge
+```
+```{stata merge4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "dads2.dta"
+}
+codebook _merge
+tab _merge
+```
+
+Not every family was in both datasets
+```{stata merge5, eval=FALSE}
+sort famid
+list famid mage mrace dage drace _merge
+```
+```{stata merge5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "dads2.dta"
+}
+sort famid
+list famid mage mrace dage drace _merge
+```
+
+We have two matches between the data set, only 1 non-match that was only in the using data set (_merge==2), and 2 non-matches that were only in the master dataset (_merge==1).
+
+It is a good idea to investigate why there were no matches between the master and using datasets. We may want that or we may not want depending upon the goal. We can use a qualifier to look at which variables were only in the master, using, and ones that matched
+```{stata merge6, eval=FALSE}
+list famid mage mrace dage drace _merge if _merge==1
+list famid mage mrace dage drace _merge if _merge==2
+list famid mage mrace dage drace _merge if _merge==3
+```
+```{stata merge6_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "dads2.dta"
+}
+list famid mage mrace dage drace _merge if _merge==1
+list famid mage mrace dage drace _merge if _merge==2
+list famid mage mrace dage drace _merge if _merge==3
+```
+
+Only famid 1 and 4 had observations in both datasets.
+
+Let's say if we only want matched observations, and we are not concerned with unmatched observations, then we can keep only when _merge == 3 and drop the non-matched observations.
+```{stata merge7, eval=FALSE}
+keep if _merge == 3
+list
+```
+```{stata merge7_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "dads2.dta"
+}
+keep if _merge == 3
+list
+```
+
+### Potential Problem with 1-to-1 matching: duplicate ids
+
+What is we have duplicate ids with a 1-to-1 matching?
+```{stata merge8, eval=FALSE}
+use "momsdup.dta", clear
+list
+
+merge 1:1 famid using "dads2.dta"
+```
+
+```{stata merge8_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "momsdup.dta", clear
+list
+
+merge 1:1 famid using "dads2.dta"
+```
+
+We have two observations for famid==4
+If we use *merge 1:1 famid using "dads2.dta"*, it will throw an error, since famid does not unique identify units for matching. You would want to double check that famid is supposed to have two observations before proceeding.
+
+### 1-to-1 Matching with more than one key variable
+
+In our prior example we had duplicate for famid, and we might expect that if we had multiple family members. But, for 1-to-1 matching, we need a unique identifier(s) to properly match.
+Let's use kids1 for multiple kids for the same family.
+```{stata key1, eval=FALSE}
+use "kids1.dta", clear
+sort famid kidid
+list
+```
+
+```{stata key1_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "kids1.dta", clear
+sort famid kidid
+list
+```
+
+We now have a family id (famid) and kid id (kidid).
+```{stata key2, eval=FALSE}
+use "kidname.dta", clear
+sort famid kidid
+list
+```
+```{stata key2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "kidname.dta", clear
+sort famid kidid
+list
+```
+
+Let's merge using two key matching variable.
+```{stata key3, eval=FALSE}
+use "kids1.dta", clear
+merge 1:1 famid kidid using "kidname.dta"
+list
+```
+```{stata key3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "kids1.dta", clear
+merge 1:1 famid kidid using "kidname.dta"
+list
+```
+
+## Merging One-to-many
+
+Sometimes we need to match file's observations to multiple observations in another data set. Maybe we have CPS data and we want to merge unemployment rates at the state-level to individuals units within those states. We have one values at the state-level for month \( m \) that needs to match multilple individuals in state \( s \).
+
+When we have multiple to one observation, we cannot use 1-to-1 merge. We need a 1:m merge. 
+We can illustrate this with moms1.dta and kids1.dta. One mom may have multiple kids, so when we merge kids and moms data, we will need a 1:m merge.
+```{stata one_to_many1, eval=FALSE}
+use "moms1.dta", clear
+list
+use "kids1.dta", clear
+list
+```
+
+```{stata one_to_many1_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "moms1.dta", clear
+list
+use "kids1.dta", clear
+list
+```
+
+Each kid and mom has a family id (famid) that we will use to match multiple kids to moms. Our moms have 1 observation while the kids have m observations. Since our moms have 1 observation and there are multiple kids, we need to align our 1:m properly. Since moms is the master the 1 is one the left of 1:m, while the using kids has multiple obervations to family it is the m of 1:m.
+```{stata one_to_many2, eval=FALSE}
+use "moms1.dta", clear
+merge 1:m famid using "kids1.dta"
+list
+```
+```{stata one_to_many2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "moms1.dta", clear
+merge 1:m famid using "kids1.dta"
+list
+```
+
+If we were using kids as the master.
+```{stata one_to_many3, eval=FALSE}
+use "kids1.dta", clear
+merge m:1 famid using "moms1.dta"
+list, sepby(famid)
+```
+```{stata one_to_many3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "kids1.dta", clear
+merge m:1 famid using "moms1.dta"
+list, sepby(famid)
+```
+
+If we tried to use 1 on the kids data and m on the moms side, then an error will be thrown saying that famid does not identify observation in the master dataset.
+```{stata one_to_many4, eval=FALSE}
+use "kids1.dta", clear
+list
+use moms1.dta, clear
+list
+use "kids1.dta", clear
+merge 1:m famid using "moms1.dta"
+```
+
+If we use *merge 1:m famid using "moms1.dta"*, an error will be thrown.
+```{stata one_to_many4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "kids1.dta", clear
+list
+use moms1.dta, clear
+list
+use "kids1.dta", clear
+merge 1:m famid using "moms1.dta"
+```
+
+**Reminder:** 
+  1. 1:m means "one-to-many" where one in master and many in using
+  2. m:1 means "many-to-one" where many in master and one in using
+
+Make sure your data are properly ordered in the merge command.
+
+### One-to-many merge with problems
+
+Many times our data are not so clean for a perfect match, so what happens
+when not all observations in both files have the same identifier (ex: famid)?
+Let's use data without all of the same identifiers.
+```{stata prob1, eval=FALSE}
+use "moms2.dta", clear
+list
+use "kids2.dta", clear
+list, sepby(famid)
+```
+
+```{stata prob1_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "moms2.dta", clear
+list
+use "kids2.dta", clear
+list, sepby(famid)
+```
+
+Merge 1-to-many
+```{stata prob2, eval=FALSE}
+use "moms2.dta", clear
+merge 1:m famid using "kids2.dta"
+```
+
+```{stata prob2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "moms2.dta", clear
+merge 1:m famid using "kids2.dta"
+```
+
+We have 5 matched observations and 4 unmatched observations. 2 observations were only in the moms dataset and 2 observations were in the kids dataset.
+```{stata prob3, eval=FALSE}
+tab _merge
+sort famid kidid
+list, sepby(famid)
+```
+
+```{stata prob3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:m famid using "kids2.dta"
+}
+tab _merge
+sort famid kidid
+list, sepby(famid)
+```
+
+When _merge==1 we have missing observations in the kids variables, and when _merge==2 we have missing observations in the moms variables.
+Non-matched data
+```{stata prob4, eval=FALSE}
+list if _merge == 1 | _merge == 2, sepby(famid)
+```
+
+```{stata prob4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:m famid using "kids2.dta"
+sort famid kidid
+}
+list if _merge == 1 | _merge == 2, sepby(famid)
+```
+
+Matched data
+```{stata prob5, eval=FALSE}
+list if _merge == 3, sepby(famid)
+```
+
+```{stata prob5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:m famid using "kids2.dta"
+sort famid kidid
+}
+list if _merge == 3, sepby(famid)
+```
+
+## Merging multiple datasets
+
+Sometimes we need to merge more than 2 datasets together. The examples in the book have nogenerate in the merge command. **I don't recommend this**, and after you have inspected your first merge and are satisfied with the results use the drop command to drop _merge, and then proceed with your second merge.
+
+Let's say we have four datasets: "moms2.dta", "momsbest2.dta", "dads2.dta", "dadsbest2.dta".
+```{stata mult1, eval=FALSE}
+use "moms2.dta", clear
+merge 1:1 famid using "momsbest2.dta"
+sort famid
+list, sepby(famid)
+```
+
+```{stata mult1_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use "moms2.dta", clear
+merge 1:1 famid using "momsbest2.dta"
+sort famid
+list, sepby(famid)
+```
+
+Inspect the merge
+```{stata mult2, eval=FALSE}
+tab _merge 
+```
+
+```{stata mult2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "momsbest2.dta"
+sort famid
+list, sepby(famid)
+}
+tab _merge 
+```
+
+You may want another variable to inspect in the tabulation, which is helpful with large datasets where you cannot eyeball every observation.
+For example: 
+```{stata multi3, eval=FALSE}
+tab mage _merge
+```
+
+```{stata multi3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "momsbest2.dta"
+sort famid
+}
+tab mage _merge
+```
+
+Drop the _merge after successful inspection. If you are doing multiple merging, *do not forget* to drop *_merge* or Stata will throw an error.
+```{stata multi4, eval=FALSE}
+drop _merge
+```
+
+Merge the 3rd dataset and inspect
+```{stata multi5, eval=FALSE}
+merge 1:1 famid using "dads2.dta"
+tab _merge
+```
+
+```{stata multi5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "momsbest2.dta"
+sort famid
+drop _merge
+}
+merge 1:1 famid using "dads2.dta"
+tab _merge
+```
+
+Drop the 2nd merge for 3rd merge
+```{stata multi6, eval=FALSE}
+drop _merge
+```
+
+Merge the 4th dataset and inspect the merge
+```{stata multi7, eval=FALSE}
+merge 1:1 famid using "dadsandbest.dta"
+sort famid
+list famid fr_*, sepby(famid)
+```
+
+```{stata multi7_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "momsbest2.dta"
+sort famid
+drop _merge
+merge 1:1 famid using "dads2.dta"
+drop _merge
+}
+merge 1:1 famid using "dadsandbest.dta"
+sort famid
+list famid fr_*, sepby(famid)
+```
+
+Drop for 4th merge
+```{stata multi8, eval=FALSE}
+drop _merge
+```
+
+Now add a 4th merge but with a 1-to-many, and inspect the merge
+```{stata multi9, eval=FALSE}
+merge 1:m famid using "kidname.dta"
+tab _merge
+list famid fr_* kidname, sepby(famid)
+```
+
+```{stata multi9_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "moms2.dta", clear
+merge 1:1 famid using "momsbest2.dta"
+sort famid
+drop _merge
+merge 1:1 famid using "dads2.dta"
+drop _merge
+merge 1:1 famid using "dadsandbest.dta"
+sort famid
+drop _merge
+}
+
+merge 1:m famid using "kidname.dta"
+tab _merge
+list famid fr_* kidname, sepby(famid)
+```
+
+Mitchell suggests a user-contribution command called *dmtablist*. You must have Stata 16 or higher, so I'm unable to demonstrate it.
+
+### Update mergers
+
+There is an interesting update option with the merge if for some reason, you wanted to check an older version of your data. It will replace the data in your master file with data in your using file. I have never used this set of options, but they may have value in future situations.
+```{stata update1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms5, clear
+list
+```
+
+Here is an updated file with error corrections and previously missing data
+```{stata update2, eval=FALSE}
+use moms5fixes, clear
+list
+```
+
+```{stata update2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use moms5fixes, clear
+list
+```
+
+If we use the update option, then it will find matching data, missing data to update, and conflicting data, which are data that match on the key variable, but are of different values. 
+
+We'll need to inspect the merge: 
+  1. We have 1 observation famid==4 that there are no corresponding observations in our using data
+  2. We have 2 missing data in our master that are updated with data from using
+  3. We have 1 conflict data between the master and using datasets: 82 vs 28.
+  
+```{stata update3, eval=FALSE}
+use moms5, clear
+merge 1:1 famid using moms5fixes, update 
+sort famid
+list
+```
+
+```{stata update3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use moms5, clear
+merge 1:1 famid using moms5fixes, update 
+sort famid
+list
+```
+
+If we want to update the conflicting data, then we need to the *replace* option along with the *update* option. Next, we'll need to inspect the merge. Remember, if it is a large data set, then the *tab* command by variables may be more appropriate than the *list* command.
+```{stata update4, eval=FALSE}
+use moms5, clear
+merge 1:1 famid using moms5fixes, update replace
+
+sort famid
+list
+```
+
+```{stata update4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use moms5, clear
+merge 1:1 famid using moms5fixes, update replace
+
+sort famid
+list
+```
+
+### Merging Additional options
+
+There are some additional options in merge, which may be of interest that
+we will cover.
+
+#### keepusing() {-}
+
+The *keepusing()* option can be helpful when merging two datasets with hundreds of variables. Our data sets here are small, but the CPS, ACS, etc. can have hundreds of variables and we may only want a few additional variables from a using dataset
+
+Let's say we only want dads age and dads race from our using dataset. We can use the *keepusing()* option to keep dage drace
+```{stata add1, eval=FALSE}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use dads1, clear
+list
+use moms1, clear
+merge 1:1 famid using dads1, keepusing(dage drace)
+list
+```
+We do not keep dhs after the merge since we specify dage and drace with the *keepusing()* option
+
+#### assert() {-}
+
+Another interesting option is *assert()*, which could be useful in certain situations. If we specify *assert(match)*, Stata will throw an error if all observations are not matched. This may or may not be helpful when inspecting the data post-merge. An option of *assert(match master)* makes sure that all merges are matched or from the original dataset.
+
+More information is on pages 247-248.
+
+### Other options {-}
+
+**I do not recommend** using *noreport* or *nogenerate* options, since these are 
+essential for inspecting your merges. 
+
+The *generate* option is just basically a rename of _merge
+
+I don't recommend the *keep()* option either. You should inspect your data and then when you are satisfied, you can use the drop command with a qualifier using _merge: drop if _merge == 1 | _merge == 2
+
+## Merging Problems
+
+Merging can be trickier than appending. Appending is fairly straightfoward, 
+but some of the topics are similar
+
+### Common variable names {-}
+
+This is a similar problem to append, but we need different variable names instead of the same variable names. If we have common or the same variable names with merge, then we will lose data.  
+
+In our example we have similar columns of data, but with different names except for mom's age and dad's age which are both named "age". For example the race column in moms data is called race, while the race column in dads data is called eth. But, both datasets have age named as age.
+```{stata problems1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms3, clear
+list
+use dads3, clear
+list
+use moms3, clear
+merge 1:1 famid using dads3
+list
+```
+
+Even though our merge is successful, but we lost dads age. Please note that even when a merge appears successful, we still need to inspect our data to look for any problem such as lost data. This easy to notice in a small dataset, but what about datasets with hundreds of variables? We should inspect our data systematically beforehand to prevent this problem.
+
+**Solution:**
+There is a helpful command called *cf* (compare files) that can detect variables that are common/same and different between datasets. Once detected, rename the variable to a name that would make sense e.g: momsage.
+```{stata problems2, eval=FALSE}
+use moms3, clear
+cf _all using dads3, all verbose
+```
+
+```{stata problems2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"  
+}
+use moms3, clear
+cf _all using dads3, all verbose
+```
+
+
+From the *cf* command, we want to compare variables and we find that race and hs are not in the master file, but age is and there are 4 mismatched observations. We can easily enough rename our age variable in the master before performing our merge. Our all option will compare all the variables, but if we don't use this option, only mismatched will appear. There is a *verbose* option that will give a detailed listing of each observation that differs. *verbose* is probably not practical when merging data between large datasets.
+
+**Notice:** our key variable famid does not appear as a mismatch.
+
+Remember, In append, when we had different variable names, we would create new and inconsistent columns of data. In merge we want new variable names to preserve all of our data.
+
+Mitchell recommends that you check out a blog on Merges Gone Bad:
+https://blog.stata.com/2011/04/18/merging-data-part-1-merges-gone-bad/
+```{stata problems3, eval=FALSE}
+search merges gone bad
+```
+
+### Same value label names {-}
+
+This is a similiar but slightly different problem that we saw in append. When there are two value labels of the same name, the master value label name will overwrite the using value label name. A message will pop up, but an error will not be thrown.
+
+In our example, high school has label dhs and label mhs so they are unique, but race is common between moms4 and dads4, and when merging the master label values will overwrite the using.
+```{stata values1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms4, clear
+merge 1:1 famid using dads4
+list famid mrace drace mhs dhs
+```
+
+A message saying "label race already defined")
+
+**Solution:** create a new label values for dad's race.
+```{stata values2, eval=FALSE}
+label define dracel 1 "White" 2 "Black"
+label values drace drace1
+list famid mrace drace mhs dhs
+```
+
+```{stata values2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms4, clear
+merge 1:1 famid using dads4
+}
+label define dracel 1 "White" 2 "Black"
+label values drace drace1
+list famid mrace drace mhs dhs
+```
+
+### Conflicts in key variables {-}
+
+**Solutions:**
+   1. Precheck all variable names with describe to prevent this (but this may be unreasonable in large datasets), and then label value labels of the common value labels to a more generic value label.
+   2. An alternative could be to relabel your data after a merge.
+   3. Mitchell recommends the precombine command which is available in later versions of Stata.
+
+**Note:** your key variables need to be in the same type numerics or strings.
+Please check your key variables before merging.
+
+
+### m:m matching {-}
+
+You need to be careful when doing m:m matching, and I don't think Mitchell even talks about this. It is preferable to have your main dataset as your unique observations (your 1), and your using having multiple observation (your m). There could be situations where you might need it, but it shouldn't be your default go to for merge
+```{stata many1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms1, clear
+append using dads1
+sort famid
+list
+```
+
+An example of a problem with m:m merging.
+We now have multiple famid ids: one for moms, one for dads. And now if we want to merge kids data, we try a m:m matching since we have multiple parents and multiple kids.
+```{stata many2, eval=FALSE}
+merge m:m famid using kids1
+list
+```
+
+```{stata many2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms1, clear
+append using dads1
+sort famid
+}
+merge m:m famid using kids1
+list
+```
+
+We need to be careful, and observe our data for problems. We have a duplicative kidid since famid==1 only has one kid. We have a duplicative mom in famid==4. This is likely very problematic.
+
+**Solution:**
+A better approach would be to merge moms and dads data, and then merge the kids data with a 1:m.
+A *joinby* might be preferable here, which will be discussed next
+
+## Joining datasets
+The *joinby* command is similar to the <i>merge</i> command but there are some differences.
+
+There are different types of <i>joinby</i> that can be changed by the <i>unmatched()</i> option. 
+There is <u>inner joinby</u> where <i>unmatched()</i> is left off. This is only the
+matched observations. 
+There is a <u>left joinby</u> where <i>unmatched(master)</i> is added as an option, and we
+keep all master observation matched or unmatched and drop all unmatched 
+using observations.
+There is a <u>right joinby</u> where <i>unmatched(using)</i> is added as an option, and we
+keep all using observations matched or unmatched and drop all unmatched 
+master observation.
+
+*joinby* command only keeps matched observations by default, but this can be
+very problematic. I suggest using the <i>unmatched(master) option</i> as it is a
+left join. You should probably keep your observations in at least one dataset.
+
+I personally recommend that you use <i>merge</i> instead of <i>joinby</i>, since you have
+more inspection diagnostics to make sure your data merged properly. But there
+my be situtations where a left-join is a better option instead of a m:m merge.
+This usually deals with multiple observations for an id variable such as
+moms and dads and multiple kids.
+
+We have multiple kids for each family ranging from 1 to 3.
+```{stata join1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use kidname, clear
+sort famid kname
+list, sepby(famid)
+```
+
+We have two parents in each family
+```{stata join2, eval=FALSE}
+use parname, clear
+sort famid
+list
+```
+
+```{stata join2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use parname, clear
+sort famid
+list
+```
+
+We'll look at an *inner join* first
+```{stata join3, eval=FALSE}
+joinby famid using kidname
+sort famid kname pname
+list, sepby(famid kidid)
+```
+
+```{stata join3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use parname, clear
+sort famid
+}
+
+joinby famid using kidname
+sort famid kname pname
+list, sepby(famid kidid)
+```
+
+Notice we have a family id, but also a parent id in the mom variable (0,1). We can have a **left-join**, but it will be the same as an **inner join**.
+This might be preferable, since not all parents may have kids and we would want to keep their data.
+
+We'll look at a **left-join**
+```{stata join4, eval=FALSE}
+use parname, clear
+joinby famid using kidname, unmatched(master)
+sort famid kname pname
+list, sepby(famid kidid)
+```
+
+```{stata join4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+use parname, clear
+joinby famid using kidname, unmatched(master)
+sort famid kname pname
+list, sepby(famid kidid)
+```
+
+
+## Crossing datasets
+
+If you are interested in cross data, it can be found on pages 255-257.
+
+The cross command matches each observation in the master dataset to the using dataset. 
+
+In our moms and dads data set, we have 4 moms and 4 dads. The cross command will match every possible combination, so we have a 4x4 outcome. This might be of interest, and have some usefulness with combination and permutations, but I have never personally used this.
+
+```{stata cross1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use moms1, clear
+cross using dads1
+sort famid
+list, sepby(famid)
+```

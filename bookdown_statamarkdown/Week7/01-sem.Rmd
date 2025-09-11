@@ -1,0 +1,141 @@
+# Simultaneous Equation Models and Mitchell Chapter 9
+
+## Labor Supply of Married, Working Women
+
+Let's look at the data for married working women
+```{stata mroz1, eval=FALSE}
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use mroz.dta, clear
+```
+
+Our labor supply equation
+$$ hours_i= \beta_{10}+ \alpha_1 ln(wage_i) + \beta_{11} educ_i + \beta_{12} age_i + \beta_{13} kidslt6_i + \beta_{14} nwifeinc + u_1 $$
+
+Our labor demand equation in term of wages as a function of productivity
+$$ ln(wage_i)= \beta_{20} + \alpha_2 hours_i  + \beta_{21}*educ_i+ \beta_{22} exper_i + \beta_{23} exper^2_i + u_2 $$
+
+We will use the *ivregress 2sls* command o estimate our labor supply we use educ, age, kidslt6, nwifeinc, exper, and exper-squared.
+```{stata mroz2, eval=FALSE}
+ivregress 2sls hours (lwage=exper expersq) educ age kidslt6 nwifeinc, robust
+```
+```{stata mroz2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use mroz.dta, clear
+}
+ivregress 2sls hours (lwage=exper expersq) educ age kidslt6 nwifeinc, robust
+```
+
+Test exper and expersq as instruments
+```{stata mroz3, eval=FALSE}
+reg lwage exper expersq educ age kidslt6 nwifeinc, robust
+test exper expersq
+```
+
+```{stata mroz3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use mroz.dta, clear
+}
+reg lwage exper expersq educ age kidslt6 nwifeinc, robust
+test exper expersq
+```
+**Note:** Our instrument is rather weak. What is a possible problem with this first-stage?
+
+**Interpretation:**
+Our results show that the labor supply curve slopes upward. The estimated coefficient is
+$$ \Delta hours = 1640/100 * (\% \Delta wages) $$
+
+Our results can be interpreted through linear-log elasticity.
+
+$$ 100*(\Delta hours/hours) \approx (1,640/hours)(\% \Delta wages) $$
+Or
+$$ \% \Delta hours \approx (1,640/hours)(\% \Delta wages) $$
+
+This implies that the labor supply elasticity with respect to wages is $$ \eta =  1,640/hours $$
+
+The elasticity is not constant since it is a linear-log model instead of log-log model.
+Using average hours worked of 1,303
+Our estimated elasticity is $$ (1,640/hours)(\%\Delta wages) = 1,640/1,303=1.26 $$ 
+
+```{stata mroz4}
+display 1640/1303
+```
+
+Our estimated elasticity around mean hours is 1.26%, which means a 1% increase in wages around mean hours increases hours by 1.26%. This mean wage elasticity of supply is elastic (>1) around mean hours.
+
+With a linear-log model, the estimated elasticity is not constant elasticity.
+
+When hours are higher, full time 40 hours every week, a 1% increase in wages increase the supply of hours around 0.79%
+```{stata mroz5}
+	display 1640/(40*52)
+```
+Our wage elasticity of supply is inelastic since (<1)
+
+At lower hours, our estimated wage elasticity of supply is more elastic. When hours are equal to 800, then our wage elasticity of supply is almost 2
+```{stata mroz6}
+display 1640/800
+```
+A 1% increase in wages increases hours by 2.05%
+
+## Inflation and Openness
+
+Romer (1993) proposes that more open countries should have lower inflation rates. Romer (1993) tries to explain inflation rates in terms of a country's average share of imports in gross domestic (or national) product since 1973. Average share of imports in GDP is his measure of opennes.
+```{stata inf1, eval=FALSE}
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use openness.dta, clear
+```
+
+$$ inf_{i,t} = \beta_{10} + \alpha_1 open_{i,t} + \beta_{11} ln(pcinc_{i,t}) + u_1 $$
+$$ open_{i,t} = \beta_{20} + \alpha_2 inf_{i,t} + \beta_{21} ln(pcinc)_{i,t} + \beta_{22} ln(land)_{i,t} + u_2 $$
+
+Where open is the average share of imports in terms of GDP, pcinc is the 1980 per capita income, and land is land area of a country in square miles
+
+We can look at the reduced form equation to see the instruments impact on openness.
+```{stata inf2, eval=FALSE}
+reg open lland lpcinc, robust
+```
+```{stata inf2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use openness.dta, clear
+}
+reg open lland lpcinc, robust
+```
+Let's test the instrument and use an F-test.
+```{stata inf3, eval=FALSE}
+test lland
+```
+```{stata inf3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use openness.dta, clear
+reg open lland lpcinc, robust
+}
+test lland
+```
+
+We want to see if a country's openness impacts a country's inflation rate using natural log of square miles as an instrument.
+```{stata inf4, eval=FALSE}
+ivregress 2sls inf (open=lland) lpcinc, robust
+```
+
+```{stata inf4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use openness.dta, clear
+}
+ivregress 2sls inf (open=lland) lpcinc, robust
+```
+**Interpretation:** For every percentage point increase in average share of imports of GDP,
+inflation decreases by 0.337 percentage points
+
+## Exercises
+
+On ELMS, pull CPS data and recreate MROZ.dta with CPS data, expect use all individuals not just working women
+
+```{stata cps1, eval=FALSE}
+use smalljul25pub.dta, clear
+```
+
+Estimate linear-log and test elasticity at different hours. Estimate constant elasticity with a log-log model.
