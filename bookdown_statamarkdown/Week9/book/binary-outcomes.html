@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Binary Outcomes | Week 9: Logit and Probit</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Binary Outcomes | Week 9: Logit and Probit" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Binary Outcomes | Week 9: Logit and Probit" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-09-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="multinominal-logit.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Logit and Probit</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="binary-outcomes.html"><a href="binary-outcomes.html"><i class="fa fa-check"></i><b>1</b> Binary Outcomes</a>
+<ul>
+<li class="chapter" data-level="" data-path="binary-outcomes.html"><a href="binary-outcomes.html#married-womens-labor-force-participation"><i class="fa fa-check"></i>Married Women’s Labor Force Participation</a>
+<ul>
+<li class="chapter" data-level="" data-path="binary-outcomes.html"><a href="binary-outcomes.html#average-marginal-effects-ame"><i class="fa fa-check"></i>Average Marginal Effects (AME)</a></li>
+<li class="chapter" data-level="" data-path="binary-outcomes.html"><a href="binary-outcomes.html#marginal-effects-at-the-average-mea"><i class="fa fa-check"></i>Marginal Effects at the Average (MEA)</a></li>
+<li class="chapter" data-level="" data-path="binary-outcomes.html"><a href="binary-outcomes.html#odds-ratios"><i class="fa fa-check"></i>Odds Ratios</a></li>
+<li class="chapter" data-level="" data-path="binary-outcomes.html"><a href="binary-outcomes.html#marginal-effects-of-education-at-different-points-along-the-curve"><i class="fa fa-check"></i>Marginal Effects of Education at different points along the curve</a></li>
+<li class="chapter" data-level="" data-path="binary-outcomes.html"><a href="binary-outcomes.html#marginal-effects-of-education-at-different-points-along-the-curve-1"><i class="fa fa-check"></i>Marginal Effects of Education at different points along the curve</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multinominal-logit.html"><a href="multinominal-logit.html"><i class="fa fa-check"></i><b>2</b> Multinominal Logit</a>
+<ul>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#example-current-population-survey"><i class="fa fa-check"></i>Example Current Population Survey</a>
+<ul>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#estimate-an-unrestricted-model---well-remove-unemployed"><i class="fa fa-check"></i>Estimate an Unrestricted model - We’ll remove unemployed</a></li>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#estimate-a-restricted-model-to-test-independence-of-irrelevant-alternatives-assumption"><i class="fa fa-check"></i>Estimate a Restricted Model to test Independence of Irrelevant Alternatives assumption</a></li>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#use-hausman-command"><i class="fa fa-check"></i>Use hausman command</a></li>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#predicted-probabilities"><i class="fa fa-check"></i>Predicted Probabilities</a></li>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#average-marginal-effects"><i class="fa fa-check"></i>Average Marginal Effects</a></li>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#marginal-effects-at-the-average"><i class="fa fa-check"></i>Marginal Effects at the Average</a></li>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#change-the-base-alternative"><i class="fa fa-check"></i>Change the Base Alternative</a></li>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#marginal-effects-and-marginsplot"><i class="fa fa-check"></i>Marginal Effects and Marginsplot</a></li>
+<li class="chapter" data-level="" data-path="multinominal-logit.html"><a href="multinominal-logit.html#we-can-use-coefplot-with-margins-with-eststo"><i class="fa fa-check"></i>We can use coefplot with margins with eststo</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="reshape.html"><a href="reshape.html"><i class="fa fa-check"></i><b>3</b> Reshape</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="reshape.html"><a href="reshape.html#wide-and-long-datasets"><i class="fa fa-check"></i><b>3.1</b> Wide and Long Datasets</a>
+<ul>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#wide-format"><i class="fa fa-check"></i>Wide Format</a></li>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#long-format"><i class="fa fa-check"></i>Long Format</a></li>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#wide-format-1"><i class="fa fa-check"></i>Wide Format</a></li>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#long-format-1"><i class="fa fa-check"></i>Long Format</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="reshape.html"><a href="reshape.html#reshaping-long-to-wide"><i class="fa fa-check"></i><b>3.2</b> Reshaping Long to Wide</a></li>
+<li class="chapter" data-level="3.3" data-path="reshape.html"><a href="reshape.html#reshaping-long-to-wide-problems"><i class="fa fa-check"></i><b>3.3</b> Reshaping Long to Wide: Problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#problem-1-a-constant-value-within-a-cross-sectional-unit-is-not-constant"><i class="fa fa-check"></i>Problem 1: A constant value within a cross-sectional unit is not constant</a></li>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#problem-2-excluding-a-non-constant-that-we-need-to-reshape"><i class="fa fa-check"></i>Problem 2: Excluding a non-constant that we need to reshape</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="reshape.html"><a href="reshape.html#reshaping-wide-to-long"><i class="fa fa-check"></i><b>3.4</b> Reshaping Wide to Long</a></li>
+<li class="chapter" data-level="3.5" data-path="reshape.html"><a href="reshape.html#reshaping-wide-to-long-problems"><i class="fa fa-check"></i><b>3.5</b> Reshaping wide to long problems</a>
+<ul>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#problem-1-failing-to-list-all-of-the-varying-variables-to-be-reshaped."><i class="fa fa-check"></i>Problem 1: Failing to list all of the varying variables to be reshaped.</a></li>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#problem-2-be-careful-when-the-time-varying-value-is-embedded-within-the-variable-name-and-not-at-the-end."><i class="fa fa-check"></i>Problem 2: Be careful when the time-varying value is embedded within the variable name and not at the end.</a></li>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#problem-3-be-specific-with-which-variables-to-reshape-and-dont-mistakenly-constant-variables-that-have-the-same-prefix-as-the-varying-variables"><i class="fa fa-check"></i>Problem 3: Be specific with which variables to reshape and don’t mistakenly constant variables that have the same prefix as the varying variables</a></li>
+<li class="chapter" data-level="" data-path="reshape.html"><a href="reshape.html#problem-4-no-id-varible-to-identify-the-cross-sectional-unit"><i class="fa fa-check"></i>Problem 4: No id varible to identify the cross-sectional unit</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="reshape.html"><a href="reshape.html#multilevel-datasets"><i class="fa fa-check"></i><b>3.6</b> Multilevel datasets</a></li>
+<li class="chapter" data-level="3.7" data-path="reshape.html"><a href="reshape.html#collapsing-datasets"><i class="fa fa-check"></i><b>3.7</b> Collapsing datasets</a></li>
+<li class="chapter" data-level="3.8" data-path="reshape.html"><a href="reshape.html#exercise"><i class="fa fa-check"></i><b>3.8</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 9: Logit and Probit</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="binary-outcomes" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Binary Outcomes<a href="binary-outcomes.html#binary-outcomes" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="married-womens-labor-force-participation" class="section level2 unnumbered hasAnchor">
+<h2>Married Women’s Labor Force Participation<a href="binary-outcomes.html#married-womens-labor-force-participation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="binary-outcomes.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb2-2"><a href="binary-outcomes.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> mroz.dta, <span class="kw">clear</span></span></code></pre></div>
+<p>We’ll use the data from Mroz (1987) to look at the probability of a married woman being in the labor force. Labor force participation is a binary response.</p>
+<p><span class="math display">\[ y=[0,1] \]</span>
+We will estimate the coefficients of the linear probability model (LPM), the logit estimator, and the probit estimator. Then, we’ll compare the marginal effects ofall three estimators.</p>
+<p>Summarize in the labor force</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb3-1"><a href="binary-outcomes.html#cb3-1" tabindex="-1"></a><span class="kw">tabulate</span> inlf</span></code></pre></div>
+<pre><code>       inlf |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |        325       43.16       43.16
+          1 |        428       56.84      100.00
+------------+-----------------------------------
+      Total |        753      100.00</code></pre>
+<p>There are 325 women are not in the labor force and 428 women participating in the labor force.
+Our explanatory variables are non-wife income, education, experience, experience-squared, age, kids less than 6, kids greater than 6</p>
+<p><span class="math display">\[ y_{i}=\beta_0 + \beta_1 spouseinc_{i} + \beta_2 edu_i + \beta_3 exp_i + \beta_4 exp^2_i + \beta_5 kidsLT6_i + \beta_6 kidsGT6_i + \varepsilon_i  \]</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="binary-outcomes.html#cb5-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb5-2"><a href="binary-outcomes.html#cb5-2" tabindex="-1"></a>eststo Logit: <span class="kw">logit</span> inlf nwifeinc educ exper expersq kidslt6 kidsge6</span>
+<span id="cb5-3"><a href="binary-outcomes.html#cb5-3" tabindex="-1"></a>eststo Probit: <span class="kw">probit</span> inlf nwifeinc educ exper expersq kidslt6 kidsge6</span>
+<span id="cb5-4"><a href="binary-outcomes.html#cb5-4" tabindex="-1"></a>esttab Logit Probit, mtitle</span></code></pre></div>
+<pre><code>Iteration 0:   log likelihood =  -514.8732  
+Iteration 1:   log likelihood = -422.78042  
+Iteration 2:   log likelihood = -421.73851  
+Iteration 3:   log likelihood = -421.73502  
+Iteration 4:   log likelihood = -421.73502  
+
+Logistic regression                             Number of obs     =        753
+                                                LR chi2(6)        =     186.28
+                                                Prob &gt; chi2       =     0.0000
+Log likelihood = -421.73502                     Pseudo R2         =     0.1809
+
+------------------------------------------------------------------------------
+        inlf |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    nwifeinc |  -.0301171   .0082431    -3.65   0.000    -.0462734   -.0139609
+        educ |   .2520038   .0425492     5.92   0.000      .168609    .3353987
+       exper |   .2057387   .0310518     6.63   0.000     .1448784     .266599
+     expersq |   -.003913   .0009994    -3.92   0.000    -.0058718   -.0019541
+     kidslt6 |  -.9175126   .1742458    -5.27   0.000    -1.259028   -.5759971
+     kidsge6 |   .2226164   .0683456     3.26   0.001     .0886616    .3565713
+       _cons |  -3.739707    .543217    -6.88   0.000    -4.804392   -2.675021
+------------------------------------------------------------------------------
+
+
+Iteration 0:   log likelihood =  -514.8732  
+Iteration 1:   log likelihood = -422.36847  
+Iteration 2:   log likelihood = -421.80202  
+Iteration 3:   log likelihood = -421.80161  
+Iteration 4:   log likelihood = -421.80161  
+
+Probit regression                               Number of obs     =        753
+                                                LR chi2(6)        =     186.14
+                                                Prob &gt; chi2       =     0.0000
+Log likelihood = -421.80161                     Pseudo R2         =     0.1808
+
+------------------------------------------------------------------------------
+        inlf |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    nwifeinc |   -.017188     .00474    -3.63   0.000    -.0264782   -.0078978
+        educ |   .1501412     .02471     6.08   0.000     .1017105    .1985719
+       exper |   .1240105   .0183233     6.77   0.000     .0880975    .1599236
+     expersq |  -.0023694   .0005913    -4.01   0.000    -.0035284   -.0012103
+     kidslt6 |  -.5543317   .1038244    -5.34   0.000    -.7578238   -.3508395
+     kidsge6 |   .1307901   .0399186     3.28   0.001     .0525511    .2090292
+       _cons |  -2.244553   .3146254    -7.13   0.000    -2.861207   -1.627899
+------------------------------------------------------------------------------
+
+
+--------------------------------------------
+                      (1)             (2)   
+                    Logit          Probit   
+--------------------------------------------
+inlf                                        
+nwifeinc          -0.0301***      -0.0172***
+                  (-3.65)         (-3.63)   
+
+educ                0.252***        0.150***
+                   (5.92)          (6.08)   
+
+exper               0.206***        0.124***
+                   (6.63)          (6.77)   
+
+expersq          -0.00391***     -0.00237***
+                  (-3.92)         (-4.01)   
+
+kidslt6            -0.918***       -0.554***
+                  (-5.27)         (-5.34)   
+
+kidsge6             0.223**         0.131** 
+                   (3.26)          (3.28)   
+
+_cons              -3.740***       -2.245***
+                  (-6.88)         (-7.13)   
+--------------------------------------------
+N                     753             753   
+--------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>We cannot compare the coefficients across the models. We will need to use marginal effects.</p>
+<div id="average-marginal-effects-ame" class="section level3 unnumbered hasAnchor">
+<h3>Average Marginal Effects (AME)<a href="binary-outcomes.html#average-marginal-effects-ame" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will first look at average marginal effects. For average marginal effects, we estimate the marginal effects for each <span class="math inline">\(i\)</span> and estimate an average.</p>
+<p><span class="math display">\[ AME=(\sum^{n}_{i=1}[g(\hat{\beta_0}+x\hat{\beta})\beta_j]\Delta x_j)/n \]</span></p>
+<div id="linear-probability-model-lpm" class="section level4 unnumbered hasAnchor">
+<h4>Linear Probability Model (LPM)<a href="binary-outcomes.html#linear-probability-model-lpm" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Please note that we need the option <em>post</em> to start marginal effects.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="binary-outcomes.html#cb7-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb7-2"><a href="binary-outcomes.html#cb7-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb7-3"><a href="binary-outcomes.html#cb7-3" tabindex="-1"></a>eststo LPM: margins, <span class="kw">dydx</span>(*) <span class="kw">post</span> </span></code></pre></div>
+</div>
+<div id="logit" class="section level4 unnumbered hasAnchor">
+<h4>Logit<a href="binary-outcomes.html#logit" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="binary-outcomes.html#cb8-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">logit</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb8-2"><a href="binary-outcomes.html#cb8-2" tabindex="-1"></a>eststo Logit: margins, <span class="kw">dydx</span>(*) <span class="kw">post</span></span></code></pre></div>
+</div>
+<div id="probit" class="section level4 unnumbered hasAnchor">
+<h4>Probit<a href="binary-outcomes.html#probit" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="binary-outcomes.html#cb9-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">probit</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb9-2"><a href="binary-outcomes.html#cb9-2" tabindex="-1"></a>eststo Probit: margins, <span class="kw">dydx</span>(*) <span class="kw">post</span></span></code></pre></div>
+</div>
+<div id="compare" class="section level4 unnumbered hasAnchor">
+<h4>Compare<a href="binary-outcomes.html#compare" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="binary-outcomes.html#cb10-1" tabindex="-1"></a>esttab LPM Logit Probit, mtitle</span></code></pre></div>
+<pre><code>                      (1)             (2)             (3)   
+                      LPM           Logit          Probit   
+------------------------------------------------------------
+nwifeinc         -0.00341*       -0.00381*       -0.00362*  
+                  (-2.35)         (-2.57)         (-2.51)   
+
+educ               0.0380***       0.0395***       0.0394***
+                   (5.15)          (5.41)          (5.45)   
+
+exper              0.0395***       0.0368***       0.0371***
+                   (6.96)          (7.14)          (7.20)   
+
+expersq         -0.000596**     -0.000563**     -0.000568** 
+                  (-3.23)         (-3.18)         (-3.20)   
+
+age               -0.0161***      -0.0157***      -0.0159***
+                  (-6.48)         (-6.60)         (-6.74)   
+
+kidslt6            -0.262***       -0.258***       -0.261***
+                  (-7.81)         (-8.07)         (-8.20)   
+
+kidsge6            0.0130          0.0107          0.0108   
+                   (0.99)          (0.81)          (0.83)   
+------------------------------------------------------------
+N                     753             753             753   
+------------------------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+</div>
+</div>
+<div id="marginal-effects-at-the-average-mea" class="section level3 unnumbered hasAnchor">
+<h3>Marginal Effects at the Average (MEA)<a href="binary-outcomes.html#marginal-effects-at-the-average-mea" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For the marginal effects at the average, we set our <span class="math inline">\(x\)</span> to their means within the scalar <span class="math inline">\(g(.)\)</span>
+<span class="math display">\[ MEA= g(\hat{\beta_0}+\hat{\beta_1} \bar{x_1} + ...+ \hat{\beta_k}\bar{x_k})\beta_j \Delta x_j \]</span></p>
+<div id="linear-probability-model-lpm-1" class="section level4 unnumbered hasAnchor">
+<h4>Linear Probability Model LPM<a href="binary-outcomes.html#linear-probability-model-lpm-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="binary-outcomes.html#cb12-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb12-2"><a href="binary-outcomes.html#cb12-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb12-3"><a href="binary-outcomes.html#cb12-3" tabindex="-1"></a>eststo LPM: margins, <span class="kw">dydx</span>(*) atmeans <span class="kw">post</span></span></code></pre></div>
+</div>
+<div id="logit-1" class="section level4 unnumbered hasAnchor">
+<h4>Logit<a href="binary-outcomes.html#logit-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="binary-outcomes.html#cb13-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">logit</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb13-2"><a href="binary-outcomes.html#cb13-2" tabindex="-1"></a>eststo Logit: margins, <span class="kw">dydx</span>(*) atmeans <span class="kw">post</span></span></code></pre></div>
+</div>
+<div id="probit-1" class="section level4 unnumbered hasAnchor">
+<h4>Probit<a href="binary-outcomes.html#probit-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="binary-outcomes.html#cb14-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">probit</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb14-2"><a href="binary-outcomes.html#cb14-2" tabindex="-1"></a>eststo Probit: margins, <span class="kw">dydx</span>(*) atmeans <span class="kw">post</span></span></code></pre></div>
+</div>
+<div id="compare-1" class="section level4 unnumbered hasAnchor">
+<h4>Compare<a href="binary-outcomes.html#compare-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="binary-outcomes.html#cb15-1" tabindex="-1"></a>esttab LPM Logit Probit, mtitle </span></code></pre></div>
+<pre><code>                      (1)             (2)             (3)   
+                      LPM           Logit          Probit   
+------------------------------------------------------------
+nwifeinc         -0.00341*       -0.00519*       -0.00470*  
+                  (-2.35)         (-2.53)         (-2.48)   
+
+educ               0.0380***       0.0538***       0.0511***
+                   (5.15)          (5.09)          (5.19)   
+
+exper              0.0395***       0.0501***       0.0482***
+                   (6.96)          (6.40)          (6.57)   
+
+expersq         -0.000596**     -0.000767**     -0.000737** 
+                  (-3.23)         (-3.10)         (-3.14)   
+
+age               -0.0161***      -0.0214***      -0.0206***
+                  (-6.48)         (-6.05)         (-6.24)   
+
+kidslt6            -0.262***       -0.351***       -0.339***
+                  (-7.81)         (-7.07)         (-7.32)   
+
+kidsge6            0.0130          0.0146          0.0141   
+                   (0.99)          (0.80)          (0.83)   
+------------------------------------------------------------
+N                     753             753             753   
+------------------------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>The analysis shows that the marginal effects are fairly close across the linear probability model, Logit model, and Probit model. One additional year of education increases the probability of being in the labor force by a range of 0.038 to 0.0395 percentage points. Interestingly, one additional child less than six is associated with a drop in the probability of being in the labor force by a range of 0.258 to 0.262.</p>
+<p>Please not that around the means, our linear probability model, Logit, and Probit should be fairly similar. However, the marginal effects for the linear probability model are constant and will not vary across different values of <span class="math inline">\(x\)</span>.</p>
+</div>
+</div>
+<div id="odds-ratios" class="section level3 unnumbered hasAnchor">
+<h3>Odds Ratios<a href="binary-outcomes.html#odds-ratios" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can use the option, <i>or</i> to get odds ratios after running a logit.</p>
+<p><span class="math display">\[ OR = \frac{(Odds Success)}{(Odds Failure)} = \frac{p(1)/(1-p(1))}{p(0)/(1-p(0))} \]</span></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="binary-outcomes.html#cb17-1" tabindex="-1"></a><span class="kw">logit</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6, <span class="kw">or</span></span></code></pre></div>
+<pre><code>Iteration 0:   log likelihood =  -514.8732  
+Iteration 1:   log likelihood = -402.38502  
+Iteration 2:   log likelihood = -401.76569  
+Iteration 3:   log likelihood = -401.76515  
+Iteration 4:   log likelihood = -401.76515  
+
+Logistic regression                             Number of obs     =        753
+                                                LR chi2(7)        =     226.22
+                                                Prob &gt; chi2       =     0.0000
+Log likelihood = -401.76515                     Pseudo R2         =     0.2197
+
+------------------------------------------------------------------------------
+        inlf | Odds Ratio   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    nwifeinc |    .978881   .0082436    -2.53   0.011     .9628565    .9951723
+        educ |   1.247536   .0541925     5.09   0.000     1.145717    1.358404
+       exper |   1.228593   .0393849     6.42   0.000     1.153775    1.308263
+     expersq |   .9968509   .0010129    -3.10   0.002     .9948676    .9988381
+         age |   .9157386   .0133451    -6.04   0.000     .8899527    .9422715
+     kidslt6 |   .2361344   .0480734    -7.09   0.000      .158441    .3519257
+     kidsge6 |   1.061956   .0794234     0.80   0.422     .9171603     1.22961
+       _cons |   1.530283   1.316609     0.49   0.621     .2834155    8.262655
+------------------------------------------------------------------------------</code></pre>
+<p>One additional year of education is associated with a 1.25 times increase in the odds of
+being in the labor force (or an increase of 25%) holding all other variables constant.
+One additional child less than six decreases the odds of being in the labor force
+by a factor of 0.24 holding all other variables constant (or a decrease of 76%).</p>
+</div>
+<div id="marginal-effects-of-education-at-different-points-along-the-curve" class="section level3 unnumbered hasAnchor">
+<h3>Marginal Effects of Education at different points along the curve<a href="binary-outcomes.html#marginal-effects-of-education-at-different-points-along-the-curve" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="linear-probability-model-lpm-2" class="section level4 unnumbered hasAnchor">
+<h4>Linear Probability Model (LPM)<a href="binary-outcomes.html#linear-probability-model-lpm-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="binary-outcomes.html#cb19-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb19-2"><a href="binary-outcomes.html#cb19-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb19-3"><a href="binary-outcomes.html#cb19-3" tabindex="-1"></a>eststo lpm: margins, <span class="fu">at</span>(educ=(0(2)20)) <span class="kw">post</span></span>
+<span id="cb19-4"><a href="binary-outcomes.html#cb19-4" tabindex="-1"></a>marginsplot, <span class="kw">yline</span>(0)</span></code></pre></div>
+<div class="float">
+<img src="week8_inlflpm.png" alt="Marginal Effect of Education" />
+<div class="figcaption">Marginal Effect of Education</div>
+</div>
+</div>
+<div id="logit-2" class="section level4 unnumbered hasAnchor">
+<h4>Logit<a href="binary-outcomes.html#logit-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="binary-outcomes.html#cb20-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">logit</span> inlf nwifeinc educ exper expersq kidslt6 kidsge6</span>
+<span id="cb20-2"><a href="binary-outcomes.html#cb20-2" tabindex="-1"></a>eststo logit1: margins, <span class="fu">at</span>(educ=(0(2)20)) <span class="kw">post</span></span>
+<span id="cb20-3"><a href="binary-outcomes.html#cb20-3" tabindex="-1"></a>marginsplot, <span class="kw">yline</span>(0)</span></code></pre></div>
+<div class="float">
+<img src="week8_inlflogit.png" alt="Marginal Effect of Education" />
+<div class="figcaption">Marginal Effect of Education</div>
+</div>
+</div>
+<div id="probit-2" class="section level4 unnumbered hasAnchor">
+<h4>Probit<a href="binary-outcomes.html#probit-2" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="binary-outcomes.html#cb21-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">probit</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb21-2"><a href="binary-outcomes.html#cb21-2" tabindex="-1"></a>eststo probit1: margins, <span class="fu">at</span>(educ=(0(2)20)) <span class="kw">post</span></span>
+<span id="cb21-3"><a href="binary-outcomes.html#cb21-3" tabindex="-1"></a>marginsplot, <span class="kw">yline</span>(0)</span></code></pre></div>
+<p>The predicted probability that a married women is in the labor force rises from 47.7% for 12 years of education to 71.2% for 16 years of education.</p>
+<div class="float">
+<img src="week8_inlfprobit.png" alt="Marginal Effect of Education" />
+<div class="figcaption">Marginal Effect of Education</div>
+</div>
+</div>
+<div id="coefficient-plot" class="section level4 unnumbered hasAnchor">
+<h4>Coefficient Plot<a href="binary-outcomes.html#coefficient-plot" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We can also use coefplot to plot our data.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="binary-outcomes.html#cb22-1" tabindex="-1"></a>coefplot lpm logit1, <span class="fu">at</span> <span class="kw">recast</span>(<span class="kw">line</span>) ciopts(<span class="kw">recast</span>(rline) lpattern(<span class="kw">dash</span>))</span>
+<span id="cb22-2"><a href="binary-outcomes.html#cb22-2" tabindex="-1"></a>coefplot lpm probit1, <span class="fu">at</span> <span class="kw">recast</span>(<span class="kw">line</span>) ciopts(<span class="kw">recast</span>(rline) lpattern(<span class="kw">dash</span>))</span>
+<span id="cb22-3"><a href="binary-outcomes.html#cb22-3" tabindex="-1"></a>coefplot logit1 probit1, <span class="fu">at</span> <span class="kw">recast</span>(<span class="kw">line</span>) ciopts(<span class="kw">recast</span>(rline) lpattern(<span class="kw">dash</span>))</span></code></pre></div>
+</div>
+</div>
+<div id="marginal-effects-of-education-at-different-points-along-the-curve-1" class="section level3 unnumbered hasAnchor">
+<h3>Marginal Effects of Education at different points along the curve<a href="binary-outcomes.html#marginal-effects-of-education-at-different-points-along-the-curve-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="linear-probability-model-lpm-3" class="section level4 unnumbered hasAnchor">
+<h4>Linear Probability Model (LPM)<a href="binary-outcomes.html#linear-probability-model-lpm-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="binary-outcomes.html#cb23-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb23-2"><a href="binary-outcomes.html#cb23-2" tabindex="-1"></a>margins, <span class="kw">dydx</span>(kidslt6) <span class="fu">at</span>(educ=(0(2)20))</span>
+<span id="cb23-3"><a href="binary-outcomes.html#cb23-3" tabindex="-1"></a>marginsplot, <span class="kw">yline</span>(0)</span></code></pre></div>
+</div>
+<div id="logit-3" class="section level4 unnumbered hasAnchor">
+<h4>Logit<a href="binary-outcomes.html#logit-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="binary-outcomes.html#cb24-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">logit</span> inlf nwifeinc educ exper expersq kidslt6 kidsge6</span>
+<span id="cb24-2"><a href="binary-outcomes.html#cb24-2" tabindex="-1"></a>margins, <span class="kw">dydx</span>(kidslt6) <span class="fu">at</span>(educ=(0(2)20))</span>
+<span id="cb24-3"><a href="binary-outcomes.html#cb24-3" tabindex="-1"></a>marginsplot, <span class="kw">yline</span>(0)</span>
+<span id="cb24-4"><a href="binary-outcomes.html#cb24-4" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week8_logitinlf.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week8_logitinlf.png" alt="Marginal Effect of Kids Less Than 6" />
+<div class="figcaption">Marginal Effect of Kids Less Than 6</div>
+</div>
+</div>
+<div id="probit-3" class="section level4 unnumbered hasAnchor">
+<h4>Probit<a href="binary-outcomes.html#probit-3" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="binary-outcomes.html#cb25-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">probit</span> inlf nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb25-2"><a href="binary-outcomes.html#cb25-2" tabindex="-1"></a>margins, <span class="kw">dydx</span>(kidslt6) <span class="fu">at</span>(educ=(0(2)20))</span>
+<span id="cb25-3"><a href="binary-outcomes.html#cb25-3" tabindex="-1"></a>marginsplot, <span class="kw">yline</span>(0)</span></code></pre></div>
+<p>The average marginal effect for an additional child less than 6 rises from -18.3 percentage points to -14.4 percentage points, but the difference does not appear to be statistically significant.</p>
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multinominal-logit.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-logit.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
