@@ -410,7 +410,7 @@ generate uname4=ustrword(name3,4)
 list name3 uname1 uname2 uname3 uname4 namecount
 ```
 
-It seems that ustrwordcount counts "." as separate words, so let's use another very helpful string function called *subinstr*, which comes in Unicode *usubinstr()* and ASCII *subinstr()*
+It seems that *ustrwordcount* counts "." as separate words, so let's use another very helpful string function called *subinstr*, which comes in Unicode *usubinstr()* and ASCII *subinstr()*
 
 *usubinstr(s1,s2,s3,n)*  replaces the nth occurance of s2 in s1 with s3.
 
@@ -441,7 +441,7 @@ replace namecount = ustrwordcount(name4)
 list name4 namecount
 ```
 
-Let's split the names.
+Let's split the names. We'll use *ustrword(s,n)* retrieves the *nth* word in string *s*.
 ```{stata str15, eval=FALSE}
 gen fname = ustrword(name4,1)
 gen mname = ustrword(name4,2) if namecount==3
@@ -892,7 +892,7 @@ import delimited using "momkid1.csv", clear
 generate mombdate=mdy(momm, momd, momy), after(momy)
 }
 generate kidbdate=date(kidbday,"MDY")
-list kiddbay kidbate 
+list kidbdate kidbday 
 ```
 
 Notice that the dates are not in a format that we can work with easily. These values represent the days from Jan 1, 1960. You can see the Mom's birthday on Jan 5, 1960 is 4. We can difference the dates, so Jan 5, 1960 is 4 and Jan 1, 1960 is 0.
@@ -1026,13 +1026,13 @@ This can be helpful when trying to compare time for a panel data set and we don'
 cd "/Users/Sam/Desktop/Data/CPS/"
 use "smalljul25pub", clear
 gen monyear = ym(hryear4, hrmonth)
-list monyear in 1/10, sepby(5)
+list monyear in 1/10, sep(5)
 ```
 
 We can see that Jul 2025 is 786 months since Jan 1960. We use the *%tm* format for months and year to have the values in a more user friendly format.
 ```{stata date19, eval=FALSE}
 format monyear %tmMon_ccYY
-list monyear
+list monyear in 1/10, sep(5)
 ```
 ```{stata date20, echo=FALSE}
 quietly{
@@ -1041,7 +1041,7 @@ use "smalljul25pub", clear
 gen monyear = ym(hryear4, hrmonth)
 }
 format monyear %tmMon_ccYY
-list monyear
+list monyear in 1/10, sep(5)
 ```
 You can use cut off when there are only 2-digit YY on page 177-179, but you can review this if you like.
 

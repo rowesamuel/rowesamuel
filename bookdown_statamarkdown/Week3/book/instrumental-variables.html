@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe" />
 
 
-<meta name="date" content="2025-09-11" />
+<meta name="date" content="2025-09-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -315,7 +315,7 @@ using a simple OLS model.</p>
      edu_hat |   .0591735   .0367969     1.61   0.109    -.0131525    .1314995
        _cons |   .4411034   .4671121     0.94   0.346    -.4770279    1.359235
 ------------------------------------------------------------------------------</code></pre>
-<p>One additional year of education increases wages by (exp(0.059)-1)*100%=6.1%</p>
+<p>One additional year of education increases wages by <span class="math display">\[ (e^{(0.059)}-1)*100\%=6.1\% \]</span></p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="instrumental-variables.html#cb12-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[edu_hat])-1)*100</span></code></pre></div>
 <pre><code>6.095928</code></pre>
 <p>Question?
@@ -353,7 +353,7 @@ about instrument exogeneity?</p>
         educ |   .0598392   .0059631    10.03   0.000     .0481366    .0715418
        _cons |   5.973063   .0813737    73.40   0.000     5.813366    6.132759
 ------------------------------------------------------------------------------</code></pre>
-<p>We have a estimated return of education of (exp(.0598392)-1)*100</p>
+<p>We have a estimated return of education of <span class="math display">\[ (e^{.0598392}-1)*100\% = 6.2\% \]</span></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="instrumental-variables.html#cb16-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
 <pre><code>6.1665821</code></pre>
 <ol start="2" style="list-style-type: decimal">
@@ -401,7 +401,7 @@ about instrument exogeneity?</p>
      edu_hat |   .1224326   .0259225     4.72   0.000     .0715595    .1733057
        _cons |   5.130026   .3494009    14.68   0.000     4.444323    5.815729
 ------------------------------------------------------------------------------</code></pre>
-<p>One additional year of education increases wages by (exp(0.1224)-1)*100%=13.0%</p>
+<p>One additional year of education increases wages by <span class="math display">\[ (e^{0.1224}-1)*100\% =13.0\% \]</span></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="instrumental-variables.html#cb24-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[edu_hat])-1)*100 </span></code></pre></div>
 <pre><code>13.024298</code></pre>
 <p>Another thing that is interesting here is the the OLS estimate is biased downward, which is not what we would expect.</p>
@@ -431,7 +431,7 @@ about instrument exogeneity?</p>
        packs |  -.0898131   .0169786    -5.29   0.000    -.1231197   -.0565065
        _cons |   4.769404   .0053694   888.26   0.000     4.758871    4.779937
 ------------------------------------------------------------------------------</code></pre>
-<p>An additional package smoked per day decreases birthweight by exp(-.08981)-1~-8.6%</p>
+<p>An additional package smoked per day decreases birthweight by <span class="math display">\[ (e^{-.08981}-1)*100% \approx-8.6% \]</span></p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="instrumental-variables.html#cb28-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(-.08981)-1)*100</span></code></pre></div>
 <pre><code>-8.5895151</code></pre>
 <p>We’ll use cigarette prices as an instrument for cigarette packs smoked per day. We assume that cigarette prices and the error term u are uncorrelated (instrument exogeneity). Note that some states fund health care with cigarette tax revenue.
@@ -507,7 +507,7 @@ c.exper#c.exper |  -.0008112   .0003932    -2.06   0.040    -.0015841   -.000038
                 |
           _cons |  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
 ---------------------------------------------------------------------------------</code></pre>
-<p>Our result is (exp(.1074896)-1)*100~11.3%</p>
+<p>Our result is <span class="math display">\[ (e^{.1074896}-1)*100\% = 11.3\% \]</span></p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb38-1"><a href="instrumental-variables.html#cb38-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
 <pre><code>11.347933</code></pre>
 <p>We’ll use two instruments for one endogenous variable, which will be parent’s education as an instrument for women in the labor force.</p>
@@ -560,7 +560,7 @@ c.exper#c.exper |   -.000899   .0004212    -2.13   0.033    -.0017268   -.000071
                 |
           _cons |   .0481003   .4197565     0.11   0.909    -.7769624     .873163
 ---------------------------------------------------------------------------------</code></pre>
-<p>One additional year of education increases wages by (exp(0.061)-1)*100%=6.3%</p>
+<p>One additional year of education increases wages by <span class="math display">\[ (e^{0.061}-1)*100\%=6.3\% \]</span></p>
 <p>This can be more easily done with our <em>ivregress 2sls</em> command:</p>
 <p><em>ivregress 2sls</em> <em><dependent variable></em> (<em><explantatory var></em>=<em><IV></em>) <span class="math inline">\(x_1, x_2...,x_k\)</span></p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="instrumental-variables.html#cb46-1" tabindex="-1"></a>ivregress 2sls lwage (educ=fathedu mothedu) c.exper##c.exper</span>

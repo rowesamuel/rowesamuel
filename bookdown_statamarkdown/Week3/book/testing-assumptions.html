@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe" />
 
 
-<meta name="date" content="2025-09-11" />
+<meta name="date" content="2025-09-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -530,12 +530,30 @@ Instruments:   exper c.exper#c.exper motheduc fatheduc
 <p>Let’s add husband’s education, so we have 2 overidentification restrictions.</p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb67-1"><a href="testing-assumptions.html#cb67-1" tabindex="-1"></a>ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper</span>
 <span id="cb67-2"><a href="testing-assumptions.html#cb67-2" tabindex="-1"></a><span class="kw">estat</span> overid</span></code></pre></div>
-<div class="sourceCode" id="cb68"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb68-1"><a href="testing-assumptions.html#cb68-1" tabindex="-1"></a><span class="kw">quietly</span>{</span>
-<span id="cb68-2"><a href="testing-assumptions.html#cb68-2" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb68-3"><a href="testing-assumptions.html#cb68-3" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;mroz.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb68-4"><a href="testing-assumptions.html#cb68-4" tabindex="-1"></a>}</span>
-<span id="cb68-5"><a href="testing-assumptions.html#cb68-5" tabindex="-1"></a>ivregress 2sls lwage (educ=motheduc fatheduc huseduc) c.exper##c.exper</span>
-<span id="cb68-6"><a href="testing-assumptions.html#cb68-6" tabindex="-1"></a><span class="kw">estat</span> overid</span></code></pre></div>
+<pre><code>Instrumental variables (2SLS) regression          Number of obs   =        428
+                                                  Wald chi2(3)    =      34.90
+                                                  Prob &gt; chi2     =     0.0000
+                                                  R-squared       =     0.1495
+                                                  Root MSE        =     .66616
+
+---------------------------------------------------------------------------------
+          lwage |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------+----------------------------------------------------------------
+           educ |   .0803918    .021672     3.71   0.000     .0379155    .1228681
+          exper |   .0430973   .0132027     3.26   0.001     .0172204    .0689742
+                |
+c.exper#c.exper |  -.0008628   .0003943    -2.19   0.029    -.0016357   -.0000899
+                |
+          _cons |  -.1868572   .2840591    -0.66   0.511    -.7436029    .3698885
+---------------------------------------------------------------------------------
+Instrumented:  educ
+Instruments:   exper c.exper#c.exper motheduc fatheduc huseduc
+
+
+  Tests of overidentifying restrictions:
+
+  Sargan (score) chi2(2) =  1.11504  (p = 0.5726)
+  Basmann chi2(2)        =  1.10228  (p = 0.5763)</code></pre>
 <p>Notice that we still fail reject the null hypothesis, so we might consider adding it as an IV. Also, notice that the coefficient and standard error around education have changed as well.</p>
 <p>It is a good idea to report both in a sensitivity analysis.</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb69-1"><a href="testing-assumptions.html#cb69-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
