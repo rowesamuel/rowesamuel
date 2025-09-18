@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Corner Solution - Tobit Model | Corner Solution and Count Models</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Corner Solution - Tobit Model | Corner Solution and Count Models" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Corner Solution - Tobit Model | Corner Solution and Count Models" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-09-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="poisson-regression.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Corner Solution and Count Models</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html"><i class="fa fa-check"></i><b>1</b> Corner Solution - Tobit Model</a>
+<ul>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#married-womens-annual-labor-supply"><i class="fa fa-check"></i>Married Women’s Annual Labor Supply</a>
+<ul>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#ols-model"><i class="fa fa-check"></i>OLS Model</a></li>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#tobit-model"><i class="fa fa-check"></i>Tobit Model</a></li>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#graph-results"><i class="fa fa-check"></i>Graph Results</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="poisson-regression.html"><a href="poisson-regression.html"><i class="fa fa-check"></i><b>2</b> Poisson Regression</a>
+<ul>
+<li class="chapter" data-level="" data-path="poisson-regression.html"><a href="poisson-regression.html#ols"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="poisson-regression.html"><a href="poisson-regression.html#poisson"><i class="fa fa-check"></i>Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html"><i class="fa fa-check"></i><b>3</b> Negative Binomial Regression Model</a>
+<ul>
+<li class="chapter" data-level="" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html#poisson-1"><i class="fa fa-check"></i>Poisson</a></li>
+<li class="chapter" data-level="" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html#negative-binomial"><i class="fa fa-check"></i>Negative Binomial</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html"><i class="fa fa-check"></i><b>4</b> Processing observations across subgroups</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#obtaining-separate-results-for-subgroups"><i class="fa fa-check"></i><b>4.1</b> Obtaining separate results for subgroups</a></li>
+<li class="chapter" data-level="4.2" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-separately-by-subgroups"><i class="fa fa-check"></i><b>4.2</b> Computing values separately by subgroups</a></li>
+<li class="chapter" data-level="4.3" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#subscripting-or-indexing-computing-values-within-subgroups"><i class="fa fa-check"></i><b>4.3</b> Subscripting or Indexing: Computing values within subgroups:</a></li>
+<li class="chapter" data-level="4.4" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-computations-across-observations"><i class="fa fa-check"></i><b>4.4</b> Computing values within subgroups: Computations across observations</a></li>
+<li class="chapter" data-level="4.5" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-running-sums"><i class="fa fa-check"></i><b>4.5</b> Computing values within subgroups: Running sums</a></li>
+<li class="chapter" data-level="4.6" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-more-examples"><i class="fa fa-check"></i><b>4.6</b> Computing values within subgroups: More examples</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#counting"><i class="fa fa-check"></i>Counting</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#generate-binaries"><i class="fa fa-check"></i>Generate Binaries</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#fill-in-missing"><i class="fa fa-check"></i>Fill in Missing</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#interpolation"><i class="fa fa-check"></i>Interpolation</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#indicators"><i class="fa fa-check"></i>Indicators</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#comparing-the-by-tsset-xtset-commands"><i class="fa fa-check"></i><b>4.7</b> Comparing the by, tsset, xtset commands</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#tsset"><i class="fa fa-check"></i>tsset</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#xtset"><i class="fa fa-check"></i>xtset</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#what-is-the-difference-xtset-vs-tsset"><i class="fa fa-check"></i>What is the difference? xtset vs tsset</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#exercises"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Corner Solution and Count Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="corner-solution---tobit-model" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Corner Solution - Tobit Model<a href="corner-solution---tobit-model.html#corner-solution---tobit-model" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="married-womens-annual-labor-supply" class="section level2 unnumbered hasAnchor">
+<h2>Married Women’s Annual Labor Supply<a href="corner-solution---tobit-model.html#married-womens-annual-labor-supply" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Lesson:</strong>
+1. Tobit and OLS have the same sign;
+2. Tobit and OLS magnitudes are not directly comparable. We need an adjustment factor, or use marginal effects.</p>
+<p>We’ll look at hours of labor being supplied. We have data on married women’ annual labor supply with hours of work for wage in the labor force. There are 428 women employed with hours, and 325
+women have no hours. Since we have a sizable about of 0 (corner soluation), we can use a Tobit model.</p>
+<p>Summarize hours</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="corner-solution---tobit-model.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb2-2"><a href="corner-solution---tobit-model.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> mroz.dta, <span class="kw">clear</span></span>
+<span id="cb2-3"><a href="corner-solution---tobit-model.html#cb2-3" tabindex="-1"></a><span class="kw">sum</span> hours</span>
+<span id="cb2-4"><a href="corner-solution---tobit-model.html#cb2-4" tabindex="-1"></a><span class="kw">tab</span> inlf, <span class="kw">sum</span>(hours)</span>
+<span id="cb2-5"><a href="corner-solution---tobit-model.html#cb2-5" tabindex="-1"></a><span class="kw">tab</span> hours <span class="kw">if</span> hours == 0</span>
+<span id="cb2-6"><a href="corner-solution---tobit-model.html#cb2-6" tabindex="-1"></a><span class="kw">tabstat</span> hours, <span class="kw">by</span>(inlf) stat(<span class="kw">mean</span> <span class="kw">median</span> <span class="fu">sd</span>)</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       hours |        753    740.5764    871.3142          0       4950
+
+            |          Summary of hours
+       inlf |        Mean   Std. Dev.       Freq.
+------------+------------------------------------
+          0 |           0           0         325
+          1 |   1302.9299   776.27438         428
+------------+------------------------------------
+      Total |   740.57636   871.31422         753
+
+      hours |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |        325      100.00      100.00
+------------+-----------------------------------
+      Total |        325      100.00
+
+
+Summary for variables: hours
+     by categories of: inlf 
+
+    inlf |      mean       p50        sd
+---------+------------------------------
+       0 |         0         0         0
+       1 |   1302.93    1365.5  776.2744
+---------+------------------------------
+   Total |  740.5764       288  871.3142
+----------------------------------------</code></pre>
+<p>We have 325 women who had 0 hours.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="corner-solution---tobit-model.html#cb4-1" tabindex="-1"></a><span class="kw">histogram</span> hours</span>
+<span id="cb4-2"><a href="corner-solution---tobit-model.html#cb4-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week8_hourhist.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<p><img src="week8_hourhist.png" alt="Histogram of Annual Hours Worked" />
+We have corner solution for women have 0 hours of labor</p>
+<p>The range for women who do have working hours - ranges from 12 to 4950 hours</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="corner-solution---tobit-model.html#cb5-1" tabindex="-1"></a><span class="kw">sum</span> hours <span class="kw">if</span> hours &gt; 0</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       hours |        428     1302.93    776.2744         12       4950</code></pre>
+<div id="ols-model" class="section level3 unnumbered hasAnchor">
+<h3>OLS Model<a href="corner-solution---tobit-model.html#ols-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="corner-solution---tobit-model.html#cb7-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb7-2"><a href="corner-solution---tobit-model.html#cb7-2" tabindex="-1"></a>eststo OLS: <span class="kw">reg</span> hours nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb7-3"><a href="corner-solution---tobit-model.html#cb7-3" tabindex="-1"></a>margins</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       753
+-------------+----------------------------------   F(7, 745)       =     38.50
+       Model |   151647606         7  21663943.7   Prob &gt; F        =    0.0000
+    Residual |   419262118       745  562767.944   R-squared       =    0.2656
+-------------+----------------------------------   Adj R-squared   =    0.2587
+       Total |   570909724       752  759188.463   Root MSE        =    750.18
+
+------------------------------------------------------------------------------
+       hours |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    nwifeinc |  -3.446636      2.544    -1.35   0.176    -8.440898    1.547626
+        educ |   28.76112   12.95459     2.22   0.027     3.329283    54.19297
+       exper |   65.67251   9.962983     6.59   0.000     46.11365    85.23138
+     expersq |  -.7004939   .3245501    -2.16   0.031    -1.337635   -.0633524
+         age |  -30.51163   4.363868    -6.99   0.000    -39.07858   -21.94469
+     kidslt6 |  -442.0899    58.8466    -7.51   0.000    -557.6148    -326.565
+     kidsge6 |  -32.77923   23.17622    -1.41   0.158     -78.2777    12.71924
+       _cons |   1330.482   270.7846     4.91   0.000     798.8906    1862.074
+------------------------------------------------------------------------------
+
+
+Predictive margins                              Number of obs     =        753
+Model VCE    : OLS
+
+Expression   : Linear prediction, predict()
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |     Margin   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       _cons |   740.5764   27.33803    27.09   0.000     686.9076    794.2451
+------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="tobit-model" class="section level3 unnumbered hasAnchor">
+<h3>Tobit Model<a href="corner-solution---tobit-model.html#tobit-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="corner-solution---tobit-model.html#cb9-1" tabindex="-1"></a>eststo TOBIT: <span class="kw">tobit</span> hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)</span>
+<span id="cb9-2"><a href="corner-solution---tobit-model.html#cb9-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">sum</span> exper</span>
+<span id="cb9-3"><a href="corner-solution---tobit-model.html#cb9-3" tabindex="-1"></a><span class="kw">local</span> exp2=<span class="fu">r</span>(<span class="kw">mean</span>)^2</span></code></pre></div>
+<pre><code>Tobit regression                                Number of obs     =        753
+                                                LR chi2(7)        =     271.59
+                                                Prob &gt; chi2       =     0.0000
+Log likelihood = -3819.0946                     Pseudo R2         =     0.0343
+
+------------------------------------------------------------------------------
+       hours |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    nwifeinc |  -8.814243   4.459096    -1.98   0.048    -17.56811   -.0603724
+        educ |   80.64561   21.58322     3.74   0.000     38.27453    123.0167
+       exper |   131.5643   17.27938     7.61   0.000     97.64231    165.4863
+     expersq |  -1.864158   .5376615    -3.47   0.001    -2.919667   -.8086479
+         age |  -54.40501   7.418496    -7.33   0.000    -68.96862    -39.8414
+     kidslt6 |  -894.0217   111.8779    -7.99   0.000    -1113.655   -674.3887
+     kidsge6 |    -16.218   38.64136    -0.42   0.675    -92.07675    59.64075
+       _cons |   965.3053   446.4358     2.16   0.031     88.88528    1841.725
+-------------+----------------------------------------------------------------
+      /sigma |   1122.022   41.57903                      1040.396    1203.647
+------------------------------------------------------------------------------
+           325  left-censored observations at hours &lt;= 0
+           428     uncensored observations
+             0 right-censored observations</code></pre>
+<div id="average-marginal-effects" class="section level4 unnumbered hasAnchor">
+<h4>Average Marginal Effects<a href="corner-solution---tobit-model.html#average-marginal-effects" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Using <em>ystar</em> option with the <em>margins</em> command tells Stata to act like there is no censoring even though the model allows for it
+<a href="https://www.statalist.org/forums/forum/general-stata-discussion/general/1531196-tobit-marginal-effects">
+Statelist Discussion 1531196</a></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="corner-solution---tobit-model.html#cb11-1" tabindex="-1"></a><span class="kw">quietly</span> margins, <span class="kw">dydx</span>(*) <span class="kw">predict</span>(ystar(0,.)) <span class="fu">at</span>(expersq=<span class="ot">`exp2&#39;</span>)</span>
+<span id="cb11-2"><a href="corner-solution---tobit-model.html#cb11-2" tabindex="-1"></a>eststo AME: margins, <span class="kw">dydx</span>(*) <span class="kw">predict</span>(ystar(0,.)) <span class="fu">at</span>(expersq=<span class="ot">`exp2&#39;</span>) <span class="kw">post</span></span></code></pre></div>
+<pre><code>Average marginal effects                        Number of obs     =        753
+Model VCE    : OIM
+
+Expression   : E(hours*|hours&gt;0), predict(ystar(0,.))
+dy/dx w.r.t. : nwifeinc educ exper expersq age kidslt6 kidsge6
+at           : expersq         =    113.0141
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    nwifeinc |  -5.223903   2.639553    -1.98   0.048    -10.39733   -.0504745
+        educ |   47.79592    12.7368     3.75   0.000     22.83224     72.7596
+       exper |    77.9737   9.900685     7.88   0.000     58.56872    97.37869
+     expersq |  -1.104823    .316282    -3.49   0.000    -1.724724   -.4849218
+         age |  -32.24401   4.348403    -7.42   0.000    -40.76672   -23.72129
+     kidslt6 |  -529.8564   65.40462    -8.10   0.000    -658.0471   -401.6657
+     kidsge6 |  -9.611857   22.90535    -0.42   0.675    -54.50553    35.28181
+------------------------------------------------------------------------------</code></pre>
+<p>Don’t forget to use the <em>post</em> option when using <em>eststo</em></p>
+</div>
+<div id="marginal-effects-at-the-average" class="section level4 unnumbered hasAnchor">
+<h4>Marginal Effects at the Average<a href="corner-solution---tobit-model.html#marginal-effects-at-the-average" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We will need to rerun the Tobit again to get our marginal effects at the average.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="corner-solution---tobit-model.html#cb13-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">tobit</span> hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)</span>
+<span id="cb13-2"><a href="corner-solution---tobit-model.html#cb13-2" tabindex="-1"></a>eststo MEA: margins, <span class="kw">dydx</span>(*) <span class="kw">predict</span>(ystar(0,.)) <span class="fu">at</span>(expersq=<span class="ot">`exp2&#39;</span>) atmeans <span class="kw">post</span></span></code></pre></div>
+<pre><code>Conditional marginal effects                    Number of obs     =        753
+Model VCE    : OIM
+
+Expression   : E(hours*|hours&gt;0), predict(ystar(0,.))
+dy/dx w.r.t. : nwifeinc educ exper expersq age kidslt6 kidsge6
+at           : nwifeinc        =    20.12896 (mean)
+               educ            =    12.28685 (mean)
+               exper           =    10.63081 (mean)
+               expersq         =    113.0141
+               age             =    42.53785 (mean)
+               kidslt6         =    .2377158 (mean)
+               kidsge6         =    1.353254 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    nwifeinc |  -5.687381   2.877882    -1.98   0.048    -11.32793   -.0468358
+        educ |   52.03649   13.82013     3.77   0.000     24.94954    79.12345
+       exper |   84.89173   12.39757     6.85   0.000     60.59293    109.1905
+     expersq |  -1.202846   .3666136    -3.28   0.001    -1.921395   -.4842964
+         age |  -35.10478   4.669466    -7.52   0.000    -44.25676   -25.95279
+     kidslt6 |  -576.8666   70.92986    -8.13   0.000    -715.8866   -437.8466
+     kidsge6 |  -10.46465   24.93972    -0.42   0.675    -59.34561    38.41632
+------------------------------------------------------------------------------</code></pre>
+<p>Compare our results. Remember we cannot directly OLS and Tobit due to the scale factor.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="corner-solution---tobit-model.html#cb15-1" tabindex="-1"></a>esttab OLS TOBIT, mtitle</span></code></pre></div>
+<pre><code>                      (1)             (2)   
+                      OLS           TOBIT   
+--------------------------------------------
+main                                        
+nwifeinc           -3.447          -8.814*  
+                  (-1.35)         (-1.98)   
+
+educ                28.76*          80.65***
+                   (2.22)          (3.74)   
+
+exper               65.67***        131.6***
+                   (6.59)          (7.61)   
+
+expersq            -0.700*         -1.864***
+                  (-2.16)         (-3.47)   
+
+age                -30.51***       -54.41***
+                  (-6.99)         (-7.33)   
+
+kidslt6            -442.1***       -894.0***
+                  (-7.51)         (-7.99)   
+
+kidsge6            -32.78          -16.22   
+                  (-1.41)         (-0.42)   
+
+_cons              1330.5***        965.3*  
+                   (4.91)          (2.16)   
+--------------------------------------------
+sigma                                       
+_cons                              1122.0***
+                                  (26.99)   
+--------------------------------------------
+N                     753             753   
+--------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>Compare OLS and Average Marginal Effects and Marginal Effects at the Average.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="corner-solution---tobit-model.html#cb17-1" tabindex="-1"></a>esttab OLS AME MEA, mtitle(<span class="st">&quot;OLS&quot;</span> <span class="st">&quot;AME&quot;</span> <span class="st">&quot;MEA&quot;</span>)</span></code></pre></div>
+<pre><code>                      (1)             (2)             (3)   
+                      OLS             AME             MEA   
+------------------------------------------------------------
+nwifeinc           -3.447          -5.224*         -5.687*  
+                  (-1.35)         (-1.98)         (-1.98)   
+
+educ                28.76*          47.80***        52.04***
+                   (2.22)          (3.75)          (3.77)   
+
+exper               65.67***        77.97***        84.89***
+                   (6.59)          (7.88)          (6.85)   
+
+expersq            -0.700*         -1.105***       -1.203** 
+                  (-2.16)         (-3.49)         (-3.28)   
+
+age                -30.51***       -32.24***       -35.10***
+                  (-6.99)         (-7.42)         (-7.52)   
+
+kidslt6            -442.1***       -529.9***       -576.9***
+                  (-7.51)         (-8.10)         (-8.13)   
+
+kidsge6            -32.78          -9.612          -10.46   
+                  (-1.41)         (-0.42)         (-0.42)   
+
+_cons              1330.5***                                
+                   (4.91)                                   
+------------------------------------------------------------
+N                     753             753             753   
+------------------------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>When we compare marginal effects, we see that an additional year of education increases annual hours by 48 to 52 hours with the Tobit estimator. We see that an additional child less than 6 reduces the annual hours by a range of 530 to 577 hours.</p>
+</div>
+</div>
+<div id="graph-results" class="section level3 unnumbered hasAnchor">
+<h3>Graph Results<a href="corner-solution---tobit-model.html#graph-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="corner-solution---tobit-model.html#cb19-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span></code></pre></div>
+<div id="ols-model-1" class="section level4 unnumbered hasAnchor">
+<h4>OLS Model<a href="corner-solution---tobit-model.html#ols-model-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="corner-solution---tobit-model.html#cb20-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> hours nwifeinc educ exper expersq age kidslt6 kidsge6</span>
+<span id="cb20-2"><a href="corner-solution---tobit-model.html#cb20-2" tabindex="-1"></a>eststo OLS: <span class="kw">quietly</span> margins, <span class="fu">at</span>(educ=(0(2)20)) <span class="kw">post</span></span></code></pre></div>
+</div>
+<div id="tobit-model-1" class="section level4 unnumbered hasAnchor">
+<h4>Tobit Model<a href="corner-solution---tobit-model.html#tobit-model-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="corner-solution---tobit-model.html#cb21-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">tobit</span> hours nwifeinc educ exper expersq age kidslt6 kidsge6, ll(0)</span>
+<span id="cb21-2"><a href="corner-solution---tobit-model.html#cb21-2" tabindex="-1"></a>eststo Tobit: <span class="kw">quietly</span> margins, <span class="fu">at</span>(educ=(0(2)20)) <span class="kw">predict</span>(<span class="fu">e</span>(0,6000)) <span class="kw">post</span></span></code></pre></div>
+</div>
+<div id="coefplot" class="section level4 unnumbered hasAnchor">
+<h4>Coefplot<a href="corner-solution---tobit-model.html#coefplot" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="corner-solution---tobit-model.html#cb22-1" tabindex="-1"></a>coefplot (OLS, ciopts(<span class="kw">recast</span>(rline) lpattern(solid))) (Tobit, ciopts(<span class="kw">recast</span>(rline) lpattern(<span class="kw">dash</span>))), <span class="fu">at</span> <span class="kw">recast</span>(<span class="kw">line</span>)</span>
+<span id="cb22-2"><a href="corner-solution---tobit-model.html#cb22-2" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="corner-solution---tobit-model.html#cb22-3" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week8_tobitols.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week8_tobitols.png" alt="OLS vs Tobit Coefficients" />
+<div class="figcaption">OLS vs Tobit Coefficients</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="poisson-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-tobit_count.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Poisson Regression | Corner Solution and Count Models</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Poisson Regression | Corner Solution and Count Models" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Poisson Regression | Corner Solution and Count Models" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-09-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="corner-solution---tobit-model.html"/>
+<link rel="next" href="negative-binomial-regression-model.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Corner Solution and Count Models</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html"><i class="fa fa-check"></i><b>1</b> Corner Solution - Tobit Model</a>
+<ul>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#married-womens-annual-labor-supply"><i class="fa fa-check"></i>Married Women’s Annual Labor Supply</a>
+<ul>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#ols-model"><i class="fa fa-check"></i>OLS Model</a></li>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#tobit-model"><i class="fa fa-check"></i>Tobit Model</a></li>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#graph-results"><i class="fa fa-check"></i>Graph Results</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="poisson-regression.html"><a href="poisson-regression.html"><i class="fa fa-check"></i><b>2</b> Poisson Regression</a>
+<ul>
+<li class="chapter" data-level="" data-path="poisson-regression.html"><a href="poisson-regression.html#ols"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="poisson-regression.html"><a href="poisson-regression.html#poisson"><i class="fa fa-check"></i>Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html"><i class="fa fa-check"></i><b>3</b> Negative Binomial Regression Model</a>
+<ul>
+<li class="chapter" data-level="" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html#poisson-1"><i class="fa fa-check"></i>Poisson</a></li>
+<li class="chapter" data-level="" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html#negative-binomial"><i class="fa fa-check"></i>Negative Binomial</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html"><i class="fa fa-check"></i><b>4</b> Processing observations across subgroups</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#obtaining-separate-results-for-subgroups"><i class="fa fa-check"></i><b>4.1</b> Obtaining separate results for subgroups</a></li>
+<li class="chapter" data-level="4.2" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-separately-by-subgroups"><i class="fa fa-check"></i><b>4.2</b> Computing values separately by subgroups</a></li>
+<li class="chapter" data-level="4.3" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#subscripting-or-indexing-computing-values-within-subgroups"><i class="fa fa-check"></i><b>4.3</b> Subscripting or Indexing: Computing values within subgroups:</a></li>
+<li class="chapter" data-level="4.4" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-computations-across-observations"><i class="fa fa-check"></i><b>4.4</b> Computing values within subgroups: Computations across observations</a></li>
+<li class="chapter" data-level="4.5" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-running-sums"><i class="fa fa-check"></i><b>4.5</b> Computing values within subgroups: Running sums</a></li>
+<li class="chapter" data-level="4.6" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-more-examples"><i class="fa fa-check"></i><b>4.6</b> Computing values within subgroups: More examples</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#counting"><i class="fa fa-check"></i>Counting</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#generate-binaries"><i class="fa fa-check"></i>Generate Binaries</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#fill-in-missing"><i class="fa fa-check"></i>Fill in Missing</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#interpolation"><i class="fa fa-check"></i>Interpolation</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#indicators"><i class="fa fa-check"></i>Indicators</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#comparing-the-by-tsset-xtset-commands"><i class="fa fa-check"></i><b>4.7</b> Comparing the by, tsset, xtset commands</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#tsset"><i class="fa fa-check"></i>tsset</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#xtset"><i class="fa fa-check"></i>xtset</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#what-is-the-difference-xtset-vs-tsset"><i class="fa fa-check"></i>What is the difference? xtset vs tsset</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#exercises"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Corner Solution and Count Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="poisson-regression" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Poisson Regression<a href="poisson-regression.html#poisson-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Lesson:</strong> We should use a count model when we have a Poisson distribution for the outcome of interest. Our coefficients are expected log counts so we *need to transform our coefficients for interpretation.</p>
+<p>We want to look at arrest data to see the number of times a man was arrested in 1986. There are 1,970 zeros out of 2,725 men in the sample and only eight observations are greater than 5. An OLS will not account for a count model but a Poisson distribution will.</p>
+<p>We have
+1. pcnv - proportion of prior arrest that lead to a conviction
+2. avgsen - the average sentence served from prior convictions (in months)
+3. tottime - months spent in prison since age 18 prior to 1986
+4. ptime86 - months spent in prison in 1986
+5. qemp86 - number of quarters that the person was legally employed in 1986
+6. inc86 - income in 1986
+7. Hispanic - Hispanic/Latino binary
+8. Black - Black binary
+9. ptime86 - prison time in 1986</p>
+<p><span class="math display">\[ narr86_{t}=\alpha + \beta_1 pcnv_t + \beta_2 avgsen_t + \beta_3 tottime_t + \beta_4 ptime86_t + \beta_5 qemp86_t + \beta_6 inc86_t + x&#39;_t\delta + \varepsilon_t  \]</span></p>
+<div id="ols" class="section level3 unnumbered hasAnchor">
+<h3>OLS<a href="poisson-regression.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="poisson-regression.html#cb23-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb23-2"><a href="poisson-regression.html#cb23-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;crime1.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb23-3"><a href="poisson-regression.html#cb23-3" tabindex="-1"></a><span class="kw">reg</span> narr86 pcnv avgsen tottime ptime86 qemp86 inc86 <span class="bn">black</span> hispan born60 </span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+      Source |       SS           df       MS      Number of obs   =     2,725
+-------------+----------------------------------   F(9, 2715)      =     23.57
+       Model |  145.702778         9  16.1891976   Prob &gt; F        =    0.0000
+    Residual |  1864.64438     2,715  .686793509   R-squared       =    0.0725
+-------------+----------------------------------   Adj R-squared   =    0.0694
+       Total |  2010.34716     2,724  .738012906   Root MSE        =    .82873
+
+------------------------------------------------------------------------------
+      narr86 |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pcnv |   -.131886   .0404037    -3.26   0.001    -.2111112   -.0526609
+      avgsen |  -.0113316   .0122413    -0.93   0.355    -.0353348    .0126717
+     tottime |   .0120693   .0094364     1.28   0.201     -.006434    .0305725
+     ptime86 |  -.0408735    .008813    -4.64   0.000    -.0581544   -.0235925
+      qemp86 |  -.0513099   .0144862    -3.54   0.000     -.079715   -.0229047
+       inc86 |  -.0014617    .000343    -4.26   0.000    -.0021343   -.0007891
+       black |   .3270097   .0454264     7.20   0.000     .2379359    .4160835
+      hispan |   .1938094   .0397156     4.88   0.000     .1159335    .2716853
+      born60 |   -.022465   .0332945    -0.67   0.500    -.0877502    .0428202
+       _cons |    .576566   .0378945    15.22   0.000      .502261    .6508711
+------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="poisson" class="section level3 unnumbered hasAnchor">
+<h3>Poisson<a href="poisson-regression.html#poisson" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We use the <em>poisson</em> command to estimate a Poisson regression. <strong>Our coefficients are the change in expected log counts.</strong> We will need a transformation to interpret the results.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="poisson-regression.html#cb25-1" tabindex="-1"></a><span class="kw">poisson</span> narr86 pcnv avgsen tottime ptime86 qemp86 inc86 <span class="bn">black</span> hispan born60 </span></code></pre></div>
+<pre><code>Iteration 0:   log likelihood = -2249.0104  
+Iteration 1:   log likelihood = -2248.7614  
+Iteration 2:   log likelihood = -2248.7611  
+Iteration 3:   log likelihood = -2248.7611  
+
+Poisson regression                              Number of obs     =      2,725
+                                                LR chi2(9)        =     386.32
+                                                Prob &gt; chi2       =     0.0000
+Log likelihood = -2248.7611                     Pseudo R2         =     0.0791
+
+------------------------------------------------------------------------------
+      narr86 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pcnv |  -.4015713   .0849712    -4.73   0.000    -.5681117   -.2350308
+      avgsen |  -.0237723    .019946    -1.19   0.233    -.0628658    .0153212
+     tottime |   .0244904   .0147504     1.66   0.097    -.0044199    .0534006
+     ptime86 |  -.0985584   .0206946    -4.76   0.000    -.1391192   -.0579977
+      qemp86 |  -.0380187   .0290242    -1.31   0.190    -.0949051    .0188677
+       inc86 |  -.0080807    .001041    -7.76   0.000     -.010121   -.0060404
+       black |   .6608376   .0738342     8.95   0.000     .5161252      .80555
+      hispan |   .4998133   .0739267     6.76   0.000     .3549196     .644707
+      born60 |  -.0510286   .0640518    -0.80   0.426    -.1765678    .0745106
+       _cons |  -.5995888   .0672501    -8.92   0.000    -.7313966    -.467781
+------------------------------------------------------------------------------</code></pre>
+<p>Test <span class="math inline">\(E(y|x)=Var(y|x)\)</span></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="poisson-regression.html#cb27-1" tabindex="-1"></a><span class="kw">estat</span> gof</span></code></pre></div>
+<pre><code>         Deviance goodness-of-fit =  2822.185
+         Prob &gt; chi2(2715)        =    0.0742
+
+         Pearson goodness-of-fit  =   4118.08
+         Prob &gt; chi2(2715)        =    0.0000</code></pre>
+<div id="factor-change-interpretation" class="section level4 unnumbered hasAnchor">
+<h4>Factor Change Interpretation<a href="poisson-regression.html#factor-change-interpretation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><span class="math inline">\(\Delta pcnv = .01\)</span> so</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="poisson-regression.html#cb29-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(-.402*.01)-1)*100</span></code></pre></div>
+<pre><code>-.40119306</code></pre>
+<p>A 1 percentage point increase in prior arrest decreases <strong>expected number</strong> of arrests by 0.4%</p>
+<p>A discrete change in a binary - the coefficient on Black</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="poisson-regression.html#cb31-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(0.6608)-1)*100 </span></code></pre></div>
+<pre><code>93.634079</code></pre>
+<p>This means that the <strong>expected number</strong> of arrests for a Black person is 93.7% higher than the expected number of arrests for a White person.</p>
+<p>We can use the command <em>listcoef</em> as well, where <span class="math inline">\(e^{\beta}\)</span> or <span class="math inline">\((e^{\beta}-1)*100\)</span> depending upon the option called percent.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="poisson-regression.html#cb33-1" tabindex="-1"></a>scc install listcoef</span>
+<span id="cb33-2"><a href="poisson-regression.html#cb33-2" tabindex="-1"></a>listcoef, <span class="kw">help</span></span>
+<span id="cb33-3"><a href="poisson-regression.html#cb33-3" tabindex="-1"></a>listcoef, <span class="kw">percent</span> <span class="kw">help</span></span></code></pre></div>
+</div>
+<div id="marginal-effects" class="section level4 unnumbered hasAnchor">
+<h4>Marginal Effects<a href="poisson-regression.html#marginal-effects" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p><strong>Interpretation:</strong> The marginal change in a continuous variable depends on the expected value of <span class="math inline">\(y\)</span>
+given <span class="math inline">\(x\)</span>, so we have to calculate marginal effects by specifing x at their means or calculate average marginal effects.</p>
+<p><strong>Note:</strong> be careful with the change in percentage points for pcnv, we want a 1 percentage or 10 percentage point change not a change of 1 (or 100 percentage points)</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb34-1"><a href="poisson-regression.html#cb34-1" tabindex="-1"></a>margins, <span class="kw">dydx</span>(*)</span></code></pre></div>
+<pre><code>Average marginal effects                        Number of obs     =      2,725
+Model VCE    : OIM
+
+Expression   : Predicted number of events, predict()
+dy/dx w.r.t. : pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pcnv |  -.1623969   .0347091    -4.68   0.000    -.2304256   -.0943682
+      avgsen |  -.0096136   .0080714    -1.19   0.234    -.0254333    .0062061
+     tottime |    .009904   .0059726     1.66   0.097     -.001802      .02161
+     ptime86 |  -.0398574   .0084547    -4.71   0.000    -.0564283   -.0232865
+      qemp86 |  -.0153749   .0117466    -1.31   0.191    -.0383979    .0076481
+       inc86 |  -.0032679   .0004323    -7.56   0.000    -.0041152   -.0024205
+       black |   .2672451   .0309251     8.64   0.000     .2066331    .3278571
+      hispan |   .2021263     .03051     6.62   0.000     .1423279    .2619248
+      born60 |  -.0206361   .0259102    -0.80   0.426    -.0714193     .030147
+------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="incident-rate-ratios" class="section level4 unnumbered hasAnchor">
+<h4>Incident-Rate Ratios<a href="poisson-regression.html#incident-rate-ratios" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb36"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb36-1"><a href="poisson-regression.html#cb36-1" tabindex="-1"></a><span class="kw">poisson</span> narr86 pcnv avgsen tottime ptime86 qemp86 inc86 <span class="bn">black</span> hispan born60, <span class="kw">irr</span></span></code></pre></div>
+<pre><code>Iteration 0:   log likelihood = -2249.0104  
+Iteration 1:   log likelihood = -2248.7614  
+Iteration 2:   log likelihood = -2248.7611  
+Iteration 3:   log likelihood = -2248.7611  
+
+Poisson regression                              Number of obs     =      2,725
+                                                LR chi2(9)        =     386.32
+                                                Prob &gt; chi2       =     0.0000
+Log likelihood = -2248.7611                     Pseudo R2         =     0.0791
+
+------------------------------------------------------------------------------
+      narr86 |        IRR   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pcnv |   .6692676   .0568685    -4.73   0.000     .5665943    .7905465
+      avgsen |    .976508   .0194775    -1.19   0.233     .9390695    1.015439
+     tottime |   1.024793   .0151161     1.66   0.097     .9955899    1.054852
+     ptime86 |   .9061427   .0187523    -4.76   0.000     .8701243    .9436521
+      qemp86 |   .9626949   .0279415    -1.31   0.190     .9094592    1.019047
+       inc86 |   .9919519   .0010326    -7.76   0.000       .98993    .9939778
+       black |   1.936414   .1429736     8.95   0.000     1.675523    2.237927
+      hispan |   1.648413   .1218618     6.76   0.000     1.426066    1.905429
+      born60 |   .9502515   .0608653    -0.80   0.426     .8381419    1.077357
+       _cons |   .5490374   .0369228    -8.92   0.000     .4812364    .6263907
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="corner-solution---tobit-model.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="negative-binomial-regression-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-tobit_count.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

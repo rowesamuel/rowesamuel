@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Negative Binomial Regression Model | Corner Solution and Count Models</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Negative Binomial Regression Model | Corner Solution and Count Models" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Negative Binomial Regression Model | Corner Solution and Count Models" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-09-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="poisson-regression.html"/>
+<link rel="next" href="processing-observations-across-subgroups.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Corner Solution and Count Models</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html"><i class="fa fa-check"></i><b>1</b> Corner Solution - Tobit Model</a>
+<ul>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#married-womens-annual-labor-supply"><i class="fa fa-check"></i>Married Women’s Annual Labor Supply</a>
+<ul>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#ols-model"><i class="fa fa-check"></i>OLS Model</a></li>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#tobit-model"><i class="fa fa-check"></i>Tobit Model</a></li>
+<li class="chapter" data-level="" data-path="corner-solution---tobit-model.html"><a href="corner-solution---tobit-model.html#graph-results"><i class="fa fa-check"></i>Graph Results</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="poisson-regression.html"><a href="poisson-regression.html"><i class="fa fa-check"></i><b>2</b> Poisson Regression</a>
+<ul>
+<li class="chapter" data-level="" data-path="poisson-regression.html"><a href="poisson-regression.html#ols"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="poisson-regression.html"><a href="poisson-regression.html#poisson"><i class="fa fa-check"></i>Poisson</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html"><i class="fa fa-check"></i><b>3</b> Negative Binomial Regression Model</a>
+<ul>
+<li class="chapter" data-level="" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html#poisson-1"><i class="fa fa-check"></i>Poisson</a></li>
+<li class="chapter" data-level="" data-path="negative-binomial-regression-model.html"><a href="negative-binomial-regression-model.html#negative-binomial"><i class="fa fa-check"></i>Negative Binomial</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html"><i class="fa fa-check"></i><b>4</b> Processing observations across subgroups</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#obtaining-separate-results-for-subgroups"><i class="fa fa-check"></i><b>4.1</b> Obtaining separate results for subgroups</a></li>
+<li class="chapter" data-level="4.2" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-separately-by-subgroups"><i class="fa fa-check"></i><b>4.2</b> Computing values separately by subgroups</a></li>
+<li class="chapter" data-level="4.3" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#subscripting-or-indexing-computing-values-within-subgroups"><i class="fa fa-check"></i><b>4.3</b> Subscripting or Indexing: Computing values within subgroups:</a></li>
+<li class="chapter" data-level="4.4" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-computations-across-observations"><i class="fa fa-check"></i><b>4.4</b> Computing values within subgroups: Computations across observations</a></li>
+<li class="chapter" data-level="4.5" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-running-sums"><i class="fa fa-check"></i><b>4.5</b> Computing values within subgroups: Running sums</a></li>
+<li class="chapter" data-level="4.6" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#computing-values-within-subgroups-more-examples"><i class="fa fa-check"></i><b>4.6</b> Computing values within subgroups: More examples</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#counting"><i class="fa fa-check"></i>Counting</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#generate-binaries"><i class="fa fa-check"></i>Generate Binaries</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#fill-in-missing"><i class="fa fa-check"></i>Fill in Missing</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#interpolation"><i class="fa fa-check"></i>Interpolation</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#indicators"><i class="fa fa-check"></i>Indicators</a></li>
+</ul></li>
+<li class="chapter" data-level="4.7" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#comparing-the-by-tsset-xtset-commands"><i class="fa fa-check"></i><b>4.7</b> Comparing the by, tsset, xtset commands</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#tsset"><i class="fa fa-check"></i>tsset</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#xtset"><i class="fa fa-check"></i>xtset</a></li>
+<li class="chapter" data-level="" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#what-is-the-difference-xtset-vs-tsset"><i class="fa fa-check"></i>What is the difference? xtset vs tsset</a></li>
+</ul></li>
+<li class="chapter" data-level="4.8" data-path="processing-observations-across-subgroups.html"><a href="processing-observations-across-subgroups.html#exercises"><i class="fa fa-check"></i><b>4.8</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Corner Solution and Count Models</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="negative-binomial-regression-model" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Negative Binomial Regression Model<a href="negative-binomial-regression-model.html#negative-binomial-regression-model" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Lesson: When overdispersion occurs, we could estimate a Negative Binomial Regression model. We’ll see that our standard errors might be too large if our main Poisson assumption mean=variance fails.</strong></p>
+<div id="poisson-1" class="section level3 unnumbered hasAnchor">
+<h3>Poisson<a href="negative-binomial-regression-model.html#poisson-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we will estimate a poisson regression.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb38-1"><a href="negative-binomial-regression-model.html#cb38-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb38-2"><a href="negative-binomial-regression-model.html#cb38-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;crime1.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb38-3"><a href="negative-binomial-regression-model.html#cb38-3" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb38-4"><a href="negative-binomial-regression-model.html#cb38-4" tabindex="-1"></a>eststo PRM: <span class="kw">poisson</span> narr86 pcnv avgsen tottime ptime86 qemp86 inc86 <span class="bn">black</span> hispan born60 </span></code></pre></div>
+</div>
+<div id="negative-binomial" class="section level3 unnumbered hasAnchor">
+<h3>Negative Binomial<a href="negative-binomial-regression-model.html#negative-binomial" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We use the <em>nbreg</em> command to estimate a negative binomial regression.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="negative-binomial-regression-model.html#cb39-1" tabindex="-1"></a>eststo NBRM: <span class="kw">nbreg</span> narr86 pcnv avgsen tottime ptime86 qemp86 inc86 <span class="bn">black</span> hispan born60 </span></code></pre></div>
+<pre><code>Fitting Poisson model:
+
+Iteration 0:   log likelihood = -2249.0104  
+Iteration 1:   log likelihood = -2248.7614  
+Iteration 2:   log likelihood = -2248.7611  
+Iteration 3:   log likelihood = -2248.7611  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -2297.3847  
+Iteration 1:   log likelihood = -2291.4767  
+Iteration 2:   log likelihood = -2290.6926  
+Iteration 3:   log likelihood = -2290.6903  
+Iteration 4:   log likelihood = -2290.6903  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -2181.2355  
+Iteration 1:   log likelihood = -2158.2716  
+Iteration 2:   log likelihood = -2157.6284  
+Iteration 3:   log likelihood =  -2157.628  
+Iteration 4:   log likelihood =  -2157.628  
+
+Negative binomial regression                    Number of obs     =      2,725
+                                                LR chi2(9)        =     266.12
+Dispersion     = mean                           Prob &gt; chi2       =     0.0000
+Log likelihood =  -2157.628                     Pseudo R2         =     0.0581
+
+------------------------------------------------------------------------------
+      narr86 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pcnv |  -.4770963   .1033295    -4.62   0.000    -.6796183   -.2745743
+      avgsen |  -.0173385   .0261171    -0.66   0.507    -.0685272    .0338501
+     tottime |   .0197394   .0192325     1.03   0.305    -.0179557    .0574344
+     ptime86 |  -.1073997    .025074    -4.28   0.000    -.1565439   -.0582555
+      qemp86 |  -.0504884   .0351857    -1.43   0.151    -.1194511    .0184743
+       inc86 |  -.0077126   .0011465    -6.73   0.000    -.0099596   -.0054656
+       black |   .6560406   .0923594     7.10   0.000     .4750195    .8370617
+      hispan |   .5048465   .0895663     5.64   0.000     .3292998    .6803932
+      born60 |   -.046412   .0776384    -0.60   0.550    -.1985804    .1057564
+       _cons |  -.5637368   .0827121    -6.82   0.000    -.7258495   -.4016242
+-------------+----------------------------------------------------------------
+    /lnalpha |  -.0738912   .1177617                     -.3046999    .1569175
+-------------+----------------------------------------------------------------
+       alpha |   .9287728   .1093739                      .7373446    1.169899
+------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 182.27               Prob &gt;= chibar2 = 0.000</code></pre>
+<p>First, our coefficients are the change in <strong>expected log counts</strong>, so we need some transformations
+to provide interpretations.</p>
+<p>Second, our test for over dispersion can be seen at the bottom of our NBRM output with the LR test of <span class="math inline">\(\alpha = 0\)</span></p>
+<div id="factor-change" class="section level4 unnumbered hasAnchor">
+<h4>Factor Change<a href="negative-binomial-regression-model.html#factor-change" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We can manually calculate <span class="math inline">\(e^{\beta}\)</span> to interpret the results with a factor change, or we can use the <em>listcoef</em> command:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="negative-binomial-regression-model.html#cb41-1" tabindex="-1"></a>listcoef, <span class="kw">percent</span> <span class="kw">help</span></span>
+<span id="cb41-2"><a href="negative-binomial-regression-model.html#cb41-2" tabindex="-1"></a>listcoef, <span class="kw">help</span></span></code></pre></div>
+<pre><code>nbreg (N=2725): Percentage Change in Expected Count 
+
+ Observed SD: .85907678
+
+------------------------------------------------------------------
+  narr86 |      b         z     P&gt;|z|      %      %StdX      SDofX
+---------+--------------------------------------------------------
+    pcnv |  -0.47710   -4.617   0.000    -37.9    -17.2     0.3952
+  avgsen |  -0.01734   -0.664   0.507     -1.7     -5.9     3.5080
+ tottime |   0.01974    1.026   0.305      2.0      9.5     4.6070
+ ptime86 |  -0.10740   -4.283   0.000    -10.2    -18.9     1.9501
+  qemp86 |  -0.05049   -1.435   0.151     -4.9     -7.8     1.6104
+   inc86 |  -0.00771   -6.727   0.000     -0.8    -40.2    66.6272
+   black |   0.65604    7.103   0.000     92.7     27.3     0.3677
+  hispan |   0.50485    5.637   0.000     65.7     23.2     0.4127
+  born60 |  -0.04641   -0.598   0.550     -4.5     -2.2     0.4808
+---------+--------------------------------------------------------
+ln alpha |  -0.07389   -0.627
+------------------------------------------------------------------
+       b = raw coefficient
+       z = z-score for test of b=0
+   P&gt;|z| = p-value for z-test
+       % = percent change in expected count for unit increase in X
+   %StdX = percent change in expected count for SD increase in X
+   SDofX = standard deviation of X
+
+
+nbreg (N=2725): Factor Change in Expected Count 
+
+ Observed SD: .85907678
+
+------------------------------------------------------------------
+  narr86 |      b         z     P&gt;|z|    e^b    e^bStdX      SDofX
+---------+--------------------------------------------------------
+    pcnv |  -0.47710   -4.617   0.000   0.6206   0.8282     0.3952
+  avgsen |  -0.01734   -0.664   0.507   0.9828   0.9410     3.5080
+ tottime |   0.01974    1.026   0.305   1.0199   1.0952     4.6070
+ ptime86 |  -0.10740   -4.283   0.000   0.8982   0.8110     1.9501
+  qemp86 |  -0.05049   -1.435   0.151   0.9508   0.9219     1.6104
+   inc86 |  -0.00771   -6.727   0.000   0.9923   0.5982    66.6272
+   black |   0.65604    7.103   0.000   1.9271   1.2728     0.3677
+  hispan |   0.50485    5.637   0.000   1.6567   1.2316     0.4127
+  born60 |  -0.04641   -0.598   0.550   0.9546   0.9779     0.4808
+---------+--------------------------------------------------------
+ln alpha |  -0.07389   -0.627
+------------------------------------------------------------------
+       b = raw coefficient
+       z = z-score for test of b=0
+   P&gt;|z| = p-value for z-test
+     e^b = exp(b) = factor change in expected count for unit increase in X
+ e^bStdX = exp(b*SD of X) = change in expected count for SD increase in X
+   SDofX = standard deviation of X</code></pre>
+<p>Let’s look at pcnv:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb43-1"><a href="negative-binomial-regression-model.html#cb43-1" tabindex="-1"></a><span class="kw">display</span> <span class="fu">exp</span>(-.4771*.1)-1</span></code></pre></div>
+<pre><code>-.04658976</code></pre>
+<p>A 10 percentage point increase in proportion of prior arrests that lead to conviction decrease the expected number of arrests by 4.7% holding all others constant.</p>
+<p>Let’s look at avgsen:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb45-1"><a href="negative-binomial-regression-model.html#cb45-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(0.01974)-1)</span></code></pre></div>
+<pre><code>.01993612</code></pre>
+<p>a 1 month increase in total time served in prision from prior convictions before 1986 increases the expected number of arrests holding all others constant.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb47-1"><a href="negative-binomial-regression-model.html#cb47-1" tabindex="-1"></a>esttab, mtitle</span></code></pre></div>
+<pre><code>                      (1)             (2)   
+                      PRM            NBRM   
+--------------------------------------------
+narr86                                      
+pcnv               -0.402***       -0.477***
+                  (-4.73)         (-4.62)   
+
+avgsen            -0.0238         -0.0173   
+                  (-1.19)         (-0.66)   
+
+tottime            0.0245          0.0197   
+                   (1.66)          (1.03)   
+
+ptime86           -0.0986***       -0.107***
+                  (-4.76)         (-4.28)   
+
+qemp86            -0.0380         -0.0505   
+                  (-1.31)         (-1.43)   
+
+inc86            -0.00808***     -0.00771***
+                  (-7.76)         (-6.73)   
+
+black               0.661***        0.656***
+                   (8.95)          (7.10)   
+
+hispan              0.500***        0.505***
+                   (6.76)          (5.64)   
+
+born60            -0.0510         -0.0464   
+                  (-0.80)         (-0.60)   
+
+_cons              -0.600***       -0.564***
+                  (-8.92)         (-6.82)   
+--------------------------------------------
+lnalpha                                     
+_cons                             -0.0739   
+                                  (-0.63)   
+--------------------------------------------
+N                    2725            2725   
+--------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+</div>
+<div id="marginal-effects-1" class="section level4 unnumbered hasAnchor">
+<h4>Marginal Effects<a href="negative-binomial-regression-model.html#marginal-effects-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Interpretation is similar to Poisson
+The marginal change in a continuous variable depends on the expected value of y
+given x, so we have to specify x with atmeans or average marginal effects</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb49-1"><a href="negative-binomial-regression-model.html#cb49-1" tabindex="-1"></a>margins, <span class="kw">dydx</span>(*)</span></code></pre></div>
+<pre><code>Average marginal effects                        Number of obs     =      2,725
+Model VCE    : OIM
+
+Expression   : Predicted number of events, predict()
+dy/dx w.r.t. : pcnv avgsen tottime ptime86 qemp86 inc86 black hispan born60
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pcnv |  -.1933482   .0429858    -4.50   0.000    -.2775988   -.1090976
+      avgsen |  -.0070266    .010587    -0.66   0.507    -.0277767    .0137235
+     tottime |   .0079996   .0078006     1.03   0.305    -.0072894    .0232886
+     ptime86 |  -.0435248   .0103794    -4.19   0.000    -.0638682   -.0231815
+      qemp86 |  -.0204609   .0143136    -1.43   0.153    -.0485151    .0075932
+       inc86 |  -.0031256   .0004821    -6.48   0.000    -.0040705   -.0021807
+       black |   .2658672   .0395274     6.73   0.000     .1883949    .3433395
+      hispan |   .2045942   .0375363     5.45   0.000     .1310244    .2781641
+      born60 |  -.0188089   .0314753    -0.60   0.550    -.0804994    .0428815
+------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="incident-rate-ratios-1" class="section level4 unnumbered hasAnchor">
+<h4>Incident Rate Ratios<a href="negative-binomial-regression-model.html#incident-rate-ratios-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We can also use the option <em>irr</em> to calcualte incident-rate ratios.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb51-1"><a href="negative-binomial-regression-model.html#cb51-1" tabindex="-1"></a><span class="kw">nbreg</span> narr86 pcnv avgsen tottime ptime86 qemp86 inc86 <span class="bn">black</span> hispan born60, <span class="kw">irr</span></span></code></pre></div>
+<pre><code>Fitting Poisson model:
+
+Iteration 0:   log likelihood = -2249.0104  
+Iteration 1:   log likelihood = -2248.7614  
+Iteration 2:   log likelihood = -2248.7611  
+Iteration 3:   log likelihood = -2248.7611  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -2297.3847  
+Iteration 1:   log likelihood = -2291.4767  
+Iteration 2:   log likelihood = -2290.6926  
+Iteration 3:   log likelihood = -2290.6903  
+Iteration 4:   log likelihood = -2290.6903  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -2181.2355  
+Iteration 1:   log likelihood = -2158.2716  
+Iteration 2:   log likelihood = -2157.6284  
+Iteration 3:   log likelihood =  -2157.628  
+Iteration 4:   log likelihood =  -2157.628  
+
+Negative binomial regression                    Number of obs     =      2,725
+                                                LR chi2(9)        =     266.12
+Dispersion     = mean                           Prob &gt; chi2       =     0.0000
+Log likelihood =  -2157.628                     Pseudo R2         =     0.0581
+
+------------------------------------------------------------------------------
+      narr86 |        IRR   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        pcnv |   .6205828   .0641245    -4.62   0.000     .5068104    .7598956
+      avgsen |   .9828109   .0256682    -0.66   0.507     .9337681     1.03443
+     tottime |   1.019935   .0196159     1.03   0.305     .9822046    1.059116
+     ptime86 |   .8981666   .0225207    -4.28   0.000     .8550939    .9434089
+      qemp86 |    .950765   .0334533    -1.43   0.151     .8874074    1.018646
+       inc86 |   .9923171   .0011377    -6.73   0.000     .9900898    .9945493
+       black |   1.927147   .1779901     7.10   0.000     1.608046    2.309571
+      hispan |   1.656731   .1483873     5.64   0.000     1.389994    1.974654
+      born60 |   .9546486   .0741174    -0.60   0.550     .8198939    1.111551
+       _cons |   .5690785   .0470697    -6.82   0.000     .4839133    .6692322
+-------------+----------------------------------------------------------------
+    /lnalpha |  -.0738912   .1177617                     -.3046999    .1569175
+-------------+----------------------------------------------------------------
+       alpha |   .9287728   .1093739                      .7373446    1.169899
+------------------------------------------------------------------------------
+LR test of alpha=0: chibar2(01) = 182.27               Prob &gt;= chibar2 = 0.000</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="poisson-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="processing-observations-across-subgroups.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-tobit_count.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
