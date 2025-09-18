@@ -1,0 +1,365 @@
+# Subgroup Functions Part II
+
+## Computing values within subgroups: Running sums
+
+As we mentioned earlier, when we use *egen sum* vs *gen sum*, we get different 
+results. *Egen sum()* is similar to *egen total()*, but it can be confusing.
+When we use *gen* with *sum()*, we generate a **RUNNING** sum not a constant of total.
+
+We can generate the tv running sum across all individuals over time
+```{stata index25}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+generate tvrunsum = sum(tv)
+```
+
+We can generate the tv running sum within an individuals time period
+```{stata index26, eval=FALSE}
+bysort kidid (dt): generate bytvrunsum=sum(tv)
+```
+
+We can generate the total sum with an individuals time period
+```{stata index27, eval=FALSE}
+bysort kidid (dt): egen bytvsum=total(tv)
+```
+
+We can generate the total sum for all individuals over time
+```{stata index28, eval=FALSE}
+egen tvsum = total(tv)
+```
+We can also calculate a running average
+```{stata index29, eval=FALSE}
+bysort kidid (dt): generate bytvrunavg=sum(tv)/_n
+```
+
+We can compute the individual's average average
+```{stata index30, eval=FALSE}
+bysort kidid (dt): egen bytvavg = mean(tv)
+list kidid tv tv* by*, sepby(kidid)
+```
+
+```{stata index30_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+generate tvrunsum = sum(tv)
+bysort kidid (dt): generate bytvrunsum=sum(tv)
+bysort kidid (dt): egen bytvsum=total(tv)
+egen tvsum = total(tv)
+bysort kidid (dt): generate bytvrunavg=sum(tv)/_n
+}
+bysort kidid (dt): egen bytvavg = mean(tv)
+list kidid tv tv* by*, sepby(kidid)
+```
+
+
+## Computing values within subgroups: More examples
+
+There are other useful calculations we can do with subscripting/indexing.
+Some do overlap with egen, but it is helpful to know the differences.
+
+### Counting {-}
+
+Count the number of observations: this can be done with subscripting or egen
+depending upon what we want
+```{stata count1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+
+*Generate total observation count per individual missing or not missing:
+bysort kidid (dt): generate idcount=_N
+
+*Generate the total observation without missing
+bysort kidid (dt): egen idcount_nomiss = count(tv)
+
+*Generate a running count of an observation
+bysort kidid (dt): gen idruncount = _n
+list, sepby(kidid)
+```
+
+### Generate Binaries {-}
+
+We can generate binary variables to find first and last observations or nth
+observation. This differences from id counts, we are generating binaries for
+when the qualifier is true.
+
+```{stata binary1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+
+*Find individuals with only one observation
+bysort kidid (dt): generate singleob = (_N==1)
+
+*Find the first observation of an individual
+bysort kidid (dt): generate firstob = (_n==1)
+
+*Find the last observation of an individual 
+bysort kidid (dt): generate lastob = (_n==_N)
+list, sepby(kidid)
+```
+
+We can create binaries depending upon leads and lags too.
+Look for a change in vac
+```{stata lags1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+bysort kidid (dt): generate vacstart=(vac==1) & (vac[_n-1]==0)
+bysort kidid (dt): generate vacend=(vac==1) & (vac[_n+1]==0)
+list kidid dt vac*, sepby(kidid)
+```
+
+### Fill in Missing {-}
+Another useful tool that we should use with caution is filling in missings.
+This should only really be applied when we have a constant variable that 
+does not change over time.
+```{stata missing1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv2, clear
+sort kidid dt
+list, sepby(kidid)
+```
+
+We can backfill the observation with the last nonmissing observation.
+First generate a copy of the variable with missing values.
+```{stata missing2, eval=FALSE}
+generate tvimp1 = tv
+bysort kidid (dt): replace tvimp1 = tv[_n-1] if missing(tv)
+list kidid dt tv tvimp1, sepby(kidid)
+```
+
+```{stata missing2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv2, clear
+sort kidid dt 
+}
+generate tvimp1 = tv
+bysort kidid (dt): replace tvimp1 = tv[_n-1] if missing(tv)
+list kidid dt tv tvimp1, sepby(kidid)
+```
+
+Notice that we are still missing the 3rd observation for the 3rd kid.
+It cannot backfill the 3rd observation from the second observation, since
+the second observation is missing. There are a couple of strategies to use
+We can generate a new variable like Mitchell.
+```{stata missing3, eval=FALSE}
+generate tvimp2 = tvimp1
+bysort kidid (dt): replace tvimp2 = tvimp2[_n-1] if missing(tvimp2)
+list kidid tv tvimp*, sepby(kidid)
+```
+
+```{stata missing3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv2, clear
+sort kidid dt 
+generate tvimp1 = tv
+bysort kidid (dt): replace tvimp1 = tv[_n-1] if missing(tv)
+}
+generate tvimp2 = tvimp1
+bysort kidid (dt): replace tvimp2 = tvimp2[_n-1] if missing(tvimp2)
+list kidid tv tvimp*, sepby(kidid)
+```
+
+You can just replace tvimp1 twice instead of generating a new variable, but
+that is up to the user. You would use tv[_n-1] for the first replace and 
+tvimp1[_n-1] for the second replace.
+
+### Interpolation {-}
+We may need to interpolate between 2 known values and assume a linear trend.
+```{stata missing4, eval=FALSE}
+generate tvimp3=tv
+*Interpolate for 1 missing value between two known values
+bysort kidid (dt): replace tvimp3 = (tv[_n-1]+tv[_n+1])/2 if missing(tv)
+list kidid tv tvimp3, sepby(kidid)
+```
+
+```{stata missing4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv2, clear
+sort kidid dt 
+generate tvimp1 = tv
+bysort kidid (dt): replace tvimp1 = tv[_n-1] if missing(tv)
+generate tvimp2 = tvimp1
+bysort kidid (dt): replace tvimp2 = tvimp2[_n-1] if missing(tvimp2)
+}
+generate tvimp3=tv
+bysort kidid (dt): replace tvimp3 = (tv[_n-1]+tv[_n+1])/2 if missing(tv)
+list kidid tv tvimp3, sepby(kidid)
+```
+
+This is a bit of hard coding, but you can interpolate with more than 1 missing.
+```{stata missing5, eval=FALSE}
+bysort kidid (dt): replace tvimp3 = ((tvimp3[4]-tvimp3[1])/3)+tvimp3[_n-1] if missing(tvimp3) & kidid==3
+list kidid tv tvimp3, sepby(kidid)
+```
+
+```{stata missing5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv2, clear
+sort kidid dt 
+generate tvimp1 = tv
+bysort kidid (dt): replace tvimp1 = tv[_n-1] if missing(tv)
+generate tvimp2 = tvimp1
+bysort kidid (dt): replace tvimp2 = tvimp2[_n-1] if missing(tvimp2)
+generate tvimp3=tv
+bysort kidid (dt): replace tvimp3 = (tv[_n-1]+tv[_n+1])/2 if missing(tv)
+}
+bysort kidid (dt): replace tvimp3 = ((tvimp3[4]-tvimp3[1])/3)+tvimp3[_n-1] if missing(tvimp3) & kidid==3
+list kidid tv tvimp3, sepby(kidid)
+```
+
+### Indicators {-}
+
+What is we want to find outliers in time-varying differences? We can generate
+indicators variables to find when a variable changes more than a set limit.
+For example we want to know if the tv viewing habits drop more than 2 hours 
+```{stata ind1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+bysort kidid (dt): generate tvchange = tv[_n]-tv[_n-1]
+bysort kidid (dt): generate tvchangerate = ((tv[_n]-tv[_n-1])/tv[_n-1])
+list, sepby(kidid)
+```
+
+Generate an indicator variable to see if tvchange is less than -2. This is not
+very helpful with small datasets, but it is important with larger datasets such as the CPS.
+
+```{stata ind2, eval=FALSE}
+gen tvchangeid=(tvchange <= -2) if !missing(tvchange)
+list, sepby(kidid)
+```
+
+```{stata ind2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+bysort kidid (dt): generate tvchange = tv[_n]-tv[_n-1]
+bysort kidid (dt): generate tvchangerate = ((tv[_n]-tv[_n-1])/tv[_n-1])
+list, sepby(kidid)
+}
+gen tvchangeid=(tvchange <= -2) if !missing(tvchange)
+list, sepby(kidid)
+```
+
+## Comparing the by, tsset, xtset commands
+
+Another way to find differences within vectors, we can use the <i>tsset</i> or <i>xtset</i>
+command to establish the times series (tsset) or panel data (xtset).
+We can use our bysort with subscripting/indexing.
+```{stata set1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+bysort kidid (dt): generate ltv = tv[_n-1]
+list, sepby(kidid)
+```
+
+### tsset {-}
+
+Instead we can establish a time series with *tsset*
+
+We'll need to specify that our cross-sectional groups is kidid.
+We'll need to specify our date variable with dt.
+We'll need to use the option, daily, to specify that time period is daily
+as opposed to weeks, months, years. Or we can specify delta(1) for one day.
+
+We can use the operator *L.var* to specify that we want to a lag of 1 day
+```{stata set2}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+sort kidid dt
+tsset kidid dt, daily delta(1)
+generate lagtv = L.tv
+```
+
+We can use the operator F.var to specify that we want a lead of 1 day
+```{stata set3, eval=FALSE}
+generate leadtv = F.tv
+list, sepby(kidid)
+```
+
+```{stata set3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+sort kidid dt
+tsset kidid dt, daily delta(1)
+generate lagtv = L.tv
+}
+generate leadtv = F.tv
+list, sepby(kidid)
+```
+
+
+### xtset {-}
+
+We can establish a panel series with *xtset*
+
+We'll need to specify that our cross-sectional group is kidid.
+We'll need to specify our time period is dt.
+We'll use a delta of 1 to specify that the differnce is 1 day.
+Or, we can use *daily*, as well
+
+Generate a lag with the l.var operator and generate a lead with the f.var
+```{stata set4}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+sort kidid dt
+xtset kidid dt, daily delta(1)
+generate lagtv = l.tv
+generate leadtv = f.tv
+```
+
+What do you notice? You can see that there are some leads and lags missing.
+Why? Because there is an unbalance panel and the daily differences cannot be
+computed if we are missing days. In this case, we can use the bysort with 
+subscripting indexing
+
+```{stata set5, eval=FALSE}
+list, sepby(kidid)
+bysort kidid (dt): gen bylagtv=tv[_n-1]
+bysort kidid (dt): gen byleadtv=tv[_n+1]
+list, sepby(kidid)
+```
+
+```{stata set5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use tv1, clear
+sort kidid dt
+xtset kidid dt, daily delta(1)
+generate lagtv = l.tv
+generate leadtv = f.tv
+}
+list, sepby(kidid)
+bysort kidid (dt): gen bylagtv=tv[_n-1]
+bysort kidid (dt): gen byleadtv=tv[_n+1]
+list, sepby(kidid)
+```
+
+### What is the difference? xtset vs tsset {-}
+From Nick Cox:
+xtset allows a panel identifier only. tsset allows a time identifier only. 
+Where they overlap is when two variables are supplied in which case the first 
+is treated as a panel identifier and the second as a time variable. 
+
+
+## Exercises
+
+
+Let's grab the CPS and generate subgroup analysis. We will be using unweighted data for simplicity
+  1. What are the average wages by sex?
+  2. What are average wages by state
+  3. What are the median wages by sex
+  4. What are the median wages by state
+  5. What is the 75th percentile of wages by race?
+  6. What is the 25th percentile of wages by marital status?
+
+```{stata exer, eval=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/CPS/jun23pub.dta",replace
+```
+
+Use bysort state: egen totalvar=total(var1)
+

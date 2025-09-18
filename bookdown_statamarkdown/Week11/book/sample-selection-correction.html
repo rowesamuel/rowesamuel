@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Sample Selection Correction | Week 11: Censored Models and Sample Selection</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Sample Selection Correction | Week 11: Censored Models and Sample Selection" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Sample Selection Correction | Week 11: Censored Models and Sample Selection" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-09-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="censored-models.html"/>
+<link rel="next" href="subgroup-functions-part-ii.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Censored Models and Sample Selection</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="censored-models.html"><a href="censored-models.html"><i class="fa fa-check"></i><b>1</b> Censored Models</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="censored-models.html"><a href="censored-models.html#censored-regression-model---right-censoring"><i class="fa fa-check"></i><b>1.1</b> Censored Regression Model - Right-Censoring</a></li>
+<li class="chapter" data-level="1.2" data-path="censored-models.html"><a href="censored-models.html#censored-regression-model---duration-analysis"><i class="fa fa-check"></i><b>1.2</b> Censored Regression Model - Duration analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="sample-selection-correction.html"><a href="sample-selection-correction.html"><i class="fa fa-check"></i><b>2</b> Sample Selection Correction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="sample-selection-correction.html"><a href="sample-selection-correction.html#ols"><i class="fa fa-check"></i><b>2.1</b> OLS</a></li>
+<li class="chapter" data-level="2.2" data-path="sample-selection-correction.html"><a href="sample-selection-correction.html#heckman-method---heckit"><i class="fa fa-check"></i><b>2.2</b> Heckman Method - Heckit</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html"><i class="fa fa-check"></i><b>3</b> Subgroup Functions Part II</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#computing-values-within-subgroups-running-sums"><i class="fa fa-check"></i><b>3.1</b> Computing values within subgroups: Running sums</a></li>
+<li class="chapter" data-level="3.2" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#computing-values-within-subgroups-more-examples"><i class="fa fa-check"></i><b>3.2</b> Computing values within subgroups: More examples</a>
+<ul>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#counting"><i class="fa fa-check"></i>Counting</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#generate-binaries"><i class="fa fa-check"></i>Generate Binaries</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#fill-in-missing"><i class="fa fa-check"></i>Fill in Missing</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#interpolation"><i class="fa fa-check"></i>Interpolation</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#indicators"><i class="fa fa-check"></i>Indicators</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#comparing-the-by-tsset-xtset-commands"><i class="fa fa-check"></i><b>3.3</b> Comparing the by, tsset, xtset commands</a>
+<ul>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#tsset"><i class="fa fa-check"></i>tsset</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#xtset"><i class="fa fa-check"></i>xtset</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#what-is-the-difference-xtset-vs-tsset"><i class="fa fa-check"></i>What is the difference? xtset vs tsset</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#exercises"><i class="fa fa-check"></i><b>3.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 11: Censored Models and Sample Selection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sample-selection-correction" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Sample Selection Correction<a href="sample-selection-correction.html#sample-selection-correction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Lesson: Similar to tobit, when we don’t account for the truncation of the data, or why certain parts of the population are not sampled, we will commit a type of omitted variable bias without our lambda(zy)-hat. We can use a Heckit method for sample selection correction.</strong></p>
+<p>We want to see if there is sample selection bias due to unobservable wage offers
+for non-working women.</p>
+<ol style="list-style-type: decimal">
+<li><p>We need to estimate a logit or probit to test and correct for sample selection bias due to unobserved wage offer for nonworking women. Spousal income, education, experience, age, and number of kids less than 6.
+<span class="math display">\[ ln(wages_{i})=\beta_{0}+ \mathbf{x&#39;\beta} + u_{i} \]</span>
+Where <span class="math inline">\(\mathbf{x}\)</span> is a vector that includes education, experience, and experience squared</p></li>
+<li><p>We use the Heckit command to implement a Heckman Method for sample selection correction.</p></li>
+</ol>
+<p><span class="math display">\[ ln(wages_{i})=\beta_{0}+ \mathbf{x&#39;\beta} +\mathbf{z&#39;\delta} + u_{i} \]</span>
+Where <span class="math inline">\(\mathbf{z}\)</span> is a vector that includes spousal income, education, experience, age, and number of kids less than 6.</p>
+<div id="ols" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> OLS<a href="sample-selection-correction.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="sample-selection-correction.html#cb19-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb19-2"><a href="sample-selection-correction.html#cb19-2" tabindex="-1"></a><span class="kw">reg</span> lwage educ exper expersq    </span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       428
+-------------+----------------------------------   F(3, 424)       =     26.29
+       Model |  35.0222967         3  11.6740989   Prob &gt; F        =    0.0000
+    Residual |  188.305144       424  .444115906   R-squared       =    0.1568
+-------------+----------------------------------   Adj R-squared   =    0.1509
+       Total |  223.327441       427  .523015084   Root MSE        =    .66642
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .1074896   .0141465     7.60   0.000     .0796837    .1352956
+       exper |   .0415665   .0131752     3.15   0.002     .0156697    .0674633
+     expersq |  -.0008112   .0003932    -2.06   0.040    -.0015841   -.0000382
+       _cons |  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
+------------------------------------------------------------------------------</code></pre>
+<p><strong>Notice:</strong> an assumption is used to exclude spousal income, age, kids less than 6, and kids greater than 6 from our main regression.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="sample-selection-correction.html#cb21-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
+<pre><code>11.347933</code></pre>
+</div>
+<div id="heckman-method---heckit" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Heckman Method - Heckit<a href="sample-selection-correction.html#heckman-method---heckit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will use a subset of all exogenous variable
+1. What are the factors correlated with being in the labor force?
+2. What is the impact of education and experience on wages</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="sample-selection-correction.html#cb23-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb23-2"><a href="sample-selection-correction.html#cb23-2" tabindex="-1"></a><span class="kw">heckman</span> lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep </span></code></pre></div>
+<pre><code>Heckman selection model -- two-step estimates   Number of obs     =        753
+(regression model with sample selection)        Censored obs      =        325
+                                                Uncensored obs    =        428
+
+                                                Wald chi2(3)      =      51.53
+                                                Prob &gt; chi2       =     0.0000
+
+------------------------------------------------------------------------------
+             |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+lwage        |
+        educ |   .1090655    .015523     7.03   0.000     .0786411      .13949
+       exper |   .0438873   .0162611     2.70   0.007     .0120163    .0757584
+     expersq |  -.0008591   .0004389    -1.96   0.050    -.0017194    1.15e-06
+       _cons |  -.5781032   .3050062    -1.90   0.058    -1.175904     .019698
+-------------+----------------------------------------------------------------
+inlf         |
+    nwifeinc |  -.0120237   .0048398    -2.48   0.013    -.0215096   -.0025378
+        educ |   .1309047   .0252542     5.18   0.000     .0814074     .180402
+       exper |   .1233476   .0187164     6.59   0.000     .0866641    .1600311
+     expersq |  -.0018871      .0006    -3.15   0.002     -.003063   -.0007111
+         age |  -.0528527   .0084772    -6.23   0.000    -.0694678   -.0362376
+     kidslt6 |  -.8683285   .1185223    -7.33   0.000    -1.100628    -.636029
+     kidsge6 |    .036005   .0434768     0.83   0.408     -.049208    .1212179
+       _cons |   .2700768    .508593     0.53   0.595    -.7267473    1.266901
+-------------+----------------------------------------------------------------
+mills        |
+      lambda |   .0322619   .1336246     0.24   0.809    -.2296376    .2941613
+-------------+----------------------------------------------------------------
+         rho |    0.04861
+       sigma |  .66362875
+------------------------------------------------------------------------------</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="sample-selection-correction.html#cb25-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb25-2"><a href="sample-selection-correction.html#cb25-2" tabindex="-1"></a>eststo OLS: <span class="kw">reg</span> lwage educ exper expersq    </span>
+<span id="cb25-3"><a href="sample-selection-correction.html#cb25-3" tabindex="-1"></a>eststo Heckman: <span class="kw">heckman</span> lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep </span>
+<span id="cb25-4"><a href="sample-selection-correction.html#cb25-4" tabindex="-1"></a>esttab, mtitle</span></code></pre></div>
+<pre><code>                      (1)             (2)   
+                      OLS         Heckman   
+--------------------------------------------
+main                                        
+educ                0.107***        0.109***
+                   (7.60)          (7.03)   
+
+exper              0.0416**        0.0439** 
+                   (3.15)          (2.70)   
+
+expersq         -0.000811*      -0.000859   
+                  (-2.06)         (-1.96)   
+
+_cons              -0.522**        -0.578   
+                  (-2.63)         (-1.90)   
+--------------------------------------------
+inlf                                        
+nwifeinc                          -0.0120*  
+                                  (-2.48)   
+
+educ                                0.131***
+                                   (5.18)   
+
+exper                               0.123***
+                                   (6.59)   
+
+expersq                          -0.00189** 
+                                  (-3.15)   
+
+age                               -0.0529***
+                                  (-6.23)   
+
+kidslt6                            -0.868***
+                                  (-7.33)   
+
+kidsge6                            0.0360   
+                                   (0.83)   
+
+_cons                               0.270   
+                                   (0.53)   
+--------------------------------------------
+mills                                       
+lambda                             0.0323   
+                                   (0.24)   
+--------------------------------------------
+N                     428             753   
+--------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>There is no real evidence of sample selection bias in the wage offer equation.
+Our lambda-hat is not statistically significant and we fail to reject <span class="math inline">\(H_0: \rho=0\)</span>. Also, we notice very little difference between our OLS and Heckman Method.</p>
+<p><strong>Interpretation:</strong> we will have a similar interpretation to our OLS. We have a log-linear model so our interpretation of the return would be <span class="math inline">\(e^\beta\)</span> or <span class="math inline">\((e^\beta-1)*100\)</span>. Our <span class="math inline">\(\hat{\lambda}\)</span> would be a potential omitted variable, but our example shows that we fail to reject the null hypothesis and selection bias is does not appear to be problematic.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="censored-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="subgroup-functions-part-ii.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-censored_reg.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

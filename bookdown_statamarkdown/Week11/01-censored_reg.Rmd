@@ -1,0 +1,176 @@
+# Censored Models
+
+## Censored Regression Model - Right-Censoring
+
+**Lesson: We can use a Tobit estimator for right-censored model**
+
+We need to summarize the dependent variable to see the right-censored value. We know that weekly earnings in the Current Population Survey are top-coded or right-censored at $2884.61. This may bias our estimate, so we'll compare a OLS model and a Tobit model for right-censored data. Remember a Tobit estimator for a censored model is different from a corner solution.
+
+```{stata earnings_detail}
+use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+sum earnings if prerelg==1, detail
+histogram earnings if prerelg==1, normal title(Histogram of Weekly Earnings) caption("Source: Current Population Survey")
+graph export "/Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_earnings.png", replace
+```
+
+![Histogram of Earnings](week9_histogram_earnings.png)
+
+
+Let us take a look at the natural log of earnings
+```{stata lnearnings_detail}
+use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+sum lnearnings, detail
+histogram lnearnings if prerelg==1, normal title(Histogram of LN Weekly Earnings) caption("Source: Current Population Survey")
+graph export "/Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_lnearnings.png", replace
+```
+![Histogram of LN of Weekly Earnings](week9_histogram_lnearnings.png)
+We'll estimate the following Mincer Equation. 
+$$ ln(wwages_{i})=\beta_{0} + \beta_{1} edu_{i} + \beta_{2} exp + \beta_{3} exp^2 \beta_{4} marital_{i} + \beta_{5} veteran_{i} + \beta_{6} union_{i} + \beta_{7} female_{i} + \beta_{8} race_{i} + u_{i} $$
+We'll need to use the option, *ul(right-censored-value)* with our Tobit estimator.
+
+```{stata, eval=FALSE}
+est clear
+eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race
+eststo Tobit: quietly tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
+
+esttab OLS Tobit, drop(0.* 1.race* 1.mar* 1.edu) mtitle("OLS" "Tobit")
+```
+
+```{stata censored_ols, echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+sum lnearnings, detail
+return list
+local maxval `r(max)'
+est clear
+eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race
+eststo Tobit: quietly tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
+
+esttab OLS Tobit, drop(0.* 1.race* 1.mar* 1.edu) mtitle("OLS" "Tobit")
+```
+
+**Interpretation** A very similar interpretation to OLS, but we need normality and homoskedasticity for unbiased estimator. We can use a log-linear interpretation without a scaling factor, so the returns to education would only require \((e^\beta -1)*100\) interpretation.
+
+## Censored Regression Model - Duration analysis
+
+**Lesson: We can look at a censored data for duration analysis similar to Wooldridge's example.** 
+
+This differs from a top-coded data, which we can use a Tobit analysis that we just saw.
+
+
+
+We can look at the duration of time in months between an arrests for inmates 
+in a North Carolina prison after being released from prison. We want to 
+evaluate a work program to see if it is effective in increasing duration 
+before recidivism occurs.
+
+<b>Note</b>: 893 inmates have not been arrested during the period they were followed
+These observations are censored. The censoring times differed among inmates
+ranging from 70 to 81 months.
+
+Our dependent variable duration (time in months) is transformed by natural logarithm. 
+We have a bunch of observations that recidivate between 70 and 81 months.
+```{stata durat1, eval=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta", clear
+tab durat
+```
+We have a bunch of observations that are censored after 69 months (but not all)
+```{stata durat2}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta", clear
+tab durat cens
+```
+
+We'll use the *stset* command and set failure at cens==0. We'll use the *stset* command to time set survival.
+```{stata durat3}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta", clear
+stset ldurat, failure(cens==0)
+```
+
+We'll use the *streg* command and set the distribution
+
+$$ ldurat_i = \alpha + =\delta workprg_i + \beta_2 tserved_i + \beta_3 felon_i + \beta_4 alcohol_i + \beta_5 drugs_i + \beta_6 educ_i + x'_i \gamma + \varepsilon_i$$
+Where \( x' \) are demographics of race, marital status, and age.
+
+```{stata durat4,eval=FALSE}
+streg workprg priors tserved felon alcohol drugs black married educ age, dist(weibull) nohr
+```
+```{stata durat5, echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta", clear
+*stset is survival time set
+stset ldurat, failure(cens==0)
+streg workprg priors tserved felon alcohol drugs black married educ age, dist(weibull) nohr
+```	
+
+**Interpretation:**
+Given the log-linear function form, we can easily determine the estimated percent change in duration before criminal recidivism.
+```{stata durat6}
+	display (exp(.0780722)-1)*100
+```
+Being a part of the work program increase the duration of time before recidivism, but it is not statistically significant.
+```{stata durat7}
+	display (exp(-.287139)-1)*100
+```
+Being a felon reduces the duration of time before recidivism, where a felon has as 24% decrease in duration of time before recidivism.
+
+# Sample Selection Correction
+**Lesson: Similar to tobit, when we don't account for the truncation of the data, or why certain parts of the population are not sampled, we will commit a type of omitted variable bias without our lambda(zy)-hat. We can use a Heckit method for sample selection correction.**
+
+We want to see if there is sample selection bias due to unobservable wage offers
+for non-working women.
+
+1. We need to estimate a logit or probit to test and correct for sample selection bias due to unobserved wage offer for nonworking women. Spousal income, education, experience, age, and number of kids less than 6. 
+$$ ln(wages_{i})=\beta_{0}+ \mathbf{x'\beta} + u_{i} $$
+Where \(\mathbf{x}\) is a vector that includes education, experience, and experience squared
+
+2. We use the Heckit command to implement a Heckman Method for sample selection correction.
+
+$$ ln(wages_{i})=\beta_{0}+ \mathbf{x'\beta} +\mathbf{z'\delta} + u_{i} $$
+Where \( \mathbf{z}\) is a vector that includes spousal income, education, experience, age, and number of kids less than 6.
+
+## OLS
+
+```{stata sample1}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta", clear
+reg lwage educ exper expersq 	
+```
+
+**Notice:** an assumption is used to exclude spousal income, age, kids less than 6, and kids greater than 6 from our main regression.
+
+```{stata sample1_1, eval=FALSE}
+display (exp(_b[educ])-1)*100
+```
+
+```{stata sample1_2, echo=FALSE}
+quietly {
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta", clear
+reg lwage educ exper expersq 	
+}
+display (exp(_b[educ])-1)*100
+```
+
+## Heckman Method - Heckit
+We will use a subset of all exogenous variable
+1. What are the factors correlated with being in the labor force?
+2. What is the impact of education and experience on wages 
+
+```{stata sample2}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta", clear
+heckman lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep 
+```
+```{stata sample3,eval=FALSE}
+est clear
+eststo OLS: reg lwage educ exper expersq 	
+eststo Heckman: heckman lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep 
+esttab, mtitle
+```
+```{stata sample4,echo=FALSE}
+use "/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta", clear
+est clear
+eststo OLS: quietly reg lwage educ exper expersq 	
+eststo Heckman: quietly heckman lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep 
+esttab, mtitle
+```
+
+There is no real evidence of sample selection bias in the wage offer equation.
+Our lambda-hat is not statistically significant and we fail to reject \(H_0: \rho=0\). Also, we notice very little difference between our OLS and Heckman Method.
+
+**Interpretation:** we will have a similar interpretation to our OLS. We have a log-linear model so our interpretation of the return would be \(e^\beta\) or \((e^\beta-1)*100\). Our \(\hat{\lambda}\) would be a potential omitted variable, but our example shows that we fail to reject the null hypothesis and selection bias is does not appear to be problematic.

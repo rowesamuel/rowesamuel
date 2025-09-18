@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Censored Models | Week 11: Censored Models and Sample Selection</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Censored Models | Week 11: Censored Models and Sample Selection" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Censored Models | Week 11: Censored Models and Sample Selection" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)" />
+
+
+<meta name="date" content="2025-09-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="sample-selection-correction.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Censored Models and Sample Selection</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="censored-models.html"><a href="censored-models.html"><i class="fa fa-check"></i><b>1</b> Censored Models</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="censored-models.html"><a href="censored-models.html#censored-regression-model---right-censoring"><i class="fa fa-check"></i><b>1.1</b> Censored Regression Model - Right-Censoring</a></li>
+<li class="chapter" data-level="1.2" data-path="censored-models.html"><a href="censored-models.html#censored-regression-model---duration-analysis"><i class="fa fa-check"></i><b>1.2</b> Censored Regression Model - Duration analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="sample-selection-correction.html"><a href="sample-selection-correction.html"><i class="fa fa-check"></i><b>2</b> Sample Selection Correction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="sample-selection-correction.html"><a href="sample-selection-correction.html#ols"><i class="fa fa-check"></i><b>2.1</b> OLS</a></li>
+<li class="chapter" data-level="2.2" data-path="sample-selection-correction.html"><a href="sample-selection-correction.html#heckman-method---heckit"><i class="fa fa-check"></i><b>2.2</b> Heckman Method - Heckit</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html"><i class="fa fa-check"></i><b>3</b> Subgroup Functions Part II</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#computing-values-within-subgroups-running-sums"><i class="fa fa-check"></i><b>3.1</b> Computing values within subgroups: Running sums</a></li>
+<li class="chapter" data-level="3.2" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#computing-values-within-subgroups-more-examples"><i class="fa fa-check"></i><b>3.2</b> Computing values within subgroups: More examples</a>
+<ul>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#counting"><i class="fa fa-check"></i>Counting</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#generate-binaries"><i class="fa fa-check"></i>Generate Binaries</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#fill-in-missing"><i class="fa fa-check"></i>Fill in Missing</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#interpolation"><i class="fa fa-check"></i>Interpolation</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#indicators"><i class="fa fa-check"></i>Indicators</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#comparing-the-by-tsset-xtset-commands"><i class="fa fa-check"></i><b>3.3</b> Comparing the by, tsset, xtset commands</a>
+<ul>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#tsset"><i class="fa fa-check"></i>tsset</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#xtset"><i class="fa fa-check"></i>xtset</a></li>
+<li class="chapter" data-level="" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#what-is-the-difference-xtset-vs-tsset"><i class="fa fa-check"></i>What is the difference? xtset vs tsset</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="subgroup-functions-part-ii.html"><a href="subgroup-functions-part-ii.html#exercises"><i class="fa fa-check"></i><b>3.4</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 11: Censored Models and Sample Selection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="censored-models" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Censored Models<a href="censored-models.html#censored-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="censored-regression-model---right-censoring" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Censored Regression Model - Right-Censoring<a href="censored-models.html#censored-regression-model---right-censoring" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Lesson: We can use a Tobit estimator for right-censored model</strong></p>
+<p>We need to summarize the dependent variable to see the right-censored value. We know that weekly earnings in the Current Population Survey are top-coded or right-censored at $2884.61. This may bias our estimate, so we’ll compare a OLS model and a Tobit model for right-censored data. Remember a Tobit estimator for a censored model is different from a corner solution.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="censored-models.html#cb2-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb2-2"><a href="censored-models.html#cb2-2" tabindex="-1"></a><span class="kw">sum</span> earnings <span class="kw">if</span> prerelg==1, <span class="kw">detail</span></span>
+<span id="cb2-3"><a href="censored-models.html#cb2-3" tabindex="-1"></a><span class="kw">histogram</span> earnings <span class="kw">if</span> prerelg==1, <span class="fu">normal</span> <span class="bn">title</span>(Histogram <span class="kw">of</span> Weekly Earnings) <span class="bn">caption</span>(<span class="st">&quot;Source: Current Population Survey&quot;</span>)</span>
+<span id="cb2-4"><a href="censored-models.html#cb2-4" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_earnings.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<pre><code>                  Weekly Earnings: pternwa
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%           70              0
+ 5%          225              0
+10%          360              0       Obs              10,666
+25%          656              0       Sum of Wgt.      10,666
+
+50%         1000                      Mean           1230.474
+                        Largest       Std. Dev.      788.1457
+75%         1680        2884.61
+90%       2692.3        2884.61       Variance       621173.7
+95%      2884.61        2884.61       Skewness       .7779644
+99%      2884.61        2884.61       Kurtosis       2.648218
+
+(bin=40, start=0, width=72.11525)
+
+(file /Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_earnings.png written in PNG format)</code></pre>
+<div class="float">
+<img src="week9_histogram_earnings.png" alt="Histogram of Earnings" />
+<div class="figcaption">Histogram of Earnings</div>
+</div>
+<p>Let us take a look at the natural log of earnings</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="censored-models.html#cb4-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb4-2"><a href="censored-models.html#cb4-2" tabindex="-1"></a><span class="kw">sum</span> lnearnings, <span class="kw">detail</span></span>
+<span id="cb4-3"><a href="censored-models.html#cb4-3" tabindex="-1"></a><span class="kw">histogram</span> lnearnings <span class="kw">if</span> prerelg==1, <span class="fu">normal</span> <span class="bn">title</span>(Histogram <span class="kw">of</span> LN Weekly Earnings) <span class="bn">caption</span>(<span class="st">&quot;Source: Current Population Survey&quot;</span>)</span>
+<span id="cb4-4"><a href="censored-models.html#cb4-4" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_lnearnings.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<pre><code>               Natural Log of Weekly Earnings
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     4.356709      -3.506558
+ 5%     5.420535      -3.506558
+10%     5.886104      -3.506558       Obs              10,652
+25%      6.49224         .48858       Sum of Wgt.      10,652
+
+50%     6.907755                      Mean            6.86502
+                        Largest       Std. Dev.      .8181897
+75%     7.426549       7.967145
+90%     7.898151       7.967145       Variance       .6694343
+95%     7.967145       7.967145       Skewness      -1.791008
+99%     7.967145       7.967145       Kurtosis       13.92768
+
+(bin=40, start=-3.5065579, width=.28684257)
+
+(file /Users/Sam/Desktop/Econ 645/R Markdown/week9_histogram_lnearnings.png written in PNG format)</code></pre>
+<p><img src="week9_histogram_lnearnings.png" alt="Histogram of LN of Weekly Earnings" />
+We’ll estimate the following Mincer Equation.
+<span class="math display">\[ ln(wwages_{i})=\beta_{0} + \beta_{1} edu_{i} + \beta_{2} exp + \beta_{3} exp^2 \beta_{4} marital_{i} + \beta_{5} veteran_{i} + \beta_{6} union_{i} + \beta_{7} female_{i} + \beta_{8} race_{i} + u_{i} \]</span>
+We’ll need to use the option, <em>ul(right-censored-value)</em> with our Tobit estimator.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="censored-models.html#cb6-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb6-2"><a href="censored-models.html#cb6-2" tabindex="-1"></a>eststo OLS: <span class="kw">quietly</span> <span class="kw">reg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race</span>
+<span id="cb6-3"><a href="censored-models.html#cb6-3" tabindex="-1"></a>eststo Tobit: <span class="kw">quietly</span> <span class="kw">tobit</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race, ul(<span class="ot">`maxval&#39;</span>)</span>
+<span id="cb6-4"><a href="censored-models.html#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="censored-models.html#cb6-5" tabindex="-1"></a>esttab OLS Tobit, <span class="kw">drop</span>(0.* 1.race* 1.mar* 1.edu) mtitle(<span class="st">&quot;OLS&quot;</span> <span class="st">&quot;Tobit&quot;</span>)</span></code></pre></div>
+<pre><code>               Natural Log of Weekly Earnings
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     4.356709      -3.506558
+ 5%     5.420535      -3.506558
+10%     5.886104      -3.506558       Obs              10,652
+25%      6.49224         .48858       Sum of Wgt.      10,652
+
+50%     6.907755                      Mean            6.86502
+                        Largest       Std. Dev.      .8181897
+75%     7.426549       7.967145
+90%     7.898151       7.967145       Variance       .6694343
+95%     7.967145       7.967145       Skewness      -1.791008
+99%     7.967145       7.967145       Kurtosis       13.92768
+
+
+scalars:
+                  r(N) =  10652
+              r(sum_w) =  10652
+               r(mean) =  6.865020483352663
+                r(Var) =  .6694343494891623
+                 r(sd) =  .8181896781854207
+           r(skewness) =  -1.791007993978133
+           r(kurtosis) =  13.92768307319675
+                r(sum) =  73126.19818867257
+                r(min) =  -3.506557897319982
+                r(max) =  7.967144987828557
+                 r(p1) =  4.356708826689592
+                 r(p5) =  5.420534999272286
+                r(p10) =  5.886104031450156
+                r(p25) =  6.492239835020471
+                r(p50) =  6.907755278982137
+                r(p75) =  7.426549072397305
+                r(p90) =  7.898151125863075
+                r(p95) =  7.967144987828557
+                r(p99) =  7.967144987828557
+
+
+
+
+
+
+--------------------------------------------
+                      (1)             (2)   
+                      OLS           Tobit   
+--------------------------------------------
+main                                        
+2.edu               0.330***        0.330***
+                  (11.77)         (11.04)   
+
+3.edu               0.442***        0.445***
+                  (13.48)         (12.67)   
+
+4.edu               0.788***        0.832***
+                  (26.50)         (26.11)   
+
+5.edu               0.951***        1.046***
+                  (30.01)         (30.64)   
+
+exp                0.0558***       0.0575***
+                  (28.73)         (27.60)   
+
+expsq           -0.000887***    -0.000911***
+                 (-28.27)        (-27.03)   
+
+2.marital         -0.0389         -0.0462*  
+                  (-1.92)         (-2.12)   
+
+3.marital          -0.118***       -0.130***
+                  (-6.66)         (-6.84)   
+
+1.veteran          0.0412          0.0428   
+                   (1.34)          (1.28)   
+
+1.union            0.0670**        0.0448   
+                   (3.05)          (1.90)   
+
+1.female           -0.304***       -0.335***
+                 (-22.81)        (-23.25)   
+
+2.race_eth~y       0.0325          0.0551   
+                   (0.41)          (0.65)   
+
+3.race_eth~y      -0.0466         -0.0576   
+                  (-0.60)         (-0.69)   
+
+4.race_eth~y        0.135           0.131   
+                   (1.05)          (0.96)   
+
+5.race_eth~y       0.0232          0.0167   
+                   (0.30)          (0.20)   
+
+6.race_eth~y       0.0730          0.0903   
+                   (0.82)          (0.95)   
+
+7.race_eth~y       0.0549          0.0553   
+                   (0.73)          (0.69)   
+
+_cons               5.813***        5.817***
+                  (69.47)         (64.82)   
+--------------------------------------------
+sigma                                       
+_cons                               0.714***
+                                 (137.00)   
+--------------------------------------------
+N                   10568           10568   
+--------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p><strong>Interpretation</strong> A very similar interpretation to OLS, but we need normality and homoskedasticity for unbiased estimator. We can use a log-linear interpretation without a scaling factor, so the returns to education would only require <span class="math inline">\((e^\beta -1)*100\)</span> interpretation.</p>
+</div>
+<div id="censored-regression-model---duration-analysis" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Censored Regression Model - Duration analysis<a href="censored-models.html#censored-regression-model---duration-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Lesson: We can look at a censored data for duration analysis similar to Wooldridge’s example.</strong></p>
+<p>This differs from a top-coded data, which we can use a Tobit analysis that we just saw.</p>
+<p>We can look at the duration of time in months between an arrests for inmates
+in a North Carolina prison after being released from prison. We want to
+evaluate a work program to see if it is effective in increasing duration
+before recidivism occurs.</p>
+<p><b>Note</b>: 893 inmates have not been arrested during the period they were followed
+These observations are censored. The censoring times differed among inmates
+ranging from 70 to 81 months.</p>
+<p>Our dependent variable duration (time in months) is transformed by natural logarithm.
+We have a bunch of observations that recidivate between 70 and 81 months.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="censored-models.html#cb8-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb8-2"><a href="censored-models.html#cb8-2" tabindex="-1"></a><span class="kw">tab</span> durat</span></code></pre></div>
+<p>We have a bunch of observations that are censored after 69 months (but not all)</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="censored-models.html#cb9-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb9-2"><a href="censored-models.html#cb9-2" tabindex="-1"></a><span class="kw">tab</span> durat cens</span></code></pre></div>
+<pre><code>           |         cens
+     durat |         0          1 |     Total
+-----------+----------------------+----------
+         1 |         8          0 |         8 
+         2 |        15          0 |        15 
+         3 |        14          0 |        14 
+         4 |        13          0 |        13 
+         5 |        16          0 |        16 
+         6 |        18          0 |        18 
+         7 |        18          0 |        18 
+         8 |        16          0 |        16 
+         9 |        18          0 |        18 
+        10 |        22          0 |        22 
+        11 |        11          0 |        11 
+        12 |        14          0 |        14 
+        13 |        15          0 |        15 
+        14 |        16          0 |        16 
+        15 |        23          0 |        23 
+        16 |        11          0 |        11 
+        17 |         9          0 |         9 
+        18 |        16          0 |        16 
+        19 |         9          0 |         9 
+        20 |         8          0 |         8 
+        21 |        13          0 |        13 
+        22 |         7          0 |         7 
+        23 |        16          0 |        16 
+        24 |        12          0 |        12 
+        25 |        13          0 |        13 
+        26 |         8          0 |         8 
+        27 |        11          0 |        11 
+        28 |         9          0 |         9 
+        29 |         8          0 |         8 
+        30 |         7          0 |         7 
+        31 |         6          0 |         6 
+        32 |         6          0 |         6 
+        33 |         6          0 |         6 
+        34 |         4          0 |         4 
+        35 |         5          0 |         5 
+        36 |         6          0 |         6 
+        37 |         6          0 |         6 
+        38 |         4          0 |         4 
+        39 |         4          0 |         4 
+        40 |         2          0 |         2 
+        41 |         7          0 |         7 
+        42 |         5          0 |         5 
+        43 |         5          0 |         5 
+        44 |         4          0 |         4 
+        45 |         4          0 |         4 
+        46 |         7          0 |         7 
+        47 |         4          0 |         4 
+        48 |         1          0 |         1 
+        49 |         4          0 |         4 
+        50 |         5          0 |         5 
+        51 |         2          0 |         2 
+        52 |         2          0 |         2 
+        53 |         8          0 |         8 
+        54 |         3          0 |         3 
+        55 |         5          0 |         5 
+        56 |         2          0 |         2 
+        57 |         4          0 |         4 
+        58 |         1          0 |         1 
+        59 |         5          0 |         5 
+        60 |         3          0 |         3 
+        62 |         3          0 |         3 
+        63 |         2          0 |         2 
+        64 |         1          0 |         1 
+        65 |         2          0 |         2 
+        66 |         3          0 |         3 
+        67 |         3          0 |         3 
+        68 |         4          0 |         4 
+        69 |         2          0 |         2 
+        70 |         2        103 |       105 
+        71 |         2         88 |        90 
+        72 |         1         84 |        85 
+        73 |         1        107 |       108 
+        74 |         1         71 |        72 
+        75 |         0         44 |        44 
+        76 |         0        105 |       105 
+        77 |         1         60 |        61 
+        78 |         0         54 |        54 
+        79 |         0         60 |        60 
+        80 |         0         69 |        69 
+        81 |         0         48 |        48 
+-----------+----------------------+----------
+     Total |       552        893 |     1,445 </code></pre>
+<p>We’ll use the <em>stset</em> command and set failure at cens==0. We’ll use the <em>stset</em> command to time set survival.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="censored-models.html#cb11-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb11-2"><a href="censored-models.html#cb11-2" tabindex="-1"></a><span class="kw">stset</span> ldurat, failure(cens==0)</span></code></pre></div>
+<pre><code>     failure event:  cens == 0
+obs. time interval:  (0, ldurat]
+ exit on or before:  failure
+
+------------------------------------------------------------------------------
+       1445  total observations
+          8  observations end on or before enter()
+------------------------------------------------------------------------------
+       1437  observations remaining, representing
+        544  failures in single-record/single-failure data
+   5411.742  total analysis time at risk and under observation
+                                                at risk from t =         0
+                                     earliest observed entry t =         0
+                                          last observed exit t =  4.394449</code></pre>
+<p>We’ll use the <em>streg</em> command and set the distribution</p>
+<p><span class="math display">\[ ldurat_i = \alpha + =\delta workprg_i + \beta_2 tserved_i + \beta_3 felon_i + \beta_4 alcohol_i + \beta_5 drugs_i + \beta_6 educ_i + x&#39;_i \gamma + \varepsilon_i\]</span>
+Where <span class="math inline">\(x&#39;\)</span> are demographics of race, marital status, and age.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="censored-models.html#cb13-1" tabindex="-1"></a><span class="kw">streg</span> workprg priors tserved felon alcohol drugs <span class="bn">black</span> married educ age, dist(<span class="kw">weibull</span>) nohr</span></code></pre></div>
+<pre><code>     failure event:  cens == 0
+obs. time interval:  (0, ldurat]
+ exit on or before:  failure
+
+------------------------------------------------------------------------------
+       1445  total observations
+          8  observations end on or before enter()
+------------------------------------------------------------------------------
+       1437  observations remaining, representing
+        544  failures in single-record/single-failure data
+   5411.742  total analysis time at risk and under observation
+                                                at risk from t =         0
+                                     earliest observed entry t =         0
+                                          last observed exit t =  4.394449
+
+         failure _d:  cens == 0
+   analysis time _t:  ldurat
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -1254.5107
+Iteration 1:   log likelihood = -1100.1536
+Iteration 2:   log likelihood = -1079.1128
+Iteration 3:   log likelihood = -1078.7957
+Iteration 4:   log likelihood = -1078.7957
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -1078.7957  
+Iteration 1:   log likelihood = -1034.1821  
+Iteration 2:   log likelihood = -1001.9186  
+Iteration 3:   log likelihood = -1000.5996  
+Iteration 4:   log likelihood = -1000.5919  
+Iteration 5:   log likelihood = -1000.5919  
+
+Weibull regression -- log relative-hazard form 
+
+No. of subjects =        1,437                  Number of obs    =       1,437
+No. of failures =          544
+Time at risk    =  5411.742317
+                                                LR chi2(10)      =      156.41
+Log likelihood  =   -1000.5919                  Prob &gt; chi2      =      0.0000
+
+------------------------------------------------------------------------------
+          _t |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     workprg |   .0780722    .091463     0.85   0.393    -.1011921    .2573364
+      priors |   .0834203   .0139155     5.99   0.000     .0561465    .1106941
+     tserved |   .0134545   .0016851     7.98   0.000     .0101519    .0167572
+       felon |   -.287139    .106697    -2.69   0.007    -.4962614   -.0780167
+     alcohol |   .4399456     .10658     4.13   0.000     .2310527    .6488385
+       drugs |   .2920932   .0983695     2.97   0.003     .0992926    .4848938
+       black |   .4515388   .0889883     5.07   0.000     .2771249    .6259527
+     married |   -.146192   .1098131    -1.33   0.183    -.3614216    .0690377
+        educ |   -.023948    .019578    -1.22   0.221    -.0623202    .0144241
+         age |  -.0036431   .0005284    -6.89   0.000    -.0046788   -.0026073
+       _cons |  -3.639277   .3077568   -11.83   0.000     -4.24247   -3.036085
+-------------+----------------------------------------------------------------
+       /ln_p |   .9214587   .0396737    23.23   0.000     .8436997    .9992178
+-------------+----------------------------------------------------------------
+           p |   2.512953   .0996982                      2.324953    2.716156
+         1/p |   .3979381   .0157877                      .3681673    .4301163
+------------------------------------------------------------------------------</code></pre>
+<p><strong>Interpretation:</strong>
+Given the log-linear function form, we can easily determine the estimated percent change in duration before criminal recidivism.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="censored-models.html#cb15-1" tabindex="-1"></a>    <span class="kw">display</span> (<span class="fu">exp</span>(.0780722)-1)*100</span></code></pre></div>
+<pre><code>8.1200719</code></pre>
+<p>Being a part of the work program increase the duration of time before recidivism, but it is not statistically significant.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="censored-models.html#cb17-1" tabindex="-1"></a>    <span class="kw">display</span> (<span class="fu">exp</span>(-.287139)-1)*100</span></code></pre></div>
+<pre><code>-24.959259</code></pre>
+<p>Being a felon reduces the duration of time before recidivism, where a felon has as 24% decrease in duration of time before recidivism.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sample-selection-correction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-censored_reg.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
