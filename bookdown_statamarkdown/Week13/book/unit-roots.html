@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Unit Roots | Times Series Part II</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Unit Roots | Times Series Part II" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Unit Roots | Times Series Part II" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011)" />
+
+
+<meta name="date" content="2025-09-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="dynamically-complete.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Times Series Part II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="unit-roots.html"><a href="unit-roots.html"><i class="fa fa-check"></i><b>1</b> Unit Roots</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="unit-roots.html"><a href="unit-roots.html#example-revisit-fertility"><i class="fa fa-check"></i><b>1.1</b> Example: Revisit Fertility</a></li>
+<li class="chapter" data-level="1.2" data-path="unit-roots.html"><a href="unit-roots.html#wages-and-productivity"><i class="fa fa-check"></i><b>1.2</b> Wages and Productivity</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dynamically-complete.html"><a href="dynamically-complete.html"><i class="fa fa-check"></i><b>2</b> Dynamically Complete</a></li>
+<li class="chapter" data-level="3" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html"><i class="fa fa-check"></i><b>3</b> Testing for Serial Correlation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#example-revisit-phillips-curve"><i class="fa fa-check"></i><b>3.1</b> Example: Revisit Phillip’s Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#static-model"><i class="fa fa-check"></i>Static Model</a></li>
+<li class="chapter" data-level="" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#first-difference"><i class="fa fa-check"></i>First difference</a></li>
+<li class="chapter" data-level="" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#test-for-serial-correlation-durban-watson-test"><i class="fa fa-check"></i>Test for Serial Correlation: Durban-Watson Test</a></li>
+<li class="chapter" data-level="" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#test-for-serial-correlation-ar1-test"><i class="fa fa-check"></i>Test for Serial Correlation: AR(1) Test</a></li>
+<li class="chapter" data-level="" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#fdl-model"><i class="fa fa-check"></i>FDL Model</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#example-revisit-puerto-rican-employment-and-minimum-wage"><i class="fa fa-check"></i><b>3.2</b> Example: Revisit Puerto Rican Employment and Minimum Wage</a>
+<ul>
+<li class="chapter" data-level="" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#durbin-watson-test"><i class="fa fa-check"></i>Durbin-Watson Test</a></li>
+<li class="chapter" data-level="" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#durbins-alternative-statistics"><i class="fa fa-check"></i>Durbin’s Alternative Statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="testing-for-serial-correlation.html"><a href="testing-for-serial-correlation.html#test-ar3-serial-correlation"><i class="fa fa-check"></i><b>3.3</b> Test AR(3) serial correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html"><i class="fa fa-check"></i><b>4</b> Correct for Serial Correlation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#prais-winsten-estimation-in-the-event-study"><i class="fa fa-check"></i><b>4.1</b> Prais-Winsten Estimation in the Event Study</a>
+<ul>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#ols"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#prais-winsten"><i class="fa fa-check"></i>Prais-Winsten</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#inflation-and-prais"><i class="fa fa-check"></i><b>4.2</b> Inflation and Prais</a>
+<ul>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#ols-1"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#prais-winsten-1"><i class="fa fa-check"></i>Prais-Winsten</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#prais-winsten-with-cochrane-orcutt-transformation"><i class="fa fa-check"></i>Prais-Winsten with Cochrane-Orcutt Transformation</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#first-difference-1"><i class="fa fa-check"></i>First Difference</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#compare"><i class="fa fa-check"></i>Compare</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#differencing-and-serial-correlation"><i class="fa fa-check"></i><b>4.3</b> Differencing and Serial Correlation</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#inflation-and-deficits-on-interest-rates"><i class="fa fa-check"></i><b>4.3.1</b> Inflation and Deficits on Interest Rates</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#static-model-1"><i class="fa fa-check"></i>Static Model</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#first-differencing"><i class="fa fa-check"></i>First differencing</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#serial-correlation-robust-standard-errors"><i class="fa fa-check"></i><b>4.4</b> Serial Correlation Robust Standard Errors</a>
+<ul>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#ols-2"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#newey-west-estimator-order-of-1"><i class="fa fa-check"></i>Newey-West Estimator Order of 1</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#newey-west-estimator-order-of-2"><i class="fa fa-check"></i>Newey-West Estimator Order of 2</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#prais-winsten-2"><i class="fa fa-check"></i>Prais-Winsten</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#testing-for-heteroskedasticity-in-time-series"><i class="fa fa-check"></i><b>4.5</b> Testing for Heteroskedasticity in Time Series</a>
+<ul>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#ols-3"><i class="fa fa-check"></i>OLS</a></li>
+<li class="chapter" data-level="" data-path="correct-for-serial-correlation.html"><a href="correct-for-serial-correlation.html#newey-west-estimator"><i class="fa fa-check"></i>Newey-West Estimator</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Times Series Part II</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="unit-roots" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Unit Roots<a href="unit-roots.html#unit-roots" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Lesson:</strong> when we have a unit root process or Time Series integrated of order one <span class="math inline">\(I(1)\)</span>
+we can use a first difference to transform the time series into a weakly dependent
+and often stationary process.</p>
+<div id="example-revisit-fertility" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Example: Revisit Fertility<a href="unit-roots.html#example-revisit-fertility" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Set the time series</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="unit-roots.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb2-2"><a href="unit-roots.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> fertil3.dta, <span class="kw">clear</span></span>
+<span id="cb2-3"><a href="unit-roots.html#cb2-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+        time variable:  year, 1913 to 1984
+                delta:  1 unit</code></pre>
+<p>Plot the Graph</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="unit-roots.html#cb4-1" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> gfr <span class="fu">year</span>, <span class="bn">title</span>(<span class="st">&quot;General Fertility Rate&quot;</span>) <span class="bn">ytitle</span>(<span class="st">&quot;Children Born per 1,000 CBA Women&quot;</span>) <span class="bn">xtitle</span>(<span class="st">&quot;Year&quot;</span>)</span>
+<span id="cb4-2"><a href="unit-roots.html#cb4-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week_11_i1.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week_11_i1.png" alt="General Fertility Rate" />
+<div class="figcaption">General Fertility Rate</div>
+</div>
+<p>Estimate autocorrelation or estimate <span class="math inline">\(\hat{\rho}\)</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="unit-roots.html#cb5-1" tabindex="-1"></a><span class="kw">reg</span> gfr <span class="ot">l</span>.gfr</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        71
+-------------+----------------------------------   F(1, 69)        =   1413.53
+       Model |   25734.824         1   25734.824   Prob &gt; F        =    0.0000
+    Residual |  1256.21904        69  18.2060731   R-squared       =    0.9535
+-------------+----------------------------------   Adj R-squared   =    0.9528
+       Total |   26991.043        70  385.586329   Root MSE        =    4.2669
+
+------------------------------------------------------------------------------
+         gfr |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         gfr |
+         L1. |   .9777202   .0260053    37.60   0.000      .925841    1.029599
+             |
+       _cons |   1.304937   2.548821     0.51   0.610    -3.779822    6.389695
+------------------------------------------------------------------------------</code></pre>
+<p>Our result is rho-hat is 0.98, which is indicative of a unit root process.
+Under our TS assumptions our t statistics are invalid, but if we use a
+transformation using a first-difference process, we can relax those assumptions
+under the TSC assumptions. If our <span class="math inline">\(I(1)\)</span> becomes <span class="math inline">\(I(0)\)</span>, then our TSC assumptions
+are potentially valid.</p>
+<p>First Difference both dependent and independent</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="unit-roots.html#cb7-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.gfr <span class="kw">d</span>.pe <span class="kw">if</span> <span class="fu">year</span> &lt; 1985</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        71
+-------------+----------------------------------   F(1, 69)        =      2.26
+       Model |  40.3237206         1  40.3237206   Prob &gt; F        =    0.1370
+    Residual |  1229.25866        69  17.8153428   R-squared       =    0.0318
+-------------+----------------------------------   Adj R-squared   =    0.0177
+       Total |  1269.58238        70  18.1368911   Root MSE        =    4.2208
+
+------------------------------------------------------------------------------
+       D.gfr |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          pe |
+         D1. |  -.0426776   .0283672    -1.50   0.137    -.0992686    .0139134
+             |
+       _cons |  -.7847796   .5020398    -1.56   0.123    -1.786322    .2167625
+------------------------------------------------------------------------------</code></pre>
+<p>Our result is that the real value of the personal exemption is associated with
+a 0.043 decrease in fertility or a 23 dollar increase in the real value of the
+personal exemption is associated with a 1 child per capita (1,000 CBA Women).
+This is a bit unexpected, but still insignificant. Let’s add some lags.</p>
+<p>First differnce with more than 1 lag</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="unit-roots.html#cb9-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.gfr <span class="kw">d</span>.pe <span class="kw">d</span>.pe_1 <span class="kw">d</span>.pe_2 <span class="kw">if</span> <span class="fu">year</span> &lt; 1985</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        69
+-------------+----------------------------------   F(3, 65)        =      6.56
+       Model |  293.259859         3  97.7532864   Prob &gt; F        =    0.0006
+    Residual |  968.199959        65   14.895384   R-squared       =    0.2325
+-------------+----------------------------------   Adj R-squared   =    0.1971
+       Total |  1261.45982        68  18.5508797   Root MSE        =    3.8595
+
+------------------------------------------------------------------------------
+       D.gfr |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          pe |
+         D1. |  -.0362021   .0267737    -1.35   0.181     -.089673    .0172687
+             |
+        pe_1 |
+         D1. |  -.0139706   .0275539    -0.51   0.614    -.0689997    .0410584
+             |
+        pe_2 |
+         D1. |   .1099896   .0268797     4.09   0.000     .0563071    .1636721
+             |
+       _cons |  -.9636787   .4677599    -2.06   0.043     -1.89786   -.0294976
+------------------------------------------------------------------------------</code></pre>
+<p>Our results show that increases in the current and prior period real value
+personal exemption is not statistically significant. However, a 1 dollar increase
+in the real value of personal exemption is associated two period prior is associated
+with an increase of .110 child per capita (or $9.1 increase is associated with
+an increase of 1 child per capita.</p>
+</div>
+<div id="wages-and-productivity" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Wages and Productivity<a href="unit-roots.html#wages-and-productivity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><span class="math inline">\(I(1)\)</span> process with the presence of a linear trend</p>
+<p>We want to estimate the elasticity of hourly wage with respect to output per hour
+(or labor productivity).</p>
+<p><span class="math display">\[ ln(hrwage_t)=\beta_0 + \beta_1 ln(outphr_t) + \beta_2 t + u_t \]</span></p>
+<p>Set Time Series and estimate the contemporaneous model</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="unit-roots.html#cb11-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb11-2"><a href="unit-roots.html#cb11-2" tabindex="-1"></a><span class="kw">use</span> earns.dta, <span class="kw">clear</span></span>
+<span id="cb11-3"><a href="unit-roots.html#cb11-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span>, <span class="fu">yearly</span></span>
+<span id="cb11-4"><a href="unit-roots.html#cb11-4" tabindex="-1"></a><span class="kw">reg</span> lhrwage loutphr t</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+        time variable:  year, 1947 to 1987
+                delta:  1 year
+
+      Source |       SS           df       MS      Number of obs   =        41
+-------------+----------------------------------   F(2, 38)        =    641.22
+       Model |  1.04458064         2  .522290318   Prob &gt; F        =    0.0000
+    Residual |  .030951776        38   .00081452   R-squared       =    0.9712
+-------------+----------------------------------   Adj R-squared   =    0.9697
+       Total |  1.07553241        40   .02688831   Root MSE        =    .02854
+
+------------------------------------------------------------------------------
+     lhrwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     loutphr |   1.639639   .0933471    17.56   0.000     1.450668    1.828611
+           t |    -.01823   .0017482   -10.43   0.000     -.021769   -.0146909
+       _cons |  -5.328454   .3744492   -14.23   0.000    -6.086487   -4.570421
+------------------------------------------------------------------------------</code></pre>
+<p>We estimate that the elasticity is very large, where a 1% increase in labor
+productivity (output per hour) is associated with a 1.64% increase in hourly
+wage. Let’s test for autocorrelation with accounting for the linear trend.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="unit-roots.html#cb13-1" tabindex="-1"></a><span class="kw">reg</span> lhrwage <span class="ot">l</span>.lhrwage t</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        40
+-------------+----------------------------------   F(2, 37)        =   1595.37
+       Model |  .921760671         2  .460880336   Prob &gt; F        =    0.0000
+    Residual |  .010688817        37  .000288887   R-squared       =    0.9885
+-------------+----------------------------------   Adj R-squared   =    0.9879
+       Total |  .932449488        39  .023908961   Root MSE        =      .017
+
+------------------------------------------------------------------------------
+     lhrwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     lhrwage |
+         L1. |   .9842872   .0334331    29.44   0.000     .9165452    1.052029
+             |
+           t |  -.0009039   .0004732    -1.91   0.064    -.0018626    .0000548
+       _cons |   .0544169   .0413998     1.31   0.197    -.0294671    .1383008
+------------------------------------------------------------------------------</code></pre>
+<p>We have some evidence for a unit root process, so we’ll use the first-difference
+to transform the I(1) process into a I(0) process. We’ll no longer need the
+time trend</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="unit-roots.html#cb15-1" tabindex="-1"></a>    <span class="kw">twoway</span> <span class="kw">line</span> lhrwage <span class="fu">year</span>, <span class="bn">title</span>(<span class="st">&quot;Natural Log of Hourly Wages&quot;</span>) <span class="bn">ytitle</span>(<span class="st">&quot;Ln(Hourly Wage)&quot;</span>) <span class="bn">xtitle</span>(<span class="st">&quot;Year&quot;</span>)</span>
+<span id="cb15-2"><a href="unit-roots.html#cb15-2" tabindex="-1"></a>    <span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage1.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week_11_hrwage1.png" alt="Natural Log of Hourly Wages" />
+<div class="figcaption">Natural Log of Hourly Wages</div>
+</div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="unit-roots.html#cb16-1" tabindex="-1"></a>    <span class="kw">twoway</span> <span class="kw">line</span> <span class="kw">d</span>.lhrwage <span class="fu">year</span>, <span class="bn">title</span>(<span class="st">&quot;First-Difference in Ln(Hourly Wages)&quot;</span>) <span class="bn">ytitle</span>(<span class="st">&quot;Delta Ln(Hourly Wage)&quot;</span>) <span class="bn">xtitle</span>(<span class="st">&quot;Year&quot;</span>)</span>
+<span id="cb16-2"><a href="unit-roots.html#cb16-2" tabindex="-1"></a>    <span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week_11_hrwage2.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week_11_hrwage2.png" alt="Difference in LN of Hourly Wage" />
+<div class="figcaption">Difference in LN of Hourly Wage</div>
+</div>
+<p>We’ll keep the trend based upon our prior graph</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="unit-roots.html#cb17-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.lhrwage <span class="kw">d</span>.loutphr t</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        40
+-------------+----------------------------------   F(2, 37)        =     19.12
+       Model |  .008727211         2  .004363605   Prob &gt; F        =    0.0000
+    Residual |  .008445792        37  .000228265   R-squared       =    0.5082
+-------------+----------------------------------   Adj R-squared   =    0.4816
+       Total |  .017173003        39  .000440333   Root MSE        =    .01511
+
+------------------------------------------------------------------------------
+   D.lhrwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+     loutphr |
+         D1. |   .5511404   .1733698     3.18   0.003     .1998598    .9024209
+             |
+           t |  -.0007637   .0002321    -3.29   0.002    -.0012339   -.0002935
+       _cons |   .0176094   .0074784     2.35   0.024     .0024567    .0327622
+------------------------------------------------------------------------------</code></pre>
+<p>Our transformed model shows that a 1% increase in output per hour is associated
+with a .55% increase in hourly wage.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dynamically-complete.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
