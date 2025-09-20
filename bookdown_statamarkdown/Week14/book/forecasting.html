@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Forecasting | Forecasting</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Forecasting | Forecasting" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Forecasting | Forecasting" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Wooldridge (2011)" />
+
+
+<meta name="date" content="2025-09-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="prepare-for-forecasting.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Forecasting</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="prepare-for-forecasting.html"><a href="prepare-for-forecasting.html"><i class="fa fa-check"></i><b>1</b> Prepare for Forecasting</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="prepare-for-forecasting.html"><a href="prepare-for-forecasting.html#graph-the-time-series"><i class="fa fa-check"></i><b>1.1</b> Graph the Time Series</a></li>
+<li class="chapter" data-level="1.2" data-path="prepare-for-forecasting.html"><a href="prepare-for-forecasting.html#train-and-test"><i class="fa fa-check"></i><b>1.2</b> Train and Test</a></li>
+<li class="chapter" data-level="1.3" data-path="prepare-for-forecasting.html"><a href="prepare-for-forecasting.html#ar1-and-var-models"><i class="fa fa-check"></i><b>1.3</b> AR(1) and VAR models</a>
+<ul>
+<li class="chapter" data-level="" data-path="prepare-for-forecasting.html"><a href="prepare-for-forecasting.html#ols-ar-1"><i class="fa fa-check"></i>OLS AR-1</a></li>
+<li class="chapter" data-level="" data-path="prepare-for-forecasting.html"><a href="prepare-for-forecasting.html#var"><i class="fa fa-check"></i>VAR</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="forecasting.html"><a href="forecasting.html"><i class="fa fa-check"></i><b>2</b> Forecasting</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="forecasting.html"><a href="forecasting.html#one-step-ahead-model-vs-dynamic-ar1-model"><i class="fa fa-check"></i><b>2.1</b> One-Step Ahead Model vs Dynamic AR(1) Model</a>
+<ul>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#train-the-model"><i class="fa fa-check"></i>Train the model</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#one-step-ahead-model"><i class="fa fa-check"></i>One-Step Ahead Model</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#dynamic-model"><i class="fa fa-check"></i>Dynamic Model</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#graph-model"><i class="fa fa-check"></i>Graph Model</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#root-mean-squared-error-rmse"><i class="fa fa-check"></i>Root Mean Squared Error (RMSE)</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#mean-absolute-error-mae"><i class="fa fa-check"></i>Mean Absolute Error (MAE)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="forecasting.html"><a href="forecasting.html#one-step-ahead-var-model"><i class="fa fa-check"></i><b>2.2</b> One-Step Ahead VAR Model</a>
+<ul>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#train-the-model-1"><i class="fa fa-check"></i>Train the Model</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#one-step-ahead-forecast-of-var-model"><i class="fa fa-check"></i>One-Step-Ahead Forecast of VAR Model</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#dynamic-forecast-of-var-model"><i class="fa fa-check"></i>Dynamic Forecast of VAR Model</a></li>
+<li class="chapter" data-level="2.2.1" data-path="forecasting.html"><a href="forecasting.html#calculate-rmse-and-mae"><i class="fa fa-check"></i><b>2.2.1</b> Calculate RMSE and MAE</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="forecasting.html"><a href="forecasting.html#compare-ar1-and-var-models"><i class="fa fa-check"></i><b>2.3</b> Compare AR(1) and VAR models</a>
+<ul>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#compare-results-with-rmse-and-mse"><i class="fa fa-check"></i>Compare Results with RMSE and MSE</a></li>
+<li class="chapter" data-level="" data-path="forecasting.html"><a href="forecasting.html#graph-the-forecasts"><i class="fa fa-check"></i>Graph the Forecasts</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Forecasting</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="forecasting" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Forecasting<a href="forecasting.html#forecasting" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="one-step-ahead-model-vs-dynamic-ar1-model" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> One-Step Ahead Model vs Dynamic AR(1) Model<a href="forecasting.html#one-step-ahead-model-vs-dynamic-ar1-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One-step ahead we can use predict or forecast for AR(1). We use the <em>estimates store</em> command to store our results for our AR(1) model.</p>
+<div id="train-the-model" class="section level3 unnumbered hasAnchor">
+<h3>Train the model<a href="forecasting.html#train-the-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="forecasting.html#cb11-1" tabindex="-1"></a><span class="kw">reg</span> unem <span class="ot">l</span>.unem <span class="kw">if</span> <span class="kw">test</span> == 0</span>
+<span id="cb11-2"><a href="forecasting.html#cb11-2" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> model1</span></code></pre></div>
+</div>
+<div id="one-step-ahead-model" class="section level3 unnumbered hasAnchor">
+<h3>One-Step Ahead Model<a href="forecasting.html#one-step-ahead-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can get one-step ahead just using predict</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="forecasting.html#cb12-1" tabindex="-1"></a><span class="kw">predict</span> unem_est</span></code></pre></div>
+<p>Forecast - One-step-ahead forecast. We three addition commands:</p>
+<ol style="list-style-type: decimal">
+<li><em>forecast create</em></li>
+<li><em>forecast estimates</em></li>
+<li><em>forecast solve</em></li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="forecasting.html#cb13-1" tabindex="-1"></a>forecast create forecast1, <span class="kw">replace</span></span>
+<span id="cb13-2"><a href="forecasting.html#cb13-2" tabindex="-1"></a>forecast <span class="kw">estimates</span> model1</span></code></pre></div>
+<p>For a one-step ahead forecast, <strong>static</strong> is our key option otherwise it will not be a one-step ahead forecast.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="forecasting.html#cb14-1" tabindex="-1"></a>forecast solve, <span class="kw">prefix</span>(st_) <span class="kw">begin</span>(1997) <span class="kw">end</span>(2003) <span class="kw">static</span></span>
+<span id="cb14-2"><a href="forecasting.html#cb14-2" tabindex="-1"></a><span class="ot">list</span> <span class="fu">year</span> unem st_unem <span class="kw">if</span> <span class="fu">year</span> &gt; 1996</span></code></pre></div>
+<pre><code>Computing static forecasts for model forecast1.
+-----------------------------------------------
+Starting period:  1997
+Ending period:    2003
+Forecast prefix:  st_
+
+1997:  .............
+1998:  .............
+1999:  ..............
+2000:  ..............
+2001:  ..............
+2002:  .............
+2003:  ............
+
+Forecast 1 variable spanning 7 periods.
+---------------------------------------
+
+     +------------------------------+
+     | year        unem     st_unem |
+     |------------------------------|
+ 50. | 1997   4.9000001   5.5264521 |
+ 51. | 1998         4.5    5.160275 |
+ 52. | 1999   4.1999998   4.8673334 |
+ 53. | 2000           4   4.6476274 |
+ 54. | 2001   4.8000002   4.5011568 |
+     |------------------------------|
+ 55. | 2002   5.8000002   5.0870399 |
+ 56. | 2003           6   5.8193936 |
+     +------------------------------+</code></pre>
+</div>
+<div id="dynamic-model" class="section level3 unnumbered hasAnchor">
+<h3>Dynamic Model<a href="forecasting.html#dynamic-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Dynamic model - We won’t use l.unem but l.dy_unem</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="forecasting.html#cb16-1" tabindex="-1"></a>forecast solve, <span class="kw">prefix</span>(dy_) <span class="kw">begin</span>(1997) <span class="kw">end</span>(2003)</span>
+<span id="cb16-2"><a href="forecasting.html#cb16-2" tabindex="-1"></a><span class="ot">list</span> <span class="fu">year</span> unem st_unem dy_unem <span class="kw">if</span> <span class="fu">year</span> &gt; 1996</span></code></pre></div>
+<pre><code>Computing dynamic forecasts for model forecast1.
+------------------------------------------------
+Starting period:  1997
+Ending period:    2003
+Forecast prefix:  dy_
+
+1997:  .............
+1998:  .............
+1999:  ............
+2000:  ............
+2001:  ............
+2002:  ............
+2003:  ............
+
+Forecast 1 variable spanning 7 periods.
+---------------------------------------
+
+     +------------------------------------------+
+     | year        unem     st_unem     dy_unem |
+     |------------------------------------------|
+ 50. | 1997   4.9000001   5.5264521   5.5264521 |
+ 51. | 1998         4.5    5.160275   5.6190596 |
+ 52. | 1999   4.1999998   4.8673334   5.6868811 |
+ 53. | 2000           4   4.6476274   5.7365503 |
+ 54. | 2001   4.8000002   4.5011568   5.7729259 |
+     |------------------------------------------|
+ 55. | 2002   5.8000002   5.0870399   5.7995653 |
+ 56. | 2003           6   5.8193936   5.8190751 |
+     +------------------------------------------+</code></pre>
+</div>
+<div id="graph-model" class="section level3 unnumbered hasAnchor">
+<h3>Graph Model<a href="forecasting.html#graph-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Graph Actual, One-Step-Ahead Model, and Dynamic Model</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="forecasting.html#cb18-1" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> unem <span class="fu">year</span> || <span class="kw">line</span> st_unem <span class="fu">year</span>, lpattern(<span class="kw">dash</span>) || <span class="kw">line</span> dy_unem <span class="fu">year</span>, lpattern(<span class="bn">dot</span>)</span>
+<span id="cb18-2"><a href="forecasting.html#cb18-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week_11_static_v_dynamic.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week_11_static_v_dynamic.png" alt="One-Step-Ahead vs Dynamic Forecasting" />
+<div class="figcaption">One-Step-Ahead vs Dynamic Forecasting</div>
+</div>
+</div>
+<div id="root-mean-squared-error-rmse" class="section level3 unnumbered hasAnchor">
+<h3>Root Mean Squared Error (RMSE)<a href="forecasting.html#root-mean-squared-error-rmse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Calculate RMSE for AR(1) model</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="forecasting.html#cb19-1" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">e</span> = unem - st_unem</span>
+<span id="cb19-2"><a href="forecasting.html#cb19-2" tabindex="-1"></a><span class="kw">gen</span> e2 = <span class="fu">e</span>^2</span>
+<span id="cb19-3"><a href="forecasting.html#cb19-3" tabindex="-1"></a><span class="kw">sum</span> e2 <span class="kw">if</span> <span class="kw">test</span>==1</span>
+<span id="cb19-4"><a href="forecasting.html#cb19-4" tabindex="-1"></a><span class="fu">scalar</span> esum= <span class="ot">`r(sum)&#39;</span>/<span class="ot">`r(N)&#39;</span></span>
+<span id="cb19-5"><a href="forecasting.html#cb19-5" tabindex="-1"></a><span class="fu">scalar</span> model1_RMSE= esum^.5</span>
+<span id="cb19-6"><a href="forecasting.html#cb19-6" tabindex="-1"></a><span class="kw">display</span> model1_RMSE</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          e2 |          7    .3319141    .1891047   .0326187   .5083123
+
+
+
+.57611988</code></pre>
+</div>
+<div id="mean-absolute-error-mae" class="section level3 unnumbered hasAnchor">
+<h3>Mean Absolute Error (MAE)<a href="forecasting.html#mean-absolute-error-mae" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Calculate MAE for AR(1) model</p>
+<pre class="stat"><code>gen e_abs = abs(e) if test ==1
+sum e_abs if test==1
+scalar model1_MAE=`r(mean)&#39;
+display model1_MAE</code></pre>
+<pre><code>(49 missing values generated)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       e_abs |          7     .542014    .2109284   .1806064   .7129602
+
+
+.54201399</code></pre>
+</div>
+</div>
+<div id="one-step-ahead-var-model" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> One-Step Ahead VAR Model<a href="forecasting.html#one-step-ahead-var-model" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One-step ahead we can use predict or forecast for VAR Model (lagged employment and lagged inflation)</p>
+<div id="train-the-model-1" class="section level3 unnumbered hasAnchor">
+<h3>Train the Model<a href="forecasting.html#train-the-model-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="forecasting.html#cb23-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> unem <span class="ot">l</span>.unem <span class="ot">l</span>.inf <span class="kw">if</span> <span class="fu">year</span> &lt; 1997</span></code></pre></div>
+<p>Our predict command will produce the same results as <em>forecast solve, static</em></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="forecasting.html#cb24-1" tabindex="-1"></a><span class="kw">predict</span> p2</span>
+<span id="cb24-2"><a href="forecasting.html#cb24-2" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> model2</span></code></pre></div>
+<p>Forecast for Model 2</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="forecasting.html#cb25-1" tabindex="-1"></a>forecast create forecast2, <span class="kw">replace</span></span>
+<span id="cb25-2"><a href="forecasting.html#cb25-2" tabindex="-1"></a>forecast <span class="kw">estimates</span> model2</span></code></pre></div>
+</div>
+<div id="one-step-ahead-forecast-of-var-model" class="section level3 unnumbered hasAnchor">
+<h3>One-Step-Ahead Forecast of VAR Model<a href="forecasting.html#one-step-ahead-forecast-of-var-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="forecasting.html#cb26-1" tabindex="-1"></a>forecast solve, <span class="kw">prefix</span>(st2_) <span class="kw">begin</span>(1997) <span class="kw">end</span>(2003) <span class="kw">static</span></span>
+<span id="cb26-2"><a href="forecasting.html#cb26-2" tabindex="-1"></a><span class="ot">list</span> <span class="fu">year</span> unem st_unem <span class="kw">if</span> <span class="fu">year</span> &gt; 1996</span></code></pre></div>
+<pre><code>Computing static forecasts for model forecast2.
+-----------------------------------------------
+Starting period:  1997
+Ending period:    2003
+Forecast prefix:  st2_
+
+1997:  ............
+1998:  ...........
+1999:  ...........
+2000:  .............
+2001:  ..............
+2002:  .............
+2003:  ..............
+
+Forecast 1 variable spanning 7 periods.
+---------------------------------------
+
+     +------------------------------+
+     | year        unem    st2_unem |
+     |------------------------------|
+ 50. | 1997   4.9000001   5.3484678 |
+ 51. | 1998         4.5    4.896451 |
+ 52. | 1999   4.1999998   4.5091372 |
+ 53. | 2000           4   4.4251752 |
+ 54. | 2001   4.8000002   4.5160618 |
+     |------------------------------|
+ 55. | 2002   5.8000002   4.9235368 |
+ 56. | 2003           6   5.3502712 |
+     +------------------------------+</code></pre>
+</div>
+<div id="dynamic-forecast-of-var-model" class="section level3 unnumbered hasAnchor">
+<h3>Dynamic Forecast of VAR Model<a href="forecasting.html#dynamic-forecast-of-var-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="forecasting.html#cb28-1" tabindex="-1"></a>forecast solve, <span class="kw">prefix</span>(dy2_) <span class="kw">begin</span>(1997) <span class="kw">end</span>(2003) </span>
+<span id="cb28-2"><a href="forecasting.html#cb28-2" tabindex="-1"></a><span class="ot">list</span> <span class="fu">year</span> unem st2_unem dy2_unem <span class="kw">if</span> <span class="fu">year</span> &gt; 1996</span></code></pre></div>
+<pre><code>Computing dynamic forecasts for model forecast2.
+------------------------------------------------
+Starting period:  1997
+Ending period:    2003
+Forecast prefix:  dy2_
+
+1997:  ............
+1998:  .............
+1999:  .............
+2000:  ............
+2001:  .............
+2002:  ............
+2003:  .............
+
+Forecast 1 variable spanning 7 periods.
+---------------------------------------
+
+     +------------------------------------------+
+     | year        unem    st2_unem    dy2_unem |
+     |------------------------------------------|
+ 50. | 1997   4.9000001   5.3484678   5.3484678 |
+ 51. | 1998         4.5    4.896451   5.1866217 |
+ 52. | 1999   4.1999998   4.5091372   4.9533992 |
+ 53. | 2000           4   4.4251752   4.9126439 |
+ 54. | 2001   4.8000002   4.5160618   5.1065664 |
+     |------------------------------------------|
+ 55. | 2002   5.8000002   4.9235368   5.1218934 |
+ 56. | 2003           6   5.3502712   4.9115181 |
+     +------------------------------------------+</code></pre>
+</div>
+<div id="calculate-rmse-and-mae" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Calculate RMSE and MAE<a href="forecasting.html#calculate-rmse-and-mae" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Calculate RMSE for the VAR model</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="forecasting.html#cb30-1" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">e</span> = unem - st2_unem</span>
+<span id="cb30-2"><a href="forecasting.html#cb30-2" tabindex="-1"></a><span class="kw">gen</span> e2 = <span class="fu">e</span>^2</span>
+<span id="cb30-3"><a href="forecasting.html#cb30-3" tabindex="-1"></a><span class="kw">sum</span> e2 <span class="kw">if</span> <span class="kw">test</span>==1</span>
+<span id="cb30-4"><a href="forecasting.html#cb30-4" tabindex="-1"></a><span class="fu">scalar</span> esum2 = <span class="ot">`r(sum)&#39;</span>/<span class="ot">`r(N)&#39;</span></span>
+<span id="cb30-5"><a href="forecasting.html#cb30-5" tabindex="-1"></a><span class="fu">scalar</span> model2_RMSE=esum2^.5</span>
+<span id="cb30-6"><a href="forecasting.html#cb30-6" tabindex="-1"></a><span class="kw">display</span> model2_RMSE</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          e2 |          7    .2722276    .2459784    .080621   .7681881
+
+
+
+.52175434</code></pre>
+<p>Calculate MAE for VAR model</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="forecasting.html#cb32-1" tabindex="-1"></a><span class="kw">gen</span> e_abs = <span class="fu">abs</span>(<span class="fu">e</span>)</span>
+<span id="cb32-2"><a href="forecasting.html#cb32-2" tabindex="-1"></a><span class="kw">sum</span> e_abs <span class="kw">if</span> <span class="kw">test</span>==1</span>
+<span id="cb32-3"><a href="forecasting.html#cb32-3" tabindex="-1"></a><span class="fu">scalar</span> model2_MAE=<span class="ot">`r(mean)&#39;</span></span>
+<span id="cb32-4"><a href="forecasting.html#cb32-4" tabindex="-1"></a><span class="kw">display</span> model2_MAE</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+       e_abs |          7    .4841946    .2099534   .2839384   .8764634
+
+
+.48419455</code></pre>
+</div>
+</div>
+<div id="compare-ar1-and-var-models" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Compare AR(1) and VAR models<a href="forecasting.html#compare-ar1-and-var-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Which model do we use? The model that minimizes the error.</p>
+<div id="compare-results-with-rmse-and-mse" class="section level3 unnumbered hasAnchor">
+<h3>Compare Results with RMSE and MSE<a href="forecasting.html#compare-results-with-rmse-and-mse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb34-1"><a href="forecasting.html#cb34-1" tabindex="-1"></a><span class="kw">display</span> <span class="st">&quot;Model 1: RMSE=&quot;</span>model1_RMSE <span class="st">&quot; and MAE=&quot;</span>model1_MAE</span>
+<span id="cb34-2"><a href="forecasting.html#cb34-2" tabindex="-1"></a><span class="kw">display</span> <span class="st">&quot;Model 2: RMSE=&quot;</span>model2_RMSE <span class="st">&quot; and MAE=&quot;</span>model1_MAE</span>
+<span id="cb34-3"><a href="forecasting.html#cb34-3" tabindex="-1"></a><span class="kw">display</span> <span class="st">&quot;Model 2 with lagged unemployment and lagged inflation has lower RMSE and MAE.&quot;</span></span></code></pre></div>
+<pre><code>Model 1: RMSE=.57611988 and MAE=.54201399
+
+Model 2: RMSE=.52175434 and MAE=.48419455
+
+Model 2 with lagged unemployment and lagged inflation has lower RMSE and MAE.</code></pre>
+</div>
+<div id="graph-the-forecasts" class="section level3 unnumbered hasAnchor">
+<h3>Graph the Forecasts<a href="forecasting.html#graph-the-forecasts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Forecasting Line</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb36-1"><a href="forecasting.html#cb36-1" tabindex="-1"></a>    <span class="kw">twoway</span> <span class="kw">line</span> unem <span class="fu">year</span> || <span class="kw">line</span> st_unem <span class="fu">year</span>, lpattern(<span class="kw">dash</span>) || <span class="kw">line</span> st2_unem <span class="fu">year</span>, lpattern(<span class="bn">dot</span>) <span class="co">///</span></span>
+<span id="cb36-2"><a href="forecasting.html#cb36-2" tabindex="-1"></a>    <span class="bn">title</span>(<span class="st">&quot;Forecast of Unemployment&quot;</span>) <span class="bn">xtitle</span>(<span class="st">&quot;Year&quot;</span>) <span class="bn">subtitle</span>(<span class="st">&quot;One-Step-Ahead&quot;</span>) <span class="bn">ytitle</span>(<span class="st">&quot;Unemployment Rate&quot;</span>) <span class="bn">xline</span>(1996) <span class="co">///</span></span>
+<span id="cb36-3"><a href="forecasting.html#cb36-3" tabindex="-1"></a>    <span class="bn">legend</span>(<span class="kw">order</span>(1 <span class="st">&quot;Actual&quot;</span> 2 <span class="st">&quot;Model 1&quot;</span> 3 <span class="st">&quot;Model 2&quot;</span>))</span>
+<span id="cb36-4"><a href="forecasting.html#cb36-4" tabindex="-1"></a>    <span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week_11_forecast.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week_11_forecast.png" alt="Compare Forecasts" />
+<div class="figcaption">Compare Forecasts</div>
+</div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="prepare-for-forecasting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
