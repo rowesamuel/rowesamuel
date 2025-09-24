@@ -172,9 +172,9 @@ reg lwage i.y85##c.edu c.exper##c.exper i.union i.female##i.y85
 ```
 Our results:
 
-Wage gap in 1978 is \( e^{(-.317)}-1*100 = -27.2 \% \)
+Wage gap in 1978 is \( (e^{(-.317)}-1)*100 = -27.2 \% \)
 
-Wage gap in 1985 is \( e^{(-.317+.085)}-1*100 = -20.7 \% \)
+Wage gap in 1985 is \( (e^{(-.317+.085)}-1)*100 = -20.7 \% \)
 
 ```{stata ret3}
 display (exp(-.317)-1)*100
@@ -250,6 +250,10 @@ We can account for \( a_t \) and \( a_i \) with our First Difference estimator.
 I think this is a good example of a poorly set up panel data. We'll use the file called slp75_81.dta to took at a two year panel data from Biddle and Hamermesh (1990) to estimate the tradeoff between sleeping and working. We have data for 239 people between 1975 and 1981 for the same person in both periods.
 
 We'll get to reshape in Mitchell soon, but here is a preview. We will reshape the data so that each cross-sectional unit of observation has 2 rows: one for 1975 and one for 1985.
+
+Let's take a look at a wide-form dataset that needs to be reshaped
+
+![Data in wide form](example_bad_data.png)
 
 Reshape
 ```{stata sleep1}
@@ -495,7 +499,7 @@ Eide(1994) wants to assess if prior clear-up rates for crime have a relationship
 
 We will use a log-log model and use a first-difference.
 
-$$ \Delta ln(crime_{i,t}= \delta_0 + \beta_1 \Delta ln(clearup_{i,t-1}) + \beta_2 \Delta ln(clearup_{i,t-2}) + \Delta \varepsilon_{i,t} $$
+$$ \Delta ln(crime_{i,t})= \delta_0 + \beta_1 \Delta ln(clearup_{i,t-1}) + \beta_2 \Delta ln(clearup_{i,t-2}) + \Delta \varepsilon_{i,t} $$
 
 ```{stata fdl1}
 cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
@@ -503,7 +507,7 @@ use crime3.dta, clear
 reg clcrime cclrprc1 cclrprc2
 ```
 
-Our model tells us that 1 percent increase in getting crimes to conviction leads to a reduction in the current period crime rate of about 1.32 percent. Assuming this model is specified well, crime rates are sensitive to clear-up rates from the prior 2 years.
+Our model tells us that 1 percent increase in getting crimes to conviction is associated with a reduction in the current period crime rate of about 0.013 percent. Assuming this model is specified well, crime rates are sensitive to clear-up rates from the prior 2 years.
 
 ### Enterprise Zones and Unemployment
 
@@ -532,6 +536,7 @@ use "ezunem.dta", clear
 reg luclms i.d82 i.d83 i.d84 i.d85 i.d86 i.d87 i.d88 cez
 ```
 
+The Pooled OLS shows that an enterprise zone with unemployment insurance claims.
 Let's say we didn't have the data already created. What we'll need to do
 is to set the panel data with xtset unit timeperiod
 Set the Panel Data
@@ -561,6 +566,8 @@ xtset city year
 }
 reg d.luclms i.d82 i.d83 i.d84 i.d85 i.d86 i.d87 i.d88 d.ez
 ```
+
+When we use a FD estimator, a city that adopts an enterprise is associated with a reduction in unemployment insurance claims by \( (e^(-0.1819)-1)*100\% = 16.6\% \)
 
 Test for Heteroskedasticity: 
 

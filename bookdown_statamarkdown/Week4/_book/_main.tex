@@ -118,7 +118,7 @@
 
 \title{Panel Data Part 1 and Labeling Data}
 \author{Samuel Rowe}
-\date{2025-09-24}
+\date{2025-08-27}
 
 \begin{document}
 \maketitle
@@ -533,9 +533,9 @@ c.exper#c.exper |  -.0003994   .0000775    -5.15   0.000    -.0005516   -.000247
 
 Our results:
 
-Wage gap in 1978 is \((e^{(-.317)}-1)*100 = -27.2 \%\)
+Wage gap in 1978 is \(e^{(-.317)}-1*100 = -27.2 \%\)
 
-Wage gap in 1985 is \((e^{(-.317+.085)}-1)*100 = -20.7 \%\)
+Wage gap in 1985 is \(e^{(-.317+.085)}-1*100 = -20.7 \%\)
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -654,14 +654,6 @@ We can account for \(a_t\) and \(a_i\) with our First Difference estimator.
 I think this is a good example of a poorly set up panel data. We'll use the file called slp75\_81.dta to took at a two year panel data from Biddle and Hamermesh (1990) to estimate the tradeoff between sleeping and working. We have data for 239 people between 1975 and 1981 for the same person in both periods.
 
 We'll get to reshape in Mitchell soon, but here is a preview. We will reshape the data so that each cross-sectional unit of observation has 2 rows: one for 1975 and one for 1985.
-
-Let's take a look at a wide-form dataset that needs to be reshaped
-
-\begin{figure}
-\centering
-\pandocbounded{\includegraphics[keepaspectratio]{example_bad_data.png}}
-\caption{Data in wide form}
-\end{figure}
 
 Reshape
 
@@ -1020,7 +1012,7 @@ Eide(1994) wants to assess if prior clear-up rates for crime have a relationship
 
 We will use a log-log model and use a first-difference.
 
-\[ \Delta ln(crime_{i,t})= \delta_0 + \beta_1 \Delta ln(clearup_{i,t-1}) + \beta_2 \Delta ln(clearup_{i,t-2}) + \Delta \varepsilon_{i,t} \]
+\[ \Delta ln(crime_{i,t}= \delta_0 + \beta_1 \Delta ln(clearup_{i,t-1}) + \beta_2 \Delta ln(clearup_{i,t-2}) + \Delta \varepsilon_{i,t} \]
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1049,7 +1041,7 @@ We will use a log-log model and use a first-difference.
 ------------------------------------------------------------------------------
 \end{verbatim}
 
-Our model tells us that 1 percent increase in getting crimes to conviction is associated with a reduction in the current period crime rate of about 0.013 percent. Assuming this model is specified well, crime rates are sensitive to clear-up rates from the prior 2 years.
+Our model tells us that 1 percent increase in getting crimes to conviction leads to a reduction in the current period crime rate of about 1.32 percent. Assuming this model is specified well, crime rates are sensitive to clear-up rates from the prior 2 years.
 
 \subsection{Enterprise Zones and Unemployment}\label{enterprise-zones-and-unemployment}
 
@@ -1106,7 +1098,6 @@ Pooled OLS
 ------------------------------------------------------------------------------
 \end{verbatim}
 
-The Pooled OLS shows that an enterprise zone with unemployment insurance claims.
 Let's say we didn't have the data already created. What we'll need to do
 is to set the panel data with xtset unit timeperiod
 Set the Panel Data
@@ -1157,8 +1148,6 @@ First Difference
        _cons |  -.3216319    .046064    -6.98   0.000    -.4125748   -.2306891
 ------------------------------------------------------------------------------
 \end{verbatim}
-
-When we use a FD estimator, a city that adopts an enterprise is associated with a reduction in unemployment insurance claims by \((e^(-0.1819)-1)*100\% = 16.6\%\)
 
 Test for Heteroskedasticity:
 
@@ -1705,10 +1694,10 @@ Contains data from survey7.dta
   obs:             8                          Survey of graduate students
  vars:            11                          5 May 2020 14:37
  size:           400                          (_dta has notes)
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 STUDENTVARS     float   %9.0g                 STUDENT VARIABLES ===============
 gender          float   %9.0g      mf         Gender of student
@@ -1721,7 +1710,7 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           float   %td..                 Date of birth of child
                                             * indicated variables have notes
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -1752,7 +1741,7 @@ We can subset the variables we want to describe if we want
 \begin{verbatim}
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -1767,8 +1756,8 @@ Finally, the command \emph{codebook} provides a deep dive into your dataset. Thi
 \end{Shaded}
 
 \begin{verbatim}
-id                                                              Unique identification variable
-----------------------------------------------------------------------------------------------
+id                                                                                  Unique identification variable
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -1785,9 +1774,9 @@ id                                                              Unique identific
                              1  7
                              1  8
 
-----------------------------------------------------------------------------------------------
-STUDENTVARS                                                  STUDENT VARIABLES ===============
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+STUDENTVARS                                                                      STUDENT VARIABLES ===============
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -1797,9 +1786,9 @@ STUDENTVARS                                                  STUDENT VARIABLES =
             tabulation:  Freq.  Value
                              8  .
 
-----------------------------------------------------------------------------------------------
-gender                                                                       Gender of student
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+gender                                                                                           Gender of student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  mf
@@ -1811,9 +1800,9 @@ gender                                                                       Gen
                              3         1  Male
                              5         2  Female
 
-----------------------------------------------------------------------------------------------
-race                                                                           Race of student
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+race                                                                                               Race of student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  racelab
@@ -1828,9 +1817,9 @@ race                                                                           R
                              1         4  African American
                              1         5  Other
 
-----------------------------------------------------------------------------------------------
-bday                                                                  Date of birth of student
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+bday                                                                                      Date of birth of student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric daily date (float)
 
@@ -1848,9 +1837,9 @@ bday                                                                  Date of bi
                              1  6391   01jul1977
                              1  7935   22sep1981
 
-----------------------------------------------------------------------------------------------
-income                                                                       Income of student
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+income                                                                                           Income of student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -1867,9 +1856,9 @@ income                                                                       Inc
                              1  124313.45
                              1  1284354.5
 
-----------------------------------------------------------------------------------------------
-havechild                                                              Given birth to a child?
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+havechild                                                                                  Given birth to a child?
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  havelab
@@ -1883,9 +1872,9 @@ havechild                                                              Given bir
                              4         1  Have Child
                              3        .n  NA
 
-----------------------------------------------------------------------------------------------
-KIDVARS                                                      KID VARIABLES ===================
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+KIDVARS                                                                          KID VARIABLES ===================
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -1895,9 +1884,9 @@ KIDVARS                                                      KID VARIABLES =====
             tabulation:  Freq.  Value
                              8  .
 
-----------------------------------------------------------------------------------------------
-kidname                                                                          Name of child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+kidname                                                                                              Name of child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  string (str10), but longest is str9
 
@@ -1912,9 +1901,9 @@ kidname                                                                         
 
                warning:  variable has leading and trailing blanks
 
-----------------------------------------------------------------------------------------------
-ksex                                                                              Sex of child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+ksex                                                                                                  Sex of child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  mfkid
@@ -1929,9 +1918,9 @@ ksex                                                                            
                              4        .n  NA
                              1        .u  Unknown
 
-----------------------------------------------------------------------------------------------
-kbday                                                                   Date of birth of child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+kbday                                                                                       Date of birth of child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric daily date (float)
 
@@ -1956,8 +1945,8 @@ We can go by variables.
 \end{Shaded}
 
 \begin{verbatim}
-race                                                                           Race of student
-----------------------------------------------------------------------------------------------
+race                                                                                               Race of student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  racelab
@@ -1982,8 +1971,8 @@ We can go by variables and notes
 \end{Shaded}
 
 \begin{verbatim}
-havechild                                                              Given birth to a child?
-----------------------------------------------------------------------------------------------
+havechild                                                                                  Given birth to a child?
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  havelab
@@ -1998,8 +1987,7 @@ havechild                                                              Given bir
                              3        .n  NA
 
 havechild:
-  1.  This variable measures whether a woman has given birth to a child, not just whether she
-      is a parent.
+  1.  This variable measures whether a woman has given birth to a child, not just whether she is a parent.
   2.  The .n (NA) missing code is used for males, because they cannot bear children.
   3.  The .u (Unknown) missing code for a female indicating it is unknown if she has a child.
 \end{verbatim}
@@ -2013,8 +2001,8 @@ We can look at the variable and missing value labels with the option \emph{mv}. 
 \end{Shaded}
 
 \begin{verbatim}
-ksex                                                                              Sex of child
-----------------------------------------------------------------------------------------------
+ksex                                                                                                  Sex of child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  mfkid
@@ -2046,7 +2034,7 @@ The \emph{lookfor} command will return all variables with the search word. This 
 \begin{verbatim}
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 bday            float   %td..                 Date of birth of student
 havechild       float   %18.0g     havelab  * Given birth to a child?
 kbday           float   %td..                 Date of birth of child
@@ -2062,8 +2050,7 @@ We can also search for the notes by the search word
 
 \begin{verbatim}
 havechild:
-  1.  This variable measures whether a woman has given birth to a child, not just whether she
-      is a parent.
+  1.  This variable measures whether a woman has given birth to a child, not just whether she is a parent.
 \end{verbatim}
 
 We can see the formats of the variables as well
@@ -2091,7 +2078,7 @@ We can see the formats of the variables as well
 
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 income          float   %11.1fc               Income of student
 bday            float   %td..                 Date of birth of student
 \end{verbatim}
@@ -2121,10 +2108,10 @@ Contains data from survey1.dta
   obs:             8                          
  vars:             9                          1 Jan 2010 12:13
  size:           432                          
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 
 gender          float   %9.0g                 
 race            float   %9.0g                 
@@ -2134,7 +2121,7 @@ bdays           str10   %10s
 income          float   %9.0g                 
 kbdays          str10   %10s                  
 kidname         str10   %10s                  
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -2160,10 +2147,10 @@ Contains data from survey1.dta
   obs:             8                          
  vars:             9                          1 Jan 2010 12:13
  size:           432                          
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 Identification variable
 gender          float   %9.0g                 Gender of the student
 race            float   %9.0g                 Race of the student
@@ -2173,7 +2160,7 @@ bdays           str10   %10s                  Birthday of student
 income          float   %9.0g                 Income of student
 kbdays          str10   %10s                  Birthday of child
 kidname         str10   %10s                  Name of child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -2192,10 +2179,10 @@ Contains data from survey1.dta
   obs:             8                          
  vars:             9                          1 Jan 2010 12:13
  size:           432                          
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g                 Gender of the student
 race            float   %9.0g                 Race of the student
@@ -2205,7 +2192,7 @@ bdays           str10   %10s                  Birthday of student
 income          float   %9.0g                 Income of student
 kbdays          str10   %10s                  Birthday of child
 kidname         str10   %10s                  Name of child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 
 file survey2.dta saved
@@ -2241,9 +2228,9 @@ Let's look at our codebook
 
 
 
-----------------------------------------------------------------------------------------------
-id                                                              Unique identification variable
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+id                                                                                  Unique identification variable
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -2260,9 +2247,9 @@ id                                                              Unique identific
                              1  7
                              1  8
 
-----------------------------------------------------------------------------------------------
-gender                                                                   Gender of the student
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+gender                                                                                       Gender of the student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -2273,9 +2260,9 @@ gender                                                                   Gender 
                              3  1
                              5  2
 
-----------------------------------------------------------------------------------------------
-race                                                                       Race of the student
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+race                                                                                           Race of the student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -2289,9 +2276,9 @@ race                                                                       Race 
                              1  4
                              1  5
 
-----------------------------------------------------------------------------------------------
-havechild                                                               Given birth to a child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+havechild                                                                                   Given birth to a child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -2304,9 +2291,9 @@ havechild                                                               Given bi
                              4  1
                              3  .n
 
-----------------------------------------------------------------------------------------------
-ksex                                                                              Sex of child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+ksex                                                                                                  Sex of child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -2320,9 +2307,9 @@ ksex                                                                            
                              4  .n
                              1  .u
 
-----------------------------------------------------------------------------------------------
-bdays                                                                      Birthday of student
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+bdays                                                                                          Birthday of student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  string (str10)
 
@@ -2338,9 +2325,9 @@ bdays                                                                      Birth
                              1  "8/3/1976"
                              1  "9/22/1981"
 
-----------------------------------------------------------------------------------------------
-income                                                                       Income of student
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+income                                                                                           Income of student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
 
@@ -2357,9 +2344,9 @@ income                                                                       Inc
                              1  124313.45
                              1  1284354.5
 
-----------------------------------------------------------------------------------------------
-kbdays                                                                       Birthday of child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+kbdays                                                                                           Birthday of child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  string (str10), but longest is str9
 
@@ -2374,9 +2361,9 @@ kbdays                                                                       Bir
 
                warning:  variable has leading and trailing blanks
 
-----------------------------------------------------------------------------------------------
-kidname                                                                          Name of child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+kidname                                                                                              Name of child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  string (str10), but longest is str9
 
@@ -2412,8 +2399,8 @@ Next we need to label the values of the variable with \emph{label values} comman
 \end{Shaded}
 
 \begin{verbatim}
-race                                                                       Race of the student
-----------------------------------------------------------------------------------------------
+race                                                                                           Race of the student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  racelabel, but 1 nonmissing value is not labeled
@@ -2447,8 +2434,8 @@ If we want to modify an existing label, we can use the \emph{modify} option in l
 \end{Shaded}
 
 \begin{verbatim}
-race                                                                       Race of the student
-----------------------------------------------------------------------------------------------
+race                                                                                           Race of the student
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  racelabel
@@ -2479,8 +2466,8 @@ Labeling missing is something that I don't recommend, but we'll show an example 
 \end{Shaded}
 
 \begin{verbatim}
-ksex                                                                              Sex of child
-----------------------------------------------------------------------------------------------
+ksex                                                                                                  Sex of child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  mfkid
@@ -2498,9 +2485,9 @@ ksex                                                                            
 
 
 
-----------------------------------------------------------------------------------------------
-havechild                                                               Given birth to a child
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+havechild                                                                                   Given birth to a child
+------------------------------------------------------------------------------------------------------------------
 
                   type:  numeric (float)
                  label:  havechildlabel
@@ -2729,7 +2716,7 @@ The \emph{labelbook} command provides information similar to \emph{codebook} but
 
 \begin{verbatim}
 value label havechildlabel 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 
       values                                    labels
        range:  [0,1]                     string length:  [2,18]
@@ -2747,9 +2734,9 @@ value label havechildlabel
    variables:  havechild
 
 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 value label mfkid 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 
       values                                    labels
        range:  [1,2]                     string length:  [2,7]
@@ -2767,9 +2754,9 @@ value label mfkid
    variables:  ksex
 
 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 value label racelabel 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 
       values                                    labels
        range:  [1,5]                     string length:  [5,16]
@@ -2789,9 +2776,9 @@ value label racelabel
 
 
 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 value label racelabel 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 
       values                                    labels
        range:  [1,5]                     string length:  [5,16]
@@ -2832,7 +2819,7 @@ We can have a more detailed look with the \emph{detail} and \emph{problem} optio
 
 \begin{verbatim}
 value label racelabel 
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 
       values                                    labels
        range:  [1,5]                     string length:  [5,16]
@@ -2889,8 +2876,8 @@ Let's call our notes with the \emph{notes} command.
 \begin{verbatim}
 _dta:
   1.  This was based on the dataset called survey1.txt
-  2.  The missing values for havechild and childage were coded using -1 and -2 but were
-      converted to .n and .u 24 Sep 2025 17:34
+  2.  The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u 27
+      Aug 2025 16:45
 \end{verbatim}
 
 Let's add some notes to our variables
@@ -2963,8 +2950,8 @@ We can also search notes with the notes search ``string'' command.
 
 \begin{verbatim}
 _dta:
-  2.  The missing values for havechild and childage were coded using -1 and -2 but were
-      converted to .n and .u 24 Sep 2025 17:34
+  2.  The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u 27
+      Aug 2025 16:45
 \end{verbatim}
 
 \section{Formatting the display of variables}\label{formatting-the-display-of-variables}
@@ -2993,7 +2980,7 @@ Let's look at the format of income.
 
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 income          float   %9.0g                 Income of student
 
      +---------------+
@@ -3122,7 +3109,7 @@ Let's use the \emph{format} command with strings.
 \begin{verbatim}
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 kidname         str10   %10s                  Name of child
 \end{verbatim}
 
@@ -3412,10 +3399,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -3426,7 +3413,7 @@ income          float   %12.2fc               Income of student
 kidname         str10   %-10s                 Name of child
 kbday           double  %td                   
                                             * indicated variables have notes
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -3444,10 +3431,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -3458,7 +3445,7 @@ ksex            float   %15.0g     mfkid    * Sex of child
 kidname         str10   %-10s                 Name of child
 kbday           double  %td                   
                                             * indicated variables have notes
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -3478,10 +3465,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -3492,7 +3479,7 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           double  %td                   
                                             * indicated variables have notes
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -3516,10 +3503,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:            11                          11 Mar 2024 14:40
  size:           544                          (_dta has notes)
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 STUDENTVARS     double  %10.0g                
 gender          float   %9.0g      mf         Gender of student
@@ -3532,7 +3519,7 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           double  %td                   
                                             * indicated variables have notes
-----------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 \end{verbatim}
