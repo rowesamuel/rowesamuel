@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe Adapted from Wooldridge (2009) and Mitchell (2020)" />
 
 
-<meta name="date" content="2025-09-02" />
+<meta name="date" content="2025-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -196,9 +196,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 5</span> Changing the order of variables in a dataset<a href="changing-the-order-of-variables-in-a-dataset.html#changing-the-order-of-variables-in-a-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>I personally find reordering the order of variables with the <em>order</em> command to be useful. This is especially true when working with panel data. I like to order the panel data to have the cross-sectional unit first, such as personal id, firm id, etc.first and then have the time period second, so we have our N and T next to one another.</p>
 <p>Let’s pull our survey of graduate students and describe our dataset</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb97-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb97-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
-<span id="cb97-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb97-2" tabindex="-1"></a><span class="kw">use</span> survey6, <span class="kw">clear</span></span>
-<span id="cb97-3"><a href="changing-the-order-of-variables-in-a-dataset.html#cb97-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb99-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb99-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb99-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb99-2" tabindex="-1"></a><span class="kw">use</span> survey6, <span class="kw">clear</span></span>
+<span id="cb99-3"><a href="changing-the-order-of-variables-in-a-dataset.html#cb99-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
 <pre><code>/Users/Sam/Desktop/Econ 645/Data/Mitchell
 
 (Survey of graduate students)
@@ -208,10 +208,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -222,43 +222,43 @@ income          float   %12.2fc               Income of student
 kidname         str10   %-10s                 Name of child
 kbday           double  %td                   
                                             * indicated variables have notes
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: </code></pre>
 <p>We might want to group our variables with similar types of variables. This can be helpful when you have a large dataset with hundreds of variables, such as the CPS.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb99-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb99-1" tabindex="-1"></a><span class="kw">order</span> id gender race bday income havechild</span>
-<span id="cb99-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb99-2" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
-<pre><code>Contains data from survey6.dta
-  obs:             8                          Survey of graduate students
- vars:             9                          11 Mar 2024 14:40
- size:           416                          (_dta has notes)
-------------------------------------------------------------------------------------------------------------------
-              storage   display    value
-variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
-id              float   %9.0g                 Unique identification variable
-gender          float   %9.0g      mf         Gender of student
-race            float   %19.0g     racelab  * Race of student
-bdays           str10   %10s                  Birthday of student
-income          float   %12.2fc               Income of student
-havechild       float   %18.0g     havelab  * Given birth to a child?
-ksex            float   %15.0g     mfkid    * Sex of child
-kidname         str10   %-10s                 Name of child
-kbday           double  %td                   
-                                            * indicated variables have notes
-------------------------------------------------------------------------------------------------------------------
-Sorted by: </code></pre>
-<p>The variables that we leave off will remain in the same order as before after the new variables are moved to the left.</p>
-<p>With the <em>before</em> option, we can move variable(s) before a defined variable. Let’s move kidname before ksex</p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb101-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb101-1" tabindex="-1"></a><span class="kw">order</span> kidname, before(ksex)</span>
+<div class="sourceCode" id="cb101"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb101-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb101-1" tabindex="-1"></a><span class="kw">order</span> id gender race bday income havechild</span>
 <span id="cb101-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb101-2" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
 <pre><code>Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+id              float   %9.0g                 Unique identification variable
+gender          float   %9.0g      mf         Gender of student
+race            float   %19.0g     racelab  * Race of student
+bdays           str10   %10s                  Birthday of student
+income          float   %12.2fc               Income of student
+havechild       float   %18.0g     havelab  * Given birth to a child?
+ksex            float   %15.0g     mfkid    * Sex of child
+kidname         str10   %-10s                 Name of child
+kbday           double  %td                   
+                                            * indicated variables have notes
+----------------------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>The variables that we leave off will remain in the same order as before after the new variables are moved to the left.</p>
+<p>With the <em>before</em> option, we can move variable(s) before a defined variable. Let’s move kidname before ksex</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb103-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb103-1" tabindex="-1"></a><span class="kw">order</span> kidname, before(ksex)</span>
+<span id="cb103-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb103-2" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>Contains data from survey6.dta
+  obs:             8                          Survey of graduate students
+ vars:             9                          11 Mar 2024 14:40
+ size:           416                          (_dta has notes)
+----------------------------------------------------------------------------------------------
+              storage   display    value
+variable name   type    format     label      variable label
+----------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -269,12 +269,12 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           double  %td                   
                                             * indicated variables have notes
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: </code></pre>
 <p>We can move newly created variables with the before and after options with the generate command</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb103-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb103-1" tabindex="-1"></a><span class="kw">generate</span> STUDENTVARS = ., before(gender)</span>
-<span id="cb103-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb103-2" tabindex="-1"></a><span class="kw">generate</span> KIDSVARS = ., after(havechild)</span>
-<span id="cb103-3"><a href="changing-the-order-of-variables-in-a-dataset.html#cb103-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb105-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb105-1" tabindex="-1"></a><span class="kw">generate</span> STUDENTVARS = ., before(gender)</span>
+<span id="cb105-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb105-2" tabindex="-1"></a><span class="kw">generate</span> KIDSVARS = ., after(havechild)</span>
+<span id="cb105-3"><a href="changing-the-order-of-variables-in-a-dataset.html#cb105-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
 <pre><code>(8 missing values generated)
 
 (8 missing values generated)
@@ -284,10 +284,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:            11                          11 Mar 2024 14:40
  size:           544                          (_dta has notes)
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 STUDENTVARS     double  %10.0g                
 gender          float   %9.0g      mf         Gender of student
@@ -300,15 +300,15 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           double  %td                   
                                             * indicated variables have notes
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.</code></pre>
 <div id="practice" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Practice<a href="changing-the-order-of-variables-in-a-dataset.html#practice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Let’s bring in the CPS:
 <a href="https://www.census.gov/data/datasets/time-series/demo/cps/cps-basic.html" class="uri">https://www.census.gov/data/datasets/time-series/demo/cps/cps-basic.html</a></p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb105-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb105-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/</span></span>
-<span id="cb105-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb105-2" tabindex="-1"></a><span class="st">use jul25pub.dta, clear</span></span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb107-1"><a href="changing-the-order-of-variables-in-a-dataset.html#cb107-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/</span></span>
+<span id="cb107-2"><a href="changing-the-order-of-variables-in-a-dataset.html#cb107-2" tabindex="-1"></a><span class="st">use jul25pub.dta, clear</span></span></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Generate a new variable from pemlr called employed where employed = 1 if the individual is employed (present or absent) and employed = 0 if the individual is unemployed. The value should be missing if the individual is not in the labor force.</li>
 <li>Label the variable “Currently employed”.</li>

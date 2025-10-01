@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe Adapted from Wooldridge (2009) and Mitchell (2020)" />
 
 
-<meta name="date" content="2025-09-02" />
+<meta name="date" content="2025-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -203,17 +203,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We’ll use three methods to estimate the returns to marriage for men: Pooled OLS, Fixed Effects (Within), and Random Effects. We cannot estimate the coefficients for Black and Latinos.</p>
 <p>We can use the wagepan data again to estimate the returns to marriage for men. We will compare the Pooled OLS, FE (Within), and Random Effects estimates</p>
 <p>Set Panel</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="random-effects.html#cb35-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb35-2"><a href="random-effects.html#cb35-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;wagepan.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb35-3"><a href="random-effects.html#cb35-3" tabindex="-1"></a>xtset <span class="kw">nr</span> <span class="fu">year</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="random-effects.html#cb37-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb37-2"><a href="random-effects.html#cb37-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;wagepan.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb37-3"><a href="random-effects.html#cb37-3" tabindex="-1"></a>xtset <span class="kw">nr</span> <span class="fu">year</span></span></code></pre></div>
 <pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
 
        panel variable:  nr (strongly balanced)
         time variable:  year, 1980 to 1987
                 delta:  1 unit</code></pre>
 <p>Pooled OLS</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="random-effects.html#cb37-1" tabindex="-1"></a><span class="kw">reg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*</span>
-<span id="cb37-2"><a href="random-effects.html#cb37-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">reg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="random-effects.html#cb39-1" tabindex="-1"></a><span class="kw">reg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*</span>
+<span id="cb39-2"><a href="random-effects.html#cb39-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">reg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =     4,360
 -------------+----------------------------------   F(14, 4345)     =     72.46
        Model |  234.048277        14  16.7177341   Prob &gt; F        =    0.0000
@@ -247,7 +247,7 @@ Pooled OLS shows a marriage premium of:
 11.432957</code></pre>
 <p>The Pooled OLS data are likley upward biased - self-selection into marriage and we will have positive serial correlation so we really should cluster our standard errors by the group id.</p>
 <p>Fixed Effects (Within)</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="random-effects.html#cb39-1" tabindex="-1"></a><span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, <span class="kw">fe</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="random-effects.html#cb41-1" tabindex="-1"></a><span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, <span class="kw">fe</span></span></code></pre></div>
 <pre><code>note: educ omitted because of collinearity
 note: 1.black omitted because of collinearity
 note: 1.hisp omitted because of collinearity
@@ -293,13 +293,13 @@ Fixed Effects model shows a marriage premium of:
 
 4.7787041</code></pre>
 <p>We use estimates store to store our FE (Within) estimates to compare</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="random-effects.html#cb41-1" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> femodel</span>
-<span id="cb41-2"><a href="random-effects.html#cb41-2" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, <span class="kw">fe</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb43-1"><a href="random-effects.html#cb43-1" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> femodel</span>
+<span id="cb43-2"><a href="random-effects.html#cb43-2" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, <span class="kw">fe</span></span></code></pre></div>
 <p>Random Effects</p>
 <p>We can use the theta option to find the lambda-hat GLS transformaton
 <a href="https://www.stata.com/manuals/xtxtreg.pdf" class="uri">https://www.stata.com/manuals/xtxtreg.pdf</a></p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb42-1"><a href="random-effects.html#cb42-1" tabindex="-1"></a><span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, re theta</span>
-<span id="cb42-2"><a href="random-effects.html#cb42-2" tabindex="-1"></a>eststo m3: <span class="kw">quietly</span> <span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, re</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="random-effects.html#cb44-1" tabindex="-1"></a><span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, re theta</span>
+<span id="cb44-2"><a href="random-effects.html#cb44-2" tabindex="-1"></a>eststo m3: <span class="kw">quietly</span> <span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, re</span></code></pre></div>
 <pre><code>Random-effects GLS regression                   Number of obs     =      4,360
 Group variable: nr                              Number of groups  =        545
 
@@ -344,11 +344,12 @@ The Random Effects model shows a marriage premium of:
 <div id="hausman-test" class="section level3 unnumbered hasAnchor">
 <h3>Hausman Test<a href="random-effects.html#hausman-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will use the <em>hausman</em> command to test the main random effects assumption <span class="math inline">\(Cov(x_{i,j},a_i)=0\)</span>. First we specify the command <em>hausman</em>, then we input the two models. We stored our fixed effects model estimates into <strong>femodel</strong>. We will get our latest estimates from the random effects model with “.”. We will also use the option <em>sigmamore</em>.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="random-effects.html#cb44-1" tabindex="-1"></a><span class="kw">hausman</span> femodel ., sigmamore</span></code></pre></div>
-<pre><code>Note: the rank of the differenced variance matrix (5) does not equal the number of coefficients being tested (10);
-        be sure this is what you expect, or there may be problems computing the test.  Examine the output of your
-        estimators for anything unexpected and possibly consider scaling your variables so that the coefficients
-        are on a similar scale.
+<div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="random-effects.html#cb46-1" tabindex="-1"></a><span class="kw">hausman</span> femodel ., sigmamore</span></code></pre></div>
+<pre><code>Note: the rank of the differenced variance matrix (5) does not equal the number of
+        coefficients being tested (10); be sure this is what you expect, or there may be
+        problems computing the test.  Examine the output of your estimators for anything
+        unexpected and possibly consider scaling your variables so that the coefficients are
+        on a similar scale.
 
                  ---- Coefficients ----
              |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
@@ -375,11 +376,11 @@ The Random Effects model shows a marriage premium of:
                 Prob&gt;chi2 =      0.0001
                 (V_b-V_B is not positive definite)</code></pre>
 <p>We reject the null hypothesis and <span class="math inline">\(a_i\)</span> is correlated with the explanatory variables, so the random effects model is likely not appropriate.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="random-effects.html#cb46-1" tabindex="-1"></a>esttab m1 m2 m3, <span class="kw">drop</span>(0.<span class="bn">black</span> 0.hisp 0.d8*) mtitles(<span class="st">&quot;Pooled OLS&quot;</span> <span class="st">&quot;Within Model&quot;</span> <span class="st">&quot;RE Model&quot;</span>)</span>
-<span id="cb46-2"><a href="random-effects.html#cb46-2" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="random-effects.html#cb46-3" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(.108)-1)*100</span>
-<span id="cb46-4"><a href="random-effects.html#cb46-4" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(.0467)-1)*100</span>
-<span id="cb46-5"><a href="random-effects.html#cb46-5" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(.064)-1)*100</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb48-1"><a href="random-effects.html#cb48-1" tabindex="-1"></a>esttab m1 m2 m3, <span class="kw">drop</span>(0.<span class="bn">black</span> 0.hisp 0.d8*) mtitles(<span class="st">&quot;Pooled OLS&quot;</span> <span class="st">&quot;Within Model&quot;</span> <span class="st">&quot;RE Model&quot;</span>)</span>
+<span id="cb48-2"><a href="random-effects.html#cb48-2" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="random-effects.html#cb48-3" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(.108)-1)*100</span>
+<span id="cb48-4"><a href="random-effects.html#cb48-4" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(.0467)-1)*100</span>
+<span id="cb48-5"><a href="random-effects.html#cb48-5" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(.064)-1)*100</span></code></pre></div>
 <pre><code>                      (1)             (2)             (3)   
                Pooled OLS    Within Model        RE Model   
 ------------------------------------------------------------
@@ -443,29 +444,29 @@ t statistics in parentheses
 </div>
 <div id="plot-the-coefficients" class="section level3 unnumbered hasAnchor">
 <h3>Plot the Coefficients<a href="random-effects.html#plot-the-coefficients" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb48"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb48-1"><a href="random-effects.html#cb48-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*</span>
-<span id="cb48-2"><a href="random-effects.html#cb48-2" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> pooled</span>
-<span id="cb48-3"><a href="random-effects.html#cb48-3" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, <span class="kw">fe</span></span>
-<span id="cb48-4"><a href="random-effects.html#cb48-4" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> <span class="kw">fe</span></span>
-<span id="cb48-5"><a href="random-effects.html#cb48-5" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, re theta</span>
-<span id="cb48-6"><a href="random-effects.html#cb48-6" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> re</span>
-<span id="cb48-7"><a href="random-effects.html#cb48-7" tabindex="-1"></a>coefplot <span class="co">///</span></span>
-<span id="cb48-8"><a href="random-effects.html#cb48-8" tabindex="-1"></a>    (pooled, <span class="kw">label</span>(<span class="st">&quot;{bf:Pooled OLS}&quot;</span>) mcolor(<span class="bn">midblue</span>) mlcolor(<span class="bn">cyan</span>) <span class="co">///</span></span>
-<span id="cb48-9"><a href="random-effects.html#cb48-9" tabindex="-1"></a>      ciopts(lcolor(<span class="bn">magenta</span> <span class="bn">midblue</span>))) <span class="co">/// options for first group</span></span>
-<span id="cb48-10"><a href="random-effects.html#cb48-10" tabindex="-1"></a>    (<span class="kw">fe</span>, <span class="kw">label</span>(<span class="st">&quot;{bf: Within}&quot;</span>) mcolor(<span class="kw">green</span>) mlcolor(<span class="bn">lime</span>) <span class="co">///</span></span>
-<span id="cb48-11"><a href="random-effects.html#cb48-11" tabindex="-1"></a>      ciopts(lcolor(<span class="bn">lime</span> <span class="kw">green</span>))) <span class="co">/// options for second group</span></span>
-<span id="cb48-12"><a href="random-effects.html#cb48-12" tabindex="-1"></a>    (re, <span class="kw">label</span>(<span class="st">&quot;{bf: Random Effects}&quot;</span>) mcolor(<span class="kw">yellow</span>) mlcolor(<span class="bn">gold</span>) <span class="co">///</span></span>
-<span id="cb48-13"><a href="random-effects.html#cb48-13" tabindex="-1"></a>      ciopts(lcolor(<span class="bn">gold</span> <span class="kw">yellow</span>))), <span class="co">/// options for third group</span></span>
-<span id="cb48-14"><a href="random-effects.html#cb48-14" tabindex="-1"></a>      <span class="bn">title</span>(<span class="st">&quot;Returns to Marriage for Men&quot;</span>) <span class="co">///</span></span>
-<span id="cb48-15"><a href="random-effects.html#cb48-15" tabindex="-1"></a>      <span class="kw">keep</span>(married) <span class="co">///</span></span>
-<span id="cb48-16"><a href="random-effects.html#cb48-16" tabindex="-1"></a>      <span class="bn">xline</span>(0, lcolor(<span class="kw">red</span>) lpattern(<span class="kw">dash</span>) lwidth(medium)) <span class="dv">scheme</span>(jet_white) <span class="co">///</span></span>
-<span id="cb48-17"><a href="random-effects.html#cb48-17" tabindex="-1"></a>      <span class="bn">xtitle</span>(<span class="st">&quot;{bf: Coefficients}&quot;</span>) <span class="co">///</span></span>
-<span id="cb48-18"><a href="random-effects.html#cb48-18" tabindex="-1"></a>      graphregion(<span class="bn">margin</span>(small)) <span class="co">///</span></span>
-<span id="cb48-19"><a href="random-effects.html#cb48-19" tabindex="-1"></a>      coeflabels(married=<span class="st">&quot;Married&quot;</span>) <span class="co">///</span></span>
-<span id="cb48-20"><a href="random-effects.html#cb48-20" tabindex="-1"></a>      msize(large) mcolor(%85) mlwidth(medium) <span class="bn">msymbol</span>(<span class="bn">circle</span>) <span class="co">/// marker options</span></span>
-<span id="cb48-21"><a href="random-effects.html#cb48-21" tabindex="-1"></a>      <span class="kw">levels</span>(95 90) ciopts(lwidth(<span class="bn">medthick</span> thick) <span class="kw">recast</span>(rspike rcap)) <span class="co">///ci options for all groups</span></span>
-<span id="cb48-22"><a href="random-effects.html#cb48-22" tabindex="-1"></a>      <span class="bn">legend</span>(<span class="bn">ring</span>(1) col(1) pos(3) <span class="kw">size</span>(medsmall))</span>
-<span id="cb48-23"><a href="random-effects.html#cb48-23" tabindex="-1"></a>    <span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week4_married_returns.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb50-1"><a href="random-effects.html#cb50-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*</span>
+<span id="cb50-2"><a href="random-effects.html#cb50-2" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> pooled</span>
+<span id="cb50-3"><a href="random-effects.html#cb50-3" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, <span class="kw">fe</span></span>
+<span id="cb50-4"><a href="random-effects.html#cb50-4" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> <span class="kw">fe</span></span>
+<span id="cb50-5"><a href="random-effects.html#cb50-5" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">xtreg</span> lwage educ i.<span class="bn">black</span> i.hisp exper expersq married <span class="kw">union</span> i.d8*, re theta</span>
+<span id="cb50-6"><a href="random-effects.html#cb50-6" tabindex="-1"></a><span class="kw">estimates</span> <span class="kw">store</span> re</span>
+<span id="cb50-7"><a href="random-effects.html#cb50-7" tabindex="-1"></a>coefplot <span class="co">///</span></span>
+<span id="cb50-8"><a href="random-effects.html#cb50-8" tabindex="-1"></a>    (pooled, <span class="kw">label</span>(<span class="st">&quot;{bf:Pooled OLS}&quot;</span>) mcolor(<span class="bn">midblue</span>) mlcolor(<span class="bn">cyan</span>) <span class="co">///</span></span>
+<span id="cb50-9"><a href="random-effects.html#cb50-9" tabindex="-1"></a>      ciopts(lcolor(<span class="bn">magenta</span> <span class="bn">midblue</span>))) <span class="co">/// options for first group</span></span>
+<span id="cb50-10"><a href="random-effects.html#cb50-10" tabindex="-1"></a>    (<span class="kw">fe</span>, <span class="kw">label</span>(<span class="st">&quot;{bf: Within}&quot;</span>) mcolor(<span class="kw">green</span>) mlcolor(<span class="bn">lime</span>) <span class="co">///</span></span>
+<span id="cb50-11"><a href="random-effects.html#cb50-11" tabindex="-1"></a>      ciopts(lcolor(<span class="bn">lime</span> <span class="kw">green</span>))) <span class="co">/// options for second group</span></span>
+<span id="cb50-12"><a href="random-effects.html#cb50-12" tabindex="-1"></a>    (re, <span class="kw">label</span>(<span class="st">&quot;{bf: Random Effects}&quot;</span>) mcolor(<span class="kw">yellow</span>) mlcolor(<span class="bn">gold</span>) <span class="co">///</span></span>
+<span id="cb50-13"><a href="random-effects.html#cb50-13" tabindex="-1"></a>      ciopts(lcolor(<span class="bn">gold</span> <span class="kw">yellow</span>))), <span class="co">/// options for third group</span></span>
+<span id="cb50-14"><a href="random-effects.html#cb50-14" tabindex="-1"></a>      <span class="bn">title</span>(<span class="st">&quot;Returns to Marriage for Men&quot;</span>) <span class="co">///</span></span>
+<span id="cb50-15"><a href="random-effects.html#cb50-15" tabindex="-1"></a>      <span class="kw">keep</span>(married) <span class="co">///</span></span>
+<span id="cb50-16"><a href="random-effects.html#cb50-16" tabindex="-1"></a>      <span class="bn">xline</span>(0, lcolor(<span class="kw">red</span>) lpattern(<span class="kw">dash</span>) lwidth(medium)) <span class="dv">scheme</span>(jet_white) <span class="co">///</span></span>
+<span id="cb50-17"><a href="random-effects.html#cb50-17" tabindex="-1"></a>      <span class="bn">xtitle</span>(<span class="st">&quot;{bf: Coefficients}&quot;</span>) <span class="co">///</span></span>
+<span id="cb50-18"><a href="random-effects.html#cb50-18" tabindex="-1"></a>      graphregion(<span class="bn">margin</span>(small)) <span class="co">///</span></span>
+<span id="cb50-19"><a href="random-effects.html#cb50-19" tabindex="-1"></a>      coeflabels(married=<span class="st">&quot;Married&quot;</span>) <span class="co">///</span></span>
+<span id="cb50-20"><a href="random-effects.html#cb50-20" tabindex="-1"></a>      msize(large) mcolor(%85) mlwidth(medium) <span class="bn">msymbol</span>(<span class="bn">circle</span>) <span class="co">/// marker options</span></span>
+<span id="cb50-21"><a href="random-effects.html#cb50-21" tabindex="-1"></a>      <span class="kw">levels</span>(95 90) ciopts(lwidth(<span class="bn">medthick</span> thick) <span class="kw">recast</span>(rspike rcap)) <span class="co">///ci options for all groups</span></span>
+<span id="cb50-22"><a href="random-effects.html#cb50-22" tabindex="-1"></a>      <span class="bn">legend</span>(<span class="bn">ring</span>(1) col(1) pos(3) <span class="kw">size</span>(medsmall))</span>
+<span id="cb50-23"><a href="random-effects.html#cb50-23" tabindex="-1"></a>    <span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Stata/week4_married_returns.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
 <div class="float">
 <img src="week4_married_returns.png" alt="Plot the Coefficients of Interest" />
 <div class="figcaption">Plot the Coefficients of Interest</div>
@@ -477,9 +478,9 @@ t statistics in parentheses
 <p>We will assess concentration of airline on airfare. Our model:</p>
 <p><span class="math display">\[ ln(fare_{i,t})=\beta_0 + \beta_1 concen_{i,t} + \beta_2 ln(dist_{i,t}) + \beta_3 (ln(dist))^2 + a_i + a_t + \varepsilon_{i,t} \]</span></p>
 <p>Estimate the Pooled OLS with time binaries</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb49-1"><a href="random-effects.html#cb49-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb49-2"><a href="random-effects.html#cb49-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;airfare.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb49-3"><a href="random-effects.html#cb49-3" tabindex="-1"></a><span class="kw">reg</span> lfare concen ldist ldistsq i.y99 i.y00</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb51-1"><a href="random-effects.html#cb51-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb51-2"><a href="random-effects.html#cb51-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;airfare.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb51-3"><a href="random-effects.html#cb51-3" tabindex="-1"></a><span class="kw">reg</span> lfare concen ldist ldistsq i.y99 i.y00</span></code></pre></div>
 <pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
 
       Source |       SS           df       MS      Number of obs   =     4,596
@@ -500,20 +501,20 @@ t statistics in parentheses
        _cons |   6.219743   .4206248    14.79   0.000     5.395116     7.04437
 ------------------------------------------------------------------------------</code></pre>
 <p>What is the associated change in airfare with a 10-percentage point increase in market concentration?</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb51-1"><a href="random-effects.html#cb51-1" tabindex="-1"></a><span class="kw">sum</span> concen</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb53-1"><a href="random-effects.html#cb53-1" tabindex="-1"></a><span class="kw">sum</span> concen</span></code></pre></div>
 <pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
       concen |      4,596    .6101149     .196435      .1605          1</code></pre>
 <p>What does the quadratic on distance mean? Decreasing at a increasing rate - use quadratic formula for when distance on airfare is 0.</p>
 <p>Set Panel</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb53-1"><a href="random-effects.html#cb53-1" tabindex="-1"></a>xtset id <span class="fu">year</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb55-1"><a href="random-effects.html#cb55-1" tabindex="-1"></a>xtset id <span class="fu">year</span></span></code></pre></div>
 <p>Set Panel</p>
 <pre><code>       panel variable:  id (strongly balanced)
         time variable:  year, 1997 to 2000
                 delta:  1 unit</code></pre>
 <p>Estimate a Pooled OLS</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb55-1"><a href="random-effects.html#cb55-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
-<span id="cb55-2"><a href="random-effects.html#cb55-2" tabindex="-1"></a>eststo m1: <span class="kw">reg</span> lfare concen ldist ldistsq i.y99 i.y00</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb57-1"><a href="random-effects.html#cb57-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb57-2"><a href="random-effects.html#cb57-2" tabindex="-1"></a>eststo m1: <span class="kw">reg</span> lfare concen ldist ldistsq i.y99 i.y00</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =     4,596
 -------------+----------------------------------   F(5, 4590)      =    627.18
        Model |  355.197587         5  71.0395174   Prob &gt; F        =    0.0000
@@ -532,7 +533,7 @@ t statistics in parentheses
        _cons |   6.219743   .4206248    14.79   0.000     5.395116     7.04437
 ------------------------------------------------------------------------------</code></pre>
 <p>Estimate a Random Effects model</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb57-1"><a href="random-effects.html#cb57-1" tabindex="-1"></a>eststo m2: <span class="kw">xtreg</span> lfare concen ldist ldistsq i.y99 i.y00, re theta</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb59-1"><a href="random-effects.html#cb59-1" tabindex="-1"></a>eststo m2: <span class="kw">xtreg</span> lfare concen ldist ldistsq i.y99 i.y00, re theta</span></code></pre></div>
 <pre><code>Random-effects GLS regression                   Number of obs     =      4,596
 Group variable: id                              Number of groups  =      1,149
 
@@ -560,7 +561,7 @@ theta          = .83489895
          rho |  .89920879   (fraction of variance due to u_i)
 ------------------------------------------------------------------------------</code></pre>
 <p>Estimate a FE model</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb59-1"><a href="random-effects.html#cb59-1" tabindex="-1"></a>eststo m3: <span class="kw">xtreg</span> lfare concen ldist ldistsq i.y99 i.y00, <span class="kw">fe</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb61-1"><a href="random-effects.html#cb61-1" tabindex="-1"></a>eststo m3: <span class="kw">xtreg</span> lfare concen ldist ldistsq i.y99 i.y00, <span class="kw">fe</span></span></code></pre></div>
 <pre><code>note: ldist omitted because of collinearity
 note: ldistsq omitted because of collinearity
 
@@ -591,17 +592,33 @@ corr(u_i, Xb)  = -0.2143                        Prob &gt; F          =     0.000
 ------------------------------------------------------------------------------
 F test that all u_i=0: F(1148, 3444) = 60.09                 Prob &gt; F = 0.0000</code></pre>
 <p>Compare</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb61-1"><a href="random-effects.html#cb61-1" tabindex="-1"></a>esttab m1 m2 m3, mtitle(<span class="st">&quot;OLS&quot;</span> <span class="st">&quot;RE&quot;</span> <span class="st">&quot;FE&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb63-1"><a href="random-effects.html#cb63-1" tabindex="-1"></a>esttab m1 m2 m3, mtitle(<span class="st">&quot;OLS&quot;</span> <span class="st">&quot;RE&quot;</span> <span class="st">&quot;FE&quot;</span>)</span></code></pre></div>
 <p>Compare</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb62-1"><a href="random-effects.html#cb62-1" tabindex="-1"></a><span class="kw">quietly</span> {</span>
-<span id="cb62-2"><a href="random-effects.html#cb62-2" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb62-3"><a href="random-effects.html#cb62-3" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;airfare.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb62-4"><a href="random-effects.html#cb62-4" tabindex="-1"></a>xtset id <span class="fu">year</span></span>
-<span id="cb62-5"><a href="random-effects.html#cb62-5" tabindex="-1"></a>eststo m1: <span class="kw">reg</span> lfare concen ldist ldistsq i.y99 i.y00</span>
-<span id="cb62-6"><a href="random-effects.html#cb62-6" tabindex="-1"></a>eststo m2: <span class="kw">xtreg</span> lfare concen ldist ldistsq i.y99 i.y00, re theta</span>
-<span id="cb62-7"><a href="random-effects.html#cb62-7" tabindex="-1"></a>eststo m3: <span class="kw">xtreg</span> lfare concen ldist ldistsq i.y99 i.y00, <span class="kw">fe</span></span>
-<span id="cb62-8"><a href="random-effects.html#cb62-8" tabindex="-1"></a>}</span>
-<span id="cb62-9"><a href="random-effects.html#cb62-9" tabindex="-1"></a>esttab m1 m2 m3, mtitle(<span class="st">&quot;OLS&quot;</span> <span class="st">&quot;RE&quot;</span> <span class="st">&quot;FE&quot;</span>) <span class="kw">drop</span>(0.*)</span></code></pre></div>
+<pre><code>                      (1)             (2)             (3)   
+                      OLS              RE              FE   
+------------------------------------------------------------
+concen              0.361***        0.216***        0.178***
+                  (12.01)          (8.14)          (6.03)   
+
+ldist              -0.902***       -0.854***            0   
+                  (-7.03)         (-3.47)             (.)   
+
+ldistsq             0.103***       0.0977***            0   
+                  (10.59)          (5.24)             (.)   
+
+1.y99              0.0273*         0.0255***       0.0251***
+                   (2.24)          (6.58)          (6.46)   
+
+1.y00              0.0893***       0.0871***       0.0865***
+                   (7.34)         (22.40)         (22.24)   
+
+_cons               6.220***        6.233***        4.959***
+                  (14.79)          (7.70)        (270.74)   
+------------------------------------------------------------
+N                    4596            4596            4596   
+------------------------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
 
 </div>
 </div>

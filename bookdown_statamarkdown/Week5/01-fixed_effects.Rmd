@@ -225,6 +225,7 @@ coefplot ///
 
 ![Plot the Coefficients of Interest](week4_edu_returns.png)
 
+
 #### Test for Serial Correlation {-}
 
 Test for Serial Correlation. Use the option *residuals* or *resid* to get post-estimation residuals. If you don't specify *resid*, Stata will return (\ hat_{y} \) instead of (\ hat_{u} \)
@@ -249,6 +250,31 @@ reg u l.u, noconst
 ```
 
 We can see that we have positive serial correlation since the coefficient on our lagged residual is positive and statistically significant. We will need to cluster our standard errors to account for the positive serial correlation.
+
+#### Dealing with Heteroskedasticity and Serial Correlation {-}
+
+For heteroskedasticity, we will need to use heteroskedasticity-robust standard errors by using the *robust* option.
+
+For serial correlation, we will need to cluster our standard errors. We will cluster the standard errors at the unit of analysis level.
+
+```{stata cluster1, eval=FALSE}
+eststo nocluster: quietly xtreg lwage c.edu##i.d8* i.married i.union, fe
+eststo clustered: quietly xtreg lwage c.edu##i.d8* i.married i.union, fe robust cluster(nr)
+
+esttab nocluster clustered, mtitle ("FE" "FE Clustered") drop(0.*) se
+```
+
+```{stata cluster1_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+use "wagepan.dta", clear
+xtset nr year
+}
+eststo nocluster: quietly xtreg lwage c.edu##i.d8* i.married i.union, fe
+eststo clustered: quietly xtreg lwage c.edu##i.d8* i.married i.union, fe robust cluster(nr)
+
+esttab nocluster clustered, mtitle ("FE" "FE Clustered") drop(0.*) se
+```
 
 
 ## Rental Prices 
@@ -597,7 +623,7 @@ esttab m1 m2 m3, mtitle("OLS" "RE" "FE")
 ```
 
 Compare
-```{stata airline6_1, eval=FALSE}
+```{stata airline6_1, echo=FALSE}
 quietly {
 cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
 use "airfare.dta", clear

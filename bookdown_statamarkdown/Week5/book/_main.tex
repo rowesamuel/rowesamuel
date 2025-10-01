@@ -118,7 +118,7 @@
 
 \title{Panel Data Part 2 and Formatting}
 \author{Samuel Rowe Adapted from Wooldridge (2009) and Mitchell (2020)}
-\date{2025-09-02}
+\date{2025-10-01}
 
 \begin{document}
 \maketitle
@@ -705,6 +705,86 @@ Our null hypothesis is that there is no serial correlation or the coefficient on
 
 We can see that we have positive serial correlation since the coefficient on our lagged residual is positive and statistically significant. We will need to cluster our standard errors to account for the positive serial correlation.
 
+\subsubsection*{Dealing with Heteroskedasticity and Serial Correlation}\label{dealing-with-heteroskedasticity-and-serial-correlation}
+\addcontentsline{toc}{subsubsection}{Dealing with Heteroskedasticity and Serial Correlation}
+
+For heteroskedasticity, we will need to use heteroskedasticity-robust standard errors by using the \emph{robust} option.
+
+For serial correlation, we will need to cluster our standard errors. We will cluster the standard errors at the unit of analysis level.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{eststo nocluster: }\KeywordTok{quietly} \KeywordTok{xtreg}\NormalTok{ lwage c.edu\#\#i.d8* i.married i.}\KeywordTok{union}\NormalTok{, }\KeywordTok{fe}
+\NormalTok{eststo clustered: }\KeywordTok{quietly} \KeywordTok{xtreg}\NormalTok{ lwage c.edu\#\#i.d8* i.married i.}\KeywordTok{union}\NormalTok{, }\KeywordTok{fe} \KeywordTok{robust} \KeywordTok{cluster}\NormalTok{(}\KeywordTok{nr}\NormalTok{)}
+
+\NormalTok{esttab nocluster clustered, mtitle (}\StringTok{"FE"} \StringTok{"FE Clustered"}\NormalTok{) }\KeywordTok{drop}\NormalTok{(0.*) se}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                      (1)             (2)   
+                       FE    FE Clustered   
+--------------------------------------------
+educ                    0               0   
+                      (.)             (.)   
+
+1.d81             -0.0224         -0.0224   
+                  (0.146)         (0.144)   
+
+1.d82            -0.00576        -0.00576   
+                  (0.146)         (0.139)   
+
+1.d83              0.0104          0.0104   
+                  (0.146)         (0.154)   
+
+1.d84              0.0844          0.0844   
+                  (0.146)         (0.159)   
+
+1.d85              0.0497          0.0497   
+                  (0.146)         (0.157)   
+
+1.d86              0.0656          0.0656   
+                  (0.146)         (0.171)   
+
+1.d87              0.0904          0.0904   
+                  (0.146)         (0.157)   
+
+1.d81#c.educ       0.0116          0.0116   
+                 (0.0123)        (0.0122)   
+
+1.d82#c.educ       0.0148          0.0148   
+                 (0.0123)        (0.0118)   
+
+1.d83#c.educ       0.0171          0.0171   
+                 (0.0123)        (0.0131)   
+
+1.d84#c.educ       0.0166          0.0166   
+                 (0.0123)        (0.0138)   
+
+1.d85#c.educ       0.0237          0.0237   
+                 (0.0123)        (0.0136)   
+
+1.d86#c.educ       0.0274*         0.0274   
+                 (0.0123)        (0.0147)   
+
+1.d87#c.educ       0.0304*         0.0304*  
+                 (0.0123)        (0.0135)   
+
+1.married          0.0548**        0.0548*  
+                 (0.0184)        (0.0212)   
+
+1.union            0.0830***       0.0830***
+                 (0.0194)        (0.0230)   
+
+_cons               1.362***        1.362***
+                 (0.0162)        (0.0203)   
+--------------------------------------------
+N                    4360            4360   
+--------------------------------------------
+Standard errors in parentheses
+* p<0.05, ** p<0.01, *** p<0.001
+\end{verbatim}
+
 \section{Rental Prices}\label{rental-prices}
 
 Exercise 1: Compare Pooled OLS, First Difference, and Fixed Effects Within
@@ -1060,10 +1140,11 @@ We will use the \emph{hausman} command to test the main random effects assumptio
 \end{Shaded}
 
 \begin{verbatim}
-Note: the rank of the differenced variance matrix (5) does not equal the number of coefficients being tested (10);
-        be sure this is what you expect, or there may be problems computing the test.  Examine the output of your
-        estimators for anything unexpected and possibly consider scaling your variables so that the coefficients
-        are on a similar scale.
+Note: the rank of the differenced variance matrix (5) does not equal the number of
+        coefficients being tested (10); be sure this is what you expect, or there may be
+        problems computing the test.  Examine the output of your estimators for anything
+        unexpected and possibly consider scaling your variables so that the coefficients are
+        on a similar scale.
 
                  ---- Coefficients ----
              |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
@@ -1391,19 +1472,33 @@ Compare
 
 Compare
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{quietly}\NormalTok{ \{}
-\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Wooldridge"}
-\KeywordTok{use} \StringTok{"airfare.dta"}\NormalTok{, }\KeywordTok{clear}
-\NormalTok{xtset id }\FunctionTok{year}
-\NormalTok{eststo m1: }\KeywordTok{reg}\NormalTok{ lfare concen ldist ldistsq i.y99 i.y00}
-\NormalTok{eststo m2: }\KeywordTok{xtreg}\NormalTok{ lfare concen ldist ldistsq i.y99 i.y00, re theta}
-\NormalTok{eststo m3: }\KeywordTok{xtreg}\NormalTok{ lfare concen ldist ldistsq i.y99 i.y00, }\KeywordTok{fe}
-\NormalTok{\}}
-\NormalTok{esttab m1 m2 m3, mtitle(}\StringTok{"OLS"} \StringTok{"RE"} \StringTok{"FE"}\NormalTok{) }\KeywordTok{drop}\NormalTok{(0.*)}
-\end{Highlighting}
-\end{Shaded}
+\begin{verbatim}
+                      (1)             (2)             (3)   
+                      OLS              RE              FE   
+------------------------------------------------------------
+concen              0.361***        0.216***        0.178***
+                  (12.01)          (8.14)          (6.03)   
+
+ldist              -0.902***       -0.854***            0   
+                  (-7.03)         (-3.47)             (.)   
+
+ldistsq             0.103***       0.0977***            0   
+                  (10.59)          (5.24)             (.)   
+
+1.y99              0.0273*         0.0255***       0.0251***
+                   (2.24)          (6.58)          (6.46)   
+
+1.y00              0.0893***       0.0871***       0.0865***
+                   (7.34)         (22.40)         (22.24)   
+
+_cons               6.220***        6.233***        4.959***
+                  (14.79)          (7.70)        (270.74)   
+------------------------------------------------------------
+N                    4596            4596            4596   
+------------------------------------------------------------
+t statistics in parentheses
+* p<0.05, ** p<0.01, *** p<0.001
+\end{verbatim}
 
 \chapter{Formatting the display of variables}\label{formatting-the-display-of-variables}
 
@@ -1431,7 +1526,7 @@ Let's look at the format of income.
 
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 income          float   %9.0g                 Income of student
 
      +---------------+
@@ -1560,7 +1655,7 @@ Let's use the \emph{format} command with strings.
 \begin{verbatim}
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 kidname         str10   %10s                  Name of child
 \end{verbatim}
 
@@ -1850,10 +1945,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -1864,7 +1959,7 @@ income          float   %12.2fc               Income of student
 kidname         str10   %-10s                 Name of child
 kbday           double  %td                   
                                             * indicated variables have notes
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -1882,10 +1977,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -1896,7 +1991,7 @@ ksex            float   %15.0g     mfkid    * Sex of child
 kidname         str10   %-10s                 Name of child
 kbday           double  %td                   
                                             * indicated variables have notes
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -1916,10 +2011,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:             9                          11 Mar 2024 14:40
  size:           416                          (_dta has notes)
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 gender          float   %9.0g      mf         Gender of student
 race            float   %19.0g     racelab  * Race of student
@@ -1930,7 +2025,7 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           double  %td                   
                                             * indicated variables have notes
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -1954,10 +2049,10 @@ Contains data from survey6.dta
   obs:             8                          Survey of graduate students
  vars:            11                          11 Mar 2024 14:40
  size:           544                          (_dta has notes)
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              float   %9.0g                 Unique identification variable
 STUDENTVARS     double  %10.0g                
 gender          float   %9.0g      mf         Gender of student
@@ -1970,7 +2065,7 @@ kidname         str10   %-10s                 Name of child
 ksex            float   %15.0g     mfkid    * Sex of child
 kbday           double  %td                   
                                             * indicated variables have notes
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 \end{verbatim}

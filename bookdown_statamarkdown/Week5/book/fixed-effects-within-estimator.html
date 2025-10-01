@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe Adapted from Wooldridge (2009) and Mitchell (2020)" />
 
 
-<meta name="date" content="2025-09-02" />
+<meta name="date" content="2025-10-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -618,12 +618,82 @@ Standard errors in parentheses
 ------------------------------------------------------------------------------</code></pre>
 <p>We can see that we have positive serial correlation since the coefficient on our lagged residual is positive and statistically significant. We will need to cluster our standard errors to account for the positive serial correlation.</p>
 </div>
+<div id="dealing-with-heteroskedasticity-and-serial-correlation" class="section level4 unnumbered hasAnchor">
+<h4>Dealing with Heteroskedasticity and Serial Correlation<a href="fixed-effects-within-estimator.html#dealing-with-heteroskedasticity-and-serial-correlation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For heteroskedasticity, we will need to use heteroskedasticity-robust standard errors by using the <em>robust</em> option.</p>
+<p>For serial correlation, we will need to cluster our standard errors. We will cluster the standard errors at the unit of analysis level.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="fixed-effects-within-estimator.html#cb26-1" tabindex="-1"></a>eststo nocluster: <span class="kw">quietly</span> <span class="kw">xtreg</span> lwage c.edu##i.d8* i.married i.<span class="kw">union</span>, <span class="kw">fe</span></span>
+<span id="cb26-2"><a href="fixed-effects-within-estimator.html#cb26-2" tabindex="-1"></a>eststo clustered: <span class="kw">quietly</span> <span class="kw">xtreg</span> lwage c.edu##i.d8* i.married i.<span class="kw">union</span>, <span class="kw">fe</span> <span class="kw">robust</span> <span class="kw">cluster</span>(<span class="kw">nr</span>)</span>
+<span id="cb26-3"><a href="fixed-effects-within-estimator.html#cb26-3" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="fixed-effects-within-estimator.html#cb26-4" tabindex="-1"></a>esttab nocluster clustered, mtitle (<span class="st">&quot;FE&quot;</span> <span class="st">&quot;FE Clustered&quot;</span>) <span class="kw">drop</span>(0.*) se</span></code></pre></div>
+<pre><code>                      (1)             (2)   
+                       FE    FE Clustered   
+--------------------------------------------
+educ                    0               0   
+                      (.)             (.)   
+
+1.d81             -0.0224         -0.0224   
+                  (0.146)         (0.144)   
+
+1.d82            -0.00576        -0.00576   
+                  (0.146)         (0.139)   
+
+1.d83              0.0104          0.0104   
+                  (0.146)         (0.154)   
+
+1.d84              0.0844          0.0844   
+                  (0.146)         (0.159)   
+
+1.d85              0.0497          0.0497   
+                  (0.146)         (0.157)   
+
+1.d86              0.0656          0.0656   
+                  (0.146)         (0.171)   
+
+1.d87              0.0904          0.0904   
+                  (0.146)         (0.157)   
+
+1.d81#c.educ       0.0116          0.0116   
+                 (0.0123)        (0.0122)   
+
+1.d82#c.educ       0.0148          0.0148   
+                 (0.0123)        (0.0118)   
+
+1.d83#c.educ       0.0171          0.0171   
+                 (0.0123)        (0.0131)   
+
+1.d84#c.educ       0.0166          0.0166   
+                 (0.0123)        (0.0138)   
+
+1.d85#c.educ       0.0237          0.0237   
+                 (0.0123)        (0.0136)   
+
+1.d86#c.educ       0.0274*         0.0274   
+                 (0.0123)        (0.0147)   
+
+1.d87#c.educ       0.0304*         0.0304*  
+                 (0.0123)        (0.0135)   
+
+1.married          0.0548**        0.0548*  
+                 (0.0184)        (0.0212)   
+
+1.union            0.0830***       0.0830***
+                 (0.0194)        (0.0230)   
+
+_cons               1.362***        1.362***
+                 (0.0162)        (0.0203)   
+--------------------------------------------
+N                    4360            4360   
+--------------------------------------------
+Standard errors in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+</div>
 </div>
 <div id="rental-prices" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Rental Prices<a href="fixed-effects-within-estimator.html#rental-prices" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Exercise 1: Compare Pooled OLS, First Difference, and Fixed Effects Within</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="fixed-effects-within-estimator.html#cb26-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb26-2"><a href="fixed-effects-within-estimator.html#cb26-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;rental.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="fixed-effects-within-estimator.html#cb28-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb28-2"><a href="fixed-effects-within-estimator.html#cb28-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;rental.dta&quot;</span>, <span class="kw">clear</span></span></code></pre></div>
 <p>Get the data here: <a href="./rental.dta">rental.dta</a></p>
 <p>The data on rental prices and other variables in college towns from 1980 to 1990. Do more students affect the prices? The general model with unobserved fixed effects is
 <span class="math display">\[ ln(rent_{i,t}) = \beta_0 + \delta_0 y90_t + \beta_1 ln(pop_{i,t})+\beta_2 ln(avginc_{i,t})+\beta_4 pctstu_{i,t} + a_t + a_i + \varepsilon_{i,t} \]</span>
@@ -635,12 +705,12 @@ Where <em>pop</em> is city population, <em>avginc</em> is average income, <em>pc
 <li>Use a FE Within model. Are the results the same as the FD model?</li>
 </ol>
 <p>Set the Panel</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="fixed-effects-within-estimator.html#cb27-1" tabindex="-1"></a>xtset city <span class="fu">year</span>, delta(10)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="fixed-effects-within-estimator.html#cb29-1" tabindex="-1"></a>xtset city <span class="fu">year</span>, delta(10)</span></code></pre></div>
 <pre><code>       panel variable:  city (strongly balanced)
         time variable:  year, 80 to 90
                 delta:  10 units</code></pre>
 <p>Pooled OLS</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="fixed-effects-within-estimator.html#cb29-1" tabindex="-1"></a><span class="kw">reg</span> lrent i.y90 lpop lavginc pctstu, <span class="kw">robust</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="fixed-effects-within-estimator.html#cb31-1" tabindex="-1"></a><span class="kw">reg</span> lrent i.y90 lpop lavginc pctstu, <span class="kw">robust</span></span></code></pre></div>
 <pre><code>Linear regression                               Number of obs     =        128
                                                 F(4, 123)         =     223.26
                                                 Prob &gt; F          =     0.0000
@@ -658,7 +728,7 @@ Where <em>pop</em> is city population, <em>avginc</em> is average income, <em>pc
        _cons |  -.5688069   .8506229    -0.67   0.505    -2.252563    1.114949
 ------------------------------------------------------------------------------</code></pre>
 <p>First Difference</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="fixed-effects-within-estimator.html#cb31-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.lrent i.y90 <span class="kw">d</span>.lpop <span class="kw">d</span>.lavginc <span class="kw">d</span>.pctstu</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="fixed-effects-within-estimator.html#cb33-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.lrent i.y90 <span class="kw">d</span>.lpop <span class="kw">d</span>.lavginc <span class="kw">d</span>.pctstu</span></code></pre></div>
 <pre><code>note: 1.y90 omitted because of collinearity
 
       Source |       SS           df       MS      Number of obs   =        64
@@ -685,7 +755,7 @@ Where <em>pop</em> is city population, <em>avginc</em> is average income, <em>pc
        _cons |   .3855214   .0368245    10.47   0.000     .3118615    .4591813
 ------------------------------------------------------------------------------</code></pre>
 <p>Fixed Effects</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="fixed-effects-within-estimator.html#cb33-1" tabindex="-1"></a><span class="kw">xtreg</span> lrent i.y90 lpop lavginc pctstu, <span class="kw">fe</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="fixed-effects-within-estimator.html#cb35-1" tabindex="-1"></a><span class="kw">xtreg</span> lrent i.y90 lpop lavginc pctstu, <span class="kw">fe</span></span></code></pre></div>
 <pre><code>Fixed-effects (within) regression               Number of obs     =        128
 Group variable: city                            Number of groups  =         64
 
