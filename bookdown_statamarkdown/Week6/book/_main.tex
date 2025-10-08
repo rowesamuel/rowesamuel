@@ -118,7 +118,7 @@
 
 \title{Week 6: Difference-in-Differences and EGEN Commands}
 \author{Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)}
-\date{2025-09-02}
+\date{2025-10-08}
 
 \begin{document}
 \maketitle
@@ -171,7 +171,7 @@ in 1978 and construction began in 1981, but did not begin operating until
 All housing prices are in 1978 dollars (rprice) or log of nominal price
 (lprice)
 
-Naive and biased OLS model only using data from 1981
+OLS model only using data from 1981
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -199,7 +199,9 @@ Naive and biased OLS model only using data from 1981
 ------------------------------------------------------------------------------
 \end{verbatim}
 
-Naive and biased OLS model only using data from 1978
+For the post period, we see the difference between treatment and comparison as: \[ \bar{Y}_{T,Post} - \bar{Y}_{C,Post} = -30,688.27 \]
+
+OLS model only using data from 1978
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -223,7 +225,9 @@ Naive and biased OLS model only using data from 1978
 ------------------------------------------------------------------------------
 \end{verbatim}
 
-Results in a decrease in housing prices of almost 24.5K
+For the Pre Period, we see the difference between treatment and comparison as: \[ \bar{Y}_{T,Pre} - \bar{Y}_{C,Pre}=-18,824.37 \]
+
+Take the difference of the differences. If we subtract the means from one another: \[ -30688.27 - (-18824.37) \approx \$ -11,863.90 \]
 
 Diff-in-Diff is easy enough to implement if our data are prepared properly
 
@@ -603,7 +607,7 @@ When we utilize a two-way fixed effects research design, we will need a panel an
 \end{Highlighting}
 \end{Shaded}
 
-Michigan implemented a job training grant program to reduce scrap rates. What is the effect of job training on reducing the scrap rate for \$ firm\_i \$ during time period \$ t \$ in terms of number of items scraped per 100 due to
+Michigan implemented a job training grant program to reduce scrap rates. What is the effect of job training on reducing the scrap rate for \(firm_i\) during time period \(t\) in terms of number of items scraped per 100 due to
 defects?
 
 \[ scrap_{it} = \beta_0 + \delta program_{it} + a_{i} + a_{t} + u_{it} \]
@@ -804,10 +808,10 @@ Contains data from kielmc.dta
   obs:           321                          
  vars:            25                          21 Aug 2023 10:45
  size:        51,360                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 year            long    %12.0g                
 age             long    %12.0g                
 agesq           double  %10.0g                
@@ -833,7 +837,7 @@ nearinc         long    %12.0g
 y81nrinc        long    %12.0g                
 rprice          double  %10.0g                
 lrprice         double  %10.0g                
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -1213,10 +1217,10 @@ Contains data from cardio1str.dta
   obs:             5                          
  vars:            11                          22 Dec 2009 19:51
  size:           205                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              str1    %3s                   Identification variable
 wt              str5    %5s                   Weight of person
 age             str2    %2s                   Age of person
@@ -1228,7 +1232,7 @@ pl2             str2    %3s                   Pulse: Trial 2
 pl3             str3    %3s                   Pulse: Trial 3
 income          str10   %10s                  Income
 gender          str6    %6s                   Gender of person
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -1413,8 +1417,8 @@ The encode creates label values around the new variable
 \end{Shaded}
 
 \begin{verbatim}
-gendercode                                                                                        Gender of person
-------------------------------------------------------------------------------------------------------------------
+gendercode                                                                    Gender of person
+----------------------------------------------------------------------------------------------
 
                   type:  numeric (long)
                  label:  gendercode
@@ -1507,9 +1511,9 @@ I recommend using \emph{tostring}, but there is decode which is the opposite of 
      +--------------------+
 
 
-------------------------------------------------------------------------------------------------------------------
-famhist                                                                            Family history of heart disease
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+famhist                                                        Family history of heart disease
+----------------------------------------------------------------------------------------------
 
                   type:  numeric (long)
                  label:  famhistl
@@ -1521,9 +1525,9 @@ famhist                                                                         
                              2         0  No HD
                              3         1  Yes HD
 
-------------------------------------------------------------------------------------------------------------------
-famhists                                                                           Family history of heart disease
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+famhists                                                       Family history of heart disease
+----------------------------------------------------------------------------------------------
 
                   type:  string (str6)
 
@@ -1564,10 +1568,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            12                          22 Dec 2009 19:51
  size:           100                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 Identification variable
 age             byte    %3.0f                 Age of person
 pl1             int     %3.0f                 Pulse: Trial 1
@@ -1580,7 +1584,7 @@ pl4             int     %3.0f                 Pulse: Trial 4
 bp4             int     %3.0f                 Systolic BP: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
 bp5             int     %3.0f                 Systolic BP: Trial 5
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 
 
@@ -1589,10 +1593,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            12                          22 Dec 2009 19:51
  size:           100                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 Identification variable
 age_yrs         byte    %3.0f                 Age of person
 pl1             int     %3.0f                 Pulse: Trial 1
@@ -1605,7 +1609,7 @@ pl4             int     %3.0f                 Pulse: Trial 4
 bp4             int     %3.0f                 Systolic BP: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
 bp5             int     %3.0f                 Systolic BP: Trial 5
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 \end{verbatim}
@@ -1625,10 +1629,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            12                          22 Dec 2009 19:51
  size:           100                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 Identification variable
 age_yrs         byte    %3.0f                 Age of person
 pulse1          int     %3.0f                 Pulse: Trial 1
@@ -1641,7 +1645,7 @@ pulse4          int     %3.0f                 Pulse: Trial 4
 bp4             int     %3.0f                 Systolic BP: Trial 4
 pulse5          byte    %3.0f                 Pulse: Trial 5
 bp5             int     %3.0f                 Systolic BP: Trial 5
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 \end{verbatim}
@@ -1662,10 +1666,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            12                          22 Dec 2009 19:51
  size:           100                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 Identification variable
 age_yrs         byte    %3.0f                 Age of person
 pulse1          int     %3.0f                 Pulse: Trial 1
@@ -1678,7 +1682,7 @@ pulse4          int     %3.0f                 Pulse: Trial 4
 bpress4         int     %3.0f                 Systolic BP: Trial 4
 pulse5          byte    %3.0f                 Pulse: Trial 5
 bpress5         int     %3.0f                 Systolic BP: Trial 5
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 \end{verbatim}
@@ -1748,10 +1752,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            13                          22 Dec 2009 19:51
  size:           140                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 age2            double  %10.0g                
 age_yrs         byte    %3.0f                 Age of person
 bpress1         int     %3.0f                 Systolic BP: Trial 1
@@ -1765,7 +1769,7 @@ pulse2          byte    %3.0f                 Pulse: Trial 2
 pulse3          int     %3.0f                 Pulse: Trial 3
 pulse4          int     %3.0f                 Pulse: Trial 4
 pulse5          byte    %3.0f                 Pulse: Trial 5
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 \end{verbatim}
@@ -1786,10 +1790,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            13                          22 Dec 2009 19:51
  size:           140                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 Identification variable
 age_yrs         byte    %3.0f                 Age of person
 pulse1          int     %3.0f                 Pulse: Trial 1
@@ -1803,7 +1807,7 @@ bpress1         int     %3.0f                 Systolic BP: Trial 1
 bpress2         int     %3.0f                 Systolic BP: Trial 2
 bpress3         int     %3.0f                 Systolic BP: Trial 3
 bpress4         int     %3.0f                 Systolic BP: Trial 4
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 
@@ -1813,10 +1817,10 @@ Contains data from cardio2.dta
   obs:             5                          
  vars:            13                          22 Dec 2009 19:51
  size:           140                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 bpress1         int     %3.0f                 Systolic BP: Trial 1
 bpress2         int     %3.0f                 Systolic BP: Trial 2
 bpress3         int     %3.0f                 Systolic BP: Trial 3
@@ -1830,7 +1834,7 @@ pulse3          int     %3.0f                 Pulse: Trial 3
 pulse4          int     %3.0f                 Pulse: Trial 4
 pulse5          byte    %3.0f                 Pulse: Trial 5
 age2            double  %10.0g                
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 \end{verbatim}

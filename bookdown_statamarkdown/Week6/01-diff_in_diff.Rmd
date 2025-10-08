@@ -21,14 +21,16 @@ in 1978 and construction began in 1981, but did not begin operating until
 All housing prices are in 1978 dollars (rprice) or log of nominal price
 (lprice)
 
-Naive and biased OLS model only using data from 1981
+OLS model only using data from 1981
 ```{stata garbage1}
 cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
 use "kielmc.dta", clear
 reg rprice nearinc if y81==1
 ```
 
-Naive and biased OLS model only using data from 1978
+For the post period, we see the difference between treatment and comparison as: $$ \bar{Y}_{T,Post} - \bar{Y}_{C,Post} = -30,688.27 $$
+
+OLS model only using data from 1978
 ```{stata garbage2, eval=FALSE}
 reg rprice nearinc if y81==0
 ```
@@ -41,7 +43,9 @@ use "kielmc.dta", clear
 reg rprice nearinc if y81==0
 ```
 
-Results in a decrease in housing prices of almost 24.5K
+For the Pre Period, we see the difference between treatment and comparison as: $$ \bar{Y}_{T,Pre} - \bar{Y}_{C,Pre}=-18,824.37 $$
+
+Take the difference of the differences. If we subtract the means from one another: $$ -30688.27 - (-18824.37) \approx \$ -11,863.90 $$
 
 Diff-in-Diff is easy enough to implement if our data are prepared properly
 ```{stata garbage3, eval=FALSE}
@@ -197,7 +201,7 @@ cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
 use "jtrain.dta", clear
 ```
 
-Michigan implemented a job training grant program to reduce scrap rates. What is the effect of job training on reducing the scrap rate for $ firm_i $ during time period $ t $ in terms of number of items scraped per 100 due to
+Michigan implemented a job training grant program to reduce scrap rates. What is the effect of job training on reducing the scrap rate for \( firm_i \) during time period \( t \) in terms of number of items scraped per 100 due to
 defects?  
 
 $$ scrap_{it} = \beta_0 + \delta program_{it} + a_{i} + a_{t} + u_{it} $$
