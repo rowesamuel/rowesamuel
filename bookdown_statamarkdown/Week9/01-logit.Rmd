@@ -230,6 +230,8 @@ The average marginal effect for an additional child less than 6 rises from -18.3
 
 # Multinominal Logit
 
+Adapted from Long and Freese (2006)
+
 When we have nominal categorical variables, we cannot use a binary logit or probit. We will need to use multinomial logit or probit.
 
 **Lesson: Interpreting a nominal categorical dependent variable**
@@ -483,3 +485,189 @@ graph export "/Users/Sam/Desktop/Econ 645/Stata/week8_mnlmcoefplot.png", replace
 ```{stata coefplot4, eval=FALSE}
 graph drop coefplot3
 ```
+
+
+# Ordinal Logit
+
+Adapted from Long and Freese (2006)
+
+## Compare Ordinal Logit and Binary Logit
+
+First, let's inspect the outcome of interest, which is labor force status.
+```{stata ord1}
+use "/Users/Sam/Desktop/Econ 645/Data/binlfp2.dta", clear
+tab lfp
+```
+
+Now, let's compare our ordinal logit and binary logit coefficients when the outcome is binary.
+```{stata ord2, eval=FALSE}
+quietly logit lfp k5 k618 age wc hc lwg inc, nolog
+estimates store logit
+quietly ologit lfp k5 k618 age wc hc lwg inc, nolog
+estimates store ologit
+estimates table logit ologit, b(%9.3f) t varlabel varwidth(30) equations(1:1)
+```
+
+```{stata ord2_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/binlfp2.dta", clear
+quietly logit lfp k5 k618 age wc hc lwg inc, nolog
+estimates store logit
+quietly ologit lfp k5 k618 age wc hc lwg inc, nolog
+estimates store ologit
+estimates table logit ologit, b(%9.3f) t varlabel varwidth(30) equations(1:1)
+```
+
+The coefficients are the same between the binary logit and the ordinal logit. The difference here is that the ordinal logit has a cut point and assumes an interept of 0. The cutpoint and the intercept for binary logit are the same in absolute terms.
+
+## Example of Ordinal Dependent Variable
+
+```{stata ord3}
+use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+describe warm yr89 male white age ed prst
+```
+
+```{stata ord4, eval=FALSE}
+summarize warm yr89 male white age ed prst
+```
+```{stata ord4_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+summarize warm yr89 male white age ed prst
+```
+
+Our outcome is the the survey results for people's opinion for a working mother
+```{stata ord5, eval=FALSE}
+tab warm
+```
+```{stata ord5_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+tab warm
+```
+
+We will run our ordinal logit by regressing opinion's on working mother's warm onto gender, race,
+age, survey year, education in years, and occupational prestige.
+
+$$ warm_{i,t} = \beta_1 male_i + \beta_2 race_i + \beta_3 age_{i,t} + \beta_4 edu_{i,t} + \beta_5 prestige_{i,t} + \beta_6 y89_t + \varepsilon_{i,t} $$
+
+```{stata ord6, eval=FALSE}
+ologit warm yr89 male white age ed prst, nolog
+```
+```{stata ord6_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+ologit warm yr89 male white age ed prst, nolog
+```
+
+We have three cutpoints $$ \tau_1 = -2.47, \tau_2 = -0.63, \tau_3 = 1.26 $$
+
+## Test Proportional Odds Assumption
+
+We have our two tests for testing the proportional odds assumption
+  1. Approximate Likelihood Ratio Test
+  2. Wald Test
+  
+### Approximate Likelihood Ratio Test
+
+We use the *omodel* command to run an Approximate Likelihood Ratio Test
+```{stata ord7, eval=FALSE}
+omodel logit warm yr89 male white age ed prst
+```
+
+```{stata ord7_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+quietly ologit warm yr89 male white age ed prst, nolog
+omodel logit warm yr89 male white age ed prst
+```
+
+With the oparallel package
+```{stata ord8, eval=FALSE}
+help oparallel
+quietly omodel logit warm yr89 male white age ed prst
+oparallel, lr
+```
+```{stata ord8_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+quietly ologit warm yr89 male white age ed prst, nolog
+oparallel, lr
+```
+
+We reject the null hypothesis that the coefficients are the same across \( 1,...,J-1 \) equations at the 0.1% level.
+
+### Wald Test
+
+We use the *brant* command for the Wald Test
+```{stata ord9, eval=FALSE}
+quietly ologit warm yr89 male white age ed prst, nolog
+oparallel, lr
+```
+
+```{stata ord9_1, eval=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+quietly ologit warm yr89 male white age ed prst, nolog
+oparallel, lr
+```
+We reject the null hypothesis that the coefficients are the same across \( 1,...,J-1 \) equations at the 0.1% level.
+
+## Interpretation
+
+### Odds Ratios
+```{stata ord91, eval=FALSE}
+ologit warm yr89 male white age ed prst, or
+oparallel, lr
+listcoef, help
+listcoef, help percent
+```
+```{stata ord91_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+ologit warm yr89 male white age ed prst, or
+listcoef, help
+listcoef, help percent
+```
+
+For a 1-year increase in education , the odds of a **positive attitude** towards working mothers increase by a factor of 1.067 or 6.7%, ceteris paribus.
+
+For a 1-year increase in age, the odds of a **negative** attitude toward working mothers increase by a factor of \( e^{-(-0.02167)}=1.0219 \), ceteris paribus.
+
+For a male, the odds of a **negative attitude** toward working mothers increase by a factor of \( e^{-(-0.73330)}=2.08 \), ceteris paribus
+
+### Average Marginal Effects
+
+```{stata ord10, eval=FALSE}
+ologit warm yr89 male white age ed prst, or
+
+margins, dydx(*) predict(outcome(1))
+margins, dydx(*) predict(outcome(2))
+margins, dydx(*) predict(outcome(3))
+margins, dydx(*) predict(outcome(4))
+```
+
+```{stata ord10_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+ologit warm yr89 male white age ed prst, or
+
+margins, dydx(*) predict(outcome(1))
+margins, dydx(*) predict(outcome(2))
+margins, dydx(*) predict(outcome(3))
+margins, dydx(*) predict(outcome(4))
+```
+
+### Marginal Effects at the Average
+
+```{stata ord11, eval=FALSE}
+ologit warm yr89 male white age ed prst, or
+
+margins, dydx(*) atmeans predict(outcome(1))
+margins, dydx(*) atmeans predict(outcome(2))
+margins, dydx(*) atmeans predict(outcome(3))
+margins, dydx(*) atmeans predict(outcome(4))
+```
+
+```{stata ord11_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta", clear
+ologit warm yr89 male white age ed prst, or
+
+margins, dydx(*) atmeans predict(outcome(1))
+margins, dydx(*) atmeans predict(outcome(2))
+margins, dydx(*) atmeans predict(outcome(3))
+margins, dydx(*) atmeans predict(outcome(4))
+```
+
+

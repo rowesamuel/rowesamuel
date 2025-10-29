@@ -112,13 +112,13 @@
 \urlstyle{same}
 \hypersetup{
   pdftitle={Week 9: Logit and Probit},
-  pdfauthor={Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)},
+  pdfauthor={Samuel Rowe adapted from Wooldridge (2011), Long and Freese (2006), and Mitchell (2020)},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
 \title{Week 9: Logit and Probit}
-\author{Samuel Rowe adapted from Wooldridge (2011) and Mitchell (2020)}
-\date{2025-09-12}
+\author{Samuel Rowe adapted from Wooldridge (2011), Long and Freese (2006), and Mitchell (2020)}
+\date{2025-10-29}
 
 \begin{document}
 \maketitle
@@ -145,6 +145,8 @@ We will cover the implementation of logit, probit, and multinomial logit.
   Logit, Probit, and Linear Probability Model
 \item
   Multinomial Logit
+\item
+  Ordinal Logit
 \item
   Reshape
 \end{enumerate}
@@ -602,6 +604,8 @@ The average marginal effect for an additional child less than 6 rises from -18.3
 
 \chapter{Multinominal Logit}\label{multinominal-logit}
 
+Adapted from Long and Freese (2006)
+
 When we have nominal categorical variables, we cannot use a binary logit or probit. We will need to use multinomial logit or probit.
 
 \textbf{Lesson: Interpreting a nominal categorical dependent variable}
@@ -791,10 +795,11 @@ We compare the log odds for unemployed and not in the labor force to being emplo
 \end{Shaded}
 
 \begin{verbatim}
-Note: the rank of the differenced variance matrix (2) does not equal the number of coefficients being tested (19);
-        be sure this is what you expect, or there may be problems computing the test.  Examine the output of your
-        estimators for anything unexpected and possibly consider scaling your variables so that the coefficients
-        are on a similar scale.
+Note: the rank of the differenced variance matrix (2) does not equal the number of
+        coefficients being tested (19); be sure this is what you expect, or there may be
+        problems computing the test.  Examine the output of your estimators for anything
+        unexpected and possibly consider scaling your variables so that the coefficients are
+        on a similar scale.
 
                  ---- Coefficients ----
              |      (b)          (B)            (b-B)     sqrt(diag(V_b-V_B))
@@ -979,9 +984,9 @@ Average marginal effects                        Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Employed), predict(outcome(1))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
-               2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
+               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
+               2.metroarea 3.metroarea 1.union 2.marital 3.marital
 
 -------------------------------------------------------------------------------------------
                           |            Delta-method
@@ -1025,9 +1030,9 @@ Average marginal effects                        Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Unemployed), predict(outcome(2))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
-               2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
+               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
+               2.metroarea 3.metroarea 1.union 2.marital 3.marital
 
 -------------------------------------------------------------------------------------------
                           |            Delta-method
@@ -1071,9 +1076,9 @@ Average marginal effects                        Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==NILF), predict(outcome(3))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
-               2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
+               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
+               2.metroarea 3.metroarea 1.union 2.marital 3.marital
 
 -------------------------------------------------------------------------------------------
                           |            Delta-method
@@ -1129,9 +1134,9 @@ Conditional marginal effects                    Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Employed), predict(outcome(1))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
-               2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
+               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
+               2.metroarea 3.metroarea 1.union 2.marital 3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1199,9 +1204,9 @@ Conditional marginal effects                    Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Unemployed), predict(outcome(2))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
-               2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
+               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
+               2.metroarea 3.metroarea 1.union 2.marital 3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1269,9 +1274,9 @@ Conditional marginal effects                    Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==NILF), predict(outcome(3))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
-               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union
-               2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
+               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
+               2.metroarea 3.metroarea 1.union 2.marital 3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1843,6 +1848,615 @@ Use coefplot
 \end{Highlighting}
 \end{Shaded}
 
+\chapter{Ordinal Logit}\label{ordinal-logit}
+
+Adapted from Long and Freese (2006)
+
+\section{Compare Ordinal Logit and Binary Logit}\label{compare-ordinal-logit-and-binary-logit}
+
+First, let's inspect the outcome of interest, which is labor force status.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"/Users/Sam/Desktop/Econ 645/Data/binlfp2.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{tab}\NormalTok{ lfp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(Data from 1976 PSID-T Mroz)
+
+
+ Paid Labor |
+     Force: |
+ 1=yes 0=no |      Freq.     Percent        Cum.
+------------+-----------------------------------
+    NotInLF |        325       43.16       43.16
+       inLF |        428       56.84      100.00
+------------+-----------------------------------
+      Total |        753      100.00
+\end{verbatim}
+
+Now, let's compare our ordinal logit and binary logit coefficients when the outcome is binary.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly} \KeywordTok{logit}\NormalTok{ lfp k5 k618 age wc hc lwg inc, }\KeywordTok{nolog}
+\KeywordTok{estimates} \KeywordTok{store} \KeywordTok{logit}
+\KeywordTok{quietly} \KeywordTok{ologit}\NormalTok{ lfp k5 k618 age wc hc lwg inc, }\KeywordTok{nolog}
+\KeywordTok{estimates} \KeywordTok{store} \KeywordTok{ologit}
+\KeywordTok{estimates} \KeywordTok{table} \KeywordTok{logit} \KeywordTok{ologit}\NormalTok{, b(\%9.3f) t varlabel varwidth(30) equations(1:1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                      Variable |   logit      ologit    
+-------------------------------+------------------------
+#1                             |
+                    # kids < 6 |    -1.463      -1.463  
+                               |     -7.43       -7.43  
+                   # kids 6-18 |    -0.065      -0.065  
+                               |     -0.95       -0.95  
+           Wife's age in years |    -0.063      -0.063  
+                               |     -4.92       -4.92  
+      Wife College: 1=yes 0=no |     0.807       0.807  
+                               |      3.51        3.51  
+   Husband College: 1=yes 0=no |     0.112       0.112  
+                               |      0.54        0.54  
+ Log of wife's estimated wages |     0.605       0.605  
+                               |      4.01        4.01  
+Family income excluding wife's |    -0.034      -0.034  
+                               |     -4.20       -4.20  
+                      Constant |     3.182              
+                               |      4.94              
+-------------------------------+------------------------
+cut1                           |
+                      Constant |                -3.182  
+                               |                 -4.94  
+--------------------------------------------------------
+                                             legend: b/t
+\end{verbatim}
+
+The coefficients are the same between the binary logit and the ordinal logit. The difference here is that the ordinal logit has a cut point and assumes an interept of 0. The cutpoint and the intercept for binary logit are the same in absolute terms.
+
+\section{Example of Ordinal Dependent Variable}\label{example-of-ordinal-dependent-variable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{describe}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(77 & 89 General Social Survey)
+
+              storage   display    value
+variable name   type    format     label      variable label
+----------------------------------------------------------------------------------------------
+warm            byte    %10.0g     SD2SA      Mom can have warm relations with child
+yr89            byte    %10.0g     yrlbl      Survey year: 1=1989 0=1977
+male            byte    %10.0g     sexlbl     Gender: 1=male 0=female
+white           byte    %10.0g     racelbl    Race: 1=white 0=not white
+age             byte    %10.0g                Age in years
+ed              byte    %10.0g                Years of education
+prst            byte    %10.0g                Occupational prestige
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summarize}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+        warm |      2,293    2.607501    .9282156          1          4
+        yr89 |      2,293    .3986044    .4897178          0          1
+        male |      2,293    .4648932    .4988748          0          1
+       white |      2,293    .8765809    .3289894          0          1
+         age |      2,293    44.93546    16.77903         18         89
+-------------+---------------------------------------------------------
+          ed |      2,293    12.21805    3.160827          0         20
+        prst |      2,293    39.58526    14.49226         12         82
+\end{verbatim}
+
+Our outcome is the the survey results for people's opinion for a working mother
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab}\NormalTok{ warm}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Mom can |
+  have warm |
+  relations |
+ with child |      Freq.     Percent        Cum.
+------------+-----------------------------------
+         SD |        297       12.95       12.95
+          D |        723       31.53       44.48
+          A |        856       37.33       81.81
+         SA |        417       18.19      100.00
+------------+-----------------------------------
+      Total |      2,293      100.00
+\end{verbatim}
+
+We will run our ordinal logit by regressing opinion's on working mother's warm onto gender, race,
+age, survey year, education in years, and occupational prestige.
+
+\[ warm_{i,t} = \beta_1 male_i + \beta_2 race_i + \beta_3 age_{i,t} + \beta_4 edu_{i,t} + \beta_5 prestige_{i,t} + \beta_6 y89_t + \varepsilon_{i,t} \]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ologit}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst, }\KeywordTok{nolog}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Ordered logistic regression                     Number of obs     =      2,293
+                                                LR chi2(6)        =     301.72
+                                                Prob > chi2       =     0.0000
+Log likelihood = -2844.9123                     Pseudo R2         =     0.0504
+
+------------------------------------------------------------------------------
+        warm |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   .5239025   .0798989     6.56   0.000     .3673036    .6805014
+        male |  -.7332997   .0784827    -9.34   0.000     -.887123   -.5794765
+       white |  -.3911595   .1183808    -3.30   0.001    -.6231816   -.1591373
+         age |  -.0216655   .0024683    -8.78   0.000    -.0265032   -.0168278
+          ed |   .0671728    .015975     4.20   0.000     .0358624    .0984831
+        prst |   .0060727   .0032929     1.84   0.065    -.0003813    .0125267
+-------------+----------------------------------------------------------------
+       /cut1 |  -2.465362   .2389128                     -2.933622   -1.997102
+       /cut2 |   -.630904   .2333156                     -1.088194   -.1736138
+       /cut3 |   1.261854    .234018                      .8031871    1.720521
+------------------------------------------------------------------------------
+\end{verbatim}
+
+We have three cutpoints \[ \tau_1 = -2.47, \tau_2 = -0.63, \tau_3 = 1.26 \]
+
+\section{Test Proportional Odds Assumption}\label{test-proportional-odds-assumption}
+
+We have our two tests for testing the proportional odds assumption
+1. Approximate Likelihood Ratio Test
+2. Wald Test
+
+\subsection{Approximate Likelihood Ratio Test}\label{approximate-likelihood-ratio-test}
+
+We use the \emph{omodel} command to run an Approximate Likelihood Ratio Test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{omodel }\KeywordTok{logit}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Iteration 0:   log likelihood = -2995.7704
+Iteration 1:   log likelihood = -2846.4532
+Iteration 2:   log likelihood = -2844.9142
+Iteration 3:   log likelihood = -2844.9123
+
+Ordered logit estimates                           Number of obs   =       2293
+                                                  LR chi2(6)      =     301.72
+                                                  Prob > chi2     =     0.0000
+Log likelihood = -2844.9123                       Pseudo R2       =     0.0504
+
+------------------------------------------------------------------------------
+        warm |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   .5239025   .0798988     6.56   0.000     .3673037    .6805013
+        male |  -.7332997   .0784827    -9.34   0.000    -.8871229   -.5794766
+       white |  -.3911595   .1183808    -3.30   0.001    -.6231815   -.1591374
+         age |  -.0216655   .0024683    -8.78   0.000    -.0265032   -.0168278
+          ed |   .0671728    .015975     4.20   0.000     .0358624    .0984831
+        prst |   .0060727   .0032929     1.84   0.065    -.0003813    .0125267
+-------------+----------------------------------------------------------------
+       _cut1 |  -2.465362   .2389126          (Ancillary parameters)
+       _cut2 |   -.630904   .2333155 
+       _cut3 |   1.261854   .2340179 
+------------------------------------------------------------------------------
+
+Approximate likelihood-ratio test of proportionality of odds
+across response categories:
+         chi2(12) =     48.91
+       Prob > chi2 =    0.0000
+\end{verbatim}
+
+With the oparallel package
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{help}\NormalTok{ oparallel}
+\KeywordTok{quietly}\NormalTok{ omodel }\KeywordTok{logit}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst}
+\NormalTok{oparallel, lr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Test of the parallel regression assumption
+
+                 |   Chi2     df  P>Chi2
+-----------------+----------------------
+likelihood ratio |   49.2     12   0.000
+\end{verbatim}
+
+We reject the null hypothesis that the coefficients are the same across \(1,...,J-1\) equations at the 0.1\% level.
+
+\subsection{Wald Test}\label{wald-test}
+
+We use the \emph{brant} command for the Wald Test
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly} \KeywordTok{ologit}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst, }\KeywordTok{nolog}
+\NormalTok{oparallel, lr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly} \KeywordTok{use} \StringTok{"/Users/Sam/Desktop/Econ 645/Data/ordwarm2.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{quietly} \KeywordTok{ologit}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst, }\KeywordTok{nolog}
+\NormalTok{oparallel, lr}
+\end{Highlighting}
+\end{Shaded}
+
+We reject the null hypothesis that the coefficients are the same across \(1,...,J-1\) equations at the 0.1\% level.
+
+\section{Interpretation}\label{interpretation}
+
+\subsection{Odds Ratios}\label{odds-ratios-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ologit}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst, }\KeywordTok{or}
+\NormalTok{oparallel, lr}
+\NormalTok{listcoef, }\KeywordTok{help}
+\NormalTok{listcoef, }\KeywordTok{help} \KeywordTok{percent}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Iteration 0:   log likelihood = -2995.7704  
+Iteration 1:   log likelihood = -2846.4532  
+Iteration 2:   log likelihood = -2844.9142  
+Iteration 3:   log likelihood = -2844.9123  
+Iteration 4:   log likelihood = -2844.9123  
+
+Ordered logistic regression                     Number of obs     =      2,293
+                                                LR chi2(6)        =     301.72
+                                                Prob > chi2       =     0.0000
+Log likelihood = -2844.9123                     Pseudo R2         =     0.0504
+
+------------------------------------------------------------------------------
+        warm | Odds Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   1.688605   .1349176     6.56   0.000     1.443836    1.974868
+        male |   .4803214   .0376969    -9.34   0.000     .4118389    .5601916
+       white |   .6762723   .0800577    -3.30   0.001     .5362356    .8528792
+         age |   .9785675   .0024154    -8.78   0.000     .9738449     .983313
+          ed |    1.06948   .0170849     4.20   0.000     1.036513    1.103496
+        prst |   1.006091    .003313     1.84   0.065     .9996188    1.012605
+-------------+----------------------------------------------------------------
+       /cut1 |  -2.465362   .2389128                     -2.933622   -1.997102
+       /cut2 |   -.630904   .2333156                     -1.088194   -.1736138
+       /cut3 |   1.261854    .234018                      .8031871    1.720521
+------------------------------------------------------------------------------
+
+
+ologit (N=2293): Factor Change in Odds 
+
+  Odds of: >m vs <=m
+
+------------------------------------------------------------------
+    warm |      b         z     P>|z|    e^b    e^bStdX      SDofX
+---------+--------------------------------------------------------
+    yr89 |   0.52390    6.557   0.000   1.6886   1.2925     0.4897
+    male |  -0.73330   -9.343   0.000   0.4803   0.6936     0.4989
+   white |  -0.39116   -3.304   0.001   0.6763   0.8792     0.3290
+     age |  -0.02167   -8.778   0.000   0.9786   0.6952    16.7790
+      ed |   0.06717    4.205   0.000   1.0695   1.2365     3.1608
+    prst |   0.00607    1.844   0.065   1.0061   1.0920    14.4923
+------------------------------------------------------------------
+       b = raw coefficient
+       z = z-score for test of b=0
+   P>|z| = p-value for z-test
+     e^b = exp(b) = factor change in odds for unit increase in X
+ e^bStdX = exp(b*SD of X) = change in odds for SD increase in X
+   SDofX = standard deviation of X
+
+
+ologit (N=2293): Percentage Change in Odds 
+
+  Odds of: >m vs <=m
+
+------------------------------------------------------------------
+    warm |      b         z     P>|z|      %      %StdX      SDofX
+---------+--------------------------------------------------------
+    yr89 |   0.52390    6.557   0.000     68.9     29.2     0.4897
+    male |  -0.73330   -9.343   0.000    -52.0    -30.6     0.4989
+   white |  -0.39116   -3.304   0.001    -32.4    -12.1     0.3290
+     age |  -0.02167   -8.778   0.000     -2.1    -30.5    16.7790
+      ed |   0.06717    4.205   0.000      6.9     23.7     3.1608
+    prst |   0.00607    1.844   0.065      0.6      9.2    14.4923
+------------------------------------------------------------------
+       b = raw coefficient
+       z = z-score for test of b=0
+   P>|z| = p-value for z-test
+       % = percent change in odds for unit increase in X
+   %StdX = percent change in odds for SD increase in X
+   SDofX = standard deviation of X
+\end{verbatim}
+
+For a 1-year increase in education , the odds of a \textbf{positive attitude} towards working mothers increase by a factor of 1.067 or 6.7\%, ceteris paribus.
+
+For a 1-year increase in age, the odds of a \textbf{negative} attitude toward working mothers increase by a factor of \(e^{-(-0.02167)}=1.0219\), ceteris paribus.
+
+For a male, the odds of a \textbf{negative attitude} toward working mothers increase by a factor of \(e^{-(-0.73330)}=2.08\), ceteris paribus
+
+\subsection{Average Marginal Effects}\label{average-marginal-effects-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ologit}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst, }\KeywordTok{or}
+
+\NormalTok{margins, }\KeywordTok{dydx}\NormalTok{(*) }\KeywordTok{predict}\NormalTok{(outcome(1))}
+\NormalTok{margins, }\KeywordTok{dydx}\NormalTok{(*) }\KeywordTok{predict}\NormalTok{(outcome(2))}
+\NormalTok{margins, }\KeywordTok{dydx}\NormalTok{(*) }\KeywordTok{predict}\NormalTok{(outcome(3))}
+\NormalTok{margins, }\KeywordTok{dydx}\NormalTok{(*) }\KeywordTok{predict}\NormalTok{(outcome(4))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Iteration 0:   log likelihood = -2995.7704  
+Iteration 1:   log likelihood = -2846.4532  
+Iteration 2:   log likelihood = -2844.9142  
+Iteration 3:   log likelihood = -2844.9123  
+Iteration 4:   log likelihood = -2844.9123  
+
+Ordered logistic regression                     Number of obs     =      2,293
+                                                LR chi2(6)        =     301.72
+                                                Prob > chi2       =     0.0000
+Log likelihood = -2844.9123                     Pseudo R2         =     0.0504
+
+------------------------------------------------------------------------------
+        warm | Odds Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   1.688605   .1349176     6.56   0.000     1.443836    1.974868
+        male |   .4803214   .0376969    -9.34   0.000     .4118389    .5601916
+       white |   .6762723   .0800577    -3.30   0.001     .5362356    .8528792
+         age |   .9785675   .0024154    -8.78   0.000     .9738449     .983313
+          ed |    1.06948   .0170849     4.20   0.000     1.036513    1.103496
+        prst |   1.006091    .003313     1.84   0.065     .9996188    1.012605
+-------------+----------------------------------------------------------------
+       /cut1 |  -2.465362   .2389128                     -2.933622   -1.997102
+       /cut2 |   -.630904   .2333156                     -1.088194   -.1736138
+       /cut3 |   1.261854    .234018                      .8031871    1.720521
+------------------------------------------------------------------------------
+
+
+Average marginal effects                        Number of obs     =      2,293
+Model VCE    : OIM
+
+Expression   : Pr(warm==1), predict(outcome(1))
+dy/dx w.r.t. : yr89 male white age ed prst
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |  -.0557094   .0087921    -6.34   0.000    -.0729416   -.0384771
+        male |   .0779757   .0088072     8.85   0.000     .0607139    .0952375
+       white |   .0415941   .0127155     3.27   0.001     .0166721    .0665161
+         age |   .0023038   .0002754     8.37   0.000     .0017641    .0028435
+          ed |  -.0071428   .0017147    -4.17   0.000    -.0105036   -.0037821
+        prst |  -.0006457   .0003514    -1.84   0.066    -.0013345     .000043
+------------------------------------------------------------------------------
+
+
+Average marginal effects                        Number of obs     =      2,293
+Model VCE    : OIM
+
+Expression   : Pr(warm==2), predict(outcome(2))
+dy/dx w.r.t. : yr89 male white age ed prst
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |  -.0608201   .0091774    -6.63   0.000    -.0788075   -.0428328
+        male |   .0851292   .0089196     9.54   0.000     .0676472    .1026112
+       white |   .0454099   .0136969     3.32   0.001     .0185644    .0722554
+         age |   .0025152   .0002817     8.93   0.000      .001963    .0030673
+          ed |  -.0077981     .00185    -4.22   0.000    -.0114241   -.0041722
+        prst |   -.000705   .0003818    -1.85   0.065    -.0014533    .0000433
+------------------------------------------------------------------------------
+
+
+Average marginal effects                        Number of obs     =      2,293
+Model VCE    : OIM
+
+Expression   : Pr(warm==3), predict(outcome(3))
+dy/dx w.r.t. : yr89 male white age ed prst
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |    .043531   .0069122     6.30   0.000     .0299833    .0570787
+        male |  -.0609298   .0067839    -8.98   0.000     -.074226   -.0476336
+       white |  -.0325014   .0099733    -3.26   0.001    -.0520487   -.0129541
+         age |  -.0018002   .0002138    -8.42   0.000    -.0022193   -.0013811
+          ed |   .0055814   .0013342     4.18   0.000     .0029665    .0081963
+        prst |   .0005046   .0002752     1.83   0.067    -.0000349    .0010441
+------------------------------------------------------------------------------
+
+
+Average marginal effects                        Number of obs     =      2,293
+Model VCE    : OIM
+
+Expression   : Pr(warm==4), predict(outcome(4))
+dy/dx w.r.t. : yr89 male white age ed prst
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   .0729985   .0111797     6.53   0.000     .0510866    .0949103
+        male |   -.102175   .0111936    -9.13   0.000    -.1241141    -.080236
+       white |  -.0545026    .016485    -3.31   0.001    -.0868126   -.0221926
+         age |  -.0030188   .0003501    -8.62   0.000    -.0037051   -.0023325
+          ed |   .0093596   .0022406     4.18   0.000     .0049681    .0137511
+        prst |   .0008461   .0004584     1.85   0.065    -.0000522    .0017445
+------------------------------------------------------------------------------
+\end{verbatim}
+
+\subsection{Marginal Effects at the Average}\label{marginal-effects-at-the-average-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ologit}\NormalTok{ warm yr89 male }\BaseNTok{white}\NormalTok{ age ed prst, }\KeywordTok{or}
+
+\NormalTok{margins, }\KeywordTok{dydx}\NormalTok{(*) atmeans }\KeywordTok{predict}\NormalTok{(outcome(1))}
+\NormalTok{margins, }\KeywordTok{dydx}\NormalTok{(*) atmeans }\KeywordTok{predict}\NormalTok{(outcome(2))}
+\NormalTok{margins, }\KeywordTok{dydx}\NormalTok{(*) atmeans }\KeywordTok{predict}\NormalTok{(outcome(3))}
+\NormalTok{margins, }\KeywordTok{dydx}\NormalTok{(*) atmeans }\KeywordTok{predict}\NormalTok{(outcome(4))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Iteration 0:   log likelihood = -2995.7704  
+Iteration 1:   log likelihood = -2846.4532  
+Iteration 2:   log likelihood = -2844.9142  
+Iteration 3:   log likelihood = -2844.9123  
+Iteration 4:   log likelihood = -2844.9123  
+
+Ordered logistic regression                     Number of obs     =      2,293
+                                                LR chi2(6)        =     301.72
+                                                Prob > chi2       =     0.0000
+Log likelihood = -2844.9123                     Pseudo R2         =     0.0504
+
+------------------------------------------------------------------------------
+        warm | Odds Ratio   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   1.688605   .1349176     6.56   0.000     1.443836    1.974868
+        male |   .4803214   .0376969    -9.34   0.000     .4118389    .5601916
+       white |   .6762723   .0800577    -3.30   0.001     .5362356    .8528792
+         age |   .9785675   .0024154    -8.78   0.000     .9738449     .983313
+          ed |    1.06948   .0170849     4.20   0.000     1.036513    1.103496
+        prst |   1.006091    .003313     1.84   0.065     .9996188    1.012605
+-------------+----------------------------------------------------------------
+       /cut1 |  -2.465362   .2389128                     -2.933622   -1.997102
+       /cut2 |   -.630904   .2333156                     -1.088194   -.1736138
+       /cut3 |   1.261854    .234018                      .8031871    1.720521
+------------------------------------------------------------------------------
+
+
+Conditional marginal effects                    Number of obs     =      2,293
+Model VCE    : OIM
+
+Expression   : Pr(warm==1), predict(outcome(1))
+dy/dx w.r.t. : yr89 male white age ed prst
+at           : yr89            =    .3986044 (mean)
+               male            =    .4648932 (mean)
+               white           =    .8765809 (mean)
+               age             =    44.93546 (mean)
+               ed              =    12.21805 (mean)
+               prst            =    39.58526 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   -.051803   .0081383    -6.37   0.000    -.0677537   -.0358522
+        male |   .0725079   .0081294     8.92   0.000     .0565746    .0884413
+       white |   .0386775   .0118016     3.28   0.001     .0155468    .0618081
+         age |   .0021423   .0002546     8.41   0.000     .0016432    .0026413
+          ed |   -.006642   .0015972    -4.16   0.000    -.0097724   -.0035116
+        prst |  -.0006005   .0003264    -1.84   0.066    -.0012401    .0000392
+------------------------------------------------------------------------------
+
+
+Conditional marginal effects                    Number of obs     =      2,293
+Model VCE    : OIM
+
+Expression   : Pr(warm==2), predict(outcome(2))
+dy/dx w.r.t. : yr89 male white age ed prst
+at           : yr89            =    .3986044 (mean)
+               male            =    .4648932 (mean)
+               white           =    .8765809 (mean)
+               age             =    44.93546 (mean)
+               ed              =    12.21805 (mean)
+               prst            =    39.58526 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |  -.0772501   .0122256    -6.32   0.000    -.1012118   -.0532885
+        male |   .1081261   .0124796     8.66   0.000     .0836666    .1325855
+       white |    .057677    .017613     3.27   0.001     .0231561    .0921979
+         age |   .0031946   .0003899     8.19   0.000     .0024304    .0039588
+          ed |  -.0099047   .0023955    -4.13   0.000    -.0145999   -.0052095
+        prst |  -.0008954   .0004869    -1.84   0.066    -.0018497    .0000588
+------------------------------------------------------------------------------
+
+
+Conditional marginal effects                    Number of obs     =      2,293
+Model VCE    : OIM
+
+Expression   : Pr(warm==3), predict(outcome(3))
+dy/dx w.r.t. : yr89 male white age ed prst
+at           : yr89            =    .3986044 (mean)
+               male            =    .4648932 (mean)
+               white           =    .8765809 (mean)
+               age             =    44.93546 (mean)
+               ed              =    12.21805 (mean)
+               prst            =    39.58526 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   .0582103   .0096161     6.05   0.000     .0393631    .0770575
+        male |  -.0814762   .0099979    -8.15   0.000    -.1010717   -.0618807
+       white |  -.0434613   .0134313    -3.24   0.001    -.0697862   -.0171364
+         age |  -.0024072   .0003126    -7.70   0.000    -.0030199   -.0017945
+          ed |   .0074635   .0018362     4.06   0.000     .0038645    .0110625
+        prst |   .0006747   .0003683     1.83   0.067    -.0000472    .0013967
+------------------------------------------------------------------------------
+
+
+Conditional marginal effects                    Number of obs     =      2,293
+Model VCE    : OIM
+
+Expression   : Pr(warm==4), predict(outcome(4))
+dy/dx w.r.t. : yr89 male white age ed prst
+at           : yr89            =    .3986044 (mean)
+               male            =    .4648932 (mean)
+               white           =    .8765809 (mean)
+               age             =    44.93546 (mean)
+               ed              =    12.21805 (mean)
+               prst            =    39.58526 (mean)
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        yr89 |   .0708428   .0109038     6.50   0.000     .0494718    .0922139
+        male |  -.0991578   .0109073    -9.09   0.000    -.1205356   -.0777799
+       white |  -.0528931   .0160474    -3.30   0.001    -.0843454   -.0214409
+         age |  -.0029296     .00034    -8.62   0.000    -.0035961   -.0022632
+          ed |   .0090832   .0021702     4.19   0.000     .0048296    .0133368
+        prst |   .0008212   .0004455     1.84   0.065    -.0000519    .0016943
+------------------------------------------------------------------------------
+\end{verbatim}
+
 \chapter{Reshape}\label{reshape}
 
 From my experience, I feel that understanding and mastering the reshape command is invaluable. This is especially true when working with panel data. Panel data should not be used in a wide format. Panel data should be in a long format where you can use the xtset unit time command. After the xtset is established you can easily add lags or differences with the l.var or d.var
@@ -1878,10 +2492,10 @@ Contains data from cardio_wide.dta
   obs:             6                          
  vars:            12                          22 Dec 2009 20:43
  size:           120                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 bp1             int     %3.0f                 Blood pressure systolic Trial 1
@@ -1894,7 +2508,7 @@ pl2             byte    %3.0f                 Pulse: Trial 2
 pl3             int     %3.0f                 Pulse: Trial 3
 pl4             int     %3.0f                 Pulse: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -1943,16 +2557,16 @@ Contains data from cardio_long.dta
   obs:            30                          
  vars:             5                          10 Feb 2020 23:02
  size:           210                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trial           byte    %9.0g                 Trial number
 age             byte    %3.0f                 Age of person
 bp              int     %3.0f                 Blood pressure (systolic)
 pl              int     %3.0f                 Pulse
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id  trial
 \end{verbatim}
 
@@ -2132,7 +2746,7 @@ Or
           pl |   0.7958   1.0000
 
 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 -> trial = 2
 (obs=6)
 
@@ -2142,7 +2756,7 @@ Or
           pl |  -0.1985   1.0000
 
 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 -> trial = 3
 (obs=6)
 
@@ -2152,7 +2766,7 @@ Or
           pl |  -0.4790   1.0000
 
 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 -> trial = 4
 (obs=6)
 
@@ -2162,7 +2776,7 @@ Or
           pl |   0.5639   1.0000
 
 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 -> trial = 5
 (obs=6)
 
@@ -2383,16 +2997,16 @@ Contains data from cardio_long.dta
   obs:            30                          
  vars:             5                          10 Feb 2020 23:02
  size:           210                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trial           byte    %9.0g                 Trial number
 age             byte    %3.0f                 Age of person
 bp              int     %3.0f                 Blood pressure (systolic)
 pl              int     %3.0f                 Pulse
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id  trial
 
      +------------------------------+
@@ -2470,10 +3084,10 @@ Contains data
   obs:             6                          
  vars:            12                          
  size:           132                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 bp1             int     %3.0f                 1 bp
 pl1             int     %3.0f                 1 pl
@@ -2486,7 +3100,7 @@ pl4             int     %3.0f                 4 pl
 bp5             int     %3.0f                 5 bp
 pl5             int     %3.0f                 5 pl
 age             byte    %3.0f                 Age of person
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id
      Note: Dataset has changed since last saved.
 
@@ -2532,16 +3146,16 @@ Contains data
   obs:            30                          
  vars:             5                          
  size:           210                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trial           byte    %9.0g                 Trial number
 bp              int     %3.0f                 Blood pressure (systolic)
 pl              int     %3.0f                 Pulse
 age             byte    %3.0f                 Age of person
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id  trial
      Note: Dataset has changed since last saved.
 \end{verbatim}
@@ -2590,18 +3204,20 @@ We see that cross-sectional unit 1 has a data entry problem with age in the 3rd 
 \begin{verbatim}
 (note: j = 1 2 3 4 5)
 variable age not constant within id
-    Your data are currently long.  You are performing a reshape wide.  You typed something like
+    Your data are currently long.  You are performing a reshape wide.  You typed something
+    like
 
         . reshape wide a b, i(id) j(trial)
 
-    There are variables other than a, b, id, trial in your data.  They must be constant within id because that
-    is the only way they can fit into wide data without loss of information.
+    There are variables other than a, b, id, trial in your data.  They must be constant
+    within id because that is the only way they can fit into wide data without loss of
+    information.
 
-    The variable or variables listed above are not constant within id.  Perhaps the values are in error.  Type
-    reshape error for a list of the problem observations.
+    The variable or variables listed above are not constant within id.  Perhaps the values
+    are in error.  Type reshape error for a list of the problem observations.
 
-    Either that, or the values vary because they should vary, in which case you must either add the variables to
-    the list of xij variables to be reshaped, or drop them.
+    Either that, or the values vary because they should vary, in which case you must either
+    add the variables to the list of xij variables to be reshaped, or drop them.
 r(9);
 
 r(9);
@@ -2717,10 +3333,10 @@ Contains data from cardio_wide.dta
   obs:             6                          
  vars:            12                          22 Dec 2009 20:43
  size:           120                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 bp1             int     %3.0f                 Blood pressure systolic Trial 1
@@ -2733,7 +3349,7 @@ pl2             byte    %3.0f                 Pulse: Trial 2
 pl3             int     %3.0f                 Pulse: Trial 3
 pl4             int     %3.0f                 Pulse: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 
      +----------------------------------------------------------------------+
@@ -2784,16 +3400,16 @@ Contains data
   obs:            30                          
  vars:             5                          
  size:           210                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trialnum        byte    %9.0g                 
 age             byte    %3.0f                 Age of person
 bp              int     %3.0f                 
 pl              int     %3.0f                 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id  trialnum
      Note: Dataset has changed since last saved.
 
@@ -2842,10 +3458,10 @@ Contains data
   obs:             6                          
  vars:            12                          
  size:           132                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 bp1             int     %3.0f                 1 bp
 pl1             int     %3.0f                 1 pl
@@ -2858,7 +3474,7 @@ pl4             int     %3.0f                 4 pl
 bp5             int     %3.0f                 5 bp
 pl5             int     %3.0f                 5 pl
 age             byte    %3.0f                 Age of person
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id
      Note: Dataset has changed since last saved.
 
@@ -2982,10 +3598,10 @@ Contains data from cardio_wide2.dta
   obs:             6                          
  vars:            12                          31 Dec 2009 15:46
  size:           120                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 t1bp            int     %3.0f                 Blood pressure systolic Trial 1
@@ -2998,13 +3614,14 @@ t2pl            byte    %3.0f                 Pulse: Trial 2
 t3pl            int     %3.0f                 Pulse: Trial 3
 t4pl            int     %3.0f                 Pulse: Trial 4
 t5pl            byte    %3.0f                 Pulse: Trial 5
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 
 
 no xij variables found
     You typed something like reshape wide a b, i(i) j(j).
-    reshape looked for existing variables named a# and b# but could not find any.  Remember this picture:
+    reshape looked for existing variables named a# and b# but could not find any.  Remember
+    this picture:
 
          long                                wide
         +---------------+                   +------------------+
@@ -3049,16 +3666,16 @@ Contains data
   obs:            30                          
  vars:             5                          
  size:           210                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trialnum        byte    %9.0g                 
 age             byte    %3.0f                 Age of person
 tbp             int     %3.0f                 
 tpl             int     %3.0f                 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id  trialnum
      Note: Dataset has changed since last saved.
 
@@ -3132,16 +3749,16 @@ Contains data
   obs:            36                          
  vars:             5                          
  size:           432                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trialnum        int     %9.0g                 
 age             byte    %3.0f                 Age of person
 bp              float   %9.0g                 
 pl              float   %9.0g                 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id  trialnum
      Note: Dataset has changed since last saved.
 
@@ -3198,10 +3815,10 @@ Contains data
   obs:            30                          
  vars:             7                          
  size:           450                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trialnum        byte    %9.0g                 
 age             byte    %3.0f                 Age of person
@@ -3209,7 +3826,7 @@ bp              int     %3.0f
 bp2005          float   %9.0g                 
 pl              int     %3.0f                 
 pl2005          float   %9.0g                 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id  trialnum
      Note: Dataset has changed since last saved.
 
@@ -3257,10 +3874,10 @@ Contains data from cardio_wide3.dta
   obs:             6                          
  vars:            14                          31 Dec 2009 15:46
  size:           168                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 bp1             int     %3.0f                 Blood pressure systolic Trial 1
@@ -3275,7 +3892,7 @@ pl3             int     %3.0f                 Pulse: Trial 3
 pl4             int     %3.0f                 Pulse: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
 pl2005          float   %9.0g                 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
 
 
@@ -3284,10 +3901,10 @@ Contains data from cardio_wide3.dta
   obs:             6                          
  vars:            15                          31 Dec 2009 15:46
  size:           216                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 bp1             int     %3.0f                 Blood pressure systolic Trial 1
@@ -3303,7 +3920,7 @@ pl4             int     %3.0f                 Pulse: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
 pl2005          float   %9.0g                 
 idcode          double  %10.0g                
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 
@@ -3323,10 +3940,10 @@ Contains data
   obs:            30                          
  vars:             8                          
  size:           690                          
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 idcode          double  %10.0g                
 trialnum        byte    %9.0g                 
@@ -3335,7 +3952,7 @@ bp              int     %3.0f
 bp2005          float   %9.0g                 
 pl              int     %3.0f                 
 pl2005          float   %9.0g                 
-------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 Sorted by: id  idcode  trialnum
      Note: Dataset has changed since last saved.
 
@@ -3477,6 +4094,8 @@ Notice that our data are rounded to the nearest 1, unlike our egen commands, we 
 \section{Exercise}\label{exercise}
 
 Pull BLS monthly inflation data, reshape it into long, and merge with CPS
+
+Long, J.S, and Freese, J. (2006) \emph{Regression Models for Categorical Dependent Variables Using Stata} (2nd ed.). Stata Press.
 
 Mitchell, N.M. (2020). \emph{Data Management Using Stata: A Practical Handbook}. (2nd ed.). Stata Press.
 
