@@ -118,7 +118,7 @@
 
 \title{Week 9: Logit and Probit}
 \author{Samuel Rowe adapted from Wooldridge (2011), Long and Freese (2006), and Mitchell (2020)}
-\date{2025-10-29}
+\date{2025-11-05}
 
 \begin{document}
 \maketitle
@@ -439,7 +439,7 @@ t statistics in parentheses
 * p<0.05, ** p<0.01, *** p<0.001
 \end{verbatim}
 
-The analysis shows that the marginal effects are fairly close across the linear probability model, Logit model, and Probit model. One additional year of education increases the probability of being in the labor force by a range of 0.038 to 0.0395 percentage points. Interestingly, one additional child less than six is associated with a drop in the probability of being in the labor force by a range of 0.258 to 0.262.
+The analysis shows that the marginal effects are fairly close across the linear probability model, Logit model, and Probit model. One additional year of education increases the probability of being in the labor force by a range of 0.038 to 0.0395 or 3.8 to 3.95 percentage points. Interestingly, one additional child less than six is associated with a drop in the probability of being in the labor force by a range of 0.258 to 0.262 or 25.8 to 26.2 percentage points.
 
 Please not that around the means, our linear probability model, Logit, and Probit should be fairly similar. However, the marginal effects for the linear probability model are constant and will not vary across different values of \(x\).
 
@@ -614,8 +614,7 @@ We will use Current Population Survey Data from September 2023 and 2024 to estim
 
 There are three alternatives: Employed, Unemployed, and Not in the Labor Force.
 
-\section*{Example Current Population Survey}\label{example-current-population-survey}
-\addcontentsline{toc}{section}{Example Current Population Survey}
+\section{Example Current Population Survey}\label{example-current-population-survey}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -761,10 +760,149 @@ Graduate or Professional  |  -1.746904   .0561914   -31.09   0.000    -1.857038 
 Note: 2044 observations completely determined.  Standard errors questionable.
 \end{verbatim}
 
+These are log-odds coefficients comparing the coefficients for unemployed and not in the labor force to employed. Let's use odds ratios.
+
+\subsection{Relative Risk Ratios}\label{relative-risk-ratios}
+
+Akin to our odds ratios, relative risk ratios are \[ e^{\beta_j} \]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mlogit}\NormalTok{ laborforce i.educat }\FunctionTok{exp}\NormalTok{ exp2 i.race\_ethnicity i.female i.metroarea i.}\KeywordTok{union}\NormalTok{ i.marital i.hryear4, rrr}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Iteration 0:   log likelihood = -31774.039  
+Iteration 1:   log likelihood = -22975.759  
+Iteration 2:   log likelihood = -22620.368  
+Iteration 3:   log likelihood = -22573.244  
+Iteration 4:   log likelihood = -22565.789  
+Iteration 5:   log likelihood = -22564.343  
+Iteration 6:   log likelihood = -22564.014  
+Iteration 7:   log likelihood = -22563.941  
+Iteration 8:   log likelihood = -22563.925  
+Iteration 9:   log likelihood = -22563.922  
+Iteration 10:  log likelihood = -22563.922  
+Iteration 11:  log likelihood = -22563.922  
+Iteration 12:  log likelihood = -22563.922  
+
+Multinomial logistic regression                 Number of obs     =     41,599
+                                                LR chi2(38)       =   18420.23
+                                                Prob > chi2       =     0.0000
+Log likelihood = -22563.922                     Pseudo R2         =     0.2899
+
+-------------------------------------------------------------------------------------------
+         laborforcestatus |        RRR   Std. Err.      z    P>|z|     [95% Conf. Interval]
+--------------------------+----------------------------------------------------------------
+Employed                  |  (base outcome)
+--------------------------+----------------------------------------------------------------
+Unemployed                |
+                   educat |
+                     HSD  |   .7961621   .0891451    -2.04   0.042     .6392839    .9915378
+            Some College  |    .649697   .0846959    -3.31   0.001     .5032067    .8388326
+           AA/Vocational  |   .4999895   .0827417    -4.19   0.000     .3614915    .6915501
+                   BS/BA  |   .5113616   .0681079    -5.04   0.000     .3938739    .6638943
+Graduate or Professional  |   .3452858   .0602589    -6.09   0.000     .2452608    .4861042
+                          |
+                      exp |   .9713143   .0086213    -3.28   0.001      .954563    .9883596
+                     exp2 |   1.000252   .0001575     1.60   0.109     .9999438    1.000561
+                          |
+           race_ethnicity |
+  Asian/Pacific Islander  |    .443173   .1335123    -2.70   0.007     .2455481    .7998528
+                   Black  |   .6736043   .1856643    -1.43   0.152     .3924549    1.156165
+         Hispanic/Latino  |   .5218136   .1404467    -2.42   0.016     .3079027    .8843359
+                   White  |   .4558604    .119278    -3.00   0.003     .2729675    .7612947
+             Multiracial  |   .6188793   .2083277    -1.43   0.154     .3199439    1.197121
+                          |
+                   female |
+                  Female  |   .9995863    .072168    -0.01   0.995     .8676915     1.15153
+                          |
+                metroarea |
+           Nonmetro Area  |   .9038953   .0883983    -1.03   0.302     .7462308    1.094871
+          Not Identified  |   1.065606   .3688616     0.18   0.854     .5406939    2.100108
+                          |
+                    union |
+                   Union  |   2.88e-09   6.74e-06    -0.01   0.993            0           .
+                          |
+                  marital |
+    Divorced/Sep/Widowed  |   1.846433   .2170413     5.22   0.000     1.466486    2.324819
+           Never Married  |   2.122697   .2098085     7.62   0.000     1.748859    2.576447
+                          |
+                  hryear4 |
+                    2024  |     1.0231    .072769     0.32   0.748     .8899707    1.176145
+                          |
+                    _cons |   .1322292   .0398335    -6.72   0.000     .0732666    .2386429
+--------------------------+----------------------------------------------------------------
+NILF                      |
+                   educat |
+                     HSD  |   .4539258    .019312   -18.56   0.000     .4176101    .4933995
+            Some College  |   .4089738   .0196131   -18.64   0.000     .3722842    .4492793
+           AA/Vocational  |   .3188048    .017824   -20.45   0.000     .2857165     .355725
+                   BS/BA  |   .2246446   .0109702   -30.58   0.000     .2041403    .2472084
+Graduate or Professional  |   .1743127   .0097949   -31.09   0.000     .1561345    .1946073
+                          |
+                      exp |   .8614844   .0026594   -48.30   0.000     .8562879    .8667124
+                     exp2 |   1.003146   .0000471    66.92   0.000     1.003054    1.003238
+                          |
+           race_ethnicity |
+  Asian/Pacific Islander  |   .8190709   .1095078    -1.49   0.135     .6302574     1.06445
+                   Black  |   .9000402   .1164096    -0.81   0.415     .6985043    1.159724
+         Hispanic/Latino  |   .6196675   .0787199    -3.77   0.000     .4830875    .7948619
+                   White  |   .7132717   .0882878    -2.73   0.006     .5596216     .909108
+             Multiracial  |   .8350501   .1284122    -1.17   0.241     .6177555    1.128778
+                          |
+                   female |
+                  Female  |   1.782797    .046164    22.33   0.000     1.694575    1.875612
+                          |
+                metroarea |
+           Nonmetro Area  |   .9930558   .0325803    -0.21   0.832     .9312093     1.05901
+          Not Identified  |   .9978694   .1279397    -0.02   0.987     .7761376    1.282947
+                          |
+                    union |
+                   Union  |   1.60e-09   9.05e-07    -0.04   0.972            0           .
+                          |
+                  marital |
+    Divorced/Sep/Widowed  |    .948249   .0353846    -1.42   0.154     .8813718    1.020201
+           Never Married  |   1.157745   .0439465     3.86   0.000     1.074738    1.247164
+                          |
+                  hryear4 |
+                    2024  |   .9609427   .0243982    -1.57   0.117     .9142935    1.009972
+                          |
+                    _cons |   2.922525   .3989434     7.86   0.000     2.236473    3.819027
+-------------------------------------------------------------------------------------------
+Note: 2044 observations completely determined.  Standard errors questionable.
+\end{verbatim}
+
+\subsubsection{Unemployed relative to employed}\label{unemployed-relative-to-employed}
+
+For an individual with a high school degree relative to a high school drop out, the relative risk for being unemployed relative to employed decreases by a factor of 0.80
+
+For an individual with some college relative to a high school drop out, the relative risk for being unemployed relative to employed decreases by a factor of 0.65
+
+For an individual with an AA or vocational degree relative to a high school drop out, the relative risk for being unemployed relative to employed decreases by a factor of 0.50
+
+For an individual with a BS/BA degree relative to a high school drop out, the relative risk for being unemployed relative to employed decreases by a factor of 0.51
+
+For an individual with a graduate or professional degree relative to a high school drop out, the relative risk for being unemployed relative to employed decreases by a factor of 0.35
+
+\subsubsection{Not in the labor force relative to employed}\label{not-in-the-labor-force-relative-to-employed}
+
+For an individual with a high school degree relative to a high school drop out, the relative risk for being NILF relative to employed decreases by a factor of 0.45
+
+For an individual with some college relative to a high school drop out, the relative risk for being NILF relative to employed decreases by a factor of 0.41
+
+For an individual with an AA or vocational degree relative to a high school drop out, the relative risk for being NILF relative to employed decreases by a factor of 0.32
+
+For an individual with a BS/BA degree relative to a high school drop out, the relative risk for being NILF relative to employed decreases by a factor of 0.22
+
+For an individual with a graduate or professional degree relative to a high school drop out, the relative risk for being NILF relative to employed decreases by a factor of 0.17
+
+\section{Test for Independence of Irrelevant Alternative Assumption}\label{test-for-independence-of-irrelevant-alternative-assumption}
+
 Next, we need to test our Independence of Irrelevant Alternatives (IIA) assumption with a Hausman Test.
 
-\subsection*{Estimate an Unrestricted model - We'll remove unemployed}\label{estimate-an-unrestricted-model---well-remove-unemployed}
-\addcontentsline{toc}{subsection}{Estimate an Unrestricted model - We'll remove unemployed}
+\subsection{Estimate an Unrestricted model - We'll remove unemployed}\label{estimate-an-unrestricted-model---well-remove-unemployed}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -775,8 +913,7 @@ Next, we need to test our Independence of Irrelevant Alternatives (IIA) assumpti
 
 We compare the log odds for unemployed and not in the labor force to being employed. Given that these are log odds, we'll need to convert them to Odds Ratios or find the marginal effects.
 
-\subsection*{Estimate a Restricted Model to test Independence of Irrelevant Alternatives assumption}\label{estimate-a-restricted-model-to-test-independence-of-irrelevant-alternatives-assumption}
-\addcontentsline{toc}{subsection}{Estimate a Restricted Model to test Independence of Irrelevant Alternatives assumption}
+\subsection{Estimate a Restricted Model to test Independence of Irrelevant Alternatives assumption}\label{estimate-a-restricted-model-to-test-independence-of-irrelevant-alternatives-assumption}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -785,8 +922,7 @@ We compare the log odds for unemployed and not in the labor force to being emplo
 \end{Highlighting}
 \end{Shaded}
 
-\subsection*{Use hausman command}\label{use-hausman-command}
-\addcontentsline{toc}{subsection}{Use hausman command}
+\subsection{Use hausman command}\label{use-hausman-command}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -795,10 +931,9 @@ We compare the log odds for unemployed and not in the labor force to being emplo
 \end{Shaded}
 
 \begin{verbatim}
-Note: the rank of the differenced variance matrix (2) does not equal the number of
-        coefficients being tested (19); be sure this is what you expect, or there may be
-        problems computing the test.  Examine the output of your estimators for anything
-        unexpected and possibly consider scaling your variables so that the coefficients are
+Note: the rank of the differenced variance matrix (2) does not equal the number of coefficients being tested (19); be
+        sure this is what you expect, or there may be problems computing the test.  Examine the output of your
+        estimators for anything unexpected and possibly consider scaling your variables so that the coefficients are
         on a similar scale.
 
                  ---- Coefficients ----
@@ -842,8 +977,7 @@ race_ethni~y |
 
 Our chi-squared is 8.92, which means with reject the IIA assumption. We should consider a binary response here.
 
-\subsection*{Predicted Probabilities}\label{predicted-probabilities}
-\addcontentsline{toc}{subsection}{Predicted Probabilities}
+\subsection{Predicted Probabilities}\label{predicted-probabilities}
 
 Next, we use Stata to estimate predicted probabilities
 
@@ -968,8 +1102,7 @@ at           : 1.educat        =    .1261088 (mean)
 ------------------------------------------------------------------------------
 \end{verbatim}
 
-\subsection*{Average Marginal Effects}\label{average-marginal-effects}
-\addcontentsline{toc}{subsection}{Average Marginal Effects}
+\subsection{Average Marginal Effects}\label{average-marginal-effects}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -984,9 +1117,9 @@ Average marginal effects                        Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Employed), predict(outcome(1))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
-               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
-               2.metroarea 3.metroarea 1.union 2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
+               3.marital
 
 -------------------------------------------------------------------------------------------
                           |            Delta-method
@@ -1030,9 +1163,9 @@ Average marginal effects                        Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Unemployed), predict(outcome(2))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
-               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
-               2.metroarea 3.metroarea 1.union 2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
+               3.marital
 
 -------------------------------------------------------------------------------------------
                           |            Delta-method
@@ -1076,9 +1209,9 @@ Average marginal effects                        Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==NILF), predict(outcome(3))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
-               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
-               2.metroarea 3.metroarea 1.union 2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
+               3.marital
 
 -------------------------------------------------------------------------------------------
                           |            Delta-method
@@ -1118,8 +1251,7 @@ Graduate or Professional  |  -.2708111   .0083689   -32.36   0.000    -.2872139 
 Note: dy/dx for factor levels is the discrete change from the base level.
 \end{verbatim}
 
-\subsection*{Marginal Effects at the Average}\label{marginal-effects-at-the-average}
-\addcontentsline{toc}{subsection}{Marginal Effects at the Average}
+\subsection{Marginal Effects at the Average}\label{marginal-effects-at-the-average}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1134,9 +1266,9 @@ Conditional marginal effects                    Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Employed), predict(outcome(1))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
-               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
-               2.metroarea 3.metroarea 1.union 2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
+               3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1204,9 +1336,9 @@ Conditional marginal effects                    Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==Unemployed), predict(outcome(2))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
-               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
-               2.metroarea 3.metroarea 1.union 2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
+               3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1274,9 +1406,9 @@ Conditional marginal effects                    Number of obs     =     41,599
 Model VCE    : OIM
 
 Expression   : Pr(laborforcestatus==NILF), predict(outcome(3))
-dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity
-               3.race_ethnicity 4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female
-               2.metroarea 3.metroarea 1.union 2.marital 3.marital
+dy/dx w.r.t. : 2.educat 3.educat 4.educat 5.educat 6.educat exp exp2 2.race_ethnicity 3.race_ethnicity
+               4.race_ethnicity 5.race_ethnicity 6.race_ethnicity 1.female 2.metroarea 3.metroarea 1.union 2.marital
+               3.marital
 at           : 1.educat        =    .1261088 (mean)
                2.educat        =     .286954 (mean)
                3.educat        =    .1488497 (mean)
@@ -1340,8 +1472,7 @@ Graduate or Professional  |  -.3176566   3.916079    -0.08   0.935    -7.993031 
 Note: dy/dx for factor levels is the discrete change from the base level.
 \end{verbatim}
 
-\subsection*{Change the Base Alternative}\label{change-the-base-alternative}
-\addcontentsline{toc}{subsection}{Change the Base Alternative}
+\subsection{Change the Base Alternative}\label{change-the-base-alternative}
 
 We can also change the base or reference alternative with the base() option
 
@@ -1447,8 +1578,7 @@ NILF                      |  (base outcome)
 Note: 2044 observations completely determined.  Standard errors questionable.
 \end{verbatim}
 
-\subsection*{Marginal Effects and Marginsplot}\label{marginal-effects-and-marginsplot}
-\addcontentsline{toc}{subsection}{Marginal Effects and Marginsplot}
+\subsection{Marginal Effects and Marginsplot}\label{marginal-effects-and-marginsplot}
 
 Next, we will estimate and graph the average marginal effects for education and experience
 
@@ -1793,8 +1923,7 @@ Combine Graphs
 \end{Highlighting}
 \end{Shaded}
 
-\subsection*{We can use coefplot with margins with eststo}\label{we-can-use-coefplot-with-margins-with-eststo}
-\addcontentsline{toc}{subsection}{We can use coefplot with margins with eststo}
+\subsection{We can use coefplot with margins with eststo}\label{we-can-use-coefplot-with-margins-with-eststo}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1933,7 +2062,7 @@ The coefficients are the same between the binary logit and the ordinal logit. Th
 
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 warm            byte    %10.0g     SD2SA      Mom can have warm relations with child
 yr89            byte    %10.0g     yrlbl      Survey year: 1=1989 0=1977
 male            byte    %10.0g     sexlbl     Gender: 1=male 0=female
@@ -2492,10 +2621,10 @@ Contains data from cardio_wide.dta
   obs:             6                          
  vars:            12                          22 Dec 2009 20:43
  size:           120                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 bp1             int     %3.0f                 Blood pressure systolic Trial 1
@@ -2508,7 +2637,7 @@ pl2             byte    %3.0f                 Pulse: Trial 2
 pl3             int     %3.0f                 Pulse: Trial 3
 pl4             int     %3.0f                 Pulse: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -2557,16 +2686,16 @@ Contains data from cardio_long.dta
   obs:            30                          
  vars:             5                          10 Feb 2020 23:02
  size:           210                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trial           byte    %9.0g                 Trial number
 age             byte    %3.0f                 Age of person
 bp              int     %3.0f                 Blood pressure (systolic)
 pl              int     %3.0f                 Pulse
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id  trial
 \end{verbatim}
 
@@ -2746,7 +2875,7 @@ Or
           pl |   0.7958   1.0000
 
 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 -> trial = 2
 (obs=6)
 
@@ -2756,7 +2885,7 @@ Or
           pl |  -0.1985   1.0000
 
 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 -> trial = 3
 (obs=6)
 
@@ -2766,7 +2895,7 @@ Or
           pl |  -0.4790   1.0000
 
 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 -> trial = 4
 (obs=6)
 
@@ -2776,7 +2905,7 @@ Or
           pl |   0.5639   1.0000
 
 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 -> trial = 5
 (obs=6)
 
@@ -2997,16 +3126,16 @@ Contains data from cardio_long.dta
   obs:            30                          
  vars:             5                          10 Feb 2020 23:02
  size:           210                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trial           byte    %9.0g                 Trial number
 age             byte    %3.0f                 Age of person
 bp              int     %3.0f                 Blood pressure (systolic)
 pl              int     %3.0f                 Pulse
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id  trial
 
      +------------------------------+
@@ -3084,10 +3213,10 @@ Contains data
   obs:             6                          
  vars:            12                          
  size:           132                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 bp1             int     %3.0f                 1 bp
 pl1             int     %3.0f                 1 pl
@@ -3100,7 +3229,7 @@ pl4             int     %3.0f                 4 pl
 bp5             int     %3.0f                 5 bp
 pl5             int     %3.0f                 5 pl
 age             byte    %3.0f                 Age of person
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id
      Note: Dataset has changed since last saved.
 
@@ -3146,16 +3275,16 @@ Contains data
   obs:            30                          
  vars:             5                          
  size:           210                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trial           byte    %9.0g                 Trial number
 bp              int     %3.0f                 Blood pressure (systolic)
 pl              int     %3.0f                 Pulse
 age             byte    %3.0f                 Age of person
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id  trial
      Note: Dataset has changed since last saved.
 \end{verbatim}
@@ -3204,20 +3333,18 @@ We see that cross-sectional unit 1 has a data entry problem with age in the 3rd 
 \begin{verbatim}
 (note: j = 1 2 3 4 5)
 variable age not constant within id
-    Your data are currently long.  You are performing a reshape wide.  You typed something
-    like
+    Your data are currently long.  You are performing a reshape wide.  You typed something like
 
         . reshape wide a b, i(id) j(trial)
 
-    There are variables other than a, b, id, trial in your data.  They must be constant
-    within id because that is the only way they can fit into wide data without loss of
-    information.
+    There are variables other than a, b, id, trial in your data.  They must be constant within id because that is
+    the only way they can fit into wide data without loss of information.
 
-    The variable or variables listed above are not constant within id.  Perhaps the values
-    are in error.  Type reshape error for a list of the problem observations.
+    The variable or variables listed above are not constant within id.  Perhaps the values are in error.  Type
+    reshape error for a list of the problem observations.
 
-    Either that, or the values vary because they should vary, in which case you must either
-    add the variables to the list of xij variables to be reshaped, or drop them.
+    Either that, or the values vary because they should vary, in which case you must either add the variables to the
+    list of xij variables to be reshaped, or drop them.
 r(9);
 
 r(9);
@@ -3333,10 +3460,10 @@ Contains data from cardio_wide.dta
   obs:             6                          
  vars:            12                          22 Dec 2009 20:43
  size:           120                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 bp1             int     %3.0f                 Blood pressure systolic Trial 1
@@ -3349,7 +3476,7 @@ pl2             byte    %3.0f                 Pulse: Trial 2
 pl3             int     %3.0f                 Pulse: Trial 3
 pl4             int     %3.0f                 Pulse: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 
      +----------------------------------------------------------------------+
@@ -3400,16 +3527,16 @@ Contains data
   obs:            30                          
  vars:             5                          
  size:           210                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trialnum        byte    %9.0g                 
 age             byte    %3.0f                 Age of person
 bp              int     %3.0f                 
 pl              int     %3.0f                 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id  trialnum
      Note: Dataset has changed since last saved.
 
@@ -3458,10 +3585,10 @@ Contains data
   obs:             6                          
  vars:            12                          
  size:           132                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 bp1             int     %3.0f                 1 bp
 pl1             int     %3.0f                 1 pl
@@ -3474,7 +3601,7 @@ pl4             int     %3.0f                 4 pl
 bp5             int     %3.0f                 5 bp
 pl5             int     %3.0f                 5 pl
 age             byte    %3.0f                 Age of person
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id
      Note: Dataset has changed since last saved.
 
@@ -3598,10 +3725,10 @@ Contains data from cardio_wide2.dta
   obs:             6                          
  vars:            12                          31 Dec 2009 15:46
  size:           120                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 t1bp            int     %3.0f                 Blood pressure systolic Trial 1
@@ -3614,14 +3741,13 @@ t2pl            byte    %3.0f                 Pulse: Trial 2
 t3pl            int     %3.0f                 Pulse: Trial 3
 t4pl            int     %3.0f                 Pulse: Trial 4
 t5pl            byte    %3.0f                 Pulse: Trial 5
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 
 
 no xij variables found
     You typed something like reshape wide a b, i(i) j(j).
-    reshape looked for existing variables named a# and b# but could not find any.  Remember
-    this picture:
+    reshape looked for existing variables named a# and b# but could not find any.  Remember this picture:
 
          long                                wide
         +---------------+                   +------------------+
@@ -3666,16 +3792,16 @@ Contains data
   obs:            30                          
  vars:             5                          
  size:           210                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trialnum        byte    %9.0g                 
 age             byte    %3.0f                 Age of person
 tbp             int     %3.0f                 
 tpl             int     %3.0f                 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id  trialnum
      Note: Dataset has changed since last saved.
 
@@ -3749,16 +3875,16 @@ Contains data
   obs:            36                          
  vars:             5                          
  size:           432                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trialnum        int     %9.0g                 
 age             byte    %3.0f                 Age of person
 bp              float   %9.0g                 
 pl              float   %9.0g                 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id  trialnum
      Note: Dataset has changed since last saved.
 
@@ -3815,10 +3941,10 @@ Contains data
   obs:            30                          
  vars:             7                          
  size:           450                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 trialnum        byte    %9.0g                 
 age             byte    %3.0f                 Age of person
@@ -3826,7 +3952,7 @@ bp              int     %3.0f
 bp2005          float   %9.0g                 
 pl              int     %3.0f                 
 pl2005          float   %9.0g                 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id  trialnum
      Note: Dataset has changed since last saved.
 
@@ -3874,10 +4000,10 @@ Contains data from cardio_wide3.dta
   obs:             6                          
  vars:            14                          31 Dec 2009 15:46
  size:           168                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 bp1             int     %3.0f                 Blood pressure systolic Trial 1
@@ -3892,7 +4018,7 @@ pl3             int     %3.0f                 Pulse: Trial 3
 pl4             int     %3.0f                 Pulse: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
 pl2005          float   %9.0g                 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: 
 
 
@@ -3901,10 +4027,10 @@ Contains data from cardio_wide3.dta
   obs:             6                          
  vars:            15                          31 Dec 2009 15:46
  size:           216                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 age             byte    %3.0f                 Age of person
 bp1             int     %3.0f                 Blood pressure systolic Trial 1
@@ -3920,7 +4046,7 @@ pl4             int     %3.0f                 Pulse: Trial 4
 pl5             byte    %3.0f                 Pulse: Trial 5
 pl2005          float   %9.0g                 
 idcode          double  %10.0g                
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: 
      Note: Dataset has changed since last saved.
 
@@ -3940,10 +4066,10 @@ Contains data
   obs:            30                          
  vars:             8                          
  size:           690                          
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
               storage   display    value
 variable name   type    format     label      variable label
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 id              byte    %3.0f                 ID of person
 idcode          double  %10.0g                
 trialnum        byte    %9.0g                 
@@ -3952,7 +4078,7 @@ bp              int     %3.0f
 bp2005          float   %9.0g                 
 pl              int     %3.0f                 
 pl2005          float   %9.0g                 
-----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
 Sorted by: id  idcode  trialnum
      Note: Dataset has changed since last saved.
 
