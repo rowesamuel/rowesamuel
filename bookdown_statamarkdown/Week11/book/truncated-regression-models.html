@@ -4,13 +4,13 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Sample Selection Correction | Week 11: Censored Models and Sample Selection</title>
+  <title>Chapter 2 Truncated Regression Models | Week 11: Censored Models and Sample Selection</title>
   <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
   <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Sample Selection Correction | Week 11: Censored Models and Sample Selection" />
+  <meta property="og:title" content="Chapter 2 Truncated Regression Models | Week 11: Censored Models and Sample Selection" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
@@ -19,7 +19,7 @@ set in the _output.yml file.</p>" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Sample Selection Correction | Week 11: Censored Models and Sample Selection" />
+  <meta name="twitter:title" content="Chapter 2 Truncated Regression Models | Week 11: Censored Models and Sample Selection" />
   
   <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
@@ -36,8 +36,8 @@ set in the _output.yml file.</p>" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="truncated-regression-models.html"/>
-<link rel="next" href="subgroup-functions-part-ii.html"/>
+<link rel="prev" href="censored-models.html"/>
+<link rel="next" href="sample-selection-correction.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -202,138 +202,202 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="sample-selection-correction" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Sample Selection Correction<a href="sample-selection-correction.html#sample-selection-correction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><strong>Lesson: Similar to tobit, when we don’t account for the truncation of the data, or why certain parts of the population are not sampled, we will commit a type of omitted variable bias without our lambda(zy)-hat. We can use a Heckit method for sample selection correction.</strong></p>
-<p>We want to see if there is sample selection bias due to unobservable wage offers
-for non-working women.</p>
-<ol style="list-style-type: decimal">
-<li><p>We need to estimate a logit or probit to test and correct for sample selection bias due to unobserved wage offer for nonworking women. Spousal income, education, experience, age, and number of kids less than 6.
-<span class="math display">\[ ln(wages_{i})=\beta_{0}+ \mathbf{x&#39;\beta} + u_{i} \]</span>
-Where <span class="math inline">\(\mathbf{x}\)</span> is a vector that includes education, experience, and experience squared</p></li>
-<li><p>We use the Heckit command to implement a Heckman Method for sample selection correction.</p></li>
-</ol>
-<p><span class="math display">\[ ln(wages_{i})=\beta_{0}+ \mathbf{x&#39;\beta} +\mathbf{z&#39;\delta} + u_{i} \]</span>
-Where <span class="math inline">\(\mathbf{z}\)</span> is a vector that includes spousal income, education, experience, age, and number of kids less than 6.</p>
-<div id="ols" class="section level2 hasAnchor" number="3.1">
-<h2><span class="header-section-number">3.1</span> OLS<a href="sample-selection-correction.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="sample-selection-correction.html#cb26-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb26-2"><a href="sample-selection-correction.html#cb26-2" tabindex="-1"></a><span class="kw">reg</span> lwage educ exper expersq    </span></code></pre></div>
-<pre><code>      Source |       SS           df       MS      Number of obs   =       428
--------------+----------------------------------   F(3, 424)       =     26.29
-       Model |  35.0222967         3  11.6740989   Prob &gt; F        =    0.0000
-    Residual |  188.305144       424  .444115906   R-squared       =    0.1568
--------------+----------------------------------   Adj R-squared   =    0.1509
-       Total |  223.327441       427  .523015084   Root MSE        =    .66642
+<div id="truncated-regression-models" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Truncated Regression Models<a href="truncated-regression-models.html#truncated-regression-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will again look at the Janurary 2024 Current Population Survey data. However, we will truncate the data at $2884 per week by dropping all observation at or above this threshold.</p>
+<div id="truncated-data" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Truncated Data<a href="truncated-regression-models.html#truncated-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will set the threshold <span class="math inline">\(c_i \geq 2884\)</span>. Every observation at or above this threshold will be dropped.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="truncated-regression-models.html#cb19-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb19-2"><a href="truncated-regression-models.html#cb19-2" tabindex="-1"></a><span class="kw">sum</span> earnings <span class="kw">if</span> prerelg==1, <span class="kw">detail</span></span>
+<span id="cb19-3"><a href="truncated-regression-models.html#cb19-3" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb19-4"><a href="truncated-regression-models.html#cb19-4" tabindex="-1"></a>eststo OLS: <span class="kw">quietly</span> <span class="kw">reg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race <span class="kw">if</span> prerelg==1</span>
+<span id="cb19-5"><a href="truncated-regression-models.html#cb19-5" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> earnings &gt;= 2884</span>
+<span id="cb19-6"><a href="truncated-regression-models.html#cb19-6" tabindex="-1"></a><span class="kw">sum</span> earnings <span class="kw">if</span> prerelg==1, <span class="kw">detail</span></span></code></pre></div>
+<pre><code>                  Weekly Earnings: pternwa
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%           70              0
+ 5%          225              0
+10%          360              0       Obs              10,666
+25%          656              0       Sum of Wgt.      10,666
 
-------------------------------------------------------------------------------
-       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-        educ |   .1074896   .0141465     7.60   0.000     .0796837    .1352956
-       exper |   .0415665   .0131752     3.15   0.002     .0156697    .0674633
-     expersq |  -.0008112   .0003932    -2.06   0.040    -.0015841   -.0000382
-       _cons |  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
-------------------------------------------------------------------------------</code></pre>
-<p><strong>Notice:</strong> an assumption is used to exclude spousal income, age, kids less than 6, and kids greater than 6 from our main regression.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="sample-selection-correction.html#cb28-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
-<pre><code>11.347933</code></pre>
+50%         1000                      Mean           1230.474
+                        Largest       Std. Dev.      788.1457
+75%         1680        2884.61
+90%       2692.3        2884.61       Variance       621173.7
+95%      2884.61        2884.61       Skewness       .7779644
+99%      2884.61        2884.61       Kurtosis       2.648218
+
+
+
+(28,566 observations deleted)
+
+                  Weekly Earnings: pternwa
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%         62.5              0
+ 5%          206              0
+10%          336              0       Obs               9,767
+25%          620              0       Sum of Wgt.       9,767
+
+50%          960                      Mean           1078.221
+                        Largest       Std. Dev.      635.0599
+75%         1450           2880
+90%         2000           2880       Variance       403301.1
+95%         2320           2880       Skewness       .7302792
+99%         2780           2880       Kurtosis       2.975473</code></pre>
+<p>Our largest value is now $2880 weekly earnings, which is just below the threshold.</p>
+<p>Let’s look at a histogram of the truncated weekly earnings.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="truncated-regression-models.html#cb21-1" tabindex="-1"></a><span class="kw">histogram</span> earnings <span class="kw">if</span> prerelg, <span class="bn">title</span>(<span class="st">&quot;Truncated Earnings&quot;</span>) <span class="kw">note</span>(<span class="st">&quot;Source: Current Population Survey&quot;</span>)</span>
+<span id="cb21-2"><a href="truncated-regression-models.html#cb21-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024_trunc.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<p><img src="Week11_jan2024_trunc.png" alt="Histogram of Truncated Weekly Earnings in Jan 2024" />
+We no longer have a spike in density at 2884 like we did with the censored data.</p>
 </div>
-<div id="heckman-method---heckit" class="section level2 hasAnchor" number="3.2">
-<h2><span class="header-section-number">3.2</span> Heckman Method - Heckit<a href="sample-selection-correction.html#heckman-method---heckit" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>We will use a subset of all exogenous variable
-1. What are the factors correlated with being in the labor force?
-2. What is the impact of education and experience on wages</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="sample-selection-correction.html#cb30-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb30-2"><a href="sample-selection-correction.html#cb30-2" tabindex="-1"></a><span class="kw">heckman</span> lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep </span></code></pre></div>
-<pre><code>Heckman selection model -- two-step estimates   Number of obs     =        753
-(regression model with sample selection)        Censored obs      =        325
-                                                Uncensored obs    =        428
+<div id="truncated-regression-models-1" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Truncated Regression Models<a href="truncated-regression-models.html#truncated-regression-models-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Next, we will use the command <em>truncreg</em> and set the option <em>ul()</em> at 2884.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="truncated-regression-models.html#cb22-1" tabindex="-1"></a>eststo Truncated: <span class="kw">truncreg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race, ul(2884)</span></code></pre></div>
+<pre><code>(note: 0 obs. truncated)
 
-                                                Wald chi2(3)      =      51.53
-                                                Prob &gt; chi2       =     0.0000
+Fitting full model:
 
-------------------------------------------------------------------------------
-             |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-lwage        |
-        educ |   .1090655    .015523     7.03   0.000     .0786411      .13949
-       exper |   .0438873   .0162611     2.70   0.007     .0120163    .0757584
-     expersq |  -.0008591   .0004389    -1.96   0.050    -.0017194    1.15e-06
-       _cons |  -.5781032   .3050062    -1.90   0.058    -1.175904     .019698
--------------+----------------------------------------------------------------
-inlf         |
-    nwifeinc |  -.0120237   .0048398    -2.48   0.013    -.0215096   -.0025378
-        educ |   .1309047   .0252542     5.18   0.000     .0814074     .180402
-       exper |   .1233476   .0187164     6.59   0.000     .0866641    .1600311
-     expersq |  -.0018871      .0006    -3.15   0.002     -.003063   -.0007111
-         age |  -.0528527   .0084772    -6.23   0.000    -.0694678   -.0362376
-     kidslt6 |  -.8683285   .1185223    -7.33   0.000    -1.100628    -.636029
-     kidsge6 |    .036005   .0434768     0.83   0.408     -.049208    .1212179
-       _cons |   .2700768    .508593     0.53   0.595    -.7267473    1.266901
--------------+----------------------------------------------------------------
-mills        |
-      lambda |   .0322619   .1336246     0.24   0.809    -.2296376    .2941613
--------------+----------------------------------------------------------------
-         rho |    0.04861
-       sigma |  .66362875
-------------------------------------------------------------------------------</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="sample-selection-correction.html#cb32-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
-<span id="cb32-2"><a href="sample-selection-correction.html#cb32-2" tabindex="-1"></a>eststo OLS: <span class="kw">reg</span> lwage educ exper expersq    </span>
-<span id="cb32-3"><a href="sample-selection-correction.html#cb32-3" tabindex="-1"></a>eststo Heckman: <span class="kw">heckman</span> lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep </span>
-<span id="cb32-4"><a href="sample-selection-correction.html#cb32-4" tabindex="-1"></a>esttab, mtitle</span></code></pre></div>
+Iteration 0:   log likelihood = -9654.7635  
+Iteration 1:   log likelihood = -9654.7551  
+Iteration 2:   log likelihood = -9654.7551  
+
+Truncated regression
+Limit:   lower =       -inf                     Number of obs =   =      9,669
+         upper =       2884                     Wald chi2(17)     =    3276.34
+Log likelihood = -9654.7551                     Prob &gt; chi2       =     0.0000
+
+---------------------------------------------------------------------------------------------------------
+                             lnearnings |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+----------------------------------------+----------------------------------------------------------------
+                                    edu |
+                                HS/GED  |   .3230896   .0276751    11.67   0.000     .2688475    .3773317
+                                    AA  |   .4320131   .0325527    13.27   0.000     .3682109    .4958153
+                                 BS/BA  |   .6971765   .0297669    23.42   0.000     .6388344    .7555186
+                              AdDegree  |   .8088922   .0325213    24.87   0.000     .7451517    .8726327
+                                        |
+                                    exp |    .054815   .0019609    27.95   0.000     .0509716    .0586583
+                                  expsq |  -.0008866   .0000319   -27.81   0.000    -.0009491   -.0008241
+                                        |
+                                marital |
+            Divorced/Separated/Widowed  |  -.0290168   .0206418    -1.41   0.160    -.0694739    .0114404
+                         Never Married  |  -.1028859   .0178986    -5.75   0.000    -.1379665   -.0678053
+                                        |
+                                veteran |
+                               Veteran  |   .0280901   .0322307     0.87   0.383    -.0350809    .0912612
+                                        |
+                                  union |
+                                 Union  |   .1126058   .0223161     5.05   0.000      .068867    .1563446
+                                        |
+                                 female |
+                                Female  |  -.2718903   .0137518   -19.77   0.000    -.2988434   -.2449372
+                                        |
+                         race_ethnicity |
+                              NH Asian  |  -.0426197   .0795044    -0.54   0.592    -.1984454    .1132061
+                              NH Black  |    -.04673   .0774491    -0.60   0.546    -.1985275    .1050674
+NH Native Hawaiian or Pacific Islander  |    .136987   .1278521     1.07   0.284    -.1135985    .3875724
+                  Latino/a or Hispanic  |   .0151638    .076424     0.20   0.843    -.1346244     .164952
+                        NH Multiracial  |   .0275207   .0898433     0.31   0.759     -.148569    .2036103
+                              NH White  |    .035842   .0750013     0.48   0.633    -.1111579    .1828419
+                                        |
+                                  _cons |   5.814378   .0837643    69.41   0.000     5.650203    5.978553
+----------------------------------------+----------------------------------------------------------------
+                                 /sigma |   .6567763   .0047229   139.06   0.000     .6475195    .6660331
+---------------------------------------------------------------------------------------------------------</code></pre>
+<p>We can directly compare our OLS and Truncated Regression Model coefficients.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="truncated-regression-models.html#cb24-1" tabindex="-1"></a>esttab OLS Truncated</span></code></pre></div>
 <pre><code>                      (1)             (2)   
-                      OLS         Heckman   
+                      OLS             TRM   
 --------------------------------------------
 main                                        
-educ                0.107***        0.109***
-                   (7.60)          (7.03)   
+1.edu                   0               0   
+                      (.)             (.)   
 
-exper              0.0416**        0.0439** 
-                   (3.15)          (2.70)   
+2.edu               0.330***        0.323***
+                  (11.77)         (11.67)   
 
-expersq         -0.000811*      -0.000859   
-                  (-2.06)         (-1.96)   
+3.edu               0.442***        0.432***
+                  (13.48)         (13.27)   
 
-_cons              -0.522**        -0.578   
-                  (-2.63)         (-1.90)   
+4.edu               0.788***        0.697***
+                  (26.50)         (23.42)   
+
+5.edu               0.951***        0.809***
+                  (30.01)         (24.87)   
+
+exp                0.0558***       0.0548***
+                  (28.73)         (27.95)   
+
+expsq           -0.000887***    -0.000887***
+                 (-28.27)        (-27.81)   
+
+1.marital               0               0   
+                      (.)             (.)   
+
+2.marital         -0.0389         -0.0290   
+                  (-1.92)         (-1.41)   
+
+3.marital          -0.118***       -0.103***
+                  (-6.66)         (-5.75)   
+
+0.veteran               0               0   
+                      (.)             (.)   
+
+1.veteran          0.0412          0.0281   
+                   (1.34)          (0.87)   
+
+0.union                 0               0   
+                      (.)             (.)   
+
+1.union            0.0670**         0.113***
+                   (3.05)          (5.05)   
+
+0.female                0               0   
+                      (.)             (.)   
+
+1.female           -0.304***       -0.272***
+                 (-22.81)        (-19.77)   
+
+1.race_eth~y            0               0   
+                      (.)             (.)   
+
+2.race_eth~y       0.0325         -0.0426   
+                   (0.41)         (-0.54)   
+
+3.race_eth~y      -0.0466         -0.0467   
+                  (-0.60)         (-0.60)   
+
+4.race_eth~y        0.135           0.137   
+                   (1.05)          (1.07)   
+
+5.race_eth~y       0.0232          0.0152   
+                   (0.30)          (0.20)   
+
+6.race_eth~y       0.0730          0.0275   
+                   (0.82)          (0.31)   
+
+7.race_eth~y       0.0549          0.0358   
+                   (0.73)          (0.48)   
+
+_cons               5.813***        5.814***
+                  (69.47)         (69.41)   
 --------------------------------------------
-inlf                                        
-nwifeinc                          -0.0120*  
-                                  (-2.48)   
-
-educ                                0.131***
-                                   (5.18)   
-
-exper                               0.123***
-                                   (6.59)   
-
-expersq                          -0.00189** 
-                                  (-3.15)   
-
-age                               -0.0529***
-                                  (-6.23)   
-
-kidslt6                            -0.868***
-                                  (-7.33)   
-
-kidsge6                            0.0360   
-                                   (0.83)   
-
-_cons                               0.270   
-                                   (0.53)   
+sigma                                       
+_cons                               0.657***
+                                 (139.06)   
 --------------------------------------------
-mills                                       
-lambda                             0.0323   
-                                   (0.24)   
---------------------------------------------
-N                     428             753   
+N                   10568            9669   
 --------------------------------------------
 t statistics in parentheses
 * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
-<p>There is no real evidence of sample selection bias in the wage offer equation.
-Our lambda-hat is not statistically significant and we fail to reject <span class="math inline">\(H_0: \rho=0\)</span>. Also, we notice very little difference between our OLS and Heckman Method.</p>
-<p><strong>Interpretation:</strong> we will have a similar interpretation to our OLS. We have a log-linear model so our interpretation of the return would be <span class="math inline">\(e^\beta\)</span> or <span class="math inline">\((e^\beta-1)*100\)</span>. Our <span class="math inline">\(\hat{\lambda}\)</span> would be a potential omitted variable, but our example shows that we fail to reject the null hypothesis and selection bias is does not appear to be problematic.</p>
-
+<p><strong>Interpretation</strong>: Our union wage premium is estimated to be <span class="math inline">\(((e^{0.067})-1)*100\% = 6.9\%\)</span> with the OLS estimator, while our union wage premium is estimated to be
+<span class="math inline">\(((e^{0.113})-1)*100\% = 12.0\%\)</span>.</p>
+<p>We can see that our OLS estimates are biased upwards for education and experience, but downward biased for union wage premium.</p>
+<p>Source: <a href="https://stats.oarc.ucla.edu/stata/output/truncated-regression/" class="uri">https://stats.oarc.ucla.edu/stata/output/truncated-regression/</a></p>
 </div>
 </div>
             </section>
@@ -341,8 +405,8 @@ Our lambda-hat is not statistically significant and we fail to reject <span clas
           </div>
         </div>
       </div>
-<a href="truncated-regression-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="subgroup-functions-part-ii.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="censored-models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sample-selection-correction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

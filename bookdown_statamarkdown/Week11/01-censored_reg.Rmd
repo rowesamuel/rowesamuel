@@ -111,6 +111,75 @@ Being a part of the work program increase the duration of time before recidivism
 ```
 Being a felon reduces the duration of time before recidivism, where a felon has as 24% decrease in duration of time before recidivism.
 
+# Truncated Regression Models
+
+We will again look at the Janurary 2024 Current Population Survey data. However, we will truncate the data at $2884 per week by dropping all observation at or above this threshold. 
+
+## Truncated Data
+
+We will set the threshold \(c_i \geq 2884 \). Every observation at or above this threshold will be dropped.
+
+```{stata trun1}
+use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+sum earnings if prerelg==1, detail
+est clear
+eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race if prerelg==1
+drop if earnings >= 2884
+sum earnings if prerelg==1, detail
+```
+
+Our largest value is now $2880 weekly earnings, which is just below the threshold.
+
+Let's look at a histogram of the truncated weekly earnings.
+```{stata trun2, eval=FALSE}
+histogram earnings if prerelg, title("Truncated Earnings") note("Source: Current Population Survey")
+graph export "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024_trunc.png", replace
+```
+![Histogram of Truncated Weekly Earnings in Jan 2024](Week11_jan2024_trunc.png)
+We no longer have a spike in density at 2884 like we did with the censored data.
+
+## Truncated Regression Models
+
+Next, we will use the command *truncreg* and set the option *ul()* at 2884.
+
+```{stata trunc4, eval=FALSE}
+eststo Truncated: truncreg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(2884)
+```
+
+```{stata trunc4_1, echo=FALSE}
+quietly {
+  use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+  drop if earnings >= 2884
+}
+eststo Truncated: truncreg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race if prerelg==1, ul(2884)
+```
+
+We can directly compare our OLS and Truncated Regression Model coefficients.
+
+```{stata trunc5, eval=FALSE}
+esttab OLS Truncated
+```
+
+```{stata trunc5_1, echo=FALSE}
+quietly {
+  use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+  sum earnings if prerelg==1, detail
+  est clear
+  eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race
+  drop if earnings >= 2884
+  eststo Truncated: truncreg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race if prerelg==1, ul(2884)
+
+}
+esttab OLS Truncated, mtitle("OLS" "TRM")
+```
+
+**Interpretation**: Our union wage premium is estimated to be \( ((e^{0.067})-1)*100\% = 6.9\% \) with the OLS estimator, while our union wage premium is estimated to be 
+\( ((e^{0.113})-1)*100\% = 12.0\% \).
+
+We can see that our OLS estimates are biased upwards for education and experience, but downward biased for union wage premium.
+
+Source: https://stats.oarc.ucla.edu/stata/output/truncated-regression/
+
 # Sample Selection Correction
 **Lesson: Similar to tobit, when we don't account for the truncation of the data, or why certain parts of the population are not sampled, we will commit a type of omitted variable bias without our lambda(zy)-hat. We can use a Heckit method for sample selection correction.**
 
