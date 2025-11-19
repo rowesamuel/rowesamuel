@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe adapted from Wooldridge (2011), Mitchell (2020), and UCLA OARC (2025)" />
 
 
-<meta name="date" content="2025-11-11" />
+<meta name="date" content="2025-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -208,12 +208,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="truncated-data" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Truncated Data<a href="truncated-regression-models.html#truncated-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will set the threshold <span class="math inline">\(c_i \geq 2884\)</span>. Every observation at or above this threshold will be dropped.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="truncated-regression-models.html#cb19-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb19-2"><a href="truncated-regression-models.html#cb19-2" tabindex="-1"></a><span class="kw">sum</span> earnings <span class="kw">if</span> prerelg==1, <span class="kw">detail</span></span>
-<span id="cb19-3"><a href="truncated-regression-models.html#cb19-3" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
-<span id="cb19-4"><a href="truncated-regression-models.html#cb19-4" tabindex="-1"></a>eststo OLS: <span class="kw">quietly</span> <span class="kw">reg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race <span class="kw">if</span> prerelg==1</span>
-<span id="cb19-5"><a href="truncated-regression-models.html#cb19-5" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> earnings &gt;= 2884</span>
-<span id="cb19-6"><a href="truncated-regression-models.html#cb19-6" tabindex="-1"></a><span class="kw">sum</span> earnings <span class="kw">if</span> prerelg==1, <span class="kw">detail</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="truncated-regression-models.html#cb21-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb21-2"><a href="truncated-regression-models.html#cb21-2" tabindex="-1"></a><span class="kw">sum</span> earnings <span class="kw">if</span> prerelg==1, <span class="kw">detail</span></span>
+<span id="cb21-3"><a href="truncated-regression-models.html#cb21-3" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb21-4"><a href="truncated-regression-models.html#cb21-4" tabindex="-1"></a>eststo OLS: <span class="kw">quietly</span> <span class="kw">reg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race <span class="kw">if</span> prerelg==1</span>
+<span id="cb21-5"><a href="truncated-regression-models.html#cb21-5" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> earnings &gt;= 2884</span>
+<span id="cb21-6"><a href="truncated-regression-models.html#cb21-6" tabindex="-1"></a><span class="kw">sum</span> earnings <span class="kw">if</span> prerelg==1, <span class="kw">detail</span></span></code></pre></div>
 <pre><code>                  Weekly Earnings: pternwa
 -------------------------------------------------------------
       Percentiles      Smallest
@@ -249,15 +249,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 99%         2780           2880       Kurtosis       2.975473</code></pre>
 <p>Our largest value is now $2880 weekly earnings, which is just below the threshold.</p>
 <p>Let’s look at a histogram of the truncated weekly earnings.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="truncated-regression-models.html#cb21-1" tabindex="-1"></a><span class="kw">histogram</span> earnings <span class="kw">if</span> prerelg, <span class="bn">title</span>(<span class="st">&quot;Truncated Earnings&quot;</span>) <span class="kw">note</span>(<span class="st">&quot;Source: Current Population Survey&quot;</span>)</span>
-<span id="cb21-2"><a href="truncated-regression-models.html#cb21-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024_trunc.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="truncated-regression-models.html#cb23-1" tabindex="-1"></a><span class="kw">histogram</span> earnings <span class="kw">if</span> prerelg, <span class="bn">title</span>(<span class="st">&quot;Truncated Earnings&quot;</span>) <span class="kw">note</span>(<span class="st">&quot;Source: Current Population Survey&quot;</span>)</span>
+<span id="cb23-2"><a href="truncated-regression-models.html#cb23-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024_trunc.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
 <p><img src="Week11_jan2024_trunc.png" alt="Histogram of Truncated Weekly Earnings in Jan 2024" />
 We no longer have a spike in density at 2884 like we did with the censored data.</p>
 </div>
 <div id="truncated-regression-models-1" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Truncated Regression Models<a href="truncated-regression-models.html#truncated-regression-models-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Next, we will use the command <em>truncreg</em> and set the option <em>ul()</em> at 2884.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="truncated-regression-models.html#cb22-1" tabindex="-1"></a>eststo Truncated: <span class="kw">truncreg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race, ul(2884)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="truncated-regression-models.html#cb24-1" tabindex="-1"></a>eststo Truncated: <span class="kw">truncreg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race, ul(2884)</span></code></pre></div>
 <pre><code>(note: 0 obs. truncated)
 
 Fitting full model:
@@ -309,7 +309,7 @@ NH Native Hawaiian or Pacific Islander  |    .136987   .1278521     1.07   0.284
                                  /sigma |   .6567763   .0047229   139.06   0.000     .6475195    .6660331
 ---------------------------------------------------------------------------------------------------------</code></pre>
 <p>We can directly compare our OLS and Truncated Regression Model coefficients.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="truncated-regression-models.html#cb24-1" tabindex="-1"></a>esttab OLS Truncated</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="truncated-regression-models.html#cb26-1" tabindex="-1"></a>esttab OLS Truncated</span></code></pre></div>
 <pre><code>                      (1)             (2)   
                       OLS             TRM   
 --------------------------------------------

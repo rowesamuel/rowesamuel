@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe adapted from Wooldridge (2011), Mitchell (2020), and UCLA OARC (2025)" />
 
 
-<meta name="date" content="2025-11-11" />
+<meta name="date" content="2025-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -217,8 +217,8 @@ Where <span class="math inline">\(\mathbf{x}\)</span> is a vector that includes 
 Where <span class="math inline">\(\mathbf{z}\)</span> is a vector that includes spousal income, education, experience, age, and number of kids less than 6.</p>
 <div id="ols" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> OLS<a href="sample-selection-correction.html#ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="sample-selection-correction.html#cb26-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb26-2"><a href="sample-selection-correction.html#cb26-2" tabindex="-1"></a><span class="kw">reg</span> lwage educ exper expersq    </span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="sample-selection-correction.html#cb28-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb28-2"><a href="sample-selection-correction.html#cb28-2" tabindex="-1"></a><span class="kw">reg</span> lwage educ exper expersq    </span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =       428
 -------------+----------------------------------   F(3, 424)       =     26.29
        Model |  35.0222967         3  11.6740989   Prob &gt; F        =    0.0000
@@ -235,7 +235,7 @@ Where <span class="math inline">\(\mathbf{z}\)</span> is a vector that includes 
        _cons |  -.5220406   .1986321    -2.63   0.009    -.9124667   -.1316144
 ------------------------------------------------------------------------------</code></pre>
 <p><strong>Notice:</strong> an assumption is used to exclude spousal income, age, kids less than 6, and kids greater than 6 from our main regression.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="sample-selection-correction.html#cb28-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="sample-selection-correction.html#cb30-1" tabindex="-1"></a><span class="kw">display</span> (<span class="fu">exp</span>(_b[educ])-1)*100</span></code></pre></div>
 <pre><code>11.347933</code></pre>
 </div>
 <div id="heckman-method---heckit" class="section level2 hasAnchor" number="3.2">
@@ -243,8 +243,8 @@ Where <span class="math inline">\(\mathbf{z}\)</span> is a vector that includes 
 <p>We will use a subset of all exogenous variable
 1. What are the factors correlated with being in the labor force?
 2. What is the impact of education and experience on wages</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="sample-selection-correction.html#cb30-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb30-2"><a href="sample-selection-correction.html#cb30-2" tabindex="-1"></a><span class="kw">heckman</span> lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep </span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="sample-selection-correction.html#cb32-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/mroz.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb32-2"><a href="sample-selection-correction.html#cb32-2" tabindex="-1"></a><span class="kw">heckman</span> lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep </span></code></pre></div>
 <pre><code>Heckman selection model -- two-step estimates   Number of obs     =        753
 (regression model with sample selection)        Censored obs      =        325
                                                 Uncensored obs    =        428
@@ -277,10 +277,10 @@ mills        |
          rho |    0.04861
        sigma |  .66362875
 ------------------------------------------------------------------------------</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="sample-selection-correction.html#cb32-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
-<span id="cb32-2"><a href="sample-selection-correction.html#cb32-2" tabindex="-1"></a>eststo OLS: <span class="kw">reg</span> lwage educ exper expersq    </span>
-<span id="cb32-3"><a href="sample-selection-correction.html#cb32-3" tabindex="-1"></a>eststo Heckman: <span class="kw">heckman</span> lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep </span>
-<span id="cb32-4"><a href="sample-selection-correction.html#cb32-4" tabindex="-1"></a>esttab, mtitle</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb34-1"><a href="sample-selection-correction.html#cb34-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb34-2"><a href="sample-selection-correction.html#cb34-2" tabindex="-1"></a>eststo OLS: <span class="kw">reg</span> lwage educ exper expersq    </span>
+<span id="cb34-3"><a href="sample-selection-correction.html#cb34-3" tabindex="-1"></a>eststo Heckman: <span class="kw">heckman</span> lwage educ exper expersq, select(inlf=nwifeinc educ exper expersq age kidslt6 kidsge6) twostep </span>
+<span id="cb34-4"><a href="sample-selection-correction.html#cb34-4" tabindex="-1"></a>esttab, mtitle</span></code></pre></div>
 <pre><code>                      (1)             (2)   
                       OLS         Heckman   
 --------------------------------------------

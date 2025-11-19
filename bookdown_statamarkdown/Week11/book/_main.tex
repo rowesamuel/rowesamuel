@@ -118,7 +118,7 @@
 
 \title{Week 11: Censored Models and Sample Selection}
 \author{Samuel Rowe adapted from Wooldridge (2011), Mitchell (2020), and UCLA OARC (2025)}
-\date{2025-11-11}
+\date{2025-11-19}
 
 \begin{document}
 \maketitle
@@ -234,11 +234,10 @@ We'll need to use the option, \emph{ul(right-censored-value)} with our Tobit est
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{est} \KeywordTok{clear}
-\NormalTok{eststo OLS: }\KeywordTok{quietly} \KeywordTok{reg}\NormalTok{ lnearnings i.edu }\FunctionTok{exp}\NormalTok{ expsq i.marital i.veteran i.}\KeywordTok{union}\NormalTok{ i.female i.race}
-\NormalTok{eststo Tobit: }\KeywordTok{quietly} \KeywordTok{tobit}\NormalTok{ lnearnings i.edu }\FunctionTok{exp}\NormalTok{ expsq i.marital i.veteran i.}\KeywordTok{union}\NormalTok{ i.female i.race, ul(}\OtherTok{\textasciigrave{}maxval\textquotesingle{}}\NormalTok{)}
-
-\NormalTok{esttab OLS Tobit, }\KeywordTok{drop}\NormalTok{(0.* 1.race* 1.mar* 1.edu) mtitle(}\StringTok{"OLS"} \StringTok{"Tobit"}\NormalTok{)}
+\KeywordTok{sum}\NormalTok{ lnearnings, }\KeywordTok{detail}
+\FunctionTok{return} \OtherTok{list}
+\KeywordTok{local}\NormalTok{ maxval }\OtherTok{\textasciigrave{}r(max)\textquotesingle{}}
+\KeywordTok{tobit}\NormalTok{ lnearnings i.edu }\FunctionTok{exp}\NormalTok{ expsq i.marital i.veteran i.}\KeywordTok{union}\NormalTok{ i.female i.race, ul(}\OtherTok{\textasciigrave{}maxval\textquotesingle{}}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -282,10 +281,66 @@ scalars:
 
 
 
+Tobit regression                                Number of obs     =     10,568
+                                                LR chi2(17)       =    3843.62
+                                                Prob > chi2       =     0.0000
+Log likelihood = -11364.619                     Pseudo R2         =     0.1446
 
+---------------------------------------------------------------------------------------------------------
+                             lnearnings |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+----------------------------------------+----------------------------------------------------------------
+                                    edu |
+                                HS/GED  |   .3303562   .0299199    11.04   0.000     .2717075    .3890048
+                                    AA  |    .444737   .0351051    12.67   0.000     .3759243    .5135497
+                                 BS/BA  |    .831706   .0318545    26.11   0.000     .7692652    .8941468
+                              AdDegree  |   1.046186    .034142    30.64   0.000     .9792607     1.11311
+                                        |
+                                    exp |   .0575487    .002085    27.60   0.000     .0534617    .0616356
+                                  expsq |  -.0009113   .0000337   -27.03   0.000    -.0009774   -.0008452
+                                        |
+                                marital |
+            Divorced/Separated/Widowed  |  -.0461827   .0217659    -2.12   0.034    -.0888481   -.0035173
+                         Never Married  |   -.129934   .0189855    -6.84   0.000    -.1671492   -.0927189
+                                        |
+                                veteran |
+                               Veteran  |    .042753   .0333981     1.28   0.201    -.0227135    .1082196
+                                        |
+                                  union |
+                                 Union  |   .0448454   .0236468     1.90   0.058    -.0015067    .0911975
+                                        |
+                                 female |
+                                Female  |  -.3347149   .0143948   -23.25   0.000    -.3629314   -.3064983
+                                        |
+                         race_ethnicity |
+                              NH Asian  |   .0550537   .0846217     0.65   0.515    -.1108209    .2209282
+                              NH Black  |  -.0576148   .0829774    -0.69   0.487    -.2202662    .1050365
+NH Native Hawaiian or Pacific Islander  |   .1314362   .1374275     0.96   0.339    -.1379477      .40082
+                  Latino/a or Hispanic  |   .0166878   .0818777     0.20   0.839     -.143808    .1771836
+                        NH Multiracial  |   .0902634   .0954831     0.95   0.345    -.0969015    .2774284
+                              NH White  |   .0553029   .0803465     0.69   0.491    -.1021914    .2127972
+                                        |
+                                  _cons |   5.817179   .0897475    64.82   0.000     5.641257    5.993101
+----------------------------------------+----------------------------------------------------------------
+                                 /sigma |   .7138391   .0052104                      .7036258    .7240524
+---------------------------------------------------------------------------------------------------------
+             0  left-censored observations
+         9,690     uncensored observations
+           878 right-censored observations at lnearnings >= 7.967145
+\end{verbatim}
 
+We will compare OLS to the Censored Regression Model
 
---------------------------------------------
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{est} \KeywordTok{clear}
+\NormalTok{eststo OLS: }\KeywordTok{quietly} \KeywordTok{reg}\NormalTok{ lnearnings i.edu }\FunctionTok{exp}\NormalTok{ expsq i.marital i.veteran i.}\KeywordTok{union}\NormalTok{ i.female i.race}
+\NormalTok{eststo Tobit: }\KeywordTok{quietly} \KeywordTok{tobit}\NormalTok{ lnearnings i.edu }\FunctionTok{exp}\NormalTok{ expsq i.marital i.veteran i.}\KeywordTok{union}\NormalTok{ i.female i.race, ul(}\OtherTok{\textasciigrave{}maxval\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{esttab OLS Tobit, }\KeywordTok{drop}\NormalTok{(0.* 1.race* 1.mar* 1.edu) mtitle(}\StringTok{"OLS"} \StringTok{"Tobit"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
                       (1)             (2)   
                       OLS           Tobit   
 --------------------------------------------

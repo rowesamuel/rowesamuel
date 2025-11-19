@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe adapted from Wooldridge (2011), Mitchell (2020), and UCLA OARC (2025)" />
 
 
-<meta name="date" content="2025-11-11" />
+<meta name="date" content="2025-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -261,11 +261,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 We’ll estimate the following Mincer Equation.
 <span class="math display">\[ ln(wwages_{i})=\beta_{0} + \beta_{1} edu_{i} + \beta_{2} exp + \beta_{3} exp^2 \beta_{4} marital_{i} + \beta_{5} veteran_{i} + \beta_{6} union_{i} + \beta_{7} female_{i} + \beta_{8} race_{i} + u_{i} \]</span>
 We’ll need to use the option, <em>ul(right-censored-value)</em> with our Tobit estimator.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="censored-models.html#cb6-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
-<span id="cb6-2"><a href="censored-models.html#cb6-2" tabindex="-1"></a>eststo OLS: <span class="kw">quietly</span> <span class="kw">reg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race</span>
-<span id="cb6-3"><a href="censored-models.html#cb6-3" tabindex="-1"></a>eststo Tobit: <span class="kw">quietly</span> <span class="kw">tobit</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race, ul(<span class="ot">`maxval&#39;</span>)</span>
-<span id="cb6-4"><a href="censored-models.html#cb6-4" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="censored-models.html#cb6-5" tabindex="-1"></a>esttab OLS Tobit, <span class="kw">drop</span>(0.* 1.race* 1.mar* 1.edu) mtitle(<span class="st">&quot;OLS&quot;</span> <span class="st">&quot;Tobit&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="censored-models.html#cb6-1" tabindex="-1"></a><span class="kw">sum</span> lnearnings, <span class="kw">detail</span></span>
+<span id="cb6-2"><a href="censored-models.html#cb6-2" tabindex="-1"></a><span class="fu">return</span> <span class="ot">list</span></span>
+<span id="cb6-3"><a href="censored-models.html#cb6-3" tabindex="-1"></a><span class="kw">local</span> maxval <span class="ot">`r(max)&#39;</span></span>
+<span id="cb6-4"><a href="censored-models.html#cb6-4" tabindex="-1"></a><span class="kw">tobit</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race, ul(<span class="ot">`maxval&#39;</span>)</span></code></pre></div>
 <pre><code>               Natural Log of Weekly Earnings
 -------------------------------------------------------------
       Percentiles      Smallest
@@ -305,11 +304,58 @@ scalars:
 
 
 
+Tobit regression                                Number of obs     =     10,568
+                                                LR chi2(17)       =    3843.62
+                                                Prob &gt; chi2       =     0.0000
+Log likelihood = -11364.619                     Pseudo R2         =     0.1446
 
-
-
---------------------------------------------
-                      (1)             (2)   
+---------------------------------------------------------------------------------------------------------
+                             lnearnings |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+----------------------------------------+----------------------------------------------------------------
+                                    edu |
+                                HS/GED  |   .3303562   .0299199    11.04   0.000     .2717075    .3890048
+                                    AA  |    .444737   .0351051    12.67   0.000     .3759243    .5135497
+                                 BS/BA  |    .831706   .0318545    26.11   0.000     .7692652    .8941468
+                              AdDegree  |   1.046186    .034142    30.64   0.000     .9792607     1.11311
+                                        |
+                                    exp |   .0575487    .002085    27.60   0.000     .0534617    .0616356
+                                  expsq |  -.0009113   .0000337   -27.03   0.000    -.0009774   -.0008452
+                                        |
+                                marital |
+            Divorced/Separated/Widowed  |  -.0461827   .0217659    -2.12   0.034    -.0888481   -.0035173
+                         Never Married  |   -.129934   .0189855    -6.84   0.000    -.1671492   -.0927189
+                                        |
+                                veteran |
+                               Veteran  |    .042753   .0333981     1.28   0.201    -.0227135    .1082196
+                                        |
+                                  union |
+                                 Union  |   .0448454   .0236468     1.90   0.058    -.0015067    .0911975
+                                        |
+                                 female |
+                                Female  |  -.3347149   .0143948   -23.25   0.000    -.3629314   -.3064983
+                                        |
+                         race_ethnicity |
+                              NH Asian  |   .0550537   .0846217     0.65   0.515    -.1108209    .2209282
+                              NH Black  |  -.0576148   .0829774    -0.69   0.487    -.2202662    .1050365
+NH Native Hawaiian or Pacific Islander  |   .1314362   .1374275     0.96   0.339    -.1379477      .40082
+                  Latino/a or Hispanic  |   .0166878   .0818777     0.20   0.839     -.143808    .1771836
+                        NH Multiracial  |   .0902634   .0954831     0.95   0.345    -.0969015    .2774284
+                              NH White  |   .0553029   .0803465     0.69   0.491    -.1021914    .2127972
+                                        |
+                                  _cons |   5.817179   .0897475    64.82   0.000     5.641257    5.993101
+----------------------------------------+----------------------------------------------------------------
+                                 /sigma |   .7138391   .0052104                      .7036258    .7240524
+---------------------------------------------------------------------------------------------------------
+             0  left-censored observations
+         9,690     uncensored observations
+           878 right-censored observations at lnearnings &gt;= 7.967145</code></pre>
+<p>We will compare OLS to the Censored Regression Model</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="censored-models.html#cb8-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb8-2"><a href="censored-models.html#cb8-2" tabindex="-1"></a>eststo OLS: <span class="kw">quietly</span> <span class="kw">reg</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race</span>
+<span id="cb8-3"><a href="censored-models.html#cb8-3" tabindex="-1"></a>eststo Tobit: <span class="kw">quietly</span> <span class="kw">tobit</span> lnearnings i.edu <span class="fu">exp</span> expsq i.marital i.veteran i.<span class="kw">union</span> i.female i.race, ul(<span class="ot">`maxval&#39;</span>)</span>
+<span id="cb8-4"><a href="censored-models.html#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="censored-models.html#cb8-5" tabindex="-1"></a>esttab OLS Tobit, <span class="kw">drop</span>(0.* 1.race* 1.mar* 1.edu) mtitle(<span class="st">&quot;OLS&quot;</span> <span class="st">&quot;Tobit&quot;</span>)</span></code></pre></div>
+<pre><code>                      (1)             (2)   
                       OLS           Tobit   
 --------------------------------------------
 main                                        
@@ -390,11 +436,11 @@ These observations are censored. The censoring times differed among inmates
 ranging from 70 to 81 months.</p>
 <p>Our dependent variable duration (time in months) is transformed by natural logarithm.
 We have a bunch of observations that recidivate between 70 and 81 months.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="censored-models.html#cb8-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb8-2"><a href="censored-models.html#cb8-2" tabindex="-1"></a><span class="kw">tab</span> durat</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="censored-models.html#cb10-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb10-2"><a href="censored-models.html#cb10-2" tabindex="-1"></a><span class="kw">tab</span> durat</span></code></pre></div>
 <p>We have a bunch of observations that are censored after 69 months (but not all)</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="censored-models.html#cb9-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb9-2"><a href="censored-models.html#cb9-2" tabindex="-1"></a><span class="kw">tab</span> durat cens</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="censored-models.html#cb11-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb11-2"><a href="censored-models.html#cb11-2" tabindex="-1"></a><span class="kw">tab</span> durat cens</span></code></pre></div>
 <pre><code>           |         cens
      durat |         0          1 |     Total
 -----------+----------------------+----------
@@ -481,8 +527,8 @@ We have a bunch of observations that recidivate between 70 and 81 months.</p>
 -----------+----------------------+----------
      Total |       552        893 |     1,445 </code></pre>
 <p>We’ll use the <em>stset</em> command and set failure at cens==0. We’ll use the <em>stset</em> command to time set survival.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="censored-models.html#cb11-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
-<span id="cb11-2"><a href="censored-models.html#cb11-2" tabindex="-1"></a><span class="kw">stset</span> ldurat, failure(cens==0)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="censored-models.html#cb13-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge/recid.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb13-2"><a href="censored-models.html#cb13-2" tabindex="-1"></a><span class="kw">stset</span> ldurat, failure(cens==0)</span></code></pre></div>
 <pre><code>     failure event:  cens == 0
 obs. time interval:  (0, ldurat]
  exit on or before:  failure
@@ -500,7 +546,7 @@ obs. time interval:  (0, ldurat]
 <p>We’ll use the <em>streg</em> command and set the distribution</p>
 <p><span class="math display">\[ ldurat_i = \alpha + =\delta workprg_i + \beta_2 tserved_i + \beta_3 felon_i + \beta_4 alcohol_i + \beta_5 drugs_i + \beta_6 educ_i + x&#39;_i \gamma + \varepsilon_i\]</span>
 Where <span class="math inline">\(x&#39;\)</span> are demographics of race, marital status, and age.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="censored-models.html#cb13-1" tabindex="-1"></a><span class="kw">streg</span> workprg priors tserved felon alcohol drugs <span class="bn">black</span> married educ age, dist(<span class="kw">weibull</span>) nohr</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="censored-models.html#cb15-1" tabindex="-1"></a><span class="kw">streg</span> workprg priors tserved felon alcohol drugs <span class="bn">black</span> married educ age, dist(<span class="kw">weibull</span>) nohr</span></code></pre></div>
 <pre><code>     failure event:  cens == 0
 obs. time interval:  (0, ldurat]
  exit on or before:  failure
@@ -566,10 +612,10 @@ Log likelihood  =   -1000.5919                  Prob &gt; chi2      =      0.000
 ------------------------------------------------------------------------------</code></pre>
 <p><strong>Interpretation:</strong>
 Given the log-linear function form, we can easily determine the estimated percent change in duration before criminal recidivism.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="censored-models.html#cb15-1" tabindex="-1"></a>    <span class="kw">display</span> (<span class="fu">exp</span>(.0780722)-1)*100</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="censored-models.html#cb17-1" tabindex="-1"></a>    <span class="kw">display</span> (<span class="fu">exp</span>(.0780722)-1)*100</span></code></pre></div>
 <pre><code>8.1200719</code></pre>
 <p>Being a part of the work program increase the duration of time before recidivism, but it is not statistically significant.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="censored-models.html#cb17-1" tabindex="-1"></a>    <span class="kw">display</span> (<span class="fu">exp</span>(-.287139)-1)*100</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="censored-models.html#cb19-1" tabindex="-1"></a>    <span class="kw">display</span> (<span class="fu">exp</span>(-.287139)-1)*100</span></code></pre></div>
 <pre><code>-24.959259</code></pre>
 <p>Being a felon reduces the duration of time before recidivism, where a felon has as 24% decrease in duration of time before recidivism.</p>
 </div>
