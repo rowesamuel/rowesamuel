@@ -29,18 +29,22 @@ $$ ln(wwages_{i})=\beta_{0} + \beta_{1} edu_{i} + \beta_{2} exp + \beta_{3} exp^
 We'll need to use the option, *ul(right-censored-value)* with our Tobit estimator.
 
 ```{stata, eval=FALSE}
-est clear
-eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race
-eststo Tobit: quietly tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
-
-esttab OLS Tobit, drop(0.* 1.race* 1.mar* 1.edu) mtitle("OLS" "Tobit")
-```
-
-```{stata censored_ols, echo=FALSE}
-use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
 sum lnearnings, detail
 return list
 local maxval `r(max)'
+tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
+```
+
+```{stata censored_ols, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+sum lnearnings, detail
+return list
+local maxval `r(max)'
+tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
+```
+
+We will compare OLS to the Censored Regression Model
+```{stata censored_ols_1, eval=FALSE}
 est clear
 eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race
 eststo Tobit: quietly tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
@@ -48,6 +52,19 @@ eststo Tobit: quietly tobit lnearnings i.edu exp expsq i.marital i.veteran i.uni
 esttab OLS Tobit, drop(0.* 1.race* 1.mar* 1.edu) mtitle("OLS" "Tobit")
 ```
 
+```{stata censored_ols_11, echo=FALSE}
+quietly {
+  use "/Users/Sam/Desktop/Econ 645/Data/CPS/jan2024.dta", clear
+  sum lnearnings, detail
+  return list
+  local maxval `r(max)'
+}
+est clear
+eststo OLS: quietly reg lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race
+eststo Tobit: quietly tobit lnearnings i.edu exp expsq i.marital i.veteran i.union i.female i.race, ul(`maxval')
+
+esttab OLS Tobit, drop(0.* 1.race* 1.mar* 1.edu) mtitle("OLS" "Tobit")
+```
 **Interpretation** A very similar interpretation to OLS, but we need normality and homoskedasticity for unbiased estimator. We can use a log-linear interpretation without a scaling factor, so the returns to education would only require \((e^\beta -1)*100\) interpretation.
 
 ## Censored Regression Model - Duration analysis
