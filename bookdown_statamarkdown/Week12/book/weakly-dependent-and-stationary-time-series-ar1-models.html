@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe adapted from Wooldridge (2011)" />
 
 
-<meta name="date" content="2025-09-19" />
+<meta name="date" content="2025-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -198,9 +198,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We’ll test the a version of the efficient market hypothesis (EMH) by looking
 at weekly stock return from 1976 to 1989.</p>
 <p>Set Time Series</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb43-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb43-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb43-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb43-2" tabindex="-1"></a><span class="kw">use</span> nyse, <span class="kw">clear</span></span>
-<span id="cb43-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb43-3" tabindex="-1"></a><span class="kw">tsset</span> t, <span class="fu">weekly</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb46-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb46-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb46-2" tabindex="-1"></a><span class="kw">use</span> nyse, <span class="kw">clear</span></span>
+<span id="cb46-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb46-3" tabindex="-1"></a><span class="kw">tsset</span> t, <span class="fu">weekly</span></span></code></pre></div>
 <pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
 
         time variable:  t, 1960w2 to 1973w16
@@ -213,13 +213,13 @@ week t should not help to predict the return during week t.
 beta for y_(t-1) will be equal to 0. We’ll assume that stock returns are
 serially uncorrelated, so we can safetly assume that they are weakly dependent.</p>
 <p><span class="math display">\[ return_t = \beta_0 + \rho return_{t-1} + e_t \]</span></p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb45-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb45-1" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">return</span> <span class="ot">l</span>.<span class="fu">return</span></span>
-<span id="cb45-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb45-2" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb45-3" tabindex="-1"></a>*Or</span>
-<span id="cb45-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb45-4" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">return</span> return_1</span>
-<span id="cb45-5"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb45-5" tabindex="-1"></a><span class="kw">predict</span> u, <span class="kw">resid</span></span>
-<span id="cb45-6"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb45-6" tabindex="-1"></a><span class="kw">reg</span> u <span class="ot">l</span>.u, noconst</span>
-<span id="cb45-7"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb45-7" tabindex="-1"></a><span class="kw">drop</span> u</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb48-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb48-1" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">return</span> <span class="ot">l</span>.<span class="fu">return</span></span>
+<span id="cb48-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb48-2" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb48-3" tabindex="-1"></a>*Or</span>
+<span id="cb48-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb48-4" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">return</span> return_1</span>
+<span id="cb48-5"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb48-5" tabindex="-1"></a><span class="kw">predict</span> u, <span class="kw">resid</span></span>
+<span id="cb48-6"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb48-6" tabindex="-1"></a><span class="kw">reg</span> u <span class="ot">l</span>.u, noconst</span>
+<span id="cb48-7"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb48-7" tabindex="-1"></a><span class="kw">drop</span> u</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =       689
 -------------+----------------------------------   F(1, 687)       =      2.40
        Model |  10.6866231         1  10.6866231   Prob &gt; F        =    0.1218
@@ -272,17 +272,17 @@ evidence of positive serial correlation.</p>
 <h2><span class="header-section-number">5.2</span> Expected Augmented Phillips Curve<a href="weakly-dependent-and-stationary-time-series-ar1-models.html#expected-augmented-phillips-curve" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We’ll revisit the Phillips curve</p>
 <p>Set Time Series</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb47-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb47-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span>    </span>
-<span id="cb47-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb47-2" tabindex="-1"></a><span class="kw">use</span> phillips.dta, <span class="kw">clear</span></span>
-<span id="cb47-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb47-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb50-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb50-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span>    </span>
+<span id="cb50-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb50-2" tabindex="-1"></a><span class="kw">use</span> phillips.dta, <span class="kw">clear</span></span>
+<span id="cb50-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb50-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span></span></code></pre></div>
 <pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
 
         time variable:  year, 1948 to 2003
                 delta:  1 unit</code></pre>
 <p>A linear version of the expections augmented Phillips curve can be written as
 <span class="math display">\[ inf_t - inf^e_t=\beta_1(unemp_t-\mu_0) + e_t \]</span></p>
-<p>Where <span class="math inline">\(mu_0\)</span> is the natural rate of unemployment and inf^e is the expected rate
-of inflation formed in year t-1.
+<p>Where <span class="math inline">\(mu_0\)</span> is the natural rate of unemployment and <span class="math inline">\(inf^e\)</span> is the expected rate
+of inflation formed in year <span class="math inline">\(t-1\)</span>.
 The difference between actual unemployment and the natural rate is called
 cyclical unemployment, while the difference between inflation and expected
 inflation is called unanticipated inflation
@@ -297,15 +297,15 @@ The expected inflation will be assumed to be equal to last years inflation
 <p>Where
 <span class="math display">\[ \Delta inf_t=inf_t - inf_{t-1} \]</span>
 <span class="math display">\[ \beta_0 = -\beta_1 \mu_0 \]</span>
-Since beta_1 is expected to be negative and beta_0 is expected to be positive.</p>
+Since <span class="math inline">\(beta_1\)</span> is expected to be negative and <span class="math inline">\(beta_0\)</span> is expected to be positive.</p>
 <p>Therefore, under adaptive expectations, the augmented Phillips curve relates the
 change in inflation to the level of unemployment and a supply shock e_t.
 We’ll assume assumptions TSC.1-TSC.5 hold.</p>
 <p>First Difference in the dependent variable or adaptive expectations of inflation.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb49-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb49-1" tabindex="-1"></a><span class="kw">reg</span> cinf unem <span class="kw">if</span> <span class="fu">year</span> &lt; 1997</span>
-<span id="cb49-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb49-2" tabindex="-1"></a></span>
-<span id="cb49-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb49-3" tabindex="-1"></a>*<span class="kw">or</span></span>
-<span id="cb49-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb49-4" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.inf unem <span class="kw">if</span> <span class="fu">year</span> &lt; 1997</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb52-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb52-1" tabindex="-1"></a><span class="kw">reg</span> cinf unem <span class="kw">if</span> <span class="fu">year</span> &lt; 1997</span>
+<span id="cb52-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb52-2" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb52-3" tabindex="-1"></a>*<span class="kw">or</span></span>
+<span id="cb52-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb52-4" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.inf unem <span class="kw">if</span> <span class="fu">year</span> &lt; 1997</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =        48
 -------------+----------------------------------   F(1, 46)        =      5.56
        Model |  33.3830007         1  33.3830007   Prob &gt; F        =    0.0227
@@ -339,14 +339,14 @@ inflation by about .54 points.</p>
 <p>We can estimate the natural rate of unemployment by dividing <span class="math inline">\(\hat{beta_0}\)</span> by
 negative of <span class="math inline">\(\hat{beta_1}\)</span></p>
 <p><span class="math display">\[ \mu_{0} = \hat{\beta}_{0} / - \hat{\beta}_{1} \]</span></p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb51-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb51-1" tabindex="-1"></a><span class="kw">display</span> 3.03/.5425</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb54-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb54-1" tabindex="-1"></a><span class="kw">display</span> 3.03/.5425</span></code></pre></div>
 <pre><code>5.5852535</code></pre>
 <p>Plot the graph.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb53-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb53-1" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> cinf <span class="fu">year</span> || <span class="kw">line</span> unem <span class="fu">year</span>, lpattern(<span class="kw">dash</span>) <span class="co">///</span></span>
-<span id="cb53-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb53-2" tabindex="-1"></a>    <span class="bn">legend</span>(<span class="kw">order</span>(1 <span class="st">&quot;Difference in Inflation&quot;</span> 2 <span class="st">&quot;Unemployment Rate&quot;</span>)) <span class="co">///</span></span>
-<span id="cb53-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb53-3" tabindex="-1"></a>    <span class="bn">title</span>(<span class="st">&quot;Augmented Phillips Curve&quot;</span>) <span class="bn">ytitle</span>(Percentage) <span class="bn">xtitle</span>(<span class="fu">year</span>)</span>
-<span id="cb53-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb53-4" tabindex="-1"></a>    </span>
-<span id="cb53-5"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb53-5" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;week_10_augmented_phillips.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb56-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb56-1" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> cinf <span class="fu">year</span> || <span class="kw">line</span> unem <span class="fu">year</span>, lpattern(<span class="kw">dash</span>) <span class="co">///</span></span>
+<span id="cb56-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb56-2" tabindex="-1"></a>    <span class="bn">legend</span>(<span class="kw">order</span>(1 <span class="st">&quot;Difference in Inflation&quot;</span> 2 <span class="st">&quot;Unemployment Rate&quot;</span>)) <span class="co">///</span></span>
+<span id="cb56-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb56-3" tabindex="-1"></a>    <span class="bn">title</span>(<span class="st">&quot;Augmented Phillips Curve&quot;</span>) <span class="bn">ytitle</span>(Percentage) <span class="bn">xtitle</span>(<span class="fu">year</span>)</span>
+<span id="cb56-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb56-4" tabindex="-1"></a>    </span>
+<span id="cb56-5"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb56-5" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;week_10_augmented_phillips.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
 <div class="float">
 <img src="week_10_augmented_phillips.png" alt="Line graph of inflation" />
 <div class="figcaption">Line graph of inflation</div>

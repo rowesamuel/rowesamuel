@@ -25,8 +25,9 @@ Let's graph our time series
 ```{stata static2, eval=FALSE}
 twoway line inf year, title("Annual Inflation Rate")
 graph export "/Users/Sam/Desktop/Econ 645/Stata/week_10_inf_line.png", replace
-![Line graph of inflation](week_10_inf_line.png)
 ```
+![Line graph of inflation](week_10_inf_line.png)
+
 
 We can use tsline as well.
 ```{stata static3, eval=FALSE}
@@ -62,7 +63,7 @@ Looking inflation and deficits on interest rates, our model is:
 $$ i3_t = \beta_0 + \beta_1 inflation_t + \beta_2 deficitpct_t + u_t $$
 Where
 
-  1. i3: the 3-month T-bill rate
+  1. \( i3 \): the 3-month T-bill rate
   2. inf: the annual inflation rate from CPI
   3. def: is the federal budget deficit as a percentage of GDP
 
@@ -190,16 +191,35 @@ $$ gfr_t=\beta_0 + \beta_1 pe_t + \beta_2 pe_{t-1} + \beta_3 pe_{t-2} + \beta_4 
 ```{stata fdl7, eval=FALSE}
 reg gfr pe pe_1 pe_2 i.ww2 i.pill if year < 1985
 ```
+```{stata fdl7_1, echo=FALSE}
+quietly {
+  cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+  use fertil3.dta, clear
+  tsset year, yearly
+}
+reg gfr pe pe_1 pe_2 i.ww2 i.pill if year < 1985
+```
+
 
 Our personal exemption variables are no longer statistically significiant, but
 let's test the joint significance. We might have multicollinearity that bias
 our standard errors for our PE variables.
 
-```{fdl8, eval=FALSE}
+```{stata fdl8, eval=FALSE}
 test pe pe_1 pe_2
 test pe_1 pe_2
 ```
 
+```{stata fd18_1, echo=FALSE}
+quietly {
+  cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+  use fertil3.dta, clear
+  tsset year, yearly
+  reg gfr pe pe_1 pe_2 i.ww2 i.pill if year < 1985
+}
+test pe pe_1 pe_2
+test pe_1 pe_2
+```
 Our PE variables are jointly significant, but our lags are jointly insignificiant
 so we'll use our static model.
 
@@ -217,9 +237,21 @@ We can estimate $$ \hat{\theta}_{0} $$ and its standard error.
 We can regress gfr_t onto pe_t, (pe_(t-1) - pe_t), and (pe_t-2 - pe_t), ww2, and pill
 
 ```{stata fdl9, eval=FALSE}
-	gen pe_1_1 = pe_1 - pe
-	gen pe_2_1 = pe_2 - pe
-	reg gfr pe pe_1_1 pe_2_1 i.ww2 i.pill
+gen pe_1_1 = pe_1 - pe
+gen pe_2_1 = pe_2 - pe
+reg gfr pe pe_1_1 pe_2_1 i.ww2 i.pill
+```
+
+```{stata fdl9_1, echo=FALSE}
+quietly {
+  cd "/Users/Sam/Desktop/Econ 645/Data/Wooldridge"
+  use fertil3.dta, clear
+  tsset year, yearly
+  reg gfr pe pe_1 pe_2 i.ww2 i.pill if year < 1985
+}
+gen pe_1_1 = pe_1 - pe
+gen pe_2_1 = pe_2 - pe
+reg gfr pe pe_1_1 pe_2_1 i.ww2 i.pill
 ```
 
 \( \hat{\theta} \approx 0.101 \) and significant, so our LRP has an effect on general fertility rates.
@@ -328,7 +360,7 @@ reg gfr pe i.ww2 i.pill t if year < 1985
 ```
 
 Quadratic Trend
-Fertility is declining but at a decreasing negatively rate (eventually a positive t^2 takes over t)
+Fertility is declining but at a decreasing negatively rate (eventually a positive \( t^2 \) takes over t)
 ```{stata tt7, eval=FALSE}
 reg gfr pe i.ww2 i.pill c.t##c.t if year < 1985
 ```
@@ -477,8 +509,8 @@ tsset year
 A linear version of the expections augmented Phillips curve can be written as
 $$ inf_t - inf^e_t=\beta_1(unemp_t-\mu_0) + e_t $$
 
-Where \( mu_0 \) is the natural rate of unemployment and inf^e is the expected rate 
-of inflation formed in year t-1. 
+Where \( mu_0 \) is the natural rate of unemployment and \( inf^e \) is the expected rate 
+of inflation formed in year \( t-1 \). 
 The difference between actual unemployment and the natural rate is called 
 cyclical unemployment, while the difference between inflation and expected 
 inflation is called unanticipated inflation
@@ -495,7 +527,7 @@ $$ \Delta inf_t =\beta_0 + \beta_1 unemp_t + e_t $$
 Where
 $$ \Delta inf_t=inf_t - inf_{t-1} $$
 $$ \beta_0 = -\beta_1 \mu_0 $$
-Since beta_1 is expected to be negative and beta_0 is expected to be positive.
+Since \( beta_1 \) is expected to be negative and \( beta_0 \) is expected to be positive.
 
 Therefore, under adaptive expectations, the augmented Phillips curve relates the
 change in inflation to the level of unemployment and a supply shock e_t.

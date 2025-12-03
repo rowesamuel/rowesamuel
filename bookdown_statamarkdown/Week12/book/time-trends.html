@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe adapted from Wooldridge (2011)" />
 
 
-<meta name="date" content="2025-09-19" />
+<meta name="date" content="2025-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -198,9 +198,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Lesson:</strong> Importance of time trends</p>
 <p>We look at annual housing investement and a housing price index from 1947 to 1988.</p>
 <p>Set Time Series</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="time-trends.html#cb21-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb21-2"><a href="time-trends.html#cb21-2" tabindex="-1"></a><span class="kw">use</span> hseinv.dta, <span class="kw">clear</span></span>
-<span id="cb21-3"><a href="time-trends.html#cb21-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span>, <span class="fu">yearly</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="time-trends.html#cb24-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb24-2"><a href="time-trends.html#cb24-2" tabindex="-1"></a><span class="kw">use</span> hseinv.dta, <span class="kw">clear</span></span>
+<span id="cb24-3"><a href="time-trends.html#cb24-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span>, <span class="fu">yearly</span></span></code></pre></div>
 <pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
 
         time variable:  year, 1947 to 1988
@@ -209,7 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 and price be the housing price index where 1982 = 1 (or 100). We’ll assume
 constant elasticity with our log-log model.</p>
 <p><span class="math display">\[ linvpc_t = \beta_0 + \beta_1 lprice_t + u_t \]</span></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="time-trends.html#cb23-1" tabindex="-1"></a><span class="kw">reg</span> linvpc lprice</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="time-trends.html#cb26-1" tabindex="-1"></a><span class="kw">reg</span> linvpc lprice</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =        42
 -------------+----------------------------------   F(1, 40)        =     10.53
        Model |  .254364468         1  .254364468   Prob &gt; F        =    0.0024
@@ -227,7 +227,7 @@ constant elasticity with our log-log model.</p>
 the investment per capita by 1.24 percent (or elastic response).
 <b>Note:</b> both investment and price have upward trends that we need to account for.</p>
 <p><span class="math display">\[ invpc_t = \beta_0 + \beta_1 lprice_t + \beta_2 t + u_t \]</span></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="time-trends.html#cb25-1" tabindex="-1"></a><span class="kw">reg</span> linvpc lprice t</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="time-trends.html#cb28-1" tabindex="-1"></a><span class="kw">reg</span> linvpc lprice t</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =        42
 -------------+----------------------------------   F(2, 39)        =     10.08
        Model |  .415945108         2  .207972554   Prob &gt; F        =    0.0003
@@ -246,9 +246,9 @@ the investment per capita by 1.24 percent (or elastic response).
 the housing price index, an increase in price is coefficient is now negative, but
 it is not statistically significant. We probably have serial correlation which
 will bias our standard errors.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="time-trends.html#cb27-1" tabindex="-1"></a><span class="kw">predict</span> u, <span class="kw">resid</span></span>
-<span id="cb27-2"><a href="time-trends.html#cb27-2" tabindex="-1"></a><span class="kw">reg</span> u <span class="ot">l</span>.u, noconst</span>
-<span id="cb27-3"><a href="time-trends.html#cb27-3" tabindex="-1"></a><span class="kw">drop</span> u</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="time-trends.html#cb30-1" tabindex="-1"></a><span class="kw">predict</span> u, <span class="kw">resid</span></span>
+<span id="cb30-2"><a href="time-trends.html#cb30-2" tabindex="-1"></a><span class="kw">reg</span> u <span class="ot">l</span>.u, noconst</span>
+<span id="cb30-3"><a href="time-trends.html#cb30-3" tabindex="-1"></a><span class="kw">drop</span> u</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =        41
 -------------+----------------------------------   F(1, 40)        =     11.10
        Model |  .170666637         1  .170666637   Prob &gt; F        =    0.0019
@@ -269,15 +269,15 @@ will bias our standard errors.</p>
 <p>We’ll look at fertility again, but we’ll account for a quadratic time trend.
 First, we’ll estimate a linear time trend, and then we’ll try a quadratic time trend.</p>
 <p>Set Time Series</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="time-trends.html#cb29-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb29-2"><a href="time-trends.html#cb29-2" tabindex="-1"></a><span class="kw">use</span> fertil3.dta, <span class="kw">clear</span></span>
-<span id="cb29-3"><a href="time-trends.html#cb29-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span>, <span class="fu">yearly</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="time-trends.html#cb32-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb32-2"><a href="time-trends.html#cb32-2" tabindex="-1"></a><span class="kw">use</span> fertil3.dta, <span class="kw">clear</span></span>
+<span id="cb32-3"><a href="time-trends.html#cb32-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span>, <span class="fu">yearly</span></span></code></pre></div>
 <pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
 
         time variable:  year, 1913 to 1984
                 delta:  1 year</code></pre>
 <p>Linear Trend</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="time-trends.html#cb31-1" tabindex="-1"></a><span class="kw">reg</span> gfr pe i.ww2 i.pill t <span class="kw">if</span> <span class="fu">year</span> &lt; 1985</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb34-1"><a href="time-trends.html#cb34-1" tabindex="-1"></a><span class="kw">reg</span> gfr pe i.ww2 i.pill t <span class="kw">if</span> <span class="fu">year</span> &lt; 1985</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =        72
 -------------+----------------------------------   F(4, 67)        =     32.84
        Model |  18441.2357         4  4610.30894   Prob &gt; F        =    0.0000
@@ -295,8 +295,8 @@ First, we’ll estimate a linear time trend, and then we’ll try a quadratic ti
        _cons |   111.7694   3.357765    33.29   0.000     105.0673    118.4716
 ------------------------------------------------------------------------------</code></pre>
 <p>Quadratic Trend
-Fertility is declining but at a decreasing negatively rate (eventually a positive t^2 takes over t)</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="time-trends.html#cb33-1" tabindex="-1"></a><span class="kw">reg</span> gfr pe i.ww2 i.pill c.t##c.t <span class="kw">if</span> <span class="fu">year</span> &lt; 1985</span></code></pre></div>
+Fertility is declining but at a decreasing negatively rate (eventually a positive <span class="math inline">\(t^2\)</span> takes over t)</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb36-1"><a href="time-trends.html#cb36-1" tabindex="-1"></a><span class="kw">reg</span> gfr pe i.ww2 i.pill c.t##c.t <span class="kw">if</span> <span class="fu">year</span> &lt; 1985</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =        72
 -------------+----------------------------------   F(5, 66)        =     35.09
        Model |  20236.3981         5  4047.27961   Prob &gt; F        =    0.0000
@@ -327,15 +327,15 @@ that the trend is negative but decreasing rate and will eventually become positi
 <p>The last linear trend is for employment-population ratio and the importance of minimum wage
 coverage. We’ll add a time trend along with mincov and usgnp.</p>
 <p>Set the Time Series</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="time-trends.html#cb35-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
-<span id="cb35-2"><a href="time-trends.html#cb35-2" tabindex="-1"></a><span class="kw">use</span> prminwge, <span class="kw">clear</span></span>
-<span id="cb35-3"><a href="time-trends.html#cb35-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span>, <span class="fu">yearly</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb38-1"><a href="time-trends.html#cb38-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb38-2"><a href="time-trends.html#cb38-2" tabindex="-1"></a><span class="kw">use</span> prminwge, <span class="kw">clear</span></span>
+<span id="cb38-3"><a href="time-trends.html#cb38-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span>, <span class="fu">yearly</span></span></code></pre></div>
 <pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
 
         time variable:  year, 1950 to 1987
                 delta:  1 year</code></pre>
 <p>Add linear trend</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="time-trends.html#cb37-1" tabindex="-1"></a><span class="kw">reg</span> lprepop lmincov lusgnp t</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb40-1"><a href="time-trends.html#cb40-1" tabindex="-1"></a><span class="kw">reg</span> lprepop lmincov lusgnp t</span></code></pre></div>
 <pre><code>      Source |       SS           df       MS      Number of obs   =        38
 -------------+----------------------------------   F(3, 34)        =     62.78
        Model |  .270948453         3  .090316151   Prob &gt; F        =    0.0000

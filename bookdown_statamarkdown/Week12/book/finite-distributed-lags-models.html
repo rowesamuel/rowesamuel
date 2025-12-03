@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="Samuel Rowe adapted from Wooldridge (2011)" />
 
 
-<meta name="date" content="2025-09-19" />
+<meta name="date" content="2025-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -245,11 +245,41 @@ tax exemption increases 1 child per 1,000 women of child bearing ago</p>
 Our Finite Distributed Lag model is:
 <span class="math display">\[ gfr_t=\beta_0 + \beta_1 pe_t + \beta_2 pe_{t-1} + \beta_3 pe_{t-2} + \beta_4 ww2_t + \beta_5 pill_t + u_t \]</span></p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="finite-distributed-lags-models.html#cb18-1" tabindex="-1"></a><span class="kw">reg</span> gfr pe pe_1 pe_2 i.ww2 i.pill <span class="kw">if</span> <span class="fu">year</span> &lt; 1985</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        70
+-------------+----------------------------------   F(5, 64)        =     12.73
+       Model |  12959.7886         5  2591.95772   Prob &gt; F        =    0.0000
+    Residual |  13032.6443        64  203.635067   R-squared       =    0.4986
+-------------+----------------------------------   Adj R-squared   =    0.4594
+       Total |  25992.4329        69  376.701926   Root MSE        =     14.27
+
+------------------------------------------------------------------------------
+         gfr |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          pe |   .0726718   .1255331     0.58   0.565    -.1781094     .323453
+        pe_1 |  -.0057796   .1556629    -0.04   0.970     -.316752    .3051929
+        pe_2 |   .0338268   .1262574     0.27   0.790    -.2184013     .286055
+       1.ww2 |   -22.1265   10.73197    -2.06   0.043    -43.56608   -.6869196
+      1.pill |  -31.30499   3.981559    -7.86   0.000    -39.25907   -23.35091
+       _cons |    95.8705   3.281957    29.21   0.000     89.31403     102.427
+------------------------------------------------------------------------------</code></pre>
 <p>Our personal exemption variables are no longer statistically significiant, but
 let’s test the joint significance. We might have multicollinearity that bias
 our standard errors for our PE variables.</p>
-<pre class="fdl8"><code>test pe pe_1 pe_2
-test pe_1 pe_2</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="finite-distributed-lags-models.html#cb20-1" tabindex="-1"></a><span class="kw">test</span> pe pe_1 pe_2</span>
+<span id="cb20-2"><a href="finite-distributed-lags-models.html#cb20-2" tabindex="-1"></a><span class="kw">test</span> pe_1 pe_2</span></code></pre></div>
+<pre><code> ( 1)  pe = 0
+ ( 2)  pe_1 = 0
+ ( 3)  pe_2 = 0
+
+       F(  3,    64) =    3.97
+            Prob &gt; F =    0.0117
+
+
+ ( 1)  pe_1 = 0
+ ( 2)  pe_2 = 0
+
+       F(  2,    64) =    0.05
+            Prob &gt; F =    0.9480</code></pre>
 <p>Our PE variables are jointly significant, but our lags are jointly insignificiant
 so we’ll use our static model.</p>
 <p>For the estimated LRP: <span class="math display">\[ .073-.0058+0.034 \approx .101, \]</span> but we lack a standard error.
@@ -263,9 +293,30 @@ to get
 <span class="math display">\[ gfr_t = \alpha_0 + \theta_0 pe_t + \delta_1 (pe_{t-1} - pe_t) + \delta_2 (pe_{t-2} - pe_t) + \]</span></p>
 <p>We can estimate <span class="math display">\[ \hat{\theta}_{0} \]</span> and its standard error.
 We can regress gfr_t onto pe_t, (pe_(t-1) - pe_t), and (pe_t-2 - pe_t), ww2, and pill</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="finite-distributed-lags-models.html#cb20-1" tabindex="-1"></a>    <span class="kw">gen</span> pe_1_1 = pe_1 - pe</span>
-<span id="cb20-2"><a href="finite-distributed-lags-models.html#cb20-2" tabindex="-1"></a>    <span class="kw">gen</span> pe_2_1 = pe_2 - pe</span>
-<span id="cb20-3"><a href="finite-distributed-lags-models.html#cb20-3" tabindex="-1"></a>    <span class="kw">reg</span> gfr pe pe_1_1 pe_2_1 i.ww2 i.pill</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="finite-distributed-lags-models.html#cb22-1" tabindex="-1"></a><span class="kw">gen</span> pe_1_1 = pe_1 - pe</span>
+<span id="cb22-2"><a href="finite-distributed-lags-models.html#cb22-2" tabindex="-1"></a><span class="kw">gen</span> pe_2_1 = pe_2 - pe</span>
+<span id="cb22-3"><a href="finite-distributed-lags-models.html#cb22-3" tabindex="-1"></a><span class="kw">reg</span> gfr pe pe_1_1 pe_2_1 i.ww2 i.pill</span></code></pre></div>
+<pre><code>(1 missing value generated)
+
+(2 missing values generated)
+
+      Source |       SS           df       MS      Number of obs   =        70
+-------------+----------------------------------   F(5, 64)        =     12.73
+       Model |  12959.7886         5  2591.95772   Prob &gt; F        =    0.0000
+    Residual |  13032.6443        64  203.635067   R-squared       =    0.4986
+-------------+----------------------------------   Adj R-squared   =    0.4594
+       Total |  25992.4329        69  376.701926   Root MSE        =     14.27
+
+------------------------------------------------------------------------------
+         gfr |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+          pe |   .1007191   .0298027     3.38   0.001     .0411814    .1602568
+      pe_1_1 |  -.0057796   .1556629    -0.04   0.970     -.316752    .3051929
+      pe_2_1 |   .0338268   .1262574     0.27   0.790    -.2184013     .286055
+       1.ww2 |   -22.1265   10.73197    -2.06   0.043    -43.56608   -.6869196
+      1.pill |  -31.30499   3.981559    -7.86   0.000    -39.25907   -23.35091
+       _cons |    95.8705   3.281957    29.21   0.000     89.31403     102.427
+------------------------------------------------------------------------------</code></pre>
 <p><span class="math inline">\(\hat{\theta} \approx 0.101\)</span> and significant, so our LRP has an effect on general fertility rates.</p>
 </div>
 </div>
