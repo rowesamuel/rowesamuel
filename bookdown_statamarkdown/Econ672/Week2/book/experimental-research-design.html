@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Experimental Research Design | Potential Outcomes and Experimental Research Design</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Experimental Research Design | Potential Outcomes and Experimental Research Design" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Experimental Research Design | Potential Outcomes and Experimental Research Design" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2021) and Huber (2023)" />
+
+
+<meta name="date" content="2026-01-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="potential-outcomes-and-calculating-treatment-effects.html"/>
+<link rel="next" href="randomized-inference.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Potential Outcomes and Research Design</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html"><i class="fa fa-check"></i><b>1</b> Potential Outcomes and Calculating Treatment Effects</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html#calculate-the-ate"><i class="fa fa-check"></i><b>1.1</b> Calculate the ATE</a></li>
+<li class="chapter" data-level="1.2" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html#calculate-the-atet"><i class="fa fa-check"></i><b>1.2</b> Calculate the ATET</a></li>
+<li class="chapter" data-level="1.3" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html#calculate-the-ateu"><i class="fa fa-check"></i><b>1.3</b> Calculate the ATEU</a></li>
+<li class="chapter" data-level="1.4" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html#calculate-the-sdo"><i class="fa fa-check"></i><b>1.4</b> Calculate the SDO</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="experimental-research-design.html"><a href="experimental-research-design.html"><i class="fa fa-check"></i><b>2</b> Experimental Research Design</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#job-corps-2001-evaluation"><i class="fa fa-check"></i><b>2.1</b> Job Corps (2001) Evaluation</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#inspect-the-data"><i class="fa fa-check"></i><b>2.1.1</b> Inspect the Data</a></li>
+<li class="chapter" data-level="2.1.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#estimate-the-impact"><i class="fa fa-check"></i><b>2.1.2</b> Estimate the impact</a></li>
+<li class="chapter" data-level="2.1.3" data-path="experimental-research-design.html"><a href="experimental-research-design.html#covariate-balance-test-and-specification-tests"><i class="fa fa-check"></i><b>2.1.3</b> Covariate Balance Test and Specification Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#leaftlet-information-evaluation"><i class="fa fa-check"></i><b>2.2</b> Leaftlet Information Evaluation</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#inspect-the-data-1"><i class="fa fa-check"></i><b>2.2.1</b> Inspect the Data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#estimate-the-impact-1"><i class="fa fa-check"></i><b>2.2.2</b> Estimate the impact</a></li>
+<li class="chapter" data-level="2.2.3" data-path="experimental-research-design.html"><a href="experimental-research-design.html#covariate-balance-test"><i class="fa fa-check"></i><b>2.2.3</b> Covariate Balance Test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="randomized-inference.html"><a href="randomized-inference.html"><i class="fa fa-check"></i><b>3</b> Randomized Inference</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="randomized-inference.html"><a href="randomized-inference.html#set-up-the-dataset"><i class="fa fa-check"></i><b>3.1</b> Set up the Dataset</a></li>
+<li class="chapter" data-level="3.2" data-path="randomized-inference.html"><a href="randomized-inference.html#randomize-assignment-to-treatment"><i class="fa fa-check"></i><b>3.2</b> Randomize Assignment to Treatment</a></li>
+<li class="chapter" data-level="3.3" data-path="randomized-inference.html"><a href="randomized-inference.html#calculate-the-exact-p-value"><i class="fa fa-check"></i><b>3.3</b> Calculate the exact p-value</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Potential Outcomes and Experimental Research Design</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="experimental-research-design" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Experimental Research Design<a href="experimental-research-design.html#experimental-research-design" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We can estimate the <span class="math inline">\(ATE\)</span> using experimental research designs. If the experiments were well-designed and well-implemented experiments, then we can use the <em>ttest</em> command to calculate the simple difference in outcomes or <span class="math inline">\(SDO\)</span></p>
+<div id="job-corps-2001-evaluation" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Job Corps (2001) Evaluation<a href="experimental-research-design.html#job-corps-2001-evaluation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Deparment of Labor wanted an evaluation of the Job Corps program. The Job Corps program serves disadvantaged youth to improve employment outcomes. Individuals were randomly assigned to Job Corps or out of Job Corps due to limited slots.</p>
+<div id="inspect-the-data" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Inspect the Data<a href="experimental-research-design.html#inspect-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s inspect our outcome variable and treatment variable</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="experimental-research-design.html#cb13-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data&quot;</span></span>
+<span id="cb13-2"><a href="experimental-research-design.html#cb13-2" tabindex="-1"></a><span class="kw">use</span> JC, <span class="kw">clear</span></span>
+<span id="cb13-3"><a href="experimental-research-design.html#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="experimental-research-design.html#cb13-4" tabindex="-1"></a><span class="kw">describe</span> earny4</span>
+<span id="cb13-5"><a href="experimental-research-design.html#cb13-5" tabindex="-1"></a><span class="kw">describe</span> assignment</span>
+<span id="cb13-6"><a href="experimental-research-design.html#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="experimental-research-design.html#cb13-7" tabindex="-1"></a><span class="kw">sum</span> earny4</span>
+<span id="cb13-8"><a href="experimental-research-design.html#cb13-8" tabindex="-1"></a><span class="kw">tab</span> assignment</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 672/Data
+
+(Written by R.              )
+
+              storage   display    value
+variable name   type    format     label      variable label
+----------------------------------------------------------------------------------------------------------------------
+earny4          double  %9.0g                 Earnings 4 years after assignment
+
+              storage   display    value
+variable name   type    format     label      variable label
+----------------------------------------------------------------------------------------------------------------------
+assignment      double  %34.0g     assignment1
+                                              Random assignment to Job Corps
+
+              Earnings 4 years after assignment
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs               9,240
+25%     43.50582              0       Sum of Wgt.       9,240
+
+50%     181.7103                      Mean           207.6163
+                        Largest       Std. Dev.      194.5507
+75%     307.3206       1821.865
+90%     442.1254       1859.233       Variance       37849.99
+95%     544.7895       2357.738       Skewness       1.890325
+99%     835.3426       2409.909       Kurtosis       12.32882
+
+    Random assignment to Job Corps |      Freq.     Percent        Cum.
+-----------------------------------+-----------------------------------
+Randomly assigned out of Job Corps |      3,663       39.64       39.64
+    Randomly assigned to Job Corps |      5,577       60.36      100.00
+-----------------------------------+-----------------------------------
+                             Total |      9,240      100.00</code></pre>
+<p>Our outcome variable shows that the median earnings is $181.71, while the mean is $207.62.</p>
+<p>Our treatment variable has 5,577 assigned to treatment and 3,663 assigned to the control group.</p>
+</div>
+<div id="estimate-the-impact" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Estimate the impact<a href="experimental-research-design.html#estimate-the-impact" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can estimate the simple differnce in outcomes with the <em>ttest</em> command.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="experimental-research-design.html#cb15-1" tabindex="-1"></a><span class="kw">ttest</span> earny4, <span class="kw">by</span>(assignment)</span></code></pre></div>
+<pre><code>Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+Randomly |   3,663    197.9258    3.072182    185.9368    191.9025    203.9492
+Randomly |   5,577     213.981    2.675004    199.7675    208.7369     219.225
+---------+--------------------------------------------------------------------
+combined |   9,240    207.6163    2.023936    194.5507    203.6489    211.5836
+---------+--------------------------------------------------------------------
+    diff |           -16.05513    4.134466               -24.15959   -7.950661
+------------------------------------------------------------------------------
+    diff = mean(Randomly) - mean(Randomly)                        t =  -3.8832
+Ho: diff = 0                                     degrees of freedom =     9238
+
+    Ha: diff &lt; 0                 Ha: diff != 0                 Ha: diff &gt; 0
+ Pr(T &lt; t) = 0.0001         Pr(|T| &gt; |t|) = 0.0001          Pr(T &gt; t) = 0.9999</code></pre>
+<p>Next, let’s run an OLS regression with and without robust standard errors</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="experimental-research-design.html#cb17-1" tabindex="-1"></a><span class="kw">reg</span> earny4 i.assignment</span>
+<span id="cb17-2"><a href="experimental-research-design.html#cb17-2" tabindex="-1"></a><span class="kw">reg</span> earny4 i.assignment, <span class="kw">robust</span></span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     9,240
+-------------+----------------------------------   F(1, 9238)      =     15.08
+       Model |  569892.708         1  569892.708   Prob &gt; F        =    0.0001
+    Residual |   349126136     9,238  37792.3941   R-squared       =    0.0016
+-------------+----------------------------------   Adj R-squared   =    0.0015
+       Total |   349696029     9,239  37849.9869   Root MSE        =     194.4
+
+-------------------------------------------------------------------------------------------------
+                         earny4 |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+--------------------------------+----------------------------------------------------------------
+                     assignment |
+Randomly assigned to Job Corps  |   16.05513   4.134466     3.88   0.000     7.950661    24.15959
+                          _cons |   197.9258   3.212061    61.62   0.000     191.6295    204.2222
+-------------------------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =      9,240
+                                                F(1, 9238)        =      15.53
+                                                Prob &gt; F          =     0.0001
+                                                R-squared         =     0.0016
+                                                Root MSE          =      194.4
+
+-------------------------------------------------------------------------------------------------
+                                |               Robust
+                         earny4 |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+--------------------------------+----------------------------------------------------------------
+                     assignment |
+Randomly assigned to Job Corps  |   16.05513   4.073534     3.94   0.000     8.070101    24.04015
+                          _cons |   197.9258   3.072095    64.43   0.000     191.9039    203.9478
+-------------------------------------------------------------------------------------------------</code></pre>
+<p>We see simple difference in outcomes is about 16 dollars higher, which is what we see in the Schochet, P. Z., Burghardt, J., Glazerman, S. (2001): “National Job Corps study: The impacts of Job Corps on participants’ employment and related outcomes”, Mathematica Policy Research, Washington, DC.</p>
+</div>
+<div id="covariate-balance-test-and-specification-tests" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Covariate Balance Test and Specification Tests<a href="experimental-research-design.html#covariate-balance-test-and-specification-tests" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Next, let’s test the is there are any covariates associated with the treatment after randomization</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="experimental-research-design.html#cb19-1" tabindex="-1"></a></span>
+<span id="cb19-2"><a href="experimental-research-design.html#cb19-2" tabindex="-1"></a><span class="kw">ttest</span> age, <span class="kw">by</span>(assignment)</span>
+<span id="cb19-3"><a href="experimental-research-design.html#cb19-3" tabindex="-1"></a><span class="kw">ttest</span> educ, <span class="kw">by</span>(assignment)</span>
+<span id="cb19-4"><a href="experimental-research-design.html#cb19-4" tabindex="-1"></a><span class="kw">ttest</span> educmum, <span class="kw">by</span>(assignment)</span>
+<span id="cb19-5"><a href="experimental-research-design.html#cb19-5" tabindex="-1"></a><span class="kw">ttest</span> educdad, <span class="kw">by</span>(assignment)</span></code></pre></div>
+<pre><code>Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+Randomly |   3,663    18.33825     .034554    2.091302     18.2705    18.40599
+Randomly |   5,577    18.50099    .0291468     2.17666    18.44385    18.55813
+---------+--------------------------------------------------------------------
+combined |   9,240    18.43647    .0223105    2.144592    18.39274    18.48021
+---------+--------------------------------------------------------------------
+    diff |           -.1627389    .0455812               -.2520881   -.0733896
+------------------------------------------------------------------------------
+    diff = mean(Randomly) - mean(Randomly)                        t =  -3.5703
+Ho: diff = 0                                     degrees of freedom =     9238
+
+    Ha: diff &lt; 0                 Ha: diff != 0                 Ha: diff &gt; 0
+ Pr(T &lt; t) = 0.0002         Pr(|T| &gt; |t|) = 0.0004          Pr(T &gt; t) = 0.9998
+
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+Randomly |   3,663    9.924379    .0327304    1.980934    9.860207    9.988551
+Randomly |   5,577    9.977228    .0270215    2.017948    9.924255     10.0302
+---------+--------------------------------------------------------------------
+combined |   9,240    9.956277    .0208418    2.003416    9.915423    9.997132
+---------+--------------------------------------------------------------------
+    diff |            -.052849    .0426065               -.1363671    .0306691
+------------------------------------------------------------------------------
+    diff = mean(Randomly) - mean(Randomly)                        t =  -1.2404
+Ho: diff = 0                                     degrees of freedom =     9238
+
+    Ha: diff &lt; 0                 Ha: diff != 0                 Ha: diff &gt; 0
+ Pr(T &lt; t) = 0.1074         Pr(|T| &gt; |t|) = 0.2149          Pr(T &gt; t) = 0.8926
+
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+Randomly |   3,663    9.280917     .084987    5.143648    9.114291    9.447544
+Randomly |   5,577    9.335664    .0675206    5.042389    9.203298    9.468031
+---------+--------------------------------------------------------------------
+combined |   9,240    9.313961    .0528746    5.082565    9.210315    9.417607
+---------+--------------------------------------------------------------------
+    diff |           -.0547471     .108098                -.266643    .1571489
+------------------------------------------------------------------------------
+    diff = mean(Randomly) - mean(Randomly)                        t =  -0.5065
+Ho: diff = 0                                     degrees of freedom =     9238
+
+    Ha: diff &lt; 0                 Ha: diff != 0                 Ha: diff &gt; 0
+ Pr(T &lt; t) = 0.3063         Pr(|T| &gt; |t|) = 0.6125          Pr(T &gt; t) = 0.6937
+
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+Randomly |   3,663    7.019383    .1004599    6.080105     6.82242    7.216346
+Randomly |   5,577     7.04662    .0803195    5.998205    6.889163    7.204078
+---------+--------------------------------------------------------------------
+combined |   9,240    7.035823     .062736    6.030492    6.912846    7.158799
+---------+--------------------------------------------------------------------
+    diff |            -.027237    .1282603               -.2786556    .2241816
+------------------------------------------------------------------------------
+    diff = mean(Randomly) - mean(Randomly)                        t =  -0.2124
+Ho: diff = 0                                     degrees of freedom =     9238
+
+    Ha: diff &lt; 0                 Ha: diff != 0                 Ha: diff &gt; 0
+ Pr(T &lt; t) = 0.4159         Pr(|T| &gt; |t|) = 0.8318          Pr(T &gt; t) = 0.5841</code></pre>
+<p>We fail to reject the null hypothesis that there are differences between treatment and control among the covariates of age, education attained, mother’s education, and father’s education.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="experimental-research-design.html#cb21-1" tabindex="-1"></a><span class="kw">tab</span> <span class="bn">black</span> assignment, <span class="fu">chi2</span></span>
+<span id="cb21-2"><a href="experimental-research-design.html#cb21-2" tabindex="-1"></a><span class="kw">tab</span> female assignment, <span class="fu">chi2</span></span>
+<span id="cb21-3"><a href="experimental-research-design.html#cb21-3" tabindex="-1"></a><span class="kw">tab</span> hispanic assignment, <span class="fu">chi2</span></span>
+<span id="cb21-4"><a href="experimental-research-design.html#cb21-4" tabindex="-1"></a><span class="kw">tab</span> cohabmarried assignment, <span class="fu">chi2</span></span>
+<span id="cb21-5"><a href="experimental-research-design.html#cb21-5" tabindex="-1"></a><span class="kw">tab</span> haschild assignment, <span class="fu">chi2</span></span></code></pre></div>
+<pre><code>Individual |
+  is Black | Random assignment to
+or African |       Job Corps
+  American | Randomly   Randomly  |     Total
+-----------+----------------------+----------
+ Non-Black |     1,873      2,810 |     4,683 
+     Black |     1,790      2,767 |     4,557 
+-----------+----------------------+----------
+     Total |     3,663      5,577 |     9,240 
+
+          Pearson chi2(1) =   0.4941   Pr = 0.482
+
+           | Random assignment to
+Individual |       Job Corps
+ is female | Randomly   Randomly  |     Total
+-----------+----------------------+----------
+      Male |     2,220      2,960 |     5,180 
+    Female |     1,443      2,617 |     4,060 
+-----------+----------------------+----------
+     Total |     3,663      5,577 |     9,240 
+
+          Pearson chi2(1) =  50.9039   Pr = 0.000
+
+                | Random assignment to
+  Individual is |       Job Corps
+Latino/Hispanic | Randomly   Randomly  |     Total
+----------------+----------------------+----------
+     Non-Latino |     3,024      4,641 |     7,665 
+Latino/Hispanic |       639        936 |     1,575 
+----------------+----------------------+----------
+          Total |     3,663      5,577 |     9,240 
+
+          Pearson chi2(1) =   0.6842   Pr = 0.408
+
+
+Individual is Married | Random assignment to
+     or Cohabiting at |       Job Corps
+           assignment | Randomly   Randomly  |     Total
+----------------------+----------------------+----------
+Not Married or cohabi |     3,441      5,233 |     8,674 
+Married or Cohabiting |       222        344 |       566 
+----------------------+----------------------+----------
+                Total |     3,663      5,577 |     9,240 
+
+          Pearson chi2(1) =   0.0445   Pr = 0.833
+
+
+ Individual has child | Random assignment to
+       or children at |       Job Corps
+           assignment | Randomly   Randomly  |     Total
+----------------------+----------------------+----------
+           No chilren |     2,981      4,417 |     7,398 
+Has at least one chil |       682      1,160 |     1,842 
+----------------------+----------------------+----------
+                Total |     3,663      5,577 |     9,240 
+
+          Pearson chi2(1) =   6.5895   Pr = 0.010
+
+
+  Individual |
+    has ever | Random assignment to
+   worked at |       Job Corps
+  assignment | Randomly   Randomly  |     Total
+-------------+----------------------+----------
+Never worked |     3,155      4,767 |     7,922 
+  Has worked |       508        810 |     1,318 
+-------------+----------------------+----------
+       Total |     3,663      5,577 |     9,240 
+
+          Pearson chi2(1) =   0.7768   Pr = 0.378</code></pre>
+<p>We see that we fail to reject the null hypothesis that there is a difference between treatment and control for individuals for Black, Latino/Hispanic, Married/Cohabiting, and Ever Worked. However, we reject the null hypothesis that there is no difference between treatment and control for being female or having any children.</p>
+<p>Should we be concerned? Yes!</p>
+<p>Let’s do a sensitivity tests. The first model will be the simple difference, while the second model will include the covariates we rejected the null hypothesis. The third model will include all covariates.</p>
+<p>While there is some concern for a lack of covariate balance, the full data set utilizes weights which we do not have in the public use data.</p>
+<p>*What happens to the standard errors</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="experimental-research-design.html#cb23-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb23-2"><a href="experimental-research-design.html#cb23-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">reg</span> earny4 i.assignment</span>
+<span id="cb23-3"><a href="experimental-research-design.html#cb23-3" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">reg</span> earny4 i.assignment i.female i.haschild</span>
+<span id="cb23-4"><a href="experimental-research-design.html#cb23-4" tabindex="-1"></a>eststo m3: <span class="kw">quietly</span> <span class="kw">reg</span> earny4 i.assignment i.female i.<span class="bn">black</span> i.hispanic i.cohabmarried i.haschild i.everwkd age educ educmum educdad</span>
+<span id="cb23-5"><a href="experimental-research-design.html#cb23-5" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="experimental-research-design.html#cb23-6" tabindex="-1"></a>esttab m1 m2 m3, mtitle(<span class="st">&quot;Model 1&quot;</span> <span class="st">&quot;Model 2&quot;</span> <span class="st">&quot;Model 3&quot;</span>) <span class="kw">keep</span>(1.assignment)</span></code></pre></div>
+<pre><code>                      (1)             (2)             (3)   
+                  Model 1         Model 2         Model 3   
+------------------------------------------------------------
+1.assignment        16.06***        21.07***        19.59***
+                   (3.88)          (5.16)          (4.96)   
+------------------------------------------------------------
+N                    9240            9240            9240   
+------------------------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>We see that our ATE increase estimates range from 16 dollars to 21 dollars.</p>
+</div>
+</div>
+<div id="leaftlet-information-evaluation" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Leaftlet Information Evaluation<a href="experimental-research-design.html#leaftlet-information-evaluation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Next we will look at an impact evaluation of an information leaflet about coffee production on students’ awareness. The target population is Bulgarian high school and high school students and the outcome is the awareness of environmental issues due to coffee production.</p>
+<div id="inspect-the-data-1" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Inspect the Data<a href="experimental-research-design.html#inspect-the-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s inspect the data by running some descriptive statistics. Our dependent variable is awarewaste, while treatment is a leaflet treatment is randomly assigned to students.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="experimental-research-design.html#cb25-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data&quot;</span></span>
+<span id="cb25-2"><a href="experimental-research-design.html#cb25-2" tabindex="-1"></a><span class="kw">use</span> CoffeeLeaflet, <span class="kw">clear</span></span>
+<span id="cb25-3"><a href="experimental-research-design.html#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="experimental-research-design.html#cb25-4" tabindex="-1"></a><span class="kw">tab</span> awarewaste</span>
+<span id="cb25-5"><a href="experimental-research-design.html#cb25-5" tabindex="-1"></a><span class="kw">tab</span> treatment</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 672/Data
+
+(Written by R.              )
+
+
+
+
+
+
+
+
+Awareness of waste |
+ production due to |
+ coffee production |      Freq.     Percent        Cum.
+-------------------+-----------------------------------
+         Not Aware |        171       33.93       33.93
+Slightly Not Aware |        157       31.15       65.08
+           Neither |        121       24.01       89.09
+    Slightly Aware |         41        8.13       97.22
+       Fully Aware |         14        2.78      100.00
+-------------------+-----------------------------------
+             Total |        504      100.00
+
+       Treatment Status |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+          Control Group |        261       50.00       50.00
+Leaflet Treatment Group |        261       50.00      100.00
+------------------------+-----------------------------------
+                  Total |        522      100.00</code></pre>
+</div>
+<div id="estimate-the-impact-1" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Estimate the impact<a href="experimental-research-design.html#estimate-the-impact-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s run the simple difference in outcomes with <em>ttest</em> command.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="experimental-research-design.html#cb27-1" tabindex="-1"></a><span class="kw">ttest</span> awarewaste, <span class="kw">by</span>(treatment)</span></code></pre></div>
+<pre><code>Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. Err.   Std. Dev.   [95% Conf. Interval]
+---------+--------------------------------------------------------------------
+ Control |     254    2.007874    .0628675    1.001943    1.884064    2.131684
+ Leaflet |     250       2.288    .0702564    1.110852    2.149627    2.426373
+---------+--------------------------------------------------------------------
+combined |     504    2.146825    .0474646    1.065578    2.053572    2.240079
+---------+--------------------------------------------------------------------
+    diff |            -.280126    .0942007               -.4652021   -.0950498
+------------------------------------------------------------------------------
+    diff = mean(Control) - mean(Leaflet)                          t =  -2.9737
+Ho: diff = 0                                     degrees of freedom =      502
+
+    Ha: diff &lt; 0                 Ha: diff != 0                 Ha: diff &gt; 0
+ Pr(T &lt; t) = 0.0015         Pr(|T| &gt; |t|) = 0.0031          Pr(T &gt; t) = 0.9985</code></pre>
+<p>We reject the null hypothesis that the leaflet treatment had no impact, and it increases awareness by 0.28.</p>
+<p>Let’s run an OLS regression.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="experimental-research-design.html#cb29-1" tabindex="-1"></a><span class="kw">reg</span> awarewaste i.treatment</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       504
+-------------+----------------------------------   F(1, 502)       =      8.84
+       Model |  9.88666867         1  9.88666867   Prob &gt; F        =    0.0031
+    Residual |  561.248252       502  1.11802441   R-squared       =    0.0173
+-------------+----------------------------------   Adj R-squared   =    0.0154
+       Total |  571.134921       503   1.1354571   Root MSE        =    1.0574
+
+------------------------------------------------------------------------------------------
+              awarewaste |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------------------+----------------------------------------------------------------
+               treatment |
+Leaflet Treatment Group  |    .280126   .0942007     2.97   0.003     .0950498    .4652021
+                   _cons |   2.007874   .0663451    30.26   0.000     1.877526    2.138222
+------------------------------------------------------------------------------------------</code></pre>
+<p>Wait a second! What does 0.28 mean? What is a potential problem here?</p>
+<p>Look at the outcome variable again. It is an ordinal variable! Let’s use a <span class="math inline">\(\chi^2\)</span> test</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="experimental-research-design.html#cb31-1" tabindex="-1"></a><span class="kw">tab</span> awarewaste treatment, <span class="fu">chi2</span></span></code></pre></div>
+<pre><code>Awareness of waste |
+ production due to |   Treatment Status
+ coffee production | Control G  Leaflet T |     Total
+-------------------+----------------------+----------
+         Not Aware |        97         74 |       171 
+Slightly Not Aware |        82         75 |       157 
+           Neither |        56         65 |       121 
+    Slightly Aware |        14         27 |        41 
+       Fully Aware |         5          9 |        14 
+-------------------+----------------------+----------
+             Total |       254        250 |       504 
+
+          Pearson chi2(4) =   9.3087   Pr = 0.054</code></pre>
+<p>Let’s run an ordinal logit regression.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="experimental-research-design.html#cb33-1" tabindex="-1"></a><span class="kw">ologit</span> awarewaste i.treatment, <span class="kw">or</span></span></code></pre></div>
+<pre><code>Iteration 0:   log likelihood = -693.62947  
+Iteration 1:   log likelihood = -689.57824  
+Iteration 2:   log likelihood = -689.57505  
+Iteration 3:   log likelihood = -689.57505  
+
+Ordered logistic regression                     Number of obs     =        504
+                                                LR chi2(1)        =       8.11
+                                                Prob &gt; chi2       =     0.0044
+Log likelihood = -689.57505                     Pseudo R2         =     0.0058
+
+------------------------------------------------------------------------------------------
+              awarewaste |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------------------+----------------------------------------------------------------
+               treatment |
+Leaflet Treatment Group  |   .4609564   .1623425     2.84   0.005     .1427709    .7791419
+-------------------------+----------------------------------------------------------------
+                   /cut1 |  -.4493223   .1211244                     -.6867218   -.2119229
+                   /cut2 |   .8543491   .1252889                      .6087873    1.099911
+                   /cut3 |   2.346133    .168949                      2.014999    2.677267
+                   /cut4 |    3.80845   .2865533                      3.246816    4.370084
+------------------------------------------------------------------------------------------</code></pre>
+<p>Individuals who received treatment were 1.46 times more likely to be aware of the effect of coffee production on environmental issues than those in the control group.</p>
+</div>
+<div id="covariate-balance-test" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Covariate Balance Test<a href="experimental-research-design.html#covariate-balance-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s test covariate balance</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="experimental-research-design.html#cb35-1" tabindex="-1"></a><span class="kw">foreach</span> v <span class="kw">of</span> <span class="kw">varlist</span> sex mumedu dadedu bulgnationality drinkcoffee citysofia {</span>
+<span id="cb35-2"><a href="experimental-research-design.html#cb35-2" tabindex="-1"></a>  <span class="kw">tab</span> awarewaste <span class="ot">`v&#39;</span>, <span class="fu">chi2</span></span>
+<span id="cb35-3"><a href="experimental-research-design.html#cb35-3" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>Awareness of waste |
+ production due to |          sex
+ coffee production |         0          1 |     Total
+-------------------+----------------------+----------
+         Not Aware |        94         77 |       171 
+Slightly Not Aware |       102         53 |       155 
+           Neither |        65         55 |       120 
+    Slightly Aware |        22         19 |        41 
+       Fully Aware |         3         11 |        14 
+-------------------+----------------------+----------
+             Total |       286        215 |       501 
+
+          Pearson chi2(4) =  13.0039   Pr = 0.011
+
+Awareness of waste |
+ production due to |              mumedu
+ coffee production |         1          2          3 |     Total
+-------------------+---------------------------------+----------
+         Not Aware |         3         69         88 |       160 
+Slightly Not Aware |         5         48         98 |       151 
+           Neither |         1         31         76 |       108 
+    Slightly Aware |         1          9         27 |        37 
+       Fully Aware |         0          3          9 |        12 
+-------------------+---------------------------------+----------
+             Total |        10        160        298 |       468 
+
+          Pearson chi2(8) =  11.8017   Pr = 0.160
+
+Awareness of waste |
+ production due to |              dadedu
+ coffee production |         1          2          3 |     Total
+-------------------+---------------------------------+----------
+         Not Aware |         4         67         83 |       154 
+Slightly Not Aware |         2         53         87 |       142 
+           Neither |         0         42         62 |       104 
+    Slightly Aware |         0          9         30 |        39 
+       Fully Aware |         0          3          8 |        11 
+-------------------+---------------------------------+----------
+             Total |         6        174        270 |       450 
+
+          Pearson chi2(8) =  10.9594   Pr = 0.204
+
+Awareness of waste |
+ production due to |    bulgnationality
+ coffee production |         0          1 |     Total
+-------------------+----------------------+----------
+         Not Aware |         4        167 |       171 
+Slightly Not Aware |         5        152 |       157 
+           Neither |         2        119 |       121 
+    Slightly Aware |         0         41 |        41 
+       Fully Aware |         0         14 |        14 
+-------------------+----------------------+----------
+             Total |        11        493 |       504 
+
+          Pearson chi2(4) =   2.1444   Pr = 0.709
+
+Awareness of waste |
+ production due to |                      drinkcoffee
+ coffee production |         1          2          3          4          5 |     Total
+-------------------+-------------------------------------------------------+----------
+         Not Aware |        68         18         21         32         31 |       170 
+Slightly Not Aware |        39         25         32         27         34 |       157 
+           Neither |        46         19         19         21         14 |       119 
+    Slightly Aware |        12          5          4         12          8 |        41 
+       Fully Aware |         4          0          4          3          2 |        13 
+-------------------+-------------------------------------------------------+----------
+             Total |       169         67         80         95         89 |       500 
+
+         Pearson chi2(16) =  23.6155   Pr = 0.098
+
+Awareness of waste |
+ production due to |       citysofia
+ coffee production |         0          1 |     Total
+-------------------+----------------------+----------
+         Not Aware |        46        125 |       171 
+Slightly Not Aware |        40        117 |       157 
+           Neither |        27         94 |       121 
+    Slightly Aware |         7         34 |        41 
+       Fully Aware |         2         12 |        14 
+-------------------+----------------------+----------
+             Total |       122        382 |       504 
+
+          Pearson chi2(4) =   2.9391   Pr = 0.568</code></pre>
+<p>From our covariate balance test, we have a slight concern for imbalance in sex. However, all other characteristics were no correlated with treatment status.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="experimental-research-design.html#cb37-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span>
+<span id="cb37-2"><a href="experimental-research-design.html#cb37-2" tabindex="-1"></a><span class="kw">quietly</span> {</span>
+<span id="cb37-3"><a href="experimental-research-design.html#cb37-3" tabindex="-1"></a>eststo m1: <span class="kw">ologit</span> awarewaste i.treatment, <span class="kw">or</span></span>
+<span id="cb37-4"><a href="experimental-research-design.html#cb37-4" tabindex="-1"></a>eststo m2: <span class="kw">ologit</span> awarewaste i.treatment i.mumedu i.sex, <span class="kw">or</span></span>
+<span id="cb37-5"><a href="experimental-research-design.html#cb37-5" tabindex="-1"></a>eststo m3: <span class="kw">ologit</span> awarewaste i.treatment i.drinkcoffee i.sex i.mumedu i.dadedu i.bulgnationality i.citysofia, <span class="kw">or</span></span>
+<span id="cb37-6"><a href="experimental-research-design.html#cb37-6" tabindex="-1"></a>}</span>
+<span id="cb37-7"><a href="experimental-research-design.html#cb37-7" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="experimental-research-design.html#cb37-8" tabindex="-1"></a>esttab m1 m2 m3, mtitle(<span class="st">&quot;Model 1&quot;</span> <span class="st">&quot;Model 2&quot;</span> <span class="st">&quot;Model 3&quot;</span>) <span class="kw">keep</span>(1.treatment)</span></code></pre></div>
+<pre><code>                      (1)             (2)             (3)   
+                  Model 1         Model 2         Model 3   
+------------------------------------------------------------
+awarewaste                                                  
+1.treatment         0.461**         0.566***        0.583** 
+                   (2.84)          (3.32)          (3.27)   
+------------------------------------------------------------
+N                     504             466             434   
+------------------------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>Our estimates range from an odd ratio of 1.46 to 1.58. Notice that as we add covariates, our sample size is dropping, which means not all observations provided characteristic information.</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="potential-outcomes-and-calculating-treatment-effects.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="randomized-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

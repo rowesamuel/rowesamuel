@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Displaying your results with publication-quality tables with estout and outreg | Week 1: Econ 645 Introduction</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Displaying your results with publication-quality tables with estout and outreg | Week 1: Econ 645 Introduction" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Displaying your results with publication-quality tables with estout and outreg | Week 1: Econ 645 Introduction" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe" />
+
+
+<meta name="date" content="2025-08-10" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="stata-programming-techniques-helpful-for-econ-645.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Introduction</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a></li>
+<li class="chapter" data-level="2" data-path="coding-guide-for-folder-structure.html"><a href="coding-guide-for-folder-structure.html"><i class="fa fa-check"></i><b>2</b> Coding Guide for Folder Structure</a></li>
+<li class="chapter" data-level="3" data-path="executing-do-files-and-making-log-files.html"><a href="executing-do-files-and-making-log-files.html"><i class="fa fa-check"></i><b>3</b> Executing do-files and making log files</a></li>
+<li class="chapter" data-level="4" data-path="automate-graphs-and-figures.html"><a href="automate-graphs-and-figures.html"><i class="fa fa-check"></i><b>4</b> Automate Graphs and Figures</a></li>
+<li class="chapter" data-level="5" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html"><i class="fa fa-check"></i><b>5</b> Stata Programming Techniques Helpful for Econ 645</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#stata-programming-macros"><i class="fa fa-check"></i><b>5.1</b> Stata Programming: Macros</a></li>
+<li class="chapter" data-level="5.2" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#local-macros"><i class="fa fa-check"></i><b>5.2</b> Local Macros</a></li>
+<li class="chapter" data-level="5.3" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#global-macros"><i class="fa fa-check"></i><b>5.3</b> Global Macros</a></li>
+<li class="chapter" data-level="5.4" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#looping"><i class="fa fa-check"></i><b>5.4</b> Looping</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#loop-over-a-number"><i class="fa fa-check"></i><b>5.4.1</b> Loop over a number</a></li>
+<li class="chapter" data-level="5.4.2" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#loop-over-a-local-macro"><i class="fa fa-check"></i><b>5.4.2</b> Loop over a local macro</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#data-frames-and-tempfiles"><i class="fa fa-check"></i><b>5.5</b> Data Frames and Tempfiles</a></li>
+<li class="chapter" data-level="5.6" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#appending-multiple-cps-files"><i class="fa fa-check"></i><b>5.6</b> Appending multiple CPS files</a></li>
+<li class="chapter" data-level="5.7" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#by-sort-and-egen"><i class="fa fa-check"></i><b>5.7</b> By Sort and EGEN</a></li>
+<li class="chapter" data-level="5.8" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#retrieving-estimates-stored-in-statas-memory"><i class="fa fa-check"></i><b>5.8</b> Retrieving estimates stored in Stata’s memory</a></li>
+<li class="chapter" data-level="5.9" data-path="stata-programming-techniques-helpful-for-econ-645.html"><a href="stata-programming-techniques-helpful-for-econ-645.html#survey-weights"><i class="fa fa-check"></i><b>5.9</b> Survey Weights</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><i class="fa fa-check"></i><b>6</b> Displaying your results with publication-quality tables with estout and outreg</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#estout"><i class="fa fa-check"></i><b>6.1</b> Estout</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#esttab-examples"><i class="fa fa-check"></i><b>6.1.1</b> Esttab Examples</a></li>
+<li class="chapter" data-level="6.1.2" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#exporting-into-word-excel-or-latex-format"><i class="fa fa-check"></i><b>6.1.2</b> Exporting into Word, Excel, or LaTex format</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#outreg2"><i class="fa fa-check"></i><b>6.2</b> Outreg2</a></li>
+<li class="chapter" data-level="6.3" data-path="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#example-mincer-equations---replicate-tables"><i class="fa fa-check"></i><b>6.3</b> Example: Mincer Equations - Replicate Tables</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 1: Econ 645 Introduction</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Displaying your results with publication-quality tables with estout and outreg<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#displaying-your-results-with-publication-quality-tables-with-estout-and-outreg" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Stata has two suites of functions that help produce publication-quality tables: estout and outreg2. While it is easy to copy and paste tables, this is not a best practice. You want to have your Stata scripts reduce the amounts of pointing-and-clicking. Pointing-and-clicking is highly repeative and more prone to user error. It is better to avoid doing this! Using estout or outreg2 will help you in the long-run.</p>
+<div id="estout" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Estout<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#estout" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Estout and its functions are a way to produce publication-quality tables of descriptive statistics or regression results. The main function will be <em>esttab</em>.</p>
+<p>You can install estout by running the following ssc install command:
+<a href="http://repec.sowi.unibe.ch/stata/estout/index.html" class="uri">http://repec.sowi.unibe.ch/stata/estout/index.html</a></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb51-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb51-1" tabindex="-1"></a><span class="kw">ssc</span> install estout</span></code></pre></div>
+<p>Esttab is the main function in estout that provides publication-quality tables. The basics of esttab are the following:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb52-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb52-1" tabindex="-1"></a>esttab [ namelist ] [ <span class="kw">using</span> filename ] [ , options estout_options ]</span></code></pre></div>
+<div id="esttab-examples" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Esttab Examples<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#esttab-examples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Here is an example of a simple regression output comparing two models. We use eststo to store the model and use esttab to display the results.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb53-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb53-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">sysuse</span> auto</span>
+<span id="cb53-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb53-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg</span>
+<span id="cb53-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb53-3" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg foreign</span>
+<span id="cb53-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb53-4" tabindex="-1"></a>esttab m1 m2</span></code></pre></div>
+<pre><code>                      (1)             (2)   
+                    price           price   
+--------------------------------------------
+weight              1.747**         3.465***
+                   (2.72)          (5.49)   
+
+mpg                -49.51           21.85   
+                  (-0.57)          (0.29)   
+
+foreign                            3673.1***
+                                   (5.37)   
+
+_cons              1946.1         -5853.7   
+                   (0.54)         (-1.73)   
+--------------------------------------------
+N                      74              74   
+--------------------------------------------
+t statistics in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>We can replace t-statistics with pvalues with “p”. Or, we can use “se” for standard errors, and we can use ci “ci” for confidence interval. We can add scalars to the model output as well. We can use “F” to display the overall F-statistic, “df_r” for degrees of freedom, and “rmse” for root mean squared error. We can also use “r2” for R-Squared and “ar2” for adjusted R-Squared.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb55-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb55-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">sysuse</span> auto</span>
+<span id="cb55-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb55-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg</span>
+<span id="cb55-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb55-3" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg foreign</span>
+<span id="cb55-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb55-4" tabindex="-1"></a>esttab m1 m2, <span class="kw">p</span> scalars(<span class="fu">F</span> df_r rmse) r2 ar2</span></code></pre></div>
+<pre><code>                      (1)             (2)   
+                    price           price   
+--------------------------------------------
+weight              1.747**         3.465***
+                  (0.008)         (0.000)   
+
+mpg                -49.51           21.85   
+                  (0.567)         (0.769)   
+
+foreign                            3673.1***
+                                  (0.000)   
+
+_cons              1946.1         -5853.7   
+                  (0.590)         (0.087)   
+--------------------------------------------
+N                      74              74   
+R-sq                0.293           0.500   
+adj. R-sq           0.273           0.478   
+F                   14.74           23.29   
+df_r                   71              70   
+rmse               2514.0          2130.8   
+--------------------------------------------
+p-values in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+<p>With the title() option, we can add a title to the table output. We can also change the model names at the top of the columns with the mtitle() option. We can move the p-values, t-statistics, or standard errors to the right of the beta coefficients with the option “wide”. We can also add a note with the addnote() option</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb57-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb57-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">sysuse</span> auto</span>
+<span id="cb57-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb57-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg</span>
+<span id="cb57-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb57-3" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg foreign</span>
+<span id="cb57-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb57-4" tabindex="-1"></a>esttab m1 m2, <span class="bn">title</span>(<span class="st">&quot;Regression Analysis Example&quot;</span>) <span class="kw">p</span> scalars(<span class="fu">F</span> df_r rmse) r2 ar2 mtitle(<span class="st">&quot;Model 1&quot;</span> <span class="st">&quot;Model 2&quot;</span>) <span class="kw">wide</span></span></code></pre></div>
+<pre><code>Regression Analysis Example
+----------------------------------------------------------------------
+                      (1)                          (2)                
+                  Model 1                      Model 2                
+----------------------------------------------------------------------
+weight              1.747**       (0.008)        3.465***      (0.000)
+mpg                -49.51         (0.567)        21.85         (0.769)
+foreign                                         3673.1***      (0.000)
+_cons              1946.1         (0.590)      -5853.7         (0.087)
+----------------------------------------------------------------------
+N                      74                           74                
+R-sq                0.293                        0.500                
+adj. R-sq           0.273                        0.478                
+F                   14.74                        23.29                
+df_r                   71                           70                
+rmse               2514.0                       2130.8                
+----------------------------------------------------------------------
+p-values in parentheses
+* p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001</code></pre>
+</div>
+<div id="exporting-into-word-excel-or-latex-format" class="section level3 hasAnchor" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Exporting into Word, Excel, or LaTex format<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#exporting-into-word-excel-or-latex-format" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>**Do not copy and paste! Automate!*</p>
+<p>We can use esttab with the export options to export into an RTF (Word), Excel, or LaTex format.</p>
+<div id="export-into-excel-format" class="section level4 hasAnchor" number="6.1.2.1">
+<h4><span class="header-section-number">6.1.2.1</span> Export into Excel format<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#export-into-excel-format" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If you want to use your table in Excel. Don’t copy and paste! Just add “using” after esttab and include the “.csv” file format to the file name</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb59-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb59-1" tabindex="-1"></a><span class="kw">sysuse</span> auto</span>
+<span id="cb59-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb59-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg</span>
+<span id="cb59-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb59-3" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg foreign</span>
+<span id="cb59-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb59-4" tabindex="-1"></a>esttab m1 m2 <span class="kw">using</span> example.csv, <span class="bn">title</span>(<span class="st">&quot;Regression Analysis Example&quot;</span>) <span class="kw">p</span> scalars(<span class="fu">F</span> df_r rmse) r2 ar2 mtitle(<span class="st">&quot;Model 1&quot;</span> <span class="st">&quot;Model 2&quot;</span>)</span></code></pre></div>
+</div>
+<div id="export-into-word-format" class="section level4 hasAnchor" number="6.1.2.2">
+<h4><span class="header-section-number">6.1.2.2</span> Export into Word format<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#export-into-word-format" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If you want to add your table to a Word document, add “using” after esttab and include the “.rtf” file format to the file name.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb60-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb60-1" tabindex="-1"></a><span class="kw">sysuse</span> auto</span>
+<span id="cb60-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb60-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg</span>
+<span id="cb60-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb60-3" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg foreign</span>
+<span id="cb60-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb60-4" tabindex="-1"></a>esttab m1 m2 <span class="kw">using</span> example.rtf, <span class="bn">title</span>(<span class="st">&quot;Regression Analysis Example&quot;</span>) <span class="kw">p</span> scalars(<span class="fu">F</span> df_r rmse) r2 ar2 mtitle(<span class="st">&quot;Model 1&quot;</span> <span class="st">&quot;Model 2&quot;</span>)</span></code></pre></div>
+</div>
+<div id="export-into-latex-format" class="section level4 hasAnchor" number="6.1.2.3">
+<h4><span class="header-section-number">6.1.2.3</span> Export into LaTex format<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#export-into-latex-format" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>You can also export your tables into a LaTex table. You can export your file and load it directly into Overleaf.
+Add “using” after esttab and include the “.tex” file format to the file name</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb61-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb61-1" tabindex="-1"></a><span class="kw">sysuse</span> auto</span>
+<span id="cb61-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb61-2" tabindex="-1"></a>eststo m1: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg</span>
+<span id="cb61-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb61-3" tabindex="-1"></a>eststo m2: <span class="kw">quietly</span> <span class="kw">regress</span> price <span class="kw">weight</span> mpg foreign</span>
+<span id="cb61-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb61-4" tabindex="-1"></a>esttab m1 m2 <span class="kw">using</span> example.tex, <span class="bn">title</span>(<span class="st">&quot;Regression Analysis Example&quot;</span>) <span class="kw">p</span> scalars(<span class="fu">F</span> df_r rmse) r2 ar2 mtitle(<span class="st">&quot;Model 1&quot;</span> <span class="st">&quot;Model 2&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="outreg2" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Outreg2<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#outreg2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Outreg2 is another set of functions that help produce publication-quality tables. My preference is for esttab in estout, so I will provide you with a reference to get started with outreg2 if you are interested.</p>
+<p><a href="https://www.princeton.edu/~otorres/Outreg2.pdf" class="uri">https://www.princeton.edu/~otorres/Outreg2.pdf</a></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb62-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb62-1" tabindex="-1"></a><span class="kw">ssc</span> install outreg2</span></code></pre></div>
+</div>
+<div id="example-mincer-equations---replicate-tables" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Example: Mincer Equations - Replicate Tables<a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#example-mincer-equations---replicate-tables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<em>Important Note:</em> Missing values are set to -1 in the CPS PUMS (public-use micro dataset). If you do not account for missing, you will have an incorrect analysis.
+</p>
+<p>First, let’s generate some mutually exclusive categories of interest.
+Recategorize Female:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb63-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb63-1" tabindex="-1"></a><span class="kw">gen</span> female = .</span>
+<span id="cb63-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb63-2" tabindex="-1"></a><span class="kw">replace</span> female = 0 <span class="kw">if</span> pesex == 1</span>
+<span id="cb63-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb63-3" tabindex="-1"></a><span class="kw">replace</span> female = 1 <span class="kw">if</span> pesex == 2</span>
+<span id="cb63-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb63-4" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> female1 0 <span class="st">&quot;Male&quot;</span> 1 <span class="st">&quot;Female&quot;</span></span>
+<span id="cb63-5"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb63-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> female female1</span></code></pre></div>
+<p>Generate Union</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb64-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb64-1" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">union</span> = .</span>
+<span id="cb64-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb64-2" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">union</span> = 0 <span class="kw">if</span> peernlab == 2</span>
+<span id="cb64-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb64-3" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">union</span> = 1 <span class="kw">if</span> peernlab == 1</span>
+<span id="cb64-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb64-4" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> union1 0 <span class="st">&quot;Nonunion&quot;</span> 1 <span class="st">&quot;Union&quot;</span></span>
+<span id="cb64-5"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb64-5" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> <span class="kw">union</span> union1</span></code></pre></div>
+<p>Our outcome of interest: Weekly Earnings - <em>PTERNWA</em>.
+<em>Note:</em> Documentation says that the data in pternwa imply 2 decimals, so we need to divide by 100. We will also use the variable PRERELG to flag individuals with valid earnings.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb65-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb65-1" tabindex="-1"></a><span class="kw">gen</span> earnings = .</span>
+<span id="cb65-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb65-2" tabindex="-1"></a><span class="kw">replace</span> earnings = pternwa <span class="kw">if</span> prerelg==1</span>
+<span id="cb65-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb65-3" tabindex="-1"></a>*Divide <span class="kw">by</span> 100 <span class="kw">for</span> decimals</span>
+<span id="cb65-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb65-4" tabindex="-1"></a><span class="kw">replace</span> earnings = earnings/100</span></code></pre></div>
+<p>Generate Educational Bins</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb66-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-1" tabindex="-1"></a><span class="kw">tab</span> peeduca</span>
+<span id="cb66-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-2" tabindex="-1"></a><span class="kw">gen</span> educ = .</span>
+<span id="cb66-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-3" tabindex="-1"></a>*High School Drop Out: from Less than 1st Grade to 12th Grade No Diploma</span>
+<span id="cb66-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-4" tabindex="-1"></a><span class="kw">replace</span> educ = 1 <span class="kw">if</span> peeduca &gt;= 31 &amp; peeduca &lt;38</span>
+<span id="cb66-5"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-5" tabindex="-1"></a>*Graduated High School <span class="kw">or</span> GED</span>
+<span id="cb66-6"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-6" tabindex="-1"></a><span class="kw">replace</span> educ = 2 <span class="kw">if</span> peeduca == 39</span>
+<span id="cb66-7"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-7" tabindex="-1"></a>*Some College</span>
+<span id="cb66-8"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-8" tabindex="-1"></a><span class="kw">replace</span> educ = 3 <span class="kw">if</span> peeduca == 40</span>
+<span id="cb66-9"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-9" tabindex="-1"></a>*AA Degree: Vocational <span class="kw">or</span> Academic</span>
+<span id="cb66-10"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-10" tabindex="-1"></a><span class="kw">replace</span> educ = 4 <span class="kw">if</span> peeduca == 41 | peeduca == 42</span>
+<span id="cb66-11"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-11" tabindex="-1"></a>*Bachelor&#39;s Degree</span>
+<span id="cb66-12"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-12" tabindex="-1"></a><span class="kw">replace</span> educ = 5 <span class="kw">if</span> peeduca == 43</span>
+<span id="cb66-13"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-13" tabindex="-1"></a>*Advanced Degree: Master&#39;s, Professional, <span class="kw">or</span> Doctorate</span>
+<span id="cb66-14"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-14" tabindex="-1"></a><span class="kw">replace</span> educ = 6 <span class="kw">if</span> peeduca &gt;= 44 &amp; peeduca &lt;= 46</span>
+<span id="cb66-15"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-15" tabindex="-1"></a><span class="kw">label</span> <span class="kw">define</span> educ1 1 <span class="st">&quot;High School Dropout&quot;</span> 2 <span class="st">&quot;High School Graduate&quot;</span> <span class="co">///</span></span>
+<span id="cb66-16"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-16" tabindex="-1"></a>                   3 <span class="st">&quot;Some College&quot;</span> 4 <span class="st">&quot;Associates (VorA) Degree&quot;</span> <span class="co">///</span></span>
+<span id="cb66-17"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-17" tabindex="-1"></a>                           5 <span class="st">&quot;Bachelor&#39;s Degree&quot;</span> 6 <span class="st">&quot;Advanced Degree&quot;</span></span>
+<span id="cb66-18"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb66-18" tabindex="-1"></a><span class="kw">label</span> <span class="kw">values</span> educ educ1</span></code></pre></div>
+<p><em>Caveat with Generating Categorical Variables in Stata</em>
+Don’t do peeduca &gt;= 44 without peeduca &lt;= 46 since missing values are very large. So you if do peeduca &gt;= 44 and missing educational status is “.”, then missing observations will get categorized as an advanced degree which will be a measurement error.</p>
+<p>Generate Potential Experience</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb67-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb67-1" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">exp</span> = prtage - 16</span>
+<span id="cb67-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb67-2" tabindex="-1"></a><span class="kw">gen</span> exp2 = <span class="fu">exp</span>*<span class="fu">exp</span></span></code></pre></div>
+<p>You can use local macros for testing models</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb68-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb68-1" tabindex="-1"></a><span class="kw">local</span> rhs1 i.educ <span class="fu">exp</span> exp2</span>
+<span id="cb68-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb68-2" tabindex="-1"></a><span class="kw">local</span> rhs2 i.educ <span class="fu">exp</span> exp2 i.female</span>
+<span id="cb68-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb68-3" tabindex="-1"></a><span class="kw">local</span> rhs3 i.educ <span class="fu">exp</span> exp2 i.female i.<span class="kw">union</span></span>
+<span id="cb68-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb68-4" tabindex="-1"></a><span class="kw">local</span> rhs4 i.educ <span class="fu">exp</span> exp2 i.female i.<span class="kw">union</span> i.hryear4 </span>
+<span id="cb68-5"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb68-5" tabindex="-1"></a><span class="kw">local</span> rhs5 i.educ <span class="fu">exp</span> exp2 i.female i.<span class="kw">union</span> i.hryear4 i.peio1icd</span>
+<span id="cb68-6"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb68-6" tabindex="-1"></a>*Add interaction between female and <span class="kw">union</span></span>
+<span id="cb68-7"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb68-7" tabindex="-1"></a><span class="kw">local</span> rhs6 i.educ <span class="fu">exp</span> exp2 i.female##i.<span class="kw">union</span> i.hryear4 i.peio1icd</span></code></pre></div>
+<p>Run our regression</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb69-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb69-1" tabindex="-1"></a><span class="kw">reg</span> earnings <span class="ot">`rhs1&#39;</span>, <span class="kw">robust</span></span>
+<span id="cb69-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb69-2" tabindex="-1"></a><span class="kw">reg</span> earnings <span class="ot">`rhs2&#39;</span>, <span class="kw">robust</span></span>
+<span id="cb69-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb69-3" tabindex="-1"></a><span class="kw">reg</span> earnings <span class="ot">`rhs3&#39;</span>, <span class="kw">robust</span></span>
+<span id="cb69-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb69-4" tabindex="-1"></a><span class="kw">reg</span> earnings <span class="ot">`rhs4&#39;</span>, <span class="kw">robust</span></span>
+<span id="cb69-5"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb69-5" tabindex="-1"></a><span class="kw">reg</span> earnings <span class="ot">`rhs5&#39;</span>, <span class="kw">robust</span></span>
+<span id="cb69-6"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb69-6" tabindex="-1"></a><span class="kw">reg</span> earnings <span class="ot">`rhs6&#39;</span>, <span class="kw">robust</span></span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =    248,811
+                                                F(7, 248803)      =   11601.57
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.2645
+                                                Root MSE          =     .72359
+
+-------------------------------------------------------------------------------------------
+                          |               Robust
+               lnearnings |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+--------------------------+----------------------------------------------------------------
+                     educ |
+    High School Graduate  |    .409167   .0061648    66.37   0.000     .3970841    .4212499
+            Some College  |   .4095462   .0067562    60.62   0.000     .3963043     .422788
+Associates (VorA) Degree  |   .5171878   .0069999    73.88   0.000     .5034681    .5309075
+       Bachelor&#39;s Degree  |   .8685378   .0063983   135.75   0.000     .8559973    .8810782
+         Advanced Degree  |   1.073213   .0069293   154.88   0.000     1.059631    1.086794
+                          |
+                      exp |    .062107   .0004216   147.31   0.000     .0612807    .0629333
+                     exp2 |  -.0009771   7.65e-06  -127.80   0.000     -.000992   -.0009621
+                    _cons |   5.518003   .0069875   789.70   0.000     5.504308    5.531699
+-------------------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =    248,811
+                                                F(8, 248802)      =   12342.42
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.3031
+                                                Root MSE          =     .70438
+
+-------------------------------------------------------------------------------------------
+                          |               Robust
+               lnearnings |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+--------------------------+----------------------------------------------------------------
+                     educ |
+    High School Graduate  |   .4156047   .0059502    69.85   0.000     .4039425    .4272668
+            Some College  |   .4408511   .0065453    67.35   0.000     .4280225    .4536797
+Associates (VorA) Degree  |   .5596453   .0067703    82.66   0.000     .5463758    .5729149
+       Bachelor&#39;s Degree  |   .9084709   .0061978   146.58   0.000     .8963234    .9206184
+         Advanced Degree  |   1.121183   .0067401   166.34   0.000     1.107973    1.134394
+                          |
+                      exp |   .0613624   .0004132   148.52   0.000     .0605526    .0621722
+                     exp2 |  -.0009637   7.50e-06  -128.53   0.000    -.0009784    -.000949
+                          |
+                   female |
+                  Female  |   -.333084   .0028429  -117.16   0.000     -.338656   -.3275119
+                    _cons |   5.660114   .0069181   818.17   0.000     5.646555    5.673673
+-------------------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =    248,811
+                                                F(9, 248801)      =   11129.25
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.3040
+                                                Root MSE          =      .7039
+
+-------------------------------------------------------------------------------------------
+                          |               Robust
+               lnearnings |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+--------------------------+----------------------------------------------------------------
+                     educ |
+    High School Graduate  |   .4125402   .0059457    69.39   0.000     .4008868    .4241935
+            Some College  |   .4372733   .0065413    66.85   0.000     .4244525    .4500942
+Associates (VorA) Degree  |   .5552335   .0067633    82.09   0.000     .5419776    .5684895
+       Bachelor&#39;s Degree  |   .9050996   .0061986   146.02   0.000     .8929506    .9172486
+         Advanced Degree  |   1.114006   .0067622   164.74   0.000     1.100752     1.12726
+                          |
+                      exp |   .0609065   .0004135   147.28   0.000      .060096     .061717
+                     exp2 |  -.0009571   7.50e-06  -127.69   0.000    -.0009718   -.0009424
+                          |
+                   female |
+                  Female  |  -.3322049   .0028417  -116.91   0.000    -.3377745   -.3266354
+                          |
+                    union |
+                   Union  |   .0886408   .0041953    21.13   0.000     .0804181    .0968635
+                    _cons |   5.660998   .0069149   818.66   0.000     5.647445    5.674551
+-------------------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =    248,811
+                                                F(10, 248800)     =   10030.61
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.3049
+                                                Root MSE          =     .70345
+
+-------------------------------------------------------------------------------------------
+                          |               Robust
+               lnearnings |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+--------------------------+----------------------------------------------------------------
+                     educ |
+    High School Graduate  |   .4122138   .0059457    69.33   0.000     .4005605    .4238672
+            Some College  |   .4373993   .0065415    66.86   0.000      .424578    .4502205
+Associates (VorA) Degree  |   .5545629   .0067628    82.00   0.000      .541308    .5678177
+       Bachelor&#39;s Degree  |   .9045909   .0061969   145.97   0.000     .8924451    .9167367
+         Advanced Degree  |   1.113443   .0067577   164.77   0.000     1.100198    1.126688
+                          |
+                      exp |   .0609184   .0004136   147.29   0.000     .0601077    .0617291
+                     exp2 |  -.0009573   7.50e-06  -127.69   0.000     -.000972   -.0009426
+                          |
+                   female |
+                  Female  |  -.3321621   .0028397  -116.97   0.000    -.3377278   -.3265963
+                          |
+                    union |
+                   Union  |   .0887879    .004192    21.18   0.000     .0805716    .0970041
+                          |
+                  hryear4 |
+                    2024  |   .0501524   .0028201    17.78   0.000      .044625    .0556798
+                          |
+                    _cons |   5.636116   .0070549   798.90   0.000     5.622289    5.649943
+-------------------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =    248,811
+                                                F(22, 248788)     =    5310.25
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.3349
+                                                Root MSE          =     .68812
+
+-----------------------------------------------------------------------------------------------------------------
+                                                |               Robust
+                                     lnearnings |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+------------------------------------------------+----------------------------------------------------------------
+                                           educ |
+                          High School Graduate  |   .3840322   .0059144    64.93   0.000     .3724401    .3956243
+                                  Some College  |   .4091063   .0065253    62.70   0.000      .396317    .4218957
+                      Associates (VorA) Degree  |   .5233398   .0068026    76.93   0.000      .510007    .5366727
+                             Bachelor&#39;s Degree  |   .8481448   .0063508   133.55   0.000     .8356973    .8605923
+                               Advanced Degree  |     1.0828   .0069954   154.79   0.000     1.069089     1.09651
+                                                |
+                                            exp |   .0550617   .0004126   133.46   0.000      .054253    .0558703
+                                           exp2 |  -.0008699   7.42e-06  -117.31   0.000    -.0008844   -.0008553
+                                                |
+                                         female |
+                                        Female  |  -.2669904   .0030367   -87.92   0.000    -.2729423   -.2610385
+                                                |
+                                          union |
+                                         Union  |   .1018213   .0042456    23.98   0.000     .0934999    .1101426
+                                                |
+                                        hryear4 |
+                                          2024  |   .0511416   .0027589    18.54   0.000     .0457342    .0565491
+                                                |
+                                       prmjind1 |
+                              NAICS 21: Mining  |   .4601445   .0215585    21.34   0.000     .4178905    .5023985
+                        NAICS 23: Construction  |   .2414286   .0139472    17.31   0.000     .2140925    .2687648
+                    NAICS 31-33: Manufacturing  |   .2237477   .0137168    16.31   0.000     .1968631    .2506322
+            NAICS 42,44-45: Wholesale &amp; Retail  |  -.0344484   .0137914    -2.50   0.012    -.0614792   -.0074177
+    NAICS 22,48-49: Utilities &amp; Transportation  |   .1267323   .0143908     8.81   0.000     .0985266    .1549379
+                         NAICS 51: Information  |   .2449216   .0178831    13.70   0.000     .2098712     .279972
+             NAICS 52-53: Financial Activities  |   .2939349   .0142959    20.56   0.000     .2659154    .3219545
+NAICS 53,55,56: Professional &amp; Business Serv..  |   .2228786   .0138884    16.05   0.000     .1956577    .2500995
+               NAICS 61-62: Education &amp; Health  |  -.0262834   .0136592    -1.92   0.054     -.053055    .0004882
+            NAICS 71-72: Leisure &amp; Hospitality  |  -.1961534   .0141092   -13.90   0.000     -.223807   -.1684998
+                      NAICS 81: Other Services  |  -.1098199    .015223    -7.21   0.000    -.1396565   -.0799833
+               NAICS 92: Public Administration  |   .1422022   .0142532     9.98   0.000     .1142663    .1701381
+                                                |
+                                          _cons |   5.638847   .0146119   385.91   0.000     5.610208    5.667486
+-----------------------------------------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =    248,811
+                                                F(23, 248787)     =    5081.12
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.3349
+                                                Root MSE          =     .68812
+
+-----------------------------------------------------------------------------------------------------------------
+                                                |               Robust
+                                     lnearnings |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+------------------------------------------------+----------------------------------------------------------------
+                                           educ |
+                          High School Graduate  |   .3841487   .0059155    64.94   0.000     .3725543     .395743
+                                  Some College  |   .4092612   .0065272    62.70   0.000      .396468    .4220543
+                      Associates (VorA) Degree  |   .5235541   .0068043    76.94   0.000     .5102179    .5368903
+                             Bachelor&#39;s Degree  |   .8481453   .0063508   133.55   0.000     .8356979    .8605928
+                               Advanced Degree  |    1.08265    .006998   154.71   0.000     1.068934    1.096366
+                                                |
+                                            exp |   .0550613   .0004126   133.46   0.000     .0542527    .0558699
+                                           exp2 |  -.0008699   7.42e-06  -117.31   0.000    -.0008844   -.0008554
+                                                |
+                                         female |
+                                        Female  |  -.2680058   .0031915   -83.97   0.000    -.2742611   -.2617506
+                                                |
+                                          union |
+                                         Union  |   .0964584   .0056709    17.01   0.000     .0853436    .1075732
+                                                |
+                                   female#union |
+                                  Female#Union  |   .0112795    .008181     1.38   0.168     -.004755    .0273139
+                                                |
+                                        hryear4 |
+                                          2024  |   .0511369   .0027589    18.53   0.000     .0457294    .0565443
+                                                |
+                                       prmjind1 |
+                              NAICS 21: Mining  |   .4602906   .0215562    21.35   0.000      .418041    .5025401
+                        NAICS 23: Construction  |   .2417802   .0139496    17.33   0.000     .2144393    .2691211
+                    NAICS 31-33: Manufacturing  |   .2239984   .0137179    16.33   0.000     .1971116    .2508852
+            NAICS 42,44-45: Wholesale &amp; Retail  |  -.0342786    .013792    -2.49   0.013    -.0613106   -.0072466
+    NAICS 22,48-49: Utilities &amp; Transportation  |   .1272795   .0143997     8.84   0.000     .0990564    .1555026
+                         NAICS 51: Information  |   .2452513   .0178858    13.71   0.000     .2101957    .2803069
+             NAICS 52-53: Financial Activities  |   .2942334   .0142996    20.58   0.000     .2662066    .3222603
+NAICS 53,55,56: Professional &amp; Business Serv..  |   .2231206   .0138903    16.06   0.000     .1958961    .2503451
+               NAICS 61-62: Education &amp; Health  |    -.02622   .0136591    -1.92   0.055    -.0529915    .0005516
+            NAICS 71-72: Leisure &amp; Hospitality  |  -.1959203   .0141108   -13.88   0.000    -.2235772   -.1682635
+                      NAICS 81: Other Services  |  -.1095106    .015225    -7.19   0.000    -.1393512     -.07967
+               NAICS 92: Public Administration  |   .1426441   .0142568    10.01   0.000     .1147012    .1705869
+                                                |
+                                          _cons |   5.639084   .0146121   385.92   0.000     5.610445    5.667723
+-----------------------------------------------------------------------------------------------------------------</code></pre>
+<p>Use esttab for formatted results:
+<a href="http://repec.org/bocode/e/estout/esttab.html">esttab documentation</a>.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb71-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb71-1" tabindex="-1"></a><span class="kw">local</span> rhs4 i.educ <span class="fu">exp</span> exp2 i.female i.<span class="kw">union</span> i.hryear4 </span>
+<span id="cb71-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb71-2" tabindex="-1"></a><span class="kw">local</span> rhs5 i.educ <span class="fu">exp</span> exp2 i.female i.<span class="kw">union</span> i.hryear4 i.peio1icd</span>
+<span id="cb71-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb71-3" tabindex="-1"></a>*Add interaction between female and <span class="kw">union</span></span>
+<span id="cb71-4"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb71-4" tabindex="-1"></a><span class="kw">local</span> rhs6 i.educ <span class="fu">exp</span> exp2 i.female##i.<span class="kw">union</span> i.hryear4 i.peio1icd</span></code></pre></div>
+<p>Use est clear to clear out your prior estimates.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb72-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb72-1" tabindex="-1"></a><span class="kw">est</span> <span class="kw">clear</span></span></code></pre></div>
+<p>We use eststo to save a model to compare it to another.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb73-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb73-1" tabindex="-1"></a>eststo reg1: <span class="kw">reg</span> earnings <span class="ot">`rhs4&#39;</span></span>
+<span id="cb73-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb73-2" tabindex="-1"></a>eststo reg2: <span class="kw">reg</span> earnings <span class="ot">`rhs5&#39;</span></span>
+<span id="cb73-3"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb73-3" tabindex="-1"></a>eststo <span class="kw">reg3</span>: <span class="kw">reg</span> earnings <span class="ot">`rhs6&#39;</span></span></code></pre></div>
+<p>Output the results</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb74-1"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb74-1" tabindex="-1"></a>esttab, <span class="bn">title</span> (Mincer Equation) r2 se <span class="kw">noconstant</span> <span class="kw">star</span>(* .10 ** .05 *** .01) <span class="co">///</span></span>
+<span id="cb74-2"><a href="displaying-your-results-with-publication-quality-tables-with-estout-and-outreg.html#cb74-2" tabindex="-1"></a>b(%10.3f) <span class="kw">drop</span> (*peio1icd) <span class="kw">wide</span> <span class="kw">label</span>.</span></code></pre></div>
+<pre><code>Mincer Equation
+-------------------------------------------------------------------------------------
+                       (1)                    (2)                    (3)             
+                      OLS1                   OLS2                   OLS3             
+-------------------------------------------------------------------------------------
+High School Gr~e     0.412***   (0.006)     0.384***   (0.006)     0.384***   (0.006)
+Some College         0.437***   (0.007)     0.409***   (0.007)     0.409***   (0.007)
+Associates (Vo~e     0.555***   (0.007)     0.523***   (0.007)     0.524***   (0.007)
+Bachelor&#39;s Deg~e     0.905***   (0.006)     0.848***   (0.006)     0.848***   (0.006)
+Advanced Degree      1.113***   (0.007)     1.083***   (0.007)     1.083***   (0.007)
+exp                  0.061***   (0.000)     0.055***   (0.000)     0.055***   (0.000)
+exp2                -0.001***   (0.000)    -0.001***   (0.000)    -0.001***   (0.000)
+Female              -0.332***   (0.003)    -0.267***   (0.003)    -0.268***   (0.003)
+Union                0.089***   (0.005)     0.102***   (0.005)     0.096***   (0.007)
+HRYEAR4=2024         0.050***   (0.003)     0.051***   (0.003)     0.051***   (0.003)
+NAICS 11: Agri~e                            0.000          (.)     0.000          (.)
+NAICS 21: Mining                            0.460***   (0.022)     0.460***   (0.022)
+NAICS 23: Cons~n                            0.241***   (0.014)     0.242***   (0.014)
+NAICS 31-33: M~g                            0.224***   (0.014)     0.224***   (0.014)
+NAICS 42,44-45~a                           -0.034**    (0.014)    -0.034**    (0.014)
+NAICS 22,48-49~n                            0.127***   (0.015)     0.127***   (0.015)
+NAICS 51: Info~n                            0.245***   (0.017)     0.245***   (0.017)
+NAICS 52-53: F~e                            0.294***   (0.014)     0.294***   (0.014)
+NAICS 53,55,56~B                            0.223***   (0.014)     0.223***   (0.014)
+NAICS 61-62: E~h                           -0.026*     (0.014)    -0.026*     (0.014)
+NAICS 71-72: L~i                           -0.196***   (0.014)    -0.196***   (0.014)
+NAICS 81: Othe~s                           -0.110***   (0.015)    -0.110***   (0.015)
+NAICS 92: Publ~n                            0.142***   (0.015)     0.143***   (0.015)
+Female # Union                                                     0.011      (0.009)
+Constant             5.636***   (0.007)     5.639***   (0.015)     5.639***   (0.015)
+-------------------------------------------------------------------------------------
+Observations        248811                 248811                 248811             
+R-squared            0.305                  0.335                  0.335             
+-------------------------------------------------------------------------------------
+Standard errors in parentheses
+* p&lt;.10, ** p&lt;.05, *** p&lt;.01</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="stata-programming-techniques-helpful-for-econ-645.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-publish_tables.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

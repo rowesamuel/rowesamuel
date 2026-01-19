@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Randomized Inference | Potential Outcomes and Experimental Research Design</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Randomized Inference | Potential Outcomes and Experimental Research Design" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Randomized Inference | Potential Outcomes and Experimental Research Design" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2021) and Huber (2023)" />
+
+
+<meta name="date" content="2026-01-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="experimental-research-design.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Potential Outcomes and Research Design</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html"><i class="fa fa-check"></i><b>1</b> Potential Outcomes and Calculating Treatment Effects</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html#calculate-the-ate"><i class="fa fa-check"></i><b>1.1</b> Calculate the ATE</a></li>
+<li class="chapter" data-level="1.2" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html#calculate-the-atet"><i class="fa fa-check"></i><b>1.2</b> Calculate the ATET</a></li>
+<li class="chapter" data-level="1.3" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html#calculate-the-ateu"><i class="fa fa-check"></i><b>1.3</b> Calculate the ATEU</a></li>
+<li class="chapter" data-level="1.4" data-path="potential-outcomes-and-calculating-treatment-effects.html"><a href="potential-outcomes-and-calculating-treatment-effects.html#calculate-the-sdo"><i class="fa fa-check"></i><b>1.4</b> Calculate the SDO</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="experimental-research-design.html"><a href="experimental-research-design.html"><i class="fa fa-check"></i><b>2</b> Experimental Research Design</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#job-corps-2001-evaluation"><i class="fa fa-check"></i><b>2.1</b> Job Corps (2001) Evaluation</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#inspect-the-data"><i class="fa fa-check"></i><b>2.1.1</b> Inspect the Data</a></li>
+<li class="chapter" data-level="2.1.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#estimate-the-impact"><i class="fa fa-check"></i><b>2.1.2</b> Estimate the impact</a></li>
+<li class="chapter" data-level="2.1.3" data-path="experimental-research-design.html"><a href="experimental-research-design.html#covariate-balance-test-and-specification-tests"><i class="fa fa-check"></i><b>2.1.3</b> Covariate Balance Test and Specification Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#leaftlet-information-evaluation"><i class="fa fa-check"></i><b>2.2</b> Leaftlet Information Evaluation</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#inspect-the-data-1"><i class="fa fa-check"></i><b>2.2.1</b> Inspect the Data</a></li>
+<li class="chapter" data-level="2.2.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#estimate-the-impact-1"><i class="fa fa-check"></i><b>2.2.2</b> Estimate the impact</a></li>
+<li class="chapter" data-level="2.2.3" data-path="experimental-research-design.html"><a href="experimental-research-design.html#covariate-balance-test"><i class="fa fa-check"></i><b>2.2.3</b> Covariate Balance Test</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="randomized-inference.html"><a href="randomized-inference.html"><i class="fa fa-check"></i><b>3</b> Randomized Inference</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="randomized-inference.html"><a href="randomized-inference.html#set-up-the-dataset"><i class="fa fa-check"></i><b>3.1</b> Set up the Dataset</a></li>
+<li class="chapter" data-level="3.2" data-path="randomized-inference.html"><a href="randomized-inference.html#randomize-assignment-to-treatment"><i class="fa fa-check"></i><b>3.2</b> Randomize Assignment to Treatment</a></li>
+<li class="chapter" data-level="3.3" data-path="randomized-inference.html"><a href="randomized-inference.html#calculate-the-exact-p-value"><i class="fa fa-check"></i><b>3.3</b> Calculate the exact p-value</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Potential Outcomes and Experimental Research Design</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="randomized-inference" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Randomized Inference<a href="randomized-inference.html#randomized-inference" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Adapted from Cunningham (2021)</p>
+<p>We will use a placebo-based test to calculate exact p-values. We need every single permutation of treatment to calculate the exact p-values from the ATE.</p>
+<div id="set-up-the-dataset" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Set up the Dataset<a href="randomized-inference.html#set-up-the-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First we will set the seed so we can replicate our randomized results</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="randomized-inference.html#cb39-1" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 1234</span></code></pre></div>
+<p>Next we will bring in our</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb40-1"><a href="randomized-inference.html#cb40-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data&quot;</span></span>
+<span id="cb40-2"><a href="randomized-inference.html#cb40-2" tabindex="-1"></a><span class="kw">use</span> ri.dta, <span class="kw">clear</span></span>
+<span id="cb40-3"><a href="randomized-inference.html#cb40-3" tabindex="-1"></a><span class="kw">tempfile</span> ri</span>
+<span id="cb40-4"><a href="randomized-inference.html#cb40-4" tabindex="-1"></a><span class="kw">gen</span> id = <span class="dt">_n</span></span>
+<span id="cb40-5"><a href="randomized-inference.html#cb40-5" tabindex="-1"></a><span class="kw">save</span> <span class="st">&quot;`ri&#39;&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<p><img src="Week2_ri_example.png" alt="Randomized Inference Example" />
+Next we will create all combinations from our eight observations. We will need to install the <em>percom</em> package into stata.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="randomized-inference.html#cb41-1" tabindex="-1"></a><span class="kw">ssc</span> install percom</span></code></pre></div>
+<p>Out of 8 observations, we get 70 permutations.
+We can use the <em>combin</em> command to get these permutations. From the <em>help combin</em>, the <em>combin</em> command generates <span class="math inline">\(k\)</span> unique combinations from a set of <span class="math inline">\(n\)</span> objects, where <span class="math inline">\(k\)</span> is not greater than <span class="math inline">\(5 (2 =&lt; k &lt;= 5)\)</span>.
+Program first arranges <span class="math inline">\(k\)</span> possible permutations and then retains unique combinations. It supports both string and numeric variables.</p>
+<p>combination: <span class="math inline">\(\frac{n!}{k!(n-k)!}\)</span></p>
+<p>We will tell the <em>combin</em> command that we want 4 combinations from our 8 observations.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb42-1"><a href="randomized-inference.html#cb42-1" tabindex="-1"></a>combin id, <span class="kw">k</span>(4)</span></code></pre></div>
+<pre><code>         k =          4
+         N =          8
+Combinations Formed: 70</code></pre>
+<p><img src="Week2_ri_example2.png" alt="Permutations" />
+Next we will label the permutations 1 to 70.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="randomized-inference.html#cb44-1" tabindex="-1"></a><span class="kw">gen</span> permutation = <span class="dt">_n</span></span>
+<span id="cb44-2"><a href="randomized-inference.html#cb44-2" tabindex="-1"></a><span class="kw">tempfile</span> combo</span>
+<span id="cb44-3"><a href="randomized-inference.html#cb44-3" tabindex="-1"></a><span class="kw">save</span> <span class="st">&quot;`combo&#39;&quot;</span>, <span class="kw">replace</span></span>
+<span id="cb44-4"><a href="randomized-inference.html#cb44-4" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="randomized-inference.html#cb44-5" tabindex="-1"></a>forvalue i =1/4 {</span>
+<span id="cb44-6"><a href="randomized-inference.html#cb44-6" tabindex="-1"></a>    <span class="kw">rename</span> id_<span class="ot">`i&#39;</span> treated<span class="ot">`i&#39;</span></span>
+<span id="cb44-7"><a href="randomized-inference.html#cb44-7" tabindex="-1"></a>}</span></code></pre></div>
+<p>Next we will merge our permutations with our dataset of potential outcomes</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb45-1"><a href="randomized-inference.html#cb45-1" tabindex="-1"></a><span class="kw">destring</span> treated*, <span class="kw">replace</span></span>
+<span id="cb45-2"><a href="randomized-inference.html#cb45-2" tabindex="-1"></a><span class="kw">cross</span> <span class="kw">using</span> <span class="ot">`ri&#39;</span></span></code></pre></div>
+<div class="float">
+<img src="Week2_ri_example3.png" alt="Merge Dataset with Permutations" />
+<div class="figcaption">Merge Dataset with Permutations</div>
+</div>
+</div>
+<div id="randomize-assignment-to-treatment" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Randomize Assignment to Treatment<a href="randomized-inference.html#randomize-assignment-to-treatment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Next we will randomized treatment and calculate other test statistics.</p>
+<p>First, we create a fake treatment variable <span class="math inline">\(d2\)</span></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb46-1"><a href="randomized-inference.html#cb46-1" tabindex="-1"></a><span class="kw">gen</span> d2 = .</span>
+<span id="cb46-2"><a href="randomized-inference.html#cb46-2" tabindex="-1"></a><span class="kw">replace</span> d2 = 1 <span class="kw">if</span> id == treated1 | id == treated2 | id == treated3 | id == treated4</span>
+<span id="cb46-3"><a href="randomized-inference.html#cb46-3" tabindex="-1"></a><span class="kw">replace</span> d2 = 0 <span class="kw">if</span> ~(id == treated1 | id == treated2 | id == treated3 | id == treated4)</span>
+<span id="cb46-4"><a href="randomized-inference.html#cb46-4" tabindex="-1"></a><span class="kw">gen</span> check = <span class="kw">d</span> - d2</span></code></pre></div>
+<div class="float">
+<img src="Week2_ri_example4.png" alt="Set up False Treatment" />
+<div class="figcaption">Set up False Treatment</div>
+</div>
+<p>Next, we will calculate true effect using absolute value of simple difference in outcomes <span class="math inline">\((SDO)\)</span>.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb47-1"><a href="randomized-inference.html#cb47-1" tabindex="-1"></a><span class="kw">egen</span> te1 = <span class="kw">mean</span>(<span class="fu">y</span>) <span class="kw">if</span> d2==1, <span class="kw">by</span>(permutation)</span>
+<span id="cb47-2"><a href="randomized-inference.html#cb47-2" tabindex="-1"></a><span class="kw">egen</span> te0 = <span class="kw">mean</span>(<span class="fu">y</span>) <span class="kw">if</span> d2==0, <span class="kw">by</span>(permutation)</span></code></pre></div>
+<div class="float">
+<img src="Week2_ri_example5.png" alt="Get the average treatment effects by permutations" />
+<div class="figcaption">Get the average treatment effects by permutations</div>
+</div>
+</div>
+<div id="calculate-the-exact-p-value" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Calculate the exact p-value<a href="randomized-inference.html#calculate-the-exact-p-value" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Get average treatment effects <span class="math inline">\((ATE)\)</span></p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb48-1"><a href="randomized-inference.html#cb48-1" tabindex="-1"></a><span class="kw">collapse</span> (<span class="kw">mean</span>) te1 te0, <span class="kw">by</span>(permutation)</span>
+<span id="cb48-2"><a href="randomized-inference.html#cb48-2" tabindex="-1"></a><span class="kw">gen</span>     ate = te1 - te0</span>
+<span id="cb48-3"><a href="randomized-inference.html#cb48-3" tabindex="-1"></a><span class="kw">keep</span>    ate permutation</span></code></pre></div>
+<div class="float">
+<img src="Week2_ri_example6.png" alt="Collapse the treatment effects by permutation" />
+<div class="figcaption">Collapse the treatment effects by permutation</div>
+</div>
+<p>Next, we rank the permutations</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb49-1"><a href="randomized-inference.html#cb49-1" tabindex="-1"></a><span class="kw">gsort</span> -ate</span>
+<span id="cb49-2"><a href="randomized-inference.html#cb49-2" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">rank</span> = <span class="dt">_n</span></span>
+<span id="cb49-3"><a href="randomized-inference.html#cb49-3" tabindex="-1"></a><span class="kw">sum</span> <span class="fu">rank</span> <span class="kw">if</span> permutation==1</span></code></pre></div>
+<div class="float">
+<img src="Week2_ri_example7.png" alt="Sort and Rank by ATE" />
+<div class="figcaption">Sort and Rank by ATE</div>
+</div>
+<p>Finally, we calculate Exact <span class="math inline">\(p\)</span>-value</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb50-1"><a href="randomized-inference.html#cb50-1" tabindex="-1"></a><span class="kw">gen</span> pvalue = (<span class="ot">`r(mean)&#39;</span>/70)</span>
+<span id="cb50-2"><a href="randomized-inference.html#cb50-2" tabindex="-1"></a><span class="ot">list</span> pvalue <span class="kw">if</span> permutation==1</span></code></pre></div>
+<pre><code>     |    pvalue |
+     |-----------|
+ 29. | .41428571 |
+     +-----------+</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="experimental-research-design.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

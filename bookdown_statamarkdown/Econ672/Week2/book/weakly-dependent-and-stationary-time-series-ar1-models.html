@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Weakly Dependent and Stationary Time Series AR(1) Models | A Minimal Book Example</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Weakly Dependent and Stationary Time Series AR(1) Models | A Minimal Book Example" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Weakly Dependent and Stationary Time Series AR(1) Models | A Minimal Book Example" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="John Doe" />
+
+
+<meta name="date" content="2026-01-17" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="seasonality.html"/>
+<link rel="next" href="cross.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Potential Outcomes and Research Design</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="calculate-treatment-effects.html"><a href="calculate-treatment-effects.html"><i class="fa fa-check"></i><b>1</b> Calculate Treatment Effects</a></li>
+<li class="chapter" data-level="2" data-path="potential-outcomes.html"><a href="potential-outcomes.html"><i class="fa fa-check"></i><b>2</b> Potential Outcomes</a></li>
+<li class="chapter" data-level="3" data-path="experimental-research-design.html"><a href="experimental-research-design.html"><i class="fa fa-check"></i><b>3</b> Experimental Research Design</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#calculate-the-ate"><i class="fa fa-check"></i><b>3.1</b> Calculate the ATE</a></li>
+<li class="chapter" data-level="3.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#job-corps-2001-evaluation"><i class="fa fa-check"></i><b>3.2</b> Job Corps (2001) Evaluation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#inspect-the-data"><i class="fa fa-check"></i><b>3.2.1</b> Inspect the Data</a></li>
+<li class="chapter" data-level="3.2.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#estimate-the-impact"><i class="fa fa-check"></i><b>3.2.2</b> Estimate the impact</a></li>
+<li class="chapter" data-level="3.2.3" data-path="experimental-research-design.html"><a href="experimental-research-design.html#covariate-balance-test-and-specification-tests"><i class="fa fa-check"></i><b>3.2.3</b> Covariate Balance Test and Specification Tests</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="experimental-research-design.html"><a href="experimental-research-design.html#leaftlet-information-evaluation"><i class="fa fa-check"></i><b>3.3</b> Leaftlet Information Evaluation</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="experimental-research-design.html"><a href="experimental-research-design.html#inspect-the-data-1"><i class="fa fa-check"></i><b>3.3.1</b> Inspect the Data</a></li>
+<li class="chapter" data-level="3.3.2" data-path="experimental-research-design.html"><a href="experimental-research-design.html#estimate-the-impact-1"><i class="fa fa-check"></i><b>3.3.2</b> Estimate the impact</a></li>
+<li class="chapter" data-level="3.3.3" data-path="experimental-research-design.html"><a href="experimental-research-design.html#covariate-balance-test-and-specification-tests-1"><i class="fa fa-check"></i><b>3.3.3</b> Covariate Balance Test and Specification Tests</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="static-models.html"><a href="static-models.html"><i class="fa fa-check"></i><b>4</b> Static Models</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="static-models.html"><a href="static-models.html#static-philips-curve"><i class="fa fa-check"></i><b>4.1</b> Static Philips Curve</a></li>
+<li class="chapter" data-level="4.2" data-path="static-models.html"><a href="static-models.html#inflation-and-deficits-on-interest-rates"><i class="fa fa-check"></i><b>4.2</b> Inflation and Deficits on Interest Rates</a></li>
+<li class="chapter" data-level="4.3" data-path="static-models.html"><a href="static-models.html#puerto-rican-employment-and-minimum-wage"><i class="fa fa-check"></i><b>4.3</b> Puerto Rican Employment and Minimum Wage</a></li>
+<li class="chapter" data-level="4.4" data-path="static-models.html"><a href="static-models.html#antidumping-filings-and-chemical-imports"><i class="fa fa-check"></i><b>4.4</b> Antidumping Filings and Chemical Imports</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="finite-distributed-lags-models.html"><a href="finite-distributed-lags-models.html"><i class="fa fa-check"></i><b>5</b> Finite Distributed Lags Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="finite-distributed-lags-models.html"><a href="finite-distributed-lags-models.html#personal-exemption-on-fertility-rates"><i class="fa fa-check"></i><b>5.1</b> Personal Exemption on Fertility Rates</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="time-trends.html"><a href="time-trends.html"><i class="fa fa-check"></i><b>6</b> Time Trends</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="time-trends.html"><a href="time-trends.html#housing-investment-and-housing-prices"><i class="fa fa-check"></i><b>6.1</b> Housing Investment and Housing Prices</a></li>
+<li class="chapter" data-level="6.2" data-path="time-trends.html"><a href="time-trends.html#personal-exemption-on-fertility-rates-1"><i class="fa fa-check"></i><b>6.2</b> Personal Exemption on Fertility Rates</a></li>
+<li class="chapter" data-level="6.3" data-path="time-trends.html"><a href="time-trends.html#puerto-rican-employment"><i class="fa fa-check"></i><b>6.3</b> Puerto Rican Employment</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="seasonality.html"><a href="seasonality.html"><i class="fa fa-check"></i><b>7</b> Seasonality</a></li>
+<li class="chapter" data-level="8" data-path="weakly-dependent-and-stationary-time-series-ar1-models.html"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html"><i class="fa fa-check"></i><b>8</b> Weakly Dependent and Stationary Time Series AR(1) Models</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="weakly-dependent-and-stationary-time-series-ar1-models.html"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#efficient-market-hypothesis"><i class="fa fa-check"></i><b>8.1</b> Efficient Market Hypothesis</a></li>
+<li class="chapter" data-level="8.2" data-path="weakly-dependent-and-stationary-time-series-ar1-models.html"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#expected-augmented-phillips-curve"><i class="fa fa-check"></i><b>8.2</b> Expected Augmented Phillips Curve</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="cross.html"><a href="cross.html"><i class="fa fa-check"></i><b>9</b> Cross-references</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="cross.html"><a href="cross.html#chapters-and-sub-chapters"><i class="fa fa-check"></i><b>9.1</b> Chapters and sub-chapters</a></li>
+<li class="chapter" data-level="9.2" data-path="cross.html"><a href="cross.html#captioned-figures-and-tables"><i class="fa fa-check"></i><b>9.2</b> Captioned figures and tables</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="parts.html"><a href="parts.html"><i class="fa fa-check"></i><b>10</b> Parts</a></li>
+<li class="chapter" data-level="11" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html"><i class="fa fa-check"></i><b>11</b> Footnotes and citations</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#footnotes"><i class="fa fa-check"></i><b>11.1</b> Footnotes</a></li>
+<li class="chapter" data-level="11.2" data-path="footnotes-and-citations.html"><a href="footnotes-and-citations.html#citations"><i class="fa fa-check"></i><b>11.2</b> Citations</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="blocks.html"><a href="blocks.html"><i class="fa fa-check"></i><b>12</b> Blocks</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="blocks.html"><a href="blocks.html#equations"><i class="fa fa-check"></i><b>12.1</b> Equations</a></li>
+<li class="chapter" data-level="12.2" data-path="blocks.html"><a href="blocks.html#theorems-and-proofs"><i class="fa fa-check"></i><b>12.2</b> Theorems and proofs</a></li>
+<li class="chapter" data-level="12.3" data-path="blocks.html"><a href="blocks.html#callout-blocks"><i class="fa fa-check"></i><b>12.3</b> Callout blocks</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="sharing-your-book.html"><a href="sharing-your-book.html"><i class="fa fa-check"></i><b>13</b> Sharing your book</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="sharing-your-book.html"><a href="sharing-your-book.html#publishing"><i class="fa fa-check"></i><b>13.1</b> Publishing</a></li>
+<li class="chapter" data-level="13.2" data-path="sharing-your-book.html"><a href="sharing-your-book.html#pages"><i class="fa fa-check"></i><b>13.2</b> 404 pages</a></li>
+<li class="chapter" data-level="13.3" data-path="sharing-your-book.html"><a href="sharing-your-book.html#metadata-for-sharing"><i class="fa fa-check"></i><b>13.3</b> Metadata for sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">A Minimal Book Example</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="weakly-dependent-and-stationary-time-series-ar1-models" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Weakly Dependent and Stationary Time Series AR(1) Models<a href="weakly-dependent-and-stationary-time-series-ar1-models.html#weakly-dependent-and-stationary-time-series-ar1-models" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="efficient-market-hypothesis" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Efficient Market Hypothesis<a href="weakly-dependent-and-stationary-time-series-ar1-models.html#efficient-market-hypothesis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’ll test the a version of the efficient market hypothesis (EMH) by looking
+at weekly stock return from 1976 to 1989.</p>
+<p>Set Time Series</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb56-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb56-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span></span>
+<span id="cb56-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb56-2" tabindex="-1"></a><span class="kw">use</span> nyse, <span class="kw">clear</span></span>
+<span id="cb56-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb56-3" tabindex="-1"></a><span class="kw">tsset</span> t, <span class="fu">weekly</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+        time variable:  t, 1960w2 to 1973w16
+                delta:  1 week</code></pre>
+<p>Our dependent variable is the weekly percentage return on the New York Stock Exchange.
+A strict form of the EMH states that information observable to the market prior to
+week t should not help to predict the return during week t.
+<span class="math display">\[ E(y_t|y_{t-1},y_{t-2},...)=E(y_t) \]</span></p>
+<p>We will test EMH by specifying an AR(1) model and our hypothesis states that
+beta for y_(t-1) will be equal to 0. We’ll assume that stock returns are
+serially uncorrelated, so we can safetly assume that they are weakly dependent.</p>
+<p><span class="math display">\[ return_t = \beta_0 + \rho return_{t-1} + e_t \]</span></p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb58-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb58-1" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">return</span> <span class="ot">l</span>.<span class="fu">return</span></span>
+<span id="cb58-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb58-2" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb58-3" tabindex="-1"></a>*Or</span>
+<span id="cb58-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb58-4" tabindex="-1"></a><span class="kw">reg</span> <span class="fu">return</span> return_1</span>
+<span id="cb58-5"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb58-5" tabindex="-1"></a><span class="kw">predict</span> u, <span class="kw">resid</span></span>
+<span id="cb58-6"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb58-6" tabindex="-1"></a><span class="kw">reg</span> u <span class="ot">l</span>.u, noconst</span>
+<span id="cb58-7"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb58-7" tabindex="-1"></a><span class="kw">drop</span> u</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       689
+-------------+----------------------------------   F(1, 687)       =      2.40
+       Model |  10.6866231         1  10.6866231   Prob &gt; F        =    0.1218
+    Residual |  3059.73817       687  4.45376735   R-squared       =    0.0035
+-------------+----------------------------------   Adj R-squared   =    0.0020
+       Total |  3070.42479       688  4.46282673   Root MSE        =    2.1104
+
+------------------------------------------------------------------------------
+      return |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      return |
+         L1. |   .0588984   .0380231     1.55   0.122    -.0157569    .1335538
+             |
+       _cons |    .179634   .0807419     2.22   0.026     .0211034    .3381646
+------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =       689
+-------------+----------------------------------   F(1, 687)       =      2.40
+       Model |  10.6866231         1  10.6866231   Prob &gt; F        =    0.1218
+    Residual |  3059.73817       687  4.45376735   R-squared       =    0.0035
+-------------+----------------------------------   Adj R-squared   =    0.0020
+       Total |  3070.42479       688  4.46282673   Root MSE        =    2.1104
+
+------------------------------------------------------------------------------
+      return |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+    return_1 |   .0588984   .0380231     1.55   0.122    -.0157569    .1335538
+       _cons |    .179634   .0807419     2.22   0.026     .0211034    .3381646
+------------------------------------------------------------------------------
+
+(2 missing values generated)
+
+      Source |       SS           df       MS      Number of obs   =       688
+-------------+----------------------------------   F(1, 687)       =      0.00
+       Model |   .00603936         1   .00603936   Prob &gt; F        =    0.9706
+    Residual |  3059.08227       687  4.45281262   R-squared       =    0.0000
+-------------+----------------------------------   Adj R-squared   =   -0.0015
+       Total |  3059.08831       688  4.44634929   Root MSE        =    2.1102
+
+------------------------------------------------------------------------------
+           u |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+           u |
+         L1. |    .001405   .0381496     0.04   0.971    -.0734987    .0763087
+------------------------------------------------------------------------------</code></pre>
+<p>We cannot reject the null hypothesis under our model, but we do have some
+evidence of positive serial correlation.</p>
+</div>
+<div id="expected-augmented-phillips-curve" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Expected Augmented Phillips Curve<a href="weakly-dependent-and-stationary-time-series-ar1-models.html#expected-augmented-phillips-curve" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We’ll revisit the Phillips curve</p>
+<p>Set Time Series</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb60-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb60-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Wooldridge&quot;</span>    </span>
+<span id="cb60-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb60-2" tabindex="-1"></a><span class="kw">use</span> phillips.dta, <span class="kw">clear</span></span>
+<span id="cb60-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb60-3" tabindex="-1"></a><span class="kw">tsset</span> <span class="fu">year</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 645/Data/Wooldridge
+
+        time variable:  year, 1948 to 2003
+                delta:  1 unit</code></pre>
+<p>A linear version of the expections augmented Phillips curve can be written as
+<span class="math display">\[ inf_t - inf^e_t=\beta_1(unemp_t-\mu_0) + e_t \]</span></p>
+<p>Where <span class="math inline">\(mu_0\)</span> is the natural rate of unemployment and <span class="math inline">\(inf^e\)</span> is the expected rate
+of inflation formed in year <span class="math inline">\(t-1\)</span>.
+The difference between actual unemployment and the natural rate is called
+cyclical unemployment, while the difference between inflation and expected
+inflation is called unanticipated inflation
+Our e_t is called our supply shock.
+If there is a trade-off between inflation and unemployment our <span class="math inline">\(\hat{\beta_1}\)</span>
+will be negative.</p>
+<p>An assumption is made about inflationary expectations and unders adaptive expectations,
+the expected value of current inflation depends on recently observed inflation.
+The expected inflation will be assumed to be equal to last years inflation
+<span class="math display">\[ inf_t - inf_{t-1}=\beta_0 + \beta_1 unemp_t + e_t \]</span>
+<span class="math display">\[ \Delta inf_t =\beta_0 + \beta_1 unemp_t + e_t \]</span></p>
+<p>Where
+<span class="math display">\[ \Delta inf_t=inf_t - inf_{t-1} \]</span>
+<span class="math display">\[ \beta_0 = -\beta_1 \mu_0 \]</span>
+Since <span class="math inline">\(beta_1\)</span> is expected to be negative and <span class="math inline">\(beta_0\)</span> is expected to be positive.</p>
+<p>Therefore, under adaptive expectations, the augmented Phillips curve relates the
+change in inflation to the level of unemployment and a supply shock e_t.
+We’ll assume assumptions TSC.1-TSC.5 hold.</p>
+<p>First Difference in the dependent variable or adaptive expectations of inflation.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb62-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb62-1" tabindex="-1"></a><span class="kw">reg</span> cinf unem <span class="kw">if</span> <span class="fu">year</span> &lt; 1997</span>
+<span id="cb62-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb62-2" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb62-3" tabindex="-1"></a>*<span class="kw">or</span></span>
+<span id="cb62-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb62-4" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">d</span>.inf unem <span class="kw">if</span> <span class="fu">year</span> &lt; 1997</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =        48
+-------------+----------------------------------   F(1, 46)        =      5.56
+       Model |  33.3830007         1  33.3830007   Prob &gt; F        =    0.0227
+    Residual |  276.305134        46  6.00663335   R-squared       =    0.1078
+-------------+----------------------------------   Adj R-squared   =    0.0884
+       Total |  309.688135        47  6.58910925   Root MSE        =    2.4508
+
+------------------------------------------------------------------------------
+        cinf |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        unem |  -.5425869   .2301559    -2.36   0.023    -1.005867    -.079307
+       _cons |   3.030581    1.37681     2.20   0.033     .2592061    5.801955
+------------------------------------------------------------------------------
+
+      Source |       SS           df       MS      Number of obs   =        48
+-------------+----------------------------------   F(1, 46)        =      5.56
+       Model |  33.3829996         1  33.3829996   Prob &gt; F        =    0.0227
+    Residual |  276.305138        46  6.00663344   R-squared       =    0.1078
+-------------+----------------------------------   Adj R-squared   =    0.0884
+       Total |  309.688138        47  6.58910932   Root MSE        =    2.4508
+
+------------------------------------------------------------------------------
+       D.inf |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        unem |  -.5425869   .2301559    -2.36   0.023    -1.005867    -.079307
+       _cons |   3.030581    1.37681     2.20   0.033      .259206    5.801955
+------------------------------------------------------------------------------</code></pre>
+<p>The trade-off between unanticipated inflation and cyclical unemployment is
+seen in <span class="math inline">\(\hat{beta_1}\)</span>. A 1-point increase in unemployment decreases unanticipated
+inflation by about .54 points.</p>
+<p>We can estimate the natural rate of unemployment by dividing <span class="math inline">\(\hat{beta_0}\)</span> by
+negative of <span class="math inline">\(\hat{beta_1}\)</span></p>
+<p><span class="math display">\[ \mu_{0} = \hat{\beta}_{0} / - \hat{\beta}_{1} \]</span></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb64-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb64-1" tabindex="-1"></a><span class="kw">display</span> 3.03/.5425</span></code></pre></div>
+<pre><code>5.5852535</code></pre>
+<p>Plot the graph.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb66-1"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb66-1" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> cinf <span class="fu">year</span> || <span class="kw">line</span> unem <span class="fu">year</span>, lpattern(<span class="kw">dash</span>) <span class="co">///</span></span>
+<span id="cb66-2"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb66-2" tabindex="-1"></a>    <span class="bn">legend</span>(<span class="kw">order</span>(1 <span class="st">&quot;Difference in Inflation&quot;</span> 2 <span class="st">&quot;Unemployment Rate&quot;</span>)) <span class="co">///</span></span>
+<span id="cb66-3"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb66-3" tabindex="-1"></a>    <span class="bn">title</span>(<span class="st">&quot;Augmented Phillips Curve&quot;</span>) <span class="bn">ytitle</span>(Percentage) <span class="bn">xtitle</span>(<span class="fu">year</span>)</span>
+<span id="cb66-4"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb66-4" tabindex="-1"></a>    </span>
+<span id="cb66-5"><a href="weakly-dependent-and-stationary-time-series-ar1-models.html#cb66-5" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;week_10_augmented_phillips.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="week_10_augmented_phillips.png" alt="Line graph of inflation" />
+<div class="figcaption">Line graph of inflation</div>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="seasonality.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-tspart1.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
