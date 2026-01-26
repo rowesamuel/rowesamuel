@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Directed Acyclic Graphs | Directed Acyclic Graphs</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Directed Acyclic Graphs | Directed Acyclic Graphs" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Directed Acyclic Graphs | Directed Acyclic Graphs" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Huntington-Klein (2022)" />
+
+
+<meta name="date" content="2026-01-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="developing-a-dag.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html"><i class="fa fa-check"></i><b>1</b> Directed Acyclic Graphs</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#a-simple-directed-acyclic-graph-dag"><i class="fa fa-check"></i><b>1.1</b> A Simple Directed Acyclic Graph (DAG)</a></li>
+<li class="chapter" data-level="1.2" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#dag-with-a-mediator"><i class="fa fa-check"></i><b>1.2</b> DAG with a Mediator</a></li>
+<li class="chapter" data-level="1.3" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#dag-with-a-confounder"><i class="fa fa-check"></i><b>1.3</b> DAG with a confounder</a></li>
+<li class="chapter" data-level="1.4" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#instrumental-variable-dag"><i class="fa fa-check"></i><b>1.4</b> Instrumental Variable DAG</a></li>
+<li class="chapter" data-level="1.5" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#dag-for-instrumental-variables-with-two-confounders"><i class="fa fa-check"></i><b>1.5</b> DAG for Instrumental Variables with Two Confounders</a></li>
+<li class="chapter" data-level="1.6" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#a-more-complex-dag"><i class="fa fa-check"></i><b>1.6</b> A More Complex DAG</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="developing-a-dag.html"><a href="developing-a-dag.html"><i class="fa fa-check"></i><b>2</b> Developing a DAG</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="developing-a-dag.html"><a href="developing-a-dag.html#relevant-variables-in-the-data-generation-process"><i class="fa fa-check"></i><b>2.1</b> Relevant Variables in the Data Generation Process</a></li>
+<li class="chapter" data-level="2.2" data-path="developing-a-dag.html"><a href="developing-a-dag.html#simplify"><i class="fa fa-check"></i><b>2.2</b> Simplify</a></li>
+<li class="chapter" data-level="2.3" data-path="developing-a-dag.html"><a href="developing-a-dag.html#no-cylces"><i class="fa fa-check"></i><b>2.3</b> No Cylces</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="developing-a-dag.html"><a href="developing-a-dag.html#solution"><i class="fa fa-check"></i><b>2.3.1</b> Solution</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="developing-a-dag.html"><a href="developing-a-dag.html#our-assumptions"><i class="fa fa-check"></i><b>2.4</b> Our Assumptions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Directed Acyclic Graphs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="directed-acyclic-graphs" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Directed Acyclic Graphs<a href="directed-acyclic-graphs.html#directed-acyclic-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will use the R package <em>ggdag</em> to develop directed acyclic graphs for our data generation process.</p>
+<p>As Huntingon-Klein (2022) mentions, DAGs are graphical representation of the data generation process.</p>
+<ol style="list-style-type: decimal">
+<li>Nodes represent variables in data generation process.</li>
+<li>The causal relationship are represented by the direction of an arrow.</li>
+</ol>
+<p>We will need to load our libraries to create DAGs.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="directed-acyclic-graphs.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb1-2"><a href="directed-acyclic-graphs.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="directed-acyclic-graphs.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(dagitty)</span></code></pre></div>
+<p>Before we get started, if you want to us R, then these sites can be helpful for you:</p>
+<ul>
+<li><a href="https://r-causal.github.io/ggdag/" class="uri">https://r-causal.github.io/ggdag/</a></li>
+<li><a href="https://evalf21.classes.andrewheiss.com/example/dags/" class="uri">https://evalf21.classes.andrewheiss.com/example/dags/</a></li>
+</ul>
+<p>We will start with a simple DAG, where <span class="math inline">\(x \rightarrow y\)</span>. We are saying that x causes y in the data generation process.</p>
+<div id="a-simple-directed-acyclic-graph-dag" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> A Simple Directed Acyclic Graph (DAG)<a href="directed-acyclic-graphs.html#a-simple-directed-acyclic-graph-dag" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will assume that there is a data generation process, where our treatment <span class="math inline">\(coinflip\)</span> could be a randomized coin flip and our outcome is a <span class="math inline">\(prize\)</span>. The data generation process shows explains the data that we observe in regard to <span class="math inline">\(coinflip\)</span> and <span class="math inline">\(prize\)</span>. It is a direct effect from coin flip to prize. If you win the coin flip, you get a prize. If you lose the coin flip, you do not get a prize.</p>
+<p>We can use the <em>dagify</em> function to display the DAG.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="directed-acyclic-graphs.html#cb2-1" tabindex="-1"></a>dag1<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x, <span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb2-2"><a href="directed-acyclic-graphs.html#cb2-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Prize&quot;</span>,<span class="at">x=</span><span class="st">&quot;Coin Flip&quot;</span>),</span>
+<span id="cb2-3"><a href="directed-acyclic-graphs.html#cb2-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">2</span>),</span>
+<span id="cb2-4"><a href="directed-acyclic-graphs.html#cb2-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">y=</span><span class="dv">0</span>)))</span>
+<span id="cb2-5"><a href="directed-acyclic-graphs.html#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="directed-acyclic-graphs.html#cb2-6" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag1,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/dag1_1-1.png" width="672" /></p>
+<p><strong>Direct Effect</strong>: we show that the treatment, <span class="math inline">\(coinflip\)</span>, has a direct effect onto the outcome, <span class="math inline">\(prize\)</span> with <span class="math inline">\(coinflip \rightarrow prize\)</span>.</p>
+</div>
+<div id="dag-with-a-mediator" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> DAG with a Mediator<a href="directed-acyclic-graphs.html#dag-with-a-mediator" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can add a mediator to our DAG. A mediator is a variable that lies between the treatment and the outcome, or a mediator descends from the treatment to affect the outcome. For example, treatment may or may not include direct funding, and the only factor affecting the amount of direct funding is the treatment.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="directed-acyclic-graphs.html#cb3-1" tabindex="-1"></a>dag1<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> m, m <span class="sc">~</span> x, <span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb3-2"><a href="directed-acyclic-graphs.html#cb3-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Outcome&quot;</span>,<span class="at">x=</span><span class="st">&quot;Treatment&quot;</span>,<span class="at">m=</span><span class="st">&quot;Mediator&quot;</span>),</span>
+<span id="cb3-3"><a href="directed-acyclic-graphs.html#cb3-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">m=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>),</span>
+<span id="cb3-4"><a href="directed-acyclic-graphs.html#cb3-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">m=</span><span class="dv">0</span>,<span class="at">y=</span><span class="dv">0</span>)))</span>
+<span id="cb3-5"><a href="directed-acyclic-graphs.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="directed-acyclic-graphs.html#cb3-6" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag1,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/dag5_1-1.png" width="672" /></p>
+<p><strong>Indirect Effect</strong>: <span class="math inline">\(X \rightarrow M \rightarrow Y\)</span>. When <span class="math inline">\(X\)</span> has an indirect effect on <span class="math inline">\(Y\)</span> when it is mediated by <span class="math inline">\(M\)</span>. <span class="math inline">\(X\)</span> has an effect on <span class="math inline">\(Y \ \)</span> through the mediator <span class="math inline">\(M\)</span>, such that <span class="math inline">\(X\)</span> affects <span class="math inline">\(M\)</span> which then affects <span class="math inline">\(Y\)</span></p>
+</div>
+<div id="dag-with-a-confounder" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> DAG with a confounder<a href="directed-acyclic-graphs.html#dag-with-a-confounder" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Next, we will add a <strong>confounder</strong> to our data. A confounder is a variable that affects both the treatment and outcome. Such that, a confounder mediates the treatment and outcome, and confounds our estimate of the direct effect.</p>
+<p>We had additional commands besides <em>dagify</em> and <em>ggdag</em>. We can use the <em>daggity</em>, <em>tidy_dagitty</em>, and <em>gg_dag</em> commands. This is another set of commands to create DAGS.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="directed-acyclic-graphs.html#cb4-1" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb4-2"><a href="directed-acyclic-graphs.html#cb4-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-3"><a href="directed-acyclic-graphs.html#cb4-3" tabindex="-1"></a>dag2<span class="ot">&lt;-</span>dagitty<span class="sc">::</span><span class="fu">dagitty</span>(<span class="st">&quot;dag {</span></span>
+<span id="cb4-4"><a href="directed-acyclic-graphs.html#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="directed-acyclic-graphs.html#cb4-5" tabindex="-1"></a><span class="st">x&lt;-u-&gt;y</span></span>
+<span id="cb4-6"><a href="directed-acyclic-graphs.html#cb4-6" tabindex="-1"></a><span class="st">x-&gt;y</span></span>
+<span id="cb4-7"><a href="directed-acyclic-graphs.html#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="directed-acyclic-graphs.html#cb4-8" tabindex="-1"></a><span class="st">x [education]</span></span>
+<span id="cb4-9"><a href="directed-acyclic-graphs.html#cb4-9" tabindex="-1"></a><span class="st">y [treatment]</span></span>
+<span id="cb4-10"><a href="directed-acyclic-graphs.html#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="directed-acyclic-graphs.html#cb4-11" tabindex="-1"></a><span class="st">}&quot;</span>)</span>
+<span id="cb4-12"><a href="directed-acyclic-graphs.html#cb4-12" tabindex="-1"></a><span class="fu">coordinates</span>(dag2)<span class="ot">&lt;-</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>),<span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>))</span>
+<span id="cb4-13"><a href="directed-acyclic-graphs.html#cb4-13" tabindex="-1"></a>tidy_dag2<span class="ot">&lt;-</span><span class="fu">tidy_dagitty</span>(dag2)</span>
+<span id="cb4-14"><a href="directed-acyclic-graphs.html#cb4-14" tabindex="-1"></a>tidy_dag2</span></code></pre></div>
+<pre><code>## # A DAG with 3 nodes and 3 edges
+## #
+## # A tibble: 4 × 8
+##   name      x     y direction to     xend  yend circular
+##   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;fct&gt;     &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;lgl&gt;   
+## 1 u         2     1 -&gt;        x         1     0 FALSE   
+## 2 u         2     1 -&gt;        y         3     0 FALSE   
+## 3 x         1     0 -&gt;        y         3     0 FALSE   
+## 4 y         3     0 &lt;NA&gt;      &lt;NA&gt;     NA    NA FALSE</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="directed-acyclic-graphs.html#cb6-1" tabindex="-1"></a><span class="fu">ggdag</span>(tidy_dag2) <span class="sc">+</span> <span class="fu">theme_dag</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/dag2-1.png" width="672" /></p>
+<p>We can use <em>dagify</em> command and use labels.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="directed-acyclic-graphs.html#cb7-1" tabindex="-1"></a>dag3<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x, y <span class="sc">~</span> u, x <span class="sc">~</span> u,<span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb7-2"><a href="directed-acyclic-graphs.html#cb7-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Wages&quot;</span>,<span class="at">x=</span><span class="st">&quot;Education&quot;</span>,<span class="at">u=</span><span class="st">&quot;ability&quot;</span>),</span>
+<span id="cb7-3"><a href="directed-acyclic-graphs.html#cb7-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>),</span>
+<span id="cb7-4"><a href="directed-acyclic-graphs.html#cb7-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>)))</span>
+<span id="cb7-5"><a href="directed-acyclic-graphs.html#cb7-5" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag3,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/dag2_1-1.png" width="672" /></p>
+<p>Let’s talk about our paths here.</p>
+<p><strong>Front Door Path</strong>: a causal path where all the arrows point away from the treatment (Huntington-Klein, 2022).</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(x \rightarrow y\)</span></li>
+</ol>
+<p><strong>Back Door Path</strong>: a causal path that at least one arrow points towards the treatment (Huntington-Klein, 2022)</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(x \leftarrow u \rightarrow y\)</span></li>
+</ol>
+<p>If there are any back door paths open, then we cannot identify the causal effect of <span class="math inline">\(x \rightarrow y\)</span>. We need an identification strategy to close the <strong>back door path</strong>. Next, we will cover a familiar identification strategy in this particular case.</p>
+</div>
+<div id="instrumental-variable-dag" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Instrumental Variable DAG<a href="directed-acyclic-graphs.html#instrumental-variable-dag" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can use a DAG as an identification strategy. Here we show how an instrument, <span class="math inline">\(z\)</span> affects <span class="math inline">\(x\)</span> which then affects <span class="math inline">\(y\)</span>. We use the variation in <span class="math inline">\(x\)</span> that is due to exogenous variation in <span class="math inline">\(z\)</span>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="directed-acyclic-graphs.html#cb8-1" tabindex="-1"></a>dag3<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x, y <span class="sc">~</span> u, x <span class="sc">~</span> u,x <span class="sc">~</span> z,<span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb8-2"><a href="directed-acyclic-graphs.html#cb8-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Wages&quot;</span>,<span class="at">x=</span><span class="st">&quot;Education&quot;</span>,<span class="at">u=</span><span class="st">&quot;ability&quot;</span>,<span class="at">z=</span><span class="st">&quot;IV&quot;</span>),</span>
+<span id="cb8-3"><a href="directed-acyclic-graphs.html#cb8-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>,<span class="at">z=</span><span class="dv">0</span>),</span>
+<span id="cb8-4"><a href="directed-acyclic-graphs.html#cb8-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>,<span class="at">z=</span><span class="dv">0</span>)))</span>
+<span id="cb8-5"><a href="directed-acyclic-graphs.html#cb8-5" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag3,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/dag3_1-1.png" width="672" /></p>
+<p>We can use an instrument to close the <strong>back door path</strong>, and we utilize the exogenous variation in <span class="math inline">\(z\)</span> to purge the variation in <span class="math inline">\(x\)</span> that is endogenous with <span class="math inline">\(u\)</span>.</p>
+<p>Huntington-Klein (2022) discusses good paths and bad paths.</p>
+<p><strong>Good Path</strong>: A causal pathway is a good pathway if it describes the reason why the treatment and outcome are related to answer your research question of interest.</p>
+<p><strong>Bad Path</strong>: A causal pathway is a “bad” pathway if it describes an alternative explanation of the data not related to your research question of interest.</p>
+<p><strong>Bad Paths</strong> are related to <strong>Back door Paths</strong> since backdoor paths, when not closed, allow alternative explanations of the data we observe. For the confounder, without the instrumental variable, we cannot say how much of the variation in <span class="math inline">\(y\)</span> is due to <span class="math inline">\(x\)</span> or <span class="math inline">\(u\)</span>. Ability provides an alternative explanation of why we observe the wages that we observe. We want to have an instrumental variable that closes the bad path of <span class="math inline">\(u\)</span>’s causal paths onto <span class="math inline">\(x\)</span> AND <span class="math inline">\(y\)</span>. Once we have a legit identification strategy</p>
+</div>
+<div id="dag-for-instrumental-variables-with-two-confounders" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> DAG for Instrumental Variables with Two Confounders<a href="directed-acyclic-graphs.html#dag-for-instrumental-variables-with-two-confounders" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can add another confounder to our DAG, such as preference and ability.
+<img src="_main_files/figure-html/dag4_1-1.png" width="672" /></p>
+<p>Again, our instrument variable closes the backdoor paths for both <span class="math inline">\(u1\)</span> and <span class="math inline">\(u2\)</span>, and we are able to identify the effect of <span class="math inline">\(x \rightarrow y\)</span>.</p>
+</div>
+<div id="a-more-complex-dag" class="section level2 hasAnchor" number="1.6">
+<h2><span class="header-section-number">1.6</span> A More Complex DAG<a href="directed-acyclic-graphs.html#a-more-complex-dag" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will use an example from Huntington-Klein (2022) for a more complex DAG. We will look at the direct paths, indirect paths, good paths, and bad paths.</p>
+<p><img src="_main_files/figure-html/dag6_1-1.png" width="672" /></p>
+<p><strong>Direct Paths</strong></p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Wine \rightarrow Lifespan\)</span></li>
+</ol>
+<p><strong>Indirect Paths</strong></p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Wine \rightarrow Drugs \rightarrow Lifespan\)</span></li>
+<li><span class="math inline">\(Wine \leftarrow Income \rightarrow Lifespan\)</span></li>
+<li><span class="math inline">\(Wine \leftarrow Income \leftarrow U \rightarrow Health \rightarrow Lifespan\)</span></li>
+<li><span class="math inline">\(Wine \leftarrow Health \rightarrow Lifespan\)</span></li>
+<li><span class="math inline">\(Wine \leftarrow Health \leftarrow U \rightarrow Income \rightarrow Lifespan\)</span></li>
+</ol>
+<p><strong>Good Paths</strong>: a causal pathway that describes a reason why treatment and outcome are related that answers your research question</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Wine \rightarrow Lifespan\)</span></li>
+<li><span class="math inline">\(Wine \rightarrow Drugs \rightarrow Lifespan\)</span></li>
+</ol>
+<p><strong>Bad Paths</strong>: a causal pathway that describes a reason why treatment and outcome are related, which is <em>unrelated</em> to your research question, such that there is an alternative explanation.</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Wine \leftarrow Income \rightarrow Lifespan\)</span></li>
+<li><span class="math inline">\(Wine \leftarrow Income \leftarrow U \rightarrow Health \rightarrow Lifespan\)</span></li>
+<li><span class="math inline">\(Wine \leftarrow Health \rightarrow Lifespan\)</span></li>
+<li><span class="math inline">\(Wine \leftarrow Health \leftarrow U \rightarrow Income \rightarrow Lifespan\)</span></li>
+</ol>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="developing-a-dag.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

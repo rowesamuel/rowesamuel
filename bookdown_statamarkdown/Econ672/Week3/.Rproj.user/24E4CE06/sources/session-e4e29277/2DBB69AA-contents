@@ -1,0 +1,188 @@
+#Week 3: DAGS
+#Samuel Rowe
+#1/19/2026
+
+rm(list=ls())
+
+library(ggdag)
+library(ggplot2)
+
+dag1<-dagitty::dagitty("dag {
+
+x<-u->y
+x->y
+
+x [education]
+y [treatment]
+
+}")
+
+tidy_dag1<-tidy_dagitty(dag1)
+tidy_dag1
+
+ggdag(tidy_dag1) + theme_dag()
+
+dag2<-dagitty::dagitty("dag {
+
+z->x->y
+x<-u->y
+x->y
+
+x [education]
+y [treatment]
+
+}")
+coordinates(dag2)<-list(x=c(z=1,x=2,u=3,y=4),y=c(z=0,x=0,u=1,y=0))
+tidy_dag2<-tidy_dagitty(dag2)
+tidy_dag2
+
+ggdag(tidy_dag2, use_labels = ) + theme_dag()
+
+dag3<-dagify(y ~ x, y ~ u, x ~ u,exposure="x",outcome="y",
+             labels=c(y="Wages",x="Education",u="ability"),
+             coords=list(x=c(x=1,u=2,y=3),
+                         y=c(x=0,u=1,y=0)))
+ggdag_status(dag3,use_labels = "label")+theme_dag()
+
+dag3<-dagify(y ~ x, y ~ u, x ~ u,x ~ z,exposure="x",outcome="y",
+             labels=c(y="Wages",x="Education",u="ability",z="IV"),
+             coords=list(x=c(x=1,u=2,y=3,z=0),
+                         y=c(x=0,u=1,y=0,z=0)))
+ggdag_status(dag3,use_labels = "label")+theme_dag()
+
+
+dag3<-dagify(y ~ x, y ~ u1, x ~ u1,x ~ z,x ~ u2, y ~ u2, exposure="x",outcome="y",
+             labels=c(y="Wages",x="Education",u="ability",z="IV"),
+             coords=list(x=c(x=1,u1=2,y=3,z=0,u2=2),
+                         y=c(x=0,u1=1,y=0,z=0,u2=-1)))
+ggdag_status(dag3,use_labels = "label")+theme_dag()
+
+dag1<-dagify(y ~ m, m ~ x, exposure="x",outcome="y",
+             labels=c(y="Outcome",x="Treatment","Mediator"),
+             coords=list(x=c(x=1,m=2,y=3),
+                         y=c(x=0,m=0,y=0)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()
+
+dag3<-dagify(y ~ x,
+             y ~ o1, 
+             x ~ o1,
+             y ~ o2,
+             x ~ o2,
+             o1 ~ u, 
+             o2 ~ u, 
+             d ~ x,
+             y ~ d,
+             exposure="x",outcome="y",
+             labels=c(y="Lifespan",x="Wine",o1="Income", o2="Health",d="Drugs"),
+             coords=list(x=c(y=3,x=1,o1=1,o2=3,u=2,d=2),
+                         y=c(y=2,x=2,o1=3,o2=3,u=4,d=1)))
+ggdag_status(dag3,use_labels = "label")+theme_dag()
+
+```{r dag3, }
+
+dag2<-dagitty::dagitty("dag {
+
+z->x->y
+x<-u->y
+x->y
+
+x [education]
+y [treatment]
+
+}")
+coordinates(dag2)<-list(x=c(z=1,x=2,u=3,y=4),y=c(z=0,x=0,u=1,y=0))
+tidy_dag2<-tidy_dagitty(dag2)
+tidy_dag2
+
+ggdag(tidy_dag2) + theme_dag()
+```
+
+dag3<-dagify(B ~ A, C ~ B, A ~ C,exposure="A",outcome="B",
+             coords=list(x=c(A=0,B=1,C=0),
+                         y=c(A=0,B=0,C=1)))
+ggdag_status(dag3)+theme_dag()
+
+dag3<-dagify(B ~ A, A ~ B, exposure="A",outcome="B",
+             coords=list(x=c(A=0,B=1),
+                         y=c(A=0,B=0)))
+ggdag_status(dag3)+theme_dag()
+
+dag3<-dagify(A1 ~ B2, A2 ~ B1,
+             labels=c(A1=TeX(r'($\alpha = 1$)'),B1=TeX(r'($\alpha = 2$)'),A2=TeX(r'($\alpha = 3$)'),B2=TeX(r'($\alpha = 4$)')),
+             coords=list(x=c(A1=0,B1=0,A2=1,B2=1),
+                         y=c(A1=1,B1=0,A2=1,B2=0)))
+ggdag_status(dag3)+theme_dag()
+
+dag1<-dagify(y ~ x, exposure="x",outcome="y",
+             labels=c(y="DropOut",x="Online Class"),
+             coords=list(x=c(x=1,y=2),
+                         y=c(x=0,y=0)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()
+
+dag1<-dagify(y ~ x, 
+             x ~ AT,
+             AT ~ WH,
+             y ~ AT,
+             x ~ IA,
+             IA ~ LO,
+             WH ~ SE,
+             AT ~ SE,
+             PR ~ SE,
+             SS ~ SE,
+             y ~ SE,
+             x ~ PR,
+             PR ~ AG,
+             SS ~ AG,
+             PR ~ RA,
+             y ~ RA,
+             AT ~ RA,
+             WH ~ RA,
+             SS ~ RA,
+             y ~ AC,
+             WH ~ AC,
+             RA ~ U1,
+             AC ~ U1,
+             SS ~ U2,
+             RA ~ U2,
+             AC ~ U3,
+             SE ~ U3,
+             SS ~ U4,
+             SE ~ U4,
+             LO ~ U5,
+             SS ~ U5,
+             exposure="x",outcome="y",
+             labels=c(y="DropOut",x="Online Class",AT="Available Time",WH="Work Hours",IA="Internet Access",
+                      LO="Location",SE="Sex",PR="Preferences",AG="Age", RA="Race",SS="SES",AC="Academics"),
+             coords=list(x=c(x=5,y=5,AT=3,WH=1,IA=6,LO=6,SE=1,PR=3,AG=4,RA=2,SS=4,AC=4,U1=2,U2=1,U3=0,U4=0,U5=5),
+                         y=c(x=5,y=3,AT=5,WH=5,IA=5,LO=2,SE=3,PR=4,AG=4,RA=2,SS=2,AC=1,U1=1,U2=1,U3=2,U4=3,U5=2)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()
+
+dag1<-dagify(y ~ x, 
+             y ~ AG,
+             WH ~ AG,
+             SS ~ AG,
+             x ~ AG,
+             WH ~ AC,
+             y ~ AC,
+             x ~ WH,
+             x ~ DM,
+             WH ~ DM,
+             y ~ DM,
+             x ~ SS,
+             x ~ LO,
+             AC ~ U3,
+             DM ~ U3,
+             DM ~ U4,
+             SS ~ U4,
+             LO ~ U5,
+             SS ~ U5,
+             exposure="x",outcome="y",
+             labels=c(y="DropOut",x="Online Class",AT="Available Time",WH="Work Hours",IA="Internet Access",
+                      LO="Location",PR="Preferences",AG="Age",SS="SES",AC="Academics",DM="Demographics"),
+             coords=list(x=c(x=4,y=5,WH=3,LO=4,AG=4,SS=2,AC=1,DM=1,U3=1,U4=1,U5=3),
+                         y=c(x=2,y=3,WH=4,LO=1,AG=4,SS=1,AC=4,DM=2,U3=3,U4=1,U5=1)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()

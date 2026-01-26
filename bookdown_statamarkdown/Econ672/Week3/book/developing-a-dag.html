@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Developing a DAG | Directed Acyclic Graphs</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Developing a DAG | Directed Acyclic Graphs" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Developing a DAG | Directed Acyclic Graphs" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Huntington-Klein (2022)" />
+
+
+<meta name="date" content="2026-01-25" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="directed-acyclic-graphs.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html"><i class="fa fa-check"></i><b>1</b> Directed Acyclic Graphs</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#a-simple-directed-acyclic-graph-dag"><i class="fa fa-check"></i><b>1.1</b> A Simple Directed Acyclic Graph (DAG)</a></li>
+<li class="chapter" data-level="1.2" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#dag-with-a-mediator"><i class="fa fa-check"></i><b>1.2</b> DAG with a Mediator</a></li>
+<li class="chapter" data-level="1.3" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#dag-with-a-confounder"><i class="fa fa-check"></i><b>1.3</b> DAG with a confounder</a></li>
+<li class="chapter" data-level="1.4" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#instrumental-variable-dag"><i class="fa fa-check"></i><b>1.4</b> Instrumental Variable DAG</a></li>
+<li class="chapter" data-level="1.5" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#dag-for-instrumental-variables-with-two-confounders"><i class="fa fa-check"></i><b>1.5</b> DAG for Instrumental Variables with Two Confounders</a></li>
+<li class="chapter" data-level="1.6" data-path="directed-acyclic-graphs.html"><a href="directed-acyclic-graphs.html#a-more-complex-dag"><i class="fa fa-check"></i><b>1.6</b> A More Complex DAG</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="developing-a-dag.html"><a href="developing-a-dag.html"><i class="fa fa-check"></i><b>2</b> Developing a DAG</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="developing-a-dag.html"><a href="developing-a-dag.html#relevant-variables-in-the-data-generation-process"><i class="fa fa-check"></i><b>2.1</b> Relevant Variables in the Data Generation Process</a></li>
+<li class="chapter" data-level="2.2" data-path="developing-a-dag.html"><a href="developing-a-dag.html#simplify"><i class="fa fa-check"></i><b>2.2</b> Simplify</a></li>
+<li class="chapter" data-level="2.3" data-path="developing-a-dag.html"><a href="developing-a-dag.html#no-cylces"><i class="fa fa-check"></i><b>2.3</b> No Cylces</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="developing-a-dag.html"><a href="developing-a-dag.html#solution"><i class="fa fa-check"></i><b>2.3.1</b> Solution</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="developing-a-dag.html"><a href="developing-a-dag.html#our-assumptions"><i class="fa fa-check"></i><b>2.4</b> Our Assumptions</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Directed Acyclic Graphs</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="developing-a-dag" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Developing a DAG<a href="developing-a-dag.html#developing-a-dag" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Causal diagrams represent the data generation process that creates the data that we observe (Huntington-Klein, 2022). We need to think through this process and jot down all of the potential nodes and pathways. Next, we need to simpify the process to see what is relevant</p>
+<div id="relevant-variables-in-the-data-generation-process" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Relevant Variables in the Data Generation Process<a href="developing-a-dag.html#relevant-variables-in-the-data-generation-process" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our focus of the directed acyclic graph (DAG) is to include everything <strong>relevant</strong> to our research question of interest into the DAG. Huntington-Klein (2022) uses the example of online classes (treatment) and dropping out (outcome).</p>
+<p>Our treatment will be <strong>Online Class</strong> and our outcome will be <strong>Dropout</strong></p>
+<p><img src="_main_files/figure-html/dag7_1-1.png" width="672" /></p>
+<p>What else should we includee?</p>
+<ol style="list-style-type: decimal">
+<li>Demographics
+<ol style="list-style-type: lower-alpha">
+<li>Race</li>
+<li>Sex/Gender</li>
+<li>Age</li>
+<li>Socioeconomic Status</li>
+</ol></li>
+<li>Available Time</li>
+<li>Work Hours</li>
+<li>Internet Access</li>
+<li>Academics</li>
+<li>Location</li>
+<li>Unobservables
+<ol style="list-style-type: lower-alpha">
+<li>Preferences</li>
+</ol></li>
+</ol>
+<p>For our direction of our arrows among our covariates, treatment, and outcomes.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Online Classes</strong> cause <strong>Drop Outs</strong></li>
+<li><strong>Prefernces</strong> cause <strong>Online Classes</strong></li>
+<li><strong>Race</strong> causes <strong>Preferences</strong>, <strong>DropOut</strong>, <strong>Available Time</strong>, <strong>Work Hours</strong>, and <em>Unobservable</em> causes <strong>Race</strong> to be related <strong>Academics</strong> and <strong>SES</strong></li>
+<li><strong>Sex</strong> causes <strong>Preferences</strong>, <strong>DropOut</strong>, <strong>Available Time</strong>, <strong>Work Hours</strong>, and <em>Unobservable</em> causes <strong>Sex</strong> to be related to <strong>Academics</strong> and <strong>SES</strong></li>
+<li><strong>Age</strong> causes <strong>Preferences</strong>, <strong>DropOut</strong>, <strong>Available Time</strong>, and <strong>Work Hours</strong></li>
+<li><strong>SES</strong> causes <strong>Preferences</strong>, <strong>DropOut</strong>, <strong>Internet Access</strong>, <strong>Available Time</strong>, and <strong>Work Hours</strong></li>
+<li><strong>Available Time</strong> causes <strong>Online Classes</strong> and <strong>DropOut</strong></li>
+<li><strong>Work Hours</strong> cause <strong>Available Time</strong></li>
+<li><strong>Internet Access</strong> cause <strong>Online Classes</strong></li>
+<li><strong>Academics</strong> cause <strong>DropOut</strong>, <strong>Work Hours</strong>, <em>Unobservable</em> cause <strong>Academics</strong> to be related to <strong>Race</strong> and <strong>Sex</strong>
+11 <strong>Location</strong> causes <strong>Internet Access</strong>, <em>Unobservable</em> causes <strong>Location</strong> related to <strong>SES</strong></li>
+</ol>
+<p><img src="_main_files/figure-html/dag8-1.png" width="672" /></p>
+<p>So our first DAG is complicated and a bit of the mess. However, we have thought through the data generation process.</p>
+</div>
+<div id="simplify" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Simplify<a href="developing-a-dag.html#simplify" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The data generation process is complex, and developing a complex DAG will prevent you and the reader from understanding the data generation process. So, we should determine what is helpful and what is unhelpful in the data generation process. Simplification is a balancing process. We want to have a clear and concise DAG, but simultaneously we want a DAG that represents the data generation process (Huntington-Klein, 2022).</p>
+<ol style="list-style-type: decimal">
+<li><strong>Unimportant</strong></li>
+<li><strong>Redundancy</strong></li>
+<li><strong>Mediators</strong></li>
+<li><strong>Irrelevance</strong></li>
+</ol>
+<p><strong>Unimportant</strong>: If you include a variable that is likely small or has unimportant effects, then you probably can leave it out of your DAG.</p>
+<ul>
+<li>What about having a quiet cafe nearby? This be enticing for someone wanting to take an online class, but it is likely irrelevant, unimportant, or maybe in <strong>Location</strong> or <strong>Preferences</strong></li>
+</ul>
+<p><strong>Redundancy</strong>: If there are any variables in your DAG within the same space, such that they have arrows coming in or going out of to or from the same variable, then we can combine (e.g.: race and ethnicity, sex <span class="math inline">\(\rightarrow\)</span> SES).</p>
+<ul>
+<li>There may be some redundancies that we can eliminate to simplify our DAG. Since <strong>Sex</strong> and <strong>Race</strong> have similar arrows going to <strong>Work Hours</strong>, <strong>Available Time</strong>, <strong>Preferences</strong>, and <strong>DropOut</strong>, we can combine these into one node for simplicity and call it <strong>Demographics</strong></li>
+</ul>
+<p><strong>Mediators</strong>: If there is a mediator in your DAG that is only there as a way from treatment to affect outcome. Such that, our mediator, <span class="math inline">\(B\)</span>, in <span class="math inline">\(A \rightarrow B \rightarrow C\)</span> is the only away for <span class="math inline">\(A\)</span> to affect <span class="math inline">\(C\)</span>, then we can drop <span class="math inline">\(B\)</span> and only include <span class="math inline">\(A \rightarrow C\)</span>.</p>
+<ul>
+<li><p><strong>Preferences</strong> appears to be a mediator among <strong>Age</strong>, <strong>Race</strong>, <strong>Sex</strong>, and <strong>SES</strong> onto <strong>Online Classes</strong>. We can just have our four factors affect <strong>Online Classes</strong> directly.</p></li>
+<li><p><strong>Internet Access</strong> is also a mediator along the path of <span class="math inline">\(Location \rightarrow InternetAccess \rightarrow OnlineClassess\)</span>, and it is not a variable of interest in our research design. Therefore, we can drop it for simplification.</p></li>
+<li><p><strong>Work Hours</strong> affects <strong>Online Classes</strong> through <strong>Available Time</strong>. However, we can simplify and have <strong>Work Hours</strong> affect <strong>Online Classes</strong> directly. While <strong>Academics</strong> does not directly affect <strong>Available Time</strong>, it does affect it through <strong>Work Hours</strong>, so this won’t be a problem.</p></li>
+</ul>
+<p><strong>Irrelevance</strong>: Some variables are relevant for the data generation process, but not for our research design. If a variable is not on either a <strong>front door path</strong> or <strong>back door path</strong>, then we can likely remove this variable from the DAG.</p>
+<p><img src="_main_files/figure-html/dag9-1.png" width="672" /></p>
+</div>
+<div id="no-cylces" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> No Cylces<a href="developing-a-dag.html#no-cylces" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the name is “acyclic”, which means there are no cycles. You should not start at one path and end up back where you started (Huntington-Klein, 2022). Why? Because, we will never be able to identify the causal effect.</p>
+<p>Examples where we cannot identify the causal effect due to cycles:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(A \rightarrow B \rightarrow A\)</span></li>
+<li>( A B C A)</li>
+</ol>
+<p><strong>Problematic</strong>! Stuck in a loop.
+<img src="_main_files/figure-html/cycles1-1.png" width="672" /></p>
+<p><strong>Problematic</strong>! Stuck in a loop.
+<img src="_main_files/figure-html/cycles2-1.png" width="672" /></p>
+<p>We cannot identify the causal effect in either scenario?</p>
+<div id="solution" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Solution<a href="developing-a-dag.html#solution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can add a time dimension and the cycle is now gone. The arrows will now move in only one direction (Huntington-Klein, 2022).</p>
+<p><img src="_main_files/figure-html/cycles3-1.png" width="672" /></p>
+<p>Here we have <span class="math inline">\(A_{t} \rightarrow \ B_{t+1}\)</span> and <span class="math inline">\(B_{t} \rightarrow A_{t+1}\)</span>, and we do not get stuck in a loop.</p>
+<p>We can also add an instrument of exogenous variation to break the cycle, as well (Huntington-Klein, 2022).</p>
+</div>
+</div>
+<div id="our-assumptions" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Our Assumptions<a href="developing-a-dag.html#our-assumptions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>What we do not show on our directed acyclic graph shows our assumptions. We cannot show everything in the data generation process, due to irrelevance, simplicification, etc. Our assumptions may not be dicotomous, such that are assumption are completely true or completely false. Our assumptions are likely true or likely false. It is our job to convince readers that our assumptions are true or our assumptions hold (Huntington-Klein, 2022).</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="directed-acyclic-graphs.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

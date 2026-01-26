@@ -1,0 +1,376 @@
+# Directed Acyclic Graphs
+
+We will use the R package *ggdag* to develop directed acyclic graphs for our data generation process. 
+
+As Huntingon-Klein (2022) mentions, DAGs are graphical representation of the data generation process.
+
+  1. Nodes represent variables in data generation process.
+  2. The causal relationship are represented by the direction of an arrow.
+
+We will need to load our libraries to create DAGs.
+```{r dag0, echo=TRUE}
+library(ggdag)
+library(ggplot2)
+library(dagitty)
+```  
+
+Before we get started, if you want to us R, then these sites can be helpful for you:
+
+  * https://r-causal.github.io/ggdag/
+  * https://evalf21.classes.andrewheiss.com/example/dags/
+
+We will start with a simple DAG, where \( x \rightarrow y \). We are saying that x causes y in the data generation process.
+
+## A Simple Directed Acyclic Graph (DAG)
+
+We will assume that there is a data generation process, where our treatment \( coinflip \) could be a randomized coin flip and our outcome is a \( prize \). The data generation process shows explains the data that we observe in regard to \( coinflip \) and \( prize \). It is a direct effect from coin flip to prize. If you win the coin flip, you get a prize. If you lose the coin flip, you do not get a prize. 
+
+We can use the *dagify* function to display the DAG.
+```{r dag1_1, echo=TRUE}
+dag1<-dagify(y ~ x, exposure="x",outcome="y",
+             labels=c(y="Prize",x="Coin Flip"),
+             coords=list(x=c(x=1,y=2),
+                         y=c(x=0,y=0)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()
+
+```
+
+**Direct Effect**: we show that the treatment, \( coinflip \), has a direct effect onto the outcome, \( prize \) with \( coinflip \rightarrow prize \).
+
+## DAG with a Mediator
+
+We can add a mediator to our DAG. A mediator is a variable that lies between the treatment and the outcome, or a mediator descends from the treatment to affect the outcome. For example, treatment may or may not include direct funding, and the only factor affecting the amount of direct funding is the treatment. 
+
+```{r dag5_1, echo=TRUE}
+dag1<-dagify(y ~ m, m ~ x, exposure="x",outcome="y",
+             labels=c(y="Outcome",x="Treatment",m="Mediator"),
+             coords=list(x=c(x=1,m=2,y=3),
+                         y=c(x=0,m=0,y=0)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()
+
+```
+
+**Indirect Effect**: \( X \rightarrow M \rightarrow Y \). When \( X \) has an indirect effect on \( Y \) when it is mediated by \( M \). \(X \) has an effect on \( Y \ \) through the mediator \( M \), such that \( X \) affects \( M \) which then affects \( Y \)
+
+## DAG with a confounder
+
+Next, we will add a **confounder** to our data. A confounder is a variable that affects both the treatment and outcome. Such that, a confounder mediates the treatment and outcome, and confounds our estimate of the direct effect.
+
+We had additional commands besides *dagify* and *ggdag*. We can use the *daggity*, *tidy_dagitty*, and *gg_dag* commands. This is another set of commands to create DAGS.
+```{r dag2, echo=TRUE}
+library(ggdag)
+library(ggplot2)
+dag2<-dagitty::dagitty("dag {
+
+x<-u->y
+x->y
+
+x [education]
+y [treatment]
+
+}")
+coordinates(dag2)<-list(x=c(x=1,u=2,y=3),y=c(x=0,u=1,y=0))
+tidy_dag2<-tidy_dagitty(dag2)
+tidy_dag2
+
+ggdag(tidy_dag2) + theme_dag()
+```
+
+We can use *dagify* command and use labels.
+```{r dag2_1, echo=TRUE}
+dag3<-dagify(y ~ x, y ~ u, x ~ u,exposure="x",outcome="y",
+             labels=c(y="Wages",x="Education",u="ability"),
+             coords=list(x=c(x=1,u=2,y=3),
+                         y=c(x=0,u=1,y=0)))
+ggdag_status(dag3,use_labels = "label")+theme_dag()
+
+```
+
+Let's talk about our paths here.
+
+**Front Door Path**: a causal path where all the arrows point away from the treatment (Huntington-Klein, 2022).
+
+  1. \(x \rightarrow y \)
+
+**Back Door Path**: a causal path that at least one arrow points towards the treatment (Huntington-Klein, 2022)
+
+  1. \( x \leftarrow u \rightarrow y \)
+
+If there are any back door paths open, then we cannot identify the causal effect of \( x \rightarrow y \). We need an identification strategy to close the **back door path**. Next, we will cover a familiar identification strategy in this particular case.
+
+## Instrumental Variable DAG
+
+We can use a DAG as an identification strategy. Here we show how an instrument, \( z \) affects \( x \) which then affects \( y \). We use the variation in \( x \) that is due to exogenous variation in \( z \).
+
+```{r dag3_1, echo=TRUE}
+dag3<-dagify(y ~ x, y ~ u, x ~ u,x ~ z,exposure="x",outcome="y",
+             labels=c(y="Wages",x="Education",u="ability",z="IV"),
+             coords=list(x=c(x=1,u=2,y=3,z=0),
+                         y=c(x=0,u=1,y=0,z=0)))
+ggdag_status(dag3,use_labels = "label")+theme_dag()
+
+```
+
+We can use an instrument to close the **back door path**, and we utilize the exogenous variation in \( z \) to purge the variation in \( x \) that is endogenous with \( u \).
+
+Huntington-Klein (2022) discusses good paths and bad paths. 
+
+**Good Path**: A causal pathway is a good pathway if it describes the reason why the treatment and outcome are related to answer your research question of interest.
+
+**Bad Path**: A causal pathway is a "bad" pathway if it describes an alternative explanation of the data not related to your research question of interest. 
+
+**Bad Paths** are related to **Back door Paths** since backdoor paths, when not closed, allow alternative explanations of the data we observe. For the confounder, without the instrumental variable, we cannot say how much of the variation in \(y\) is due to \(x\) or \(u\). Ability provides an alternative explanation of why we observe the wages that we observe. We want to have an instrumental variable that closes the bad path of \(u\)'s causal paths onto \(x\) AND \(y\). Once we have a legit identification strategy
+
+## DAG for Instrumental Variables with Two Confounders
+
+We can add another confounder to our DAG, such as preference and ability.
+```{r dag4_1}
+dag3<-dagify(y ~ x, y ~ u1, x ~ u1,x ~ z,x ~ u2, y ~ u2, exposure="x",outcome="y",
+             labels=c(y="Wages",x="Education",u1="ability",u2="preference",z="IV"),
+             coords=list(x=c(x=1,u1=2,y=3,z=0,u2=2),
+                         y=c(x=0,u1=1,y=0,z=0,u2=-1)))
+ggdag_status(dag3,use_labels = "label")+theme_dag()
+```
+
+Again, our instrument variable closes the backdoor paths for both \( u1 \) and \( u2 \), and we are able to identify the effect of \(x \rightarrow y \).
+
+## A More Complex DAG
+
+We will use an example from Huntington-Klein (2022) for a more complex DAG. We will look at the direct paths, indirect paths, good paths, and bad paths.
+
+```{r dag6_1}
+dag3<-dagify(y ~ x,
+             y ~ o1, 
+             x ~ o1,
+             y ~ o2,
+             x ~ o2,
+             o1 ~ u, 
+             o2 ~ u, 
+             d ~ x,
+             y ~ d,
+             exposure="x",outcome="y",
+             labels=c(y="Lifespan",x="Wine",o1="Income", o2="Health",d="Drugs",u="Unobserved Confounder"),
+             coords=list(x=c(y=3,x=1,o1=1,o2=3,u=2,d=2),
+                         y=c(y=2,x=2,o1=3,o2=3,u=4,d=1)))
+ggdag_status(dag3,use_labels = "label")+theme_dag()
+```
+
+**Direct Paths**
+
+  1. \( Wine \rightarrow Lifespan \)
+  
+**Indirect Paths**
+
+  1. \( Wine \rightarrow Drugs \rightarrow Lifespan\)
+  2. \( Wine \leftarrow Income \rightarrow Lifespan \)
+  3. \( Wine \leftarrow Income \leftarrow U \rightarrow Health \rightarrow Lifespan \)
+  4. \( Wine \leftarrow Health \rightarrow Lifespan \)
+  5. \( Wine \leftarrow Health \leftarrow U \rightarrow Income \rightarrow Lifespan \)
+  
+**Good Paths**: a causal pathway that describes a reason why treatment and outcome are related that answers your research question
+
+  1. \( Wine \rightarrow Lifespan \)
+  2. \( Wine \rightarrow Drugs \rightarrow Lifespan\)
+  
+**Bad Paths**: a causal pathway that describes a reason why treatment and outcome are related, which is *unrelated* to your research question, such that there is an alternative explanation.
+
+  1. \( Wine \leftarrow Income \rightarrow Lifespan \)
+  2. \( Wine \leftarrow Income \leftarrow U \rightarrow Health \rightarrow Lifespan \)
+  3. \( Wine \leftarrow Health \rightarrow Lifespan \)
+  4. \( Wine \leftarrow Health \leftarrow U \rightarrow Income \rightarrow Lifespan \)
+  
+# Developing a DAG
+
+Causal diagrams represent the data generation process that creates the data that we observe (Huntington-Klein, 2022). We need to think through this process and jot down all of the potential nodes and pathways. Next, we need to simpify the process to see what is relevant
+
+## Relevant Variables in the Data Generation Process
+
+Our focus of the directed acyclic graph (DAG) is to include everything **relevant** to our research question of interest into the DAG. Huntington-Klein (2022) uses the example of online classes (treatment) and dropping out (outcome). 
+
+Our treatment will be **Online Class** and our outcome will be **Dropout**
+
+```{r dag7_1}
+dag1<-dagify(y ~ x, exposure="x",outcome="y",
+             labels=c(y="DropOut",x="Online Class"),
+             coords=list(x=c(x=1,y=2),
+                         y=c(x=0,y=0)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()
+```
+
+What else should we includee? 
+
+  1. Demographics
+      a. Race
+      b. Sex/Gender
+      c. Age
+      d. Socioeconomic Status
+  2. Available Time
+  3. Work Hours
+  4. Internet Access
+  5. Academics
+  6. Location
+  7. Unobservables
+      a. Preferences
+    
+For our direction of our arrows among our covariates, treatment, and outcomes.
+
+  1. **Online Classes** cause **Drop Outs**
+  2. **Prefernces** cause **Online Classes**
+  3. **Race** causes **Preferences**, **DropOut**, **Available Time**, **Work Hours**, and *Unobservable* causes **Race** to be related **Academics** and **SES**
+  4. **Sex** causes **Preferences**, **DropOut**, **Available Time**, **Work Hours**, and *Unobservable* causes **Sex** to be related to **Academics** and **SES**
+  5. **Age** causes **Preferences**, **DropOut**, **Available Time**, and **Work Hours**
+  6. **SES** causes **Preferences**, **DropOut**, **Internet Access**, **Available Time**, and **Work Hours**
+  7. **Available Time** causes **Online Classes** and **DropOut**
+  8. **Work Hours** cause **Available Time**
+  9. **Internet Access** cause **Online Classes**
+  10. **Academics** cause **DropOut**, **Work Hours**, *Unobservable* cause **Academics** to be related to **Race** and **Sex**
+  11 **Location** causes **Internet Access**, *Unobservable* causes **Location** related to **SES**
+
+```{r dag8}
+dag1<-dagify(y ~ x, 
+             x ~ AT,
+             AT ~ WH,
+             y ~ AT,
+             x ~ IA,
+             IA ~ LO,
+             WH ~ SE,
+             AT ~ SE,
+             PR ~ SE,
+             y ~ SE,
+             x ~ PR,
+             PR ~ AG,
+             SS ~ AG,
+             PR ~ RA,
+             y ~ RA,
+             AT ~ RA,
+             WH ~ RA,
+             y ~ AC,
+             WH ~ AC,
+             RA ~ U1,
+             AC ~ U1,
+             SS ~ U2,
+             RA ~ U2,
+             AC ~ U3,
+             SE ~ U3,
+             SS ~ U4,
+             SE ~ U4,
+             LO ~ U5,
+             SS ~ U5,
+             exposure="x",outcome="y",
+             labels=c(y="DropOut",x="Online Class",AT="Available Time",WH="Work Hours",IA="Internet Access",
+                      LO="Location",SE="Sex",PR="Preferences",AG="Age", RA="Race",SS="SES",AC="Academics"),
+             coords=list(x=c(x=5,y=5,AT=3,WH=1,IA=6,LO=6,SE=1,PR=3,AG=4,RA=2,SS=4,AC=4,U1=2,U2=1,U3=0,U4=0,U5=5),
+                         y=c(x=5,y=3,AT=5,WH=5,IA=5,LO=2,SE=3,PR=4,AG=4,RA=2,SS=2,AC=1,U1=1,U2=1,U3=2,U4=3,U5=2)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()
+```
+
+So our first DAG is complicated and a bit of the mess. However, we have thought through the data generation process.
+
+## Simplify 
+
+The data generation process is complex, and developing a complex DAG will prevent you and the reader from understanding the data generation process. So, we should determine what is helpful and what is unhelpful in the data generation process. Simplification is a balancing process. We want to have a clear and concise DAG, but simultaneously we want a DAG that represents the data generation process (Huntington-Klein, 2022).
+
+  1. **Unimportant**
+  2. **Redundancy**
+  3. **Mediators**
+  4. **Irrelevance**
+
+**Unimportant**: If you include a variable that is likely small or has unimportant effects, then you probably can leave it out of your DAG.
+
+  * What about having a quiet cafe nearby? This be enticing for someone wanting to take an online class, but it is likely irrelevant, unimportant, or maybe in **Location** or **Preferences**
+
+**Redundancy**: If there are any variables in your DAG within the same space, such that they have arrows coming in or going out of to or from the same variable, then we can combine (e.g.: race and ethnicity, sex \(\rightarrow\) SES).
+
+  * There may be some redundancies that we can eliminate to simplify our DAG. Since **Sex** and **Race** have similar arrows going to **Work Hours**, **Available Time**, **Preferences**, and **DropOut**, we can combine these into one node for simplicity and call it **Demographics**
+
+**Mediators**: If there is a mediator in your DAG that is only there as a way from treatment to affect outcome. Such that, our mediator, \( B \), in \( A \rightarrow B \rightarrow C\) is the only away for \( A \) to affect \( C \), then we can drop \( B \) and only include \( A \rightarrow C \).
+
+  * **Preferences** appears to be a mediator among **Age**, **Race**, **Sex**, and **SES** onto **Online Classes**. We can just have our four factors affect **Online Classes** directly. 
+
+  * **Internet Access** is also a mediator along the path of \( Location \rightarrow InternetAccess \rightarrow OnlineClassess \), and it is not a variable of interest in our research design. Therefore, we can drop it for simplification. 
+  
+  * **Work Hours** affects **Online Classes** through **Available Time**. However, we can simplify and have **Work Hours** affect **Online Classes** directly. While **Academics** does not directly affect **Available Time**, it does affect it through **Work Hours**, so this won't be a problem.
+
+**Irrelevance**: Some variables are relevant for the data generation process, but not for our research design. If a variable is not on either a **front door path** or **back door path**, then we can likely remove this variable from the DAG.
+
+```{r dag9}
+dag1<-dagify(y ~ x, 
+             y ~ AG,
+             WH ~ AG,
+             SS ~ AG,
+             x ~ AG,
+             WH ~ AC,
+             y ~ AC,
+             x ~ WH,
+             x ~ DM,
+             WH ~ DM,
+             y ~ DM,
+             x ~ SS,
+             x ~ LO,
+             AC ~ U3,
+             DM ~ U3,
+             DM ~ U4,
+             SS ~ U4,
+             LO ~ U5,
+             SS ~ U5,
+             exposure="x",outcome="y",
+             labels=c(y="DropOut",x="Online Class",AT="Available Time",WH="Work Hours",IA="Internet Access",
+                      LO="Location",PR="Preferences",AG="Age",SS="SES",AC="Academics",DM="Demographics"),
+             coords=list(x=c(x=4,y=5,WH=3,LO=4,AG=4,SS=2,AC=1,DM=1,U3=1,U4=1,U5=3),
+                         y=c(x=2,y=3,WH=4,LO=1,AG=4,SS=1,AC=4,DM=2,U3=3,U4=1,U5=1)))
+
+ggdag_status(dag1,use_labels = "label")+theme_dag()
+```
+
+## No Cylces
+
+In the name is "acyclic", which means there are no cycles. You should not start at one path and end up back where you started (Huntington-Klein, 2022). Why? Because, we will never be able to identify the causal effect.
+
+Examples where we cannot identify the causal effect due to cycles:
+
+  1. \( A \rightarrow B \rightarrow A \)
+  2. \( A \rightarrow B \rightarrow C \rightarrow A)
+  
+**Problematic**! Stuck in a loop.
+```{r cycles1}
+dag3<-dagify(B ~ A, C ~ B, A ~ C,exposure="A",outcome="B",
+             coords=list(x=c(A=0,B=1,C=0),
+                         y=c(A=0,B=0,C=1)))
+ggdag_status(dag3)+theme_dag()
+
+```
+
+**Problematic**! Stuck in a loop.
+```{r cycles2}
+dag3<-dagify(B ~ A, A ~ B, exposure="A",outcome="B",
+             coords=list(x=c(A=0,B=1),
+                         y=c(A=0,B=0)))
+ggdag_status(dag3)+theme_dag()
+```
+
+We cannot identify the causal effect in either scenario?
+
+### Solution 
+
+We can add a time dimension and the cycle is now gone. The arrows will now move in only one direction (Huntington-Klein, 2022).
+
+```{r cycles3}
+dag3<-dagify(B2 ~ A1, A2 ~ B1,
+             coords=list(x=c(A1=0,B1=0,A2=1,B2=1),
+                         y=c(A1=1,B1=0,A2=1,B2=0)))
+ggdag_status(dag3)+theme_dag()
+
+```
+
+Here we have \( A_{t} \rightarrow \ B_{t+1} \) and \( B_{t} \rightarrow A_{t+1} \), and we do not get stuck in a loop.
+
+We can also add an instrument of exogenous variation to break the cycle, as well (Huntington-Klein, 2022).
+
+## Our Assumptions
+
+What we do not show on our directed acyclic graph shows our assumptions. We cannot show everything in the data generation process, due to irrelevance, simplicification, etc. Our assumptions may not be dicotomous, such that are assumption are completely true or completely false. Our assumptions are likely true or likely false. It is our job to convince readers that our assumptions are true or our assumptions hold (Huntington-Klein, 2022).
+
