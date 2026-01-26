@@ -143,7 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Directed Acyclic Graphs</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
@@ -215,7 +215,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-4"><a href="directed-acyclic-graphs.html#cb2-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">y=</span><span class="dv">0</span>)))</span>
 <span id="cb2-5"><a href="directed-acyclic-graphs.html#cb2-5" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="directed-acyclic-graphs.html#cb2-6" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag1,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/dag1_1-1.png" width="672" /></p>
+<div class="float">
+<img src="_main_files/figure-html/dag1_1-1.png" alt="DAG 1" />
+<div class="figcaption">DAG 1</div>
+</div>
 <p><strong>Direct Effect</strong>: we show that the treatment, <span class="math inline">\(coinflip\)</span>, has a direct effect onto the outcome, <span class="math inline">\(prize\)</span> with <span class="math inline">\(coinflip \rightarrow prize\)</span>.</p>
 </div>
 <div id="dag-with-a-mediator" class="section level2 hasAnchor" number="1.2">
@@ -227,7 +230,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-4"><a href="directed-acyclic-graphs.html#cb3-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">m=</span><span class="dv">0</span>,<span class="at">y=</span><span class="dv">0</span>)))</span>
 <span id="cb3-5"><a href="directed-acyclic-graphs.html#cb3-5" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="directed-acyclic-graphs.html#cb3-6" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag1,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/dag5_1-1.png" width="672" /></p>
+<div class="float">
+<img src="_main_files/figure-html/dag5_1-1.png" alt="DAG 2" />
+<div class="figcaption">DAG 2</div>
+</div>
 <p><strong>Indirect Effect</strong>: <span class="math inline">\(X \rightarrow M \rightarrow Y\)</span>. When <span class="math inline">\(X\)</span> has an indirect effect on <span class="math inline">\(Y\)</span> when it is mediated by <span class="math inline">\(M\)</span>. <span class="math inline">\(X\)</span> has an effect on <span class="math inline">\(Y \ \)</span> through the mediator <span class="math inline">\(M\)</span>, such that <span class="math inline">\(X\)</span> affects <span class="math inline">\(M\)</span> which then affects <span class="math inline">\(Y\)</span></p>
 </div>
 <div id="dag-with-a-confounder" class="section level2 hasAnchor" number="1.3">
@@ -247,25 +253,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-11"><a href="directed-acyclic-graphs.html#cb4-11" tabindex="-1"></a><span class="st">}&quot;</span>)</span>
 <span id="cb4-12"><a href="directed-acyclic-graphs.html#cb4-12" tabindex="-1"></a><span class="fu">coordinates</span>(dag2)<span class="ot">&lt;-</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>),<span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>))</span>
 <span id="cb4-13"><a href="directed-acyclic-graphs.html#cb4-13" tabindex="-1"></a>tidy_dag2<span class="ot">&lt;-</span><span class="fu">tidy_dagitty</span>(dag2)</span>
-<span id="cb4-14"><a href="directed-acyclic-graphs.html#cb4-14" tabindex="-1"></a>tidy_dag2</span></code></pre></div>
-<pre><code>## # A DAG with 3 nodes and 3 edges
-## #
-## # A tibble: 4 × 8
-##   name      x     y direction to     xend  yend circular
-##   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;fct&gt;     &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;lgl&gt;   
-## 1 u         2     1 -&gt;        x         1     0 FALSE   
-## 2 u         2     1 -&gt;        y         3     0 FALSE   
-## 3 x         1     0 -&gt;        y         3     0 FALSE   
-## 4 y         3     0 &lt;NA&gt;      &lt;NA&gt;     NA    NA FALSE</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="directed-acyclic-graphs.html#cb6-1" tabindex="-1"></a><span class="fu">ggdag</span>(tidy_dag2) <span class="sc">+</span> <span class="fu">theme_dag</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/dag2-1.png" width="672" /></p>
+<span id="cb4-14"><a href="directed-acyclic-graphs.html#cb4-14" tabindex="-1"></a>tidy_dag2</span>
+<span id="cb4-15"><a href="directed-acyclic-graphs.html#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="directed-acyclic-graphs.html#cb4-16" tabindex="-1"></a><span class="fu">ggdag</span>(tidy_dag2) <span class="sc">+</span> <span class="fu">theme_dag</span>()</span></code></pre></div>
+<div class="float">
+<img src="_main_files/figure-html/dag2-1.png" alt="DAG 3" />
+<div class="figcaption">DAG 3</div>
+</div>
 <p>We can use <em>dagify</em> command and use labels.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="directed-acyclic-graphs.html#cb7-1" tabindex="-1"></a>dag3<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x, y <span class="sc">~</span> u, x <span class="sc">~</span> u,<span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
-<span id="cb7-2"><a href="directed-acyclic-graphs.html#cb7-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Wages&quot;</span>,<span class="at">x=</span><span class="st">&quot;Education&quot;</span>,<span class="at">u=</span><span class="st">&quot;ability&quot;</span>),</span>
-<span id="cb7-3"><a href="directed-acyclic-graphs.html#cb7-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>),</span>
-<span id="cb7-4"><a href="directed-acyclic-graphs.html#cb7-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>)))</span>
-<span id="cb7-5"><a href="directed-acyclic-graphs.html#cb7-5" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag3,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/dag2_1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="directed-acyclic-graphs.html#cb5-1" tabindex="-1"></a>dag3<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x, y <span class="sc">~</span> u, x <span class="sc">~</span> u,<span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb5-2"><a href="directed-acyclic-graphs.html#cb5-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Wages&quot;</span>,<span class="at">x=</span><span class="st">&quot;Education&quot;</span>,<span class="at">u=</span><span class="st">&quot;ability&quot;</span>),</span>
+<span id="cb5-3"><a href="directed-acyclic-graphs.html#cb5-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>),</span>
+<span id="cb5-4"><a href="directed-acyclic-graphs.html#cb5-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>)))</span>
+<span id="cb5-5"><a href="directed-acyclic-graphs.html#cb5-5" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag3,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
+<div class="float">
+<img src="_main_files/figure-html/dag2_1-1.png" alt="DAG 4" />
+<div class="figcaption">DAG 4</div>
+</div>
 <p>Let’s talk about our paths here.</p>
 <p><strong>Front Door Path</strong>: a causal path where all the arrows point away from the treatment (Huntington-Klein, 2022).</p>
 <ol style="list-style-type: decimal">
@@ -280,12 +284,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="instrumental-variable-dag" class="section level2 hasAnchor" number="1.4">
 <h2><span class="header-section-number">1.4</span> Instrumental Variable DAG<a href="directed-acyclic-graphs.html#instrumental-variable-dag" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We can use a DAG as an identification strategy. Here we show how an instrument, <span class="math inline">\(z\)</span> affects <span class="math inline">\(x\)</span> which then affects <span class="math inline">\(y\)</span>. We use the variation in <span class="math inline">\(x\)</span> that is due to exogenous variation in <span class="math inline">\(z\)</span>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="directed-acyclic-graphs.html#cb8-1" tabindex="-1"></a>dag3<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x, y <span class="sc">~</span> u, x <span class="sc">~</span> u,x <span class="sc">~</span> z,<span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
-<span id="cb8-2"><a href="directed-acyclic-graphs.html#cb8-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Wages&quot;</span>,<span class="at">x=</span><span class="st">&quot;Education&quot;</span>,<span class="at">u=</span><span class="st">&quot;ability&quot;</span>,<span class="at">z=</span><span class="st">&quot;IV&quot;</span>),</span>
-<span id="cb8-3"><a href="directed-acyclic-graphs.html#cb8-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>,<span class="at">z=</span><span class="dv">0</span>),</span>
-<span id="cb8-4"><a href="directed-acyclic-graphs.html#cb8-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>,<span class="at">z=</span><span class="dv">0</span>)))</span>
-<span id="cb8-5"><a href="directed-acyclic-graphs.html#cb8-5" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag3,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/dag3_1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="directed-acyclic-graphs.html#cb6-1" tabindex="-1"></a>dag3<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x, y <span class="sc">~</span> u, x <span class="sc">~</span> u,x <span class="sc">~</span> z,<span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb6-2"><a href="directed-acyclic-graphs.html#cb6-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Wages&quot;</span>,<span class="at">x=</span><span class="st">&quot;Education&quot;</span>,<span class="at">u=</span><span class="st">&quot;ability&quot;</span>,<span class="at">z=</span><span class="st">&quot;IV&quot;</span>),</span>
+<span id="cb6-3"><a href="directed-acyclic-graphs.html#cb6-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>,<span class="at">z=</span><span class="dv">0</span>),</span>
+<span id="cb6-4"><a href="directed-acyclic-graphs.html#cb6-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>,<span class="at">z=</span><span class="dv">0</span>)))</span>
+<span id="cb6-5"><a href="directed-acyclic-graphs.html#cb6-5" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag3,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
+<div class="float">
+<img src="_main_files/figure-html/dag3_1-1.png" alt="DAG 5" />
+<div class="figcaption">DAG 5</div>
+</div>
 <p>We can use an instrument to close the <strong>back door path</strong>, and we utilize the exogenous variation in <span class="math inline">\(z\)</span> to purge the variation in <span class="math inline">\(x\)</span> that is endogenous with <span class="math inline">\(u\)</span>.</p>
 <p>Huntington-Klein (2022) discusses good paths and bad paths.</p>
 <p><strong>Good Path</strong>: A causal pathway is a good pathway if it describes the reason why the treatment and outcome are related to answer your research question of interest.</p>
@@ -294,14 +301,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="dag-for-instrumental-variables-with-two-confounders" class="section level2 hasAnchor" number="1.5">
 <h2><span class="header-section-number">1.5</span> DAG for Instrumental Variables with Two Confounders<a href="directed-acyclic-graphs.html#dag-for-instrumental-variables-with-two-confounders" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>We can add another confounder to our DAG, such as preference and ability.
-<img src="_main_files/figure-html/dag4_1-1.png" width="672" /></p>
+<p>We can add another confounder to our DAG, such as preference and ability.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="directed-acyclic-graphs.html#cb7-1" tabindex="-1"></a>dag3<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x, y <span class="sc">~</span> u1, x <span class="sc">~</span> u1,x <span class="sc">~</span> z,x <span class="sc">~</span> u2, y <span class="sc">~</span> u2, <span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb7-2"><a href="directed-acyclic-graphs.html#cb7-2" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Wages&quot;</span>,<span class="at">x=</span><span class="st">&quot;Education&quot;</span>,<span class="at">u1=</span><span class="st">&quot;ability&quot;</span>,<span class="at">u2=</span><span class="st">&quot;preference&quot;</span>,<span class="at">z=</span><span class="st">&quot;IV&quot;</span>),</span>
+<span id="cb7-3"><a href="directed-acyclic-graphs.html#cb7-3" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">1</span>,<span class="at">u1=</span><span class="dv">2</span>,<span class="at">y=</span><span class="dv">3</span>,<span class="at">z=</span><span class="dv">0</span>,<span class="at">u2=</span><span class="dv">2</span>),</span>
+<span id="cb7-4"><a href="directed-acyclic-graphs.html#cb7-4" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">x=</span><span class="dv">0</span>,<span class="at">u1=</span><span class="dv">1</span>,<span class="at">y=</span><span class="dv">0</span>,<span class="at">z=</span><span class="dv">0</span>,<span class="at">u2=</span><span class="sc">-</span><span class="dv">1</span>)))</span>
+<span id="cb7-5"><a href="directed-acyclic-graphs.html#cb7-5" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag3,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
+<div class="float">
+<img src="_main_files/figure-html/dag4_1-1.png" alt="DAG 6" />
+<div class="figcaption">DAG 6</div>
+</div>
 <p>Again, our instrument variable closes the backdoor paths for both <span class="math inline">\(u1\)</span> and <span class="math inline">\(u2\)</span>, and we are able to identify the effect of <span class="math inline">\(x \rightarrow y\)</span>.</p>
 </div>
 <div id="a-more-complex-dag" class="section level2 hasAnchor" number="1.6">
 <h2><span class="header-section-number">1.6</span> A More Complex DAG<a href="directed-acyclic-graphs.html#a-more-complex-dag" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will use an example from Huntington-Klein (2022) for a more complex DAG. We will look at the direct paths, indirect paths, good paths, and bad paths.</p>
-<p><img src="_main_files/figure-html/dag6_1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="directed-acyclic-graphs.html#cb8-1" tabindex="-1"></a>dag3<span class="ot">&lt;-</span><span class="fu">dagify</span>(y <span class="sc">~</span> x,</span>
+<span id="cb8-2"><a href="directed-acyclic-graphs.html#cb8-2" tabindex="-1"></a>             y <span class="sc">~</span> o1, </span>
+<span id="cb8-3"><a href="directed-acyclic-graphs.html#cb8-3" tabindex="-1"></a>             x <span class="sc">~</span> o1,</span>
+<span id="cb8-4"><a href="directed-acyclic-graphs.html#cb8-4" tabindex="-1"></a>             y <span class="sc">~</span> o2,</span>
+<span id="cb8-5"><a href="directed-acyclic-graphs.html#cb8-5" tabindex="-1"></a>             x <span class="sc">~</span> o2,</span>
+<span id="cb8-6"><a href="directed-acyclic-graphs.html#cb8-6" tabindex="-1"></a>             o1 <span class="sc">~</span> u, </span>
+<span id="cb8-7"><a href="directed-acyclic-graphs.html#cb8-7" tabindex="-1"></a>             o2 <span class="sc">~</span> u, </span>
+<span id="cb8-8"><a href="directed-acyclic-graphs.html#cb8-8" tabindex="-1"></a>             d <span class="sc">~</span> x,</span>
+<span id="cb8-9"><a href="directed-acyclic-graphs.html#cb8-9" tabindex="-1"></a>             y <span class="sc">~</span> d,</span>
+<span id="cb8-10"><a href="directed-acyclic-graphs.html#cb8-10" tabindex="-1"></a>             <span class="at">exposure=</span><span class="st">&quot;x&quot;</span>,<span class="at">outcome=</span><span class="st">&quot;y&quot;</span>,</span>
+<span id="cb8-11"><a href="directed-acyclic-graphs.html#cb8-11" tabindex="-1"></a>             <span class="at">labels=</span><span class="fu">c</span>(<span class="at">y=</span><span class="st">&quot;Lifespan&quot;</span>,<span class="at">x=</span><span class="st">&quot;Wine&quot;</span>,<span class="at">o1=</span><span class="st">&quot;Income&quot;</span>, <span class="at">o2=</span><span class="st">&quot;Health&quot;</span>,<span class="at">d=</span><span class="st">&quot;Drugs&quot;</span>,<span class="at">u=</span><span class="st">&quot;Unobserved Confounder&quot;</span>),</span>
+<span id="cb8-12"><a href="directed-acyclic-graphs.html#cb8-12" tabindex="-1"></a>             <span class="at">coords=</span><span class="fu">list</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="at">y=</span><span class="dv">3</span>,<span class="at">x=</span><span class="dv">1</span>,<span class="at">o1=</span><span class="dv">1</span>,<span class="at">o2=</span><span class="dv">3</span>,<span class="at">u=</span><span class="dv">2</span>,<span class="at">d=</span><span class="dv">2</span>),</span>
+<span id="cb8-13"><a href="directed-acyclic-graphs.html#cb8-13" tabindex="-1"></a>                         <span class="at">y=</span><span class="fu">c</span>(<span class="at">y=</span><span class="dv">2</span>,<span class="at">x=</span><span class="dv">2</span>,<span class="at">o1=</span><span class="dv">3</span>,<span class="at">o2=</span><span class="dv">3</span>,<span class="at">u=</span><span class="dv">4</span>,<span class="at">d=</span><span class="dv">1</span>)))</span>
+<span id="cb8-14"><a href="directed-acyclic-graphs.html#cb8-14" tabindex="-1"></a><span class="fu">ggdag_status</span>(dag3,<span class="at">use_labels =</span> <span class="st">&quot;label&quot;</span>)<span class="sc">+</span><span class="fu">theme_dag</span>()</span></code></pre></div>
+<div class="float">
+<img src="_main_files/figure-html/dag6_1-1.png" alt="DAG 7" />
+<div class="figcaption">DAG 7</div>
+</div>
 <p><strong>Direct Paths</strong></p>
 <ol style="list-style-type: decimal">
 <li><span class="math inline">\(Wine \rightarrow Lifespan\)</span></li>

@@ -195,7 +195,11 @@ We can use the \emph{dagify} function to display the DAG.
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag1_1-1.pdf}}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag1_1-1.png}}
+\caption{DAG 1}
+\end{figure}
 
 \textbf{Direct Effect}: we show that the treatment, \(coinflip\), has a direct effect onto the outcome, \(prize\) with \(coinflip \rightarrow prize\).
 
@@ -214,7 +218,11 @@ We can add a mediator to our DAG. A mediator is a variable that lies between the
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag5_1-1.pdf}}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag5_1-1.png}}
+\caption{DAG 2}
+\end{figure}
 
 \textbf{Indirect Effect}: \(X \rightarrow M \rightarrow Y\). When \(X\) has an indirect effect on \(Y\) when it is mediated by \(M\). \(X\) has an effect on \(Y \ \) through the mediator \(M\), such that \(X\) affects \(M\) which then affects \(Y\)
 
@@ -240,28 +248,16 @@ We had additional commands besides \emph{dagify} and \emph{ggdag}. We can use th
 \FunctionTok{coordinates}\NormalTok{(dag2)}\OtherTok{\textless{}{-}}\FunctionTok{list}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(}\AttributeTok{x=}\DecValTok{1}\NormalTok{,}\AttributeTok{u=}\DecValTok{2}\NormalTok{,}\AttributeTok{y=}\DecValTok{3}\NormalTok{),}\AttributeTok{y=}\FunctionTok{c}\NormalTok{(}\AttributeTok{x=}\DecValTok{0}\NormalTok{,}\AttributeTok{u=}\DecValTok{1}\NormalTok{,}\AttributeTok{y=}\DecValTok{0}\NormalTok{))}
 \NormalTok{tidy\_dag2}\OtherTok{\textless{}{-}}\FunctionTok{tidy\_dagitty}\NormalTok{(dag2)}
 \NormalTok{tidy\_dag2}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## # A DAG with 3 nodes and 3 edges
-## #
-## # A tibble: 4 x 8
-##   name      x     y direction to     xend  yend circular
-##   <chr> <int> <int> <fct>     <chr> <int> <int> <lgl>   
-## 1 u         2     1 ->        x         1     0 FALSE   
-## 2 u         2     1 ->        y         3     0 FALSE   
-## 3 x         1     0 ->        y         3     0 FALSE   
-## 4 y         3     0 <NA>      <NA>     NA    NA FALSE
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{ggdag}\NormalTok{(tidy\_dag2) }\SpecialCharTok{+} \FunctionTok{theme\_dag}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag2-1.pdf}}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag2-1.png}}
+\caption{DAG 3}
+\end{figure}
 
 We can use \emph{dagify} command and use labels.
 
@@ -275,7 +271,11 @@ We can use \emph{dagify} command and use labels.
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag2_1-1.pdf}}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag2_1-1.png}}
+\caption{DAG 4}
+\end{figure}
 
 Let's talk about our paths here.
 
@@ -313,7 +313,11 @@ We can use a DAG as an identification strategy. Here we show how an instrument, 
 \end{Highlighting}
 \end{Shaded}
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag3_1-1.pdf}}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag3_1-1.png}}
+\caption{DAG 5}
+\end{figure}
 
 We can use an instrument to close the \textbf{back door path}, and we utilize the exogenous variation in \(z\) to purge the variation in \(x\) that is endogenous with \(u\).
 
@@ -328,7 +332,22 @@ Huntington-Klein (2022) discusses good paths and bad paths.
 \section{DAG for Instrumental Variables with Two Confounders}\label{dag-for-instrumental-variables-with-two-confounders}
 
 We can add another confounder to our DAG, such as preference and ability.
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag4_1-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dag3}\OtherTok{\textless{}{-}}\FunctionTok{dagify}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x, y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ u1, x }\SpecialCharTok{\textasciitilde{}}\NormalTok{ u1,x }\SpecialCharTok{\textasciitilde{}}\NormalTok{ z,x }\SpecialCharTok{\textasciitilde{}}\NormalTok{ u2, y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ u2, }\AttributeTok{exposure=}\StringTok{"x"}\NormalTok{,}\AttributeTok{outcome=}\StringTok{"y"}\NormalTok{,}
+             \AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\AttributeTok{y=}\StringTok{"Wages"}\NormalTok{,}\AttributeTok{x=}\StringTok{"Education"}\NormalTok{,}\AttributeTok{u1=}\StringTok{"ability"}\NormalTok{,}\AttributeTok{u2=}\StringTok{"preference"}\NormalTok{,}\AttributeTok{z=}\StringTok{"IV"}\NormalTok{),}
+             \AttributeTok{coords=}\FunctionTok{list}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(}\AttributeTok{x=}\DecValTok{1}\NormalTok{,}\AttributeTok{u1=}\DecValTok{2}\NormalTok{,}\AttributeTok{y=}\DecValTok{3}\NormalTok{,}\AttributeTok{z=}\DecValTok{0}\NormalTok{,}\AttributeTok{u2=}\DecValTok{2}\NormalTok{),}
+                         \AttributeTok{y=}\FunctionTok{c}\NormalTok{(}\AttributeTok{x=}\DecValTok{0}\NormalTok{,}\AttributeTok{u1=}\DecValTok{1}\NormalTok{,}\AttributeTok{y=}\DecValTok{0}\NormalTok{,}\AttributeTok{z=}\DecValTok{0}\NormalTok{,}\AttributeTok{u2=}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)))}
+\FunctionTok{ggdag\_status}\NormalTok{(dag3,}\AttributeTok{use\_labels =} \StringTok{"label"}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{theme\_dag}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag4_1-1.png}}
+\caption{DAG 6}
+\end{figure}
 
 Again, our instrument variable closes the backdoor paths for both \(u1\) and \(u2\), and we are able to identify the effect of \(x \rightarrow y\).
 
@@ -336,7 +355,30 @@ Again, our instrument variable closes the backdoor paths for both \(u1\) and \(u
 
 We will use an example from Huntington-Klein (2022) for a more complex DAG. We will look at the direct paths, indirect paths, good paths, and bad paths.
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag6_1-1.pdf}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dag3}\OtherTok{\textless{}{-}}\FunctionTok{dagify}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x,}
+\NormalTok{             y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ o1, }
+\NormalTok{             x }\SpecialCharTok{\textasciitilde{}}\NormalTok{ o1,}
+\NormalTok{             y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ o2,}
+\NormalTok{             x }\SpecialCharTok{\textasciitilde{}}\NormalTok{ o2,}
+\NormalTok{             o1 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ u, }
+\NormalTok{             o2 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ u, }
+\NormalTok{             d }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x,}
+\NormalTok{             y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ d,}
+             \AttributeTok{exposure=}\StringTok{"x"}\NormalTok{,}\AttributeTok{outcome=}\StringTok{"y"}\NormalTok{,}
+             \AttributeTok{labels=}\FunctionTok{c}\NormalTok{(}\AttributeTok{y=}\StringTok{"Lifespan"}\NormalTok{,}\AttributeTok{x=}\StringTok{"Wine"}\NormalTok{,}\AttributeTok{o1=}\StringTok{"Income"}\NormalTok{, }\AttributeTok{o2=}\StringTok{"Health"}\NormalTok{,}\AttributeTok{d=}\StringTok{"Drugs"}\NormalTok{,}\AttributeTok{u=}\StringTok{"Unobserved Confounder"}\NormalTok{),}
+             \AttributeTok{coords=}\FunctionTok{list}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(}\AttributeTok{y=}\DecValTok{3}\NormalTok{,}\AttributeTok{x=}\DecValTok{1}\NormalTok{,}\AttributeTok{o1=}\DecValTok{1}\NormalTok{,}\AttributeTok{o2=}\DecValTok{3}\NormalTok{,}\AttributeTok{u=}\DecValTok{2}\NormalTok{,}\AttributeTok{d=}\DecValTok{2}\NormalTok{),}
+                         \AttributeTok{y=}\FunctionTok{c}\NormalTok{(}\AttributeTok{y=}\DecValTok{2}\NormalTok{,}\AttributeTok{x=}\DecValTok{2}\NormalTok{,}\AttributeTok{o1=}\DecValTok{3}\NormalTok{,}\AttributeTok{o2=}\DecValTok{3}\NormalTok{,}\AttributeTok{u=}\DecValTok{4}\NormalTok{,}\AttributeTok{d=}\DecValTok{1}\NormalTok{)))}
+\FunctionTok{ggdag\_status}\NormalTok{(dag3,}\AttributeTok{use\_labels =} \StringTok{"label"}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{theme\_dag}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag6_1-1.png}}
+\caption{DAG 7}
+\end{figure}
 
 \textbf{Direct Paths}
 
@@ -400,7 +442,11 @@ Our focus of the directed acyclic graph (DAG) is to include everything \textbf{r
 
 Our treatment will be \textbf{Online Class} and our outcome will be \textbf{Dropout}
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag7_1-1.pdf}}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag7_1-1.png}}
+\caption{DAG 8}
+\end{figure}
 
 What else should we includee?
 
@@ -471,7 +517,11 @@ For our direction of our arrows among our covariates, treatment, and outcomes.
   11 \textbf{Location} causes \textbf{Internet Access}, \emph{Unobservable} causes \textbf{Location} related to \textbf{SES}
 \end{enumerate}
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag8-1.pdf}}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag8-1.png}}
+\caption{DAG 9}
+\end{figure}
 
 So our first DAG is complicated and a bit of the mess. However, we have thought through the data generation process.
 
@@ -521,7 +571,11 @@ The data generation process is complex, and developing a complex DAG will preven
 
 \textbf{Irrelevance}: Some variables are relevant for the data generation process, but not for our research design. If a variable is not on either a \textbf{front door path} or \textbf{back door path}, then we can likely remove this variable from the DAG.
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/dag9-1.pdf}}
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/dag9-1.png}}
+\caption{DAG 10}
+\end{figure}
 
 \section{No Cylces}\label{no-cylces}
 
@@ -535,14 +589,42 @@ Examples where we cannot identify the causal effect due to cycles:
 \item
   \(A \rightarrow B \rightarrow A\)
 \item
-  ( A \rightarrow B \rightarrow C \rightarrow A)
+  \(A \rightarrow B \rightarrow C \rightarrow A\)
 \end{enumerate}
 
 \textbf{Problematic}! Stuck in a loop.
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/cycles1-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dag3}\OtherTok{\textless{}{-}}\FunctionTok{dagify}\NormalTok{(B }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A, C }\SpecialCharTok{\textasciitilde{}}\NormalTok{ B, A }\SpecialCharTok{\textasciitilde{}}\NormalTok{ C,}\AttributeTok{exposure=}\StringTok{"A"}\NormalTok{,}\AttributeTok{outcome=}\StringTok{"B"}\NormalTok{,}
+             \AttributeTok{coords=}\FunctionTok{list}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(}\AttributeTok{A=}\DecValTok{0}\NormalTok{,}\AttributeTok{B=}\DecValTok{1}\NormalTok{,}\AttributeTok{C=}\DecValTok{0}\NormalTok{),}
+                         \AttributeTok{y=}\FunctionTok{c}\NormalTok{(}\AttributeTok{A=}\DecValTok{0}\NormalTok{,}\AttributeTok{B=}\DecValTok{0}\NormalTok{,}\AttributeTok{C=}\DecValTok{1}\NormalTok{)))}
+\FunctionTok{ggdag\_status}\NormalTok{(dag3)}\SpecialCharTok{+}\FunctionTok{theme\_dag}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/cycles1-1.png}}
+\caption{DAG 11}
+\end{figure}
 
 \textbf{Problematic}! Stuck in a loop.
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/cycles2-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dag3}\OtherTok{\textless{}{-}}\FunctionTok{dagify}\NormalTok{(B }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A, A }\SpecialCharTok{\textasciitilde{}}\NormalTok{ B, }\AttributeTok{exposure=}\StringTok{"A"}\NormalTok{,}\AttributeTok{outcome=}\StringTok{"B"}\NormalTok{,}
+             \AttributeTok{coords=}\FunctionTok{list}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(}\AttributeTok{A=}\DecValTok{0}\NormalTok{,}\AttributeTok{B=}\DecValTok{1}\NormalTok{),}
+                         \AttributeTok{y=}\FunctionTok{c}\NormalTok{(}\AttributeTok{A=}\DecValTok{0}\NormalTok{,}\AttributeTok{B=}\DecValTok{0}\NormalTok{)))}
+\FunctionTok{ggdag\_status}\NormalTok{(dag3)}\SpecialCharTok{+}\FunctionTok{theme\_dag}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/cycles2-1.png}}
+\caption{DAG 12}
+\end{figure}
 
 We cannot identify the causal effect in either scenario?
 
@@ -550,7 +632,20 @@ We cannot identify the causal effect in either scenario?
 
 We can add a time dimension and the cycle is now gone. The arrows will now move in only one direction (Huntington-Klein, 2022).
 
-\pandocbounded{\includegraphics[keepaspectratio]{_main_files/figure-latex/cycles3-1.pdf}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dag3}\OtherTok{\textless{}{-}}\FunctionTok{dagify}\NormalTok{(B2 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ A1, A2 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ B1,}
+             \AttributeTok{coords=}\FunctionTok{list}\NormalTok{(}\AttributeTok{x=}\FunctionTok{c}\NormalTok{(}\AttributeTok{A1=}\DecValTok{0}\NormalTok{,}\AttributeTok{B1=}\DecValTok{0}\NormalTok{,}\AttributeTok{A2=}\DecValTok{1}\NormalTok{,}\AttributeTok{B2=}\DecValTok{1}\NormalTok{),}
+                         \AttributeTok{y=}\FunctionTok{c}\NormalTok{(}\AttributeTok{A1=}\DecValTok{1}\NormalTok{,}\AttributeTok{B1=}\DecValTok{0}\NormalTok{,}\AttributeTok{A2=}\DecValTok{1}\NormalTok{,}\AttributeTok{B2=}\DecValTok{0}\NormalTok{)))}
+\FunctionTok{ggdag\_status}\NormalTok{(dag3)}\SpecialCharTok{+}\FunctionTok{theme\_dag}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{./_main_files/figure-html/cycles3-1.png}}
+\caption{DAG 13}
+\end{figure}
 
 Here we have \(A_{t} \rightarrow \ B_{t+1}\) and \(B_{t} \rightarrow A_{t+1}\), and we do not get stuck in a loop.
 

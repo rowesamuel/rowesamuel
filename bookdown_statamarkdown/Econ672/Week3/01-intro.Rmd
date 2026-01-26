@@ -26,7 +26,7 @@ We will start with a simple DAG, where \( x \rightarrow y \). We are saying that
 We will assume that there is a data generation process, where our treatment \( coinflip \) could be a randomized coin flip and our outcome is a \( prize \). The data generation process shows explains the data that we observe in regard to \( coinflip \) and \( prize \). It is a direct effect from coin flip to prize. If you win the coin flip, you get a prize. If you lose the coin flip, you do not get a prize. 
 
 We can use the *dagify* function to display the DAG.
-```{r dag1_1, echo=TRUE}
+```{r dag1_1, eval=FALSE, echo=TRUE}
 dag1<-dagify(y ~ x, exposure="x",outcome="y",
              labels=c(y="Prize",x="Coin Flip"),
              coords=list(x=c(x=1,y=2),
@@ -36,13 +36,15 @@ ggdag_status(dag1,use_labels = "label")+theme_dag()
 
 ```
 
+![DAG 1](./_main_files/figure-html/dag1_1-1.png)
+
 **Direct Effect**: we show that the treatment, \( coinflip \), has a direct effect onto the outcome, \( prize \) with \( coinflip \rightarrow prize \).
 
 ## DAG with a Mediator
 
 We can add a mediator to our DAG. A mediator is a variable that lies between the treatment and the outcome, or a mediator descends from the treatment to affect the outcome. For example, treatment may or may not include direct funding, and the only factor affecting the amount of direct funding is the treatment. 
 
-```{r dag5_1, echo=TRUE}
+```{r dag5_1, eval=FALSE, echo=TRUE}
 dag1<-dagify(y ~ m, m ~ x, exposure="x",outcome="y",
              labels=c(y="Outcome",x="Treatment",m="Mediator"),
              coords=list(x=c(x=1,m=2,y=3),
@@ -52,6 +54,8 @@ ggdag_status(dag1,use_labels = "label")+theme_dag()
 
 ```
 
+![DAG 2](./_main_files/figure-html/dag5_1-1.png)
+
 **Indirect Effect**: \( X \rightarrow M \rightarrow Y \). When \( X \) has an indirect effect on \( Y \) when it is mediated by \( M \). \(X \) has an effect on \( Y \ \) through the mediator \( M \), such that \( X \) affects \( M \) which then affects \( Y \)
 
 ## DAG with a confounder
@@ -59,7 +63,7 @@ ggdag_status(dag1,use_labels = "label")+theme_dag()
 Next, we will add a **confounder** to our data. A confounder is a variable that affects both the treatment and outcome. Such that, a confounder mediates the treatment and outcome, and confounds our estimate of the direct effect.
 
 We had additional commands besides *dagify* and *ggdag*. We can use the *daggity*, *tidy_dagitty*, and *gg_dag* commands. This is another set of commands to create DAGS.
-```{r dag2, echo=TRUE}
+```{r dag2, eval=FALSE, echo=TRUE}
 library(ggdag)
 library(ggplot2)
 dag2<-dagitty::dagitty("dag {
@@ -78,8 +82,10 @@ tidy_dag2
 ggdag(tidy_dag2) + theme_dag()
 ```
 
+![DAG 3](./_main_files/figure-html/dag2-1.png)
+
 We can use *dagify* command and use labels.
-```{r dag2_1, echo=TRUE}
+```{r dag2_1, eval=FALSE, echo=TRUE}
 dag3<-dagify(y ~ x, y ~ u, x ~ u,exposure="x",outcome="y",
              labels=c(y="Wages",x="Education",u="ability"),
              coords=list(x=c(x=1,u=2,y=3),
@@ -87,6 +93,8 @@ dag3<-dagify(y ~ x, y ~ u, x ~ u,exposure="x",outcome="y",
 ggdag_status(dag3,use_labels = "label")+theme_dag()
 
 ```
+
+![DAG 4](./_main_files/figure-html/dag2_1-1.png)
 
 Let's talk about our paths here.
 
@@ -104,7 +112,7 @@ If there are any back door paths open, then we cannot identify the causal effect
 
 We can use a DAG as an identification strategy. Here we show how an instrument, \( z \) affects \( x \) which then affects \( y \). We use the variation in \( x \) that is due to exogenous variation in \( z \).
 
-```{r dag3_1, echo=TRUE}
+```{r dag3_1, eval=FALSE, echo=TRUE}
 dag3<-dagify(y ~ x, y ~ u, x ~ u,x ~ z,exposure="x",outcome="y",
              labels=c(y="Wages",x="Education",u="ability",z="IV"),
              coords=list(x=c(x=1,u=2,y=3,z=0),
@@ -112,6 +120,8 @@ dag3<-dagify(y ~ x, y ~ u, x ~ u,x ~ z,exposure="x",outcome="y",
 ggdag_status(dag3,use_labels = "label")+theme_dag()
 
 ```
+
+![DAG 5](./_main_files/figure-html/dag3_1-1.png)
 
 We can use an instrument to close the **back door path**, and we utilize the exogenous variation in \( z \) to purge the variation in \( x \) that is endogenous with \( u \).
 
@@ -126,7 +136,7 @@ Huntington-Klein (2022) discusses good paths and bad paths.
 ## DAG for Instrumental Variables with Two Confounders
 
 We can add another confounder to our DAG, such as preference and ability.
-```{r dag4_1}
+```{r dag4_1,eval=FALSE, echo=TRUE}
 dag3<-dagify(y ~ x, y ~ u1, x ~ u1,x ~ z,x ~ u2, y ~ u2, exposure="x",outcome="y",
              labels=c(y="Wages",x="Education",u1="ability",u2="preference",z="IV"),
              coords=list(x=c(x=1,u1=2,y=3,z=0,u2=2),
@@ -134,13 +144,15 @@ dag3<-dagify(y ~ x, y ~ u1, x ~ u1,x ~ z,x ~ u2, y ~ u2, exposure="x",outcome="y
 ggdag_status(dag3,use_labels = "label")+theme_dag()
 ```
 
+![DAG 6](./_main_files/figure-html/dag4_1-1.png)
+
 Again, our instrument variable closes the backdoor paths for both \( u1 \) and \( u2 \), and we are able to identify the effect of \(x \rightarrow y \).
 
 ## A More Complex DAG
 
 We will use an example from Huntington-Klein (2022) for a more complex DAG. We will look at the direct paths, indirect paths, good paths, and bad paths.
 
-```{r dag6_1}
+```{r dag6_1,eval=FALSE,echo=TRUE}
 dag3<-dagify(y ~ x,
              y ~ o1, 
              x ~ o1,
@@ -156,6 +168,8 @@ dag3<-dagify(y ~ x,
                          y=c(y=2,x=2,o1=3,o2=3,u=4,d=1)))
 ggdag_status(dag3,use_labels = "label")+theme_dag()
 ```
+
+![DAG 7](./_main_files/figure-html/dag6_1-1.png)
 
 **Direct Paths**
 
@@ -191,7 +205,7 @@ Our focus of the directed acyclic graph (DAG) is to include everything **relevan
 
 Our treatment will be **Online Class** and our outcome will be **Dropout**
 
-```{r dag7_1}
+```{r dag7_1,eval=FALSE}
 dag1<-dagify(y ~ x, exposure="x",outcome="y",
              labels=c(y="DropOut",x="Online Class"),
              coords=list(x=c(x=1,y=2),
@@ -199,6 +213,8 @@ dag1<-dagify(y ~ x, exposure="x",outcome="y",
 
 ggdag_status(dag1,use_labels = "label")+theme_dag()
 ```
+
+![DAG 8](./_main_files/figure-html/dag7_1-1.png)
 
 What else should we includee? 
 
@@ -229,7 +245,7 @@ For our direction of our arrows among our covariates, treatment, and outcomes.
   10. **Academics** cause **DropOut**, **Work Hours**, *Unobservable* cause **Academics** to be related to **Race** and **Sex**
   11 **Location** causes **Internet Access**, *Unobservable* causes **Location** related to **SES**
 
-```{r dag8}
+```{r dag8,eval=FALSE}
 dag1<-dagify(y ~ x, 
              x ~ AT,
              AT ~ WH,
@@ -268,6 +284,8 @@ dag1<-dagify(y ~ x,
 ggdag_status(dag1,use_labels = "label")+theme_dag()
 ```
 
+![DAG 9](./_main_files/figure-html/dag8-1.png)
+
 So our first DAG is complicated and a bit of the mess. However, we have thought through the data generation process.
 
 ## Simplify 
@@ -297,7 +315,7 @@ The data generation process is complex, and developing a complex DAG will preven
 
 **Irrelevance**: Some variables are relevant for the data generation process, but not for our research design. If a variable is not on either a **front door path** or **back door path**, then we can likely remove this variable from the DAG.
 
-```{r dag9}
+```{r dag9,eval=FALSE}
 dag1<-dagify(y ~ x, 
              y ~ AG,
              WH ~ AG,
@@ -326,6 +344,9 @@ dag1<-dagify(y ~ x,
 ggdag_status(dag1,use_labels = "label")+theme_dag()
 ```
 
+![DAG 10](./_main_files/figure-html/dag9-1.png)
+
+
 ## No Cylces
 
 In the name is "acyclic", which means there are no cycles. You should not start at one path and end up back where you started (Huntington-Klein, 2022). Why? Because, we will never be able to identify the causal effect.
@@ -333,10 +354,10 @@ In the name is "acyclic", which means there are no cycles. You should not start 
 Examples where we cannot identify the causal effect due to cycles:
 
   1. \( A \rightarrow B \rightarrow A \)
-  2. \( A \rightarrow B \rightarrow C \rightarrow A)
+  2. \( A \rightarrow B \rightarrow C \rightarrow A\)
   
 **Problematic**! Stuck in a loop.
-```{r cycles1}
+```{r cycles1,eval=FALSE, echo=TRUE}
 dag3<-dagify(B ~ A, C ~ B, A ~ C,exposure="A",outcome="B",
              coords=list(x=c(A=0,B=1,C=0),
                          y=c(A=0,B=0,C=1)))
@@ -344,13 +365,18 @@ ggdag_status(dag3)+theme_dag()
 
 ```
 
+![DAG 11](./_main_files/figure-html/cycles1-1.png)
+
+
 **Problematic**! Stuck in a loop.
-```{r cycles2}
+```{r cycles2,eval=FALSE, echo=TRUE}
 dag3<-dagify(B ~ A, A ~ B, exposure="A",outcome="B",
              coords=list(x=c(A=0,B=1),
                          y=c(A=0,B=0)))
 ggdag_status(dag3)+theme_dag()
 ```
+
+![DAG 12](./_main_files/figure-html/cycles2-1.png)
 
 We cannot identify the causal effect in either scenario?
 
@@ -358,13 +384,16 @@ We cannot identify the causal effect in either scenario?
 
 We can add a time dimension and the cycle is now gone. The arrows will now move in only one direction (Huntington-Klein, 2022).
 
-```{r cycles3}
+```{r cycles3,eval=FALSE,echo=TRUE}
 dag3<-dagify(B2 ~ A1, A2 ~ B1,
              coords=list(x=c(A1=0,B1=0,A2=1,B2=1),
                          y=c(A1=1,B1=0,A2=1,B2=0)))
 ggdag_status(dag3)+theme_dag()
 
 ```
+
+![DAG 13](./_main_files/figure-html/cycles3-1.png)
+
 
 Here we have \( A_{t} \rightarrow \ B_{t+1} \) and \( B_{t} \rightarrow A_{t+1} \), and we do not get stuck in a loop.
 
