@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Inverse Probability Weights | Matching Methods</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Inverse Probability Weights | Matching Methods" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Inverse Probability Weights | Matching Methods" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="John Doe" />
+
+
+<meta name="date" content="2026-01-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="propensity-score-matching.html"/>
+<link rel="next" href="doubly-robust-estimator.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html"><i class="fa fa-check"></i><b>1</b> Propensity Score Matching</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#generate-propensity-score"><i class="fa fa-check"></i><b>1.1</b> Generate propensity score</a></li>
+<li class="chapter" data-level="1.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#estimate-the-ate-and-att-without-trimming"><i class="fa fa-check"></i><b>1.2</b> Estimate the <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> without trimming</a></li>
+<li class="chapter" data-level="1.3" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#trim-the-data"><i class="fa fa-check"></i><b>1.3</b> Trim the data</a></li>
+<li class="chapter" data-level="1.4" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#check-for-balance-again"><i class="fa fa-check"></i><b>1.4</b> Check for balance again</a></li>
+<li class="chapter" data-level="1.5" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#reestimate-the-att-and-ate"><i class="fa fa-check"></i><b>1.5</b> Reestimate the <span class="math inline">\(ATT\)</span> and <span class="math inline">\(ATE\)</span></a></li>
+<li class="chapter" data-level="1.6" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#recheck-for-balance"><i class="fa fa-check"></i><b>1.6</b> Recheck for balance</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html"><i class="fa fa-check"></i><b>2</b> Inverse Probability Weights</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html#manual-calculate-the-ate"><i class="fa fa-check"></i><b>2.1</b> Manual Calculate the <span class="math inline">\(ATE\)</span></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html#calculate-ey1-and-ey0"><i class="fa fa-check"></i><b>2.1.1</b> Calculate <span class="math inline">\(E[Y^1]\)</span> and <span class="math inline">\(E[Y^0]\)</span></a></li>
+<li class="chapter" data-level="2.1.2" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html#trim-the-data-1"><i class="fa fa-check"></i><b>2.1.2</b> Trim the data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html#calculate-ate-and-att-using-teffects"><i class="fa fa-check"></i><b>2.2</b> Calculate <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> using <em>teffects</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="doubly-robust-estimator.html"><a href="doubly-robust-estimator.html"><i class="fa fa-check"></i><b>3</b> Doubly Robust Estimator</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="doubly-robust-estimator.html"><a href="doubly-robust-estimator.html#calculate-the-ate-and-att-using-doubly-robust-estimator"><i class="fa fa-check"></i><b>3.1</b> Calculate the <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> using Doubly Robust Estimator</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Matching Methods</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="inverse-probability-weights" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Inverse Probability Weights<a href="inverse-probability-weights.html#inverse-probability-weights" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will reload our treatment group and CPS comparison group, and use the <em>teffects ipw</em> command to estimate the <span class="math inline">\(ATE\)</span>.</p>
+<p>We will repull our data, estimate our <span class="math inline">\(p\)</span>-score, and check our balance</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="inverse-probability-weights.html#cb28-1" tabindex="-1"></a>*Get Data</span>
+<span id="cb28-2"><a href="inverse-probability-weights.html#cb28-2" tabindex="-1"></a><span class="kw">use</span> https:<span class="co">//github.com/scunning1975/mixtape/raw/master/nsw_mixtape.dta, clear</span></span>
+<span id="cb28-3"><a href="inverse-probability-weights.html#cb28-3" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> treat==0</span>
+<span id="cb28-4"><a href="inverse-probability-weights.html#cb28-4" tabindex="-1"></a><span class="kw">append</span> <span class="kw">using</span> https:<span class="co">//github.com/scunning1975/mixtape/raw/master/cps_mixtape.dta</span></span>
+<span id="cb28-5"><a href="inverse-probability-weights.html#cb28-5" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="inverse-probability-weights.html#cb28-6" tabindex="-1"></a>*Calculate Variables</span>
+<span id="cb28-7"><a href="inverse-probability-weights.html#cb28-7" tabindex="-1"></a><span class="kw">gen</span> agesq=age*age</span>
+<span id="cb28-8"><a href="inverse-probability-weights.html#cb28-8" tabindex="-1"></a><span class="kw">gen</span> agecube=age*age*age</span>
+<span id="cb28-9"><a href="inverse-probability-weights.html#cb28-9" tabindex="-1"></a><span class="kw">gen</span> edusq=educ*edu</span>
+<span id="cb28-10"><a href="inverse-probability-weights.html#cb28-10" tabindex="-1"></a><span class="kw">gen</span> u74 = 0 <span class="kw">if</span> re74!=.</span>
+<span id="cb28-11"><a href="inverse-probability-weights.html#cb28-11" tabindex="-1"></a><span class="kw">replace</span> u74 = 1 <span class="kw">if</span> re74==0</span>
+<span id="cb28-12"><a href="inverse-probability-weights.html#cb28-12" tabindex="-1"></a><span class="kw">gen</span> u75 = 0 <span class="kw">if</span> re75!=.</span>
+<span id="cb28-13"><a href="inverse-probability-weights.html#cb28-13" tabindex="-1"></a><span class="kw">replace</span> u75 = 1 <span class="kw">if</span> re75==0</span>
+<span id="cb28-14"><a href="inverse-probability-weights.html#cb28-14" tabindex="-1"></a><span class="kw">gen</span> interaction1 = educ*re74</span>
+<span id="cb28-15"><a href="inverse-probability-weights.html#cb28-15" tabindex="-1"></a><span class="kw">gen</span> re74sq=re74^2</span>
+<span id="cb28-16"><a href="inverse-probability-weights.html#cb28-16" tabindex="-1"></a><span class="kw">gen</span> re75sq=re75^2</span>
+<span id="cb28-17"><a href="inverse-probability-weights.html#cb28-17" tabindex="-1"></a><span class="kw">gen</span> interaction2 = u74*hisp</span>
+<span id="cb28-18"><a href="inverse-probability-weights.html#cb28-18" tabindex="-1"></a></span>
+<span id="cb28-19"><a href="inverse-probability-weights.html#cb28-19" tabindex="-1"></a>*Estimate the coefficients</span>
+<span id="cb28-20"><a href="inverse-probability-weights.html#cb28-20" tabindex="-1"></a><span class="kw">logit</span> treat age agesq agecube educ edusq marr nodegree <span class="bn">black</span> hisp re74 re75 u74 u75 interaction1 </span>
+<span id="cb28-21"><a href="inverse-probability-weights.html#cb28-21" tabindex="-1"></a><span class="kw">predict</span> pscore</span>
+<span id="cb28-22"><a href="inverse-probability-weights.html#cb28-22" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="inverse-probability-weights.html#cb28-23" tabindex="-1"></a>* Checking <span class="kw">mean</span> propensity scores <span class="kw">for</span> treatment and control groups</span>
+<span id="cb28-24"><a href="inverse-probability-weights.html#cb28-24" tabindex="-1"></a><span class="kw">sum</span> pscore <span class="kw">if</span> treat==1, <span class="kw">detail</span></span>
+<span id="cb28-25"><a href="inverse-probability-weights.html#cb28-25" tabindex="-1"></a><span class="kw">sum</span> pscore <span class="kw">if</span> treat==0, <span class="kw">detail</span></span>
+<span id="cb28-26"><a href="inverse-probability-weights.html#cb28-26" tabindex="-1"></a></span>
+<span id="cb28-27"><a href="inverse-probability-weights.html#cb28-27" tabindex="-1"></a>* Now look <span class="fu">at</span> the propensity <span class="kw">score</span> distribution <span class="kw">for</span> treatment and control groups</span>
+<span id="cb28-28"><a href="inverse-probability-weights.html#cb28-28" tabindex="-1"></a><span class="kw">histogram</span> pscore, <span class="kw">by</span>(treat) binrescale</span></code></pre></div>
+<div class="float">
+<img src="pscore1.png" alt="Histogram for IPW" />
+<div class="figcaption">Histogram for IPW</div>
+</div>
+<div id="manual-calculate-the-ate" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Manual Calculate the <span class="math inline">\(ATE\)</span><a href="inverse-probability-weights.html#manual-calculate-the-ate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will manually calculate inverse probability weighting (IPW) with Propensity Scores. Please note that IPW is not matching, even though we use propensity scores.</p>
+<p><strong>IPW with Non-normalized Weights:</strong>
+<span class="math display">\[ \widehat{ATE} = \frac{1}{n}*\sum_{n=1}^{N} \left( {\frac{Y_i*D_i}{\hat{p}(x)_i}} \right)-\frac{1}{n}*\sum_{n=1}^{N} \left( {\frac{Y_i*(1-D_i)}{1-\hat{p}(x)_i}} \right) \]</span></p>
+<p><strong>IPW with Normalized Weights:</strong></p>
+<p><span class="math display">\[ \widehat{ATE}=\left[\sum_{n=1}^{N}\frac{Y_i*D_i}{\hat{p}(x)_i} \right] / \left[\sum_{n=1}^{N}\frac{D_i}{\hat{p}(x)_i} \right] - \left[\sum_{n=1}^{N}\frac{Y_i*(1-D_i)}{(1-\hat{p}(x)_i)} \right] / \left[\sum_{n=1}^{N}\frac{(1-D_i)}{(1-\hat{p}(x)_i)} \right] \]</span></p>
+<div id="calculate-ey1-and-ey0" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Calculate <span class="math inline">\(E[Y^1]\)</span> and <span class="math inline">\(E[Y^0]\)</span><a href="inverse-probability-weights.html#calculate-ey1-and-ey0" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we need to calculate normalization weights</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="inverse-probability-weights.html#cb29-1" tabindex="-1"></a><span class="kw">gen</span> d1=treat/pscore</span>
+<span id="cb29-2"><a href="inverse-probability-weights.html#cb29-2" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">d0</span>=(1-treat)/(1-pscore)</span></code></pre></div>
+<p>Sum the inverse pscore</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="inverse-probability-weights.html#cb30-1" tabindex="-1"></a><span class="kw">egen</span> s1=<span class="kw">sum</span>(d1)</span>
+<span id="cb30-2"><a href="inverse-probability-weights.html#cb30-2" tabindex="-1"></a><span class="kw">egen</span> s0=<span class="kw">sum</span>(<span class="kw">d0</span>) </span>
+<span id="cb30-3"><a href="inverse-probability-weights.html#cb30-3" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">total</span> = _N</span>
+<span id="cb30-4"><a href="inverse-probability-weights.html#cb30-4" tabindex="-1"></a><span class="kw">egen</span> total_T = <span class="kw">sum</span>(treat)</span>
+<span id="cb30-5"><a href="inverse-probability-weights.html#cb30-5" tabindex="-1"></a><span class="kw">egen</span> total_C = <span class="kw">sum</span>(1-treat)</span></code></pre></div>
+<p>First, we will manually calculate <span class="math inline">\(E[Y^1]\)</span> with non-normalized weights using all the data. Calculate <span class="math inline">\(E[Y^1]=\frac{1}{n}*\sum_{n=1}^{N}\frac{Y_i*D_i}{\hat{p}(x)_i}\)</span></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="inverse-probability-weights.html#cb31-1" tabindex="-1"></a><span class="kw">gen</span> y1=treat*re78/pscore</span>
+<span id="cb31-2"><a href="inverse-probability-weights.html#cb31-2" tabindex="-1"></a><span class="kw">egen</span> y1_2 = <span class="kw">sum</span>(y1)</span>
+<span id="cb31-3"><a href="inverse-probability-weights.html#cb31-3" tabindex="-1"></a><span class="kw">gen</span> y1_3 = y1_2/<span class="kw">total</span></span></code></pre></div>
+<p>Next, we will manually calculate <span class="math inline">\(E[Y^0]\)</span> with non-normalized weights using all the data. Calculate <span class="math inline">\(E[Y^0]=\frac{1}{n}*\sum_{n=1}^{N}\frac{Y*(1-D_i)}{(1-\hat{p}(x)_i)}\)</span></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="inverse-probability-weights.html#cb32-1" tabindex="-1"></a><span class="kw">gen</span> y0=(1-treat)*re78/(1-pscore) </span>
+<span id="cb32-2"><a href="inverse-probability-weights.html#cb32-2" tabindex="-1"></a><span class="kw">egen</span> y0_2 = <span class="kw">sum</span>(y0)</span>
+<span id="cb32-3"><a href="inverse-probability-weights.html#cb32-3" tabindex="-1"></a><span class="kw">gen</span> y0_3 = y0_2/<span class="kw">total</span></span></code></pre></div>
+<p>Then calculate the <span class="math inline">\(ATE\)</span> by taking the difference in <span class="math inline">\(E[Y^1]-E[Y^0]\)</span>.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="inverse-probability-weights.html#cb33-1" tabindex="-1"></a>*Way 1</span>
+<span id="cb33-2"><a href="inverse-probability-weights.html#cb33-2" tabindex="-1"></a><span class="kw">gen</span> ht=y1-y0</span>
+<span id="cb33-3"><a href="inverse-probability-weights.html#cb33-3" tabindex="-1"></a>*Way 2</span>
+<span id="cb33-4"><a href="inverse-probability-weights.html#cb33-4" tabindex="-1"></a><span class="kw">gen</span> ht2=y1_3-y0_3</span>
+<span id="cb33-5"><a href="inverse-probability-weights.html#cb33-5" tabindex="-1"></a>*Same results</span>
+<span id="cb33-6"><a href="inverse-probability-weights.html#cb33-6" tabindex="-1"></a><span class="kw">sum</span> ht ht2</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          ht |     16,177   -11876.79    127578.8  -99232.64   1.19e+07
+         ht2 |     16,177   -11876.79           0  -11876.79  -11876.79</code></pre>
+<p>Now we will calculate the <span class="math inline">\(ATE\)</span> manually using normalized weights</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="inverse-probability-weights.html#cb35-1" tabindex="-1"></a>*Way 1</span>
+<span id="cb35-2"><a href="inverse-probability-weights.html#cb35-2" tabindex="-1"></a><span class="kw">replace</span> y1=(treat*re78/pscore)/(s1/<span class="kw">total</span>)</span>
+<span id="cb35-3"><a href="inverse-probability-weights.html#cb35-3" tabindex="-1"></a><span class="kw">replace</span> y0=((1-treat)*re78/(1-pscore))/(s0/<span class="kw">total</span>)</span>
+<span id="cb35-4"><a href="inverse-probability-weights.html#cb35-4" tabindex="-1"></a>*Way 2</span>
+<span id="cb35-5"><a href="inverse-probability-weights.html#cb35-5" tabindex="-1"></a><span class="kw">replace</span> y1_3=y1_2/s1</span>
+<span id="cb35-6"><a href="inverse-probability-weights.html#cb35-6" tabindex="-1"></a><span class="kw">replace</span> y0_3=y0_2/s0</span>
+<span id="cb35-7"><a href="inverse-probability-weights.html#cb35-7" tabindex="-1"></a>*Get the estimated ATE</span>
+<span id="cb35-8"><a href="inverse-probability-weights.html#cb35-8" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">norm</span>=y1-y0</span>
+<span id="cb35-9"><a href="inverse-probability-weights.html#cb35-9" tabindex="-1"></a><span class="kw">gen</span> norm2=y1_3-y0_3</span>
+<span id="cb35-10"><a href="inverse-probability-weights.html#cb35-10" tabindex="-1"></a>*Same Results <span class="kw">for</span> ht:ht2 and <span class="fu">norm</span>:norm2</span>
+<span id="cb35-11"><a href="inverse-probability-weights.html#cb35-11" tabindex="-1"></a><span class="kw">sum</span> ht ht2 <span class="fu">norm</span> norm2</span></code></pre></div>
+<pre><code>(140 real changes made)
+
+(13,820 real changes made)
+
+(16,177 real changes made)
+
+(16,177 real changes made)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          ht |     16,177   -11876.79    127578.8  -99232.64   1.19e+07
+         ht2 |     16,177   -11876.79           0  -11876.79  -11876.79
+        norm |     16,177    -7238.14    332633.6   -99127.2   3.11e+07
+       norm2 |     16,177    -7238.14           0   -7238.14   -7238.14</code></pre>
+<p>ATE under non-normalized weights is -$11,876.
+ATE under normalized weights is -$7,238.</p>
+<p>Why are they so much different than the experimental research design estimates? Given that the mean <span class="math inline">\(1-p(x)\)</span> is close to 1, a lot of weight is given to <span class="math inline">\(Y^0\)</span>. What we need to do is trim and recalculate.</p>
+</div>
+<div id="trim-the-data-1" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Trim the data<a href="inverse-probability-weights.html#trim-the-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will drop our calculated variables and then trim our <span class="math inline">\(p\)</span>-scores.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="inverse-probability-weights.html#cb37-1" tabindex="-1"></a><span class="kw">drop</span> d1 <span class="kw">d0</span> s1 s0 y1 y0 ht <span class="fu">norm</span></span>
+<span id="cb37-2"><a href="inverse-probability-weights.html#cb37-2" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> pscore &lt;= 0.1 </span>
+<span id="cb37-3"><a href="inverse-probability-weights.html#cb37-3" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> pscore &gt;= 0.9</span></code></pre></div>
+<p>We will recalculate the non-normalized weights using trimmed data.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb38-1"><a href="inverse-probability-weights.html#cb38-1" tabindex="-1"></a><span class="kw">gen</span> d1=treat/pscore</span>
+<span id="cb38-2"><a href="inverse-probability-weights.html#cb38-2" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">d0</span>=(1-treat)/(1-pscore)</span>
+<span id="cb38-3"><a href="inverse-probability-weights.html#cb38-3" tabindex="-1"></a><span class="kw">egen</span> s1=<span class="kw">sum</span>(d1)</span>
+<span id="cb38-4"><a href="inverse-probability-weights.html#cb38-4" tabindex="-1"></a><span class="kw">egen</span> s0=<span class="kw">sum</span>(<span class="kw">d0</span>)</span>
+<span id="cb38-5"><a href="inverse-probability-weights.html#cb38-5" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="inverse-probability-weights.html#cb38-6" tabindex="-1"></a><span class="kw">gen</span> y1=treat*re78/pscore</span>
+<span id="cb38-7"><a href="inverse-probability-weights.html#cb38-7" tabindex="-1"></a><span class="kw">gen</span> y0=(1-treat)*re78/(1-pscore)</span>
+<span id="cb38-8"><a href="inverse-probability-weights.html#cb38-8" tabindex="-1"></a><span class="kw">gen</span> ht=y1-y0</span></code></pre></div>
+<p>We will recalculate the normalized weights using trimmed data.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="inverse-probability-weights.html#cb39-1" tabindex="-1"></a><span class="kw">replace</span> y1=(treat*re78/pscore)/(s1/_N)</span>
+<span id="cb39-2"><a href="inverse-probability-weights.html#cb39-2" tabindex="-1"></a><span class="kw">replace</span> y0=((1-treat)*re78/(1-pscore))/(s0/_N)</span>
+<span id="cb39-3"><a href="inverse-probability-weights.html#cb39-3" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">norm</span>=y1-y0</span>
+<span id="cb39-4"><a href="inverse-probability-weights.html#cb39-4" tabindex="-1"></a><span class="kw">sum</span> ht <span class="fu">norm</span></span></code></pre></div>
+<pre><code>(0 real changes made)
+
+(0 real changes made)
+
+(0 real changes made)
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+          ht |        361    2006.365    19656.33  -73545.45   131755.3
+        norm |        361     1806.73    18967.72  -72480.23   126251.9</code></pre>
+<p>ATE under non-normalized weights is $2,006, while the estimated ATE under normalized weights is $1,807.</p>
+<p>These are much closer to our experimental research design estimates.</p>
+</div>
+</div>
+<div id="calculate-ate-and-att-using-teffects" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Calculate <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> using <em>teffects</em><a href="inverse-probability-weights.html#calculate-ate-and-att-using-teffects" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Luckily, we have a built-in Stata command with <em>teffects ipw</em>, so we don’t need to manually calculate the <span class="math inline">\(ATE\)</span> everytime. (However, it is a good exercise to see how Stata calculate the estimate). The <em>teffects</em> command will also calculate our standard errors, as well.</p>
+<p>We will reload our data, trim the data, and use the <em>teffects ipw</em> command. We will also trim our data, since we know that there is a lack of overlap at the tail ends of the estimated <span class="math inline">\(p\)</span>-scores.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="inverse-probability-weights.html#cb41-1" tabindex="-1"></a>* Reload Data</span>
+<span id="cb41-2"><a href="inverse-probability-weights.html#cb41-2" tabindex="-1"></a><span class="kw">use</span> https:<span class="co">//github.com/scunning1975/mixtape/raw/master/nsw_mixtape.dta, clear</span></span>
+<span id="cb41-3"><a href="inverse-probability-weights.html#cb41-3" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> treat==0</span>
+<span id="cb41-4"><a href="inverse-probability-weights.html#cb41-4" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="inverse-probability-weights.html#cb41-5" tabindex="-1"></a>*Now <span class="kw">merge</span> <span class="kw">in</span> the CPS controls from footnote 2 <span class="kw">of</span> Table 2 (Dehejia and Wahba 2002)</span>
+<span id="cb41-6"><a href="inverse-probability-weights.html#cb41-6" tabindex="-1"></a><span class="kw">append</span> <span class="kw">using</span> https:<span class="co">//github.com/scunning1975/mixtape/raw/master/cps_mixtape.dta</span></span>
+<span id="cb41-7"><a href="inverse-probability-weights.html#cb41-7" tabindex="-1"></a><span class="kw">gen</span> agesq=age*age</span>
+<span id="cb41-8"><a href="inverse-probability-weights.html#cb41-8" tabindex="-1"></a><span class="kw">gen</span> agecube=age*age*age</span>
+<span id="cb41-9"><a href="inverse-probability-weights.html#cb41-9" tabindex="-1"></a><span class="kw">gen</span> edusq=educ*edu</span>
+<span id="cb41-10"><a href="inverse-probability-weights.html#cb41-10" tabindex="-1"></a><span class="kw">gen</span> u74 = 0 <span class="kw">if</span> re74!=.</span>
+<span id="cb41-11"><a href="inverse-probability-weights.html#cb41-11" tabindex="-1"></a><span class="kw">replace</span> u74 = 1 <span class="kw">if</span> re74==0</span>
+<span id="cb41-12"><a href="inverse-probability-weights.html#cb41-12" tabindex="-1"></a><span class="kw">gen</span> u75 = 0 <span class="kw">if</span> re75!=.</span>
+<span id="cb41-13"><a href="inverse-probability-weights.html#cb41-13" tabindex="-1"></a><span class="kw">replace</span> u75 = 1 <span class="kw">if</span> re75==0</span>
+<span id="cb41-14"><a href="inverse-probability-weights.html#cb41-14" tabindex="-1"></a><span class="kw">gen</span> interaction1 = educ*re74</span>
+<span id="cb41-15"><a href="inverse-probability-weights.html#cb41-15" tabindex="-1"></a><span class="kw">gen</span> re74sq=re74^2</span>
+<span id="cb41-16"><a href="inverse-probability-weights.html#cb41-16" tabindex="-1"></a><span class="kw">gen</span> re75sq=re75^2</span>
+<span id="cb41-17"><a href="inverse-probability-weights.html#cb41-17" tabindex="-1"></a><span class="kw">gen</span> interaction2 = u74*hisp</span>
+<span id="cb41-18"><a href="inverse-probability-weights.html#cb41-18" tabindex="-1"></a></span>
+<span id="cb41-19"><a href="inverse-probability-weights.html#cb41-19" tabindex="-1"></a>* Now estimate the propensity <span class="kw">score</span></span>
+<span id="cb41-20"><a href="inverse-probability-weights.html#cb41-20" tabindex="-1"></a><span class="kw">logit</span> treat age agesq agecube educ edusq marr nodegree <span class="bn">black</span> hisp re74 re75 u74 u75 interaction1 </span>
+<span id="cb41-21"><a href="inverse-probability-weights.html#cb41-21" tabindex="-1"></a><span class="kw">predict</span> pscore</span>
+<span id="cb41-22"><a href="inverse-probability-weights.html#cb41-22" tabindex="-1"></a></span>
+<span id="cb41-23"><a href="inverse-probability-weights.html#cb41-23" tabindex="-1"></a>* Checking <span class="kw">mean</span> propensity scores <span class="kw">for</span> treatment and control groups</span>
+<span id="cb41-24"><a href="inverse-probability-weights.html#cb41-24" tabindex="-1"></a><span class="kw">sum</span> pscore <span class="kw">if</span> treat==1, <span class="kw">detail</span></span>
+<span id="cb41-25"><a href="inverse-probability-weights.html#cb41-25" tabindex="-1"></a><span class="kw">sum</span> pscore <span class="kw">if</span> treat==0, <span class="kw">detail</span></span>
+<span id="cb41-26"><a href="inverse-probability-weights.html#cb41-26" tabindex="-1"></a></span>
+<span id="cb41-27"><a href="inverse-probability-weights.html#cb41-27" tabindex="-1"></a>* Trimming the propensity <span class="kw">score</span></span>
+<span id="cb41-28"><a href="inverse-probability-weights.html#cb41-28" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> pscore &lt;= 0.1 </span>
+<span id="cb41-29"><a href="inverse-probability-weights.html#cb41-29" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> pscore &gt;= 0.9</span></code></pre></div>
+<p>With the <em>teffects</em> command, we need to specify <em>ipw</em> for inverse probability weights and we need to use the option <em>logit</em> to tell Stata to calculate the <span class="math inline">\(p\)</span>-scores using a logistic regresion. In addition, we will use the option <em>osample</em> to look for any overlap between treatment and comparison. Finally, we will use the option <em>atet</em> to specify that we want to estimate the <span class="math inline">\(ATT\)</span>.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb42-1"><a href="inverse-probability-weights.html#cb42-1" tabindex="-1"></a>teffects ipw (re78) (treat age agesq agecube educ edusq marr nodegree <span class="co">///</span></span>
+<span id="cb42-2"><a href="inverse-probability-weights.html#cb42-2" tabindex="-1"></a><span class="bn">black</span> hisp re74 re75 u74 u75 interaction1, <span class="kw">logit</span>), osample(overlap) atet</span>
+<span id="cb42-3"><a href="inverse-probability-weights.html#cb42-3" tabindex="-1"></a><span class="kw">capture</span> <span class="kw">drop</span> overlap</span></code></pre></div>
+<pre><code>Iteration 0:   EE criterion =  1.392e-21  
+Iteration 1:   EE criterion =  2.898e-23  
+
+Treatment-effects estimation                    Number of obs     =        361
+Estimator      : inverse-probability weights
+Outcome model  : weighted mean
+Treatment model: logit
+------------------------------------------------------------------------------
+             |               Robust
+        re78 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+ATET         |
+       treat |
+   (1 vs 0)  |   2646.866   892.2393     2.97   0.003     898.1089    4395.623
+-------------+----------------------------------------------------------------
+POmean       |
+       treat |
+          0  |   3791.931   514.4727     7.37   0.000     2783.582    4800.279
+------------------------------------------------------------------------------</code></pre>
+<p>The ATT is estimated at $2,647</p>
+<p>Before we calculate the <span class="math inline">\(ATE\)</span>, we need to rescale the dependent variable for concavity of logit. We will do so by dividing re78 by 1000 dollars</p>
+<p>The ATE is estimated at $1,611</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="inverse-probability-weights.html#cb44-1" tabindex="-1"></a><span class="kw">gen</span> re78_scaled = re78/1000</span>
+<span id="cb44-2"><a href="inverse-probability-weights.html#cb44-2" tabindex="-1"></a>teffects ipw (re78_scaled) (treat age agesq agecube educ edusq marr nodegree <span class="co">///</span></span>
+<span id="cb44-3"><a href="inverse-probability-weights.html#cb44-3" tabindex="-1"></a><span class="bn">black</span> hisp re74 re75 u74 u75 interaction1, <span class="kw">logit</span>), osample(overlap) ate</span></code></pre></div>
+<pre><code>command quilety is unrecognized
+r(199);
+
+r(199);</code></pre>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="propensity-score-matching.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="doubly-robust-estimator.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

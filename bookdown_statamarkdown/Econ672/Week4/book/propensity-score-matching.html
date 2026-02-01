@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Propensity Score Matching | Matching Methods</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Propensity Score Matching | Matching Methods" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Propensity Score Matching | Matching Methods" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="John Doe" />
+
+
+<meta name="date" content="2026-01-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="inverse-probability-weights.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html"><i class="fa fa-check"></i><b>1</b> Propensity Score Matching</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#generate-propensity-score"><i class="fa fa-check"></i><b>1.1</b> Generate propensity score</a></li>
+<li class="chapter" data-level="1.2" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#estimate-the-ate-and-att-without-trimming"><i class="fa fa-check"></i><b>1.2</b> Estimate the <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> without trimming</a></li>
+<li class="chapter" data-level="1.3" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#trim-the-data"><i class="fa fa-check"></i><b>1.3</b> Trim the data</a></li>
+<li class="chapter" data-level="1.4" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#check-for-balance-again"><i class="fa fa-check"></i><b>1.4</b> Check for balance again</a></li>
+<li class="chapter" data-level="1.5" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#reestimate-the-att-and-ate"><i class="fa fa-check"></i><b>1.5</b> Reestimate the <span class="math inline">\(ATT\)</span> and <span class="math inline">\(ATE\)</span></a></li>
+<li class="chapter" data-level="1.6" data-path="propensity-score-matching.html"><a href="propensity-score-matching.html#recheck-for-balance"><i class="fa fa-check"></i><b>1.6</b> Recheck for balance</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html"><i class="fa fa-check"></i><b>2</b> Inverse Probability Weights</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html#manual-calculate-the-ate"><i class="fa fa-check"></i><b>2.1</b> Manual Calculate the <span class="math inline">\(ATE\)</span></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html#calculate-ey1-and-ey0"><i class="fa fa-check"></i><b>2.1.1</b> Calculate <span class="math inline">\(E[Y^1]\)</span> and <span class="math inline">\(E[Y^0]\)</span></a></li>
+<li class="chapter" data-level="2.1.2" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html#trim-the-data-1"><i class="fa fa-check"></i><b>2.1.2</b> Trim the data</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="inverse-probability-weights.html"><a href="inverse-probability-weights.html#calculate-ate-and-att-using-teffects"><i class="fa fa-check"></i><b>2.2</b> Calculate <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> using <em>teffects</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="doubly-robust-estimator.html"><a href="doubly-robust-estimator.html"><i class="fa fa-check"></i><b>3</b> Doubly Robust Estimator</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="doubly-robust-estimator.html"><a href="doubly-robust-estimator.html#calculate-the-ate-and-att-using-doubly-robust-estimator"><i class="fa fa-check"></i><b>3.1</b> Calculate the <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> using Doubly Robust Estimator</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Matching Methods</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="propensity-score-matching" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Propensity Score Matching<a href="propensity-score-matching.html#propensity-score-matching" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will go through the process of manually estimating propensity scores before we use the <em>teffects</em> commands. After estimating the propensity scores, we will estimate the <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span></p>
+<p>We will use the data from Dehejia and Wahba (2002) for treatment from Department of Labor Employment and Training Adminstration (ETA) job training. Instead of using the control group from the orgininal RCT, we will use data from the Current Population Survey (CPS) for a comparison group.</p>
+<div id="generate-propensity-score" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Generate propensity score<a href="propensity-score-matching.html#generate-propensity-score" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First, we will import and drop the experimental control group, so we can append our comparison group from the CPS.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="propensity-score-matching.html#cb2-1" tabindex="-1"></a><span class="kw">use</span> https:<span class="co">//github.com/scunning1975/mixtape/raw/master/nsw_mixtape.dta, clear</span></span>
+<span id="cb2-2"><a href="propensity-score-matching.html#cb2-2" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> treat==0</span></code></pre></div>
+<p>Now merge in the CPS controls from footnote 2 of Table 2 (Dehejia and Wahba 2002)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb3-1"><a href="propensity-score-matching.html#cb3-1" tabindex="-1"></a><span class="kw">append</span> <span class="kw">using</span> https:<span class="co">//github.com/scunning1975/mixtape/raw/master/cps_mixtape.dta</span></span></code></pre></div>
+<p>Now we will generate additional variables of interest: age, education, demographics, and unemployment status</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="propensity-score-matching.html#cb4-1" tabindex="-1"></a><span class="kw">gen</span> agesq=age*age</span>
+<span id="cb4-2"><a href="propensity-score-matching.html#cb4-2" tabindex="-1"></a><span class="kw">gen</span> agecube=age*age*age</span>
+<span id="cb4-3"><a href="propensity-score-matching.html#cb4-3" tabindex="-1"></a><span class="kw">gen</span> edusq=educ*edu</span>
+<span id="cb4-4"><a href="propensity-score-matching.html#cb4-4" tabindex="-1"></a><span class="kw">gen</span> u74 = 0 <span class="kw">if</span> re74!=.</span>
+<span id="cb4-5"><a href="propensity-score-matching.html#cb4-5" tabindex="-1"></a><span class="kw">replace</span> u74 = 1 <span class="kw">if</span> re74==0</span>
+<span id="cb4-6"><a href="propensity-score-matching.html#cb4-6" tabindex="-1"></a><span class="kw">gen</span> u75 = 0 <span class="kw">if</span> re75!=.</span>
+<span id="cb4-7"><a href="propensity-score-matching.html#cb4-7" tabindex="-1"></a><span class="kw">replace</span> u75 = 1 <span class="kw">if</span> re75==0</span>
+<span id="cb4-8"><a href="propensity-score-matching.html#cb4-8" tabindex="-1"></a><span class="kw">gen</span> interaction1 = educ*re74</span>
+<span id="cb4-9"><a href="propensity-score-matching.html#cb4-9" tabindex="-1"></a><span class="kw">gen</span> re74sq=re74^2</span>
+<span id="cb4-10"><a href="propensity-score-matching.html#cb4-10" tabindex="-1"></a><span class="kw">gen</span> re75sq=re75^2</span>
+<span id="cb4-11"><a href="propensity-score-matching.html#cb4-11" tabindex="-1"></a><span class="kw">gen</span> interaction2 = u74*hisp</span></code></pre></div>
+<p>Next, we will use logistic regression to estimate <span class="math inline">\(\beta\)</span> and estimate the <span class="math inline">\(p\)</span>-scores.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="propensity-score-matching.html#cb5-1" tabindex="-1"></a><span class="kw">logit</span> treat age agesq agecube educ edusq marr nodegree <span class="bn">black</span> hisp re74 re75 u74 u75 interaction1 </span>
+<span id="cb5-2"><a href="propensity-score-matching.html#cb5-2" tabindex="-1"></a><span class="kw">predict</span> pscore</span></code></pre></div>
+<pre><code>Iteration 0:   log likelihood = -1011.0713  
+Iteration 1:   log likelihood = -612.55814  
+Iteration 2:   log likelihood = -429.05652  
+Iteration 3:   log likelihood = -406.25926  
+Iteration 4:   log likelihood = -404.18813  
+Iteration 5:   log likelihood = -404.15992  
+Iteration 6:   log likelihood = -404.15991  
+
+Logistic regression                             Number of obs     =     16,177
+                                                LR chi2(14)       =    1213.82
+                                                Prob &gt; chi2       =     0.0000
+Log likelihood = -404.15991                     Pseudo R2         =     0.6003
+
+------------------------------------------------------------------------------
+       treat |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+         age |   2.425229   .3500651     6.93   0.000     1.739114    3.111344
+       agesq |  -.0672395   .0111308    -6.04   0.000    -.0890555   -.0454234
+     agecube |   .0005685   .0001113     5.11   0.000     .0003505    .0007866
+        educ |   .9247846   .2500694     3.70   0.000     .4346576    1.414912
+       edusq |  -.0572021   .0136202    -4.20   0.000    -.0838972    -.030507
+        marr |  -1.556471   .2517687    -6.18   0.000    -2.049929   -1.063013
+    nodegree |   .9270591   .3254621     2.85   0.004     .2891651    1.564953
+       black |   3.850668   .2662868    14.46   0.000     3.328755     4.37258
+        hisp |   1.673885   .4099129     4.08   0.000     .8704704      2.4773
+        re74 |  -.0002203   .0001086    -2.03   0.043    -.0004332   -7.40e-06
+        re75 |  -.0001969   .0000378    -5.21   0.000     -.000271   -.0001228
+         u74 |   1.749522   .2897311     6.04   0.000      1.18166    2.317385
+         u75 |     .00944    .257531     0.04   0.971    -.4953114    .5141915
+interaction1 |   .0000222   9.08e-06     2.45   0.014     4.43e-06      .00004
+       _cons |  -35.22098   3.797922    -9.27   0.000    -42.66477   -27.77719
+------------------------------------------------------------------------------
+Note: 3 failures and 0 successes completely determined.
+
+(option pr assumed; Pr(treat))</code></pre>
+<p>Now, we will compare the propensity score between treatment and comparison groups with summary statistics and histograms.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="propensity-score-matching.html#cb7-1" tabindex="-1"></a><span class="kw">sum</span> pscore <span class="kw">if</span> treat==1, <span class="kw">detail</span></span>
+<span id="cb7-2"><a href="propensity-score-matching.html#cb7-2" tabindex="-1"></a><span class="kw">sum</span> pscore <span class="kw">if</span> treat==0, <span class="kw">detail</span></span></code></pre></div>
+<pre><code>                          Pr(treat)
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .0011757       .0010614
+ 5%     .0072641       .0011757
+10%     .0260147       .0018463       Obs                 185
+25%     .1322174       .0020981       Sum of Wgt.         185
+
+50%     .4001992                      Mean           .4253567
+                        Largest       Std. Dev.      .3076908
+75%     .6706164       .9356451
+90%     .8866026         .93718       Variance       .0946736
+95%     .9021386       .9374608       Skewness       .1916478
+99%     .9374608       .9384554       Kurtosis       1.732134
+
+                          Pr(treat)
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     5.90e-07       1.18e-09
+ 5%     1.72e-06       4.07e-09
+10%     3.58e-06       4.24e-09       Obs              15,992
+25%     .0000193       1.55e-08       Sum of Wgt.      15,992
+
+50%     .0001187                      Mean           .0066476
+                        Largest       Std. Dev.      .0416672
+75%     .0009635       .8786677
+90%     .0066319       .8893389       Variance       .0017362
+95%     .0163109       .9099022       Skewness        12.2493
+99%     .1551548       .9239787       Kurtosis       187.8692</code></pre>
+<p>The comparison group has a mean propensity score of 0.01.
+The treatment group has a mean propensity score is 0.42</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="propensity-score-matching.html#cb9-1" tabindex="-1"></a><span class="kw">histogram</span> pscore, <span class="kw">by</span>(treat) binrescale</span></code></pre></div>
+<p><img src="pscore1.png" alt="Compare Propensity Scores" />
+It seems that there is very little overlap for the common support assumption. It would be problematic to estimate the <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> without trimming to get common support.</p>
+</div>
+<div id="estimate-the-ate-and-att-without-trimming" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Estimate the <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> without trimming<a href="propensity-score-matching.html#estimate-the-ate-and-att-without-trimming" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will estimate the <span class="math inline">\(ATE\)</span> and <span class="math inline">\(ATT\)</span> with the <em>teffects psmatch</em> command. We will use the 5 nearest neighbors with the option <em>nn(5)</em>. Note that Stata generates new variables defined by you. Here we are defining <em>pstub_cps</em>.</p>
+<p>Estimate <span class="math inline">\(ATT\)</span></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="propensity-score-matching.html#cb10-1" tabindex="-1"></a>teffects psmatch (re78) (treat age agesq agecube educ edusq marr nodegree <span class="bn">black</span> <span class="co">///</span></span>
+<span id="cb10-2"><a href="propensity-score-matching.html#cb10-2" tabindex="-1"></a> hisp re74 re75 u74 u75 interaction1, <span class="kw">logit</span>), atet <span class="kw">gen</span>(pstub_cps) nn(5)</span>
+<span id="cb10-3"><a href="propensity-score-matching.html#cb10-3" tabindex="-1"></a><span class="kw">drop</span> pstub_cps*</span></code></pre></div>
+<pre><code>Treatment-effects estimation                   Number of obs      =     16,177
+Estimator      : propensity-score matching     Matches: requested =          5
+Outcome model  : matching                                     min =          5
+Treatment model: logit                                        max =         26
+------------------------------------------------------------------------------
+             |              AI Robust
+        re78 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+ATET         |
+       treat |
+   (1 vs 0)  |   1725.082   700.0586     2.46   0.014     352.9921    3097.172
+------------------------------------------------------------------------------</code></pre>
+<p><span class="math inline">\(\widehat{ATT} = \$1,725.082\)</span></p>
+<p>We have a few more options for checking the balance after the PSM with nearest neighbor of 5. We can use the <em>teblance</em> commands to check our balance. <em>tebalance density</em> will give us a distribution of propensity scores by our variable of choice between treatment and comparison. We can also use <em>tebalance box</em> that will give is a box-and-whisker chart for the propensity scores by our variable of choice between treatment and comparison.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="propensity-score-matching.html#cb12-1" tabindex="-1"></a>tebalance <span class="kw">summarize</span>, baseline</span></code></pre></div>
+<pre><code>  Covariate balance summary
+                                                   Raw      Matched
+                          -----------------------------------------
+                          Number of obs =       16,177          370
+                          Treated obs   =          185          185
+                          Control obs   =       15,992          185
+                          -----------------------------------------
+
+  -----------------------------------------------------------------
+                  |           Means                  Variances     
+                  |    Control     Treated       Control    Treated
+  ----------------+------------------------------------------------
+              age |   33.22524    25.81622      121.9968    51.1943
+            agesq |   1225.906    717.3946      615814.1     185978
+          agecube |   49305.85    21554.66      2.04e+09   4.40e+08
+             educ |   12.02751    10.34595      8.241754   4.042714
+            edusq |   152.9023    111.0595      4511.316   1544.795
+             marr |   .7117309    .1891892      .2051829   .1542303
+         nodegree |   .2958354    .7081081      .2083299   .2078143
+            black |   .0735368    .8432432      .0681334   .1329025
+             hisp |    .072036    .0594595       .066851    .056228
+             re74 |    14016.8    2095.574      9.16e+07   2.39e+07
+             re75 |    13650.8    1532.055      8.59e+07   1.04e+07
+              u74 |   .1196223    .7081081      .1053194   .2078143
+              u75 |   .1093047          .6      .0973632   .2413043
+     interaction1 |   171147.6    22898.73      1.67e+10   3.29e+09
+  -----------------------------------------------------------------</code></pre>
+<p>After running <em>tebalance summarize</em>, we can see without trimming that our covariates are not really balanced between treatment and comparison groups.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="propensity-score-matching.html#cb14-1" tabindex="-1"></a>tebalance density age</span></code></pre></div>
+<div class="float">
+<img src="tebalance_age_1.png" alt="Density Chart for Age" />
+<div class="figcaption">Density Chart for Age</div>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="propensity-score-matching.html#cb15-1" tabindex="-1"></a>tebalance box age</span>
+<span id="cb15-2"><a href="propensity-score-matching.html#cb15-2" tabindex="-1"></a><span class="kw">drop</span> pstub_cps* </span></code></pre></div>
+<div class="float">
+<img src="tebalance_box_1.png" alt="Box Chart for Age" />
+<div class="figcaption">Box Chart for Age</div>
+</div>
+<p>Next, we will estimate the <span class="math inline">\(ATE\)</span> with <em>teffects psmatch</em>.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="propensity-score-matching.html#cb16-1" tabindex="-1"></a>teffects psmatch (re78) (treat age agesq agecube educ edusq marr nodegree <span class="bn">black</span> <span class="co">///</span></span>
+<span id="cb16-2"><a href="propensity-score-matching.html#cb16-2" tabindex="-1"></a> hisp re74 re75 u74 u75 interaction1, <span class="kw">logit</span>), ate <span class="kw">gen</span>(pstub_cps) nn(5)</span>
+<span id="cb16-3"><a href="propensity-score-matching.html#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="propensity-score-matching.html#cb16-4" tabindex="-1"></a><span class="kw">drop</span> pstub_cps*</span></code></pre></div>
+<p>We find that we have an error estimating the <span class="math inline">\(ATE\)</span>, since we lack common support.</p>
+</div>
+<div id="trim-the-data" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Trim the data<a href="propensity-score-matching.html#trim-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will use the trim the <span class="math inline">\(p\)</span>-scores. All values below <span class="math inline">\(10\%\)</span> and above <span class="math inline">\(90\%\)</span> will be dropped.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="propensity-score-matching.html#cb17-1" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> pscore &lt;= 0.1 </span>
+<span id="cb17-2"><a href="propensity-score-matching.html#cb17-2" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> pscore &gt;= 0.9</span></code></pre></div>
+<p>We can see that the comparison group has a lot of observations with <span class="math inline">\(p\)</span>-scores less than or equal to 0.1 (15,802), but we only drop 14 observations with <span class="math inline">\(p\)</span>-scores greater than or equal 0.9.</p>
+<pre><code>(15,802 observations deleted)
+
+(14 observations deleted)</code></pre>
+</div>
+<div id="check-for-balance-again" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Check for balance again<a href="propensity-score-matching.html#check-for-balance-again" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="propensity-score-matching.html#cb19-1" tabindex="-1"></a><span class="kw">histogram</span> pscore, <span class="kw">by</span>(treat) binrescale</span>
+<span id="cb19-2"><a href="propensity-score-matching.html#cb19-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;pscore2.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<p><img src="pscore2.png" alt="Balance Check After Trimming" />
+We can now see we have better overlap between treatment and comparison after trimming the extreme values of the <span class="math inline">\(p\)</span>-scores.</p>
+</div>
+<div id="reestimate-the-att-and-ate" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Reestimate the <span class="math inline">\(ATT\)</span> and <span class="math inline">\(ATE\)</span><a href="propensity-score-matching.html#reestimate-the-att-and-ate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="propensity-score-matching.html#cb20-1" tabindex="-1"></a>teffects psmatch (re78) (treat age agesq agecube educ edusq marr nodegree <span class="bn">black</span> <span class="co">///</span></span>
+<span id="cb20-2"><a href="propensity-score-matching.html#cb20-2" tabindex="-1"></a> hisp re74 re75 u74 u75 interaction1, <span class="kw">logit</span>), ate <span class="kw">gen</span>(pstub_cps) nn(5)</span>
+<span id="cb20-3"><a href="propensity-score-matching.html#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="propensity-score-matching.html#cb20-4" tabindex="-1"></a><span class="kw">drop</span> pstub_cps*</span></code></pre></div>
+<pre><code>Treatment-effects estimation                   Number of obs      =        361
+Estimator      : propensity-score matching     Matches: requested =          5
+Outcome model  : matching                                     min =          5
+Treatment model: logit                                        max =          8
+------------------------------------------------------------------------------
+             |              AI Robust
+        re78 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+ATE          |
+       treat |
+   (1 vs 0)  |   1758.837   724.5845     2.43   0.015     338.6778    3178.997
+------------------------------------------------------------------------------</code></pre>
+<p><span class="math inline">\(\widehat{ATE}= \$1758.84\)</span></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="propensity-score-matching.html#cb22-1" tabindex="-1"></a>teffects psmatch (re78) (treat age agesq agecube educ edusq marr nodegree <span class="bn">black</span> <span class="co">///</span></span>
+<span id="cb22-2"><a href="propensity-score-matching.html#cb22-2" tabindex="-1"></a> hisp re74 re75 u74 u75 interaction1, <span class="kw">logit</span>), atet <span class="kw">gen</span>(pstub_cps) nn(5)</span></code></pre></div>
+<pre><code>Treatment-effects estimation                   Number of obs      =        361
+Estimator      : propensity-score matching     Matches: requested =          5
+Outcome model  : matching                                     min =          5
+Treatment model: logit                                        max =          8
+------------------------------------------------------------------------------
+             |              AI Robust
+        re78 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+ATET         |
+       treat |
+   (1 vs 0)  |   2519.446   866.7552     2.91   0.004     820.6375    4218.255
+------------------------------------------------------------------------------</code></pre>
+<p><span class="math inline">\(\widehat{ATE}= \$2519.446\)</span></p>
+</div>
+<div id="recheck-for-balance" class="section level2 hasAnchor" number="1.6">
+<h2><span class="header-section-number">1.6</span> Recheck for balance<a href="propensity-score-matching.html#recheck-for-balance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="propensity-score-matching.html#cb24-1" tabindex="-1"></a>tebalance <span class="kw">summarize</span>, baseline</span></code></pre></div>
+<pre><code>  Covariate balance summary
+                                                   Raw      Matched
+                          -----------------------------------------
+                          Number of obs =          361          266
+                          Treated obs   =          133          133
+                          Control obs   =          228          133
+                          -----------------------------------------
+
+  -----------------------------------------------------------------
+                  |           Means                  Variances     
+                  |    Control     Treated       Control    Treated
+  ----------------+------------------------------------------------
+              age |   25.93421     25.2406      64.98684   45.00228
+            agesq |   737.2851    681.7519        237422   158499.2
+          agecube |   22966.88    19825.29      6.03e+08   3.66e+08
+             educ |   10.46491     10.2406      4.584667   3.850763
+            edusq |   114.0789    108.6917      1830.681   1331.306
+             marr |   .2192982    .1428571      .1719607   .1233766
+         nodegree |   .6315789    .7518797       .233712   .1879699
+            black |   .9342105    .9398496       .061732   .0569606
+             hisp |   .0438596     .037594      .0421207   .0364548
+             re74 |   2552.555    1560.604      1.93e+07   1.56e+07
+             re75 |   1570.309    1002.193       7324536    3233917
+              u74 |   .5570175    .7669173       .247836   .1801094
+              u75 |   .4868421    .6390977      .2509274   .2323992
+     interaction1 |   27361.94    16425.15      2.44e+09   1.81e+09
+  -----------------------------------------------------------------</code></pre>
+<p>Our balance is greatly improved after trimming the tail ends of the propensity scores.</p>
+<p>Let’s check the variable age with <em>tebalance density</em> and <em>tebalance box</em>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="propensity-score-matching.html#cb26-1" tabindex="-1"></a>tebalance density age</span></code></pre></div>
+<div class="float">
+<img src="tebalance_age_2.png" alt="Density Chart of Age After Trimming" />
+<div class="figcaption">Density Chart of Age After Trimming</div>
+</div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="propensity-score-matching.html#cb27-1" tabindex="-1"></a>tebalance box age</span></code></pre></div>
+<div class="float">
+<img src="tebalance_box_2.png" alt="Box Chart of Age After Trimming" />
+<div class="figcaption">Box Chart of Age After Trimming</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="inverse-probability-weights.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
