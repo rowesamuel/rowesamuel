@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Instrumental Variables | Instrument Variables Revisted</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Instrumental Variables | Instrument Variables Revisted" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Instrumental Variables | Instrument Variables Revisted" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="John Doe" />
+
+
+<meta name="date" content="2026-02-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="jackknife-instrument-variable-estimator.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Instrument Variables Revisited</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="instrumental-variables.html"><a href="instrumental-variables.html"><i class="fa fa-check"></i><b>1</b> Instrumental Variables</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="instrumental-variables.html"><a href="instrumental-variables.html#naive-ols"><i class="fa fa-check"></i><b>1.1</b> Naive OLS</a></li>
+<li class="chapter" data-level="1.2" data-path="instrumental-variables.html"><a href="instrumental-variables.html#estimate-local-average-treatment-effect-using-iv"><i class="fa fa-check"></i><b>1.2</b> Estimate Local Average Treatment Effect using IV</a></li>
+<li class="chapter" data-level="1.3" data-path="instrumental-variables.html"><a href="instrumental-variables.html#test-instrument-relevance"><i class="fa fa-check"></i><b>1.3</b> Test Instrument Relevance</a></li>
+<li class="chapter" data-level="1.4" data-path="instrumental-variables.html"><a href="instrumental-variables.html#test-monotonicity"><i class="fa fa-check"></i><b>1.4</b> Test Monotonicity</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="jackknife-instrument-variable-estimator.html"><a href="jackknife-instrument-variable-estimator.html"><i class="fa fa-check"></i><b>2</b> Jackknife Instrument Variable Estimator</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="jackknife-instrument-variable-estimator.html"><a href="jackknife-instrument-variable-estimator.html#naive-ols-1"><i class="fa fa-check"></i><b>2.1</b> Naive OLS</a></li>
+<li class="chapter" data-level="2.2" data-path="jackknife-instrument-variable-estimator.html"><a href="jackknife-instrument-variable-estimator.html#instrument-variables"><i class="fa fa-check"></i><b>2.2</b> Instrument Variables</a></li>
+<li class="chapter" data-level="2.3" data-path="jackknife-instrument-variable-estimator.html"><a href="jackknife-instrument-variable-estimator.html#jackknife-instrument-variable-estimator-1"><i class="fa fa-check"></i><b>2.3</b> Jackknife Instrument Variable Estimator</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Instrument Variables Revisted</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="instrumental-variables" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Instrumental Variables<a href="instrumental-variables.html#instrumental-variables" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In-depth, institutional knowledge of programs, treatment, interventions provide some of the best sources of strong instruments (Angrist and Krueger, 2001)</p>
+<p>We are going to estimate the marginal impact of going to college for those who comply with the instrument.</p>
+<p><span class="math display">\[ \delta^{IV}_{LATE}=\frac{E[Y_i(D^1_i,1)-Y_i(D^0_i,0)]}{E[D^1_i-D^0_i]}=E[Y^1_i-Y^0_i|D^1_i-D^0_i=1]\]</span></p>
+<div id="naive-ols" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Naive OLS<a href="instrumental-variables.html#naive-ols" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will use a naive OLS to estimate the marginal effect of college on wages. We expect this to be upwards biased.</p>
+<p>First, we will import our data from Card via Cunningham</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="instrumental-variables.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data&quot;</span></span>
+<span id="cb2-2"><a href="instrumental-variables.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> card</span></code></pre></div>
+<p><span class="math display">\[ ln(wages_i)= \beta_0 + \beta_1 edu_i + \beta_2 expr_i + \beta_3 Black_i + \beta_4 South_i + \beta_5 married_i + a_i + \varepsilon_i \]</span></p>
+<p>Where <span class="math inline">\(a_i\)</span> are controls for metropolitian statistical areas.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb3-1"><a href="instrumental-variables.html#cb3-1" tabindex="-1"></a><span class="kw">reg</span> lwage  educ  exper <span class="bn">black</span> south married i.smsa</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     3,003
+-------------+----------------------------------   F(6, 2996)      =    219.15
+       Model |  180.255137         6  30.0425229   Prob &gt; F        =    0.0000
+    Residual |  410.705979     2,996  .137084773   R-squared       =    0.3050
+-------------+----------------------------------   Adj R-squared   =    0.3036
+       Total |  590.961117     3,002  .196855802   Root MSE        =    .37025
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .0711729   .0034824    20.44   0.000     .0643447     .078001
+       exper |   .0341518   .0022144    15.42   0.000     .0298098    .0384938
+       black |  -.1660274   .0176137    -9.43   0.000    -.2005636   -.1314913
+       south |  -.1315518   .0149691    -8.79   0.000    -.1609024   -.1022011
+     married |  -.0358707   .0034012   -10.55   0.000    -.0425396   -.0292019
+      1.smsa |   .1757871   .0154578    11.37   0.000     .1454782    .2060961
+       _cons |   5.063317   .0637402    79.44   0.000     4.938338    5.188296
+------------------------------------------------------------------------------</code></pre>
+<p>We find that our <span class="math inline">\(\hat{\beta_1}=0.0711\)</span> and our interpretation is that college increases wages by <span class="math inline">\((e^{0.0711}-1)*100\%=7.3\%\)</span></p>
+</div>
+<div id="estimate-local-average-treatment-effect-using-iv" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Estimate Local Average Treatment Effect using IV<a href="instrumental-variables.html#estimate-local-average-treatment-effect-using-iv" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Next, we will use our instrument variable estimator to estimate the <span class="math inline">\(LATE\)</span> for those who comply with the instrument. We will use the <em>ivregress 2sls</em> command.</p>
+<p>Our instrument is a binary if being in a county near a 4-year college.</p>
+<p>Our first stage is:
+<span class="math display">\[ educ_i=\pi_0 + \pi_1 nearc4_i + \pi_2 expr_i + \pi_3 Black_i + \pi_4 South + \pi_5 married + \pi_6 metro_i + \eta_i \]</span>
+Our second state is:
+<span class="math display">\[ ln(wages_i)= \beta_0 + \beta_1 \widehat{edu}_i + \beta_2 expr_i + \beta_3 Black_i + \beta_4 South_i + \beta_5 married_i + \beta_6 metro_i + \varepsilon_i \]</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="instrumental-variables.html#cb5-1" tabindex="-1"></a>ivregress 2sls lwage (educ=nearc4) exper <span class="bn">black</span> south married i.smsa, first </span></code></pre></div>
+<pre><code>First-stage regressions
+-----------------------
+
+                                                Number of obs     =      3,003
+                                                F(   6,   2996)   =     456.14
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.4774
+                                                Adj R-squared     =     0.4764
+                                                Root MSE          =     1.9373
+
+------------------------------------------------------------------------------
+        educ |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       exper |   -.404434   .0089402   -45.24   0.000    -.4219636   -.3869044
+       black |  -.9475281   .0905256   -10.47   0.000    -1.125027   -.7700295
+       south |  -.2973528   .0790643    -3.76   0.000    -.4523787   -.1423269
+     married |  -.0726936   .0177473    -4.10   0.000    -.1074918   -.0378954
+      1.smsa |   .4208945    .084868     4.96   0.000     .2544891       .5873
+      nearc4 |   .3272826   .0824239     3.97   0.000     .1656695    .4888957
+       _cons |    16.8307   .1307475   128.73   0.000     16.57433    17.08706
+------------------------------------------------------------------------------
+
+
+Instrumental variables (2SLS) regression          Number of obs   =      3,003
+                                                  Wald chi2(6)    =     840.98
+                                                  Prob &gt; chi2     =     0.0000
+                                                  R-squared       =     0.2513
+                                                  Root MSE        =     .38384
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .1241642   .0498975     2.49   0.013     .0263668    .2219616
+       exper |   .0555882   .0202624     2.74   0.006     .0158746    .0953019
+       black |  -.1156855   .0506823    -2.28   0.022    -.2150211     -.01635
+       south |  -.1131647   .0232168    -4.87   0.000    -.1586687   -.0676607
+     married |  -.0319754    .005081    -6.29   0.000    -.0419339   -.0220169
+      1.smsa |   .1477065   .0308591     4.79   0.000     .0872237    .2081893
+       _cons |   4.162476   .8485997     4.91   0.000     2.499251    5.825701
+------------------------------------------------------------------------------
+Instrumented:  educ
+Instruments:   exper black south married 1.smsa nearc4</code></pre>
+<p>Our 2SLS estimate of the LATE is 13.5%. Being near a college increases the wages by <span class="math inline">\((e^{0.124}-1)*100\%=13.5\%\)</span> for compliers.</p>
+</div>
+<div id="test-instrument-relevance" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Test Instrument Relevance<a href="instrumental-variables.html#test-instrument-relevance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will first test our instrument relevance assumption. This should be familiar from Econ 645. We will estimate the first stage by itself and then use an <span class="math inline">\(F\)</span>-Test.</p>
+<p><span class="math display">\[ educ_i=\pi_0 + \pi_1 nearc4_i + \pi_2 expr_i + \pi_3 Black_i + \pi_4 South + \pi_5 married + \pi_6 metro_i + \eta_i \]</span></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="instrumental-variables.html#cb7-1" tabindex="-1"></a><span class="kw">reg</span> educ nearc4 exper <span class="bn">black</span> south married i.smsa</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     3,003
+-------------+----------------------------------   F(6, 2996)      =    456.14
+       Model |  10272.0963         6  1712.01605   Prob &gt; F        =    0.0000
+    Residual |  11244.7835     2,996  3.75326552   R-squared       =    0.4774
+-------------+----------------------------------   Adj R-squared   =    0.4764
+       Total |  21516.8798     3,002  7.16751492   Root MSE        =    1.9373
+
+------------------------------------------------------------------------------
+        educ |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      nearc4 |   .3272826   .0824239     3.97   0.000     .1656695    .4888957
+       exper |   -.404434   .0089402   -45.24   0.000    -.4219636   -.3869044
+       black |  -.9475281   .0905256   -10.47   0.000    -1.125027   -.7700295
+       south |  -.2973528   .0790643    -3.76   0.000    -.4523787   -.1423269
+     married |  -.0726936   .0177473    -4.10   0.000    -.1074918   -.0378954
+      1.smsa |   .4208945    .084868     4.96   0.000     .2544891       .5873
+       _cons |    16.8307   .1307475   128.73   0.000     16.57433    17.08706
+------------------------------------------------------------------------------</code></pre>
+<p>Being in a county near a college is associated with a 0.32 increase in years of education.</p>
+<p>Next, we will use an <span class="math inline">\(F\)</span>-test on the excludability of college in the county from the first stage regression.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="instrumental-variables.html#cb9-1" tabindex="-1"></a><span class="kw">test</span> nearc4</span></code></pre></div>
+<pre><code> ( 1)  nearc4 = 0
+
+       F(  1,  2996) =   15.77
+            Prob &gt; F =    0.0001</code></pre>
+<p>The <span class="math inline">\(F\)</span>-statistic is 15.767 which is indicative of a good instrument</p>
+</div>
+<div id="test-monotonicity" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Test Monotonicity<a href="instrumental-variables.html#test-monotonicity" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will now test the monotonicity assumption of the IV. First, we will rerun the first stage regression and predict education.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="instrumental-variables.html#cb11-1" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">reg</span> educ nearc4 exper <span class="bn">black</span> south married smsa</span>
+<span id="cb11-2"><a href="instrumental-variables.html#cb11-2" tabindex="-1"></a><span class="kw">predict</span> dhat</span></code></pre></div>
+<p>Next, we will average outcomes across dhat by using the <em>egen cut</em> to get bins of outcomes</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="instrumental-variables.html#cb12-1" tabindex="-1"></a><span class="kw">sum</span> lwage, <span class="kw">detail</span></span>
+<span id="cb12-2"><a href="instrumental-variables.html#cb12-2" tabindex="-1"></a><span class="kw">egen</span> lwage_bins = <span class="fu">cut</span>(lwage), <span class="fu">at</span>(5,5.25,5.5,5.75,6,6.25,6.5,6.75,7,7.25,7.5)</span>
+<span id="cb12-3"><a href="instrumental-variables.html#cb12-3" tabindex="-1"></a><span class="kw">sort</span> lwage_bins</span>
+<span id="cb12-4"><a href="instrumental-variables.html#cb12-4" tabindex="-1"></a><span class="kw">by</span> lwage_bins: <span class="kw">egen</span> mean_z=<span class="kw">mean</span>(nearc4)</span></code></pre></div>
+<p>Now we will graph the monotonicity assumption.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="instrumental-variables.html#cb13-1" tabindex="-1"></a>*Show Monotonicity Graph </span>
+<span id="cb13-2"><a href="instrumental-variables.html#cb13-2" tabindex="-1"></a><span class="kw">sort</span> mean_z</span>
+<span id="cb13-3"><a href="instrumental-variables.html#cb13-3" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> lwage_bins mean_z</span></code></pre></div>
+<div class="float">
+<img src="monotonicity1.png" alt="Monotonicity Assumption Test" />
+<div class="figcaption">Monotonicity Assumption Test</div>
+</div>
+<p>It is possible that monotonicity assumption is violated.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="jackknife-instrument-variable-estimator.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

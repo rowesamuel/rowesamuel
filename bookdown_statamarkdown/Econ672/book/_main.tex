@@ -1,0 +1,692 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{booktabs}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Instrument Variables Revisted},
+  pdfauthor={John Doe},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Instrument Variables Revisted}
+\author{John Doe}
+\date{2026-02-07}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bookdown}\SpecialCharTok{::}\FunctionTok{render\_book}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\chapter*{Overview}\label{overview}
+\addcontentsline{toc}{chapter}{Overview}
+
+We will revisit the topic of instrumental variables, but we will take deeper dive into estimates of the \(LATE\).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Instrumental Variables Revisited
+\item
+  Jackknife Instrumental Variables Estimator
+\end{enumerate}
+
+\chapter{Instrumental Variables}\label{instrumental-variables}
+
+In-depth, institutional knowledge of programs, treatment, interventions provide some of the best sources of strong instruments (Angrist and Krueger, 2001)
+
+We are going to estimate the marginal impact of going to college for those who comply with the instrument.
+
+\[ \delta^{IV}_{LATE}=\frac{E[Y_i(D^1_i,1)-Y_i(D^0_i,0)]}{E[D^1_i-D^0_i]}=E[Y^1_i-Y^0_i|D^1_i-D^0_i=1]\]
+
+\section{Naive OLS}\label{naive-ols}
+
+We will use a naive OLS to estimate the marginal effect of college on wages. We expect this to be upwards biased.
+
+First, we will import our data from Card via Cunningham
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 672/Data"}
+\KeywordTok{use}\NormalTok{ card}
+\end{Highlighting}
+\end{Shaded}
+
+\[ ln(wages_i)= \beta_0 + \beta_1 edu_i + \beta_2 expr_i + \beta_3 Black_i + \beta_4 South_i + \beta_5 married_i + a_i + \varepsilon_i \]
+
+Where \(a_i\) are controls for metropolitian statistical areas.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{reg}\NormalTok{ lwage  educ  exper }\BaseNTok{black}\NormalTok{ south married i.smsa}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      Source |       SS           df       MS      Number of obs   =     3,003
+-------------+----------------------------------   F(6, 2996)      =    219.15
+       Model |  180.255137         6  30.0425229   Prob > F        =    0.0000
+    Residual |  410.705979     2,996  .137084773   R-squared       =    0.3050
+-------------+----------------------------------   Adj R-squared   =    0.3036
+       Total |  590.961117     3,002  .196855802   Root MSE        =    .37025
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .0711729   .0034824    20.44   0.000     .0643447     .078001
+       exper |   .0341518   .0022144    15.42   0.000     .0298098    .0384938
+       black |  -.1660274   .0176137    -9.43   0.000    -.2005636   -.1314913
+       south |  -.1315518   .0149691    -8.79   0.000    -.1609024   -.1022011
+     married |  -.0358707   .0034012   -10.55   0.000    -.0425396   -.0292019
+      1.smsa |   .1757871   .0154578    11.37   0.000     .1454782    .2060961
+       _cons |   5.063317   .0637402    79.44   0.000     4.938338    5.188296
+------------------------------------------------------------------------------
+\end{verbatim}
+
+We find that our \(\hat{\beta_1}=0.0711\) and our interpretation is that college increases wages by \((e^{0.0711}-1)*100\%=7.3\%\)
+
+\section{Estimate Local Average Treatment Effect using IV}\label{estimate-local-average-treatment-effect-using-iv}
+
+Next, we will use our instrument variable estimator to estimate the \(LATE\) for those who comply with the instrument. We will use the \emph{ivregress 2sls} command.
+
+Our instrument is a binary if being in a county near a 4-year college.
+
+Our first stage is:
+\[ educ_i=\pi_0 + \pi_1 nearc4_i + \pi_2 expr_i + \pi_3 Black_i + \pi_4 South + \pi_5 married + \pi_6 metro_i + \eta_i \]
+Our second state is:
+\[ ln(wages_i)= \beta_0 + \beta_1 \widehat{edu}_i + \beta_2 expr_i + \beta_3 Black_i + \beta_4 South_i + \beta_5 married_i + \beta_6 metro_i + \varepsilon_i \]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ivregress 2sls lwage (educ=nearc4) exper }\BaseNTok{black}\NormalTok{ south married i.smsa, first }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+First-stage regressions
+-----------------------
+
+                                                Number of obs     =      3,003
+                                                F(   6,   2996)   =     456.14
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.4774
+                                                Adj R-squared     =     0.4764
+                                                Root MSE          =     1.9373
+
+------------------------------------------------------------------------------
+        educ |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       exper |   -.404434   .0089402   -45.24   0.000    -.4219636   -.3869044
+       black |  -.9475281   .0905256   -10.47   0.000    -1.125027   -.7700295
+       south |  -.2973528   .0790643    -3.76   0.000    -.4523787   -.1423269
+     married |  -.0726936   .0177473    -4.10   0.000    -.1074918   -.0378954
+      1.smsa |   .4208945    .084868     4.96   0.000     .2544891       .5873
+      nearc4 |   .3272826   .0824239     3.97   0.000     .1656695    .4888957
+       _cons |    16.8307   .1307475   128.73   0.000     16.57433    17.08706
+------------------------------------------------------------------------------
+
+
+Instrumental variables (2SLS) regression          Number of obs   =      3,003
+                                                  Wald chi2(6)    =     840.98
+                                                  Prob > chi2     =     0.0000
+                                                  R-squared       =     0.2513
+                                                  Root MSE        =     .38384
+
+------------------------------------------------------------------------------
+       lwage |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+        educ |   .1241642   .0498975     2.49   0.013     .0263668    .2219616
+       exper |   .0555882   .0202624     2.74   0.006     .0158746    .0953019
+       black |  -.1156855   .0506823    -2.28   0.022    -.2150211     -.01635
+       south |  -.1131647   .0232168    -4.87   0.000    -.1586687   -.0676607
+     married |  -.0319754    .005081    -6.29   0.000    -.0419339   -.0220169
+      1.smsa |   .1477065   .0308591     4.79   0.000     .0872237    .2081893
+       _cons |   4.162476   .8485997     4.91   0.000     2.499251    5.825701
+------------------------------------------------------------------------------
+Instrumented:  educ
+Instruments:   exper black south married 1.smsa nearc4
+\end{verbatim}
+
+Our 2SLS estimate of the LATE is 13.5\%. Being near a college increases the wages by \((e^{0.124}-1)*100\%=13.5\%\) for compliers.
+
+\section{Test Instrument Relevance}\label{test-instrument-relevance}
+
+We will first test our instrument relevance assumption. This should be familiar from Econ 645. We will estimate the first stage by itself and then use an \(F\)-Test.
+
+\[ educ_i=\pi_0 + \pi_1 nearc4_i + \pi_2 expr_i + \pi_3 Black_i + \pi_4 South + \pi_5 married + \pi_6 metro_i + \eta_i \]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{reg}\NormalTok{ educ nearc4 exper }\BaseNTok{black}\NormalTok{ south married i.smsa}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      Source |       SS           df       MS      Number of obs   =     3,003
+-------------+----------------------------------   F(6, 2996)      =    456.14
+       Model |  10272.0963         6  1712.01605   Prob > F        =    0.0000
+    Residual |  11244.7835     2,996  3.75326552   R-squared       =    0.4774
+-------------+----------------------------------   Adj R-squared   =    0.4764
+       Total |  21516.8798     3,002  7.16751492   Root MSE        =    1.9373
+
+------------------------------------------------------------------------------
+        educ |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      nearc4 |   .3272826   .0824239     3.97   0.000     .1656695    .4888957
+       exper |   -.404434   .0089402   -45.24   0.000    -.4219636   -.3869044
+       black |  -.9475281   .0905256   -10.47   0.000    -1.125027   -.7700295
+       south |  -.2973528   .0790643    -3.76   0.000    -.4523787   -.1423269
+     married |  -.0726936   .0177473    -4.10   0.000    -.1074918   -.0378954
+      1.smsa |   .4208945    .084868     4.96   0.000     .2544891       .5873
+       _cons |    16.8307   .1307475   128.73   0.000     16.57433    17.08706
+------------------------------------------------------------------------------
+\end{verbatim}
+
+Being in a county near a college is associated with a 0.32 increase in years of education.
+
+Next, we will use an \(F\)-test on the excludability of college in the county from the first stage regression.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{test}\NormalTok{ nearc4}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ ( 1)  nearc4 = 0
+
+       F(  1,  2996) =   15.77
+            Prob > F =    0.0001
+\end{verbatim}
+
+The \(F\)-statistic is 15.767 which is indicative of a good instrument
+
+\section{Test Monotonicity}\label{test-monotonicity}
+
+We will now test the monotonicity assumption of the IV. First, we will rerun the first stage regression and predict education.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly} \KeywordTok{reg}\NormalTok{ educ nearc4 exper }\BaseNTok{black}\NormalTok{ south married smsa}
+\KeywordTok{predict}\NormalTok{ dhat}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we will average outcomes across dhat by using the \emph{egen cut} to get bins of outcomes
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sum}\NormalTok{ lwage, }\KeywordTok{detail}
+\KeywordTok{egen}\NormalTok{ lwage\_bins = }\FunctionTok{cut}\NormalTok{(lwage), }\FunctionTok{at}\NormalTok{(5,5.25,5.5,5.75,6,6.25,6.5,6.75,7,7.25,7.5)}
+\KeywordTok{sort}\NormalTok{ lwage\_bins}
+\KeywordTok{by}\NormalTok{ lwage\_bins: }\KeywordTok{egen}\NormalTok{ mean\_z=}\KeywordTok{mean}\NormalTok{(nearc4)}
+\end{Highlighting}
+\end{Shaded}
+
+Now we will graph the monotonicity assumption.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{*Show Monotonicity Graph }
+\KeywordTok{sort}\NormalTok{ mean\_z}
+\KeywordTok{twoway} \KeywordTok{line}\NormalTok{ lwage\_bins mean\_z}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio]{monotonicity1.png}}
+\caption{Monotonicity Assumption Test}
+\end{figure}
+
+It is possible that monotonicity assumption is violated.
+
+\chapter{Jackknife Instrument Variable Estimator}\label{jackknife-instrument-variable-estimator}
+
+We can use the Jackknife Instrument Variable Estimator (JIVE) for Judget Fixed Effects.
+
+First we will start by installing the Jackknife IV estimator.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{net install st0108}
+\end{Highlighting}
+\end{Shaded}
+
+Next we will load our data from Stevenson (2018) on guilt verdicts and cash bail/pretrail detention.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 672/Data"}
+\KeywordTok{use}\NormalTok{ judge\_fe, }\KeywordTok{clear}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we will set up some global macros for sets of covariates.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{*Set up }\KeywordTok{global}\NormalTok{ macros }
+\KeywordTok{global}\NormalTok{ judge\_pre judge\_pre\_1 judge\_pre\_2 judge\_pre\_3 judge\_pre\_4 judge\_pre\_5 judge\_pre\_6 judge\_pre\_7 judge\_pre\_8}
+\KeywordTok{global}\NormalTok{ demo }\BaseNTok{black}\NormalTok{ age male }\BaseNTok{white} 
+\KeywordTok{global} \KeywordTok{off}\NormalTok{      fel mis }\KeywordTok{sum}\NormalTok{ F1 F2 F3 }\FunctionTok{F}\NormalTok{ M1 M2 M3 M }
+\KeywordTok{global}\NormalTok{ prior priorCases priorWI5 prior\_felChar  prior\_guilt onePrior threePriors}
+\KeywordTok{global}\NormalTok{ control2     }\FunctionTok{day}\NormalTok{ day2 day3  bailDate t1 t2 t3 t4 t5 t6}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Naive OLS}\label{naive-ols-1}
+
+We will estimate a couple specifications using an OLS estimator. Our first model will have minimal controls for time variables, but our second model will have additional controls for demographics and prior justice involvement.
+
+\[ guilt_i = \delta_0 +\delta_1 PretrailDentention_i + \gamma'Dates_i + \beta'Demo_i + \alpha'Crime_i + \varepsilon_i \]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{eststo minimal: }\KeywordTok{quietly} \KeywordTok{reg}\NormalTok{ guilt jail3 }\OtherTok{$control2}\NormalTok{, }\KeywordTok{robust}
+\NormalTok{eststo maximum: }\KeywordTok{quietly} \KeywordTok{reg}\NormalTok{ guilt jail3 possess robbery DUI1st drugSell aggAss }\OtherTok{$demo} \OtherTok{$prior} \OtherTok{$off}  \OtherTok{$control2}\NormalTok{ , }\KeywordTok{robust}
+
+\NormalTok{esttab minimal maximum, mtitle(}\StringTok{"Minimal"} \StringTok{"Max Controls"}\NormalTok{) }\KeywordTok{keep}\NormalTok{(jail3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                      (1)             (2)   
+                  Minimal    Max Controls   
+--------------------------------------------
+jail3           -0.000735          0.0292***
+                  (-0.42)         (15.23)   
+--------------------------------------------
+N                  331971          331971   
+--------------------------------------------
+t statistics in parentheses
+* p<0.05, ** p<0.01, *** p<0.001
+\end{verbatim}
+
+The minimal OLS estimate of pretrail detention on guilty plea is -0.0007 increase in percentage points of a guily plea and not statistically significant at the 5 percent level, while maximum controls yields an estimate of 2.9 percentage points.
+
+\section{Instrument Variables}\label{instrument-variables}
+
+We will estimate the reduced form equation for the first stage of the instrument variable estimator. We will estimate the first stage with two reduced form equations. One with date variables \(t_i\) and one with data variables plus demographics \(d_i\) and crime and/or prior justice involement \(c_i\).
+
+\[ PreTrailDetention_i = \pi_0 + \pi_1 JFE_i + t_i + d_i+c_i + \varepsilon_i \]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{est} \KeywordTok{clear}
+\NormalTok{eststo rf1: }\KeywordTok{quietly} \KeywordTok{reg}\NormalTok{ jail3 }\OtherTok{$judge\_pre} \OtherTok{$control2}\NormalTok{, }\KeywordTok{robust}
+\NormalTok{eststo rf2: }\KeywordTok{quietly} \KeywordTok{reg}\NormalTok{ jail3 possess robbery DUI1st drugSell aggAss }\OtherTok{$demo} \OtherTok{$prior} \OtherTok{$off}  \OtherTok{$control2} \OtherTok{$judge\_pre}\NormalTok{, }\KeywordTok{robust}
+\NormalTok{esttab rf1 rf2, mtitle(}\StringTok{"Min Controls"} \StringTok{"Max Controls"}\NormalTok{) }\KeywordTok{keep}\NormalTok{(judge\_pre\_1 judge\_pre\_2 judge\_pre\_3 judge\_pre\_4 judge\_pre\_5 judge\_pre\_6 judge\_pre\_7 judge\_pre\_8)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                      (1)             (2)   
+             Min Controls    Max Controls   
+--------------------------------------------
+judge_pre_1       -0.0325***      -0.0306***
+                  (-5.80)         (-6.11)   
+
+judge_pre_2             0               0   
+                      (.)             (.)   
+
+judge_pre_3       -0.0237***      -0.0192***
+                  (-4.63)         (-4.20)   
+
+judge_pre_4       -0.0458***      -0.0442***
+                  (-8.97)         (-9.71)   
+
+judge_pre_5       -0.0338***      -0.0301***
+                  (-5.99)         (-6.02)   
+
+judge_pre_6      -0.00910        -0.00740   
+                  (-1.78)         (-1.62)   
+
+judge_pre_7       -0.0307***      -0.0253***
+                  (-5.63)         (-5.22)   
+
+judge_pre_8       -0.0427***      -0.0361***
+                  (-8.36)         (-7.89)   
+--------------------------------------------
+N                  331971          331971   
+--------------------------------------------
+t statistics in parentheses
+* p<0.05, ** p<0.01, *** p<0.001
+\end{verbatim}
+
+Next, we will estimate the \(F\)-statistics for our instrument relevance tests for both models.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ \{}
+\KeywordTok{reg}\NormalTok{ jail3 }\OtherTok{$judge\_pre} \OtherTok{$control2}\NormalTok{, }\KeywordTok{robust}
+\NormalTok{\}}
+\KeywordTok{test} \OtherTok{$judge\_pre}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ ( 1)  judge_pre_1 = 0
+ ( 2)  o.judge_pre_2 = 0
+ ( 3)  judge_pre_3 = 0
+ ( 4)  judge_pre_4 = 0
+ ( 5)  judge_pre_5 = 0
+ ( 6)  judge_pre_6 = 0
+ ( 7)  judge_pre_7 = 0
+ ( 8)  judge_pre_8 = 0
+       Constraint 2 dropped
+
+       F(  7,331954) =   35.25
+            Prob > F =    0.0000
+\end{verbatim}
+
+Our judge fixed effects appear to be relevant instruments since \(F-stat=35.25\) for our minimal controls model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ \{}
+\KeywordTok{reg}\NormalTok{ jail3 }\OtherTok{$judge\_pre}\NormalTok{ possess robbery DUI1st drugSell aggAss }\OtherTok{$demo} \OtherTok{$prior} \OtherTok{$off} \OtherTok{$control2}\NormalTok{ , }\KeywordTok{robust} 
+\NormalTok{\}}
+\KeywordTok{test} \OtherTok{$judge\_pre}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ ( 1)  judge_pre_1 = 0
+ ( 2)  o.judge_pre_2 = 0
+ ( 3)  judge_pre_3 = 0
+ ( 4)  judge_pre_4 = 0
+ ( 5)  judge_pre_5 = 0
+ ( 6)  judge_pre_6 = 0
+ ( 7)  judge_pre_7 = 0
+ ( 8)  judge_pre_8 = 0
+       Constraint 2 dropped
+
+       F(  7,331928) =   42.67
+            Prob > F =    0.0000
+\end{verbatim}
+
+Our judge fixed effects appear to be relevant instruments since \(F-stat=42.67\) for our maximum controls model, as well.
+
+Now let's estimate our two models with an IV estimator with the \emph{ivregress 2sls} command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{est} \KeywordTok{clear}
+\NormalTok{eststo iv1: }\KeywordTok{quietly}\NormalTok{ ivregress 2sls guilt (jail3= }\OtherTok{$judge\_pre}\NormalTok{) }\OtherTok{$control2}\NormalTok{, }\KeywordTok{robust}\NormalTok{ first}
+\NormalTok{eststo iv2: }\KeywordTok{quietly}\NormalTok{ ivregress 2sls guilt (jail3= }\OtherTok{$judge\_pre}\NormalTok{) possess robbery DUI1st drugSell aggAss }\OtherTok{$demo} \OtherTok{$prior} \OtherTok{$off} \OtherTok{$control2}\NormalTok{ , }\KeywordTok{robust}\NormalTok{ first}
+\NormalTok{esttab iv1 iv2, mtitle(}\StringTok{"Min IV Model"} \StringTok{"Max IV Model"}\NormalTok{) }\KeywordTok{keep}\NormalTok{(jail3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                      (1)             (2)   
+             Min IV Model    Max IV Model   
+--------------------------------------------
+jail3               0.151*          0.186** 
+                   (2.32)          (2.88)   
+--------------------------------------------
+N                  331971          331971   
+--------------------------------------------
+t statistics in parentheses
+* p<0.05, ** p<0.01, *** p<0.001
+\end{verbatim}
+
+Our \(LATE\) estimate is an increase of guilty plea by 15.1 percentage points for individuals with a guilty plea with the minimal-controls model.
+
+Our \(LATE\) estimate is an increase of guilty plea by 18.6 percentage points for individuals with a guilty plea with the maximum-controls model.
+
+\section{Jackknife Instrument Variable Estimator}\label{jackknife-instrument-variable-estimator-1}
+
+Now we will implement our Jackknife IV estimator and estimate miminal-control and maximum-control models. We use the \emph{jive} command after doing our install of package st0108.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{jive guilt (jail3= }\OtherTok{$judge\_pre}\NormalTok{) }\OtherTok{$control2}\NormalTok{, }\KeywordTok{robust}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+note: t6 dropped due to collinearity
+note: judge_pre_8 dropped due to collinearity
+
+Jackknife instrumental variables regression (UJIVE1)
+
+First-stage summary                                  Number of obs   =  331971
+-------------------------                            F(  10,331960)  =  270.73
+F(   7,331954)  =   35.36                            Prob > F        =  0.0000
+Prob > F        =  0.0000                            R-squared       = -0.0183
+R-squared       =  0.0026                            Adj R-squared   = -0.0183
+                                                     Root MSE        =  0.5045
+
+------------------------------------------------------------------------------
+       guilt |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       jail3 |   .1624352   .0701409     2.32   0.021      .024961    .2999094
+         day |  -.0000271   .0000664    -0.41   0.683    -.0001574    .0001031
+        day2 |  -1.18e-07   3.25e-07    -0.36   0.716    -7.56e-07    5.19e-07
+        day3 |   2.65e-10   4.23e-10     0.63   0.531    -5.64e-10    1.09e-09
+    bailDate |   .0000606   9.00e-06     6.74   0.000      .000043    .0000783
+          t1 |   .0094375   .0174909     0.54   0.589    -.0248442    .0437192
+          t2 |  -.0118243   .0136833    -0.86   0.388    -.0386431    .0149946
+          t3 |   .0101888   .0123284     0.83   0.409    -.0139746    .0343521
+          t4 |   .0195249   .0080497     2.43   0.015     .0037478     .035302
+          t5 |   .0017162   .0055469     0.31   0.757    -.0091555    .0125879
+       _cons |   -.675075   .1748001    -3.86   0.000    -1.017678    -.332472
+------------------------------------------------------------------------------
+Instrumented:  jail3
+Instruments:   day day2 day3 bailDate t1 t2 t3 t4 t5  judge_pre_1 judge_pre_2
+               judge_pre_3 judge_pre_4 judge_pre_5 judge_pre_6 judge_pre_7
+------------------------------------------------------------------------------
+\end{verbatim}
+
+Our estimated \(LATE\) with JIVE is a 16.2 percentage point increase in a guilty plea for individuals with a pre-trail detention.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{jive guilt (jail3= }\OtherTok{$judge\_pre}\NormalTok{) possess robbery DUI1st drugSell aggAss }\OtherTok{$demo} \OtherTok{$prior} \OtherTok{$off} \OtherTok{$control2}\NormalTok{ , }\KeywordTok{robust}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+note: t6 dropped due to collinearity
+note: judge_pre_8 dropped due to collinearity
+
+Jackknife instrumental variables regression (UJIVE1)
+
+First-stage summary                                  Number of obs   =  331971
+-------------------------                            F(  36,331934)  = 1375.47
+F(   7,331928)  =   42.83                            Prob > F        =  0.0000
+Prob > F        =  0.0000                            R-squared       =  0.0925
+R-squared       =  0.2486                            Adj R-squared   =  0.0924
+                                                     Root MSE        =  0.4763
+
+-------------------------------------------------------------------------------
+        guilt |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------+----------------------------------------------------------------
+        jail3 |   .2120002   .0755804     2.80   0.005     .0638648    .3601355
+      possess |  -.0609555   .0038514   -15.83   0.000    -.0685041   -.0534068
+      robbery |   -.102243   .0091054   -11.23   0.000    -.1200894   -.0843966
+       DUI1st |   .0583614   .0066367     8.79   0.000     .0453536    .0713692
+     drugSell |   .1154289   .0096137    12.01   0.000     .0965863    .1342715
+       aggAss |    .004039   .0040886     0.99   0.323    -.0039746    .0120526
+        black |   .0570339   .0061167     9.32   0.000     .0450452    .0690225
+          age |    .001521   .0001193    12.75   0.000     .0012871    .0017548
+         male |  -.0544413    .008064    -6.75   0.000    -.0702465   -.0386362
+        white |   .1002602   .0038903    25.77   0.000     .0926353    .1078851
+   priorCases |  -.0057862   .0002551   -22.68   0.000    -.0062861   -.0052862
+     priorWI5 |   .0245624   .0060695     4.05   0.000     .0126663    .0364585
+prior_felChar |  -.0076116   .0008469    -8.99   0.000    -.0092714   -.0059518
+  prior_guilt |    .023201    .001188    19.53   0.000     .0208726    .0255293
+     onePrior |   .0473753   .0035872    13.21   0.000     .0403445    .0544062
+  threePriors |  -.0015179   .0048536    -0.31   0.754    -.0110307    .0079949
+          fel |  -.0220026   .0107113    -2.05   0.040    -.0429965   -.0010087
+          mis |   .1393341   .0115767    12.04   0.000     .1166441    .1620242
+          sum |   .0657736   .0036656    17.94   0.000     .0585891     .072958
+           F1 |  -.0156777    .012377    -1.27   0.205    -.0399363    .0085808
+           F2 |    .027801   .0111437     2.49   0.013     .0059597    .0496423
+           F3 |   .0923061   .0031874    28.96   0.000      .086059    .0985532
+            F |  -.0929481   .0119417    -7.78   0.000    -.1163534   -.0695427
+           M1 |   .0094806   .0076985     1.23   0.218    -.0056083    .0245695
+           M2 |  -.0772227   .0045121   -17.11   0.000    -.0860662   -.0683791
+           M3 |   .1242172   .0051198    24.26   0.000     .1141825    .1342518
+            M |   .2706689   .0053935    50.18   0.000     .2600978      .28124
+          day |    -.00003   .0000608    -0.49   0.622    -.0001492    .0000892
+         day2 |  -7.03e-09   2.95e-07    -0.02   0.981    -5.85e-07    5.71e-07
+         day3 |   2.42e-10   3.87e-10     0.63   0.532    -5.16e-10    9.99e-10
+     bailDate |   .0000418   8.57e-06     4.88   0.000      .000025    .0000586
+           t1 |  -.0186899    .016402    -1.14   0.255    -.0508374    .0134576
+           t2 |  -.0243829   .0127911    -1.91   0.057     -.049453    .0006872
+           t3 |   .0033173   .0110964     0.30   0.765    -.0184314     .025066
+           t4 |   .0142448   .0072415     1.97   0.049     .0000517     .028438
+           t5 |    .009051   .0052937     1.71   0.087    -.0013245    .0194264
+        _cons |  -.6960786    .164429    -4.23   0.000    -1.018355   -.3738024
+-------------------------------------------------------------------------------
+Instrumented:  jail3
+Instruments:   possess robbery DUI1st drugSell aggAss black age male white
+               priorCases priorWI5 prior_felChar prior_guilt onePrior
+               threePriors fel mis sum F1 F2 F3 F M1 M2 M3 M day day2 day3
+               bailDate t1 t2 t3 t4 t5  judge_pre_1 judge_pre_2 judge_pre_3
+               judge_pre_4 judge_pre_5 judge_pre_6 judge_pre_7
+------------------------------------------------------------------------------
+\end{verbatim}
+
+Our estimated \(LATE\) with JIVE is a 21.2 percentage point increase in a guilty plea for individuals with a pre-trail detention
+
+Also, don't forget to clear your global macros! Local macros expire at the end of a run, but global macros will remain, and you need to tell Stata to remove them.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{clear} \OtherTok{all} 
+\KeywordTok{macro} \KeywordTok{drop} \DataTypeTok{\_all}
+\end{Highlighting}
+\end{Shaded}
+
+Angrist, J.D. and Krueger, A.B. (2001). Instrument variables and the search for identification: From supply and demand to natural experiments. \emph{Journal of Economic Perspectives}. 15(4) p.69-85.
+Cunningham, S. (2021). Causal Inference: The Mixtape. Yale University Press.
+
+Huber, M. (2023). Causal Analysis: Impact Evaluation and Causal Machine Learning with Applications in R. The MIT Press.
+
+Huntington-Klein, N. (2022). The Effect: An Introduction to Research Design and Causality. CRC Press.
+
+Stevenson, M.T. (2018). Distortion of justice: How the inability to pay bail affects case outcomes. \emph{Journal of Law, Economics, and Organization}. 34(4) p.511-542.
+
+\bibliography{book.bib,packages.bib}
+
+\end{document}
