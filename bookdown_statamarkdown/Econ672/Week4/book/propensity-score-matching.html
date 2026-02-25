@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="John Doe" />
 
 
-<meta name="date" content="2026-01-31" />
+<meta name="date" content="2026-02-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -61,8 +61,9 @@ set in the _output.yml file.</p>" />
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -72,7 +73,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -216,26 +217,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Next, we will use logistic regression to estimate <span class="math inline">\(\beta\)</span> and estimate the <span class="math inline">\(p\)</span>-scores.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="propensity-score-matching.html#cb5-1" tabindex="-1"></a><span class="kw">logit</span> treat age agesq agecube educ edusq marr nodegree <span class="bn">black</span> hisp re74 re75 u74 u75 interaction1 </span>
 <span id="cb5-2"><a href="propensity-score-matching.html#cb5-2" tabindex="-1"></a><span class="kw">predict</span> pscore</span></code></pre></div>
-<pre><code>Iteration 0:   log likelihood = -1011.0713  
-Iteration 1:   log likelihood = -612.55814  
-Iteration 2:   log likelihood = -429.05652  
-Iteration 3:   log likelihood = -406.25926  
-Iteration 4:   log likelihood = -404.18813  
-Iteration 5:   log likelihood = -404.15992  
-Iteration 6:   log likelihood = -404.15991  
+<pre><code>Iteration 0:  Log likelihood = -1011.0713  
+Iteration 1:  Log likelihood = -612.55814  
+Iteration 2:  Log likelihood = -429.05652  
+Iteration 3:  Log likelihood = -406.25926  
+Iteration 4:  Log likelihood = -404.18813  
+Iteration 5:  Log likelihood = -404.15991  
+Iteration 6:  Log likelihood = -404.15991  
 
-Logistic regression                             Number of obs     =     16,177
-                                                LR chi2(14)       =    1213.82
-                                                Prob &gt; chi2       =     0.0000
-Log likelihood = -404.15991                     Pseudo R2         =     0.6003
+Logistic regression                                    Number of obs =  16,177
+                                                       LR chi2(14)   = 1213.82
+                                                       Prob &gt; chi2   =  0.0000
+Log likelihood = -404.15991                            Pseudo R2     =  0.6003
 
 ------------------------------------------------------------------------------
-       treat |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+       treat | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
          age |   2.425229   .3500651     6.93   0.000     1.739114    3.111344
        agesq |  -.0672395   .0111308    -6.04   0.000    -.0890555   -.0454234
      agecube |   .0005685   .0001113     5.11   0.000     .0003505    .0007866
-        educ |   .9247846   .2500694     3.70   0.000     .4346576    1.414912
+        educ |   .9247847   .2500694     3.70   0.000     .4346576    1.414912
        edusq |  -.0572021   .0136202    -4.20   0.000    -.0838972    -.030507
         marr |  -1.556471   .2517687    -6.18   0.000    -2.049929   -1.063013
     nodegree |   .9270591   .3254621     2.85   0.004     .2891651    1.564953
@@ -260,11 +261,11 @@ Note: 3 failures and 0 successes completely determined.
  1%     .0011757       .0010614
  5%     .0072641       .0011757
 10%     .0260147       .0018463       Obs                 185
-25%     .1322174       .0020981       Sum of Wgt.         185
+25%     .1322174       .0020981       Sum of wgt.         185
 
 50%     .4001992                      Mean           .4253567
-                        Largest       Std. Dev.      .3076908
-75%     .6706164       .9356451
+                        Largest       Std. dev.      .3076908
+75%     .6706164        .935645
 90%     .8866026         .93718       Variance       .0946736
 95%     .9021386       .9374608       Skewness       .1916478
 99%     .9374608       .9384554       Kurtosis       1.732134
@@ -275,10 +276,10 @@ Note: 3 failures and 0 successes completely determined.
  1%     5.90e-07       1.18e-09
  5%     1.72e-06       4.07e-09
 10%     3.58e-06       4.24e-09       Obs              15,992
-25%     .0000193       1.55e-08       Sum of Wgt.      15,992
+25%     .0000193       1.55e-08       Sum of wgt.      15,992
 
 50%     .0001187                      Mean           .0066476
-                        Largest       Std. Dev.      .0416672
+                        Largest       Std. dev.      .0416672
 75%     .0009635       .8786677
 90%     .0066319       .8893389       Variance       .0017362
 95%     .0163109       .9099022       Skewness        12.2493
@@ -301,43 +302,44 @@ Estimator      : propensity-score matching     Matches: requested =          5
 Outcome model  : matching                                     min =          5
 Treatment model: logit                                        max =         26
 ------------------------------------------------------------------------------
-             |              AI Robust
-        re78 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+             |              AI robust
+        re78 | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
 ATET         |
        treat |
-   (1 vs 0)  |   1725.082   700.0586     2.46   0.014     352.9921    3097.172
+   (1 vs 0)  |   1725.082   700.0583     2.46   0.014     352.9928    3097.171
 ------------------------------------------------------------------------------</code></pre>
 <p><span class="math inline">\(\widehat{ATT} = \$1,725.082\)</span></p>
 <p>We have a few more options for checking the balance after the PSM with nearest neighbor of 5. We can use the <em>teblance</em> commands to check our balance. <em>tebalance density</em> will give us a distribution of propensity scores by our variable of choice between treatment and comparison. We can also use <em>tebalance box</em> that will give is a box-and-whisker chart for the propensity scores by our variable of choice between treatment and comparison.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="propensity-score-matching.html#cb12-1" tabindex="-1"></a>tebalance <span class="kw">summarize</span>, baseline</span></code></pre></div>
-<pre><code>  Covariate balance summary
-                                                   Raw      Matched
-                          -----------------------------------------
-                          Number of obs =       16,177          370
-                          Treated obs   =          185          185
-                          Control obs   =       15,992          185
-                          -----------------------------------------
+<pre><code>Covariate balance summary
 
-  -----------------------------------------------------------------
-                  |           Means                  Variances     
-                  |    Control     Treated       Control    Treated
-  ----------------+------------------------------------------------
-              age |   33.22524    25.81622      121.9968    51.1943
-            agesq |   1225.906    717.3946      615814.1     185978
-          agecube |   49305.85    21554.66      2.04e+09   4.40e+08
-             educ |   12.02751    10.34595      8.241754   4.042714
-            edusq |   152.9023    111.0595      4511.316   1544.795
-             marr |   .7117309    .1891892      .2051829   .1542303
-         nodegree |   .2958354    .7081081      .2083299   .2078143
-            black |   .0735368    .8432432      .0681334   .1329025
-             hisp |    .072036    .0594595       .066851    .056228
-             re74 |    14016.8    2095.574      9.16e+07   2.39e+07
-             re75 |    13650.8    1532.055      8.59e+07   1.04e+07
-              u74 |   .1196223    .7081081      .1053194   .2078143
-              u75 |   .1093047          .6      .0973632   .2413043
-     interaction1 |   171147.6    22898.73      1.67e+10   3.29e+09
-  -----------------------------------------------------------------</code></pre>
+                         Raw      Matched
+-----------------------------------------
+Number of obs =       16,177          370
+Treated obs   =          185          185
+Control obs   =       15,992          185
+-----------------------------------------
+
+-----------------------------------------------------------------
+                |           Means                  Variances     
+                |    Control     Treated       Control    Treated
+----------------+------------------------------------------------
+            age |   33.22524    25.81622      121.9968    51.1943
+          agesq |   1225.906    717.3946      615814.1     185978
+        agecube |   49305.85    21554.66      2.04e+09   4.40e+08
+           educ |   12.02751    10.34595      8.241754   4.042714
+          edusq |   152.9023    111.0595      4511.316   1544.795
+           marr |   .7117309    .1891892      .2051829   .1542303
+       nodegree |   .2958354    .7081081      .2083299   .2078143
+          black |   .0735368    .8432432      .0681334   .1329025
+           hisp |    .072036    .0594595       .066851    .056228
+           re74 |    14016.8    2095.574      9.16e+07   2.39e+07
+           re75 |    13650.8    1532.055      8.59e+07   1.04e+07
+            u74 |   .1196223    .7081081      .1053194   .2078143
+            u75 |   .1093047          .6      .0973632   .2413043
+   interaction1 |   171147.6    22898.73      1.67e+10   3.29e+09
+-----------------------------------------------------------------</code></pre>
 <p>After running <em>tebalance summarize</em>, we can see without trimming that our covariates are not really balanced between treatment and comparison groups.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="propensity-score-matching.html#cb14-1" tabindex="-1"></a>tebalance density age</span></code></pre></div>
 <div class="float">
@@ -385,8 +387,8 @@ Estimator      : propensity-score matching     Matches: requested =          5
 Outcome model  : matching                                     min =          5
 Treatment model: logit                                        max =          8
 ------------------------------------------------------------------------------
-             |              AI Robust
-        re78 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+             |              AI robust
+        re78 | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
 ATE          |
        treat |
@@ -400,8 +402,8 @@ Estimator      : propensity-score matching     Matches: requested =          5
 Outcome model  : matching                                     min =          5
 Treatment model: logit                                        max =          8
 ------------------------------------------------------------------------------
-             |              AI Robust
-        re78 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+             |              AI robust
+        re78 | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
 ATET         |
        treat |
@@ -412,33 +414,34 @@ ATET         |
 <div id="recheck-for-balance" class="section level2 hasAnchor" number="1.6">
 <h2><span class="header-section-number">1.6</span> Recheck for balance<a href="propensity-score-matching.html#recheck-for-balance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="propensity-score-matching.html#cb24-1" tabindex="-1"></a>tebalance <span class="kw">summarize</span>, baseline</span></code></pre></div>
-<pre><code>  Covariate balance summary
-                                                   Raw      Matched
-                          -----------------------------------------
-                          Number of obs =          361          266
-                          Treated obs   =          133          133
-                          Control obs   =          228          133
-                          -----------------------------------------
+<pre><code>Covariate balance summary
 
-  -----------------------------------------------------------------
-                  |           Means                  Variances     
-                  |    Control     Treated       Control    Treated
-  ----------------+------------------------------------------------
-              age |   25.93421     25.2406      64.98684   45.00228
-            agesq |   737.2851    681.7519        237422   158499.2
-          agecube |   22966.88    19825.29      6.03e+08   3.66e+08
-             educ |   10.46491     10.2406      4.584667   3.850763
-            edusq |   114.0789    108.6917      1830.681   1331.306
-             marr |   .2192982    .1428571      .1719607   .1233766
-         nodegree |   .6315789    .7518797       .233712   .1879699
-            black |   .9342105    .9398496       .061732   .0569606
-             hisp |   .0438596     .037594      .0421207   .0364548
-             re74 |   2552.555    1560.604      1.93e+07   1.56e+07
-             re75 |   1570.309    1002.193       7324536    3233917
-              u74 |   .5570175    .7669173       .247836   .1801094
-              u75 |   .4868421    .6390977      .2509274   .2323992
-     interaction1 |   27361.94    16425.15      2.44e+09   1.81e+09
-  -----------------------------------------------------------------</code></pre>
+                         Raw      Matched
+-----------------------------------------
+Number of obs =          361          266
+Treated obs   =          133          133
+Control obs   =          228          133
+-----------------------------------------
+
+-----------------------------------------------------------------
+                |           Means                  Variances     
+                |    Control     Treated       Control    Treated
+----------------+------------------------------------------------
+            age |   25.93421     25.2406      64.98684   45.00228
+          agesq |   737.2851    681.7519        237422   158499.2
+        agecube |   22966.88    19825.29      6.03e+08   3.66e+08
+           educ |   10.46491     10.2406      4.584667   3.850763
+          edusq |   114.0789    108.6917      1830.681   1331.306
+           marr |   .2192982    .1428571      .1719607   .1233766
+       nodegree |   .6315789    .7518797       .233712   .1879699
+          black |   .9342105    .9398496       .061732   .0569606
+           hisp |   .0438596     .037594      .0421207   .0364548
+           re74 |   2552.555    1560.604      1.93e+07   1.56e+07
+           re75 |   1570.309    1002.193       7324536    3233917
+            u74 |   .5570175    .7669173       .247836   .1801094
+            u75 |   .4868421    .6390977      .2509274   .2323992
+   interaction1 |   27361.94    16425.15      2.44e+09   1.81e+09
+-----------------------------------------------------------------</code></pre>
 <p>Our balance is greatly improved after trimming the tail ends of the propensity scores.</p>
 <p>Let’s check the variable age with <em>tebalance density</em> and <em>tebalance box</em>.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="propensity-score-matching.html#cb26-1" tabindex="-1"></a>tebalance density age</span></code></pre></div>

@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="John Doe" />
 
 
-<meta name="date" content="2026-01-31" />
+<meta name="date" content="2026-02-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -61,8 +61,9 @@ set in the _output.yml file.</p>" />
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -72,7 +73,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -234,8 +235,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb47-3"><a href="doubly-robust-estimator.html#cb47-3" tabindex="-1"></a>teffects ipwra (re78_scaled age agesq agecube educ edusq <span class="co">///</span></span>
 <span id="cb47-4"><a href="doubly-robust-estimator.html#cb47-4" tabindex="-1"></a>marr nodegree <span class="bn">black</span> hisp re74 re75 u74 u75 interaction1) (treat age agesq agecube educ edusq marr nodegree <span class="co">///</span></span>
 <span id="cb47-5"><a href="doubly-robust-estimator.html#cb47-5" tabindex="-1"></a><span class="bn">black</span> hisp u74 u75 interaction1, <span class="kw">logit</span>), atet</span></code></pre></div>
-<pre><code>Iteration 0:   EE criterion =  2.996e-21  
-Iteration 1:   EE criterion =  6.603e-29  
+<pre><code>Iteration 0:  EE criterion = 3.017e-21  
+Iteration 1:  EE criterion = 7.330e-29  
 
 Treatment-effects estimation                    Number of obs     =        361
 Estimator      : IPW regression adjustment
@@ -243,23 +244,23 @@ Outcome model  : linear
 Treatment model: logit
 ------------------------------------------------------------------------------
              |               Robust
- re78_scaled |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+ re78_scaled | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
 ATET         |
        treat |
-   (1 vs 0)  |   2.565509   .8702429     2.95   0.003     .8598642    4.271154
+   (1 vs 0)  |   2.565509   .8702431     2.95   0.003     .8598639    4.271154
 -------------+----------------------------------------------------------------
 POmean       |
        treat |
-          0  |   3.873287   .4696332     8.25   0.000     2.952823    4.793752
+          0  |   3.873287   .4696333     8.25   0.000     2.952823    4.793752
 ------------------------------------------------------------------------------</code></pre>
 <p>We find that our estimate <span class="math inline">\(ATT\)</span> is $2,566.</p>
 <p>Next we will estimate the <span class="math inline">\(ATE\)</span>, and we use the option <em>ate</em> to specify that we want to estimate the <span class="math inline">\(ATE\)</span>.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb49-1"><a href="doubly-robust-estimator.html#cb49-1" tabindex="-1"></a>teffects ipwra (re78_scaled age agesq agecube educ edusq <span class="co">///</span></span>
 <span id="cb49-2"><a href="doubly-robust-estimator.html#cb49-2" tabindex="-1"></a>marr nodegree <span class="bn">black</span> hisp re74 re75 u74 u75 interaction1) (treat age agesq agecube educ edusq marr nodegree <span class="co">///</span></span>
 <span id="cb49-3"><a href="doubly-robust-estimator.html#cb49-3" tabindex="-1"></a><span class="bn">black</span> hisp u74 u75 interaction1, <span class="kw">logit</span>), ate</span></code></pre></div>
-<pre><code>Iteration 0:   EE criterion =  2.996e-21  
-Iteration 1:   EE criterion =  1.056e-28  
+<pre><code>Iteration 0:  EE criterion = 2.997e-21  
+Iteration 1:  EE criterion = 1.369e-28  
 
 Treatment-effects estimation                    Number of obs     =        361
 Estimator      : IPW regression adjustment
@@ -267,11 +268,11 @@ Outcome model  : linear
 Treatment model: logit
 ------------------------------------------------------------------------------
              |               Robust
- re78_scaled |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+ re78_scaled | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
 ATE          |
        treat |
-   (1 vs 0)  |   1.608922   .6988993     2.30   0.021     .2391043    2.978739
+   (1 vs 0)  |   1.608922   .6988993     2.30   0.021     .2391044    2.978739
 -------------+----------------------------------------------------------------
 POmean       |
        treat |

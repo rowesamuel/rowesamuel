@@ -29,7 +29,7 @@ set in the _output.yml file.</p>" />
 <meta name="author" content="John Doe" />
 
 
-<meta name="date" content="2026-01-31" />
+<meta name="date" content="2026-02-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -61,8 +61,9 @@ set in the _output.yml file.</p>" />
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -72,7 +73,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -259,9 +260,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb33-4"><a href="inverse-probability-weights.html#cb33-4" tabindex="-1"></a><span class="kw">gen</span> ht2=y1_3-y0_3</span>
 <span id="cb33-5"><a href="inverse-probability-weights.html#cb33-5" tabindex="-1"></a>*Same results</span>
 <span id="cb33-6"><a href="inverse-probability-weights.html#cb33-6" tabindex="-1"></a><span class="kw">sum</span> ht ht2</span></code></pre></div>
-<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+<pre><code>    Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-          ht |     16,177   -11876.79    127578.8  -99232.64   1.19e+07
+          ht |     16,177   -11876.79    127578.8  -99232.62   1.19e+07
          ht2 |     16,177   -11876.79           0  -11876.79  -11876.79</code></pre>
 <p>Now we will calculate the <span class="math inline">\(ATE\)</span> manually using normalized weights</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="inverse-probability-weights.html#cb35-1" tabindex="-1"></a>*Way 1</span>
@@ -283,11 +284,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 (16,177 real changes made)
 
-    Variable |        Obs        Mean    Std. Dev.       Min        Max
+    Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
-          ht |     16,177   -11876.79    127578.8  -99232.64   1.19e+07
+          ht |     16,177   -11876.79    127578.8  -99232.62   1.19e+07
          ht2 |     16,177   -11876.79           0  -11876.79  -11876.79
-        norm |     16,177    -7238.14    332633.6   -99127.2   3.11e+07
+        norm |     16,177    -7238.14    332633.6  -99127.18   3.11e+07
        norm2 |     16,177    -7238.14           0   -7238.14   -7238.14</code></pre>
 <p>ATE under non-normalized weights is -$11,876.
 ATE under normalized weights is -$7,238.</p>
@@ -319,7 +320,7 @@ ATE under normalized weights is -$7,238.</p>
 
 (0 real changes made)
 
-    Variable |        Obs        Mean    Std. Dev.       Min        Max
+    Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
           ht |        361    2006.365    19656.33  -73545.45   131755.3
         norm |        361     1806.73    18967.72  -72480.23   126251.9</code></pre>
@@ -364,8 +365,8 @@ ATE under normalized weights is -$7,238.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb42-1"><a href="inverse-probability-weights.html#cb42-1" tabindex="-1"></a>teffects ipw (re78) (treat age agesq agecube educ edusq marr nodegree <span class="co">///</span></span>
 <span id="cb42-2"><a href="inverse-probability-weights.html#cb42-2" tabindex="-1"></a><span class="bn">black</span> hisp re74 re75 u74 u75 interaction1, <span class="kw">logit</span>), osample(overlap) atet</span>
 <span id="cb42-3"><a href="inverse-probability-weights.html#cb42-3" tabindex="-1"></a><span class="kw">capture</span> <span class="kw">drop</span> overlap</span></code></pre></div>
-<pre><code>Iteration 0:   EE criterion =  1.392e-21  
-Iteration 1:   EE criterion =  2.898e-23  
+<pre><code>Iteration 0:  EE criterion = 1.354e-21  
+Iteration 1:  EE criterion = 7.719e-24  
 
 Treatment-effects estimation                    Number of obs     =        361
 Estimator      : inverse-probability weights
@@ -373,15 +374,15 @@ Outcome model  : weighted mean
 Treatment model: logit
 ------------------------------------------------------------------------------
              |               Robust
-        re78 |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+        re78 | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
 -------------+----------------------------------------------------------------
 ATET         |
        treat |
-   (1 vs 0)  |   2646.866   892.2393     2.97   0.003     898.1089    4395.623
+   (1 vs 0)  |   2646.866     892.23     2.97   0.003     898.1271    4395.604
 -------------+----------------------------------------------------------------
 POmean       |
        treat |
-          0  |   3791.931   514.4727     7.37   0.000     2783.582    4800.279
+          0  |   3791.931   514.4672     7.37   0.000     2783.593    4800.268
 ------------------------------------------------------------------------------</code></pre>
 <p>The ATT is estimated at $2,647</p>
 <p>Before we calculate the <span class="math inline">\(ATE\)</span>, we need to rescale the dependent variable for concavity of logit. We will do so by dividing re78 by 1000 dollars</p>
@@ -389,10 +390,25 @@ POmean       |
 <div class="sourceCode" id="cb44"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb44-1"><a href="inverse-probability-weights.html#cb44-1" tabindex="-1"></a><span class="kw">gen</span> re78_scaled = re78/1000</span>
 <span id="cb44-2"><a href="inverse-probability-weights.html#cb44-2" tabindex="-1"></a>teffects ipw (re78_scaled) (treat age agesq agecube educ edusq marr nodegree <span class="co">///</span></span>
 <span id="cb44-3"><a href="inverse-probability-weights.html#cb44-3" tabindex="-1"></a><span class="bn">black</span> hisp re74 re75 u74 u75 interaction1, <span class="kw">logit</span>), osample(overlap) ate</span></code></pre></div>
-<pre><code>command quilety is unrecognized
-r(199);
+<pre><code>Iteration 0:  EE criterion = 1.348e-21  
+Iteration 1:  EE criterion = 2.117e-30  
 
-r(199);</code></pre>
+Treatment-effects estimation                    Number of obs     =        361
+Estimator      : inverse-probability weights
+Outcome model  : weighted mean
+Treatment model: logit
+------------------------------------------------------------------------------
+             |               Robust
+ re78_scaled | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ATE          |
+       treat |
+   (1 vs 0)  |   1.610583    .673642     2.39   0.017     .2902694    2.930898
+-------------+----------------------------------------------------------------
+POmean       |
+       treat |
+          0  |   4.222608    .376673    11.21   0.000     3.484342    4.960874
+------------------------------------------------------------------------------</code></pre>
 </div>
 </div>
             </section>
