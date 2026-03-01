@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Interactive Model | Double Machine Learning</title>
+  <meta name="description" content="Week 5 using Double/Debiased Machine Learning." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Interactive Model | Double Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Week 5 using Double/Debiased Machine Learning." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Interactive Model | Double Machine Learning" />
+  
+  <meta name="twitter:description" content="Week 5 using Double/Debiased Machine Learning." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Huber (2023) and Ahrens (2026)" />
+
+
+<meta name="date" content="2026-03-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="partial-linear-model.html"/>
+<link rel="next" href="training-example-revisited.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Double Machine Learning</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html"><i class="fa fa-check"></i><b>1</b> Installing DDML and Python Engine</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html#install-ddml"><i class="fa fa-check"></i><b>1.1</b> Install DDML</a></li>
+<li class="chapter" data-level="1.2" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html#install-python"><i class="fa fa-check"></i><b>1.2</b> Install Python</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html#step-1-check-for-python"><i class="fa fa-check"></i><b>1.2.1</b> Step 1: Check for Python</a></li>
+<li class="chapter" data-level="1.2.2" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html#step-2-download-python"><i class="fa fa-check"></i><b>1.2.2</b> Step 2: Download Python</a></li>
+<li class="chapter" data-level="1.2.3" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html#another-option"><i class="fa fa-check"></i><b>1.2.3</b> Another Option</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html#connect-python-to-stata"><i class="fa fa-check"></i><b>1.3</b> Connect Python to Stata</a></li>
+<li class="chapter" data-level="1.4" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html#test"><i class="fa fa-check"></i><b>1.4</b> Test</a></li>
+<li class="chapter" data-level="1.5" data-path="installing-ddml-and-python-engine.html"><a href="installing-ddml-and-python-engine.html#install-scikit-learn"><i class="fa fa-check"></i><b>1.5</b> Install <em>scikit-learn</em></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="partial-linear-model.html"><a href="partial-linear-model.html"><i class="fa fa-check"></i><b>2</b> Partial Linear Model</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="partial-linear-model.html"><a href="partial-linear-model.html#assumptions"><i class="fa fa-check"></i><b>2.1</b> Assumptions</a></li>
+<li class="chapter" data-level="2.2" data-path="partial-linear-model.html"><a href="partial-linear-model.html#explore-the-data"><i class="fa fa-check"></i><b>2.2</b> Explore the data</a></li>
+<li class="chapter" data-level="2.3" data-path="partial-linear-model.html"><a href="partial-linear-model.html#initiate-the-model"><i class="fa fa-check"></i><b>2.3</b> Initiate the model</a></li>
+<li class="chapter" data-level="2.4" data-path="partial-linear-model.html"><a href="partial-linear-model.html#set-and-train-your-model"><i class="fa fa-check"></i><b>2.4</b> Set and train your model</a></li>
+<li class="chapter" data-level="2.5" data-path="partial-linear-model.html"><a href="partial-linear-model.html#crossfittingcross-validation"><i class="fa fa-check"></i><b>2.5</b> Crossfitting/Cross-Validation</a></li>
+<li class="chapter" data-level="2.6" data-path="partial-linear-model.html"><a href="partial-linear-model.html#estimation"><i class="fa fa-check"></i><b>2.6</b> Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="interactive-model.html"><a href="interactive-model.html"><i class="fa fa-check"></i><b>3</b> Interactive Model</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="interactive-model.html"><a href="interactive-model.html#assumptions-1"><i class="fa fa-check"></i><b>3.1</b> Assumptions</a></li>
+<li class="chapter" data-level="3.2" data-path="interactive-model.html"><a href="interactive-model.html#explore-the-data-1"><i class="fa fa-check"></i><b>3.2</b> Explore the data</a></li>
+<li class="chapter" data-level="3.3" data-path="interactive-model.html"><a href="interactive-model.html#initiate-the-model-1"><i class="fa fa-check"></i><b>3.3</b> Initiate the model</a></li>
+<li class="chapter" data-level="3.4" data-path="interactive-model.html"><a href="interactive-model.html#set-your-models"><i class="fa fa-check"></i><b>3.4</b> Set your models</a></li>
+<li class="chapter" data-level="3.5" data-path="interactive-model.html"><a href="interactive-model.html#crossfittingcross-validation-1"><i class="fa fa-check"></i><b>3.5</b> Crossfitting/Cross-Validation</a></li>
+<li class="chapter" data-level="3.6" data-path="interactive-model.html"><a href="interactive-model.html#estimation-1"><i class="fa fa-check"></i><b>3.6</b> Estimation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="training-example-revisited.html"><a href="training-example-revisited.html"><i class="fa fa-check"></i><b>4</b> Training Example Revisited</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="training-example-revisited.html"><a href="training-example-revisited.html#doubly-robust-estimator"><i class="fa fa-check"></i><b>4.1</b> Doubly Robust Estimator</a></li>
+<li class="chapter" data-level="4.2" data-path="training-example-revisited.html"><a href="training-example-revisited.html#ddml-estimator"><i class="fa fa-check"></i><b>4.2</b> DDML Estimator</a></li>
+<li class="chapter" data-level="4.3" data-path="training-example-revisited.html"><a href="training-example-revisited.html#trimming"><i class="fa fa-check"></i><b>4.3</b> Trimming</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Double Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="interactive-model" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Interactive Model<a href="interactive-model.html#interactive-model" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>For the interactive model , <span class="math inline">\(D\)</span> is binary in interactive model. This will be more familiar to what we have seen in other methods.</p>
+<p><span class="math display">\[ Y=g_{0}(D,X)+\varepsilon \]</span></p>
+<p><span class="math display">\[ \delta^{ATE}=E[g_0(1,X)-g_0(0,X)] \]</span>
+<span class="math display">\[ \delta^{ATET}=E[g_0(1,X)-g_0(0,X)|D=1] \]</span></p>
+<div id="assumptions-1" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Assumptions<a href="interactive-model.html#assumptions-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our assumptions should be familiar:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Conditional Mean Independence</strong>: <span class="math inline">\(E[U|D,X]=0\)</span></li>
+<li><strong>Overlap or Common Support Assumption</strong>: <span class="math inline">\(Pr(D=1|X) \in (0,1)\)</span></li>
+</ol>
+<p>This is similar to our matching estimators discussed previously.</p>
+</div>
+<div id="explore-the-data-1" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Explore the data<a href="interactive-model.html#explore-the-data-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will use data from Cattaneo (2010) on smoking and birth weight. Our outcome of interest will be birth weight of a babay in grams, and our treatment of interest will be a binary if the mother smoked.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb31-1"><a href="interactive-model.html#cb31-1" tabindex="-1"></a><span class="kw">macro</span> <span class="kw">drop</span> <span class="dt">_all</span></span>
+<span id="cb31-2"><a href="interactive-model.html#cb31-2" tabindex="-1"></a><span class="kw">webuse</span> cattaneo2, <span class="kw">clear</span></span>
+<span id="cb31-3"><a href="interactive-model.html#cb31-3" tabindex="-1"></a><span class="kw">global</span> Y bweight</span>
+<span id="cb31-4"><a href="interactive-model.html#cb31-4" tabindex="-1"></a><span class="kw">global</span> D mbsmoke</span>
+<span id="cb31-5"><a href="interactive-model.html#cb31-5" tabindex="-1"></a><span class="kw">global</span> X mage prenatal1 mmarried fbaby mage medu</span>
+<span id="cb31-6"><a href="interactive-model.html#cb31-6" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 42</span>
+<span id="cb31-7"><a href="interactive-model.html#cb31-7" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="interactive-model.html#cb31-8" tabindex="-1"></a><span class="kw">sum</span> <span class="ot">$Y</span>, <span class="kw">detail</span></span>
+<span id="cb31-9"><a href="interactive-model.html#cb31-9" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="interactive-model.html#cb31-10" tabindex="-1"></a><span class="kw">tab</span> <span class="ot">$D</span></span>
+<span id="cb31-11"><a href="interactive-model.html#cb31-11" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="interactive-model.html#cb31-12" tabindex="-1"></a><span class="kw">sum</span> <span class="ot">$X</span></span></code></pre></div>
+<pre><code>(Excerpt from Cattaneo (2010) Journal of Econometrics 155: 138–154)
+
+                 Infant birthweight (grams)
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%         1474            340
+ 5%         2438            340
+10%         2693            397       Obs               4,642
+25%         3033            454       Sum of wgt.       4,642
+
+50%         3390                      Mean            3361.68
+                        Largest       Std. dev.      578.8196
+75%         3726           5188
+90%         4026           5216       Variance       335032.2
+95%         4224           5387       Skewness       -.784952
+99%         4621           5500       Kurtosis       5.788678
+
+
+1 if mother |
+     smoked |      Freq.     Percent        Cum.
+------------+-----------------------------------
+  Nonsmoker |      3,778       81.39       81.39
+     Smoker |        864       18.61      100.00
+------------+-----------------------------------
+      Total |      4,642      100.00
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        mage |      4,642    26.50452    5.619026         13         45
+   prenatal1 |      4,642    .8013787    .3990052          0          1
+    mmarried |      4,642    .6996984    .4584385          0          1
+       fbaby |      4,642    .4379578    .4961893          0          1
+        mage |      4,642    26.50452    5.619026         13         45
+-------------+---------------------------------------------------------
+        medu |      4,642    12.68957    2.520661          0         17</code></pre>
+<p>We see that the median and mean birth weight is <span class="math inline">\(3.4 kg\)</span> with a minimum of <span class="math inline">\(0.3 kg\)</span> and a maximum of <span class="math inline">\(5.5 kg\)</span>.</p>
+<p>For our treatment variable, <span class="math inline">\(864\)</span> women smoked while <span class="math inline">\(3,778\)</span> women did not smoke.</p>
+</div>
+<div id="initiate-the-model-1" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Initiate the model<a href="interactive-model.html#initiate-the-model-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will train the model with the command <em>ddml init interactive</em>. We will use k-fold of 5 and 5 repetitions of resampling.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb33-1"><a href="interactive-model.html#cb33-1" tabindex="-1"></a>ddml init interactive, kfolds(5) reps(5)</span></code></pre></div>
+</div>
+<div id="set-your-models" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Set your models<a href="interactive-model.html#set-your-models" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Next we will set our models. We need to establish <span class="math inline">\(E[D|X]\)</span> for our propensity to treatment and <span class="math inline">\(E[Y|X,D]\)</span> for our conditional outcomes.</p>
+<p>We will use OLS regression and Lasso regression with the option <em>lassocv</em> to estimate our conditional means. We need to set the type to <em>reg</em> for regression.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb34-1"><a href="interactive-model.html#cb34-1" tabindex="-1"></a>ddml E[Y|X,D]: <span class="kw">reg</span> <span class="ot">$Y</span> <span class="ot">$X</span></span>
+<span id="cb34-2"><a href="interactive-model.html#cb34-2" tabindex="-1"></a>ddml E[Y|X,D]: pystacked <span class="ot">$Y</span> <span class="ot">$X</span>, <span class="dv">type</span>(<span class="kw">reg</span>) method(lassocv)</span></code></pre></div>
+<p>We will use logit and gradient boost, which is a tree-based model, for estimating the propensity to receive treatment.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="interactive-model.html#cb35-1" tabindex="-1"></a>ddml E[D|X]: <span class="kw">logit</span> <span class="ot">$D</span> <span class="ot">$X</span></span>
+<span id="cb35-2"><a href="interactive-model.html#cb35-2" tabindex="-1"></a>ddml E[D|X]: pystacked <span class="ot">$D</span> <span class="ot">$X</span>, <span class="dv">type</span>(<span class="kw">class</span>) method(gradboost)</span></code></pre></div>
+</div>
+<div id="crossfittingcross-validation-1" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Crossfitting/Cross-Validation<a href="interactive-model.html#crossfittingcross-validation-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We again use the command <em>ddml crossfit</em> for crossfitting/crossvalidation for the interactive model.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb36-1"><a href="interactive-model.html#cb36-1" tabindex="-1"></a>ddml crossfit</span>
+<span id="cb36-2"><a href="interactive-model.html#cb36-2" tabindex="-1"></a><span class="kw">histogram</span> D1_logit_1, <span class="kw">by</span>(mbsmoke)</span>
+<span id="cb36-3"><a href="interactive-model.html#cb36-3" tabindex="-1"></a><span class="kw">histogram</span> D2_pystacked_1, <span class="kw">by</span>(mbsmoke)</span></code></pre></div>
+<div class="float">
+<img src="Smoke_logit_histogram.png" alt="Estimated \hat{p}-scores using logit" />
+<div class="figcaption">Estimated <span class="math inline">\(\hat{p}\)</span>-scores using logit</div>
+</div>
+<div class="float">
+<img src="Smoke_gradboost_histogram.png" alt="Estimated \hat{p}-scores using Gradient Boost" />
+<div class="figcaption">Estimated <span class="math inline">\(\hat{p}\)</span>-scores using Gradient Boost</div>
+</div>
+</div>
+<div id="estimation-1" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Estimation<a href="interactive-model.html#estimation-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>After our crossfitting/crossvalidation to test the model, we can now estimate our parameters of interest, which are the <span class="math inline">\(ATE\)</span> and the <span class="math inline">\(ATET\)</span>.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="interactive-model.html#cb37-1" tabindex="-1"></a>ddml estimate, ate allcombos</span>
+<span id="cb37-2"><a href="interactive-model.html#cb37-2" tabindex="-1"></a>ddml estimate, atet allcombos</span></code></pre></div>
+<pre><code>Model:                  interactive, crossfit folds k=5, resamples r=5
+Mata global (mname):    m0
+Dependent variable (Y): bweight
+ bweight learners:      Y1_reg Y2_pystacked
+D equations (1):        mbsmoke
+ mbsmoke learners:      D1_logit D2_pystacked
+
+DDML estimation results (ATE):
+spec  r  Y(0) learner  Y(1) learner     D learner         b        SE 
+   1  1        Y1_reg        Y1_reg      D1_logit  -232.439   (23.705)
+   2  1        Y1_reg        Y1_reg  D2_pystacked  -207.548   (32.276)
+   3  1        Y1_reg  Y2_pystacked      D1_logit  -232.489   (23.790)
+   4  1        Y1_reg  Y2_pystacked  D2_pystacked  -209.111   (32.570)
+   5  1  Y2_pystacked        Y1_reg      D1_logit  -232.413   (23.705)
+*  6  1  Y2_pystacked        Y1_reg  D2_pystacked  -207.534   (32.276)
+   7  1  Y2_pystacked  Y2_pystacked      D1_logit  -232.464   (23.791)
+   8  1  Y2_pystacked  Y2_pystacked  D2_pystacked  -209.098   (32.571)
+   1  2        Y1_reg        Y1_reg      D1_logit  -231.528   (23.962)
+*  2  2        Y1_reg        Y1_reg  D2_pystacked  -212.120   (29.030)
+   3  2        Y1_reg  Y2_pystacked      D1_logit  -232.670   (23.987)
+   4  2        Y1_reg  Y2_pystacked  D2_pystacked  -212.830   (29.032)
+   5  2  Y2_pystacked        Y1_reg      D1_logit  -231.548   (23.963)
+   6  2  Y2_pystacked        Y1_reg  D2_pystacked  -212.143   (29.030)
+   7  2  Y2_pystacked  Y2_pystacked      D1_logit  -232.690   (23.988)
+   8  2  Y2_pystacked  Y2_pystacked  D2_pystacked  -212.852   (29.032)
+   1  3        Y1_reg        Y1_reg      D1_logit  -232.185   (23.785)
+   2  3        Y1_reg        Y1_reg  D2_pystacked  -227.979   (30.761)
+   3  3        Y1_reg  Y2_pystacked      D1_logit  -234.067   (23.831)
+   4  3        Y1_reg  Y2_pystacked  D2_pystacked  -230.055   (30.774)
+   5  3  Y2_pystacked        Y1_reg      D1_logit  -232.160   (23.784)
+*  6  3  Y2_pystacked        Y1_reg  D2_pystacked  -227.926   (30.761)
+   7  3  Y2_pystacked  Y2_pystacked      D1_logit  -234.042   (23.831)
+   8  3  Y2_pystacked  Y2_pystacked  D2_pystacked  -230.002   (30.773)
+   1  4        Y1_reg        Y1_reg      D1_logit  -232.120   (23.741)
+*  2  4        Y1_reg        Y1_reg  D2_pystacked  -216.024   (29.016)
+   3  4        Y1_reg  Y2_pystacked      D1_logit  -234.314   (23.797)
+   4  4        Y1_reg  Y2_pystacked  D2_pystacked  -218.391   (29.148)
+   5  4  Y2_pystacked        Y1_reg      D1_logit  -232.131   (23.741)
+   6  4  Y2_pystacked        Y1_reg  D2_pystacked  -216.039   (29.016)
+   7  4  Y2_pystacked  Y2_pystacked      D1_logit  -234.325   (23.797)
+   8  4  Y2_pystacked  Y2_pystacked  D2_pystacked  -218.406   (29.148)
+   1  5        Y1_reg        Y1_reg      D1_logit  -232.445   (23.580)
+*  2  5        Y1_reg        Y1_reg  D2_pystacked  -216.653   (29.485)
+   3  5        Y1_reg  Y2_pystacked      D1_logit  -233.883   (23.689)
+   4  5        Y1_reg  Y2_pystacked  D2_pystacked  -219.499   (29.507)
+   5  5  Y2_pystacked        Y1_reg      D1_logit  -232.406   (23.580)
+   6  5  Y2_pystacked        Y1_reg  D2_pystacked  -216.659   (29.486)
+   7  5  Y2_pystacked  Y2_pystacked      D1_logit  -233.844   (23.689)
+   8  5  Y2_pystacked  Y2_pystacked  D2_pystacked  -219.505   (29.507)
+* = minimum MSE specification for that resample.
+
+Mean/med Y(0) learner  Y(1) learner     D learner         b        SE 
+   1 mn       Y1_reg0       Y1_reg1      D1_logit  -232.143   (23.756)
+   1 md       Y1_reg0       Y1_reg1      D1_logit  -232.185   (23.741)
+   2 mn       Y1_reg0       Y1_reg1  D2_pystacked  -216.065   (30.660)
+   2 md       Y1_reg0       Y1_reg1  D2_pystacked  -216.024   (29.492)
+   3 mn       Y1_reg0 Y2_pystacked1      D1_logit  -233.485   (23.830)
+   3 md       Y1_reg0 Y2_pystacked1      D1_logit  -233.883   (23.831)
+   4 mn       Y1_reg0 Y2_pystacked1  D2_pystacked  -217.977   (30.816)
+   4 md       Y1_reg0 Y2_pystacked1  D2_pystacked  -218.391   (29.559)
+   5 mn Y2_pystacked0       Y1_reg1      D1_logit  -232.132   (23.756)
+   5 md Y2_pystacked0       Y1_reg1      D1_logit  -232.160   (23.741)
+   6 mn Y2_pystacked0       Y1_reg1  D2_pystacked  -216.060   (30.657)
+   6 md Y2_pystacked0       Y1_reg1  D2_pystacked  -216.039   (29.492)
+   7 mn Y2_pystacked0 Y2_pystacked1      D1_logit  -233.473   (23.830)
+   7 md Y2_pystacked0 Y2_pystacked1      D1_logit  -233.844   (23.831)
+   8 mn Y2_pystacked0 Y2_pystacked1  D2_pystacked  -217.973   (30.813)
+   8 md Y2_pystacked0 Y2_pystacked1  D2_pystacked  -218.406   (29.558)
+ mse mn     [min-mse]     [min-mse]     [min-mse]  -216.052   (30.657)
+ mse md     [min-mse]     [min-mse]     [min-mse]  -216.024   (29.492)
+
+Median over 5 min-mse specifications (ATE)
+E[y|X,D=0]   = md_0_mse                            Number of obs   =      4642
+E[y|X,D=1]   = md_1_mse
+E[D|X]       = md_mbsmoke_mse
+------------------------------------------------------------------------------
+             |               Robust
+     bweight | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     mbsmoke |  -216.0236   29.49151    -7.32   0.000     -273.826   -158.2213
+------------------------------------------------------------------------------
+Warning: 5 resamples had propensity scores trimmed to lower limit .01.
+
+Summary over 5 resamples:
+       D eqn      mean       min       p25       p50       p75       max
+     mbsmoke   -216.0516 -227.9261 -216.6534 -216.0237 -212.1205 -207.5342
+
+
+
+Model:                  interactive, crossfit folds k=5, resamples r=5
+Mata global (mname):    m0
+Dependent variable (Y): bweight
+ bweight learners:      Y1_reg Y2_pystacked
+D equations (1):        mbsmoke
+ mbsmoke learners:      D1_logit D2_pystacked
+
+DDML estimation results (ATET):
+spec  r  Y(0) learner  Y(1) learner     D learner         b        SE 
+   1  1        Y1_reg        Y1_reg      D1_logit  -219.785   (23.719)
+   2  1        Y1_reg        Y1_reg  D2_pystacked  -234.767   (24.667)
+   3  1        Y1_reg  Y2_pystacked      D1_logit  -219.785   (23.719)
+   4  1        Y1_reg  Y2_pystacked  D2_pystacked  -234.767   (24.667)
+   5  1  Y2_pystacked        Y1_reg      D1_logit  -219.643   (23.711)
+*  6  1  Y2_pystacked        Y1_reg  D2_pystacked  -234.692   (24.660)
+   7  1  Y2_pystacked  Y2_pystacked      D1_logit  -219.643   (23.711)
+   8  1  Y2_pystacked  Y2_pystacked  D2_pystacked  -234.692   (24.660)
+   1  2        Y1_reg        Y1_reg      D1_logit  -219.674   (23.696)
+*  2  2        Y1_reg        Y1_reg  D2_pystacked  -231.269   (25.229)
+   3  2        Y1_reg  Y2_pystacked      D1_logit  -219.674   (23.696)
+   4  2        Y1_reg  Y2_pystacked  D2_pystacked  -231.269   (25.229)
+   5  2  Y2_pystacked        Y1_reg      D1_logit  -219.779   (23.698)
+   6  2  Y2_pystacked        Y1_reg  D2_pystacked  -231.382   (25.228)
+   7  2  Y2_pystacked  Y2_pystacked      D1_logit  -219.779   (23.698)
+   8  2  Y2_pystacked  Y2_pystacked  D2_pystacked  -231.382   (25.228)
+   1  3        Y1_reg        Y1_reg      D1_logit  -225.808   (23.697)
+   2  3        Y1_reg        Y1_reg  D2_pystacked  -239.953   (24.672)
+   3  3        Y1_reg  Y2_pystacked      D1_logit  -225.808   (23.697)
+   4  3        Y1_reg  Y2_pystacked  D2_pystacked  -239.953   (24.672)
+   5  3  Y2_pystacked        Y1_reg      D1_logit  -225.670   (23.681)
+*  6  3  Y2_pystacked        Y1_reg  D2_pystacked  -239.672   (24.647)
+   7  3  Y2_pystacked  Y2_pystacked      D1_logit  -225.670   (23.681)
+   8  3  Y2_pystacked  Y2_pystacked  D2_pystacked  -239.672   (24.647)
+   1  4        Y1_reg        Y1_reg      D1_logit  -222.562   (23.714)
+*  2  4        Y1_reg        Y1_reg  D2_pystacked  -239.122   (24.476)
+   3  4        Y1_reg  Y2_pystacked      D1_logit  -222.562   (23.714)
+   4  4        Y1_reg  Y2_pystacked  D2_pystacked  -239.122   (24.476)
+   5  4  Y2_pystacked        Y1_reg      D1_logit  -222.616   (23.707)
+   6  4  Y2_pystacked        Y1_reg  D2_pystacked  -239.202   (24.468)
+   7  4  Y2_pystacked  Y2_pystacked      D1_logit  -222.616   (23.707)
+   8  4  Y2_pystacked  Y2_pystacked  D2_pystacked  -239.202   (24.468)
+   1  5        Y1_reg        Y1_reg      D1_logit  -222.114   (23.395)
+*  2  5        Y1_reg        Y1_reg  D2_pystacked  -234.163   (24.664)
+   3  5        Y1_reg  Y2_pystacked      D1_logit  -222.114   (23.395)
+   4  5        Y1_reg  Y2_pystacked  D2_pystacked  -234.163   (24.664)
+   5  5  Y2_pystacked        Y1_reg      D1_logit  -221.898   (23.374)
+   6  5  Y2_pystacked        Y1_reg  D2_pystacked  -234.193   (24.649)
+   7  5  Y2_pystacked  Y2_pystacked      D1_logit  -221.898   (23.374)
+   8  5  Y2_pystacked  Y2_pystacked  D2_pystacked  -234.193   (24.649)
+* = minimum MSE specification for that resample.
+
+Mean/med Y(0) learner  Y(1) learner     D learner         b        SE 
+   1 mn       Y1_reg0       Y1_reg1      D1_logit  -221.989   (23.747)
+   1 md       Y1_reg0       Y1_reg1      D1_logit  -222.114   (23.821)
+   2 mn       Y1_reg0       Y1_reg1  D2_pystacked  -235.855   (24.944)
+   2 md       Y1_reg0       Y1_reg1  D2_pystacked  -234.767   (24.860)
+   3 mn       Y1_reg0 Y2_pystacked1      D1_logit  -221.989   (23.747)
+   3 md       Y1_reg0 Y2_pystacked1      D1_logit  -222.114   (23.821)
+   4 mn       Y1_reg0 Y2_pystacked1  D2_pystacked  -235.855   (24.944)
+   4 md       Y1_reg0 Y2_pystacked1  D2_pystacked  -234.767   (24.860)
+   5 mn Y2_pystacked0       Y1_reg1      D1_logit  -221.921   (23.734)
+   5 md Y2_pystacked0       Y1_reg1      D1_logit  -221.898   (23.792)
+   6 mn Y2_pystacked0       Y1_reg1  D2_pystacked  -235.828   (24.923)
+   6 md Y2_pystacked0       Y1_reg1  D2_pystacked  -234.692   (24.881)
+   7 mn Y2_pystacked0 Y2_pystacked1      D1_logit  -221.921   (23.734)
+   7 md Y2_pystacked0 Y2_pystacked1      D1_logit  -221.898   (23.792)
+   8 mn Y2_pystacked0 Y2_pystacked1  D2_pystacked  -235.828   (24.923)
+   8 md Y2_pystacked0 Y2_pystacked1  D2_pystacked  -234.692   (24.881)
+ mse mn     [min-mse]     [min-mse]     [min-mse]  -235.783   (24.929)
+ mse md     [min-mse]     [min-mse]     [min-mse]  -234.692   (24.874)
+
+Median over 5 min-mse specifications (ATET)
+E[y|X,D=0]   = md_0_mse                            Number of obs   =      4642
+E[y|X,D=1]   = md_1_mse
+E[D|X]       = md_mbsmoke_mse
+------------------------------------------------------------------------------
+             |               Robust
+     bweight | Coefficient  std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     mbsmoke |  -234.6921   24.87355    -9.44   0.000    -283.4433   -185.9408
+------------------------------------------------------------------------------
+Warning: 5 resamples had propensity scores trimmed to lower limit .01.
+
+Summary over 5 resamples:
+       D eqn      mean       min       p25       p50       p75       max
+     mbsmoke   -235.7835 -239.6716 -239.1219 -234.6921 -234.1633 -231.2686</code></pre>
+<p>Our <span class="math inline">\(\widehat{ATE}\)</span> is <span class="math inline">\(-216.024\)</span> or smoking reduces birth weight of a baby by 213 grams, which is statistically significant at the <span class="math inline">\(5\%\)</span> level.</p>
+<p>Our <span class="math inline">\(\widehat{ATET}\)</span> is <span class="math inline">\(-234.692\)</span> or smoking reduces birth weight of a baby by 234 grams for the treatment group, which is statistically significant at the <span class="math inline">\(5\%\)</span> level.</p>
+<p>Please note that the median over the minimum-MSE specification per resampling iteration is shown in the output. Below the output is a table that shows summary statistics of the resampling iterations.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="partial-linear-model.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="training-example-revisited.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
