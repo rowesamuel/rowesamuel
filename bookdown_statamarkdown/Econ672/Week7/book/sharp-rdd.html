@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Sharp RDD | Regression Discontinuity Design</title>
+  <meta name="description" content="Cover regression discontinuity designs." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Sharp RDD | Regression Discontinuity Design" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Cover regression discontinuity designs." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Sharp RDD | Regression Discontinuity Design" />
+  
+  <meta name="twitter:description" content="Cover regression discontinuity designs." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2022)" />
+
+
+<meta name="date" content="2026-03-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="continuity-assumption.html"/>
+<link rel="next" href="visualize-global-and-local-regressions.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Regression Discontinuity Designs</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="continuity-assumption.html"><a href="continuity-assumption.html"><i class="fa fa-check"></i><b>1</b> Continuity Assumption</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="continuity-assumption.html"><a href="continuity-assumption.html#simulate-continuity-assumption"><i class="fa fa-check"></i><b>1.1</b> Simulate Continuity Assumption</a></li>
+<li class="chapter" data-level="1.2" data-path="continuity-assumption.html"><a href="continuity-assumption.html#simulate-the-discontinuity"><i class="fa fa-check"></i><b>1.2</b> Simulate the discontinuity</a></li>
+<li class="chapter" data-level="1.3" data-path="continuity-assumption.html"><a href="continuity-assumption.html#nonlinear-data-generation-process"><i class="fa fa-check"></i><b>1.3</b> Nonlinear data generation process</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="sharp-rdd.html"><a href="sharp-rdd.html"><i class="fa fa-check"></i><b>2</b> Sharp RDD</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="sharp-rdd.html"><a href="sharp-rdd.html#replicate-lee-moretti-and-butler-2004"><i class="fa fa-check"></i><b>2.1</b> Replicate Lee, Moretti, and Butler (2004)</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="sharp-rdd.html"><a href="sharp-rdd.html#theory"><i class="fa fa-check"></i><b>2.1.1</b> Theory</a></li>
+<li class="chapter" data-level="2.1.2" data-path="sharp-rdd.html"><a href="sharp-rdd.html#potential-roll-calling-voting-records-outcomes"><i class="fa fa-check"></i><b>2.1.2</b> Potential roll-calling voting records outcomes</a></li>
+<li class="chapter" data-level="2.1.3" data-path="sharp-rdd.html"><a href="sharp-rdd.html#replicate"><i class="fa fa-check"></i><b>2.1.3</b> Replicate</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="sharp-rdd.html"><a href="sharp-rdd.html#different-functional-forms-of-rdd"><i class="fa fa-check"></i><b>2.2</b> Different functional forms of RDD</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="sharp-rdd.html"><a href="sharp-rdd.html#treatment-with-no-running-variable"><i class="fa fa-check"></i><b>2.2.1</b> Treatment with no running variable</a></li>
+<li class="chapter" data-level="2.2.2" data-path="sharp-rdd.html"><a href="sharp-rdd.html#recentered-running-variable-and-treatment"><i class="fa fa-check"></i><b>2.2.2</b> Recentered running variable and treatment</a></li>
+<li class="chapter" data-level="2.2.3" data-path="sharp-rdd.html"><a href="sharp-rdd.html#interaction-between-treatment-and-running-variable"><i class="fa fa-check"></i><b>2.2.3</b> Interaction between treatment and running variable</a></li>
+<li class="chapter" data-level="2.2.4" data-path="sharp-rdd.html"><a href="sharp-rdd.html#quadratic-interaction-between-treatment-and-running-variable"><i class="fa fa-check"></i><b>2.2.4</b> Quadratic interaction between treatment and running variable</a></li>
+<li class="chapter" data-level="2.2.5" data-path="sharp-rdd.html"><a href="sharp-rdd.html#local-regression-5-points-from-cutoff-with-ols"><i class="fa fa-check"></i><b>2.2.5</b> Local regression: 5 points from cutoff with OLS</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="visualize-global-and-local-regressions.html"><a href="visualize-global-and-local-regressions.html"><i class="fa fa-check"></i><b>3</b> Visualize Global and Local Regressions</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="visualize-global-and-local-regressions.html"><a href="visualize-global-and-local-regressions.html#install-cmogram"><i class="fa fa-check"></i><b>3.1</b> Install <em>cmogram</em></a></li>
+<li class="chapter" data-level="3.2" data-path="visualize-global-and-local-regressions.html"><a href="visualize-global-and-local-regressions.html#global-regression-with-quadratic-fit"><i class="fa fa-check"></i><b>3.2</b> Global Regression with Quadratic Fit</a></li>
+<li class="chapter" data-level="3.3" data-path="visualize-global-and-local-regressions.html"><a href="visualize-global-and-local-regressions.html#local-regression-with-quadratic-fit"><i class="fa fa-check"></i><b>3.3</b> Local Regression with Quadratic Fit</a></li>
+<li class="chapter" data-level="3.4" data-path="visualize-global-and-local-regressions.html"><a href="visualize-global-and-local-regressions.html#global-regression-with-linear-fit"><i class="fa fa-check"></i><b>3.4</b> Global Regression with Linear Fit</a></li>
+<li class="chapter" data-level="3.5" data-path="visualize-global-and-local-regressions.html"><a href="visualize-global-and-local-regressions.html#local-regression-with-linear-fit"><i class="fa fa-check"></i><b>3.5</b> Local Regression with Linear Fit</a></li>
+<li class="chapter" data-level="3.6" data-path="visualize-global-and-local-regressions.html"><a href="visualize-global-and-local-regressions.html#global-regression-with-lowess-fit"><i class="fa fa-check"></i><b>3.6</b> Global Regression with Lowess Fit</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="kernel-weighted-local-polynomial-regression.html"><a href="kernel-weighted-local-polynomial-regression.html"><i class="fa fa-check"></i><b>4</b> Kernel-weighted local polynomial regression</a></li>
+<li class="chapter" data-level="5" data-path="rdrobust.html"><a href="rdrobust.html"><i class="fa fa-check"></i><b>5</b> RDRobust</a></li>
+<li class="chapter" data-level="6" data-path="mccrary-density-test.html"><a href="mccrary-density-test.html"><i class="fa fa-check"></i><b>6</b> McCrary Density Test</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression Discontinuity Design</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="sharp-rdd" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Sharp RDD<a href="sharp-rdd.html#sharp-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="replicate-lee-moretti-and-butler-2004" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Replicate Lee, Moretti, and Butler (2004)<a href="sharp-rdd.html#replicate-lee-moretti-and-butler-2004" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Lee, Moretti, and Butler (2004) wanted to test the convergence theory or the divergence theory for policy making. The convergence theory states that candidates will have to moderate their position to appeal to the median voter. The divergence theory states that the winning candidate pursues their preferred policy choices.</p>
+<div id="theory" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Theory<a href="sharp-rdd.html#theory" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before an election, or ex ante, voters expect a candidate to choose some policies <span class="math inline">\(x^e\)</span> for democracts and <span class="math inline">\(y^e\)</span> for republicans. Voters expect candidates to win with probability <span class="math inline">\(Pr(x^e,y^e)\)</span>.</p>
+<p>When <span class="math inline">\(x^e &gt; y^e\)</span>, then <span class="math inline">\(\frac{\partial P}{\partial x^e}&gt;0\)</span> and <span class="math inline">\(\frac{\partial P}{\partial y^e} &lt; 0\)</span>.</p>
+<p><span class="math inline">\(P^\ast\)</span> represents a latent (underlying but not seen) popularity of the democractic party. In other words, <span class="math inline">\(P^\ast\)</span> is the probability that <span class="math inline">\(D\)</span> would win if policy <span class="math inline">\(x\)</span> is chosen at the democratic policy bliss point <span class="math inline">\(c\)</span></p>
+<p><strong>Convergence Theory</strong>: If the convergence theory holds, then <span class="math inline">\(\frac{\partial x^\ast}{\partial P^L} &gt; 0\)</span>. An exogenuous shock in <span class="math inline">\(x^L\)</span> would change a change in <span class="math inline">\(P^L\)</span> and the candidate would change their position to satisfy the median voter.</p>
+<p><strong>Divergence Theory</strong>: If the divergence theory holds, then <span class="math inline">\(\frac{\partial x^L}{\partial P^\ast} = 0\)</span>. Popularity has no affect on policy and voters elect politicians who pursue their preferences and not the voters.</p>
+</div>
+<div id="potential-roll-calling-voting-records-outcomes" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Potential roll-calling voting records outcomes<a href="sharp-rdd.html#potential-roll-calling-voting-records-outcomes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We are interested in potential roll-call voting records of a candidate following an election. It can be expressed in the following:</p>
+<p><span class="math display">\[ RC_t=\alpha_0 + \pi_0 P^\ast_t + \pi_1 D_t + \varepsilon_t \]</span></p>
+<p>Where <span class="math inline">\(RC_t\)</span> is roll-call voting record in time period <span class="math inline">\(t\)</span>, <span class="math inline">\(P^\ast_t\)</span> is latent popularity of the democratic party in time period <span class="math inline">\(t\)</span>, and <span class="math inline">\(D_t\)</span> is a binary if the democratic candidate won in time period <span class="math inline">\(t\)</span>. In other words, only the winning candidate’s voting record is observed.</p>
+<p>We are interested in potential roll-call voting records of a candidate following an election in period <span class="math inline">\(t+1\)</span>. It can be expressed in the following:</p>
+<p><span class="math display">\[ RC_{t+1}=\alpha_0 + \pi_0 P^\ast_{t+1}+ \pi_1 D_{t+1} + \varepsilon_{t+1} \]</span></p>
+<p>Where <span class="math inline">\(RC_{t+1}\)</span> is roll-call voting record in time period <span class="math inline">\(t+1\)</span>, <span class="math inline">\(P^\ast_{t+1}\)</span> is latent popularity of the democratic party in time period <span class="math inline">\(t+1\)</span>, and <span class="math inline">\(D_{t+1}\)</span> is a binary if the democratic candidate won in time period <span class="math inline">\(t+1\)</span>.</p>
+<p><strong>The Problem</strong>: We never observe <span class="math inline">\(P^\ast_{t}\)</span> and <span class="math inline">\(P^\ast_{t+1}\)</span>.</p>
+<p>If <span class="math inline">\(D_t\)</span> were randomized, then we could estimate an unbiased impact of _1, but we know that is not the scenario. If this holds then we have the following:</p>
+<p><span class="math display">\[  \underbrace{E[RC_{t+1}|D_t=1]-E[RC_{t+1}|D_t=0]}_{Oservable} = \underbrace{\pi_0 [P^{\ast_D}_{t+1}-P^{\ast_R}_{t+1}]}_{Latent}+\underbrace{\pi_1 [P^D_{t+1}-P^R_{t+1}]}_{Observable} = \underbrace{\gamma}_{Total\ Effect} \]</span></p>
+<p>Where</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\gamma\)</span> is the total effect of a democratic victory in time <span class="math inline">\(t\)</span> on future policy choice <span class="math inline">\(RC_{t+1}\)</span></li>
+<li><span class="math inline">\(\pi_0 [P^{\ast_D}_{t+1}-P^{\ast_R}_{t+1}]\)</span> is “Affect” component</li>
+<li><span class="math inline">\(\pi_1 [P^D_{t+1}-P^R_{t+1}]\)</span> is the “Elect” component</li>
+</ol>
+<p><strong>Key</strong>: if voters merely “elect” policies (under divergence), we should observe little change in the candidate’s intended policies following an exogenous increase in the probability in victory. Such that, the “affect” component, <span class="math inline">\(\pi_0 [P^{\ast_D}_{t+1}-P^{\ast_R}_{t+1}]\)</span>, will be very small.</p>
+<p><strong>What to do</strong>: Given that <span class="math inline">\(\pi_0 [P^{\ast_D}_{t+1}-P^{\ast_R}_{t+1}]\)</span> is latent and unobservable, we will back out this part through the parts that are observable: <span class="math inline">\(\gamma\)</span>,<span class="math inline">\(\pi_1\)</span>, and <span class="math inline">\([P^D_{t+1}-P^R_{t+1}]\)</span></p>
+<p>Where the elect component is composed of <span class="math inline">\(\pi_1 \ast ([P^D_{t+1}-P^R_{t+1}]\)</span> is estimated as the difference between voting records in mean voting records between parties at time <span class="math inline">\(t\)</span></p>
+<p>First, we will estimate the total effect: <span class="math inline">\(\gamma\)</span></p>
+<p><span class="math display">\[ \underbrace{\gamma}_{Total Effect}=\underbrace{\pi_0 [P^{\ast_D}_{t+1}-P^{\ast R}_{t+1}]}_{&quot;Affect&quot;}+\underbrace{\pi_1 [P^{D}_{t+1}-P^{R}_{t+1}]}_{&quot;Elect&quot;} \]</span></p>
+<p>Second, we will estimate the first part of the elect component: <span class="math inline">\(\pi_1\)</span></p>
+<p><span class="math display">\[ \underbrace{E[RC_t|D_t=1]-E[RC_t|D_t=0]}_{Observable} = \pi_1 \]</span></p>
+<p>Next, we see the second part of the elect component: <span class="math inline">\(P^D_{t+1}-P^R_{t+1}\)</span></p>
+<p><span class="math display">\[ \underbrace{E[D_{t+1}|D_t=1]-E[D_{t+1}|D_t=0]}_{Observable}=P^D_{t+1}-P^R_{t+1} \]</span></p>
+<p>Next, we will use the Americans for Democractic Action (ADA) voting score that is linked to representatives in the US House of Representatives for <span class="math inline">\(RC\)</span>. The roll call is indexed from 0 to 100, where scores closer to 100 are considered more “libreral”.</p>
+<p>We will use the vote share as the running variable.</p>
+<p><em>We argue that comes from the exogenous shock in discontinuity in the running variable with a window around the cutoff</em></p>
+</div>
+<div id="replicate" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Replicate<a href="sharp-rdd.html#replicate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, we will replicate Table 1 of Lee, Moretti and Butler (2004) using vote share as our running variable and 50 percent as our cutoff.</p>
+<p>We will narrow our window to <span class="math inline">\((0.48,0.52)\)</span> for our local regression, and cluster our errors by our <span class="math inline">\(id\)</span> variable. Note that our <span class="math inline">\(id\)</span> variable is state-district-year identifiers.</p>
+<p>First we will estimate our total effect of initial win on future roll calls or <span class="math inline">\(\gamma\)</span> using a local linear regression with a window of <span class="math inline">\([0.48,0.52]\)</span></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="sharp-rdd.html#cb14-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data/lmb-data.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb14-2"><a href="sharp-rdd.html#cb14-2" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> lagdemocrat    <span class="kw">if</span> lagdemvoteshare&gt;.48 &amp; lagdemvoteshare&lt;.52, <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =        915
+                                                F(1, 914)         =     118.98
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.1152
+                                                Root MSE          =     29.522
+
+                                   (Std. err. adjusted for 915 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+       score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ lagdemocrat |   21.28387   1.951234    10.91   0.000     17.45445    25.11329
+       _cons |   31.19576   1.333983    23.39   0.000     28.57773    33.81378
+------------------------------------------------------------------------------</code></pre>
+<div class="float">
+<img src="Lee_RDD1.png" alt="\hat{\gamma} Total effect of initial win on future ADA scores" />
+<div class="figcaption"><span class="math inline">\(\hat{\gamma}\)</span> Total effect of initial win on future ADA scores</div>
+</div>
+<p>We see a 21.28 increase in the ADA score at the discontinuity, which includes the “elect” and “affect” components.</p>
+<p>Next, we will estimate <span class="math inline">\(\pi_1\)</span> from the elect component using a local regression using a window of <span class="math inline">\([0.48,0.52]\)</span>.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="sharp-rdd.html#cb16-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> democrat       <span class="kw">if</span> lagdemvoteshare&gt;.48 &amp; lagdemvoteshare&lt;.52, <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =        915
+                                                F(1, 914)         =    1237.69
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.5783
+                                                Root MSE          =      20.38
+
+                                   (Std. err. adjusted for 915 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+       score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    democrat |    47.7056   1.356011    35.18   0.000     45.04434    50.36686
+       _cons |    18.7469   .8432428    22.23   0.000     17.09198    20.40182
+------------------------------------------------------------------------------</code></pre>
+<div class="float">
+<img src="Lee_RDD2.png" alt="Estimating \pi_1" />
+<div class="figcaption">Estimating <span class="math inline">\(\pi_1\)</span></div>
+</div>
+<p>Our <span class="math inline">\(\hat{\pi}_1\)</span> is 47.6, which is the increase in ADA scores at time <span class="math inline">\(t\)</span> due to a <span class="math inline">\(D\)</span> treatment/win.</p>
+<p>Next, we will calculate <span class="math inline">\(P^D_{t+1} - P^R_{t+1}\)</span></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="sharp-rdd.html#cb18-1" tabindex="-1"></a><span class="kw">reg</span> democrat lagdemocrat <span class="kw">if</span> lagdemvoteshare&gt;.48 &amp; lagdemvoteshare&lt;.52, <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =        915
+                                                F(1, 914)         =     280.23
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.2348
+                                                Root MSE          =     .43767
+
+                                   (Std. err. adjusted for 915 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    democrat | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ lagdemocrat |   .4843287   .0289322    16.74   0.000     .4275475    .5411099
+       _cons |   .2417582   .0200939    12.03   0.000     .2023227    .2811938
+------------------------------------------------------------------------------</code></pre>
+<div class="float">
+<img src="Lee_RDD3.png" alt="Estimating P^D_{t+1} - P^R_{t+1}" />
+<div class="figcaption">Estimating <span class="math inline">\(P^D_{t+1} - P^R_{t+1}\)</span></div>
+</div>
+<p>Our <span class="math inline">\(\hat{\pi}_1 * \widehat{(PDt+1 - PRt+1)}\)</span> is 0.48, which is the effect of initial win on winning the next election.</p>
+<p>Now, we have all three of our estimate, so we can back out the “affect” component.</p>
+<!-- \(\pi_1 \) is "elect". -->
+<!-- \(\pi_0 \) is "affect" -->
+<!-- total effect \(gamma\) \( \pi_1 \ast (P^D_{t+1} - P^R_{t+1}) = \pi_0 \) -->
+<!-- The gap at 0.5 comes from \(\pi_1\) or "elect" and not \(\pi_0\) or "affect" -->
+<p><span class="math display">\[ \widehat{\gamma} - (\hat{\pi}_1 * \widehat{(PDt+1 - PRt+1)}) = \hat{\pi}_0 \]</span>
+The gap at 0.5 comes from <span class="math inline">\(\pi_1\)</span> or “elect” and not <span class="math inline">\(\pi_0\)</span> or “affect”.</p>
+<p>We can see this in the authors’ results.</p>
+<div class="float">
+<img src="Lee_RDD4.png" alt="Table 1 from Lee, Moretti, and Butler (2004)" />
+<div class="figcaption">Table 1 from Lee, Moretti, and Butler (2004)</div>
+</div>
+</div>
+</div>
+<div id="different-functional-forms-of-rdd" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Different functional forms of RDD<a href="sharp-rdd.html#different-functional-forms-of-rdd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now we will replicate Lee, et al. (2004) using different specifications for the RDD. First, we will use all of the data with OLS instead of a local regression without a running variable. Next, we will incorporate a recentered running variable using all of the data. Then, we will use an interaction term between treatment and the running variable using all of the data. For our last global regression, we will use a quadratic interaction term between our running variable and the treatment. Finally, we will use a local regression.</p>
+<div id="treatment-with-no-running-variable" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Treatment with no running variable<a href="sharp-rdd.html#treatment-with-no-running-variable" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will use all of the data instead of just the window around the cutoff. This is the full data set and not a local linear regression.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="sharp-rdd.html#cb20-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> lagdemocrat, <span class="kw">cluster</span>(id)</span>
+<span id="cb20-2"><a href="sharp-rdd.html#cb20-2" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> democrat, <span class="kw">cluster</span>(id)</span>
+<span id="cb20-3"><a href="sharp-rdd.html#cb20-3" tabindex="-1"></a><span class="kw">reg</span> democrat lagdemocrat, <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =     13,588
+                                                F(1, 13587)       =    4243.29
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.2267
+                                                Root MSE          =     28.694
+
+                                (Std. err. adjusted for 13,588 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+       score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ lagdemocrat |   31.50628    .483666    65.14   0.000     30.55823    32.45433
+       _cons |   23.53946   .3374569    69.76   0.000     22.87799    24.20092
+------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =     13,588
+                                                F(1, 13587)       =    9502.26
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.3756
+                                                Root MSE          =     25.785
+
+                                (Std. err. adjusted for 13,588 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+       score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    democrat |   40.76266   .4181664    97.48   0.000     39.94299    41.58232
+       _cons |    17.5756   .2625459    66.94   0.000     17.06097    18.09022
+------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =     13,588
+                                                F(1, 13587)       =   25739.79
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.6759
+                                                Root MSE          =     .27929
+
+                                (Std. err. adjusted for 13,588 clusters in id)
+------------------------------------------------------------------------------
+             |               Robust
+    democrat | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ lagdemocrat |   .8178836   .0050979   160.44   0.000      .807891    .8278761
+       _cons |   .1201058   .0043176    27.82   0.000     .1116428    .1285688
+------------------------------------------------------------------------------</code></pre>
+<p>We can see that our discontinuities are qiuet different under a global regression. However, we do not control the running variable, so we should not put too much stock in these results.</p>
+<p>Note: Stata code attributed to Marcelo Perraillon.</p>
+</div>
+<div id="recentered-running-variable-and-treatment" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Recentered running variable and treatment<a href="sharp-rdd.html#recentered-running-variable-and-treatment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Next, we will recenter our running variable and use a global regression. We recenter our 0 to 1 vote share by subtracting by 0.5. So our range becomes <span class="math inline">\([-0.5,0.5]\)</span> with 0 being our center.</p>
+<p>Recenter running variable of voteshare and rerun regressions</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="sharp-rdd.html#cb22-1" tabindex="-1"></a><span class="kw">gen</span> demvoteshare_c = demvoteshare - 0.5</span>
+<span id="cb22-2"><a href="sharp-rdd.html#cb22-2" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> lagdemocrat demvoteshare_c, <span class="kw">cluster</span>(id)</span>
+<span id="cb22-3"><a href="sharp-rdd.html#cb22-3" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> democrat demvoteshare_c, <span class="kw">cluster</span>(id)</span>
+<span id="cb22-4"><a href="sharp-rdd.html#cb22-4" tabindex="-1"></a><span class="kw">reg</span> democrat lagdemocrat demvoteshare_c, <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>(11 missing values generated)
+
+
+Linear regression                               Number of obs     =     13,577
+                                                F(2, 13576)       =    2115.71
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.2274
+                                                Root MSE          =     28.686
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+         score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+   lagdemocrat |   33.45118   .8481987    39.44   0.000      31.7886    35.11377
+demvoteshare_c |   -5.62558   1.898081    -2.96   0.003    -9.346082   -1.905077
+         _cons |   22.88345   .4433244    51.62   0.000     22.01447    23.75242
+--------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =     13,577
+                                                F(2, 13576)       =    6192.13
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.4242
+                                                Root MSE          =     24.764
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+         score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+      democrat |   58.50236     .65638    89.13   0.000     57.21576    59.78895
+demvoteshare_c |  -48.93761   1.641489   -29.81   0.000    -52.15516   -45.72006
+         _cons |   11.03413   .3363049    32.81   0.000     10.37493    11.69334
+--------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =     13,577
+                                                F(2, 13576)       =   48967.17
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.7354
+                                                Root MSE          =     .25242
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+      democrat | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+   lagdemocrat |   .5516115   .0103234    53.43   0.000     .5313761    .5718469
+demvoteshare_c |   .7725248   .0187564    41.19   0.000     .7357597    .8092898
+         _cons |   .2116664   .0052743    40.13   0.000     .2013279    .2220048
+--------------------------------------------------------------------------------</code></pre>
+<p>Our results are closer to Lee, et al. (2004), but they are still far off. Please note that we keep the function form of the slope for the running variable the same on both sides of the cutoff.</p>
+<p>Note: Stata code attributed to Marcelo Perraillon.</p>
+</div>
+<div id="interaction-between-treatment-and-running-variable" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Interaction between treatment and running variable<a href="sharp-rdd.html#interaction-between-treatment-and-running-variable" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We are going to allow for intercepts and slopes to differ with interacting categorical and continuous variables. Why do we want to do this? We allow for the slope to differ on both sides of the discontinuity. As seen above in Figure 1, the slopes may differ on each side of the discontinuity.</p>
+<p>Please note that Cunningham likes to use the <em>xi:</em>, while I prefer to use the interaction operators <em>##</em>.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="sharp-rdd.html#cb24-1" tabindex="-1"></a><span class="kw">xi</span>: <span class="kw">reg</span> <span class="kw">score</span> i.lagdemocrat*demvoteshare_c, <span class="kw">cluster</span>(id)</span>
+<span id="cb24-2"><a href="sharp-rdd.html#cb24-2" tabindex="-1"></a><span class="kw">xi</span>: <span class="kw">reg</span> <span class="kw">score</span> i.democrat*demvoteshare_c, <span class="kw">cluster</span>(id)</span>
+<span id="cb24-3"><a href="sharp-rdd.html#cb24-3" tabindex="-1"></a><span class="kw">xi</span>: <span class="kw">reg</span> democrat i.lagdemocrat*demvoteshare_c, <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>i.lagdemocrat     _Ilagdemocr_0-1     (naturally coded; _Ilagdemocr_0 omitted)
+i.lagd~t*demv~c   _IlagXdemvo_#       (coded as above)
+
+Linear regression                               Number of obs     =     13,577
+                                                F(3, 13576)       =    1863.06
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.2669
+                                                Root MSE          =     27.944
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+         score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+ _Ilagdemocr_1 |   30.50803   .8172343    37.33   0.000     28.90614    32.10993
+demvoteshare_c |   66.04181   3.159572    20.90   0.000     59.84861    72.23501
+ _IlagXdemvo_1 |  -96.47474   3.851734   -25.05   0.000    -104.0247   -88.92481
+         _cons |   31.43518   .5409599    58.11   0.000     30.37482    32.49554
+--------------------------------------------------------------------------------
+
+i.democrat        _Idemocrat_0-1      (naturally coded; _Idemocrat_0 omitted)
+i.demo~t*demv~c   _IdemXdemvo_#       (coded as above)
+
+Linear regression                               Number of obs     =     13,577
+                                                F(3, 13576)       =    4160.73
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.4344
+                                                Root MSE          =     24.544
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+         score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+  _Idemocrat_1 |   55.43136   .6373768    86.97   0.000     54.18201    56.68071
+demvoteshare_c |  -5.682785   2.609124    -2.18   0.029    -10.79703   -.5685407
+ _IdemXdemvo_1 |  -55.15188   3.217652   -17.14   0.000    -61.45893   -48.84484
+         _cons |   16.81598   .4184826    40.18   0.000      15.9957    17.63627
+--------------------------------------------------------------------------------
+
+i.lagdemocrat     _Ilagdemocr_0-1     (naturally coded; _Ilagdemocr_0 omitted)
+i.lagd~t*demv~c   _IlagXdemvo_#       (coded as above)
+
+Linear regression                               Number of obs     =     13,577
+                                                F(3, 13576)       =   25212.81
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.7489
+                                                Root MSE          =      .2459
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+      democrat | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+ _Ilagdemocr_1 |   .5257231   .0104514    50.30   0.000      .505237    .5462092
+demvoteshare_c |   1.402922   .0443487    31.63   0.000     1.315993    1.489852
+ _IlagXdemvo_1 |  -.8486068   .0490015   -17.32   0.000    -.9446565   -.7525571
+         _cons |   .2868887   .0077506    37.02   0.000     .2716965    .3020809
+--------------------------------------------------------------------------------</code></pre>
+<p>Note: <em>xi</em> is interaction expansion: <a href="https://www.stata.com/manuals13/rxi.pdf" class="uri">https://www.stata.com/manuals13/rxi.pdf</a></p>
+<p>Note: Stata code attributed to Marcelo Perraillon.</p>
+<p>You can use ## between to variables for interactions as well (I prefer this method). You use i.varname for the categorical and c.varname for the continuous. So we are interacting a binary variable with a continuous one here to
+allow for different slopes and intercepts.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="sharp-rdd.html#cb26-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> i.lagdemocrat##c.demvoteshare_c, <span class="kw">cluster</span>(id)</span>
+<span id="cb26-2"><a href="sharp-rdd.html#cb26-2" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> i.democrat##c.demvoteshare_c, <span class="kw">cluster</span>(id)</span>
+<span id="cb26-3"><a href="sharp-rdd.html#cb26-3" tabindex="-1"></a><span class="kw">reg</span> democrat i.lagdemocrat##c.demvoteshare_c, <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =     13,577
+                                                F(3, 13576)       =    1863.06
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.2669
+                                                Root MSE          =     27.944
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+         score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+ 1.lagdemocrat |   30.50803   .8172343    37.33   0.000     28.90614    32.10993
+demvoteshare_c |   66.04181   3.159572    20.90   0.000     59.84861    72.23501
+               |
+   lagdemocrat#|
+            c. |
+demvoteshare_c |
+            1  |  -96.47474   3.851734   -25.05   0.000    -104.0247   -88.92481
+               |
+         _cons |   31.43518   .5409599    58.11   0.000     30.37482    32.49554
+--------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =     13,577
+                                                F(3, 13576)       =    4160.73
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.4344
+                                                Root MSE          =     24.544
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+         score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+    1.democrat |   55.43136   .6373768    86.97   0.000     54.18201    56.68071
+demvoteshare_c |  -5.682785   2.609124    -2.18   0.029    -10.79703   -.5685407
+               |
+      democrat#|
+            c. |
+demvoteshare_c |
+            1  |  -55.15188   3.217652   -17.14   0.000    -61.45893   -48.84484
+               |
+         _cons |   16.81598   .4184826    40.18   0.000      15.9957    17.63627
+--------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =     13,577
+                                                F(3, 13576)       =   25212.81
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.7489
+                                                Root MSE          =      .2459
+
+                                  (Std. err. adjusted for 13,577 clusters in id)
+--------------------------------------------------------------------------------
+               |               Robust
+      democrat | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+---------------+----------------------------------------------------------------
+ 1.lagdemocrat |   .5257231   .0104514    50.30   0.000      .505237    .5462092
+demvoteshare_c |   1.402922   .0443487    31.63   0.000     1.315993    1.489852
+               |
+   lagdemocrat#|
+            c. |
+demvoteshare_c |
+            1  |  -.8486068   .0490015   -17.32   0.000    -.9446565   -.7525571
+               |
+         _cons |   .2868887   .0077506    37.02   0.000     .2716965    .3020809
+--------------------------------------------------------------------------------</code></pre>
+<p>With our full-sample interaction, we are starting to get closer to our results from the local linear regression and the results Lee, Moretti, and Butler (2004).</p>
+</div>
+<div id="quadratic-interaction-between-treatment-and-running-variable" class="section level3 hasAnchor" number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> Quadratic interaction between treatment and running variable<a href="sharp-rdd.html#quadratic-interaction-between-treatment-and-running-variable" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Next, we will use a global linear regression using an quadratic interaction. Why do we want to use a quadratic interaction? Not only do we allow the slopes to differ, we also allow for flexibility in the function form. This will better match the data on both sides of the discontinuity. Furthermore, if we misspecify the functinoal form, then we may attribute a discontinuity when one does not exist.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="sharp-rdd.html#cb28-1" tabindex="-1"></a><span class="kw">gen</span> demvoteshare_sq = demvoteshare_c^2</span>
+<span id="cb28-2"><a href="sharp-rdd.html#cb28-2" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> i.lagdemocrat##c.(demvoteshare_c demvoteshare_sq), <span class="kw">cluster</span>(id)</span>
+<span id="cb28-3"><a href="sharp-rdd.html#cb28-3" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> i.democrat##c.(demvoteshare_c demvoteshare_sq), <span class="kw">cluster</span>(id)</span>
+<span id="cb28-4"><a href="sharp-rdd.html#cb28-4" tabindex="-1"></a><span class="kw">reg</span> democrat i.lagdemocrat##c.(demvoteshare_c demvoteshare_sq), <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =     13,577
+                                                F(5, 13576)       =    1529.38
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.3707
+                                                Root MSE          =     25.892
+
+                                   (Std. err. adjusted for 13,577 clusters in id)
+---------------------------------------------------------------------------------
+                |               Robust
+          score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+  1.lagdemocrat |   13.02968   1.268439    10.27   0.000     10.54337      15.516
+ demvoteshare_c |   134.9765   9.634337    14.01   0.000     116.0919    153.8611
+demvoteshare_sq |   212.1269   22.39469     9.47   0.000     168.2302    256.0236
+                |
+    lagdemocrat#|
+             c. |
+ demvoteshare_c |
+             1  |   57.05469   15.15178     3.77   0.000     27.35509     86.7543
+                |
+    lagdemocrat#|
+             c. |
+demvoteshare_sq |
+             1  |  -641.8509   30.80241   -20.84   0.000    -702.2279   -581.4739
+                |
+          _cons |   33.54745   .7068697    47.46   0.000     32.16189    34.93302
+---------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =     13,577
+                                                F(5, 13576)       =    2589.02
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.4559
+                                                Root MSE          =     24.075
+
+                                   (Std. err. adjusted for 13,577 clusters in id)
+---------------------------------------------------------------------------------
+                |               Robust
+          score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+     1.democrat |   44.40229   .9086222    48.87   0.000     42.62126    46.18331
+ demvoteshare_c |   -23.8496   6.710943    -3.55   0.000    -37.00398   -10.69522
+demvoteshare_sq |  -41.72917   14.67192    -2.84   0.004    -70.48817   -12.97018
+                |
+       democrat#|
+             c. |
+ demvoteshare_c |
+             1  |   111.8963   9.779383    11.44   0.000     92.72733    131.0652
+                |
+       democrat#|
+             c. |
+demvoteshare_sq |
+             1  |  -229.9544   19.53577   -11.77   0.000    -268.2472   -191.6615
+                |
+          _cons |   15.60635   .5747061    27.16   0.000     14.47984    16.73285
+---------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =     13,577
+                                                F(5, 13576)       =   89733.30
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.8220
+                                                Root MSE          =     .20703
+
+                                   (Std. err. adjusted for 13,577 clusters in id)
+---------------------------------------------------------------------------------
+                |               Robust
+       democrat | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+  1.lagdemocrat |   .3216837   .0181913    17.68   0.000     .2860263    .3573411
+ demvoteshare_c |   2.798344   .1928588    14.51   0.000     2.420314    3.176374
+demvoteshare_sq |   4.294014   .4472409     9.60   0.000      3.41736    5.170668
+                |
+    lagdemocrat#|
+             c. |
+ demvoteshare_c |
+             1  |   .0909402   .2371611     0.38   0.701    -.3739284    .5558089
+                |
+    lagdemocrat#|
+             c. |
+demvoteshare_sq |
+             1  |  -8.804368   .5077003   -17.34   0.000    -9.799531   -7.809205
+                |
+          _cons |   .3296468   .0125535    26.26   0.000     .3050402    .3542534
+---------------------------------------------------------------------------------</code></pre>
+<p>With our quadratic interaction, we start to move away from our local linear regression (except for the estimate of <span class="math inline">\(\pi_1\)</span>). Our estimates of <span class="math inline">\(\gamma\)</span> and <span class="math inline">\((PDt+1 - PRt+1)\)</span> are far off from where we expect them to be.</p>
+</div>
+<div id="local-regression-5-points-from-cutoff-with-ols" class="section level3 hasAnchor" number="2.2.5">
+<h3><span class="header-section-number">2.2.5</span> Local regression: 5 points from cutoff with OLS<a href="sharp-rdd.html#local-regression-5-points-from-cutoff-with-ols" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Finally, we will use a local linear regression with a quadratic interaction. With our local linear regression with a quadratic interaction, we narrow our window, but we allow for a more flexible functional form on both sides of the discontinuity.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="sharp-rdd.html#cb30-1" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> i.lagdemocrat##c.(demvoteshare_c demvoteshare_sq) <span class="kw">if</span> lagdemvoteshare&gt;.45 &amp; lagdemvoteshare&lt;.55, <span class="kw">cluster</span>(id)</span>
+<span id="cb30-2"><a href="sharp-rdd.html#cb30-2" tabindex="-1"></a><span class="kw">reg</span> <span class="kw">score</span> i.democrat##c.(demvoteshare_c demvoteshare_sq) <span class="kw">if</span> lagdemvoteshare&gt;.45 &amp; lagdemvoteshare&lt;.55, <span class="kw">cluster</span>(id)</span>
+<span id="cb30-3"><a href="sharp-rdd.html#cb30-3" tabindex="-1"></a><span class="kw">reg</span> democrat i.lagdemocrat##c.(demvoteshare_c demvoteshare_sq) <span class="kw">if</span> lagdemvoteshare&gt;.45 &amp; lagdemvoteshare&lt;.55, <span class="kw">cluster</span>(id)</span></code></pre></div>
+<pre><code>Linear regression                               Number of obs     =      2,441
+                                                F(5, 2440)        =     261.93
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.4048
+                                                Root MSE          =     23.951
+
+                                    (Std. err. adjusted for 2,441 clusters in id)
+---------------------------------------------------------------------------------
+                |               Robust
+          score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+  1.lagdemocrat |   3.967238   1.490509     2.66   0.008     1.044445    6.890032
+ demvoteshare_c |   241.8926   20.54643    11.77   0.000     201.6023    282.1828
+demvoteshare_sq |   407.0713   62.42092     6.52   0.000     284.6678    529.4748
+                |
+    lagdemocrat#|
+             c. |
+ demvoteshare_c |
+             1  |   27.51541   28.75342     0.96   0.339    -28.86823    83.89905
+                |
+    lagdemocrat#|
+             c. |
+demvoteshare_sq |
+             1  |  -1002.938   79.32636   -12.64   0.000    -1158.492   -847.3844
+                |
+          _cons |   40.65686   .9475232    42.91   0.000     38.79883    42.51489
+---------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =      2,441
+                                                F(5, 2440)        =     717.83
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.5801
+                                                Root MSE          =     20.117
+
+                                    (Std. err. adjusted for 2,441 clusters in id)
+---------------------------------------------------------------------------------
+                |               Robust
+          score | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+     1.democrat |   46.87991   1.542781    30.39   0.000     43.85462    49.90521
+ demvoteshare_c |  -27.71422   15.03124    -1.84   0.065    -57.18953    1.761092
+demvoteshare_sq |  -87.87141   29.14324    -3.02   0.003    -145.0195   -30.72336
+                |
+       democrat#|
+             c. |
+ demvoteshare_c |
+             1  |   78.48126   23.09883     3.40   0.001     33.18592    123.7766
+                |
+       democrat#|
+             c. |
+demvoteshare_sq |
+             1  |  -132.0792   50.97886    -2.59   0.010    -232.0455   -32.11286
+                |
+          _cons |   17.51743   1.013373    17.29   0.000     15.53027    19.50459
+---------------------------------------------------------------------------------
+
+
+Linear regression                               Number of obs     =      2,441
+                                                F(5, 2440)        =    1642.94
+                                                Prob &gt; F          =     0.0000
+                                                R-squared         =     0.7005
+                                                Root MSE          =     .27372
+
+                                    (Std. err. adjusted for 2,441 clusters in id)
+---------------------------------------------------------------------------------
+                |               Robust
+       democrat | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+  1.lagdemocrat |   .1181676   .0203498     5.81   0.000     .0782629    .1580723
+ demvoteshare_c |   5.095347   .3027069    16.83   0.000     4.501758    5.688936
+demvoteshare_sq |   9.265549   .9176752    10.10   0.000     7.466046    11.06505
+                |
+    lagdemocrat#|
+             c. |
+ demvoteshare_c |
+             1  |   .0359484     .38651     0.09   0.926    -.7219732      .79387
+                |
+    lagdemocrat#|
+             c. |
+demvoteshare_sq |
+             1  |  -18.30185    1.05566   -17.34   0.000    -20.37193   -16.23176
+                |
+          _cons |   .4411991   .0135581    32.54   0.000     .4146126    .4677855
+---------------------------------------------------------------------------------</code></pre>
+<p>Interestingly, our local linear regression with a quadratic interaction does much worse for estimating <span class="math inline">\(\gamma\)</span> and <span class="math inline">\((PDt+1 - PRt+1)\)</span></p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="continuity-assumption.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualize-global-and-local-regressions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
