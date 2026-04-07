@@ -1,0 +1,175 @@
+# Differnce-in-Differences
+
+## Background
+
+Cunningham and Cornwell (2013) use a difference-in-difference design as opposed to Donohue and Levitt (2001) that use lagged ratio values at the state level.
+
+Cunningham makes a good point with good theories provide very specific falsifiable hypotheses. More specific the hypothesis, the more compelling the theory if evidence supports the theory.
+
+Five states legalized abortion and then all states are exposed to legalized abortion. There is a three-year lag between the five states and Roe v Wade decision, which should lead to a nonlinear parabolic treatment effect.
+
+There should be increasingly negative effect of abortion legalization on the outcome between the treatment states and control states.
+
+Our repeal states are Alaska (02), California (06), Hawaii (15), New York (36), Washington (53).
+
+## Estimator
+
+We will use the difference-in-differences estimator. Cunningham and Cornwell (2013) model is the following:
+
+$$ Y_{st} = \alpha + \beta_1 RepealST_s + \beta_2 Year_t + \delta (RepealST*Year)_{st}+\psi X_{st}+\gamma ST_s+ \varepsilon_{st} $$
+Where 
+
+  1. \( Y_{st}\) is outcome of interest: new gonorrhea cases for 15-19 year olds per 100,000
+  2. \( \delta \) is our parameter of interest. 
+  3. \( RepealST_s \) is a binary for treatment state 
+  4. \( Year_t \) is a time binary for each year
+  5. \( RepealST*Year_{st} \) is our interaction term
+  6. \( X_{st} \) are a set of covariates, such as alcholo consumption per capita, real income per capita, etc.
+  7. \( ST_s \) are state fixed effects
+
+## Parameter Estimates
+
+We will estimate the \(ATET\) with the difference-in-differences estimator. We will use the *##* operator for the interaction between treatment state and year. We will use analytical weights to account for population. We will cluster our standard errors by FIPS code (state). 
+
+```{stata dd1}
+use "/Users/Sam/Desktop/Econ 672/Data/abortion.dta", clear
+
+reg lnr i.repeal##i.year i.fip acc ir pi alcohol crack poverty income ur if bf15==1 [aweight=totpop], cluster(fip)
+```
+
+We can see that the difference-in-differnces interaction is statistically significant from 1986 to 1992. After 1992, we fail to reject the null hypothesis.
+
+## Graph
+
+We can save our parameter estimates using the *parmest* command, so that we can graph our difference-in-differences output.
+
+```{stata dd2, eval=FALSE}
+parmest, label for(estimate min95 max95 %8.2f) li(parm label estimate min95 max95) saving(bf15_DD.dta, replace)
+```
+
+Now we need to bring the data into Stata and work with the years. First, use the Parameter estimates data frame. The data set looks like the following:
+
+```{stata dd3, eval=FALSE}
+use ./bf15_DD.dta, replace
+```
+
+![Parameter Estimates Output](DD2.png)
+
+We will keep the difference-in-difference parameters, which are row 36 through row 50 observations.
+
+```{stata dd4, eval=FALSE}
+keep in 36/50
+```
+
+Next, we will generate a year variable for each year of the parameter estimates, and then we will sort the data.
+
+```{stata dd5, eval=FALSE}
+*Generate year 
+gen		year=.
+replace year=1986 in 1
+replace year=1987 in 2
+replace year=1988 in 3
+replace year=1989 in 4
+replace year=1990 in 5
+replace year=1991 in 6
+replace year=1992 in 7
+replace year=1993 in 8
+replace year=1994 in 9
+replace year=1995 in 10
+replace year=1996 in 11
+replace year=1997 in 12
+replace year=1998 in 13
+replace year=1999 in 14
+replace year=2000 in 15
+
+sort year
+```
+
+Now we will graph our parameters using a twoway graph
+
+```{stata dd6, eval=FALSE}
+twoway (scatter estimate year, mlabel(year) mlabsize(vsmall) msize(tiny)) ///
+  (rcap min95 max95 year, msize(vsmall)), ytitle(Repeal x year estimated coefficient) ///
+  yscale(titlegap(2)) yline(0, lwidth(thin) lcolor(black)) xtitle(Year) ///
+  xline(1986 1987 1988 1989 1990 1991 1992, lwidth(vvvthick) ///
+  lpattern(solid) lcolor(ltblue)) xscale(titlegap(2)) ///
+  title(Estimated effect of abortion legalization on gonorrhea) ///
+  subtitle(Black females 15-19 year-olds) ///
+  note(W/o XI; Whisker plots are estimated coefficients of DD estimator from Column b of Table 2.) ///
+  legend(off)
+
+```
+
+![Difference-in-Differences Parameter Estimates 1986-2000](DD1.png)
+
+
+
+# Placebo Tests
+
+Our repeal states are Alaska (02), California (06), Hawaii (15), New York (36), Washington (53), so let's do false treatment placebo. We will assign Florida (12), Minnesota (27), Nevada (32), Ohio (39), and Pennsylvania (42) as our false treatment/repeal states.
+
+```{stata test1}
+use "/Users/Sam/Desktop/Econ 672/Data/abortion.dta", clear
+
+gen repeal_fake = 0
+replace repeal_fake = 1 if fip == 12
+replace repeal_fake = 1 if fip == 27
+replace repeal_fake = 1 if fip == 32
+replace repeal_fake = 1 if fip == 39
+replace repeal_fake = 1 if fip == 42
+
+tab fip repeal_fake
+
+reg lnr i.repeal_fake##i.year i.fip acc ir pi alcohol crack poverty income ur if bf15==1 [aweight=totpop], cluster(fip)
+```
+
+Again, we will save the parameter estimates, keep the difference-in-difference parameters, and graph our results.
+
+```{stata test2, eval=FALSE}
+parmest, label for(estimate min95 max95 %8.2f) li(parm label estimate min95 max95) ///
+ saving(bf15_DD_false.dta, replace)
+ 
+use ./bf15_DD_false.dta, replace  
+```
+
+Keep the Diff-in-Diff Interaction Parameter Estimates and generate a year variable
+```{stata test3, eval=FALSE}
+keep in 36/50
+
+gen		year=.
+replace year=1986 in 1
+replace year=1987 in 2
+replace year=1988 in 3
+replace year=1989 in 4
+replace year=1990 in 5
+replace year=1991 in 6
+replace year=1992 in 7
+replace year=1993 in 8
+replace year=1994 in 9
+replace year=1995 in 10
+replace year=1996 in 11
+replace year=1997 in 12
+replace year=1998 in 13
+replace year=1999 in 14
+replace year=2000 in 15
+```
+
+Finally, we will sort and graph our data.
+```{stata test4, eval=FALSE}
+sort year
+
+*Graph Parameter Estimates with Confidence Intervals
+twoway (scatter estimate year, mlabel(year) mlabsize(vsmall) msize(tiny)) ///
+  (rcap min95 max95 year, msize(vsmall)), ytitle(Repeal x year estimated coefficient) ///
+  yscale(titlegap(2)) yline(0, lwidth(thin) lcolor(black)) xtitle(Year) ///
+  xline(1986 1987 1988 1989 1990 1991 1992, lwidth(vvvthick) ///
+  lpattern(solid) lcolor(ltblue)) xscale(titlegap(2)) ///
+  title(Placebo Test: Fake Treatment of abortion legalization on gonorrhea) ///
+  subtitle(Black females 15-19 year-olds) ///
+  note(W/o XI; Wh
+```
+
+![Placebo Test: False Treatment](DD3.png)
+
+In support of Cunningham and Cormwell's hypothesis, we fail to reject the null hypothesis at the 5 percent level across the years.
+

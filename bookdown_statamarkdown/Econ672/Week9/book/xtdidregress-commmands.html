@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 xtdidregress commmands | Difference-in-Differences</title>
+  <meta name="description" content="Chapter 3 xtdidregress commmands | Difference-in-Differences." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 xtdidregress commmands | Difference-in-Differences" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 3 xtdidregress commmands | Difference-in-Differences." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 xtdidregress commmands | Difference-in-Differences" />
+  
+  <meta name="twitter:description" content="Chapter 3 xtdidregress commmands | Difference-in-Differences." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2022)" />
+
+
+<meta name="date" content="2026-04-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="placebo-tests-false-treatment.html"/>
+<link rel="next" href="postestimation-command.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Difference-in-Differences</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="difference-in-differences.html"><a href="difference-in-differences.html"><i class="fa fa-check"></i><b>1</b> Difference-in-Differences</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="difference-in-differences.html"><a href="difference-in-differences.html#background"><i class="fa fa-check"></i><b>1.1</b> Background</a></li>
+<li class="chapter" data-level="1.2" data-path="difference-in-differences.html"><a href="difference-in-differences.html#estimator"><i class="fa fa-check"></i><b>1.2</b> Estimator</a></li>
+<li class="chapter" data-level="1.3" data-path="difference-in-differences.html"><a href="difference-in-differences.html#parameter-estimates"><i class="fa fa-check"></i><b>1.3</b> Parameter Estimates</a></li>
+<li class="chapter" data-level="1.4" data-path="difference-in-differences.html"><a href="difference-in-differences.html#graph"><i class="fa fa-check"></i><b>1.4</b> Graph</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="placebo-tests-false-treatment.html"><a href="placebo-tests-false-treatment.html"><i class="fa fa-check"></i><b>2</b> Placebo Tests: False Treatment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="placebo-tests-false-treatment.html"><a href="placebo-tests-false-treatment.html#false-treatment"><i class="fa fa-check"></i><b>2.1</b> False Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html"><i class="fa fa-check"></i><b>3</b> <em>xtdidregress</em> commmands</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html#world-development-index"><i class="fa fa-check"></i><b>3.1</b> World Development Index</a></li>
+<li class="chapter" data-level="3.2" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html#xtdidregress"><i class="fa fa-check"></i><b>3.2</b> <em>xtdidregress</em></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="postestimation-command.html"><a href="postestimation-command.html"><i class="fa fa-check"></i><b>4</b> Postestimation Command</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="postestimation-command.html"><a href="postestimation-command.html#estat-ptrends"><i class="fa fa-check"></i><b>4.1</b> <em>estat ptrends</em></a></li>
+<li class="chapter" data-level="4.2" data-path="postestimation-command.html"><a href="postestimation-command.html#estat-trendsplot"><i class="fa fa-check"></i><b>4.2</b> <em>estat trendsplot</em></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="placebo-tests-false-timing.html"><a href="placebo-tests-false-timing.html"><i class="fa fa-check"></i><b>5</b> Placebo Tests: False Timing</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="placebo-tests-false-timing.html"><a href="placebo-tests-false-timing.html#false-timing"><i class="fa fa-check"></i><b>5.1</b> False Timing</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Difference-in-Differences</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="xtdidregress-commmands" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> <em>xtdidregress</em> commmands<a href="xtdidregress-commmands.html#xtdidregress-commmands" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In addition to using <em>xtreg</em> or <em>reg</em> for estimating our <span class="math inline">\(\delta^{ATET}_{DD}\)</span>, we can use some built in Stata commands instead. These commands include <em>xtdidregress</em> and <em>didregress</em>.</p>
+<p>For additional information we can use the <em>help</em> command.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="xtdidregress-commmands.html#cb14-1" tabindex="-1"></a><span class="kw">help</span> didregress</span></code></pre></div>
+<p>Stata’s help page provides us with the following information:</p>
+<p>For repeated cross-sections:</p>
+<p><strong>didregress</strong> (<em>ovar omvarlist</em>) (<em>tvar</em>[, <strong>continuous</strong>]) [<em>if</em>] [<em>in</em>] [<em>weight</em>], <strong>group</strong>(<em>groupvars</em>) [<strong>time</strong>(<em>timevar</em>) <em>options</em>]</p>
+<p>For panel data:</p>
+<p><strong>xtdidregress</strong> (<em>ovar omvarlist</em>) (<em>tvar</em>[, <strong>continuous</strong>]) [<em>if</em>] [<em>in</em>] [<em>weight</em>], <strong>group</strong>(<em>groupvars</em>) [<strong>time</strong>(<em>timevar</em>) <em>options</em>]</p>
+<p>Where
+1. <em>ovar</em> is our outcome of interest
+2. <em>omvarlist</em> is a list of our explanatory covariates
+3. <em>tvar</em> is a binary indicating treatment status or a continuous indicating intensity of treatment
+4. <em>groupvars</em> are categorical variables indicating treatment level, such as individual, state, etc.
+5. <em>timevar</em> is our time variable, such as year</p>
+<div id="world-development-index" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> World Development Index<a href="xtdidregress-commmands.html#world-development-index" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will use the World Development Index to assess the impact of a trade policy in 2000 on total amount of trade (imports + exports) in millions of 2005 US dollars. These data are provided by Princeton.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="xtdidregress-commmands.html#cb15-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data/&quot;</span></span>
+<span id="cb15-2"><a href="xtdidregress-commmands.html#cb15-2" tabindex="-1"></a><span class="kw">use</span> wdipol, <span class="kw">clear</span></span>
+<span id="cb15-3"><a href="xtdidregress-commmands.html#cb15-3" tabindex="-1"></a><span class="kw">describe</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 672/Data
+
+
+
+Contains data from wdipol.dta
+ Observations:         4,542                  
+    Variables:            12                  26 Mar 2026 19:15
+----------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+----------------------------------------------------------------------------------
+year            int     %10.0g                Year
+country         str24   %24s                  Country Name
+gdppc           double  %10.0g                 GDP per capita, PPP (constant 2005
+                                                international $)
+unempf          double  %10.0g                Unemployment, female (% of female
+                                                labor force)
+unempm          double  %10.0g                Unemployment, male (% of male labor
+                                                force)
+unemp           double  %10.0g                Unemployment, total (% of total
+                                                labor force)
+export          double  %10.0g                Exports of goods and services
+                                                (constant 2005 US$)
+import          double  %10.0g                Imports of goods and services
+                                                (constant 2005 US$)
+polity          byte    %8.0g                 polity (original)
+polity2         byte    %8.0g                 polity2 (adjusted)
+trade           float   %9.0g                 Imports + Exports
+id              float   %9.0g                 group(country)
+----------------------------------------------------------------------------------
+Sorted by: </code></pre>
+<p>We will focus on years 1990 forward.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="xtdidregress-commmands.html#cb17-1" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> <span class="fu">year</span> &lt; 1990</span>
+<span id="cb17-2"><a href="xtdidregress-commmands.html#cb17-2" tabindex="-1"></a><span class="kw">sum</span> <span class="kw">export</span> import trade, <span class="kw">detail</span></span></code></pre></div>
+<pre><code>(1,136 observations deleted)
+
+      Exports of goods and services (constant 2005 US$)
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     91.64278       45.02022
+ 5%     245.0359       48.62297
+10%     543.8475       52.79048       Obs               2,814
+25%     2094.341       53.24336       Sum of wgt.       2,814
+
+50%     8836.828                      Mean           75432.49
+                        Largest       Std. dev.      182677.6
+75%     57261.36        1649300
+90%     198699.2        1665600       Variance       3.34e+10
+95%     399759.2        1677840       Skewness       4.764539
+99%      1036798        1776900       Kurtosis       31.56892
+
+      Imports of goods and services (constant 2005 US$)
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     264.6554       94.23958
+ 5%     538.7271       110.3702
+10%     1031.108       129.2793       Obs               2,814
+25%     2514.115       135.4336       Sum of wgt.       2,814
+
+50%      10218.4                      Mean           74643.16
+                        Largest       Std. dev.        194233
+75%     56131.35        2144000
+90%     182048.5        2151500       Variance       3.77e+10
+95%     371224.2        2184900       Skewness       5.811369
+99%       943900        2203200       Kurtosis       47.77702
+
+                      Imports + Exports
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     414.4894       139.2598
+ 5%     828.4978       166.8271
+10%      1613.88       183.3966       Obs               2,814
+25%     4867.792       193.1237       Sum of wgt.       2,814
+
+50%     19421.02                      Mean           150075.7
+                        Largest       Std. dev.      374324.7
+75%     115498.2        3750800
+90%     382896.8        3757600       Variance       1.40e+11
+95%     759593.4        3793300       Skewness       5.158498
+99%      2001955        3961800       Kurtosis       37.13028</code></pre>
+<p>Looking at combined imports and exports, the median amount of trade is 19.4 billion 2005 US dollars.</p>
+<p>Now, we set our post period at 2000 or later. An indicator for when trade relations were normalized between the U.S. and China and China’s ascension into the World Trade Organization (WTO).</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="xtdidregress-commmands.html#cb19-1" tabindex="-1"></a><span class="kw">gen</span> <span class="kw">post</span> = .</span>
+<span id="cb19-2"><a href="xtdidregress-commmands.html#cb19-2" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">post</span> = 0 <span class="kw">if</span> <span class="fu">year</span> &lt; 2000</span>
+<span id="cb19-3"><a href="xtdidregress-commmands.html#cb19-3" tabindex="-1"></a><span class="kw">replace</span> <span class="kw">post</span> = 1 <span class="kw">if</span> <span class="fu">year</span> &gt;= 2000</span></code></pre></div>
+<p>Next we will assign the treatment countries, which are the following western countries: Australia, Austria, Belgium, Canada, Denmark, Finland, France, Germany, Greece, Ireland, Italy, Luxembourg, Netherlands, New Zealand, Norway, Portugal, Spain, Sweden, Switzerland, United Kingdom, and United States.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="xtdidregress-commmands.html#cb20-1" tabindex="-1"></a><span class="kw">gen</span> treatment = 0</span>
+<span id="cb20-2"><a href="xtdidregress-commmands.html#cb20-2" tabindex="-1"></a><span class="kw">replace</span> treatment = 1 <span class="kw">if</span> country == <span class="st">&quot;Australia&quot;</span> | country == <span class="st">&quot;Austria&quot;</span> | country == <span class="st">&quot;Belgium&quot;</span> | country == <span class="st">&quot;Canada&quot;</span> | country == <span class="st">&quot;Denmark&quot;</span> | country == <span class="st">&quot;Finland&quot;</span> | country == <span class="st">&quot;France&quot;</span> | country == <span class="st">&quot;Germany&quot;</span> | country == <span class="st">&quot;Greece&quot;</span> | country == <span class="st">&quot;Ireland&quot;</span> | country == <span class="st">&quot;Italy&quot;</span> | country == <span class="st">&quot;Luxembourg&quot;</span> | country == <span class="st">&quot;Netherlands&quot;</span> | country == <span class="st">&quot;New Zealand&quot;</span> | country == <span class="st">&quot;Norway&quot;</span> | country == <span class="st">&quot;Portugal&quot;</span> | country == <span class="st">&quot;Spain&quot;</span> |country == <span class="st">&quot;Sweden&quot;</span> | country == <span class="st">&quot;Switzerland&quot;</span> | country == <span class="st">&quot;United Kingdom&quot;</span> | country == <span class="st">&quot;United States&quot;</span></span></code></pre></div>
+<p>Next, we will set up the difference-in-differences interaction.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="xtdidregress-commmands.html#cb21-1" tabindex="-1"></a><span class="kw">gen</span> treat_post=treatment*<span class="kw">post</span></span></code></pre></div>
+<p>Now we need to establish our panel, but we need to use the <em>encode</em> command on countries so we can use the <em>xtset</em> command.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="xtdidregress-commmands.html#cb22-1" tabindex="-1"></a>*Encode country</span>
+<span id="cb22-2"><a href="xtdidregress-commmands.html#cb22-2" tabindex="-1"></a><span class="kw">encode</span> country, <span class="kw">gen</span>(countrynum)</span>
+<span id="cb22-3"><a href="xtdidregress-commmands.html#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="xtdidregress-commmands.html#cb22-4" tabindex="-1"></a>*Set Panel</span>
+<span id="cb22-5"><a href="xtdidregress-commmands.html#cb22-5" tabindex="-1"></a><span class="kw">sort</span> countrynum <span class="fu">year</span></span>
+<span id="cb22-6"><a href="xtdidregress-commmands.html#cb22-6" tabindex="-1"></a>xtset countrynum <span class="fu">year</span></span></code></pre></div>
+<pre><code>Panel variable: countrynum (unbalanced)
+ Time variable: year, 1990 to 2012, but with a gap
+         Delta: 1 unit</code></pre>
+<p>Our panel is unbalanced, which means we do have gaps among some of the countries.</p>
+<p>We will first start with our tried and true method with <em>xtreg</em> and use the <em>fe</em> option, and we will cluster our standard errors at the unit of observation level.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="xtdidregress-commmands.html#cb24-1" tabindex="-1"></a><span class="kw">xtreg</span> trade treat_post i.<span class="fu">year</span>, <span class="kw">fe</span> <span class="kw">vce</span> (<span class="kw">cluster</span> countrynum)</span></code></pre></div>
+<pre><code>Fixed-effects (within) regression               Number of obs     =      2,814
+Group variable: countrynum                      Number of groups  =        153
+
+R-squared:                                      Obs per group:
+     Within  = 0.2476                                         min =          1
+     Between = 0.2331                                         avg =       18.4
+     Overall = 0.1877                                         max =         23
+
+                                                F(23, 152)        =       2.88
+corr(u_i, Xb) = 0.2187                          Prob &gt; F          =     0.0001
+
+                           (Std. err. adjusted for 153 clusters in countrynum)
+------------------------------------------------------------------------------
+             |               Robust
+       trade | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  treat_post |   254619.5   84665.83     3.01   0.003     87345.69    421893.2
+             |
+        year |
+       1991  |   11417.79   3273.274     3.49   0.001     4950.798    17884.77
+       1992  |   14691.17   4183.539     3.51   0.001     6425.782    22956.57
+       1993  |   17823.51   5089.347     3.50   0.001     7768.513     27878.5
+       1994  |   27212.01   6768.259     4.02   0.000     13840.01    40584.02
+       1995  |   36908.65   8577.682     4.30   0.000     19961.77    53855.52
+       1996  |    43697.3   9997.622     4.37   0.000     23945.06    63449.54
+       1997  |   53882.39   12313.33     4.38   0.000     29555.02    78209.75
+       1998  |   60352.96   13818.67     4.37   0.000      33051.5    87654.42
+       1999  |   67276.08   15777.22     4.26   0.000     36105.13    98447.04
+       2000  |   43940.78   12961.89     3.39   0.001     18332.06     69549.5
+       2001  |   45574.41   13023.31     3.50   0.001     19844.34    71304.49
+       2002  |   50357.95    14195.9     3.55   0.001     22311.21     78404.7
+       2003  |   58200.38    16052.8     3.63   0.000     26484.97    89915.79
+       2004  |   74493.25   18905.12     3.94   0.000     37142.52      111844
+       2005  |    87670.9   21325.73     4.11   0.000     45537.78      129804
+       2006  |   104994.9   24623.44     4.26   0.000     56346.51    153643.3
+       2007  |   121106.3   28005.54     4.32   0.000     65775.88    176436.6
+       2008  |   128370.5   29721.71     4.32   0.000     69649.48    187091.5
+       2009  |   104644.4   27073.14     3.87   0.000     51156.19    158132.7
+       2010  |   131099.8   33071.58     3.96   0.000     65760.48    196439.1
+       2011  |   149272.6   37479.36     3.98   0.000     75224.91    223320.4
+       2012  |   129456.8   24816.73     5.22   0.000     80426.54    178487.1
+             |
+       _cons |   56946.96   18846.82     3.02   0.003     19711.41    94182.51
+-------------+----------------------------------------------------------------
+     sigma_u |  295226.32
+     sigma_e |   132684.6
+         rho |  .83195335   (fraction of variance due to u_i)
+------------------------------------------------------------------------------</code></pre>
+<p>Our difference-in-difference estimator indicates that the change in trade policy increased total trade by 255 billion 2005 US dollars, which is statistically significant at the 1% level.</p>
+<p>To visualize our parallel trends, we need to use <em>egen</em> to get the mean outcome by year for treatment and comparison groups. Next, we will visually inspect the parallel trends assumption with <em>twoway line</em> charts.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="xtdidregress-commmands.html#cb26-1" tabindex="-1"></a><span class="kw">bysort</span> <span class="fu">year</span> treatment: <span class="kw">egen</span> mean_trade = <span class="kw">mean</span>(trade)</span>
+<span id="cb26-2"><a href="xtdidregress-commmands.html#cb26-2" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="xtdidregress-commmands.html#cb26-3" tabindex="-1"></a><span class="kw">twoway</span> <span class="kw">line</span> mean_trade <span class="fu">year</span> <span class="kw">if</span> treatment == 0, <span class="kw">sort</span> || <span class="co">///</span></span>
+<span id="cb26-4"><a href="xtdidregress-commmands.html#cb26-4" tabindex="-1"></a>       <span class="kw">line</span> mean_trade <span class="fu">year</span> <span class="kw">if</span> treatment == 1, <span class="kw">sort</span> lpattern (<span class="kw">dash</span>) <span class="co">///</span></span>
+<span id="cb26-5"><a href="xtdidregress-commmands.html#cb26-5" tabindex="-1"></a>       <span class="bn">legend</span>(<span class="kw">label</span>(1 <span class="st">&quot;Control&quot;</span>) <span class="kw">label</span>(2 <span class="st">&quot;Treated&quot;</span>)) <span class="co">///</span></span>
+<span id="cb26-6"><a href="xtdidregress-commmands.html#cb26-6" tabindex="-1"></a>       <span class="bn">xline</span>(2000) <span class="bn">title</span>(<span class="st">&quot;Check Parallel Trends Assumption&quot;</span>)</span></code></pre></div>
+<div class="float">
+<img src="wdi1.png" alt="Inspect the Parallel Trends Assumption" />
+<div class="figcaption">Inspect the Parallel Trends Assumption</div>
+</div>
+</div>
+<div id="xtdidregress" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> <em>xtdidregress</em><a href="xtdidregress-commmands.html#xtdidregress" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We have other commands for estimating difference-in-differences, such as the <em>xtdidregress</em> and <em>didregress</em> commands. These commands will estimate our <span class="math inline">\(\delta^{ATET}_{DD}\)</span> of interest.</p>
+<p>Why should we use this command? They provide helpful post-estimation commands for testing the parallel trends assumption!</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb27-1"><a href="xtdidregress-commmands.html#cb27-1" tabindex="-1"></a>xtdidregress (trade) (treat_post), <span class="fu">group</span>(countrynum) time(<span class="fu">year</span>)</span></code></pre></div>
+<pre><code>Treatment and time information
+
+Time variable: year
+Control:       treat_post = 0
+Treatment:     treat_post = 1
+-----------------------------------
+             |   Control  Treatment
+-------------+---------------------
+Group        |
+  countrynum |       132         21
+-------------+---------------------
+Time         |
+     Minimum |      1990       2000
+     Maximum |      2006       2000
+-----------------------------------
+
+Difference-in-differences regression                     Number of obs = 2,814
+Data type: Longitudinal
+
+                           (Std. err. adjusted for 153 clusters in countrynum)
+------------------------------------------------------------------------------
+             |               Robust
+       trade | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ATET         |
+  treat_post |
+   (1 vs 0)  |   254619.5   84665.83     3.01   0.003     87345.69    421893.2
+------------------------------------------------------------------------------
+Note: ATET estimate adjusted for panel effects and time effects.
+Note: Treatment occurs at different times.</code></pre>
+<p>We get the same result, such that trade increases $254,619.5 millions or 255 billion 2005 US dollars</p>
+<p>We can also add some covariates in case the parallel trends is conditional on controlling for covariates.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb29-1"><a href="xtdidregress-commmands.html#cb29-1" tabindex="-1"></a>xtdidregress (trade unemp polity) (treat_post), <span class="fu">group</span>(countrynum) time(<span class="fu">year</span>)</span></code></pre></div>
+<pre><code>Treatment and time information
+
+Time variable: year
+Control:       treat_post = 0
+Treatment:     treat_post = 1
+-----------------------------------
+             |   Control  Treatment
+-------------+---------------------
+Group        |
+  countrynum |       132         21
+-------------+---------------------
+Time         |
+     Minimum |      1990       2000
+     Maximum |      2006       2000
+-----------------------------------
+
+Difference-in-differences regression                     Number of obs = 2,804
+Data type: Longitudinal
+
+                           (Std. err. adjusted for 153 clusters in countrynum)
+------------------------------------------------------------------------------
+             |               Robust
+       trade | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ATET         |
+  treat_post |
+   (1 vs 0)  |   253104.1   85410.71     2.96   0.004     84358.69    421849.5
+------------------------------------------------------------------------------
+Note: ATET estimate adjusted for covariates, panel effects, and time effects.
+Note: Treatment occurs at different times.</code></pre>
+<p>Our estimate is little change after controlling for unemployment and political system of the country. Our estimate is <span class="math inline">\(\hat{\delta}^{ATET}_{DD}=\$253B\)</span>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="placebo-tests-false-treatment.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="postestimation-command.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

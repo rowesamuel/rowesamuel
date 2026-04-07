@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Placebo Tests | Difference-in-Differences</title>
+  <meta name="description" content="Chapter 2 Placebo Tests | Difference-in-Differences." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Placebo Tests | Difference-in-Differences" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 2 Placebo Tests | Difference-in-Differences." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Placebo Tests | Difference-in-Differences" />
+  
+  <meta name="twitter:description" content="Chapter 2 Placebo Tests | Difference-in-Differences." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2022)" />
+
+
+<meta name="date" content="2026-04-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="difference-in-differences.html"/>
+<link rel="next" href="xtdidregress-commmands.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Difference-in-Differences</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="difference-in-differences.html"><a href="difference-in-differences.html"><i class="fa fa-check"></i><b>1</b> Difference-in-Differences</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="difference-in-differences.html"><a href="difference-in-differences.html#background"><i class="fa fa-check"></i><b>1.1</b> Background</a></li>
+<li class="chapter" data-level="1.2" data-path="difference-in-differences.html"><a href="difference-in-differences.html#estimator"><i class="fa fa-check"></i><b>1.2</b> Estimator</a></li>
+<li class="chapter" data-level="1.3" data-path="difference-in-differences.html"><a href="difference-in-differences.html#parameter-estimates"><i class="fa fa-check"></i><b>1.3</b> Parameter Estimates</a></li>
+<li class="chapter" data-level="1.4" data-path="difference-in-differences.html"><a href="difference-in-differences.html#graph"><i class="fa fa-check"></i><b>1.4</b> Graph</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="placebo-tests.html"><a href="placebo-tests.html"><i class="fa fa-check"></i><b>2</b> Placebo Tests</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="placebo-tests.html"><a href="placebo-tests.html#false-treatment"><i class="fa fa-check"></i><b>2.1</b> False Treatment</a></li>
+<li class="chapter" data-level="2.2" data-path="placebo-tests.html"><a href="placebo-tests.html#false-timing"><i class="fa fa-check"></i><b>2.2</b> False Timing</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html"><i class="fa fa-check"></i><b>3</b> <em>xtdidregress</em> commmands</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html#world-development-index"><i class="fa fa-check"></i><b>3.1</b> World Development Index</a></li>
+<li class="chapter" data-level="3.2" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html#xtdidregress"><i class="fa fa-check"></i><b>3.2</b> <em>xtdidregress</em></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="postestimation-command.html"><a href="postestimation-command.html"><i class="fa fa-check"></i><b>4</b> Postestimation Command</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="postestimation-command.html"><a href="postestimation-command.html#estat-ptrends"><i class="fa fa-check"></i><b>4.1</b> <em>estat ptrends</em></a></li>
+<li class="chapter" data-level="4.2" data-path="postestimation-command.html"><a href="postestimation-command.html#estat-trendsplot"><i class="fa fa-check"></i><b>4.2</b> <em>estat trendsplot</em></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Difference-in-Differences</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="placebo-tests" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Placebo Tests<a href="placebo-tests.html#placebo-tests" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We have two major types of difference-in-differences placebo tests:</p>
+<ol style="list-style-type: decimal">
+<li>False Treatment</li>
+<li>False Timing</li>
+</ol>
+<div id="false-treatment" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> False Treatment<a href="placebo-tests.html#false-treatment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our repeal states are Alaska (02), California (06), Hawaii (15), New York (36), Washington (53), so let’s do false treatment placebo. We will assign Florida (12), Minnesota (27), Nevada (32), Ohio (39), and Pennsylvania (42) as our false treatment/repeal states.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="placebo-tests.html#cb9-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data/abortion.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb9-2"><a href="placebo-tests.html#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="placebo-tests.html#cb9-3" tabindex="-1"></a><span class="kw">gen</span> repeal_fake = 0</span>
+<span id="cb9-4"><a href="placebo-tests.html#cb9-4" tabindex="-1"></a><span class="kw">replace</span> repeal_fake = 1 <span class="kw">if</span> fip == 12</span>
+<span id="cb9-5"><a href="placebo-tests.html#cb9-5" tabindex="-1"></a><span class="kw">replace</span> repeal_fake = 1 <span class="kw">if</span> fip == 27</span>
+<span id="cb9-6"><a href="placebo-tests.html#cb9-6" tabindex="-1"></a><span class="kw">replace</span> repeal_fake = 1 <span class="kw">if</span> fip == 32</span>
+<span id="cb9-7"><a href="placebo-tests.html#cb9-7" tabindex="-1"></a><span class="kw">replace</span> repeal_fake = 1 <span class="kw">if</span> fip == 39</span>
+<span id="cb9-8"><a href="placebo-tests.html#cb9-8" tabindex="-1"></a><span class="kw">replace</span> repeal_fake = 1 <span class="kw">if</span> fip == 42</span>
+<span id="cb9-9"><a href="placebo-tests.html#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="placebo-tests.html#cb9-10" tabindex="-1"></a><span class="kw">tab</span> fip repeal_fake</span>
+<span id="cb9-11"><a href="placebo-tests.html#cb9-11" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="placebo-tests.html#cb9-12" tabindex="-1"></a><span class="kw">reg</span> lnr i.repeal_fake##i.<span class="fu">year</span> i.fip acc <span class="kw">ir</span> <span class="kw">pi</span> alcohol crack poverty income ur <span class="kw">if</span> bf15==1 [<span class="kw">aweight</span>=totpop], <span class="kw">cluster</span>(fip)</span></code></pre></div>
+<pre><code>(384 real changes made)
+
+(384 real changes made)
+
+(384 real changes made)
+
+(384 real changes made)
+
+(384 real changes made)
+
+           |      repeal_fake
+  FIPSCODE |         0          1 |     Total
+-----------+----------------------+----------
+         1 |       384          0 |       384 
+         2 |       384          0 |       384 
+         4 |       384          0 |       384 
+         5 |       384          0 |       384 
+         6 |       384          0 |       384 
+         8 |       384          0 |       384 
+         9 |       384          0 |       384 
+        10 |       384          0 |       384 
+        11 |       384          0 |       384 
+        12 |         0        384 |       384 
+        13 |       384          0 |       384 
+        15 |       384          0 |       384 
+        16 |       384          0 |       384 
+        17 |       384          0 |       384 
+        18 |       384          0 |       384 
+        19 |       384          0 |       384 
+        20 |       384          0 |       384 
+        21 |       384          0 |       384 
+        22 |       384          0 |       384 
+        23 |       384          0 |       384 
+        24 |       384          0 |       384 
+        25 |       384          0 |       384 
+        26 |       384          0 |       384 
+        27 |         0        384 |       384 
+        28 |       384          0 |       384 
+        29 |       384          0 |       384 
+        30 |       384          0 |       384 
+        31 |       384          0 |       384 
+        32 |         0        384 |       384 
+        33 |       384          0 |       384 
+        34 |       384          0 |       384 
+        35 |       384          0 |       384 
+        36 |       384          0 |       384 
+        37 |       384          0 |       384 
+        38 |       384          0 |       384 
+        39 |         0        384 |       384 
+        40 |       384          0 |       384 
+        41 |       384          0 |       384 
+        42 |         0        384 |       384 
+        44 |       384          0 |       384 
+        45 |       384          0 |       384 
+        46 |       384          0 |       384 
+        47 |       384          0 |       384 
+        48 |       384          0 |       384 
+        49 |       384          0 |       384 
+        50 |       384          0 |       384 
+        51 |       384          0 |       384 
+        53 |       384          0 |       384 
+        54 |       384          0 |       384 
+        55 |       384          0 |       384 
+        56 |       384          0 |       384 
+-----------+----------------------+----------
+     Total |    17,664      1,920 |    19,584 
+
+(sum of wgt is 43,100,087)
+note: 42.fip omitted because of collinearity.
+
+Linear regression                               Number of obs     =        736
+                                                F(26, 50)         =          .
+                                                Prob &gt; F          =          .
+                                                R-squared         =     0.8430
+                                                Root MSE          =     .25494
+
+                                    (Std. err. adjusted for 51 clusters in fip)
+-------------------------------------------------------------------------------
+              |               Robust
+          lnr | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+--------------+----------------------------------------------------------------
+1.repeal_fake |  -.2619235   .3063582    -0.85   0.397     -.877262     .353415
+              |
+         year |
+        1986  |  -.0473925   .0623881    -0.76   0.451    -.1727026    .0779176
+        1987  |   -.282811   .1071218    -2.64   0.011    -.4979714   -.0676506
+        1988  |  -.3047447   .1380771    -2.21   0.032    -.5820807   -.0274087
+        1989  |  -.3381935   .1805399    -1.87   0.067    -.7008186    .0244316
+        1990  |  -.3411266   .2247542    -1.52   0.135    -.7925586    .1103054
+        1991  |  -.3638668   .2180394    -1.67   0.101    -.8018117    .0740781
+        1992  |  -.5641131   .2553435    -2.21   0.032    -1.076986   -.0512405
+        1993  |  -.6982166     .25845    -2.70   0.009    -1.217329   -.1791045
+        1994  |   -.704213   .2728245    -2.58   0.013    -1.252197   -.1562289
+        1995  |   -.938756   .3081557    -3.05   0.004    -1.557705   -.3198071
+        1996  |  -1.085633   .3629182    -2.99   0.004    -1.814576   -.3566907
+        1997  |  -1.069773   .4168856    -2.57   0.013    -1.907112   -.2324331
+        1998  |  -1.006071   .4858285    -2.07   0.044    -1.981887   -.0302559
+        1999  |  -1.017142   .5311595    -1.91   0.061    -2.084007     .049723
+        2000  |  -1.062719   .5999853    -1.77   0.083    -2.267825    .1423874
+              |
+  repeal_fake#|
+         year |
+      1 1986  |   .1961008   .1580668     1.24   0.221    -.1213857    .5135873
+      1 1987  |   .3019751   .1659506     1.82   0.075    -.0313465    .6352967
+      1 1988  |   .1925532   .1376346     1.40   0.168     -.083894    .4690004
+      1 1989  |   .2587087    .163867     1.58   0.121     -.070428    .5878453
+      1 1990  |   .1725233   .1545046     1.12   0.269    -.1378082    .4828549
+      1 1991  |   .0588022   .1357068     0.43   0.667    -.2137729    .3313773
+      1 1992  |  -.0298446    .148425    -0.20   0.841    -.3279649    .2682758
+      1 1993  |  -.0782904   .1372765    -0.57   0.571    -.3540183    .1974375
+      1 1994  |  -.0599632    .123157    -0.49   0.628    -.3073313    .1874049
+      1 1995  |   .0068644    .145227     0.05   0.962    -.2848327    .2985614
+      1 1996  |    .006097   .1133758     0.05   0.957     -.221625     .233819
+      1 1997  |  -.0625821   .1155086    -0.54   0.590     -.294588    .1694237
+      1 1998  |  -.0846898   .1382085    -0.61   0.543    -.3622897    .1929101
+      1 1999  |  -.0037381   .1298435    -0.03   0.977    -.2645364    .2570603
+      1 2000  |   .0295735   .1186556     0.25   0.804    -.2087532    .2679002
+              |
+          fip |
+           2  |   -1.67931   .7013951    -2.39   0.020    -3.088104   -.2705167
+           4  |  -.4782904   .4415301    -1.08   0.284     -1.36513    .4085488
+           5  |   .0570652   .0799359     0.71   0.479    -.1034908    .2176211
+           6  |  -.9959097   .5272526    -1.89   0.065    -2.054928    .0631083
+           8  |  -.5320145   .4589932    -1.16   0.252     -1.45393    .3899005
+           9  |  -.9013381   .7003092    -1.29   0.204    -2.307951    .5052743
+          10  |  -.3408189   .5989758    -0.57   0.572    -1.543897    .8622595
+          11  |  -1.319298   1.324266    -1.00   0.324    -3.979165    1.340569
+          12  |  -.4700227   .2584934    -1.82   0.075     -.989222    .0491766
+          13  |  -.4658355   .2632261    -1.77   0.083    -.9945406    .0628696
+          15  |  -1.712506   .4372031    -3.92   0.000    -2.590654   -.8343573
+          16  |  -1.698102   .1825109    -9.30   0.000    -2.064686   -1.331518
+          17  |  -.3702913   .4493088    -0.82   0.414    -1.272755     .532172
+          18  |   .1378953   .1998675     0.69   0.493    -.2635504    .5393411
+          19  |   .0936967   .1653353     0.57   0.573     -.238389    .4257823
+          20  |   .3886963   .1730131     2.25   0.029     .0411892    .7362035
+          21  |  -.0840023    .056987    -1.47   0.147    -.1984641    .0304594
+          22  |   -.623181   .2715091    -2.30   0.026    -1.168523   -.0778389
+          23  |  -2.043909   .2082448    -9.81   0.000    -2.462181   -1.625637
+          24  |  -.9304013   .5056388    -1.84   0.072    -1.946007    .0852041
+          25  |  -1.362687   .6297522    -2.16   0.035    -2.627582   -.0977927
+          26  |  -.4230176   .3390352    -1.25   0.218     -1.10399    .2579546
+          27  |   .2942861   .1721111     1.71   0.093    -.0514092    .6399814
+          28  |  -.1631074    .132844    -1.23   0.225    -.4299325    .1037176
+          29  |   .1893571   .2860834     0.66   0.511    -.3852584    .7639725
+          30  |  -1.350451    .248263    -5.44   0.000    -1.849102   -.8518006
+          31  |   .2705925   .2813189     0.96   0.341     -.294453    .8356381
+          32  |  -1.022858   .8797807    -1.16   0.250    -2.789949     .744234
+          33  |  -3.093851   1.071677    -2.89   0.006    -5.246377   -.9413251
+          34  |  -1.651775   .6231486    -2.65   0.011    -2.903406   -.4001445
+          35  |  -1.024749   .2929583    -3.50   0.001    -1.613173   -.4363253
+          36  |  -2.118819   .4655078    -4.55   0.000    -3.053819    -1.18382
+          37  |   .0543435   .1264402     0.43   0.669    -.1996191     .308306
+          38  |   -1.83464   .2001633    -9.17   0.000     -2.23668     -1.4326
+          39  |   .0414655   .0717687     0.58   0.566    -.1026862    .1856172
+          40  |   .3004358   .0858056     3.50   0.001     .1280901    .4727815
+          41  |  -.7933867   .3571316    -2.22   0.031    -1.510707   -.0760667
+          42  |          0  (omitted)
+          44  |  -.5405153   .5104011    -1.06   0.295    -1.565686    .4846555
+          45  |  -.9602952   .2294899    -4.18   0.000    -1.421239   -.4993512
+          46  |  -1.127867   .4597007    -2.45   0.018    -2.051204   -.2045314
+          47  |   .1312519   .0886643     1.48   0.145    -.0468356    .3093394
+          48  |  -.3837915   .3086508    -1.24   0.220    -1.003735    .2361518
+          49  |   -.966726   .2534117    -3.81   0.000    -1.475718   -.4577335
+          50  |  -1.942943   .3250246    -5.98   0.000    -2.595774   -1.290112
+          51  |  -.5903806   .3069945    -1.92   0.060    -1.206997     .026236
+          53  |  -.8368507   .4010224    -2.09   0.042    -1.642328   -.0313735
+          54  |  -.5250537   .1220392    -4.30   0.000    -.7701766   -.2799308
+          55  |   .1296001   .5587953     0.23   0.818    -.9927732    1.251973
+          56  |  -1.497547   .4613406    -3.25   0.002    -2.424176   -.5709167
+              |
+          acc |   .0017173   .0010087     1.70   0.095    -.0003087    .0037433
+           ir |  -.0001316   .0002427    -0.54   0.590    -.0006192     .000356
+           pi |  -.1012491   .0940607    -1.08   0.287    -.2901756    .0876774
+      alcohol |   .3243983   .3896246     0.83   0.409    -.4581858    1.106982
+        crack |   .0406948   .0415672     0.98   0.332    -.0427954     .124185
+      poverty |   .0089868   .0164328     0.55   0.587    -.0240195    .0419931
+       income |   .0000331   .0000418     0.79   0.432    -.0000508    .0001171
+           ur |  -.0143629   .0374348    -0.38   0.703    -.0895528    .0608271
+        _cons |   7.790753   1.229231     6.34   0.000      5.32177    10.25974
+-------------------------------------------------------------------------------</code></pre>
+<p>Again, we will save the parameter estimates, keep the difference-in-difference parameters, and graph our results.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="placebo-tests.html#cb11-1" tabindex="-1"></a>parmest, <span class="kw">label</span> <span class="kw">for</span>(estimate min95 max95 %8.2f) li(parm <span class="kw">label</span> estimate min95 max95) <span class="co">///</span></span>
+<span id="cb11-2"><a href="placebo-tests.html#cb11-2" tabindex="-1"></a> <span class="kw">saving</span>(bf15_DD_false.dta, <span class="kw">replace</span>)</span>
+<span id="cb11-3"><a href="placebo-tests.html#cb11-3" tabindex="-1"></a> </span>
+<span id="cb11-4"><a href="placebo-tests.html#cb11-4" tabindex="-1"></a><span class="kw">use</span> ./bf15_DD_false.dta, <span class="kw">replace</span>  </span></code></pre></div>
+<p>Keep the Diff-in-Diff Interaction Parameter Estimates and generate a year variable</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="placebo-tests.html#cb12-1" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">in</span> 36/50</span>
+<span id="cb12-2"><a href="placebo-tests.html#cb12-2" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="placebo-tests.html#cb12-3" tabindex="-1"></a><span class="kw">gen</span>     <span class="fu">year</span>=.</span>
+<span id="cb12-4"><a href="placebo-tests.html#cb12-4" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1986 <span class="kw">in</span> 1</span>
+<span id="cb12-5"><a href="placebo-tests.html#cb12-5" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1987 <span class="kw">in</span> 2</span>
+<span id="cb12-6"><a href="placebo-tests.html#cb12-6" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1988 <span class="kw">in</span> 3</span>
+<span id="cb12-7"><a href="placebo-tests.html#cb12-7" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1989 <span class="kw">in</span> 4</span>
+<span id="cb12-8"><a href="placebo-tests.html#cb12-8" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1990 <span class="kw">in</span> 5</span>
+<span id="cb12-9"><a href="placebo-tests.html#cb12-9" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1991 <span class="kw">in</span> 6</span>
+<span id="cb12-10"><a href="placebo-tests.html#cb12-10" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1992 <span class="kw">in</span> 7</span>
+<span id="cb12-11"><a href="placebo-tests.html#cb12-11" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1993 <span class="kw">in</span> 8</span>
+<span id="cb12-12"><a href="placebo-tests.html#cb12-12" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1994 <span class="kw">in</span> 9</span>
+<span id="cb12-13"><a href="placebo-tests.html#cb12-13" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1995 <span class="kw">in</span> 10</span>
+<span id="cb12-14"><a href="placebo-tests.html#cb12-14" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1996 <span class="kw">in</span> 11</span>
+<span id="cb12-15"><a href="placebo-tests.html#cb12-15" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1997 <span class="kw">in</span> 12</span>
+<span id="cb12-16"><a href="placebo-tests.html#cb12-16" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1998 <span class="kw">in</span> 13</span>
+<span id="cb12-17"><a href="placebo-tests.html#cb12-17" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1999 <span class="kw">in</span> 14</span>
+<span id="cb12-18"><a href="placebo-tests.html#cb12-18" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=2000 <span class="kw">in</span> 15</span></code></pre></div>
+<p>Finally, we will sort and graph our data.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="placebo-tests.html#cb13-1" tabindex="-1"></a><span class="kw">sort</span> <span class="fu">year</span></span>
+<span id="cb13-2"><a href="placebo-tests.html#cb13-2" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="placebo-tests.html#cb13-3" tabindex="-1"></a>*Graph Parameter Estimates with Confidence Intervals</span>
+<span id="cb13-4"><a href="placebo-tests.html#cb13-4" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">scatter</span> estimate <span class="fu">year</span>, <span class="bn">mlabel</span>(<span class="fu">year</span>) <span class="bn">mlabsize</span>(vsmall) msize(tiny)) <span class="co">///</span></span>
+<span id="cb13-5"><a href="placebo-tests.html#cb13-5" tabindex="-1"></a>  (rcap min95 max95 <span class="fu">year</span>, msize(vsmall)), <span class="bn">ytitle</span>(Repeal x <span class="fu">year</span> estimated coefficient) <span class="co">///</span></span>
+<span id="cb13-6"><a href="placebo-tests.html#cb13-6" tabindex="-1"></a>  <span class="bn">yscale</span>(titlegap(2)) <span class="kw">yline</span>(0, lwidth(thin) lcolor(<span class="bn">black</span>)) <span class="bn">xtitle</span>(Year) <span class="co">///</span></span>
+<span id="cb13-7"><a href="placebo-tests.html#cb13-7" tabindex="-1"></a>  <span class="bn">xline</span>(1986 1987 1988 1989 1990 1991 1992, lwidth(vvvthick) <span class="co">///</span></span>
+<span id="cb13-8"><a href="placebo-tests.html#cb13-8" tabindex="-1"></a>  lpattern(solid) lcolor(<span class="bn">ltblue</span>)) <span class="bn">xscale</span>(titlegap(2)) <span class="co">///</span></span>
+<span id="cb13-9"><a href="placebo-tests.html#cb13-9" tabindex="-1"></a>  <span class="bn">title</span>(Placebo Test: Fake Treatment <span class="kw">of</span> abortion legalization <span class="kw">on</span> gonorrhea) <span class="co">///</span></span>
+<span id="cb13-10"><a href="placebo-tests.html#cb13-10" tabindex="-1"></a>  <span class="bn">subtitle</span>(Black females 15-19 <span class="fu">year</span>-olds) <span class="co">///</span></span>
+<span id="cb13-11"><a href="placebo-tests.html#cb13-11" tabindex="-1"></a>  <span class="kw">note</span>(W/o XI; Wh</span></code></pre></div>
+<div class="float">
+<img src="DD3.png" alt="Placebo Test: False Treatment" />
+<div class="figcaption">Placebo Test: False Treatment</div>
+</div>
+<p>In support of Cunningham and Cormwell’s hypothesis, we fail to reject the null hypothesis at the 5 percent level across the years.</p>
+</div>
+<div id="false-timing" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> False Timing<a href="placebo-tests.html#false-timing" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="difference-in-differences.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="xtdidregress-commmands.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

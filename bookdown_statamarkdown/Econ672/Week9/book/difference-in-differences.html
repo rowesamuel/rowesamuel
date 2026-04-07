@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Difference-in-Differences | Difference-in-Differences</title>
+  <meta name="description" content="Chapter 1 Difference-in-Differences | Difference-in-Differences." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Difference-in-Differences | Difference-in-Differences" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 1 Difference-in-Differences | Difference-in-Differences." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Difference-in-Differences | Difference-in-Differences" />
+  
+  <meta name="twitter:description" content="Chapter 1 Difference-in-Differences | Difference-in-Differences." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2022)" />
+
+
+<meta name="date" content="2026-04-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="placebo-tests-false-treatment.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Difference-in-Differences</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="difference-in-differences.html"><a href="difference-in-differences.html"><i class="fa fa-check"></i><b>1</b> Difference-in-Differences</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="difference-in-differences.html"><a href="difference-in-differences.html#background"><i class="fa fa-check"></i><b>1.1</b> Background</a></li>
+<li class="chapter" data-level="1.2" data-path="difference-in-differences.html"><a href="difference-in-differences.html#estimator"><i class="fa fa-check"></i><b>1.2</b> Estimator</a></li>
+<li class="chapter" data-level="1.3" data-path="difference-in-differences.html"><a href="difference-in-differences.html#parameter-estimates"><i class="fa fa-check"></i><b>1.3</b> Parameter Estimates</a></li>
+<li class="chapter" data-level="1.4" data-path="difference-in-differences.html"><a href="difference-in-differences.html#graph"><i class="fa fa-check"></i><b>1.4</b> Graph</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="placebo-tests-false-treatment.html"><a href="placebo-tests-false-treatment.html"><i class="fa fa-check"></i><b>2</b> Placebo Tests: False Treatment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="placebo-tests-false-treatment.html"><a href="placebo-tests-false-treatment.html#false-treatment"><i class="fa fa-check"></i><b>2.1</b> False Treatment</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html"><i class="fa fa-check"></i><b>3</b> <em>xtdidregress</em> commmands</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html#world-development-index"><i class="fa fa-check"></i><b>3.1</b> World Development Index</a></li>
+<li class="chapter" data-level="3.2" data-path="xtdidregress-commmands.html"><a href="xtdidregress-commmands.html#xtdidregress"><i class="fa fa-check"></i><b>3.2</b> <em>xtdidregress</em></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="postestimation-command.html"><a href="postestimation-command.html"><i class="fa fa-check"></i><b>4</b> Postestimation Command</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="postestimation-command.html"><a href="postestimation-command.html#estat-ptrends"><i class="fa fa-check"></i><b>4.1</b> <em>estat ptrends</em></a></li>
+<li class="chapter" data-level="4.2" data-path="postestimation-command.html"><a href="postestimation-command.html#estat-trendsplot"><i class="fa fa-check"></i><b>4.2</b> <em>estat trendsplot</em></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="placebo-tests-false-timing.html"><a href="placebo-tests-false-timing.html"><i class="fa fa-check"></i><b>5</b> Placebo Tests: False Timing</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="placebo-tests-false-timing.html"><a href="placebo-tests-false-timing.html#false-timing"><i class="fa fa-check"></i><b>5.1</b> False Timing</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Difference-in-Differences</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="difference-in-differences" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Difference-in-Differences<a href="difference-in-differences.html#difference-in-differences" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="background" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Background<a href="difference-in-differences.html#background" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Cunningham and Cornwell (2013) use a difference-in-difference design as opposed to Donohue and Levitt (2001) that use lagged ratio values at the state level.</p>
+<p>Cunningham makes a good point with good theories provide very specific falsifiable hypotheses. More specific the hypothesis, the more compelling the theory if evidence supports the theory.</p>
+<p>Five states legalized abortion and then all states are exposed to legalized abortion. There is a three-year lag between the five states and Roe v Wade decision, which should lead to a nonlinear parabolic treatment effect.</p>
+<p>There should be increasingly negative effect of abortion legalization on the outcome between the treatment states and control states.</p>
+<p>Our repeal states are Alaska (02), California (06), Hawaii (15), New York (36), Washington (53).</p>
+</div>
+<div id="estimator" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Estimator<a href="difference-in-differences.html#estimator" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will use the difference-in-differences estimator. Cunningham and Cornwell (2013) model is the following:</p>
+<p><span class="math display">\[ Y_{st} = \alpha + \beta_1 RepealST_s + \beta_2 Year_t + \delta (RepealST*Year)_{st}+\psi X_{st}+\gamma ST_s+ \varepsilon_{st} \]</span>
+Where</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Y_{st}\)</span> is outcome of interest: new gonorrhea cases for 15-19 year olds per 100,000</li>
+<li><span class="math inline">\(\delta\)</span> is our parameter of interest.</li>
+<li><span class="math inline">\(RepealST_s\)</span> is a binary for treatment state</li>
+<li><span class="math inline">\(Year_t\)</span> is a time binary for each year</li>
+<li><span class="math inline">\(RepealST*Year_{st}\)</span> is our interaction term</li>
+<li><span class="math inline">\(X_{st}\)</span> are a set of covariates, such as alcholo consumption per capita, real income per capita, etc.</li>
+<li><span class="math inline">\(ST_s\)</span> are state fixed effects</li>
+</ol>
+</div>
+<div id="parameter-estimates" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Parameter Estimates<a href="difference-in-differences.html#parameter-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will estimate the <span class="math inline">\(ATET\)</span> with the difference-in-differences estimator. We will use the <em>##</em> operator for the interaction between treatment state and year. We will use analytical weights to account for population. We will cluster our standard errors by FIPS code (state).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="difference-in-differences.html#cb2-1" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data/abortion.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb2-2"><a href="difference-in-differences.html#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="difference-in-differences.html#cb2-3" tabindex="-1"></a><span class="kw">reg</span> lnr i.repeal##i.<span class="fu">year</span> i.fip acc <span class="kw">ir</span> <span class="kw">pi</span> alcohol crack poverty income ur <span class="kw">if</span> bf15==1 [<span class="kw">aweight</span>=totpop], <span class="kw">cluster</span>(fip)</span></code></pre></div>
+<pre><code>(sum of wgt is 43,100,087)
+note: 53.fip omitted because of collinearity.
+
+Linear regression                               Number of obs     =        736
+                                                F(26, 50)         =          .
+                                                Prob &gt; F          =          .
+                                                R-squared         =     0.8566
+                                                Root MSE          =     .24363
+
+                                   (Std. err. adjusted for 51 clusters in fip)
+------------------------------------------------------------------------------
+             |               Robust
+         lnr | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+    1.repeal |  -.9638237   .3925204    -2.46   0.018    -1.752224   -.1754232
+             |
+        year |
+       1986  |  -.0208274   .0576675    -0.36   0.719     -.136656    .0950013
+       1987  |  -.2864665   .1109824    -2.58   0.013    -.5093812   -.0635518
+       1988  |  -.3494648   .1309365    -2.67   0.010    -.6124586   -.0864711
+       1989  |    -.40722   .1732298    -2.35   0.023    -.7551622   -.0592778
+       1990  |  -.4864117   .2166425    -2.25   0.029    -.9215509   -.0512725
+       1991  |  -.5353034   .2230406    -2.40   0.020    -.9832937   -.0873131
+       1992  |  -.7866236   .2685517    -2.93   0.005    -1.326025   -.2472217
+       1993  |  -.9767166   .2867949    -3.41   0.001    -1.552761   -.4006721
+       1994  |  -1.064367   .3225681    -3.30   0.002    -1.712264   -.4164694
+       1995  |  -1.356245   .3752309    -3.61   0.001    -2.109918   -.6025717
+       1996  |  -1.520062   .4142987    -3.67   0.001    -2.352206   -.6879188
+       1997  |  -1.571846    .467604    -3.36   0.001    -2.511056   -.6326358
+       1998  |  -1.545129   .5354385    -2.89   0.006    -2.620589   -.4696694
+       1999  |  -1.587414   .5783181    -2.74   0.008       -2.749   -.4258275
+       2000  |  -1.672572   .6572878    -2.54   0.014    -2.992773   -.3523703
+             |
+ repeal#year |
+     1 1986  |  -.2590538     .06331    -4.09   0.000    -.3862157   -.1318919
+     1 1987  |   -.341738   .1683369    -2.03   0.048    -.6798526   -.0036234
+     1 1988  |  -.6105532   .2026137    -3.01   0.004    -1.017515   -.2035916
+     1 1989  |  -.7850003   .2372121    -3.31   0.002    -1.261455   -.3085458
+     1 1990  |  -.6316315    .175649    -3.60   0.001    -.9844328   -.2788301
+     1 1991  |  -.5526026   .1393595    -3.97   0.000    -.8325144   -.2726909
+     1 1992  |  -.4424166   .1603875    -2.76   0.008    -.7645643   -.1202689
+     1 1993  |  -.3060626   .1807604    -1.69   0.097    -.6691306    .0570054
+     1 1994  |  -.1178897   .2066789    -0.57   0.571    -.5330165    .2972371
+     1 1995  |   .0210291   .2226034     0.09   0.925     -.426083    .4681413
+     1 1996  |  -.1235341   .2065672    -0.60   0.553    -.5384365    .2913682
+     1 1997  |   .0208529   .2641661     0.08   0.937    -.5097404    .5514461
+     1 1998  |  -.0360524   .3473215    -0.10   0.918    -.7336682    .6615635
+     1 1999  |   .0147091   .3574973     0.04   0.967    -.7033454    .7327637
+     1 2000  |   .0414508   .3873416     0.11   0.915    -.7365477    .8194494
+             |
+         fip |
+          2  |  -.8718965   .2991619    -2.91   0.005    -1.472781   -.2710121
+          4  |  -.9589386   .5238254    -1.83   0.073    -2.011073    .0931956
+          5  |    .086031   .0651941     1.32   0.193    -.0449151    .2169772
+          6  |  -.2975866   .2226081    -1.34   0.187    -.7447082     .149535
+          8  |   -.824605    .418118    -1.97   0.054     -1.66442    .0152097
+          9  |  -1.680892    .735009    -2.29   0.026    -3.157201   -.2045828
+         10  |  -.7457544   .4837752    -1.54   0.129    -1.717445    .2259366
+         11  |  -2.112355   1.245639    -1.70   0.096    -4.614294    .3895843
+         12  |  -1.094748   .5131535    -2.13   0.038    -2.125447   -.0640485
+         13  |  -.7215762   .2461082    -2.93   0.005    -1.215899   -.2272534
+         15  |   -.785426   .1104538    -7.11   0.000    -1.007279    -.563573
+         16  |  -1.793719    .199309    -9.00   0.000    -2.194043   -1.393395
+         17  |  -.7228205   .4586163    -1.58   0.121    -1.643979    .1983376
+         18  |  -.1431537   .1870356    -0.77   0.448    -.5188258    .2325184
+         19  |   -.149797   .1960069    -0.76   0.448    -.5434884    .2438945
+         20  |   .0800445   .2174335     0.37   0.714    -.3566836    .5167725
+         21  |  -.1103709   .0591079    -1.87   0.068    -.2290927     .008351
+         22  |  -.7439527   .2827822    -2.63   0.011    -1.311937   -.1759679
+         23  |  -2.021225   .1483314   -13.63   0.000    -2.319158   -1.723293
+         24  |  -1.474562   .5007266    -2.94   0.005      -2.4803   -.4688227
+         25  |  -1.894324   .5379483    -3.52   0.001    -2.974825   -.8138234
+         26  |  -.7679939   .3604587    -2.13   0.038    -1.491996   -.0439913
+         27  |  -.3203199   .4029102    -0.80   0.430    -1.129589    .4889491
+         28  |  -.0275888   .1456112    -0.19   0.850    -.3200575    .2648799
+         29  |  -.1669216   .2861424    -0.58   0.562    -.7416555    .4078123
+         30  |  -1.266169   .1883256    -6.72   0.000    -1.644432   -.8879054
+         31  |  -.1175657   .3082755    -0.38   0.705    -.7367553     .501624
+         32  |  -1.964808   1.044429    -1.88   0.066    -4.062606    .1329889
+         33  |  -3.590973   .8735464    -4.11   0.000    -5.345543   -1.836404
+         34  |  -2.275554   .6451338    -3.53   0.001    -3.571343   -.9797646
+         35  |  -1.181403   .3453042    -3.42   0.001    -1.874967   -.4878395
+         36  |  -1.383549   .1679959    -8.24   0.000    -1.720978   -1.046119
+         37  |  -.0884957   .1283493    -0.69   0.494    -.3462929    .1693014
+         38  |  -1.826491   .1347731   -13.55   0.000     -2.09719   -1.555791
+         39  |  -.4892242   .2468848    -1.98   0.053    -.9851069    .0066586
+         40  |   .3048617   .0728499     4.18   0.000     .1585383    .4511851
+         41  |  -1.122812   .3450629    -3.25   0.002    -1.815891   -.4297331
+         42  |  -.6310678   .3294935    -1.92   0.061    -1.292875    .0307394
+         44  |  -1.209623   .5218193    -2.32   0.025    -2.257728   -.1615186
+         45  |    -1.1109     .18893    -5.88   0.000    -1.490377   -.7314228
+         46  |  -2.028952    .701715    -2.89   0.006    -3.438388   -.6195157
+         47  |   .0592482   .1032237     0.57   0.569    -.1480827    .2665792
+         48  |  -.6054829    .327232    -1.85   0.070    -1.262748    .0517819
+         49  |  -1.266724    .206377    -6.14   0.000    -1.681244   -.8522034
+         50  |  -1.997358   .2201325    -9.07   0.000    -2.439507   -1.555209
+         51  |  -.9493606   .3246087    -2.92   0.005    -1.601356   -.2973647
+         53  |          0  (omitted)
+         54  |  -.5213726   .1272785    -4.10   0.000     -.777019   -.2657262
+         55  |  -.4836776   .5516487    -0.88   0.385    -1.591697    .6243413
+         56  |  -2.192106   .5827897    -3.76   0.000    -3.362674   -1.021539
+             |
+         acc |   .0028777   .0012798     2.25   0.029     .0003071    .0054484
+          ir |   .0004439   .0004202     1.06   0.296    -.0004002     .001288
+          pi |  -.0390221   .0662197    -0.59   0.558    -.1720282    .0939841
+     alcohol |   .4468421   .3277729     1.36   0.179     -.211509    1.105193
+       crack |   .0528287   .0346135     1.53   0.133    -.0166946    .1223521
+     poverty |   -.002761   .0140407    -0.20   0.845    -.0309626    .0254406
+      income |   .0000585   .0000443     1.32   0.193    -.0000304    .0001474
+          ur |  -.0278237   .0364834    -0.76   0.449    -.1011027    .0454553
+       _cons |   7.475343    1.17536     6.36   0.000     5.114563    9.836123
+------------------------------------------------------------------------------</code></pre>
+<p>We can see that the difference-in-differnces interaction is statistically significant from 1986 to 1992. After 1992, we fail to reject the null hypothesis.</p>
+</div>
+<div id="graph" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Graph<a href="difference-in-differences.html#graph" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can save our parameter estimates using the <em>parmest</em> command, so that we can graph our difference-in-differences output.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="difference-in-differences.html#cb4-1" tabindex="-1"></a>parmest, <span class="kw">label</span> <span class="kw">for</span>(estimate min95 max95 %8.2f) li(parm <span class="kw">label</span> estimate min95 max95) <span class="kw">saving</span>(bf15_DD.dta, <span class="kw">replace</span>)</span></code></pre></div>
+<p>Now we need to bring the data into Stata and work with the years. First, use the Parameter estimates data frame. The data set looks like the following:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="difference-in-differences.html#cb5-1" tabindex="-1"></a><span class="kw">use</span> ./bf15_DD.dta, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="DD2.png" alt="Parameter Estimates Output" />
+<div class="figcaption">Parameter Estimates Output</div>
+</div>
+<p>We will keep the difference-in-difference parameters, which are row 36 through row 50 observations.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="difference-in-differences.html#cb6-1" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">in</span> 36/50</span></code></pre></div>
+<p>Next, we will generate a year variable for each year of the parameter estimates, and then we will sort the data.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="difference-in-differences.html#cb7-1" tabindex="-1"></a>*Generate <span class="fu">year</span> </span>
+<span id="cb7-2"><a href="difference-in-differences.html#cb7-2" tabindex="-1"></a><span class="kw">gen</span>     <span class="fu">year</span>=.</span>
+<span id="cb7-3"><a href="difference-in-differences.html#cb7-3" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1986 <span class="kw">in</span> 1</span>
+<span id="cb7-4"><a href="difference-in-differences.html#cb7-4" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1987 <span class="kw">in</span> 2</span>
+<span id="cb7-5"><a href="difference-in-differences.html#cb7-5" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1988 <span class="kw">in</span> 3</span>
+<span id="cb7-6"><a href="difference-in-differences.html#cb7-6" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1989 <span class="kw">in</span> 4</span>
+<span id="cb7-7"><a href="difference-in-differences.html#cb7-7" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1990 <span class="kw">in</span> 5</span>
+<span id="cb7-8"><a href="difference-in-differences.html#cb7-8" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1991 <span class="kw">in</span> 6</span>
+<span id="cb7-9"><a href="difference-in-differences.html#cb7-9" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1992 <span class="kw">in</span> 7</span>
+<span id="cb7-10"><a href="difference-in-differences.html#cb7-10" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1993 <span class="kw">in</span> 8</span>
+<span id="cb7-11"><a href="difference-in-differences.html#cb7-11" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1994 <span class="kw">in</span> 9</span>
+<span id="cb7-12"><a href="difference-in-differences.html#cb7-12" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1995 <span class="kw">in</span> 10</span>
+<span id="cb7-13"><a href="difference-in-differences.html#cb7-13" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1996 <span class="kw">in</span> 11</span>
+<span id="cb7-14"><a href="difference-in-differences.html#cb7-14" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1997 <span class="kw">in</span> 12</span>
+<span id="cb7-15"><a href="difference-in-differences.html#cb7-15" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1998 <span class="kw">in</span> 13</span>
+<span id="cb7-16"><a href="difference-in-differences.html#cb7-16" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=1999 <span class="kw">in</span> 14</span>
+<span id="cb7-17"><a href="difference-in-differences.html#cb7-17" tabindex="-1"></a><span class="kw">replace</span> <span class="fu">year</span>=2000 <span class="kw">in</span> 15</span>
+<span id="cb7-18"><a href="difference-in-differences.html#cb7-18" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="difference-in-differences.html#cb7-19" tabindex="-1"></a><span class="kw">sort</span> <span class="fu">year</span></span></code></pre></div>
+<p>Now we will graph our parameters using a twoway graph</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="difference-in-differences.html#cb8-1" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">scatter</span> estimate <span class="fu">year</span>, <span class="bn">mlabel</span>(<span class="fu">year</span>) <span class="bn">mlabsize</span>(vsmall) msize(tiny)) <span class="co">///</span></span>
+<span id="cb8-2"><a href="difference-in-differences.html#cb8-2" tabindex="-1"></a>  (rcap min95 max95 <span class="fu">year</span>, msize(vsmall)), <span class="bn">ytitle</span>(Repeal x <span class="fu">year</span> estimated coefficient) <span class="co">///</span></span>
+<span id="cb8-3"><a href="difference-in-differences.html#cb8-3" tabindex="-1"></a>  <span class="bn">yscale</span>(titlegap(2)) <span class="kw">yline</span>(0, lwidth(thin) lcolor(<span class="bn">black</span>)) <span class="bn">xtitle</span>(Year) <span class="co">///</span></span>
+<span id="cb8-4"><a href="difference-in-differences.html#cb8-4" tabindex="-1"></a>  <span class="bn">xline</span>(1986 1987 1988 1989 1990 1991 1992, lwidth(vvvthick) <span class="co">///</span></span>
+<span id="cb8-5"><a href="difference-in-differences.html#cb8-5" tabindex="-1"></a>  lpattern(solid) lcolor(<span class="bn">ltblue</span>)) <span class="bn">xscale</span>(titlegap(2)) <span class="co">///</span></span>
+<span id="cb8-6"><a href="difference-in-differences.html#cb8-6" tabindex="-1"></a>  <span class="bn">title</span>(Estimated effect <span class="kw">of</span> abortion legalization <span class="kw">on</span> gonorrhea) <span class="co">///</span></span>
+<span id="cb8-7"><a href="difference-in-differences.html#cb8-7" tabindex="-1"></a>  <span class="bn">subtitle</span>(Black females 15-19 <span class="fu">year</span>-olds) <span class="co">///</span></span>
+<span id="cb8-8"><a href="difference-in-differences.html#cb8-8" tabindex="-1"></a>  <span class="kw">note</span>(W/o XI; Whisker plots are estimated coefficients <span class="kw">of</span> DD estimator from Column b <span class="kw">of</span> Table 2.) <span class="co">///</span></span>
+<span id="cb8-9"><a href="difference-in-differences.html#cb8-9" tabindex="-1"></a>  <span class="bn">legend</span>(<span class="kw">off</span>)</span></code></pre></div>
+<div class="float">
+<img src="DD1.png" alt="Difference-in-Differences Parameter Estimates 1986-2000" />
+<div class="figcaption">Difference-in-Differences Parameter Estimates 1986-2000</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="placebo-tests-false-treatment.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
