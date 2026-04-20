@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Two-way Fixed Effects | Two-Way Fixed Effect and Goodman-Bacon Decomposition</title>
+  <meta name="description" content="This is covers Two-Way Fixed Effect and Goodman-Bacon Decomposition." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Two-way Fixed Effects | Two-Way Fixed Effect and Goodman-Bacon Decomposition" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is covers Two-Way Fixed Effect and Goodman-Bacon Decomposition." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Two-way Fixed Effects | Two-Way Fixed Effect and Goodman-Bacon Decomposition" />
+  
+  <meta name="twitter:description" content="This is covers Two-Way Fixed Effect and Goodman-Bacon Decomposition." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2021)" />
+
+
+<meta name="date" content="2026-04-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="goodman-bacon-decomposition.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">TWFE and Goodman-Bacon Decomposition</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="two-way-fixed-effects.html"><a href="two-way-fixed-effects.html"><i class="fa fa-check"></i><b>1</b> Two-way Fixed Effects</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="two-way-fixed-effects.html"><a href="two-way-fixed-effects.html#replicate-cheng-and-hoesktra-2013"><i class="fa fa-check"></i><b>1.1</b> Replicate Cheng and Hoesktra (2013)</a></li>
+<li class="chapter" data-level="1.2" data-path="two-way-fixed-effects.html"><a href="two-way-fixed-effects.html#inspect-the-data"><i class="fa fa-check"></i><b>1.2</b> Inspect the data</a></li>
+<li class="chapter" data-level="1.3" data-path="two-way-fixed-effects.html"><a href="two-way-fixed-effects.html#twfe"><i class="fa fa-check"></i><b>1.3</b> TWFE</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="goodman-bacon-decomposition.html"><a href="goodman-bacon-decomposition.html"><i class="fa fa-check"></i><b>2</b> Goodman-Bacon Decomposition</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Two-Way Fixed Effect and Goodman-Bacon Decomposition</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="two-way-fixed-effects" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Two-way Fixed Effects<a href="two-way-fixed-effects.html#two-way-fixed-effects" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="replicate-cheng-and-hoesktra-2013" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Replicate Cheng and Hoesktra (2013)<a href="two-way-fixed-effects.html#replicate-cheng-and-hoesktra-2013" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will replicate Cheng and Hoesktra (2013) in our Two-Way Fixed Effects (TWFE) example. Cheng and Hoekstra (2013) evaluate the impact of gun reform on violence with time differential adoption of gun reform after the death of Trayvon Martin in 2012.</p>
+<p>The policy change of interest are castle-doctrine statutes (or “Stand Your Ground” laws). Between 2000 and 2010, 21 states expanded their castle-doctrine by extending the castle-doctrine to outside of the home where lethal force could legally be used. It eliminated the long-standing common law of a victim’s duty to retreat. And, if the victim felt threatened, then they could legally use lethal force.</p>
+<p>The authors assess the reform of castle-doctrine statutes on homicides. Proponents argue that it reduces crime through deterrance, while opponents argue it increases homicides due to more guns being present. Cunningham argues that these doctrines reduce the marginal cost of manslaughter by reducing civil liability.</p>
+<p>The authors utilize a TWFE estimator, since there are differential timings in treatment. States did not adopt castle-doctrine reform simultaneously. Therefore, we need to be concerned about comparing early treated to late treated.</p>
+<p>Model</p>
+<p><span class="math display">\[ Y_{it}=\alpha+\delta D_{it} + \gamma X_{it} + \lambda_{i} + \tau_{t}+\varepsilon_{it} \]</span>
+Where</p>
+<ul>
+<li><span class="math inline">\(Y_{it}\)</span> is the homicide rate per <span class="math inline">\(100k\)</span></li>
+<li><span class="math inline">\(D_{it}\)</span> is the binary for castle doctrine present in state <span class="math inline">\(i\)</span> at time <span class="math inline">\(t\)</span></li>
+<li><span class="math inline">\(X_{it}\)</span> are region-by-region fixed effects (so a treatment state’s counterfactual comes from its region)</li>
+<li><span class="math inline">\(lambda_{i}\)</span> are state fixed effects</li>
+<li><span class="math inline">\(\tau_{t}\)</span> are time fixed effects</li>
+<li><span class="math inline">\(\varepsilon_{it}\)</span> is the idiosyncratic error clustered at the state level</li>
+</ul>
+<p>We have a few option for implementing Goodman-Bacon Decomposition. The first one is the <em>bacondecomp</em> package and the other is a post-estimation command with <em>xtdidregress</em>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="two-way-fixed-effects.html#cb2-1" tabindex="-1"></a><span class="kw">ssc</span> install bacondecomp</span></code></pre></div>
+</div>
+<div id="inspect-the-data" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Inspect the data<a href="two-way-fixed-effects.html#inspect-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will import our data and inspect the outcomes and treatment variables.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb3-1"><a href="two-way-fixed-effects.html#cb3-1" tabindex="-1"></a><span class="kw">clear</span></span>
+<span id="cb3-2"><a href="two-way-fixed-effects.html#cb3-2" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data&quot;</span></span>
+<span id="cb3-3"><a href="two-way-fixed-effects.html#cb3-3" tabindex="-1"></a><span class="kw">use</span> castle</span>
+<span id="cb3-4"><a href="two-way-fixed-effects.html#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="two-way-fixed-effects.html#cb3-5" tabindex="-1"></a><span class="kw">sum</span> homicide, <span class="kw">detail</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 672/Data
+
+         homicide count per 100,000 state population
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .9615808       .6466538
+ 5%     1.358292       .7829468
+10%     1.792752        .819343       Obs                 550
+25%     2.642913       .8362355       Sum of wgt.         550
+
+50%     4.652019                      Mean           4.761399
+                        Largest       Std. dev.      2.482834
+75%     6.429322       13.10705
+90%     7.707187       13.39059       Variance       6.164465
+95%     8.774975       13.63958       Skewness       .6841787
+99%     12.92404       14.52561       Kurtosis       3.558378</code></pre>
+<p>Our median homicide rate per 100K is 4.65, while the mean is 4.76.</p>
+<p>We’ll inspect the histogram of both homicide per 100K and the natural log of homicides per 100K.</p>
+<pre class="ch3"><code>histogram homicide</code></pre>
+<div class="float">
+<img src="CH1.png" alt="Homicides per 100K" />
+<div class="figcaption">Homicides per 100K</div>
+</div>
+<pre class="ch3_1"><code>histogram l_homicide, xtitle(&quot;Natural Log of Homicides per 100K&quot;)</code></pre>
+<div class="float">
+<img src="CH2.png" alt="Natural Log of Homicides per 100K" />
+<div class="figcaption">Natural Log of Homicides per 100K</div>
+</div>
+<p>Next, we will inspect our treatment variable of interest, which is the change in states adopting caste-doctrine statutes in state <span class="math inline">\(i\)</span> at time <span class="math inline">\(t\)</span>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="two-way-fixed-effects.html#cb7-1" tabindex="-1"></a><span class="kw">label</span> <span class="kw">variable</span> <span class="kw">post</span> <span class="st">&quot;Year of treatment&quot;</span></span>
+<span id="cb7-2"><a href="two-way-fixed-effects.html#cb7-2" tabindex="-1"></a><span class="kw">tab</span> <span class="fu">year</span> <span class="kw">post</span></span></code></pre></div>
+<pre><code>           |   Year of treatment
+      year |         0          1 |     Total
+-----------+----------------------+----------
+      2000 |        50          0 |        50 
+      2001 |        50          0 |        50 
+      2002 |        50          0 |        50 
+      2003 |        50          0 |        50 
+      2004 |        50          0 |        50 
+      2005 |        50          0 |        50 
+      2006 |        49          1 |        50 
+      2007 |        36         14 |        50 
+      2008 |        32         18 |        50 
+      2009 |        30         20 |        50 
+      2010 |        29         21 |        50 
+-----------+----------------------+----------
+     Total |       476         74 |       550 </code></pre>
+<p>We can see that 1 state adopted the policy in 2006. There were 13 more adopters in 2007, 4 more in 2008, 2 more in 2009, and 1 more in 2010. The key issue is that states did not adopt castle-doctrine statutes simultaneously.</p>
+<p>Next, we will set up our global macros first to replicate Cheng and Hoesktra (2013). Our state level covariates, <span class="math inline">\(X_{it}\)</span>, includes demographic variables, state linear trends, region, LN of exogenous crime rates, LN of public expenditures, LN of FTE police, unemployment rates, poverty rates, LN of median state income, LN of incarceration rate, and a lag in LN of incarceration rate.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="two-way-fixed-effects.html#cb9-1" tabindex="-1"></a><span class="kw">global</span> crime1 jhcitizen_c jhpolice_c murder homicide  robbery assault burglary larceny motor robbery_gun_r </span>
+<span id="cb9-2"><a href="two-way-fixed-effects.html#cb9-2" tabindex="-1"></a><span class="kw">global</span> demo blackm_15_24 whitem_15_24 blackm_25_44 whitem_25_44 <span class="co">//demographics</span></span>
+<span id="cb9-3"><a href="two-way-fixed-effects.html#cb9-3" tabindex="-1"></a><span class="kw">global</span> lintrend trend_1-trend_51 <span class="co">//state linear trend</span></span>
+<span id="cb9-4"><a href="two-way-fixed-effects.html#cb9-4" tabindex="-1"></a><span class="kw">global</span> region r20001-r20104  <span class="co">//region-quarter fixed effects</span></span>
+<span id="cb9-5"><a href="two-way-fixed-effects.html#cb9-5" tabindex="-1"></a><span class="kw">global</span> exocrime l_larceny l_motor <span class="co">// exogenous crime rates</span></span>
+<span id="cb9-6"><a href="two-way-fixed-effects.html#cb9-6" tabindex="-1"></a><span class="kw">global</span> spending l_exp_subsidy l_exp_pubwelfare </span>
+<span id="cb9-7"><a href="two-way-fixed-effects.html#cb9-7" tabindex="-1"></a><span class="kw">global</span> xvar l_police unemployrt poverty l_income l_prisoner l_lagprisoner <span class="ot">$demo</span> <span class="ot">$spending</span></span></code></pre></div>
+</div>
+<div id="twfe" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> TWFE<a href="two-way-fixed-effects.html#twfe" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will use our <em>xtreg</em> command to estimate the TWFE estimator.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="two-way-fixed-effects.html#cb10-1" tabindex="-1"></a>xtset sid <span class="fu">year</span></span>
+<span id="cb10-2"><a href="two-way-fixed-effects.html#cb10-2" tabindex="-1"></a><span class="kw">xtreg</span> l_homicide i.<span class="fu">year</span> <span class="ot">$region</span> <span class="ot">$xvar</span> <span class="ot">$lintrend</span> <span class="kw">post</span> [<span class="kw">aweight</span>=popwt], <span class="kw">fe</span> <span class="kw">vce</span>(<span class="kw">cluster</span> sid)</span></code></pre></div>
+<pre><code>Panel variable: sid (strongly balanced)
+ Time variable: year, 2000 to 2010
+         Delta: 1 unit
+
+note: r20004 omitted because of collinearity.
+note: r20014 omitted because of collinearity.
+note: r20024 omitted because of collinearity.
+note: r20034 omitted because of collinearity.
+note: r20044 omitted because of collinearity.
+note: r20054 omitted because of collinearity.
+note: r20064 omitted because of collinearity.
+note: r20074 omitted because of collinearity.
+note: r20084 omitted because of collinearity.
+note: r20094 omitted because of collinearity.
+note: r20101 omitted because of collinearity.
+note: r20102 omitted because of collinearity.
+note: r20103 omitted because of collinearity.
+note: r20104 omitted because of collinearity.
+note: trend_9 omitted because of collinearity.
+note: trend_46 omitted because of collinearity.
+note: trend_49 omitted because of collinearity.
+note: trend_50 omitted because of collinearity.
+note: trend_51 omitted because of collinearity.
+
+Fixed-effects (within) regression               Number of obs     =        550
+Group variable: sid                             Number of groups  =         50
+
+R-squared:                                      Obs per group:
+     Within  = 0.5851                                         min =         11
+     Between = 0.3750                                         avg =       11.0
+     Overall = 0.3208                                         max =         11
+
+                                                F(49, 49)         =          .
+corr(u_i, Xb) = -0.9808                         Prob &gt; F          =          .
+
+                                      (Std. err. adjusted for 50 clusters in sid)
+---------------------------------------------------------------------------------
+                |               Robust
+     l_homicide | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+           year |
+          2001  |   .0684684   .0364135     1.88   0.066    -.0047073     .141644
+          2002  |     .07167   .0436393     1.64   0.107    -.0160265    .1593665
+          2003  |   .1006137   .0449905     2.24   0.030     .0102019    .1910256
+          2004  |   .1293868   .0368288     3.51   0.001     .0553766     .203397
+          2005  |   .1605832   .0401576     4.00   0.000     .0798834    .2412829
+          2006  |   .1743047   .0444244     3.92   0.000     .0850304     .263579
+          2007  |   .0903824   .0452763     2.00   0.051    -.0006037    .1813685
+          2008  |   .0017728    .043145     0.04   0.967    -.0849304     .088476
+          2009  |  -.0830581   .0747786    -1.11   0.272    -.2333313     .067215
+          2010  |  -.1640143   .0898474    -1.83   0.074    -.3445694    .0165409
+                |
+         r20001 |   .0680535   .5230205     0.13   0.897    -.9829956    1.119103
+         r20002 |   .1947373   .0830414     2.35   0.023     .0278593    .3616152
+         r20003 |  -.7696014   .1386803    -5.55   0.000     -1.04829    -.490913
+         r20004 |          0  (omitted)
+         r20011 |   .0245472   .4611295     0.05   0.958    -.9021273    .9512216
+         r20012 |   .1113508   .0694829     1.60   0.115    -.0282802    .2509819
+         r20013 |  -.7778491   .1171504    -6.64   0.000    -1.013272   -.5424266
+         r20014 |          0  (omitted)
+         r20021 |  -.0562268   .4164922    -0.14   0.893    -.8931992    .7807456
+         r20022 |   .0512223   .0767245     0.67   0.508    -.1029613    .2054059
+         r20023 |   -.705417   .1038296    -6.79   0.000    -.9140704   -.4967636
+         r20024 |          0  (omitted)
+         r20031 |  -.0539292   .3656493    -0.15   0.883    -.7887289    .6808705
+         r20032 |   .0223513    .079209     0.28   0.779    -.1368251    .1815278
+         r20033 |  -.6139207   .0941957    -6.52   0.000     -.803214   -.4246274
+         r20034 |          0  (omitted)
+         r20041 |  -.1166739   .3168582    -0.37   0.714    -.7534244    .5200766
+         r20042 |  -.0571238   .0757494    -0.75   0.454    -.2093478    .0951003
+         r20043 |  -.5770167   .0883266    -6.53   0.000    -.7545157   -.3995178
+         r20044 |          0  (omitted)
+         r20051 |  -.1179566   .2597649    -0.45   0.652    -.6399738    .4040606
+         r20052 |  -.0283003   .0860598    -0.33   0.744    -.2012439    .1446434
+         r20053 |  -.4934666   .0761714    -6.48   0.000    -.6465387   -.3403944
+         r20054 |          0  (omitted)
+         r20061 |  -.1212647   .2125436    -0.57   0.571     -.548387    .3058577
+         r20062 |  -.0400965    .076217    -0.53   0.601    -.1932604    .1130674
+         r20063 |  -.4218767   .0664637    -6.35   0.000    -.5554405   -.2883129
+         r20064 |          0  (omitted)
+         r20071 |   -.175662   .1640823    -1.07   0.290    -.5053978    .1540738
+         r20072 |  -.0303389   .0685235    -0.44   0.660    -.1680421    .1073642
+         r20073 |    -.22896   .0515107    -4.44   0.000    -.3324746   -.1254453
+         r20074 |          0  (omitted)
+         r20081 |  -.0883956   .1177948    -0.75   0.457     -.325113    .1483218
+         r20082 |   .0144664   .0715169     0.20   0.841    -.1292521    .1581849
+         r20083 |  -.1562348   .0549373    -2.84   0.006    -.2666354   -.0458342
+         r20084 |          0  (omitted)
+         r20091 |  -.1564882   .0699626    -2.24   0.030    -.2970834   -.0158931
+         r20092 |  -.0250962   .0628484    -0.40   0.691    -.1513947    .1012023
+         r20093 |  -.0734065   .0460022    -1.60   0.117    -.1658514    .0190384
+         r20094 |          0  (omitted)
+         r20101 |          0  (omitted)
+         r20102 |          0  (omitted)
+         r20103 |          0  (omitted)
+         r20104 |          0  (omitted)
+       l_police |   .1083243   .0557582     1.94   0.058    -.0037259    .2203746
+     unemployrt |   .0131937   .0120787     1.09   0.280    -.0110794    .0374668
+        poverty |  -.0191538   .0127408    -1.50   0.139    -.0447575    .0064498
+       l_income |  -.3124133   .1614044    -1.94   0.059    -.6367676    .0119409
+     l_prisoner |  -.1297827   .1936936    -0.67   0.506    -.5190245    .2594591
+  l_lagprisoner |  -.4232017   .2471395    -1.71   0.093    -.9198471    .0734438
+   blackm_15_24 |   .0613503   .1072938     0.57   0.570    -.1542646    .2769653
+   whitem_15_24 |   .0360048   .0271789     1.32   0.191    -.0186132    .0906227
+   blackm_25_44 |   .2225389   .1231065     1.81   0.077    -.0248529    .4699308
+   whitem_25_44 |  -.0277861   .0119219    -2.33   0.024    -.0517441   -.0038281
+  l_exp_subsidy |  -.0412795   .0390496    -1.06   0.296    -.1197527    .0371937
+l_exp_pubwelf~e |   .0368399   .0615966     0.60   0.553    -.0869432     .160623
+        trend_1 |  -.0927506    .012828    -7.23   0.000    -.1185295   -.0669717
+        trend_2 |  -.0319785   .0076138    -4.20   0.000     -.047279    -.016678
+        trend_3 |  -.0061905   .0082194    -0.75   0.455    -.0227081    .0103271
+        trend_4 |  -.0679086   .0118405    -5.74   0.000     -.091703   -.0441142
+        trend_5 |  -.0191227   .0064486    -2.97   0.005    -.0320816   -.0061638
+        trend_6 |  -.0023247   .0058618    -0.40   0.693    -.0141045     .009455
+        trend_7 |   .0324795   .0493962     0.66   0.514     -.066786    .1317449
+        trend_8 |  -.0173139   .0200248    -0.86   0.391    -.0575552    .0229274
+        trend_9 |          0  (omitted)
+       trend_10 |  -.0664576   .0098661    -6.74   0.000    -.0862842    -.046631
+       trend_11 |   -.110019   .0136859    -8.04   0.000    -.1375219   -.0825161
+       trend_12 |  -.0317464   .0056227    -5.65   0.000    -.0430456   -.0204472
+       trend_13 |   .0706104   .0584627     1.21   0.233    -.0468748    .1880957
+       trend_14 |  -.0147762   .0033377    -4.43   0.000    -.0214836   -.0080688
+       trend_15 |   .0098776   .0108002     0.91   0.365    -.0118263    .0315815
+       trend_16 |    .024167   .0030567     7.91   0.000     .0180244    .0303096
+       trend_17 |  -.0028644   .0058458    -0.49   0.626    -.0146121    .0088832
+       trend_18 |  -.0512353   .0091475    -5.60   0.000    -.0696179   -.0328527
+       trend_19 |  -.0816524   .0128146    -6.37   0.000    -.1074044   -.0559005
+       trend_20 |     .08712   .0239427     3.64   0.001     .0390053    .1352346
+       trend_21 |  -.1021099   .0201221    -5.07   0.000    -.1425469    -.061673
+       trend_22 |   .0530734   .0440093     1.21   0.234    -.0353666    .1415134
+       trend_23 |   -.004965   .0089999    -0.55   0.584     -.023051    .0131211
+       trend_24 |   .0035414   .0107935     0.33   0.744     -.018149    .0252318
+       trend_25 |  -.1235853   .0149779    -8.25   0.000    -.1536846    -.093486
+       trend_26 |    .028064   .0049028     5.72   0.000     .0182114    .0379166
+       trend_27 |   .0177659   .0048846     3.64   0.001     .0079498    .0275819
+       trend_28 |   .0247214   .0044727     5.53   0.000     .0157332    .0337097
+       trend_29 |  -.0226731   .0066123    -3.43   0.001     -.035961   -.0093852
+       trend_30 |  -.0315642     .02309    -1.37   0.178    -.0779653    .0148369
+       trend_31 |   .0201153    .053031     0.38   0.706    -.0864544    .1266851
+       trend_32 |   .0696669   .0570313     1.22   0.228    -.0449417    .1842756
+       trend_33 |  -.0144914    .050741    -0.29   0.776    -.1164592    .0874764
+       trend_34 |  -.0930385   .0124652    -7.46   0.000    -.1180882   -.0679888
+       trend_35 |   .0741384   .0510922     1.45   0.153    -.0285353    .1768121
+       trend_36 |   .0379958   .0058049     6.55   0.000     .0263304    .0496611
+       trend_37 |   -.064672   .0136439    -4.74   0.000    -.0920903   -.0372536
+       trend_38 |   .0150596   .0123384     1.22   0.228    -.0097354    .0398546
+       trend_39 |    .045194   .0527444     0.86   0.396    -.0607998    .1511879
+       trend_40 |  -.0233748   .0396886    -0.59   0.559     -.103132    .0563824
+       trend_41 |  -.1005557   .0161579    -6.22   0.000    -.1330262   -.0680852
+       trend_42 |   .1814604   .0205636     8.82   0.000     .1401363    .2227845
+       trend_43 |  -.0967198   .0152166    -6.36   0.000    -.1272987    -.066141
+       trend_44 |  -.1037729   .0178143    -5.83   0.000    -.1395721   -.0679736
+       trend_45 |  -.0210785   .0055264    -3.81   0.000    -.0321841   -.0099728
+       trend_46 |          0  (omitted)
+       trend_47 |  -.0872586   .0128651    -6.78   0.000     -.113112   -.0614052
+       trend_48 |    .008802   .0059139     1.49   0.143    -.0030824    .0206865
+       trend_49 |          0  (omitted)
+       trend_50 |          0  (omitted)
+       trend_51 |          0  (omitted)
+           post |    .076949   .0339377     2.27   0.028     .0087486    .1451494
+          _cons |   7.798651   2.359631     3.31   0.002     3.056795    12.54051
+----------------+----------------------------------------------------------------
+        sigma_u |  2.4216987
+        sigma_e |  .09162631
+            rho |  .99857052   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------</code></pre>
+<p>We can also use <em>xtdidregress</em>, which gives a concise estimate of the <span class="math inline">\(ATET\)</span> and allows for us to test for pre-treatment trends.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="two-way-fixed-effects.html#cb12-1" tabindex="-1"></a>xtdidregress (l_homicide i.<span class="fu">year</span> <span class="ot">$region</span> <span class="ot">$xvar</span> <span class="ot">$lintrend</span>) (<span class="kw">post</span>) [<span class="kw">aweight</span>=popwt], <span class="fu">group</span>(sid) time(<span class="fu">year</span>)</span></code></pre></div>
+<pre><code>note: r20004 omitted because of collinearity.
+note: r20014 omitted because of collinearity.
+note: r20024 omitted because of collinearity.
+note: r20034 omitted because of collinearity.
+note: r20044 omitted because of collinearity.
+note: r20054 omitted because of collinearity.
+note: r20064 omitted because of collinearity.
+note: r20074 omitted because of collinearity.
+note: r20084 omitted because of collinearity.
+note: r20094 omitted because of collinearity.
+note: r20101 omitted because of collinearity.
+note: r20102 omitted because of collinearity.
+note: r20103 omitted because of collinearity.
+note: r20104 omitted because of collinearity.
+note: trend_9 omitted because of collinearity.
+note: trend_46 omitted because of collinearity.
+note: trend_49 omitted because of collinearity.
+note: trend_50 omitted because of collinearity.
+note: trend_51 omitted because of collinearity.
+
+Treatment and time information
+
+Time variable: year
+Control:       post = 0
+Treatment:     post = 1
+-----------------------------------
+             |   Control  Treatment
+-------------+---------------------
+Group        |
+         sid |        29         21
+-------------+---------------------
+Time         |
+     Minimum |      2000       2006
+     Maximum |      2000       2010
+-----------------------------------
+
+Difference-in-differences regression                       Number of obs = 550
+Data type: Longitudinal
+
+                                      (Std. err. adjusted for 50 clusters in sid)
+---------------------------------------------------------------------------------
+                |               Robust
+     l_homicide | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+ATET            |
+           post |
+      (1 vs 0)  |    .076949   .0339377     2.27   0.028     .0087486    .1451494
+---------------------------------------------------------------------------------
+Note: ATET estimate adjusted for covariates, panel effects, and time effects.
+Note: Treatment occurs at different times.</code></pre>
+<p>From our TWFE, we find that the <span class="math inline">\(ATET\)</span> is equal to <span class="math inline">\(0.076949\)</span>. Castle-doctrine statutes increase homicides per 100K by <span class="math inline">\((e^{.076949}-1)*100\% = 8.0\%\)</span>, which is statistically significant at the 5% level.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="goodman-bacon-decomposition.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

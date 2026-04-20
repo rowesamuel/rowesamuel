@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Goodman-Bacon Decomposition | Two-Way Fixed Effect with Differential Timing and Goodman-Bacon Decomposition</title>
+  <meta name="description" content="This is covers Two-Way Fixed Effect and Goodman-Bacon Decomposition." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Goodman-Bacon Decomposition | Two-Way Fixed Effect with Differential Timing and Goodman-Bacon Decomposition" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is covers Two-Way Fixed Effect and Goodman-Bacon Decomposition." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Goodman-Bacon Decomposition | Two-Way Fixed Effect with Differential Timing and Goodman-Bacon Decomposition" />
+  
+  <meta name="twitter:description" content="This is covers Two-Way Fixed Effect and Goodman-Bacon Decomposition." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2021)" />
+
+
+<meta name="date" content="2026-04-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="two-way-fixed-effects-with-differential-timing.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">TWFE and Goodman-Bacon Decomposition</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="two-way-fixed-effects-with-differential-timing.html"><a href="two-way-fixed-effects-with-differential-timing.html"><i class="fa fa-check"></i><b>1</b> Two-way Fixed Effects with Differential Timing</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="two-way-fixed-effects-with-differential-timing.html"><a href="two-way-fixed-effects-with-differential-timing.html#replicate-cheng-and-hoesktra-2013"><i class="fa fa-check"></i><b>1.1</b> Replicate Cheng and Hoesktra (2013)</a></li>
+<li class="chapter" data-level="1.2" data-path="two-way-fixed-effects-with-differential-timing.html"><a href="two-way-fixed-effects-with-differential-timing.html#inspect-the-data"><i class="fa fa-check"></i><b>1.2</b> Inspect the data</a></li>
+<li class="chapter" data-level="1.3" data-path="two-way-fixed-effects-with-differential-timing.html"><a href="two-way-fixed-effects-with-differential-timing.html#twfe-with-differential-timing"><i class="fa fa-check"></i><b>1.3</b> TWFE with Differential Timing</a></li>
+<li class="chapter" data-level="1.4" data-path="two-way-fixed-effects-with-differential-timing.html"><a href="two-way-fixed-effects-with-differential-timing.html#event-study"><i class="fa fa-check"></i><b>1.4</b> Event Study</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="goodman-bacon-decomposition.html"><a href="goodman-bacon-decomposition.html"><i class="fa fa-check"></i><b>2</b> Goodman-Bacon Decomposition</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="goodman-bacon-decomposition.html"><a href="goodman-bacon-decomposition.html#estat-bdecomp"><i class="fa fa-check"></i><b>2.1</b> <em>estat bdecomp</em></a></li>
+<li class="chapter" data-level="2.2" data-path="goodman-bacon-decomposition.html"><a href="goodman-bacon-decomposition.html#bacondecomp"><i class="fa fa-check"></i><b>2.2</b> <em>bacondecomp</em></a></li>
+<li class="chapter" data-level="2.3" data-path="goodman-bacon-decomposition.html"><a href="goodman-bacon-decomposition.html#ddtiming"><i class="fa fa-check"></i><b>2.3</b> <em>ddtiming</em></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Two-Way Fixed Effect with Differential Timing and Goodman-Bacon Decomposition</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="goodman-bacon-decomposition" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Goodman-Bacon Decomposition<a href="goodman-bacon-decomposition.html#goodman-bacon-decomposition" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will again use the data from Cheng and Hoesktra (2013) to assess the Bacon-Goodman Decomposition of the different <span class="math inline">\(ATETs\)</span> when there is differential timing. We have a few options to calculate the individual <span class="math inline">\(ATETs\)</span> and different variance weights. We will focus on <em>estat bdecomp</em>, <em>bacondecomp</em> and <em>ddtimg</em>. Please note that <em>ddtiming</em> has been depreciated.</p>
+<div id="estat-bdecomp" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> <em>estat bdecomp</em><a href="goodman-bacon-decomposition.html#estat-bdecomp" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our first method to implement the Bacon-Goodman Decomposition is <em>estat bdecomp</em>. We run this command after we use <em>xtdidregress</em> or <em>didregress</em>. Please note that we use the option <em>graph</em> to display the individual <span class="math inline">\(ATET\)</span> and the corresponding weights.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="goodman-bacon-decomposition.html#cb17-1" tabindex="-1"></a>xtdidregress (l_homicide) (<span class="kw">post</span>), <span class="fu">group</span>(sid) time(<span class="fu">year</span>)</span>
+<span id="cb17-2"><a href="goodman-bacon-decomposition.html#cb17-2" tabindex="-1"></a><span class="kw">estat</span> bdecomp, <span class="kw">graph</span></span></code></pre></div>
+<pre><code>Treatment and time information
+
+Time variable: year
+Control:       post = 0
+Treatment:     post = 1
+-----------------------------------
+             |   Control  Treatment
+-------------+---------------------
+Group        |
+         sid |        29         21
+-------------+---------------------
+Time         |
+     Minimum |      2000       2006
+     Maximum |      2000       2010
+-----------------------------------
+
+Difference-in-differences regression                       Number of obs = 550
+Data type: Longitudinal
+
+                                   (Std. err. adjusted for 50 clusters in sid)
+------------------------------------------------------------------------------
+             |               Robust
+  l_homicide | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ATET         |
+        post |
+   (1 vs 0)  |   .0693984   .0558596     1.24   0.220    -.0428557    .1816526
+------------------------------------------------------------------------------
+Note: ATET estimate adjusted for panel effects and time effects.
+Note: Treatment occurs at different times.
+
+
+DID treatment-effect decomposition
+
+ATET = .0693984                                        Number of obs     = 550
+                                                       Number of groups  =  50
+                                                       Number of cohorts =   6
+
+ATET decomposition summary                ATET component                Weight
+------------------------------------------------------------------------------
+Treated vs never treated                       .07843799              0.898809
+Treated earlier vs later                      -.02857716              0.077079
+Treated later vs earlier                       .04563468              0.024112
+------------------------------------------------------------------------------
+
+Full ATET decomposition                  2x2 coefficient                Weight
+------------------------------------------------------------------------------
+Treated vs never treated
+  2006 vs never treated                        .14503261              0.050306
+  2007 vs never treated                        .05925429              0.610385
+  2008 vs never treated                        .09201016              0.160981
+  2009 vs never treated                        .18195417              0.060368
+  2010 vs never treated                        .07398961              0.016769
+
+Treated earlier vs later
+  2006 vs 2007                                 .04200339              0.004510
+  2006 vs 2008                                 .09126019              0.002776
+  2006 vs 2009                                 .05519713              0.002082
+  2006 vs 2010                                -.05417012              0.001388
+  2007 vs 2008                                 -.0219597              0.021048
+  2007 vs 2009                                 .01509344              0.021048
+  2007 vs 2010                                -.07101927              0.015786
+  2008 vs 2009                                -.15384871              0.003701
+  2008 vs 2010                                -.21834129              0.003701
+  2009 vs 2010                                -.04052124              0.001041
+
+Treated later vs earlier
+  2007 vs 2006                                -.04349169              0.003007
+  2008 vs 2006                                 .05369758              0.001388
+  2009 vs 2006                                 .13322861              0.000694
+  2010 vs 2006                                -.01935504              0.000231
+  2008 vs 2007                                 .04379672              0.009020
+  2009 vs 2007                                 .14954754              0.006014
+  2010 vs 2007                                 .00654799              0.002255
+  2009 vs 2008                                -.14971815              0.000925
+  2010 vs 2008                                -.21479646              0.000463
+  2010 vs 2009                                -.02278972              0.000116
+------------------------------------------------------------------------------
+Note: Number of cohorts includes never treated.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET
+      components. If any component is substantially different from the ATET
+      reported by xtdidregress and the weight is large, consider accounting for
+      treatment-effect heterogeneity by using xthdidregress.</code></pre>
+<div class="float">
+<img src="CH4.png" alt="Bacon-Goodman Decomposition" />
+<div class="figcaption">Bacon-Goodman Decomposition</div>
+</div>
+<p>We can check the weights of the individual <span class="math inline">\(ATET\)</span> to examine the heterogeneity of the estimates. The summary shows the Treated vs Never Treated, Treated Earlier vs Treated Later, and Treated Later vs Treated Earlier <span class="math inline">\(ATETs\)</span> along with their corresponding weights.</p>
+<p>We can see that Treated vs Never Treated has the largest weight of 89.8%, from our graph and our summary table.</p>
+<p>We can delve into the early treated vs late treated in the cohort full decomposition. An interesting outcome is that our Treated vs Never Treated <span class="math inline">\(ATET\)</span> are always positive and range from 0.059 to 0.182.</p>
+<p>However, our Early Treated vs Late Treated and Late Treated vs Early Treated have a lot of heterogeneity. 9 are positive, while 11 are negative. It indicated we may need to worry about heterogeneity bias. However, the weights for both cohorts is 10.1% (7.7% for early treated vs late treated and 2.4% for late treated vs early treated).</p>
+</div>
+<div id="bacondecomp" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> <em>bacondecomp</em><a href="goodman-bacon-decomposition.html#bacondecomp" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our second method to implement the Bacon-Goodman Decomposition is <em>bacondecomp</em></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="goodman-bacon-decomposition.html#cb19-1" tabindex="-1"></a><span class="kw">ssc</span> install bacondecomp</span></code></pre></div>
+<p>We will first run a TWFE regression with <em>areg</em> and then run Bacondecomp after regression, but it generates stubs. Notice that the <em>areg</em> will have similar outcome as our <em>xtdidregress</em></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="goodman-bacon-decomposition.html#cb20-1" tabindex="-1"></a><span class="kw">areg</span> l_homicide <span class="kw">post</span> i.<span class="fu">year</span>, absorb(sid) <span class="kw">robust</span></span>
+<span id="cb20-2"><a href="goodman-bacon-decomposition.html#cb20-2" tabindex="-1"></a>bacondecomp l_homicide <span class="kw">post</span>, stub(Bacon_) <span class="kw">robust</span> ddetail</span>
+<span id="cb20-3"><a href="goodman-bacon-decomposition.html#cb20-3" tabindex="-1"></a><span class="kw">drop</span> Bacon_*</span></code></pre></div>
+<pre><code>Linear regression, absorbing indicators             Number of obs     =    550
+Absorbed variable: sid                              No. of categories =     50
+                                                    F(11, 489)        =   4.73
+                                                    Prob &gt; F          = 0.0000
+                                                    R-squared         = 0.9102
+                                                    Adj R-squared     = 0.8991
+                                                    Root MSE          = 0.1874
+
+------------------------------------------------------------------------------
+             |               Robust
+  l_homicide | Coefficient  std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0693984    .034312     2.02   0.044     .0019813    .1368155
+             |
+        year |
+       2001  |   .0234081   .0481165     0.49   0.627    -.0711326    .1179488
+       2002  |    .002241   .0437824     0.05   0.959    -.0837839    .0882659
+       2003  |   .0476296   .0428512     1.11   0.267    -.0365656    .1318247
+       2004  |     .04259   .0399801     1.07   0.287     -.035964    .1211441
+       2005  |   .0609827   .0413633     1.47   0.141    -.0202889    .1422544
+       2006  |   .0756094   .0401986     1.88   0.061    -.0033739    .1545927
+       2007  |   .0614879   .0467341     1.32   0.189    -.0303365    .1533123
+       2008  |   .0125426   .0479081     0.26   0.794    -.0815885    .1066738
+       2009  |  -.0690221   .0460227    -1.50   0.134    -.1594487    .0214046
+       2010  |  -.1271772   .0460306    -2.76   0.006    -.2176194    -.036735
+             |
+       _cons |   1.384578   .0358783    38.59   0.000     1.314084    1.455073
+------------------------------------------------------------------------------
+
+Computing decomposition across 6 timing groups
+including a never-treated group
+------------------------------------------------------------------------------
+  l_homicide | Coefficient  Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0693984   .0558596     1.24   0.214    -.0400844    .1788813
+------------------------------------------------------------------------------
+
+Bacon Decomposition
+
++---------------------------------------------------+
+|                      |         Beta   TotalWeight |
+|----------------------+----------------------------|
+|         Early_v_Late |  .0420033932   .0045102348 |
+|         Late_v_Early | -.0434916914   .0030068233 |
+|         Early_v_Late |  .0912601873   .0027755292 |
+|         Late_v_Early |  .0536975749   .0013877646 |
+|         Early_v_Late |  -.021959696   .0210477626 |
+|         Late_v_Early |  .0437967181   .0090204695 |
+|         Early_v_Late |  .0551971309   .0020816468 |
+|         Late_v_Early |  .1332286149   .0006938823 |
+|         Early_v_Late |  .0150934393   .0210477626 |
+|         Late_v_Early |  .1495475471   .0060136465 |
+|         Early_v_Late | -.1538487077   .0037007056 |
+|         Late_v_Early | -.1497181505   .0009251764 |
+|         Early_v_Late | -.0541701168   .0013877646 |
+|         Late_v_Early | -.0193550438   .0002312941 |
+|         Early_v_Late | -.0710192695   .0157858219 |
+|         Late_v_Early |  .0065479889   .0022551174 |
+|         Early_v_Late |  -.218341291   .0037007056 |
+|         Late_v_Early | -.2147964537   .0004625882 |
+|         Early_v_Late |  -.040521238   .0010408234 |
+|         Late_v_Early | -.0227897167    .000115647 |
+|       Never_v_timing |  .0784379909   .8988088336 |
++---------------------------------------------------+</code></pre>
+<p>Notice that the TWFE estimator is the same between <em>areg</em> and <em>xtdidregress</em>. One thing about this command is that we lack details of the individual groups. We only see Early_v_Late and Late_v_Early. I personally prefer the <em>estat bdecomp</em> command.</p>
+</div>
+<div id="ddtiming" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> <em>ddtiming</em><a href="goodman-bacon-decomposition.html#ddtiming" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="goodman-bacon-decomposition.html#cb22-1" tabindex="-1"></a>net install ddtiming, from(https:<span class="co">//raw.githubusercontent.com/tgoldring/ddtiming/master)</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="goodman-bacon-decomposition.html#cb23-1" tabindex="-1"></a>ddtiming l_homicide <span class="kw">post</span>, i(sid) t(<span class="fu">year</span>) <span class="kw">yline</span>(0) </span></code></pre></div>
+<pre><code>Calculating treatment times...
+Calculating weights...
+Estimating 2x2 diff-in-diff regressions...
+
+Diff-in-diff estimate: 0.069    
+
+DD Comparison              Weight      Avg DD Est
+-------------------------------------------------
+Earlier T vs. Later C       0.077          -0.029
+Later T vs. Earlier C       0.024           0.046
+T vs. Never treated         0.899           0.078
+-------------------------------------------------
+T = Treatment; C = Comparison</code></pre>
+<div class="float">
+<img src="CH5.png" alt="Bacon-Goodman Decomposition with ddtiming" />
+<div class="figcaption">Bacon-Goodman Decomposition with <em>ddtiming</em></div>
+</div>
+<p>We get similar results, but the issue is that <em>ddtiming</em> has been depreciated.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="two-way-fixed-effects-with-differential-timing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

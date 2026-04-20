@@ -1,0 +1,927 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{booktabs}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Two-Way Fixed Effect with Differential Timing and Goodman-Bacon Decomposition},
+  pdfauthor={Samuel Rowe adapted from Cunningham (2021)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Two-Way Fixed Effect with Differential Timing and Goodman-Bacon Decomposition}
+\author{Samuel Rowe adapted from Cunningham (2021)}
+\date{2026-04-20}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bookdown}\SpecialCharTok{::}\FunctionTok{render\_book}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\chapter*{Overview}\label{overview}
+\addcontentsline{toc}{chapter}{Overview}
+
+Topics:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Two-Way Fixed Effects with Differential Timing
+\item
+  Goodman-Bacon Decomposition
+\end{enumerate}
+
+\chapter{Two-way Fixed Effects with Differential Timing}\label{two-way-fixed-effects-with-differential-timing}
+
+\section{Replicate Cheng and Hoesktra (2013)}\label{replicate-cheng-and-hoesktra-2013}
+
+We will replicate Cheng and Hoesktra (2013) in our Two-Way Fixed Effects (TWFE) example. Cheng and Hoekstra (2013) evaluate the impact of gun reform on violence with time differential adoption of gun reform after the death of Trayvon Martin in 2012.
+
+The policy change of interest are castle-doctrine statutes (or ``Stand Your Ground'' laws). Between 2000 and 2010, 21 states expanded their castle-doctrine by extending the castle-doctrine to outside of the home where lethal force could legally be used. It eliminated the long-standing common law of a victim's duty to retreat. And, if the victim felt threatened, then they could legally use lethal force.
+
+The authors assess the reform of castle-doctrine statutes on homicides. Proponents argue that it reduces crime through deterrance, while opponents argue it increases homicides due to more guns being present. Cunningham argues that these doctrines reduce the marginal cost of manslaughter by reducing civil liability.
+
+The authors utilize a TWFE estimator, since there are differential timings in treatment. States did not adopt castle-doctrine reform simultaneously. Therefore, we need to be concerned about comparing early treated to late treated.
+
+Model
+
+\[ Y_{it}=\alpha+\delta D_{it} + \gamma X_{it} + \lambda_{i} + \tau_{t}+\varepsilon_{it} \]
+Where
+
+\begin{itemize}
+\tightlist
+\item
+  \(Y_{it}\) is the homicide rate per \(100k\)
+\item
+  \(D_{it}\) is the binary for castle doctrine present in state \(i\) at time \(t\)
+\item
+  \(X_{it}\) are region-by-region fixed effects (so a treatment state's counterfactual comes from its region)
+\item
+  \(lambda_{i}\) are state fixed effects
+\item
+  \(\tau_{t}\) are time fixed effects
+\item
+  \(\varepsilon_{it}\) is the idiosyncratic error clustered at the state level
+\end{itemize}
+
+We have a few option for implementing Goodman-Bacon Decomposition. The first one is the \emph{bacondecomp} package and the other is a post-estimation command with \emph{xtdidregress}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ssc}\NormalTok{ install bacondecomp}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Inspect the data}\label{inspect-the-data}
+
+We will import our data and inspect the outcomes and treatment variables.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{clear}
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 672/Data"}
+\KeywordTok{use}\NormalTok{ castle}
+
+\KeywordTok{sum}\NormalTok{ homicide, }\KeywordTok{detail}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 672/Data
+
+         homicide count per 100,000 state population
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     .9615808       .6466538
+ 5%     1.358292       .7829468
+10%     1.792752        .819343       Obs                 550
+25%     2.642913       .8362355       Sum of wgt.         550
+
+50%     4.652019                      Mean           4.761399
+                        Largest       Std. dev.      2.482834
+75%     6.429322       13.10705
+90%     7.707187       13.39059       Variance       6.164465
+95%     8.774975       13.63958       Skewness       .6841787
+99%     12.92404       14.52561       Kurtosis       3.558378
+\end{verbatim}
+
+Our median homicide rate per 100K is 4.65, while the mean is 4.76.
+
+We'll inspect the histogram of both homicide per 100K and the natural log of homicides per 100K.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{histogram homicide}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Homicides per 100K}]{CH1.png}}
+\caption{Homicides per 100K}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{histogram l\_homicide, xtitle("Natural Log of Homicides per 100K")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Natural Log of Homicides per 100K}]{CH2.png}}
+\caption{Natural Log of Homicides per 100K}
+\end{figure}
+
+Next, we will inspect our treatment variable of interest, which is the change in states adopting caste-doctrine statutes in state \(i\) at time \(t\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{label} \KeywordTok{variable} \KeywordTok{post} \StringTok{"Year of treatment"}
+\KeywordTok{tab} \FunctionTok{year} \KeywordTok{post}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+           |   Year of treatment
+      year |         0          1 |     Total
+-----------+----------------------+----------
+      2000 |        50          0 |        50 
+      2001 |        50          0 |        50 
+      2002 |        50          0 |        50 
+      2003 |        50          0 |        50 
+      2004 |        50          0 |        50 
+      2005 |        50          0 |        50 
+      2006 |        49          1 |        50 
+      2007 |        36         14 |        50 
+      2008 |        32         18 |        50 
+      2009 |        30         20 |        50 
+      2010 |        29         21 |        50 
+-----------+----------------------+----------
+     Total |       476         74 |       550 
+\end{verbatim}
+
+We can see that 1 state adopted the policy in 2006. There were 13 more adopters in 2007, 4 more in 2008, 2 more in 2009, and 1 more in 2010. The key issue is that states did not adopt castle-doctrine statutes simultaneously.
+
+Next, we will set up our global macros first to replicate Cheng and Hoesktra (2013). Our state level covariates, \(X_{it}\), includes demographic variables, state linear trends, region, LN of exogenous crime rates, LN of public expenditures, LN of FTE police, unemployment rates, poverty rates, LN of median state income, LN of incarceration rate, and a lag in LN of incarceration rate.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{global}\NormalTok{ crime1 jhcitizen\_c jhpolice\_c murder homicide  robbery assault burglary larceny motor robbery\_gun\_r }
+\KeywordTok{global}\NormalTok{ demo blackm\_15\_24 whitem\_15\_24 blackm\_25\_44 whitem\_25\_44 }\CommentTok{//demographics}
+\KeywordTok{global}\NormalTok{ lintrend trend\_1{-}trend\_51 }\CommentTok{//state linear trend}
+\KeywordTok{global}\NormalTok{ region r20001{-}r20104  }\CommentTok{//region{-}quarter fixed effects}
+\KeywordTok{global}\NormalTok{ exocrime l\_larceny l\_motor }\CommentTok{// exogenous crime rates}
+\KeywordTok{global}\NormalTok{ spending l\_exp\_subsidy l\_exp\_pubwelfare }
+\KeywordTok{global}\NormalTok{ xvar l\_police unemployrt poverty l\_income l\_prisoner l\_lagprisoner }\OtherTok{$demo} \OtherTok{$spending}
+\end{Highlighting}
+\end{Shaded}
+
+\section{TWFE with Differential Timing}\label{twfe-with-differential-timing}
+
+We will use our \emph{xtreg} command to estimate the TWFE estimator.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xtset sid }\FunctionTok{year}
+\KeywordTok{xtreg}\NormalTok{ l\_homicide i.}\FunctionTok{year} \OtherTok{$region} \OtherTok{$xvar} \OtherTok{$lintrend} \KeywordTok{post}\NormalTok{ [}\KeywordTok{aweight}\NormalTok{=popwt], }\KeywordTok{fe} \KeywordTok{vce}\NormalTok{(}\KeywordTok{cluster}\NormalTok{ sid)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Panel variable: sid (strongly balanced)
+ Time variable: year, 2000 to 2010
+         Delta: 1 unit
+
+note: r20004 omitted because of collinearity.
+note: r20014 omitted because of collinearity.
+note: r20024 omitted because of collinearity.
+note: r20034 omitted because of collinearity.
+note: r20044 omitted because of collinearity.
+note: r20054 omitted because of collinearity.
+note: r20064 omitted because of collinearity.
+note: r20074 omitted because of collinearity.
+note: r20084 omitted because of collinearity.
+note: r20094 omitted because of collinearity.
+note: r20101 omitted because of collinearity.
+note: r20102 omitted because of collinearity.
+note: r20103 omitted because of collinearity.
+note: r20104 omitted because of collinearity.
+note: trend_9 omitted because of collinearity.
+note: trend_46 omitted because of collinearity.
+note: trend_49 omitted because of collinearity.
+note: trend_50 omitted because of collinearity.
+note: trend_51 omitted because of collinearity.
+
+Fixed-effects (within) regression               Number of obs     =        550
+Group variable: sid                             Number of groups  =         50
+
+R-squared:                                      Obs per group:
+     Within  = 0.5851                                         min =         11
+     Between = 0.3750                                         avg =       11.0
+     Overall = 0.3208                                         max =         11
+
+                                                F(49, 49)         =          .
+corr(u_i, Xb) = -0.9808                         Prob > F          =          .
+
+                                      (Std. err. adjusted for 50 clusters in sid)
+---------------------------------------------------------------------------------
+                |               Robust
+     l_homicide | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+           year |
+          2001  |   .0684684   .0364135     1.88   0.066    -.0047073     .141644
+          2002  |     .07167   .0436393     1.64   0.107    -.0160265    .1593665
+          2003  |   .1006137   .0449905     2.24   0.030     .0102019    .1910256
+          2004  |   .1293868   .0368288     3.51   0.001     .0553766     .203397
+          2005  |   .1605832   .0401576     4.00   0.000     .0798834    .2412829
+          2006  |   .1743047   .0444244     3.92   0.000     .0850304     .263579
+          2007  |   .0903824   .0452763     2.00   0.051    -.0006037    .1813685
+          2008  |   .0017728    .043145     0.04   0.967    -.0849304     .088476
+          2009  |  -.0830581   .0747786    -1.11   0.272    -.2333313     .067215
+          2010  |  -.1640143   .0898474    -1.83   0.074    -.3445694    .0165409
+                |
+         r20001 |   .0680535   .5230205     0.13   0.897    -.9829956    1.119103
+         r20002 |   .1947373   .0830414     2.35   0.023     .0278593    .3616152
+         r20003 |  -.7696014   .1386803    -5.55   0.000     -1.04829    -.490913
+         r20004 |          0  (omitted)
+         r20011 |   .0245472   .4611295     0.05   0.958    -.9021273    .9512216
+         r20012 |   .1113508   .0694829     1.60   0.115    -.0282802    .2509819
+         r20013 |  -.7778491   .1171504    -6.64   0.000    -1.013272   -.5424266
+         r20014 |          0  (omitted)
+         r20021 |  -.0562268   .4164922    -0.14   0.893    -.8931992    .7807456
+         r20022 |   .0512223   .0767245     0.67   0.508    -.1029613    .2054059
+         r20023 |   -.705417   .1038296    -6.79   0.000    -.9140704   -.4967636
+         r20024 |          0  (omitted)
+         r20031 |  -.0539292   .3656493    -0.15   0.883    -.7887289    .6808705
+         r20032 |   .0223513    .079209     0.28   0.779    -.1368251    .1815278
+         r20033 |  -.6139207   .0941957    -6.52   0.000     -.803214   -.4246274
+         r20034 |          0  (omitted)
+         r20041 |  -.1166739   .3168582    -0.37   0.714    -.7534244    .5200766
+         r20042 |  -.0571238   .0757494    -0.75   0.454    -.2093478    .0951003
+         r20043 |  -.5770167   .0883266    -6.53   0.000    -.7545157   -.3995178
+         r20044 |          0  (omitted)
+         r20051 |  -.1179566   .2597649    -0.45   0.652    -.6399738    .4040606
+         r20052 |  -.0283003   .0860598    -0.33   0.744    -.2012439    .1446434
+         r20053 |  -.4934666   .0761714    -6.48   0.000    -.6465387   -.3403944
+         r20054 |          0  (omitted)
+         r20061 |  -.1212647   .2125436    -0.57   0.571     -.548387    .3058577
+         r20062 |  -.0400965    .076217    -0.53   0.601    -.1932604    .1130674
+         r20063 |  -.4218767   .0664637    -6.35   0.000    -.5554405   -.2883129
+         r20064 |          0  (omitted)
+         r20071 |   -.175662   .1640823    -1.07   0.290    -.5053978    .1540738
+         r20072 |  -.0303389   .0685235    -0.44   0.660    -.1680421    .1073642
+         r20073 |    -.22896   .0515107    -4.44   0.000    -.3324746   -.1254453
+         r20074 |          0  (omitted)
+         r20081 |  -.0883956   .1177948    -0.75   0.457     -.325113    .1483218
+         r20082 |   .0144664   .0715169     0.20   0.841    -.1292521    .1581849
+         r20083 |  -.1562348   .0549373    -2.84   0.006    -.2666354   -.0458342
+         r20084 |          0  (omitted)
+         r20091 |  -.1564882   .0699626    -2.24   0.030    -.2970834   -.0158931
+         r20092 |  -.0250962   .0628484    -0.40   0.691    -.1513947    .1012023
+         r20093 |  -.0734065   .0460022    -1.60   0.117    -.1658514    .0190384
+         r20094 |          0  (omitted)
+         r20101 |          0  (omitted)
+         r20102 |          0  (omitted)
+         r20103 |          0  (omitted)
+         r20104 |          0  (omitted)
+       l_police |   .1083243   .0557582     1.94   0.058    -.0037259    .2203746
+     unemployrt |   .0131937   .0120787     1.09   0.280    -.0110794    .0374668
+        poverty |  -.0191538   .0127408    -1.50   0.139    -.0447575    .0064498
+       l_income |  -.3124133   .1614044    -1.94   0.059    -.6367676    .0119409
+     l_prisoner |  -.1297827   .1936936    -0.67   0.506    -.5190245    .2594591
+  l_lagprisoner |  -.4232017   .2471395    -1.71   0.093    -.9198471    .0734438
+   blackm_15_24 |   .0613503   .1072938     0.57   0.570    -.1542646    .2769653
+   whitem_15_24 |   .0360048   .0271789     1.32   0.191    -.0186132    .0906227
+   blackm_25_44 |   .2225389   .1231065     1.81   0.077    -.0248529    .4699308
+   whitem_25_44 |  -.0277861   .0119219    -2.33   0.024    -.0517441   -.0038281
+  l_exp_subsidy |  -.0412795   .0390496    -1.06   0.296    -.1197527    .0371937
+l_exp_pubwelf~e |   .0368399   .0615966     0.60   0.553    -.0869432     .160623
+        trend_1 |  -.0927506    .012828    -7.23   0.000    -.1185295   -.0669717
+        trend_2 |  -.0319785   .0076138    -4.20   0.000     -.047279    -.016678
+        trend_3 |  -.0061905   .0082194    -0.75   0.455    -.0227081    .0103271
+        trend_4 |  -.0679086   .0118405    -5.74   0.000     -.091703   -.0441142
+        trend_5 |  -.0191227   .0064486    -2.97   0.005    -.0320816   -.0061638
+        trend_6 |  -.0023247   .0058618    -0.40   0.693    -.0141045     .009455
+        trend_7 |   .0324795   .0493962     0.66   0.514     -.066786    .1317449
+        trend_8 |  -.0173139   .0200248    -0.86   0.391    -.0575552    .0229274
+        trend_9 |          0  (omitted)
+       trend_10 |  -.0664576   .0098661    -6.74   0.000    -.0862842    -.046631
+       trend_11 |   -.110019   .0136859    -8.04   0.000    -.1375219   -.0825161
+       trend_12 |  -.0317464   .0056227    -5.65   0.000    -.0430456   -.0204472
+       trend_13 |   .0706104   .0584627     1.21   0.233    -.0468748    .1880957
+       trend_14 |  -.0147762   .0033377    -4.43   0.000    -.0214836   -.0080688
+       trend_15 |   .0098776   .0108002     0.91   0.365    -.0118263    .0315815
+       trend_16 |    .024167   .0030567     7.91   0.000     .0180244    .0303096
+       trend_17 |  -.0028644   .0058458    -0.49   0.626    -.0146121    .0088832
+       trend_18 |  -.0512353   .0091475    -5.60   0.000    -.0696179   -.0328527
+       trend_19 |  -.0816524   .0128146    -6.37   0.000    -.1074044   -.0559005
+       trend_20 |     .08712   .0239427     3.64   0.001     .0390053    .1352346
+       trend_21 |  -.1021099   .0201221    -5.07   0.000    -.1425469    -.061673
+       trend_22 |   .0530734   .0440093     1.21   0.234    -.0353666    .1415134
+       trend_23 |   -.004965   .0089999    -0.55   0.584     -.023051    .0131211
+       trend_24 |   .0035414   .0107935     0.33   0.744     -.018149    .0252318
+       trend_25 |  -.1235853   .0149779    -8.25   0.000    -.1536846    -.093486
+       trend_26 |    .028064   .0049028     5.72   0.000     .0182114    .0379166
+       trend_27 |   .0177659   .0048846     3.64   0.001     .0079498    .0275819
+       trend_28 |   .0247214   .0044727     5.53   0.000     .0157332    .0337097
+       trend_29 |  -.0226731   .0066123    -3.43   0.001     -.035961   -.0093852
+       trend_30 |  -.0315642     .02309    -1.37   0.178    -.0779653    .0148369
+       trend_31 |   .0201153    .053031     0.38   0.706    -.0864544    .1266851
+       trend_32 |   .0696669   .0570313     1.22   0.228    -.0449417    .1842756
+       trend_33 |  -.0144914    .050741    -0.29   0.776    -.1164592    .0874764
+       trend_34 |  -.0930385   .0124652    -7.46   0.000    -.1180882   -.0679888
+       trend_35 |   .0741384   .0510922     1.45   0.153    -.0285353    .1768121
+       trend_36 |   .0379958   .0058049     6.55   0.000     .0263304    .0496611
+       trend_37 |   -.064672   .0136439    -4.74   0.000    -.0920903   -.0372536
+       trend_38 |   .0150596   .0123384     1.22   0.228    -.0097354    .0398546
+       trend_39 |    .045194   .0527444     0.86   0.396    -.0607998    .1511879
+       trend_40 |  -.0233748   .0396886    -0.59   0.559     -.103132    .0563824
+       trend_41 |  -.1005557   .0161579    -6.22   0.000    -.1330262   -.0680852
+       trend_42 |   .1814604   .0205636     8.82   0.000     .1401363    .2227845
+       trend_43 |  -.0967198   .0152166    -6.36   0.000    -.1272987    -.066141
+       trend_44 |  -.1037729   .0178143    -5.83   0.000    -.1395721   -.0679736
+       trend_45 |  -.0210785   .0055264    -3.81   0.000    -.0321841   -.0099728
+       trend_46 |          0  (omitted)
+       trend_47 |  -.0872586   .0128651    -6.78   0.000     -.113112   -.0614052
+       trend_48 |    .008802   .0059139     1.49   0.143    -.0030824    .0206865
+       trend_49 |          0  (omitted)
+       trend_50 |          0  (omitted)
+       trend_51 |          0  (omitted)
+           post |    .076949   .0339377     2.27   0.028     .0087486    .1451494
+          _cons |   7.798651   2.359631     3.31   0.002     3.056795    12.54051
+----------------+----------------------------------------------------------------
+        sigma_u |  2.4216987
+        sigma_e |  .09162631
+            rho |  .99857052   (fraction of variance due to u_i)
+---------------------------------------------------------------------------------
+\end{verbatim}
+
+We can also use \emph{xtdidregress}, which gives a concise estimate of the \(ATET\) and allows for us to test for pre-treatment trends.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xtdidregress (l\_homicide i.}\FunctionTok{year} \OtherTok{$region} \OtherTok{$xvar} \OtherTok{$lintrend}\NormalTok{) (}\KeywordTok{post}\NormalTok{) [}\KeywordTok{aweight}\NormalTok{=popwt], }\FunctionTok{group}\NormalTok{(sid) time(}\FunctionTok{year}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+note: r20004 omitted because of collinearity.
+note: r20014 omitted because of collinearity.
+note: r20024 omitted because of collinearity.
+note: r20034 omitted because of collinearity.
+note: r20044 omitted because of collinearity.
+note: r20054 omitted because of collinearity.
+note: r20064 omitted because of collinearity.
+note: r20074 omitted because of collinearity.
+note: r20084 omitted because of collinearity.
+note: r20094 omitted because of collinearity.
+note: r20101 omitted because of collinearity.
+note: r20102 omitted because of collinearity.
+note: r20103 omitted because of collinearity.
+note: r20104 omitted because of collinearity.
+note: trend_9 omitted because of collinearity.
+note: trend_46 omitted because of collinearity.
+note: trend_49 omitted because of collinearity.
+note: trend_50 omitted because of collinearity.
+note: trend_51 omitted because of collinearity.
+
+Treatment and time information
+
+Time variable: year
+Control:       post = 0
+Treatment:     post = 1
+-----------------------------------
+             |   Control  Treatment
+-------------+---------------------
+Group        |
+         sid |        29         21
+-------------+---------------------
+Time         |
+     Minimum |      2000       2006
+     Maximum |      2000       2010
+-----------------------------------
+
+Difference-in-differences regression                       Number of obs = 550
+Data type: Longitudinal
+
+                                      (Std. err. adjusted for 50 clusters in sid)
+---------------------------------------------------------------------------------
+                |               Robust
+     l_homicide | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+----------------+----------------------------------------------------------------
+ATET            |
+           post |
+      (1 vs 0)  |    .076949   .0339377     2.27   0.028     .0087486    .1451494
+---------------------------------------------------------------------------------
+Note: ATET estimate adjusted for covariates, panel effects, and time effects.
+Note: Treatment occurs at different times.
+\end{verbatim}
+
+From our TWFE, we find that the \(ATET\) is equal to \(0.076949\). Castle-doctrine statutes increase homicides per 100K by \((e^{.076949}-1)*100\% = 8.0\%\), which is statistically significant at the 5\% level.
+
+\section{Event Study}\label{event-study}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xtevent l\_homicide }\OtherTok{$region}\NormalTok{ [}\KeywordTok{aweight}\NormalTok{=popwt], pol(}\KeywordTok{post}\NormalTok{) }\KeywordTok{cluster}\NormalTok{(sid) timevar(}\FunctionTok{year}\NormalTok{) }\KeywordTok{window}\NormalTok{(}\FunctionTok{max}\NormalTok{) }\KeywordTok{impute}\NormalTok{(stag) reghdfe }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Using options panelvar and timevar from xtset
+
+No proxy or instruments provided. Implementing OLS estimator
+The calculated window by window(max) is (-9,3), plus the endpoints -10 and 4.
+(converged in 3 iterations)
+note: r20002 omitted because of collinearity
+note: r20013 omitted because of collinearity
+note: r20024 omitted because of collinearity
+note: r20032 omitted because of collinearity
+note: r20034 omitted because of collinearity
+note: r20043 omitted because of collinearity
+note: r20054 omitted because of collinearity
+note: r20062 omitted because of collinearity
+note: r20072 omitted because of collinearity
+note: r20083 omitted because of collinearity
+note: r20084 omitted because of collinearity
+note: r20092 omitted because of collinearity
+note: r20101 omitted because of collinearity
+note: r20102 omitted because of collinearity
+
+HDFE Linear regression                            Number of obs   =        550
+Absorbing 2 HDFE groups                           F(  44,     49) =     295.06
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.9444
+                                                  Adj R-squared   =     0.9315
+                                                  Within R-sq.    =     0.1807
+Number of clusters (sid)     =         50         Root MSE        =     0.1083
+
+                                   (Std. err. adjusted for 50 clusters in sid)
+------------------------------------------------------------------------------
+             |               Robust
+  l_homicide | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   _k_eq_m10 |  -.2670587   .0464639    -5.75   0.000    -.3604314    -.173686
+    _k_eq_m9 |  -.3136291   .0810769    -3.87   0.000    -.4765593    -.150699
+    _k_eq_m8 |  -.1480105   .0852785    -1.74   0.089    -.3193841    .0233631
+    _k_eq_m7 |  -.0011922   .0574174    -0.02   0.984    -.1165768    .1141923
+    _k_eq_m6 |  -.0033678   .0473356    -0.07   0.944    -.0984923    .0917567
+    _k_eq_m5 |  -.0187262   .0486225    -0.39   0.702    -.1164367    .0789844
+    _k_eq_m4 |   .0085331   .0356398     0.24   0.812    -.0630878     .080154
+    _k_eq_m3 |   .0049404   .0339288     0.15   0.885    -.0632421    .0731229
+    _k_eq_m2 |  -.0322577    .034501    -0.93   0.354      -.10159    .0370745
+    _k_eq_p0 |   .0758257   .0281218     2.70   0.010     .0193127    .1323386
+    _k_eq_p1 |   .0648564   .0475352     1.36   0.179    -.0306691    .1603819
+    _k_eq_p2 |   .0905699   .0586977     1.54   0.129    -.0273875    .2085274
+    _k_eq_p3 |   .0918709   .0565459     1.62   0.111    -.0217624    .2055042
+    _k_eq_p4 |   .1844643    .056076     3.29   0.002     .0717754    .2971532
+      r20001 |  -.3176814   .1055113    -3.01   0.004    -.5297144   -.1056485
+      r20002 |          0  (omitted)
+      r20003 |  -.1014046   .0678023    -1.50   0.141    -.2376584    .0348492
+      r20004 |  -.1735281   .0529523    -3.28   0.002    -.2799397   -.0671165
+      r20011 |   -.097969   .0996036    -0.98   0.330    -.2981299     .102192
+      r20012 |    .136426   .0652085     2.09   0.042     .0053847    .2674674
+      r20013 |          0  (omitted)
+      r20014 |   .0644022   .0543544     1.18   0.242    -.0448271    .1736314
+      r20021 |  -.2108039   .0728759    -2.89   0.006    -.3572534   -.0643543
+      r20022 |   .0004829    .048146     0.01   0.992    -.0962701     .097236
+      r20023 |  -.0783909    .046152    -1.70   0.096    -.1711368     .014355
+      r20024 |          0  (omitted)
+      r20031 |  -.1710896    .079739    -2.15   0.037    -.3313312    -.010848
+      r20032 |          0  (omitted)
+      r20033 |  -.0556467   .0549892    -1.01   0.317    -.1661516    .0548581
+      r20034 |          0  (omitted)
+      r20041 |    -.08143   .0741366    -1.10   0.277     -.230413     .067553
+      r20042 |   .0413541   .0596014     0.69   0.491    -.0784194    .1611277
+      r20043 |          0  (omitted)
+      r20044 |   .1008408   .0384528     2.62   0.012      .023567    .1781145
+      r20051 |  -.1464866   .0682065    -2.15   0.037    -.2835527   -.0094205
+      r20052 |   -.002504   .0601266    -0.04   0.967    -.1233329    .1183249
+      r20053 |  -.0910554   .0515309    -1.77   0.083    -.1946106    .0124998
+      r20054 |          0  (omitted)
+      r20061 |  -.1217555   .0545111    -2.23   0.030    -.2312997   -.0122112
+      r20062 |          0  (omitted)
+      r20063 |  -.0808163   .0693046    -1.17   0.249    -.2200891    .0584566
+      r20064 |  -.0086811   .0605718    -0.14   0.887    -.1304046    .1130425
+      r20071 |  -.1647261   .0589828    -2.79   0.007    -.2832565   -.0461957
+      r20072 |          0  (omitted)
+      r20073 |  -.0110104   .0615684    -0.18   0.859    -.1347367    .1127159
+      r20074 |  -.0173833   .0625427    -0.28   0.782    -.1430676    .1083011
+      r20081 |  -.0441083   .0705833    -0.62   0.535    -.1859507    .0977342
+      r20082 |   .0834497   .0698646     1.19   0.238    -.0569485    .2238478
+      r20083 |          0  (omitted)
+      r20084 |          0  (omitted)
+      r20091 |  -.1250185   .0483505    -2.59   0.013    -.2221826   -.0278545
+      r20092 |          0  (omitted)
+      r20093 |   -.059229   .0684898    -0.86   0.391    -.1968645    .0784065
+      r20094 |  -.0440906   .0717044    -0.61   0.541     -.188186    .1000047
+      r20101 |          0  (omitted)
+      r20102 |          0  (omitted)
+      r20103 |  -.1376362   .0624248    -2.20   0.032    -.2630836   -.0121889
+      r20104 |  -.1100676     .06304    -1.75   0.087    -.2367512     .016616
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+---------------------------------------------------------------+
+ Absorbed FE |  Num. Coefs.  =   Categories  -   Redundant     | 
+-------------+-------------------------------------------------|
+         sid |            0              50             50 *   | 
+        year |           10              11              1     | 
+---------------------------------------------------------------+
+* = fixed effect nested within cluster; treated as redundant for DoF computation
+\end{verbatim}
+
+Next, we will plot our leads and lags of the event study.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xteventplot, }\BaseNTok{xtitle}\NormalTok{(}\StringTok{"Years from policy"}\NormalTok{) }\BaseNTok{ytitle}\NormalTok{(}\StringTok{"LN of Homicide Rate per 100K"}\NormalTok{) }\BaseNTok{title}\NormalTok{(}\StringTok{"Event Study of Cheng and Hoesktra (2013)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Event Study of Cheng and Hoesktra (2013)}]{CH3.png}}
+\caption{Event Study of Cheng and Hoesktra (2013)}
+\end{figure}
+
+Except for year 9 and year 8, there is no statistically significant difference between treatment and never treated. There may be spurious factors influencing year 9 and year 8 before the policy and there are very few units in the lead9 (1 out of 550) and lead8 (3 out of 550), so it is probably best to disregard.
+
+\chapter{Goodman-Bacon Decomposition}\label{goodman-bacon-decomposition}
+
+We will again use the data from Cheng and Hoesktra (2013) to assess the Bacon-Goodman Decomposition of the different \(ATETs\) when there is differential timing. We have a few options to calculate the individual \(ATETs\) and different variance weights. We will focus on \emph{estat bdecomp}, \emph{bacondecomp} and \emph{ddtimg}. Please note that \emph{ddtiming} has been depreciated.
+
+\section{\texorpdfstring{\emph{estat bdecomp}}{estat bdecomp}}\label{estat-bdecomp}
+
+Our first method to implement the Bacon-Goodman Decomposition is \emph{estat bdecomp}. We run this command after we use \emph{xtdidregress} or \emph{didregress}. Please note that we use the option \emph{graph} to display the individual \(ATET\) and the corresponding weights.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xtdidregress (l\_homicide) (}\KeywordTok{post}\NormalTok{), }\FunctionTok{group}\NormalTok{(sid) time(}\FunctionTok{year}\NormalTok{)}
+\KeywordTok{estat}\NormalTok{ bdecomp, }\KeywordTok{graph}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Treatment and time information
+
+Time variable: year
+Control:       post = 0
+Treatment:     post = 1
+-----------------------------------
+             |   Control  Treatment
+-------------+---------------------
+Group        |
+         sid |        29         21
+-------------+---------------------
+Time         |
+     Minimum |      2000       2006
+     Maximum |      2000       2010
+-----------------------------------
+
+Difference-in-differences regression                       Number of obs = 550
+Data type: Longitudinal
+
+                                   (Std. err. adjusted for 50 clusters in sid)
+------------------------------------------------------------------------------
+             |               Robust
+  l_homicide | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ATET         |
+        post |
+   (1 vs 0)  |   .0693984   .0558596     1.24   0.220    -.0428557    .1816526
+------------------------------------------------------------------------------
+Note: ATET estimate adjusted for panel effects and time effects.
+Note: Treatment occurs at different times.
+
+
+DID treatment-effect decomposition
+
+ATET = .0693984                                        Number of obs     = 550
+                                                       Number of groups  =  50
+                                                       Number of cohorts =   6
+
+ATET decomposition summary                ATET component                Weight
+------------------------------------------------------------------------------
+Treated vs never treated                       .07843799              0.898809
+Treated earlier vs later                      -.02857716              0.077079
+Treated later vs earlier                       .04563468              0.024112
+------------------------------------------------------------------------------
+
+Full ATET decomposition                  2x2 coefficient                Weight
+------------------------------------------------------------------------------
+Treated vs never treated
+  2006 vs never treated                        .14503261              0.050306
+  2007 vs never treated                        .05925429              0.610385
+  2008 vs never treated                        .09201016              0.160981
+  2009 vs never treated                        .18195417              0.060368
+  2010 vs never treated                        .07398961              0.016769
+
+Treated earlier vs later
+  2006 vs 2007                                 .04200339              0.004510
+  2006 vs 2008                                 .09126019              0.002776
+  2006 vs 2009                                 .05519713              0.002082
+  2006 vs 2010                                -.05417012              0.001388
+  2007 vs 2008                                 -.0219597              0.021048
+  2007 vs 2009                                 .01509344              0.021048
+  2007 vs 2010                                -.07101927              0.015786
+  2008 vs 2009                                -.15384871              0.003701
+  2008 vs 2010                                -.21834129              0.003701
+  2009 vs 2010                                -.04052124              0.001041
+
+Treated later vs earlier
+  2007 vs 2006                                -.04349169              0.003007
+  2008 vs 2006                                 .05369758              0.001388
+  2009 vs 2006                                 .13322861              0.000694
+  2010 vs 2006                                -.01935504              0.000231
+  2008 vs 2007                                 .04379672              0.009020
+  2009 vs 2007                                 .14954754              0.006014
+  2010 vs 2007                                 .00654799              0.002255
+  2009 vs 2008                                -.14971815              0.000925
+  2010 vs 2008                                -.21479646              0.000463
+  2010 vs 2009                                -.02278972              0.000116
+------------------------------------------------------------------------------
+Note: Number of cohorts includes never treated.
+Note: The ATET reported by xtdidregress is a weighted average of the ATET
+      components. If any component is substantially different from the ATET
+      reported by xtdidregress and the weight is large, consider accounting for
+      treatment-effect heterogeneity by using xthdidregress.
+\end{verbatim}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Bacon-Goodman Decomposition}]{CH4.png}}
+\caption{Bacon-Goodman Decomposition}
+\end{figure}
+
+We can check the weights of the individual \(ATET\) to examine the heterogeneity of the estimates. The summary shows the Treated vs Never Treated, Treated Earlier vs Treated Later, and Treated Later vs Treated Earlier \(ATETs\) along with their corresponding weights.
+
+We can see that Treated vs Never Treated has the largest weight of 89.8\%, from our graph and our summary table.
+
+We can delve into the early treated vs late treated in the cohort full decomposition. An interesting outcome is that our Treated vs Never Treated \(ATET\) are always positive and range from 0.059 to 0.182.
+
+However, our Early Treated vs Late Treated and Late Treated vs Early Treated have a lot of heterogeneity. 9 are positive, while 11 are negative. It indicated we may need to worry about heterogeneity bias. However, the weights for both cohorts is 10.1\% (7.7\% for early treated vs late treated and 2.4\% for late treated vs early treated).
+
+\section{\texorpdfstring{\emph{bacondecomp}}{bacondecomp}}\label{bacondecomp}
+
+Our second method to implement the Bacon-Goodman Decomposition is \emph{bacondecomp}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ssc}\NormalTok{ install bacondecomp}
+\end{Highlighting}
+\end{Shaded}
+
+We will first run a TWFE regression with \emph{areg} and then run Bacondecomp after regression, but it generates stubs. Notice that the \emph{areg} will have similar outcome as our \emph{xtdidregress}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{areg}\NormalTok{ l\_homicide }\KeywordTok{post}\NormalTok{ i.}\FunctionTok{year}\NormalTok{, absorb(sid) }\KeywordTok{robust}
+\NormalTok{bacondecomp l\_homicide }\KeywordTok{post}\NormalTok{, stub(Bacon\_) }\KeywordTok{robust}\NormalTok{ ddetail}
+\KeywordTok{drop}\NormalTok{ Bacon\_*}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Linear regression, absorbing indicators             Number of obs     =    550
+Absorbed variable: sid                              No. of categories =     50
+                                                    F(11, 489)        =   4.73
+                                                    Prob > F          = 0.0000
+                                                    R-squared         = 0.9102
+                                                    Adj R-squared     = 0.8991
+                                                    Root MSE          = 0.1874
+
+------------------------------------------------------------------------------
+             |               Robust
+  l_homicide | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0693984    .034312     2.02   0.044     .0019813    .1368155
+             |
+        year |
+       2001  |   .0234081   .0481165     0.49   0.627    -.0711326    .1179488
+       2002  |    .002241   .0437824     0.05   0.959    -.0837839    .0882659
+       2003  |   .0476296   .0428512     1.11   0.267    -.0365656    .1318247
+       2004  |     .04259   .0399801     1.07   0.287     -.035964    .1211441
+       2005  |   .0609827   .0413633     1.47   0.141    -.0202889    .1422544
+       2006  |   .0756094   .0401986     1.88   0.061    -.0033739    .1545927
+       2007  |   .0614879   .0467341     1.32   0.189    -.0303365    .1533123
+       2008  |   .0125426   .0479081     0.26   0.794    -.0815885    .1066738
+       2009  |  -.0690221   .0460227    -1.50   0.134    -.1594487    .0214046
+       2010  |  -.1271772   .0460306    -2.76   0.006    -.2176194    -.036735
+             |
+       _cons |   1.384578   .0358783    38.59   0.000     1.314084    1.455073
+------------------------------------------------------------------------------
+
+Computing decomposition across 6 timing groups
+including a never-treated group
+------------------------------------------------------------------------------
+  l_homicide | Coefficient  Std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        post |   .0693984   .0558596     1.24   0.214    -.0400844    .1788813
+------------------------------------------------------------------------------
+
+Bacon Decomposition
+
++---------------------------------------------------+
+|                      |         Beta   TotalWeight |
+|----------------------+----------------------------|
+|         Early_v_Late |  .0420033932   .0045102348 |
+|         Late_v_Early | -.0434916914   .0030068233 |
+|         Early_v_Late |  .0912601873   .0027755292 |
+|         Late_v_Early |  .0536975749   .0013877646 |
+|         Early_v_Late |  -.021959696   .0210477626 |
+|         Late_v_Early |  .0437967181   .0090204695 |
+|         Early_v_Late |  .0551971309   .0020816468 |
+|         Late_v_Early |  .1332286149   .0006938823 |
+|         Early_v_Late |  .0150934393   .0210477626 |
+|         Late_v_Early |  .1495475471   .0060136465 |
+|         Early_v_Late | -.1538487077   .0037007056 |
+|         Late_v_Early | -.1497181505   .0009251764 |
+|         Early_v_Late | -.0541701168   .0013877646 |
+|         Late_v_Early | -.0193550438   .0002312941 |
+|         Early_v_Late | -.0710192695   .0157858219 |
+|         Late_v_Early |  .0065479889   .0022551174 |
+|         Early_v_Late |  -.218341291   .0037007056 |
+|         Late_v_Early | -.2147964537   .0004625882 |
+|         Early_v_Late |  -.040521238   .0010408234 |
+|         Late_v_Early | -.0227897167    .000115647 |
+|       Never_v_timing |  .0784379909   .8988088336 |
++---------------------------------------------------+
+\end{verbatim}
+
+Notice that the TWFE estimator is the same between \emph{areg} and \emph{xtdidregress}. One thing about this command is that we lack details of the individual groups. We only see Early\_v\_Late and Late\_v\_Early. I personally prefer the \emph{estat bdecomp} command.
+
+\section{\texorpdfstring{\emph{ddtiming}}{ddtiming}}\label{ddtiming}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{net install ddtiming, from(https:}\CommentTok{//raw.githubusercontent.com/tgoldring/ddtiming/master)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ddtiming l\_homicide }\KeywordTok{post}\NormalTok{, i(sid) t(}\FunctionTok{year}\NormalTok{) }\KeywordTok{yline}\NormalTok{(0) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Calculating treatment times...
+Calculating weights...
+Estimating 2x2 diff-in-diff regressions...
+
+Diff-in-diff estimate: 0.069    
+
+DD Comparison              Weight      Avg DD Est
+-------------------------------------------------
+Earlier T vs. Later C       0.077          -0.029
+Later T vs. Earlier C       0.024           0.046
+T vs. Never treated         0.899           0.078
+-------------------------------------------------
+T = Treatment; C = Comparison
+\end{verbatim}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Bacon-Goodman Decomposition with ddtiming}]{CH5.png}}
+\caption{Bacon-Goodman Decomposition with \emph{ddtiming}}
+\end{figure}
+
+We get similar results, but the issue is that \emph{ddtiming} has been depreciated.
+
+Cheng, Cheng, and Mark Hoekstra. 2013. ``Does Strengthening Self-Defense Law Deter Crime or Escalate Violence? Evidence from Expansions to Castle Doctrine.'' Journal of Human Resources 48 (3): 821--54.
+
+Cunningham, S. (2021). \emph{Causal Inference: The Mixtape}. Yale University Press.
+
+Freyaldenhoven, S., Hansen C. \& Perez, JEP., and Shapiro J. (2021). \emph{XTEVENT: Stata module to estimate and visualize linear panel event-study models}. Statistical Software Components S458987, Boston College Department of Economics, revised 12 Jul 2024. \url{https://ideas.repec.org/c/boc/bocode/s458987.html}
+
+Gruber, Levine, and Staiger (1999).Gruber, J., Levine, P.B., and Staiger,D. (1999). Abortion Legalization and Child Living Circumstances: Who Is the `Marginal Child'? \emph{The Quarterly Journal of Economics 114 (1)}: 263--91.
+
+Huber, M. (2023). \emph{Causal Analysis: Impact Evaluation and Causal Machine Learning with Applications in R}. The MIT Press.
+
+Huntington-Klein, N. (2022). \emph{The Effect: An Introduction to Research Design and Causality}. CRC Press.
+
+Levitt, S.D. (2004). Why Crime Fell in the 1990s: Four Factors That Explain the Decline and Six That Do Not. \emph{Journal of Economic Perspectives 18 (1)}: 163-190
+
+Princeton (2026). \emph{Difference-in-Differences in Stata: A step-by-step guide.} \url{https://libguides.princeton.edu/stata-did/1\#s-lg-box-wrapper-41689126}
+
+\bibliography{book.bib,packages.bib}
+
+\end{document}
