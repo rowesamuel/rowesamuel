@@ -238,7 +238,7 @@ Next, we will calculate the Root Mean Squared Prediction Error \(RMSPE\) for eac
 
 ```{stata ri2, eval=FALSE}
 foreach i of local statelist {
-synth 	bmprison  ///
+quietly synth 	bmprison  ///
 		bmprison(1990) bmprison(1992) bmprison(1991) bmprison(1988) ///
 		alcohol(1990) aidscapita(1990) aidscapita(1991) /// 
 		income ur poverty black(1990) black(1991) black(1992) ///  
@@ -251,11 +251,12 @@ synth 	bmprison  ///
 }
 ```
 
+We will store the \(RMSPE\) results from each placebo test.
 
 ```{stata ri3, eval=FALSE}
 foreach i of local statelist {
-  matrix rownames state`i'=`i'
-  quietly matlist state`i', names(rows) 
+  quietly matrix rownames state`i'=`i'
+  matlist state`i', names(rows) 
 }
 ```
 
@@ -283,8 +284,8 @@ quietly {
   }
   
   foreach i of local statelist {
-    matrix rownames state`i'=`i'
-    quietly matlist state`i', names(rows) 
+    quietly matrix rownames state`i'=`i'
+    matlist state`i', names(rows) 
 }
 ```
 

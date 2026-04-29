@@ -207,7 +207,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.1.1</span> Caculate <span class="math inline">\(RMSPE\)</span> for each state<a href="randomized-inference.html#caculate-rmspe-for-each-state" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Next, we will calculate the Root Mean Squared Prediction Error <span class="math inline">\(RMSPE\)</span> for each state in the donor pool for each time period.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="randomized-inference.html#cb18-1" tabindex="-1"></a><span class="kw">foreach</span> i <span class="kw">of</span> <span class="kw">local</span> statelist {</span>
-<span id="cb18-2"><a href="randomized-inference.html#cb18-2" tabindex="-1"></a>synth   bmprison  <span class="co">///</span></span>
+<span id="cb18-2"><a href="randomized-inference.html#cb18-2" tabindex="-1"></a><span class="kw">quietly</span> synth   bmprison  <span class="co">///</span></span>
 <span id="cb18-3"><a href="randomized-inference.html#cb18-3" tabindex="-1"></a>        bmprison(1990) bmprison(1992) bmprison(1991) bmprison(1988) <span class="co">///</span></span>
 <span id="cb18-4"><a href="randomized-inference.html#cb18-4" tabindex="-1"></a>        alcohol(1990) aidscapita(1990) aidscapita(1991) <span class="co">/// </span></span>
 <span id="cb18-5"><a href="randomized-inference.html#cb18-5" tabindex="-1"></a>        income ur poverty <span class="bn">black</span>(1990) <span class="bn">black</span>(1991) <span class="bn">black</span>(1992) <span class="co">///  </span></span>
@@ -218,11 +218,104 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb18-10"><a href="randomized-inference.html#cb18-10" tabindex="-1"></a>  <span class="co">/* check the V matrix */</span></span>
 <span id="cb18-11"><a href="randomized-inference.html#cb18-11" tabindex="-1"></a>  <span class="fu">matrix</span> state<span class="ot">`i&#39;</span> = <span class="fu">e</span>(RMSPE)  </span>
 <span id="cb18-12"><a href="randomized-inference.html#cb18-12" tabindex="-1"></a>}</span></code></pre></div>
+<p>We will store the <span class="math inline">\(RMSPE\)</span> results from each placebo test.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="randomized-inference.html#cb19-1" tabindex="-1"></a><span class="kw">foreach</span> i <span class="kw">of</span> <span class="kw">local</span> statelist {</span>
-<span id="cb19-2"><a href="randomized-inference.html#cb19-2" tabindex="-1"></a>  <span class="fu">matrix</span> <span class="ot">rownames</span> state<span class="ot">`i&#39;</span>=<span class="ot">`i&#39;</span></span>
-<span id="cb19-3"><a href="randomized-inference.html#cb19-3" tabindex="-1"></a>  <span class="kw">quietly</span> <span class="kw">matlist</span> state<span class="ot">`i&#39;</span>, names(<span class="bn">rows</span>) </span>
+<span id="cb19-2"><a href="randomized-inference.html#cb19-2" tabindex="-1"></a>  <span class="kw">quietly</span> <span class="fu">matrix</span> <span class="ot">rownames</span> state<span class="ot">`i&#39;</span>=<span class="ot">`i&#39;</span></span>
+<span id="cb19-3"><a href="randomized-inference.html#cb19-3" tabindex="-1"></a>  <span class="kw">matlist</span> state<span class="ot">`i&#39;</span>, names(<span class="bn">rows</span>) </span>
 <span id="cb19-4"><a href="randomized-inference.html#cb19-4" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>counter | pri_inf  | dual_inf  | pri_obj   | dual_obj  | sigfig | alpha  | nu 
+<pre><code>           1 |  363.9074 
+
+           2 |  224.5887 
+
+           4 |  58.05471 
+
+           5 |  241.5296 
+
+           6 |  5416.415 
+
+           8 |  222.9233 
+
+           9 |  312.2713 
+
+          10 |  150.1067 
+
+          11 |  3174.297 
+
+          12 |  652.9261 
+
+          13 |  277.6978 
+
+          15 |  662.0145 
+
+          16 |  13.50596 
+
+          17 |   334.531 
+
+          18 |  248.4777 
+
+          20 |  133.9102 
+
+          21 |  82.86875 
+
+          22 |  938.8049 
+
+          23 |  35.34841 
+
+          24 |  615.9429 
+
+          25 |  216.1974 
+
+          26 |  747.0685 
+
+          27 |  70.40208 
+
+          28 |  1859.675 
+
+          29 |  326.8748 
+
+          30 |    4.4689 
+
+          31 |  31.63831 
+
+          32 |  144.4991 
+
+          33 |  17.44104 
+
+          34 |  393.2002 
+
+          35 |  23.51869 
+
+          36 |  1745.408 
+
+          37 |  1153.701 
+
+          38 |  29.41804 
+
+          39 |  818.8262 
+
+          40 |  122.3218 
+
+          41 |  58.99129 
+
+          42 |  354.1525 
+
+          45 |  597.2221 
+
+          46 |  3.083115 
+
+          47 |  232.7733 
+
+          48 |  1295.489 
+
+          49 |  26.49984 
+
+          51 |  244.9428 
+
+          53 |  165.9772 
+
+          55 |  124.5507 
+
+counter | pri_inf  | dual_inf  | pri_obj   | dual_obj  | sigfig | alpha  | nu 
 ----------------------------------------------------------------------------------
       0 | 9.51e+01 | 9.77e-04 | -1.61e+00 | -5.02e+02 |  0.000 | 0.0000 | 1.00e+02
       1 | 4.76e-01 | 4.88e-06 | -1.59e+00 | -9.08e+02 |  0.000 | 0.9950 | 2.07e-05
