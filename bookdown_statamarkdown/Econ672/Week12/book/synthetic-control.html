@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Synthetic Control | Synthetic Control</title>
+  <meta name="description" content="Implementation of Synthetic Control with synth package.." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Synthetic Control | Synthetic Control" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Implementation of Synthetic Control with synth package.." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Synthetic Control | Synthetic Control" />
+  
+  <meta name="twitter:description" content="Implementation of Synthetic Control with synth package.." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Cunningham (2021)" />
+
+
+<meta name="date" content="2026-04-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="randomized-inference.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Synthetic Control</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="synthetic-control.html"><a href="synthetic-control.html"><i class="fa fa-check"></i><b>1</b> Synthetic Control</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="synthetic-control.html"><a href="synthetic-control.html#the-estimator"><i class="fa fa-check"></i><b>1.1</b> The estimator</a></li>
+<li class="chapter" data-level="1.2" data-path="synthetic-control.html"><a href="synthetic-control.html#synth-package"><i class="fa fa-check"></i><b>1.2</b> <em>synth</em> package</a></li>
+<li class="chapter" data-level="1.3" data-path="synthetic-control.html"><a href="synthetic-control.html#prison-construction"><i class="fa fa-check"></i><b>1.3</b> Prison Construction</a></li>
+<li class="chapter" data-level="1.4" data-path="synthetic-control.html"><a href="synthetic-control.html#estimate-the-weighted-treatment-effect"><i class="fa fa-check"></i><b>1.4</b> Estimate the Weighted Treatment Effect</a></li>
+<li class="chapter" data-level="1.5" data-path="synthetic-control.html"><a href="synthetic-control.html#plot-the-graph"><i class="fa fa-check"></i><b>1.5</b> Plot the Graph</a></li>
+<li class="chapter" data-level="1.6" data-path="synthetic-control.html"><a href="synthetic-control.html#plot-the-gap-or-difference"><i class="fa fa-check"></i><b>1.6</b> Plot the Gap or Difference</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="randomized-inference.html"><a href="randomized-inference.html"><i class="fa fa-check"></i><b>2</b> Randomized Inference</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomized-inference.html"><a href="randomized-inference.html#placebo-tests"><i class="fa fa-check"></i><b>2.1</b> Placebo Tests</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="randomized-inference.html"><a href="randomized-inference.html#caculate-rmspe-for-each-state"><i class="fa fa-check"></i><b>2.1.1</b> Caculate <span class="math inline">\(RMSPE\)</span> for each state</a></li>
+<li class="chapter" data-level="2.1.2" data-path="randomized-inference.html"><a href="randomized-inference.html#calculate-the-gap-for-each-state"><i class="fa fa-check"></i><b>2.1.2</b> Calculate the gap for each state</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="randomized-inference.html"><a href="randomized-inference.html#calculate-pre-treatment-and-post-treatment-rmspe"><i class="fa fa-check"></i><b>2.2</b> Calculate pre-treatment and post-treatment <span class="math inline">\(RMSPE\)</span></a></li>
+<li class="chapter" data-level="2.3" data-path="randomized-inference.html"><a href="randomized-inference.html#sort-and-rank"><i class="fa fa-check"></i><b>2.3</b> Sort and Rank</a></li>
+<li class="chapter" data-level="2.4" data-path="randomized-inference.html"><a href="randomized-inference.html#calculate-exact-p-values"><i class="fa fa-check"></i><b>2.4</b> Calculate exact <span class="math inline">\(p\)</span>-values</a></li>
+<li class="chapter" data-level="2.5" data-path="randomized-inference.html"><a href="randomized-inference.html#plot-all-placebos"><i class="fa fa-check"></i><b>2.5</b> Plot all Placebos</a></li>
+<li class="chapter" data-level="2.6" data-path="randomized-inference.html"><a href="randomized-inference.html#remove-poor-matches"><i class="fa fa-check"></i><b>2.6</b> Remove poor matches</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Synthetic Control</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="synthetic-control" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Synthetic Control<a href="synthetic-control.html#synthetic-control" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This is just a generalization of the difference-in-differences design and one of the most important evaluation designs in recent years (Athey and Imben, 2017). We use a quantitative comparative case study by focusing on a particular single unit, such as a state, school, county, group, etc. We optimize a set of weights from a donor pool of comparison states to generate a counterfactual for the treatment state.</p>
+<p><strong>The Premise:</strong> Abadie and Gardeazabal (2003) use a method of a weighted average of units from a donor pool to model a counterfactual (synthetic control)</p>
+<div id="the-estimator" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> The estimator<a href="synthetic-control.html#the-estimator" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our synthetic contorl method is the following:</p>
+<p><span class="math display">\[ \hat{\delta} = Y_{1t}-\sum^{J+1}_{j=2}w^*_jY_{jt} \]</span></p>
+<p>Where</p>
+<ul>
+<li><span class="math inline">\(J=1\)</span> is our treatment group</li>
+<li><span class="math inline">\(J+1\)</span> is our donor pool of comparison</li>
+<li><span class="math inline">\(Y_1t\)</span> is the outcome of the treatment group</li>
+<li><span class="math inline">\(Y_{jt}\)</span> is the outcome from donor <span class="math inline">\(j\)</span></li>
+<li><span class="math inline">\(w^*_j\)</span> is a vector of optimized weights that is a function of our choice of covariates</li>
+</ul>
+<p>The synthetic control estimator estimates the effect of the program at time <span class="math inline">\(t \geq T_{0}\)</span>.</p>
+<p>It’s just the difference between our treatment group and a weighted control group at time <span class="math inline">\(T_{0}\)</span>. Where our optimized-weighted control group will depend on our set of covariates we choose</p>
+<p><strong>Matching variables:</strong> Matching variables <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_0\)</span> are chosen as predictors of post-intervention outcomes and must be unaffected by the program, treatment, or intervention.</p>
+</div>
+<div id="synth-package" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> <em>synth</em> package<a href="synthetic-control.html#synth-package" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First, we will install the <em>synth</em> package.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="synthetic-control.html#cb2-1" tabindex="-1"></a><span class="kw">ssc</span> install synth </span></code></pre></div>
+<p>Next, we will install the <em>mat2txt</em> package.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb3-1"><a href="synthetic-control.html#cb3-1" tabindex="-1"></a><span class="kw">ssc</span> install mat2txt</span></code></pre></div>
+</div>
+<div id="prison-construction" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Prison Construction<a href="synthetic-control.html#prison-construction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will recreate Cunningham and Kang (2019) work on the effect of building prisons and black male incarceration rates. We will import and inspect our data after installing our packages.</p>
+<p>Cunningham (2021) provides the change in prison in Texas and shows that 1993 begins the prison construction boom.</p>
+<div class="float">
+<img src="SC7.png" alt="Construction of prisons in Texas" />
+<div class="figcaption">Construction of prisons in Texas</div>
+</div>
+<p>Next, let’s bring the data and summarize the black male incarceration rate per 100,000.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="synthetic-control.html#cb4-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 672/Data&quot;</span></span>
+<span id="cb4-2"><a href="synthetic-control.html#cb4-2" tabindex="-1"></a><span class="kw">use</span> texas, <span class="kw">clear</span></span>
+<span id="cb4-3"><a href="synthetic-control.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="synthetic-control.html#cb4-4" tabindex="-1"></a><span class="kw">sum</span> bmprison, <span class="kw">detail</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 672/Data
+
+                          BM Prison
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%           24              0
+10%           47              0       Obs                 816
+25%          489              0       Sum of wgt.         816
+
+50%       3055.5                      Mean           7625.753
+                        Largest       Std. dev.      10088.11
+75%      11425.5          58393
+90%        21153          59709       Variance       1.02e+08
+95%        27204          60785       Skewness       2.080135
+99%        46235          61861       Kurtosis       8.401005</code></pre>
+<p>We can see that the mean black male incarceration rate is 3,055 per 100,000.</p>
+<p>Next we need to set our idcount and check for redundant values. This is a good practice when working with panel data.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="synthetic-control.html#cb6-1" tabindex="-1"></a><span class="kw">sort</span> statefip <span class="fu">year</span></span>
+<span id="cb6-2"><a href="synthetic-control.html#cb6-2" tabindex="-1"></a><span class="kw">by</span> statefip <span class="fu">year</span>: <span class="kw">gen</span> idcount = _N</span>
+<span id="cb6-3"><a href="synthetic-control.html#cb6-3" tabindex="-1"></a><span class="kw">tab</span> idcount</span>
+<span id="cb6-4"><a href="synthetic-control.html#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="synthetic-control.html#cb6-5" tabindex="-1"></a>*No redundent <span class="kw">or</span> repeated <span class="kw">values</span></span>
+<span id="cb6-6"><a href="synthetic-control.html#cb6-6" tabindex="-1"></a><span class="kw">drop</span> idcount</span></code></pre></div>
+<pre><code>    idcount |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |        816      100.00      100.00
+------------+-----------------------------------
+      Total |        816      100.00</code></pre>
+<p>Now, we can set the panel with statefips being our unit of analysis and year being our time dimension</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="synthetic-control.html#cb8-1" tabindex="-1"></a>xtset statefip <span class="fu">year</span></span></code></pre></div>
+<pre><code>Panel variable: statefip (strongly balanced)
+ Time variable: year, 1985 to 2000
+         Delta: 1 unit</code></pre>
+<p>We have a balanced panel to begin our synthetic control. This step is not necessary for the analysis, but I recommend establishing your panel before further analysis.</p>
+</div>
+<div id="estimate-the-weighted-treatment-effect" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Estimate the Weighted Treatment Effect<a href="synthetic-control.html#estimate-the-weighted-treatment-effect" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will next calculate the gaps, or the weighted average treatment effect on the treated compared to a synthetic comparison.</p>
+<p>We will use our outcome, but also lags in our outcomes, covariates, and lags in our covariates. We will specify that Texas, <span class="math inline">\(FIPS=48\)</span>, is our treatment unit and the time of treatment is 1993. We specify the pre-intervention period from 1985 to 1993 and increment by 1 year with <em>mseperiod</em>. This is the period where we want to minimize the Mean Squared Predicted Error or <span class="math inline">\(MSPE\)</span>.</p>
+<p>Cunningham provides the covariates used to estimate synthetic Texas</p>
+<ul>
+<li>Lagged pre-treatment rates in 1988, 1990, 1991, and 1992</li>
+<li>Unemployment rate, income, and poverty</li>
+<li>Lagged AIDS per capita in 1990, 1991</li>
+<li>Lagged Black population % in 1990,1991, and 1992</li>
+<li>Percentage of 15-24 year olds in 1990</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="synthetic-control.html#cb10-1" tabindex="-1"></a>synth   bmprison bmprison(1988) bmprison(1990) bmprison(1991) bmprison(1992) alcohol(1990)</span>
+<span id="cb10-2"><a href="synthetic-control.html#cb10-2" tabindex="-1"></a>aidscapita(1990) aidscapita(1991) income ur poverty <span class="bn">black</span>(1990) <span class="bn">black</span>(1991) <span class="bn">black</span>(1992)</span>
+<span id="cb10-3"><a href="synthetic-control.html#cb10-3" tabindex="-1"></a>perc1519(1990), trunit(48) trperiod(1993) unitnames(state) mspeperiod(1985(1)1993)</span>
+<span id="cb10-4"><a href="synthetic-control.html#cb10-4" tabindex="-1"></a>resultsperiod(1985(1)2000) <span class="kw">keep</span>(synth_bmprate.dta) <span class="kw">replace</span></span></code></pre></div>
+<pre><code>Synthetic Control Method for Comparative Case Studies
+----------------------------------------------------------------------------------
+
+First Step: Data Setup
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+Data Setup successful
+----------------------------------------------------------------------------------
+                Treated Unit: Texas
+               Control Units: Alabama, Alaska, Arizona, Arkansas, California,
+                              Colorado, Connecticut, Delaware, District of
+                              Columbia, Florida, Georgia, Hawaii, Idaho, Illinois,
+                              Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine,
+                              Maryland, Massachusetts, Michigan, Minnesota,
+                              Mississippi, Missouri, Montana, Nebraska, Nevada,
+                              New Hampshire, New Jersey, New Mexico, New York,
+                              North Carolina, North Dakota, Ohio, Oklahoma,
+                              Oregon, Pennsylvania, Rhode Island, South Carolina,
+                              South Dakota, Tennessee, Utah, Vermont, Virginia,
+                              Washington, West Virginia, Wisconsin, Wyoming
+----------------------------------------------------------------------------------
+          Dependent Variable: bmprison
+  MSPE minimized for periods: 1985 1986 1987 1988 1989 1990 1991 1992 1993
+Results obtained for periods: 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994
+                              1995 1996 1997 1998 1999 2000
+----------------------------------------------------------------------------------
+                  Predictors: bmprison(1988) bmprison(1990) bmprison(1991)
+                              bmprison(1992) alcohol(1990) aidscapita(1990)
+                              aidscapita(1991) income ur poverty black(1990)
+                              black(1991) black(1992) perc1519(1990)
+----------------------------------------------------------------------------------
+Unless period is specified
+predictors are averaged over: 1985 1986 1987 1988 1989 1990 1991 1992
+----------------------------------------------------------------------------------
+
+Second Step: Run Optimization
+----------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+Optimization done
+----------------------------------------------------------------------------------
+
+Third Step: Obtain Results
+----------------------------------------------------------------------------------
+Loss: Root Mean Squared Prediction Error
+
+---------------------
+   RMSPE |  1295.489 
+---------------------
+----------------------------------------------------------------------------------
+Unit Weights:
+
+----------------------------------
+               Co_No | Unit_Weight
+---------------------+------------
+             Alabama |           0
+              Alaska |           0
+             Arizona |           0
+            Arkansas |           0
+          California |        .408
+            Colorado |           0
+         Connecticut |           0
+            Delaware |           0
+District of Columbia |           0
+             Florida |        .109
+             Georgia |           0
+              Hawaii |           0
+               Idaho |           0
+            Illinois |         .36
+             Indiana |           0
+                Iowa |           0
+              Kansas |           0
+            Kentucky |           0
+           Louisiana |        .122
+               Maine |           0
+            Maryland |           0
+       Massachusetts |           0
+            Michigan |           0
+           Minnesota |           0
+         Mississippi |           0
+            Missouri |           0
+             Montana |           0
+            Nebraska |           0
+              Nevada |           0
+       New Hampshire |           0
+          New Jersey |           0
+          New Mexico |           0
+            New York |           0
+      North Carolina |           0
+        North Dakota |           0
+                Ohio |           0
+            Oklahoma |           0
+              Oregon |           0
+        Pennsylvania |           0
+        Rhode Island |           0
+      South Carolina |           0
+        South Dakota |           0
+           Tennessee |           0
+                Utah |           0
+             Vermont |           0
+            Virginia |           0
+          Washington |           0
+       West Virginia |           0
+           Wisconsin |           0
+             Wyoming |           0
+----------------------------------
+----------------------------------------------------------------------------------
+Predictor Balance:
+
+------------------------------------------------------
+                               |   Treated  Synthetic 
+-------------------------------+----------------------
+                bmprison(1988) |     16956   18374.28 
+                bmprison(1990) |     22634    23134.8 
+                bmprison(1991) |     23249   24272.24 
+                bmprison(1992) |     27568   25776.34 
+                 alcohol(1990) |      2.47    2.70996 
+              aidscapita(1990) |  13.58992   14.99957 
+              aidscapita(1991) |  14.83504   17.24535 
+                        income |  16108.63   18614.54 
+                            ur |  7.426042   7.188876 
+                       poverty |      17.2   14.86484 
+                   black(1990) |  16.15459   15.98038 
+                   black(1991) |  16.29985   16.16835 
+                   black(1992) |  16.45955   16.37467 
+                perc1519(1990) |  7.703001   7.022702 
+------------------------------------------------------
+----------------------------------------------------------------------------------
+
+counter | pri_inf  | dual_inf  | pri_obj   | dual_obj  | sigfig | alpha  | nu 
+----------------------------------------------------------------------------------
+      0 | 9.51e+01 | 1.57e-03 | -1.82e+00 | -5.02e+02 |  0.000 | 0.0000 | 1.00e+02
+      1 | 5.46e-01 | 8.99e-06 | -1.77e+00 | -9.08e+02 |  0.000 | 0.9943 | 2.73e-05
+      2 | 1.14e-02 | 1.88e-07 | -1.41e+00 | -3.35e+01 |  0.000 | 0.9791 | 3.67e-05
+      3 | 1.21e-03 | 1.99e-08 | -1.45e+00 | -4.88e+00 |  0.000 | 0.8943 | 3.09e-05
+      4 | 2.39e-04 | 3.94e-09 | -1.77e+00 | -2.65e+00 |  0.497 | 0.8022 | 1.15e-05
+      5 | 1.14e-05 | 1.87e-10 | -1.81e+00 | -1.87e+00 |  1.673 | 0.9525 | 1.67e-07
+      6 | 4.95e-06 | 8.16e-11 | -1.81e+00 | -1.84e+00 |  2.042 | 0.5645 | 1.01e-06
+      7 | 1.77e-06 | 2.91e-11 | -1.82e+00 | -1.83e+00 |  2.490 | 0.6428 | 2.88e-07
+      8 | 7.32e-07 | 1.20e-11 | -1.82e+00 | -1.82e+00 |  2.865 | 0.5864 | 1.39e-07
+      9 | 3.15e-07 | 5.19e-12 | -1.82e+00 | -1.82e+00 |  3.238 | 0.5696 | 6.39e-08
+     10 | 9.21e-09 | 1.52e-13 | -1.82e+00 | -1.82e+00 |  4.622 | 0.9708 | 1.16e-10
+     11 | 4.60e-11 | 7.66e-16 | -1.82e+00 | -1.82e+00 |  6.907 | 0.9950 | 1.39e-13
+     12 | 2.30e-13 | 3.47e-17 | -1.82e+00 | -1.82e+00 |  9.204 | 0.9950 | 7.23e-16
+     13 | 1.31e-15 | 2.05e-17 | -1.82e+00 | -1.82e+00 | 11.502 | 0.9950 | 3.64e-18
+     14 | 6.19e-16 | 3.65e-17 | -1.82e+00 | -1.82e+00 | 13.792 | 0.9950 | 1.84e-20
+----------------------------------------------------------------------------------
+optimization converged</code></pre>
+<p>We have a few interesting results.</p>
+<p>First, our <span class="math inline">\(RMSPE=1295.489\)</span>. We can and should continue to test the combination of covariates that reduces the <span class="math inline">\(RMSPE\)</span> in the pre-treatment period. Recall that Abadie, Diamond, and Hainmueller suggest choosing a <span class="math inline">\(V\)</span> that minimizes the mean squared prediction error in the pre-treatment period. Recall that we can influence the <span class="math inline">\(w\)</span> through <span class="math inline">\(V\)</span> since <span class="math inline">\(V\)</span> is a function of our covariates.</p>
+<p><span class="math display">\[ RMSPE=\sqrt{\sum^{T_0}_{t=1} \left( Y_{1t}-\sum^{J+1}_{j=2}w^{*}_{j}(V)Y_{jt}\right)^2} \]</span></p>
+<p>Second, our results show that California is the largest donor with a weight of 40.8%. Illinois is next with a weight of 36%, while Louisiana and Florida are the thrird and fourth largest donors at 12.2% and 10.9%, respectively.</p>
+<p>Next we have our predictor balance between Texas and Synthetic Texas.</p>
+<div class="float">
+<img src="SC3.png" alt="Balance between Texas and Synthetic Texas" />
+<div class="figcaption">Balance between Texas and Synthetic Texas</div>
+</div>
+<p>These looked balanced, but what are we missing? Ways to test the null hypothesis that these are not different!</p>
+</div>
+<div id="plot-the-graph" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Plot the Graph<a href="synthetic-control.html#plot-the-graph" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can add the option <em>figure</em> to the <em>synth</em> command to plot the Texas vs Synthetic Texas.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="synthetic-control.html#cb12-1" tabindex="-1"></a>synth   bmprison bmprison(1988) bmprison(1990) bmprison(1991) bmprison(1992) alcohol(1990) aidscapita(1990) aidscapita(1991) income ur poverty <span class="bn">black</span>(1990) <span class="bn">black</span>(1991) <span class="bn">black</span>(1992) perc1519(1990), trunit(48) trperiod(1993) unitnames(state) mspeperiod(1985(1)1993) resultsperiod(1985(1)2000) <span class="kw">keep</span>(synth_bmprate.dta) <span class="kw">replace</span> fig</span></code></pre></div>
+<div class="float">
+<img src="SC1.png" alt="Synthetic Texas vs Texas" />
+<div class="figcaption">Synthetic Texas vs Texas</div>
+</div>
+</div>
+<div id="plot-the-gap-or-difference" class="section level2 hasAnchor" number="1.6">
+<h2><span class="header-section-number">1.6</span> Plot the Gap or Difference<a href="synthetic-control.html#plot-the-gap-or-difference" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We are going to pull our results from the synthetic control method with the file <em>synth_bmprate.dta</em>, which we defined in the <em>keep</em> option.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="synthetic-control.html#cb13-1" tabindex="-1"></a><span class="kw">use</span> synth_bmprate.dta, <span class="kw">clear</span></span></code></pre></div>
+<p>The first two columns are our donor pool and their weights. We don’t need these now so we can drop them. The 3rd and 4th columns are our outcomes of interest: <span class="math inline">\(Y\)</span> of Texas and <span class="math inline">\(Y\)</span> of Synthetic Texas. The 5 column is our time period</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="synthetic-control.html#cb14-1" tabindex="-1"></a><span class="kw">keep</span> _Y_treated _Y_synthetic _time</span>
+<span id="cb14-2"><a href="synthetic-control.html#cb14-2" tabindex="-1"></a><span class="kw">drop</span> <span class="kw">if</span> _time==.</span>
+<span id="cb14-3"><a href="synthetic-control.html#cb14-3" tabindex="-1"></a><span class="kw">rename</span> _time <span class="fu">year</span></span>
+<span id="cb14-4"><a href="synthetic-control.html#cb14-4" tabindex="-1"></a><span class="kw">rename</span> _Y_treated  treat</span>
+<span id="cb14-5"><a href="synthetic-control.html#cb14-5" tabindex="-1"></a><span class="kw">rename</span> _Y_synthetic counterfact</span></code></pre></div>
+<p>Generate the difference/gap between Texas outcome and Synthetic Texas outcome.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="synthetic-control.html#cb15-1" tabindex="-1"></a><span class="kw">gen</span> gap48=treat-counterfact</span>
+<span id="cb15-2"><a href="synthetic-control.html#cb15-2" tabindex="-1"></a><span class="kw">sort</span> <span class="fu">year</span></span></code></pre></div>
+<p>Finally, we will plot the difference between two outcomes</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="synthetic-control.html#cb16-1" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">line</span> gap48 <span class="fu">year</span>,lp(solid)lw(vthin)lcolor(<span class="bn">black</span>)), <span class="kw">yline</span>(0, lpattern(shortdash) lcolor(<span class="bn">black</span>)) <span class="co">///</span></span>
+<span id="cb16-2"><a href="synthetic-control.html#cb16-2" tabindex="-1"></a>    <span class="bn">xline</span>(1993, lpattern(shortdash) lcolor(<span class="bn">black</span>)) <span class="bn">xtitle</span>(<span class="st">&quot;Year&quot;</span>,si(medsmall)) <span class="kw">xlabel</span>(#10) <span class="co">///</span></span>
+<span id="cb16-3"><a href="synthetic-control.html#cb16-3" tabindex="-1"></a>    <span class="bn">ytitle</span>(<span class="st">&quot;Gap in black male prisoners&quot;</span>, <span class="kw">size</span>(medsmall)) <span class="bn">legend</span>(<span class="kw">off</span>)</span>
+<span id="cb16-4"><a href="synthetic-control.html#cb16-4" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="synthetic-control.html#cb16-5" tabindex="-1"></a><span class="kw">save</span> synth_bmprate_48.dta, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="SC2.png" alt="Difference between Texas and Synthetic Texas" />
+<div class="figcaption">Difference between Texas and Synthetic Texas</div>
+</div>
+<p>We can see an difference about 25,000 black males incarcerated per capita in 1995. However, we need to test the null hypothesis to see if this is a statistically significant effect.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="randomized-inference.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
