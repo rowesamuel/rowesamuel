@@ -1,0 +1,1787 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{booktabs}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Ingesting Data},
+  pdfauthor={Samuel Rowe adapted from Mitchell (2020)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Ingesting Data}
+\author{Samuel Rowe adapted from Mitchell (2020)}
+\date{2026-08-18}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\chapter*{Overview}\label{overview}
+\addcontentsline{toc}{chapter}{Overview}
+
+We will cover importing data into Stata for analysis.
+
+Overview:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Ingesting Data
+\item
+  Exercises
+\end{enumerate}
+
+\chapter{Ingesting Data}\label{ingesting-data}
+
+\emph{Mitchell Chapter 2}
+
+Note when your working directory, I recommend using ``/'' instead of ``"
+Stata will use both, and the backslash''\," often runs into string issues.
+
+\section{Getting our data}\label{getting-our-data}
+
+We'll get our data that we will use for the course.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwd}
+\NormalTok{*Set your working directory}
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/"}
+
+\NormalTok{*Use:}
+\NormalTok{net from https:}\CommentTok{//www.stata{-}press.com/data/dmus2}
+\NormalTok{net }\FunctionTok{get}\NormalTok{ dmus1}
+\NormalTok{net }\FunctionTok{get}\NormalTok{ dmus2}
+
+\NormalTok{*All commands:}
+\NormalTok{net install dmus1}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Reading Stata data}\label{reading-stata-data}
+
+We use the \emph{use} command to read Stata data. Use the clear option to clear the data from memory so you can read the data file. Otherwise, you will get an error
+
+We'll add the clear option to clear our memory to provide an error
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\KeywordTok{use} \StringTok{"dentists.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}  
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+/Users/Sam/Desktop/Econ 645/Data/Mitchell
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+We can read Stata data from websources. From Stata Press website:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"https://www.stata{-}press.com/data/dmus2/dentists.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+From NBER website
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"https://data.nber.org/morg/annual/morg20.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}\NormalTok{ lfsr94 stfips sex }\KeywordTok{in}\NormalTok{ f/10}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     |                      lfsr94   stfips   sex |
+     |--------------------------------------------|
+  1. |            Employed-At Work       AL     2 |
+  2. |            Employed-At Work       AL     1 |
+  3. |  Retired-Not In Labor Force       AL     1 |
+  4. |  Retired-Not In Labor Force       AL     2 |
+  5. |    Other-Not In Labor Force       AL     2 |
+     |--------------------------------------------|
+  6. | Disabled-Not In Labor Force       AL     1 |
+  7. |  Retired-Not In Labor Force       AL     1 |
+  8. |  Retired-Not In Labor Force       AL     2 |
+  9. |  Retired-Not In Labor Force       AL     2 |
+ 10. |  Retired-Not In Labor Force       AL     1 |
+     +--------------------------------------------+
+\end{verbatim}
+
+\section{Reading Stata data with subsets}\label{reading-stata-data-with-subsets}
+
+Subsetting can be a helpful method to read in extremely large data sets, such as American Community Survey (ACS) public use file. We can subset by variables, observations, or both.
+
+\subsection{Subsetting by columns (variables)}\label{subsetting-by-columns-variables}
+
+You can read in a subset of Stata data by columns. This can be helpful when you have a large dataset but only need a few columns of data. However, you need to know the variable names. We will need to have a data dictionary in order to do this. The January CPS data dictionary can be found on Census's website. \url{https://www2.census.gov/programs-surveys/cps/datasets/2025/basic/2025_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Data/CPS/"}
+\KeywordTok{use}\NormalTok{ gestfips pemlr pternwa }\KeywordTok{using} \StringTok{"smalljul25pub.dta"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list} \KeywordTok{in}\NormalTok{ 1/3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | gestfips   pemlr   pternwa |
+     |----------------------------|
+  1. |        1       .         . |
+  2. |        1       5        -1 |
+  3. |        1       6        -1 |
+     +----------------------------+
+\end{verbatim}
+
+If it is a large dataset, I don't recommend using list by itself. Use in \emph{1/N}
+
+\subsection{Subsetting by rows (observations)}\label{subsetting-by-rows-observations}
+
+You can read in a subset of data by rows. In my opinion, this is a better method to subset than by columns. You are able to see the entire dataset. You can use a qualifiers \emph{if} or \emph{in}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Data/CPS/"}
+\KeywordTok{use} \StringTok{"smalljul25pub.dta"} \KeywordTok{if}\NormalTok{ gestfip == 24 \& prtage == 30, }\KeywordTok{clear}
+\OtherTok{list} \KeywordTok{in}\NormalTok{ 1/10}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  1. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     7 |       7 |    2025 |       24 |     5 |        3 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    49 |     1 |        6 |        2 |      40  |        2  |        2  |        2  |     30  |       12  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       12 |       -1 |     1 |     6380 |        4 |       -1 |        6 |       -1 |        5 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       23 |       -1 |       17 |       -1 |      1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  99149562  |       -1  |      5510  |  9.401e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  2. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     6 |       7 |    2025 |       24 |     5 |        2 |    -1 |       1 |       2 |       1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    51 |     1 |        1 |        2 |      39  |        2  |        4  |        2  |     30  |       52  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       44 |        8 |     1 |      770 |        4 |       -1 |        3 |       -1 |        8 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        4 |       -1 |       20 |       -1 |      2 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  48285071  |       -1  |      7315  |  4.700e+13  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  3. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17012 |     8 |       7 |    2025 |       24 |     5 |        1 |    -1 |       1 |       2 |       1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    41 |     1 |        6 |        2 |      42  |        2  |        2  |        2  |     30  |       40  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       40 |       -1 |     1 |     7280 |        4 |       -1 |        9 |       -1 |        5 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       36 |       -1 |       17 |       -1 |      1 |        2 |       -1 |        2 |       1 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  | 113138434  |   183000  |      5120  |  3.411e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  4. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   19011 |     3 |       7 |    2025 |       24 |     5 |        4 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    49 |     1 |        6 |        2 |      39  |        2  |        1  |        2  |     30  |       32  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       32 |       -1 |     1 |      770 |        4 |       -1 |        3 |       -1 |       10 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        4 |       -1 |       22 |       -1 |      1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  44333596  |       -1  |      9130  |  9.007e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  5. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   19011 |     2 |       7 |    2025 |       24 |     5 |        1 |    -1 |       1 |       2 |       1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     1 |        1 |        2 |      39  |        2  |        1  |        2  |     30  |       50  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       50 |       -1 |     1 |      170 |        4 |       -1 |        1 |       -1 |        6 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        1 |       -1 |       18 |       -1 |      1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  31435370  |       -1  |      6050  |  9.450e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  6. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     5 |       7 |    2025 |       24 |     5 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    41 |     1 |        6 |        1 |      45  |        2  |        4  |        2  |     30  |       40  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       40 |       -1 |     1 |     7980 |        4 |       -1 |       10 |       -1 |        2 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       42 |       -1 |       10 |       -1 |      1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       1  |       1  |       1  |  75007444  |       -1  |      3010  |  4.260e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  7. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   19011 |     3 |       7 |    2025 |       24 |     5 |        2 |     1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    58 |     1 |        6 |        2 |      39  |        2  |        2  |        2  |     30  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     6 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        1 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  | 106522944  |       -1  |        -1  |  6.604e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  8. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     6 |       7 |    2025 |       24 |     5 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     1 |        6 |        2 |      43  |        2  |        1  |        2  |     30  |       43  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       43 |       -1 |     1 |     6481 |        4 |       -1 |        7 |       -1 |        4 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       25 |       -1 |       16 |       -1 |      1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  34698967  |       -1  |      4850  |  4.223e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  9. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   19011 |     3 |       7 |    2025 |       24 |     5 |        1 |    -1 |       1 |       2 |       1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    41 |     1 |        6 |        1 |      43  |        2  |        1  |        2  |     30  |       50  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       50 |       -1 |     1 |     7071 |        4 |       -1 |        8 |       -1 |        1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       34 |       -1 |        2 |       -1 |      1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  50143408  |       -1  |       800  |  1.913e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+ 10. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     5 |       7 |    2025 |       24 |     5 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     2 |        1 |        2 |      44  |        2  |        1  |        2  |     30  |        5  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        5 |       -1 |     1 |     7460 |        5 |       -1 |        9 |       -1 |        2 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       36 |       -1 |        3 |       -1 |      1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  87833706  |       -1  |      1006  |  2.911e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Data/CPS/"}
+\KeywordTok{use} \StringTok{"smalljul25pub.dta"} \KeywordTok{in}\NormalTok{ 1/10, }\KeywordTok{clear}
+\OtherTok{list} 
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  1. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        . |     . |       . |       . |       .  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |     . |     . |        . |        . |       .  |        .  |        .  |        .  |      .  |        .  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        . |        . |     . |        . |        . |        . |        . |        . |        . |        . |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        . |        . |        . |        . |      . |        . |        . |        . |       . |        . |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       .  |       .  |       .  |         .  |        .  |         .  |  1.617e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  2. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     2 |        1 |        2 |      43  |        2  |        1  |        2  |     61  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  18467177  |       -1  |        -1  |  1.090e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  3. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        2 |     1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    42 |     1 |        1 |        2 |      43  |        1  |        1  |        2  |     61  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     6 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  27264237  |       -1  |        -1  |  1.090e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  4. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     1 |        1 |        2 |      43  |        1  |        1  |        2  |     66  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  24488360  |       -1  |        -1  |  6.101e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  5. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        2 |    -1 |       1 |       2 |       1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    42 |     2 |        1 |        2 |      39  |        2  |        1  |        2  |     64  |        4  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        4 |       -1 |     1 |     7390 |        4 |       -1 |        9 |       -1 |        1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       36 |       -1 |        2 |       -1 |      1 |        1 |        4 |        2 |       1 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  18946917  |     8800  |       710  |  6.101e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  6. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     7 |       7 |    2025 |        1 |     6 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    41 |     2 |        3 |        2 |      36  |        2  |        1  |        2  |     63  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  20570322  |       -1  |        -1  |  9.101e+14  |     0  |         2  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  7. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        . |     . |       . |       . |       .  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |     . |     . |        . |        . |       .  |        .  |        .  |        .  |      .  |        .  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        . |        . |     . |        . |        . |        . |        . |        . |        . |        . |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        . |        . |        . |        . |      . |        . |        . |        . |       . |        . |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       .  |       .  |       .  |         .  |        .  |         .  |  4.524e+13  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  8. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        . |     . |       . |       . |       .  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |     . |     . |        . |        . |       .  |        .  |        .  |        .  |      .  |        .  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |        . |        . |     . |        . |        . |        . |        . |        . |        . |        . |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |        . |        . |        . |        . |      . |        . |        . |        . |       . |        . |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       .  |       .  |       .  |         .  |        .  |         .  |  1.101e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+  9. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        1 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    40 |     2 |        1 |        2 |      44  |        2  |        1  |        2  |     67  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  19775533  |       -1  |        -1  |  5.314e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+
+     +----------------------------------------------------------------------------------------------------------+
+ 10. | hrhhid2 | hrmis | hrmonth | hryear4 | gestfips | gediv | pulineno | pudis | puiodp1 | puiodp2 | puiodp3  |
+     |   17011 |     8 |       7 |    2025 |        1 |     6 |        2 |    -1 |      -1 |      -1 |      -1  |
+     |-------------------------------------+----------+---------------------------------------------------------|
+     | perrp | pesex | pemaritl | pehspnon | peeduca  | peafever  | ptdtrace  | prpertyp  | prtage  | pehractt  |
+     |    42 |     1 |        1 |        2 |      43  |        2  |        1  |        2  |     68  |       -1  |
+     |------------------------------------------------------------------------------------+---------------------|
+     | pehract1 | pehract2 | pemlr | peio1icd | peio1cow | peio2cow | prmjind1 | prmjind2 | prmjocc1 | prmjocc2 |
+     |       -1 |       -1 |     5 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |       -1 |
+     |----------+----------+-------------------------------------------------------------------------+----------|
+     | prdtind1 | prdtind2 | prdtocc1 | prdtocc2 | prsjmj | peernhry | peernhro | peernlab | prerelg | prdisflg |
+     |       -1 |       -1 |       -1 |       -1 |     -1 |       -1 |       -1 |       -1 |       0 |        2 |
+     |----------+----------+----------+-------------------------------------------------------------------------|
+     | pecert1  | pecert2  | pecert3  |  pwcmpwgt  |  pternwa  |  ptio1ocd  |     hrhhid  |  ptwk  |  gtmetsta  |
+     |       2  |      -1  |      -1  |  24488360  |       -1  |        -1  |  5.314e+14  |     0  |         1  |
+     +----------------------------------------------------------------------------------------------------------+
+\end{verbatim}
+
+Subsetting by row and columns
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Data/CPS/"}
+\KeywordTok{use}\NormalTok{ gestfips pemlr pternwa prerelg }\KeywordTok{using} \StringTok{"smalljul25pub.dta"} \KeywordTok{if}\NormalTok{ gestfip == 24 \& prerelg==1, }\KeywordTok{clear}
+\OtherTok{list} \KeywordTok{in}\NormalTok{ 60/69}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | gestfips   pemlr   prerelg   pternwa |
+     |--------------------------------------|
+ 60. |       24       1         1    132000 |
+ 61. |       24       1         1     84000 |
+ 62. |       24       1         1    108000 |
+ 63. |       24       1         1     80000 |
+ 64. |       24       1         1    163000 |
+     |--------------------------------------|
+ 65. |       24       1         1    170000 |
+ 66. |       24       1         1     70000 |
+ 67. |       24       1         1     54000 |
+ 68. |       24       1         1    252000 |
+ 69. |       24       1         1     60000 |
+     +--------------------------------------+
+\end{verbatim}
+
+\subsection{System data}\label{system-data}
+
+There are data sets that are included in Stata and use the \emph{sysuse} command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sysuse}\NormalTok{ auto, }\KeywordTok{clear}
+\OtherTok{list}\NormalTok{ make price mpg rep78 foreign, sep(5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(1978 automobile data)
+
+     +-----------------------------------------------------+
+     | make                 price   mpg   rep78    foreign |
+     |-----------------------------------------------------|
+  1. | AMC Concord          4,099    22       3   Domestic |
+  2. | AMC Pacer            4,749    17       3   Domestic |
+  3. | AMC Spirit           3,799    22       .   Domestic |
+  4. | Buick Century        4,816    20       3   Domestic |
+  5. | Buick Electra        7,827    15       4   Domestic |
+     |-----------------------------------------------------|
+  6. | Buick LeSabre        5,788    18       3   Domestic |
+  7. | Buick Opel           4,453    26       .   Domestic |
+  8. | Buick Regal          5,189    20       3   Domestic |
+  9. | Buick Riviera       10,372    16       3   Domestic |
+ 10. | Buick Skylark        4,082    19       3   Domestic |
+     |-----------------------------------------------------|
+ 11. | Cad. Deville        11,385    14       3   Domestic |
+ 12. | Cad. Eldorado       14,500    14       2   Domestic |
+ 13. | Cad. Seville        15,906    21       3   Domestic |
+ 14. | Chev. Chevette       3,299    29       3   Domestic |
+ 15. | Chev. Impala         5,705    16       4   Domestic |
+     |-----------------------------------------------------|
+ 16. | Chev. Malibu         4,504    22       3   Domestic |
+ 17. | Chev. Monte Carlo    5,104    22       2   Domestic |
+ 18. | Chev. Monza          3,667    24       2   Domestic |
+ 19. | Chev. Nova           3,955    19       3   Domestic |
+ 20. | Dodge Colt           3,984    30       5   Domestic |
+     |-----------------------------------------------------|
+ 21. | Dodge Diplomat       4,010    18       2   Domestic |
+ 22. | Dodge Magnum         5,886    16       2   Domestic |
+ 23. | Dodge St. Regis      6,342    17       2   Domestic |
+ 24. | Ford Fiesta          4,389    28       4   Domestic |
+ 25. | Ford Mustang         4,187    21       3   Domestic |
+     |-----------------------------------------------------|
+ 26. | Linc. Continental   11,497    12       3   Domestic |
+ 27. | Linc. Mark V        13,594    12       3   Domestic |
+ 28. | Linc. Versailles    13,466    14       3   Domestic |
+ 29. | Merc. Bobcat         3,829    22       4   Domestic |
+ 30. | Merc. Cougar         5,379    14       4   Domestic |
+     |-----------------------------------------------------|
+ 31. | Merc. Marquis        6,165    15       3   Domestic |
+ 32. | Merc. Monarch        4,516    18       3   Domestic |
+ 33. | Merc. XR-7           6,303    14       4   Domestic |
+ 34. | Merc. Zephyr         3,291    20       3   Domestic |
+ 35. | Olds 98              8,814    21       4   Domestic |
+     |-----------------------------------------------------|
+ 36. | Olds Cutl Supr       5,172    19       3   Domestic |
+ 37. | Olds Cutlass         4,733    19       3   Domestic |
+ 38. | Olds Delta 88        4,890    18       4   Domestic |
+ 39. | Olds Omega           4,181    19       3   Domestic |
+ 40. | Olds Starfire        4,195    24       1   Domestic |
+     |-----------------------------------------------------|
+ 41. | Olds Toronado       10,371    16       3   Domestic |
+ 42. | Plym. Arrow          4,647    28       3   Domestic |
+ 43. | Plym. Champ          4,425    34       5   Domestic |
+ 44. | Plym. Horizon        4,482    25       3   Domestic |
+ 45. | Plym. Sapporo        6,486    26       .   Domestic |
+     |-----------------------------------------------------|
+ 46. | Plym. Volare         4,060    18       2   Domestic |
+ 47. | Pont. Catalina       5,798    18       4   Domestic |
+ 48. | Pont. Firebird       4,934    18       1   Domestic |
+ 49. | Pont. Grand Prix     5,222    19       3   Domestic |
+ 50. | Pont. Le Mans        4,723    19       3   Domestic |
+     |-----------------------------------------------------|
+ 51. | Pont. Phoenix        4,424    19       .   Domestic |
+ 52. | Pont. Sunbird        4,172    24       2   Domestic |
+ 53. | Audi 5000            9,690    17       5    Foreign |
+ 54. | Audi Fox             6,295    23       3    Foreign |
+ 55. | BMW 320i             9,735    25       4    Foreign |
+     |-----------------------------------------------------|
+ 56. | Datsun 200           6,229    23       4    Foreign |
+ 57. | Datsun 210           4,589    35       5    Foreign |
+ 58. | Datsun 510           5,079    24       4    Foreign |
+ 59. | Datsun 810           8,129    21       4    Foreign |
+ 60. | Fiat Strada          4,296    21       3    Foreign |
+     |-----------------------------------------------------|
+ 61. | Honda Accord         5,799    25       5    Foreign |
+ 62. | Honda Civic          4,499    28       4    Foreign |
+ 63. | Mazda GLC            3,995    30       4    Foreign |
+ 64. | Peugeot 604         12,990    14       .    Foreign |
+ 65. | Renault Le Car       3,895    26       3    Foreign |
+     |-----------------------------------------------------|
+ 66. | Subaru               3,798    35       5    Foreign |
+ 67. | Toyota Celica        5,899    18       5    Foreign |
+ 68. | Toyota Corolla       3,748    31       5    Foreign |
+ 69. | Toyota Corona        5,719    18       5    Foreign |
+ 70. | VW Dasher            7,140    23       4    Foreign |
+     |-----------------------------------------------------|
+ 71. | VW Diesel            5,397    41       5    Foreign |
+ 72. | VW Rabbit            4,697    25       4    Foreign |
+ 73. | VW Scirocco          6,850    25       4    Foreign |
+ 74. | Volvo 260           11,995    17       5    Foreign |
+     +-----------------------------------------------------+
+\end{verbatim}
+
+You can use Stata files that are available, but didn't ship with Stata and
+they use the \emph{webuse} command
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{webuse}\NormalTok{ fullauto, }\KeywordTok{clear}
+\OtherTok{list}\NormalTok{ make price mpg rep78 foreign }\KeywordTok{in}\NormalTok{ 1/5}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(Automobile models)
+
+     +-------------------------------------------+
+     | make   price   mpg       rep78    foreign |
+     |-------------------------------------------|
+  1. |  AMC    4099    22     Average   Domestic |
+  2. |  AMC    4749    17     Average   Domestic |
+  3. |  AMC    3799    22           .   Domestic |
+  4. | Audi    6295    23     Average    Foreign |
+  5. | Audi    9690    17   Excellent    Foreign |
+     +-------------------------------------------+
+\end{verbatim}
+
+\section{Importing Excel files}\label{importing-excel-files}
+
+Many times you will need to grab data from a website and these data may be in an Excel format such as ``.xls'' or ``.xlsx''. Our main command is \emph{import excel}. We need to specify the firstrow option if we want the headers as variable names. Be careful if the headers are numerics, such as years, in the firstrow. This will throw an error and we'll need to rename them in Excel before importing these files. For example, 2015 becomes y2015.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\NormalTok{import excel }\KeywordTok{using} \StringTok{"dentists.xls"}\NormalTok{, firstrow }\KeywordTok{clear}
+\OtherTok{list} 
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+We need to take caution of the sheet names of the excel files we are importing. If you don't pay attention you may import the wrong sheet.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\NormalTok{import excel }\KeywordTok{using} \StringTok{"dentists2.xls"}\NormalTok{, firstrow }\KeywordTok{clear}
+\OtherTok{list}
+
+\NormalTok{import excel }\KeywordTok{using} \StringTok{"dentists2.xls"}\NormalTok{, firstrow }\KeywordTok{clear}\NormalTok{ sheet(}\StringTok{"dentists"}\NormalTok{)}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(2 vars, 4 obs)
+
+     +--------------------+
+     |       name   years |
+     |--------------------|
+  1. | I. Sue Yoo       3 |
+  2. |   A. Dewey       8 |
+  3. | B. Cheetem      11 |
+  4. |    C. Howe      21 |
+     +--------------------+
+
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+\section{Importing SAS, SPSS, dbase files}\label{importing-sas-spss-dbase-files}
+
+In my opinion, importing files from other statistical packages is a pain. If you are using another statistical software packages like R, SAS, Python, or heaven-forbid SPSS, then export the data from those software package as CSV files. CSV files are fairly universal. There maybe some labeling issues, but if labels are not a concern then use CSV file formats.
+
+Luckily, SAS data files are becoming less common. Even the Census Bureau has seen the light and provides their data in a csv format.
+
+\subsection{Importing .sas7bdat}\label{importing-.sas7bdat}
+
+Import sas is our main command to import SAS from version 7 or higher.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import sas }\StringTok{"dentists.sas7bdat"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+\subsection{Importing SAS XPORT Version 5}\label{importing-sas-xport-version-5}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import sasxport5 }\StringTok{"dentists.xpt"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+\subsection{Importing SAS XPORT Version 8}\label{importing-sas-xport-version-8}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import sasxport8 }\StringTok{"dentists.xpt"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+\subsection{Importing SPSS files}\label{importing-spss-files}
+
+We can also import SPSS files with later versions of Stata. SPSS also has labels similar to Stata
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import spss }\StringTok{"dentlab.sav"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(4 vars, 5 obs)
+
+     +----------------------------------------------------------+
+     |              name   years    fulltime              recom |
+     |----------------------------------------------------------|
+  1. | Y. Don Uflossmore    7.25   part time          recommend |
+  2. |    Olive Tu'Drill   10.25   full time          recommend |
+  3. | Isaac O'Yerbreath   32.75   full time          recommend |
+  4. |      Ruth Canaale   22.00   full time          recommend |
+  5. |        Mike Avity    8.50   part time   do not recommend |
+     +----------------------------------------------------------+
+\end{verbatim}
+
+\subsection{Importing dBase files}\label{importing-dbase-files}
+
+For me, it is unavailable in Stata 14, but if you have Stata 16 or higher you can use this command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import dbase }\StringTok{"dentlab.dbf"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              NAME   YEARS   FULLTIME   RECOM |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale   22.00          1       1 |
+  5. |        Mike Avity    8.50          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+\section{Importing Raw Data files}\label{importing-raw-data-files}
+
+We use the \emph{import delimited} command to read in csv, txt, dat, etc. files.
+
+\subsection{Import Delimited}\label{import-delimited}
+
+Importing csv files will likely be more common than other types of files so far with the exception of Stata and Excel files. \emph{Note:} there are other types of delimited files, but comman-delimited are the most common. Other types of delimiters include ``tab'', ``space'', or ``\textbar{}'' delimited.
+
+CSV file
+If you read the manual you'll noticed that ``,'' and ``\t" are the default delimiters
+Using'','' delimiter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"dentists.csv"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Data/CPS/"}
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"jul25pub.csv"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}\NormalTok{ gestfips pemlr pternwa }\KeywordTok{in}\NormalTok{ 1/10}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(encoding automatically selected: ISO-8859-1)
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+
+
+(encoding automatically selected: ISO-8859-1)
+(393 vars, 122,252 obs)
+
+     +----------------------------+
+     | gestfips   pemlr   pternwa |
+     |----------------------------|
+  1. |        1       .         . |
+  2. |        1       5        -1 |
+  3. |        1       6        -1 |
+  4. |        1       5        -1 |
+  5. |        1       1      8800 |
+     |----------------------------|
+  6. |        1       5        -1 |
+  7. |        1       .         . |
+  8. |        1       .         . |
+  9. |        1       5        -1 |
+ 10. |        1       5        -1 |
+     +----------------------------+
+\end{verbatim}
+
+CSV files may come in .txt files or .csv files using ``,'' delimiter
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"dentists1.txt"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(encoding automatically selected: ISO-8859-1)
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+There may be ``tab''-delimited files that use ``\t" delimiter
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"dentists2.txt"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(encoding automatically selected: ISO-8859-1)
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+This will produce the same results as above since ``\t" is a default
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"dentists2.txt"}\NormalTok{, }\KeywordTok{clear}\NormalTok{ delimiters(}\StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{)}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(encoding automatically selected: ISO-8859-1)
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+If we set the delimiter to ``:'', we can import a ``:''-delimited file
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"dentists4.txt"}\NormalTok{, }\KeywordTok{clear}\NormalTok{ delimiters(}\StringTok{":"}\NormalTok{) }
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(encoding automatically selected: ISO-8859-2)
+(4 vars, 5 obs)
+
+     +-------------------------------------+
+     |                v1      v2   v3   v4 |
+     |-------------------------------------|
+  1. | Y. Don Uflossmore    7.25    0    1 |
+  2. |    Olive Tu'Drill   10.25    1    1 |
+  3. | Isaac O'Yerbreath   32.75    1    1 |
+  4. |      Ruth Canaale      22    1    1 |
+  5. |        Mike Avity     8.5    0    0 |
+     +-------------------------------------+
+\end{verbatim}
+
+We can subset columns and rows with import delimited, which can be helpful for large files. Variable names will be defaulted for the first few rows, so when we use rowrange(1:3) this will only include 2 rows of data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"dentists2.txt"}\NormalTok{, }\KeywordTok{clear}\NormalTok{ rowrange(1:3)}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(encoding automatically selected: ISO-8859-1)
+(4 vars, 2 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+     +----------------------------------------------+
+\end{verbatim}
+
+Import delimited from the web
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"https://www2.census.gov/programs{-}surveys/cps/datasets/2023/basic/jun23pub.csv"}\NormalTok{, }\KeywordTok{clear}
+\NormalTok{pwd}
+\KeywordTok{save} \StringTok{"jun23pub.dta"}\NormalTok{, }\KeywordTok{replace}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Import delimited with subset of rows}\label{import-delimited-with-subset-of-rows}
+
+You can use the \emph{rowrange} option to subset large dataset. For example, the NPPES admin data is over 10 GB. If we want to inspect the data, we can just use rowrange. Another example would be the American Community Survey Public Use File.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Data/NPPES/"}
+\NormalTok{import delimited }\KeywordTok{using}\NormalTok{ npidata\_pfile\_20050523{-}20241208.csv, varnames(1) rowrange(1:10) }\KeywordTok{clear}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Import space-separated files}\label{import-space-separated-files}
+
+Sometimes files have space-delimited files (which is a bad idea when strings are involved). Dentists5.txt is an example of such a file. We can use the \emph{infile} command to import these data, but we need to specify that the name variable is a string at least 17 characters wide.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\NormalTok{infile str17 }\BaseNTok{name}\NormalTok{ years full rec }\KeywordTok{using} \StringTok{"dentists5.txt"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(5 observations read)
+
+     +----------------------------------------+
+     |              name   years   full   rec |
+     |----------------------------------------|
+  1. | Y. Don Uflossmore    7.25      0     1 |
+  2. |    Olive Tu'Drill   10.25      1     1 |
+  3. | Isaac O'Yerbreath   32.75      1     1 |
+  4. |      Ruth Canaale      22      1     1 |
+  5. |        Mike Avity     8.5      0     0 |
+     +----------------------------------------+
+\end{verbatim}
+
+Infile does not read in variable names in the first row.
+
+We can also use import delimited with delimiters('' ``)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell"}
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"dentists6.txt"}\NormalTok{, delimiters(}\StringTok{" "}\NormalTok{) }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(encoding automatically selected: ISO-8859-1)
+(4 vars, 5 obs)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+\subsection{Importing fixed-column files}\label{importing-fixed-column-files}
+
+Unfortunately, fixed-column files are more common than I prefer. They are a pain, since you need to specify each column length. I have found this with files with a ``.dat'' file extension.
+
+We can use the \emph{infix} command to read in fixed-column files. Let's look at our fixed-column width files.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\DecValTok{type} \StringTok{"dentists7.txt"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Y. Don Uflossmore 7.2501
+Olive Tu'Drill   10.2511
+Isaac O'Yerbreath32.7511
+Ruth Canaale     22.0011
+Mike Avity        8.5000
+\end{verbatim}
+
+Our name variable is between 1 and 17, years are between 18 and 22. Our fulltime and recommend binaries are only length of 1 with 23 and 24.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\NormalTok{infix str }\BaseNTok{name}\NormalTok{ 1{-}17 years 18{-}22 fulltime 23 recom 24 }\KeywordTok{using} \StringTok{"dentists7.txt"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(5 observations read)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+This is a real pain, but luckily Stata has dictionary files to help if one of these files are available. They have a .dct file extension. We already have a fixed-column dictionary with dentists1.dct and we can use it to open a fixed-column width file dentists7.txt
+
+Let's look at our dictionary file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\DecValTok{type} \StringTok{"dentists1.dct"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+infix dictionary {
+  str name 1-17 years 18-22 fulltime 23 recom 24
+}
+\end{verbatim}
+
+Let's look at our fixed-column width file
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\DecValTok{type} \StringTok{"dentists7.txt"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Y. Don Uflossmore 7.2501
+Olive Tu'Drill   10.2511
+Isaac O'Yerbreath32.7511
+Ruth Canaale     22.0011
+Mike Avity        8.5000
+\end{verbatim}
+
+Let's use the two together to import the data file
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\NormalTok{infix }\KeywordTok{using} \StringTok{"dentists1.dct"}\NormalTok{, }\KeywordTok{using}\NormalTok{(dentists7.txt) }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+infix dictionary {
+  str name 1-17 years 18-22 fulltime 23 recom 24
+}
+(5 observations read)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+We can combine infile command with a dictionary file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\DecValTok{type} \StringTok{"dentists3.dct"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+infile dictionary using dentists7.txt {
+  str17 name     %17s  "Name of dentist"
+        years    %5f   "Years in practice"
+        fulltime %1f   "Full time?"
+        recom    %1f   "Recommend Quaddent?"
+}
+\end{verbatim}
+
+Notice that the first line of the dictionary file is
+infile dictionary using dentists7.txt and then the column widths
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\NormalTok{infile }\KeywordTok{using} \StringTok{"dentists3.dct"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+infile dictionary using dentists7.txt {
+  str17 name     %17s  "Name of dentist"
+        years    %5f   "Years in practice"
+        fulltime %1f   "Full time?"
+        recom    %1f   "Recommend Quaddent?"
+}
+
+(5 observations read)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+  4. |      Ruth Canaale      22          1       1 |
+  5. |        Mike Avity     8.5          0       0 |
+     +----------------------------------------------+
+\end{verbatim}
+
+Dictionary .dct files are very helpful when they are available with fixed-column width files.
+
+\subsection{Subsetting fixed-column width files}\label{subsetting-fixed-column-width-files}
+
+We can use the ``in'' qualifier to subset the number of rows to import with either \emph{infix} or \emph{infile}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{quietly}\NormalTok{ cd }\StringTok{"/Users/Sam/Desktop/Econ 645/Data/Mitchell/"}
+\NormalTok{infix str }\BaseNTok{name}\NormalTok{ 1{-}17 years 18{-}22 fulltime 23 recom 24 }\KeywordTok{using} \StringTok{"dentists7.txt"} \KeywordTok{in}\NormalTok{ 1/3, }\KeywordTok{clear}
+\OtherTok{list}
+
+\NormalTok{infix }\KeywordTok{using} \StringTok{"dentists1.dct"} \KeywordTok{in}\NormalTok{ 1/3, }\KeywordTok{using}\NormalTok{(dentists7.txt) }\KeywordTok{clear}
+\OtherTok{list}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(3 observations read)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+     +----------------------------------------------+
+
+infix dictionary {
+  str name 1-17 years 18-22 fulltime 23 recom 24
+}
+(3 observations read)
+
+     +----------------------------------------------+
+     |              name   years   fulltime   recom |
+     |----------------------------------------------|
+  1. | Y. Don Uflossmore    7.25          0       1 |
+  2. |    Olive Tu'Drill   10.25          1       1 |
+  3. | Isaac O'Yerbreath   32.75          1       1 |
+     +----------------------------------------------+
+\end{verbatim}
+
+\subsection{2.8 Common errors when reading and importing files}\label{common-errors-when-reading-and-importing-files}
+
+Tip: Don't forget to clear your data.
+Either the line before or add it as an option , clear
+
+\emph{Error 1}
+If you do not clear your data with the use command, then you will get the message ``No; dataset in memory has changed since last saved'' - Use \emph{clear} in the line before ingesting the data, or use \emph{clear} as an option.
+
+\emph{Error 2}
+If you do not clear your data with the import, infix, or infile commands, then you will get the message:
+``You must start with an empty dataset''
+
+\subsection{Entering data directly into Stata Data Editor}\label{entering-data-directly-into-stata-data-editor}
+
+My opinion: Please do not do this. If you need to manually enter data, I don't recommend manually entering data into STATA. I recommend using a spreadsheet, then import the
+spreadsheet.
+
+If for some reason you don't have access to Excel or a spreadsheet application
+like OSX Numbers or Google Sheets, then read pages 43-50.
+
+\chapter{Exercises}\label{exercises}
+
+\section{Importing dta files}\label{importing-dta-files}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to NBER Current Population Survey (CPS) Merged Outgoing Rotation Group: \url{https://data.nber.org/morg/annual/}
+\item
+  Download and ingest the 2024 data
+\item
+  Use the \emph{use} command to ingest the CPS data
+\item
+  Use the \emph{list} command to find the State and County of the 200th observation.
+\item
+  What is the County and State of the 200th observation
+\item
+  Hint: Search for County FIPS code (e.g.: \url{https://fipsdecoder.com/county-fips-codes})
+\end{enumerate}
+
+\section{Importing csv files}\label{importing-csv-files}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to the Census Bureau's Current Population Survey home page
+\item
+  Download the July 2026 csv file
+\item
+  Use the \emph{import delimited} command to ingest the July 2026 CPS file
+\item
+  What is the sex (pesex) and labor force status (pemlr) of the 50th observation?
+\item
+  Use the CPS data dictioary: \url{https://www2.census.gov/programs-surveys/cps/datasets/2026/basic/2026_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt}
+\end{enumerate}
+
+\section{Importing Excel files}\label{importing-excel-files-1}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to St.~Louis Federal Reserve Board FRED site for the unemployment rate: \url{https://fred.stlouisfed.org/series/UNRATE/}
+\item
+  Download the excel file ``UNRATE.xlsx''
+\item
+  Import the excel file with the \emph{import excel} command.
+\item
+  List the unemployment and date variables
+\item
+  What is the unemployment rate for May 2023?
+\end{enumerate}
+
+\section{Importing SAS files}\label{importing-sas-files}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Download the NBER MEPS Panel 24 Longitudinal Data File \url{https://data.nber.org/meps/h225/h225.sas7bdat}
+\item
+  Import the Sas file into Stata
+\item
+  List the Person ID (DUPERSID, Year of Birth (DOBYY), and Death Status during 2019-2020 (DIED) for the first 10 observations
+\item
+  Codebook: \url{https://meps.ahrq.gov/mepsweb/data_stats/download_data/pufs/h225/h225cb.pdf}
+\item
+  Did any one of the first 10 observations die during 2019-2020 panel?
+\end{enumerate}
+
+\section{Import an SPSS file}\label{import-an-spss-file}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Download the following file from Stata: \url{https://www.stata.com/sampledata/auto.sav}
+\item
+  Use the import command to ingest an SPSS file
+\item
+  List the first 10 observations' make, price, and miles per gallon
+\item
+  What is the Miles per Gallon for the second observation?
+\end{enumerate}
+
+The second observation has receives 17 miles per gallon.
+
+\chapter{Solutions}\label{solutions}
+
+Here are the solutions to the exercises
+
+\section{Importing dta files}\label{importing-dta-files-1}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to NBER Current Population Survey (CPS) Merged Outgoing Rotation Group: \url{https://data.nber.org/morg/annual/}
+\item
+  Download and ingest the 2024 data
+\item
+  Use the \emph{use} command to ingest the CPS data
+\item
+  Use the \emph{list} command to find the State and County of the 200th observation.
+\item
+  What is the County and State of the 200th observation
+\item
+  Hint: Search for County FIPS code (e.g.: \url{https://fipsdecoder.com/county-fips-codes})
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ https:}\CommentTok{//data.nber.org/morg/annual/morg24.dta, clear}
+\OtherTok{list}\NormalTok{ stfips county }\KeywordTok{in}\NormalTok{ 200}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     | stfips   county |
+     |-----------------|
+200. |     AL       97 |
+     +-----------------+
+\end{verbatim}
+
+The 200th observation lives in Mobile County, Alabama.
+
+\section{Importing csv files}\label{importing-csv-files-1}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to the Census Bureau's Current Population Survey home page
+\item
+  Download the July 2026 csv file
+\item
+  Use the \emph{import delimited} command to ingest the July 2026 CPS file
+\item
+  What is the sex (pesex) and labor force status (pemlr) of the 50th observation?
+\item
+  Use the CPS data dictioary: \url{https://www2.census.gov/programs-surveys/cps/datasets/2026/basic/2026_Basic_CPS_Public_Use_Record_Layout_plus_IO_Code_list.txt}
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import delimited }\KeywordTok{using} \StringTok{"https://www2.census.gov/programs{-}surveys/cps/datasets/2026/basic/jul26pub.csv"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}\NormalTok{ pesex pemlr }\KeywordTok{in}\NormalTok{ 50}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(encoding automatically selected: ISO-8859-1)
+(393 vars, 120,930 obs)
+
+     +---------------+
+     | pesex   pemlr |
+     |---------------|
+ 50. |     1       4 |
+     +---------------+
+\end{verbatim}
+
+The 50th observation is male, who is unemployed - looking for employment
+
+\section{Importing Excel files}\label{importing-excel-files-2}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Go to St.~Louis Federal Reserve Board FRED site for the unemployment rate: \url{https://fred.stlouisfed.org/series/UNRATE/}
+\item
+  Download the excel file ``UNRATE.xlsx''
+\item
+  Import the excel file with the \emph{import excel} command.
+\item
+  List the unemployment and date variables
+\item
+  What is the unemployment rate for May 2023?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import excel }\KeywordTok{using} \StringTok{"/Users/Sam/Desktop/Econ 643/Data/UNRATE.xlsx"}\NormalTok{, sheet(}\StringTok{"Monthly"}\NormalTok{) }\KeywordTok{clear}
+\OtherTok{list} \KeywordTok{in}\NormalTok{ 906}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(2 vars, 944 obs)
+
+     +-----------------+
+     |         A     B |
+     |-----------------|
+906. | 01may2023   3.6 |
+     +-----------------+
+\end{verbatim}
+
+The unemployment rate in May 2023 was 3.6\%
+
+\section{Importing SAS files}\label{importing-sas-files-1}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Download the NBER MEPS Panel 24 Longitudinal Data File \url{https://data.nber.org/meps/h225/h225.sas7bdat}
+\item
+  Import the Sas file into Stata
+\item
+  List the Person ID (DUPERSID, Year of Birth (DOBYY), and Death Status during 2019-2020 (DIED) for the first 10 observations
+\item
+  Codebook: \url{https://meps.ahrq.gov/mepsweb/data_stats/download_data/pufs/h225/h225cb.pdf}
+\item
+  Did any one of the first 10 observations die during 2019-2020 panel?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import sas }\KeywordTok{using} \StringTok{"/Users/Sam/Desktop/Econ 643/Data/h225.sas7bdat"}\NormalTok{, }\KeywordTok{clear}
+\OtherTok{list}\NormalTok{ DUPERSID DOBYY DIED }\KeywordTok{in}\NormalTok{ 1/10}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(2,761 vars, 9,797 obs)
+
+     +---------------------------+
+     |   DUPERSID   DOBYY   DIED |
+     |---------------------------|
+  1. | 2460002101    1945      0 |
+  2. | 2460004101    1941      0 |
+  3. | 2460004102    1941      0 |
+  4. | 2460005101    1994      0 |
+  5. | 2460005102    1993      0 |
+     |---------------------------|
+  6. | 2460006101    1958      0 |
+  7. | 2460006102    1955      0 |
+  8. | 2460007101    1961      0 |
+  9. | 2460007102    1999      0 |
+ 10. | 2460008101    1945      0 |
+     +---------------------------+
+\end{verbatim}
+
+None of the first 10 observations died during 2019-2020 panel.
+
+\section{Import an SPSS file}\label{import-an-spss-file-1}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Download the following file from Stata: \url{https://www.stata.com/sampledata/auto.sav}
+\item
+  Use the import command to ingest an SPSS file
+\item
+  List the first 10 observations' make, price, and miles per gallon
+\item
+  What is the Miles per Gallon for the second observation?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{import spss }\KeywordTok{using} \StringTok{"https://www.stata.com/sampledata/auto.sav"}
+\OtherTok{list}\NormalTok{ make price mpg }\KeywordTok{in}\NormalTok{ 1/10}
+\OtherTok{list}\NormalTok{ mpg }\KeywordTok{in}\NormalTok{ 2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(12 vars, 74 obs)
+
+     +-----------------------------+
+     |          make   price   mpg |
+     |-----------------------------|
+  1. |   AMC Concord    4099    22 |
+  2. |     AMC Pacer    4749    17 |
+  3. |    AMC Spirit    3799    22 |
+  4. | Buick Century    4816    20 |
+  5. | Buick Electra    7827    15 |
+     |-----------------------------|
+  6. | Buick LeSabre    5788    18 |
+  7. |    Buick Opel    4453    26 |
+  8. |   Buick Regal    5189    20 |
+  9. | Buick Riviera   10372    16 |
+ 10. | Buick Skylark    4082    19 |
+     +-----------------------------+
+
+     +-----+
+     | mpg |
+     |-----|
+  2. |  17 |
+     +-----+
+\end{verbatim}
+
+The second observation has receives 17 miles per gallon.
+
+Mitchell, N.M. (2020). \emph{Data Management Using Stata: A Practical Handbook}. (2nd ed.). Stata Press.
+
+UCLA Advanced Research Computing. (2025). \emph{Stata Learning Modules.} Retrieved from \url{https://stats.oarc.ucla.edu/stata/modules/}
+
+\emph{Note: }Recommended resources
+UCLA OARC Stata resources: \url{https://stats.oarc.ucla.edu/stata/modules/}
+
+I have used this source on numerous times. Even when you become proficient with Stata, UCLA's OARC Stata resources have been very helpful. If you just type \emph{UCLA OARC Stata } in a search engine, then it will usually pop up.
+
+Statalist if usually another good resource when trying to figure out what went wrong. If you ask as question on the listserve, you will likely be scolded by Nick Cox, or you will be told to ``read the manual''. However, if you just read what others have asked, you will often find useful information.
+
+\bibliography{book.bib,packages.bib}
+
+\end{document}
