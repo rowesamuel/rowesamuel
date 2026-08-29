@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Covariance and Bivariate Correlation | Covariance and Correlation</title>
+  <meta name="description" content="This week will focus on calculating covariance and correlation in Stata." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Covariance and Bivariate Correlation | Covariance and Correlation" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This week will focus on calculating covariance and correlation in Stata." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Covariance and Bivariate Correlation | Covariance and Correlation" />
+  
+  <meta name="twitter:description" content="This week will focus on calculating covariance and correlation in Stata." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Acock (2023)" />
+
+
+<meta name="date" content="2026-08-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="exercises.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Covariance and Correlation</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html"><i class="fa fa-check"></i><b>1</b> Covariance and Bivariate Correlation</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#scattergrams"><i class="fa fa-check"></i><b>1.1</b> Scattergrams</a></li>
+<li class="chapter" data-level="1.2" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#binscatter"><i class="fa fa-check"></i><b>1.2</b> Binscatter</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#general-social-survey"><i class="fa fa-check"></i><b>1.2.1</b> General Social Survey</a></li>
+<li class="chapter" data-level="1.2.2" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#national-longitudinal-survey-of-women"><i class="fa fa-check"></i><b>1.2.2</b> National Longitudinal Survey of Women</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#covariance-and-correlation"><i class="fa fa-check"></i><b>1.3</b> Covariance and Correlation</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#covariance"><i class="fa fa-check"></i><b>1.3.1</b> Covariance</a></li>
+<li class="chapter" data-level="1.3.2" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#correlation"><i class="fa fa-check"></i><b>1.3.2</b> Correlation</a></li>
+<li class="chapter" data-level="1.3.3" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>1.3.3</b> Correlation Matrix</a></li>
+<li class="chapter" data-level="1.3.4" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#pairwise-correlation"><i class="fa fa-check"></i><b>1.3.4</b> Pairwise correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#spearmans-rho-rank-order-correlation-for-ordinal-data"><i class="fa fa-check"></i><b>1.4</b> Spearman’s <span class="math inline">\(\rho\)</span>: Rank-order correlation for ordinal data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>2</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="exercises.html"><a href="exercises.html#general-social-survey-1"><i class="fa fa-check"></i><b>2.1</b> General Social Survey</a></li>
+<li class="chapter" data-level="2.2" data-path="exercises.html"><a href="exercises.html#annual-survey-of-manufacturers-2012-2018"><i class="fa fa-check"></i><b>2.2</b> Annual Survey of Manufacturers 2012-2018</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Covariance and Correlation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="covariance-and-bivariate-correlation" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Covariance and Bivariate Correlation<a href="covariance-and-bivariate-correlation.html#covariance-and-bivariate-correlation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We will study the relationship between two variables. Covariance measures if two variables move together, while correlation measures how much they move together. Covariance is the linear association between two variables (Anderson, et al., 2016). Correlation is also a linear association but it is bound between -1 and 1, where -1 is a negative relationship, +1 is a positive relations, and 0 is no relationship (Anderson, et al., 2016). The correlation shows us the strength of the relationship (Acock, 2023).</p>
+<div id="scattergrams" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Scattergrams<a href="covariance-and-bivariate-correlation.html#scattergrams" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Scattergrams allow us to graph two continuous or discrete variables to examine any potential relationships. Acock (2023) uses the example of parent’s education and child’s education. A father with limited education may lack resources to invest into their child’s education. A father with higher education may have more educational opportunities. We do not exact the two variables to be perfectly related, but we do expect them to move together in a positive direction.</p>
+<p>We will use an extract from the 2006 General Social Survey to plot the relationship between parent and child years of education. We will use a random sample of 100 observations.</p>
+<p>To get a random sample that we can replicate, we will use the command <em>set seed(#)</em>. This command specifies the initial value of the random-number seed used by the random-number functions. We get randomization, but a randomization we can replicate.</p>
+<p>Next, we will use the command <em>sample #, count</em> to get a random sample of <strong>#</strong> observations. Acock (2023) uses the number 111, but you can choose any number between 0 and 2,147,483,647</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="covariance-and-bivariate-correlation.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 643/Data/agis6r/&quot;</span></span>
+<span id="cb2-2"><a href="covariance-and-bivariate-correlation.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> gss2006_chapter8, <span class="kw">clear</span></span>
+<span id="cb2-3"><a href="covariance-and-bivariate-correlation.html#cb2-3" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 111</span>
+<span id="cb2-4"><a href="covariance-and-bivariate-correlation.html#cb2-4" tabindex="-1"></a><span class="kw">sample</span> 100, <span class="fu">count</span></span></code></pre></div>
+<p>Next, we can use the <em>twoway</em> graphing command to compare education. First we will use <em>twoway (scatter educ paeduc)</em> to place a scatter plot. We will restrict the data to only males with <em>if sex==1</em>. We will add additional options of <em>title()</em>, <em>subtitle()</em>, and <em>note()</em>. We will add the option <em>size(medium)</em> <strong>within</strong> the title option (option within an option) to adjust the size of the dots.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb3-1"><a href="covariance-and-bivariate-correlation.html#cb3-1" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">scatter</span> educ paeduc) <span class="kw">if</span> sex==1, <span class="bn">ytitle</span>(Son&#39;s education) <span class="co">///</span></span>
+<span id="cb3-2"><a href="covariance-and-bivariate-correlation.html#cb3-2" tabindex="-1"></a>  <span class="bn">yscale</span>(titlegap(5)) <span class="bn">xtitle</span>(Father&#39;s education) <span class="co">///</span></span>
+<span id="cb3-3"><a href="covariance-and-bivariate-correlation.html#cb3-3" tabindex="-1"></a>  <span class="bn">title</span>(Scattergram relating father&#39;s education to his son&#39;s education, <span class="co">///</span></span>
+<span id="cb3-4"><a href="covariance-and-bivariate-correlation.html#cb3-4" tabindex="-1"></a>  <span class="kw">size</span>(medium)) <span class="kw">note</span>(Data source: GSS 2006; random subsample <span class="kw">of</span> <span class="kw">N</span> = 100) <span class="bn">legend</span>(<span class="kw">off</span>)</span></code></pre></div>
+<div class="float">
+<img src="week5_scatter1.png" alt="Figure 5.1: Scattergram of son’s education compared to father’s education" />
+<div class="figcaption">Figure 5.1: Scattergram of son’s education compared to father’s education</div>
+</div>
+<p>It appears to be a positive relationship between father and son years of education completed. However, it does not appear to be a perfect relationship, and there is a lot of variation.</p>
+<p>We can adjust the scatter plot with additional options. The <em>jitter(#)</em> option adds spherical random noise to the data before plotting and the # represents the size of the noise as a percentage of the graphical area. This helps prevent data points from overlapping. This is useful especially when the data are discrete, such as the years of education. Given that <em>jitter(#)</em> uses a randomization, we should use <em>jitterseed(#)</em> so we can have reproducible randomization. Note that the <em>jitter(#)</em> and <em>jitterseed</em> option are within the <em>scatter</em> not <em>twoway</em></p>
+<p>Another set of options that we can use with scatter are modifying the format of the dots. We will add <em>msymbol(<strong>style</strong>)</em> to change the shape of the dots to different styles, such as circles, diamonds, triangles, squares, x, etc. We can change the color with <em>mcolor(<strong>color</strong>)</em> and we can change the size with <em>msize(<strong>style</strong>)</em>, which styles include tiny, small, medium, medlarge, huge, etc.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="covariance-and-bivariate-correlation.html#cb4-1" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">scatter</span> educ paeduc, jitter(6) jitterseed(222) <span class="bn">msymbol</span>(diamond) mcolor(<span class="kw">red</span>)) <span class="kw">if</span> sex==1, <span class="co">///</span></span>
+<span id="cb4-2"><a href="covariance-and-bivariate-correlation.html#cb4-2" tabindex="-1"></a>  <span class="bn">ytitle</span>(Son&#39;s education) <span class="bn">yscale</span>(titlegap(5)) <span class="bn">xtitle</span>(Father&#39;s education) <span class="co">///</span></span>
+<span id="cb4-3"><a href="covariance-and-bivariate-correlation.html#cb4-3" tabindex="-1"></a>  <span class="bn">title</span>(Scattergram relating father&#39;s education to his son&#39;s education, <span class="co">///</span></span>
+<span id="cb4-4"><a href="covariance-and-bivariate-correlation.html#cb4-4" tabindex="-1"></a>  <span class="kw">size</span>(medium)) <span class="kw">note</span>(Data source: GSS 2006; random subsample <span class="kw">of</span> <span class="kw">N</span> = 100) <span class="bn">legend</span>(<span class="kw">off</span>)</span></code></pre></div>
+<div class="float">
+<img src="week5_scatter2.png" alt="Figure 5.2: Adjusted scattergram of father and son education" />
+<div class="figcaption">Figure 5.2: Adjusted scattergram of father and son education</div>
+</div>
+</div>
+<div id="binscatter" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Binscatter<a href="covariance-and-bivariate-correlation.html#binscatter" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>An alternative to scatter plots is the binscatter plot. Even with the <em>jitter</em> option available, the number of observations may saturate the plot.</p>
+<div id="general-social-survey" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> General Social Survey<a href="covariance-and-bivariate-correlation.html#general-social-survey" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s take our 2006 General Social Survey but use all observations.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="covariance-and-bivariate-correlation.html#cb5-1" tabindex="-1"></a><span class="kw">use</span> gss2006_chapter8, <span class="kw">clear</span></span>
+<span id="cb5-2"><a href="covariance-and-bivariate-correlation.html#cb5-2" tabindex="-1"></a><span class="kw">twoway</span> (<span class="kw">scatter</span> educ paeduc, jitter(6) jitterseed(222) <span class="bn">msymbol</span>(diamond) mcolor(<span class="kw">red</span>)) <span class="kw">if</span> sex==1, <span class="co">///</span></span>
+<span id="cb5-3"><a href="covariance-and-bivariate-correlation.html#cb5-3" tabindex="-1"></a>  <span class="bn">ytitle</span>(Son&#39;s education) <span class="bn">yscale</span>(titlegap(5)) <span class="bn">xtitle</span>(Father&#39;s education) <span class="co">///</span></span>
+<span id="cb5-4"><a href="covariance-and-bivariate-correlation.html#cb5-4" tabindex="-1"></a>  <span class="bn">title</span>(Scattergram relating father&#39;s education to his son&#39;s education, <span class="co">///</span></span>
+<span id="cb5-5"><a href="covariance-and-bivariate-correlation.html#cb5-5" tabindex="-1"></a>  <span class="kw">size</span>(medium)) <span class="kw">note</span>(Data source: GSS 2006; random subsample <span class="kw">of</span> <span class="kw">N</span> = 100) <span class="bn">legend</span>(<span class="kw">off</span>)</span></code></pre></div>
+<div class="float">
+<img src="week5_scatter3.png" alt="Figure 5.3: Scatter plot with all observations" />
+<div class="figcaption">Figure 5.3: Scatter plot with all observations</div>
+</div>
+<p>We see bunching at 12 years, 14 years, and 16 years of Father’s education.</p>
+<p>Michael Stepner developed the <em>binscatter</em> command to deal with this issue. This command generates binned scatterplots, and is optimized for speed in large datasets, such as the General Social Survey, Current Population Survey, American Community Survey PUMS, etc. The <em>binscatter</em> command calculates the mean within each bin/interval. Let’s install the package.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="covariance-and-bivariate-correlation.html#cb6-1" tabindex="-1"></a><span class="kw">ssc</span> install binscatter</span></code></pre></div>
+<p>We will run our scatter plot using the General Social Survey again, but we will use the <em>binscatter</em> command instead.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="covariance-and-bivariate-correlation.html#cb7-1" tabindex="-1"></a>binscatter educ paeduc, <span class="bn">ytitle</span>(Son&#39;s education) <span class="bn">xtitle</span>(Father&#39;s education) <span class="co">///</span></span>
+<span id="cb7-2"><a href="covariance-and-bivariate-correlation.html#cb7-2" tabindex="-1"></a>  <span class="bn">title</span>(Binscatter plot relating father&#39;s education to his son&#39;s education, <span class="co">///</span></span>
+<span id="cb7-3"><a href="covariance-and-bivariate-correlation.html#cb7-3" tabindex="-1"></a>  <span class="kw">size</span>(medium)) <span class="kw">note</span>(Data source: GSS 2006)</span></code></pre></div>
+<div class="float">
+<img src="week5_scatter4.png" alt="Figure 5.4: Binscatter with all observations" />
+<div class="figcaption">Figure 5.4: Binscatter with all observations</div>
+</div>
+<p>We see a fairly strong relationship between mean father’s education and mean son’s education across bins when we use the entire sample</p>
+</div>
+<div id="national-longitudinal-survey-of-women" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> National Longitudinal Survey of Women<a href="covariance-and-bivariate-correlation.html#national-longitudinal-survey-of-women" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s use another data set from the 1988 National Longitudinal Survey of Women. We will plot the relationship between wages and years of tenure for women between ages of 35 and 44 for individuals who are either Black or White. We will use a scatter plot but we will set the opacity at 30% with the option <em>mcolor(%30)</em>. This should help us with overlapping dots.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="covariance-and-bivariate-correlation.html#cb8-1" tabindex="-1"></a><span class="kw">sysuse</span> nlsw88, <span class="kw">clear</span></span>
+<span id="cb8-2"><a href="covariance-and-bivariate-correlation.html#cb8-2" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> age &gt; 34 &amp; age &lt; 45 &amp; race &lt; 3</span>
+<span id="cb8-3"><a href="covariance-and-bivariate-correlation.html#cb8-3" tabindex="-1"></a><span class="kw">scatter</span> wage tenure, mcolor(%30)</span></code></pre></div>
+<div class="float">
+<img src="week5_scatter5.png" alt="Figure 5.5: Scatter plot of wages and years of tenure" />
+<div class="figcaption">Figure 5.5: Scatter plot of wages and years of tenure</div>
+</div>
+<p>We do see a weakly positive relationship, but we do have lots of bunching between 0 and 5 years of tenure. Let’s try to use the <em>binscatter</em> command.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="covariance-and-bivariate-correlation.html#cb9-1" tabindex="-1"></a>binscatter wage tenure, <span class="bn">title</span>(<span class="st">&quot;Scatter plot of wages and tenure&quot;</span>) linetype(<span class="kw">lfit</span>) <span class="co">///</span></span>
+<span id="cb9-2"><a href="covariance-and-bivariate-correlation.html#cb9-2" tabindex="-1"></a>  <span class="bn">subtitle</span>(<span class="st">&quot;with linear fit&quot;</span>) <span class="bn">caption</span>(<span class="st">&quot;Data source: GSS 2006&quot;</span>) <span class="co">///</span></span>
+<span id="cb9-3"><a href="covariance-and-bivariate-correlation.html#cb9-3" tabindex="-1"></a>  <span class="bn">ytitle</span>(<span class="st">&quot;Hourly wage&quot;</span>) <span class="bn">xtitle</span>(<span class="st">&quot;Years of tenure&quot;</span>) </span></code></pre></div>
+<div class="float">
+<img src="week5_scatter6.png" alt="Figure 5.6: Bin scatter of mean wages by mean years of tenure" />
+<div class="figcaption">Figure 5.6: Bin scatter of mean wages by mean years of tenure</div>
+</div>
+<p>We can see a positive association, but a linear line does not seem to be the best fit. Especially for values 0 and 3. Let’s change the <em>linetype</em> to a quadratic fit.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="covariance-and-bivariate-correlation.html#cb10-1" tabindex="-1"></a>binscatter wage tenure, <span class="bn">title</span>(<span class="st">&quot;Scatter plot of wages and tenure&quot;</span>) linetype(qfit) <span class="co">///</span></span>
+<span id="cb10-2"><a href="covariance-and-bivariate-correlation.html#cb10-2" tabindex="-1"></a>  <span class="bn">subtitle</span>(<span class="st">&quot;with quadratic fit&quot;</span>) <span class="bn">caption</span>(<span class="st">&quot;Data source: GSS 2006&quot;</span>) <span class="co">///</span></span>
+<span id="cb10-3"><a href="covariance-and-bivariate-correlation.html#cb10-3" tabindex="-1"></a>  <span class="bn">ytitle</span>(<span class="st">&quot;Hourly wage&quot;</span>) <span class="bn">xtitle</span>(<span class="st">&quot;Years of tenure&quot;</span>) </span></code></pre></div>
+<div class="float">
+<img src="week5_scatter7.png" alt="Figure 5.7: Bin scatter of mean wages and mean years of tensure" />
+<div class="figcaption">Figure 5.7: Bin scatter of mean wages and mean years of tensure</div>
+</div>
+<p>The quadratic fit appears to be better match than a linear fit, but it is still not quite right. Let’s try to add a discontinuity at three years of tenure. We can add a discontinuity with the option <em>rd(3.0)</em>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="covariance-and-bivariate-correlation.html#cb11-1" tabindex="-1"></a>binscatter wage tenure, rd(3.0) <span class="bn">title</span>(<span class="st">&quot;Scatter plot of wages and tenure&quot;</span>) <span class="co">///</span></span>
+<span id="cb11-2"><a href="covariance-and-bivariate-correlation.html#cb11-2" tabindex="-1"></a>  <span class="bn">subtitle</span>(<span class="st">&quot;with quadratic fit&quot;</span>) <span class="bn">caption</span>(<span class="st">&quot;Data source: GSS 2006&quot;</span>) <span class="co">///</span></span>
+<span id="cb11-3"><a href="covariance-and-bivariate-correlation.html#cb11-3" tabindex="-1"></a>  <span class="bn">ytitle</span>(<span class="st">&quot;Hourly wage&quot;</span>) <span class="bn">xtitle</span>(<span class="st">&quot;Years of tenure&quot;</span>) </span></code></pre></div>
+<p>Adding a discontinuity, we see that there is a strong positive relationship between wages and tenure with less than 3 years of tenure. However, the relationship weakens as years of tenure increases beyond 3 years.</p>
+<div class="float">
+<img src="week5_scatter8.png" alt="Figure 5.8: Bin scatter of mean wages and mean years of tenure" />
+<div class="figcaption">Figure 5.8: Bin scatter of mean wages and mean years of tenure</div>
+</div>
+<p>We can add nominal categorical variables to see if the trends remain similar among nominal values. Let’s add race to the command to see if the relationship between wage and years of tenure differs among difference racial categories.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="covariance-and-bivariate-correlation.html#cb12-1" tabindex="-1"></a>binscatter wage tenure, rd(3.0) <span class="kw">by</span>(race) <span class="bn">title</span>(<span class="st">&quot;Scatter plot of wages and tenure&quot;</span>) <span class="co">///</span></span>
+<span id="cb12-2"><a href="covariance-and-bivariate-correlation.html#cb12-2" tabindex="-1"></a>  <span class="bn">subtitle</span>(<span class="st">&quot;with quadratic fit by race&quot;</span>) <span class="bn">caption</span>(<span class="st">&quot;Data source: GSS 2006&quot;</span>) <span class="co">///</span></span>
+<span id="cb12-3"><a href="covariance-and-bivariate-correlation.html#cb12-3" tabindex="-1"></a>  <span class="bn">ytitle</span>(<span class="st">&quot;Hourly wage&quot;</span>) <span class="bn">xtitle</span>(<span class="st">&quot;Years of tenure&quot;</span>) </span></code></pre></div>
+<div class="float">
+<img src="week5_scatter9.png" alt="Figure 5.9: Bin scatter of mean wages and mean years of tenure by race" />
+<div class="figcaption">Figure 5.9: Bin scatter of mean wages and mean years of tenure by race</div>
+</div>
+<p>The graph shows the relationship between wages and years of tenure under 3 years is stronger for Black workers compared to White workers. However, the trends remain relative parallel beyond 3 years of tenure.</p>
+</div>
+</div>
+<div id="covariance-and-correlation" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Covariance and Correlation<a href="covariance-and-bivariate-correlation.html#covariance-and-correlation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Covariance is the linear association between two variables (Anderson, et al., 2016). Correlation is also a linear association but it is bound between -1 and 1, where -1 is a negative relationship, +1 is a positive relations, and 0 is no relationship (Anderson, et al., 2016). The correlation shows us the strength of the relationship (Acock, 2023).</p>
+<p>Bivariate correlation can be used to assess the bivariate relationship between two variables. Acock (2023) gives the example that calorie consumption and weight less are inversely related with <span class="math inline">\(r = -0.5\)</span>, which indicates a strong negative relationship. Let’s say years of education and wages has <span class="math inline">\(r = 0.5\)</span>, which indicates a strong positive relationship.</p>
+<p>Strengths of bivariate correlation:</p>
+<ul>
+<li><span class="math inline">\(\left| r \right| = 0.5\)</span> indicates a strong relationship</li>
+<li><span class="math inline">\(\left| r \right| = 0.3\)</span> indicates a moderate relationship</li>
+<li><span class="math inline">\(\left| r \right| = 0.1\)</span> indicates a weak relationship</li>
+</ul>
+<div id="covariance" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Covariance<a href="covariance-and-bivariate-correlation.html#covariance" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s look an example. We’ll use the 1988 National Longitudinal Survey for Women again. We again investigate the relationship between wages and years of tenure. We will start off with calculating the covariance, which can be implemented using the <em>correlate</em> command. If we want to see the covariance, then we add the option <em>covariance</em></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="covariance-and-bivariate-correlation.html#cb13-1" tabindex="-1"></a><span class="kw">sysuse</span> nlsw88, <span class="kw">clear</span></span>
+<span id="cb13-2"><a href="covariance-and-bivariate-correlation.html#cb13-2" tabindex="-1"></a><span class="kw">keep</span> <span class="kw">if</span> age &gt; 34 &amp; age &lt; 45 &amp; race &lt; 3</span>
+<span id="cb13-3"><a href="covariance-and-bivariate-correlation.html#cb13-3" tabindex="-1"></a>correlate wage tenure, <span class="kw">covariance</span></span></code></pre></div>
+<pre><code>(NLSW, 1988 extract)
+
+(158 observations deleted)
+
+(obs=2,074)
+
+             |     wage   tenure
+-------------+------------------
+        wage |   34.073
+      tenure |  5.51818  30.1934</code></pre>
+<p>We can see that the covariance is positive, which indicates a positive relationship between wages and years of tenure. However, it is difficult to interpret because it is in squared units.</p>
+</div>
+<div id="correlation" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Correlation<a href="covariance-and-bivariate-correlation.html#correlation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can easily calculate the bivarate correlation with the same <em>correlate</em> command, but we do not add the <em>covariance</em> option.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="covariance-and-bivariate-correlation.html#cb15-1" tabindex="-1"></a>correlate wage tenure</span></code></pre></div>
+<pre><code>(obs=2,074)
+
+             |     wage   tenure
+-------------+------------------
+        wage |   1.0000
+      tenure |   0.1720   1.0000</code></pre>
+<p><span class="math inline">\(r = 0.17\)</span> which indicates a weaker relationship.</p>
+</div>
+<div id="correlation-matrix" class="section level3 hasAnchor" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Correlation Matrix<a href="covariance-and-bivariate-correlation.html#correlation-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We may want to analyze multiple bivariate correlations at once. Bivariate correlation can be implemented in Stata easily enough. Let’s say we are interested in the correlations among: weight loss and calorie consumption, weight loss and hours of exercise, and weight loss and days of exercise. We can compute a correlation matrix. We would expect all of these items to be moderately correlated.</p>
+<p>We’ll use the dataset from a study called “High School and Beyond” from UCLA Stata Portal. (I will give a plug for UCLA’s OARC Stata resources. See <a href="https://stats.oarc.ucla.edu/stata/" class="uri">https://stats.oarc.ucla.edu/stata/</a>.) Our dataset has 200 observations. Our variables include education outcomes for math scores, reading scores, science scores, social science scores, and writing scores. We have additional explanatory variables of nominal race and sex, ordinal socioeconomic status, and type of schooling.</p>
+<p>We are interested in the bivariate relationship of the demographic factors and different outcomes. First, we will inspect our categorical variables with the <em>fre</em> command or <em>tab1</em>. Next, we will use our <em>correlate</em> command, but we will add all of the relevant variables to see the correlation matrix. We anticipate that socioeconomic status has a stronger correlation than sex.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="covariance-and-bivariate-correlation.html#cb17-1" tabindex="-1"></a><span class="kw">use</span> https:<span class="co">//stats.oarc.ucla.edu/stat/data/hsb2, clear</span></span>
+<span id="cb17-2"><a href="covariance-and-bivariate-correlation.html#cb17-2" tabindex="-1"></a>fre female ses schtyp prog</span>
+<span id="cb17-3"><a href="covariance-and-bivariate-correlation.html#cb17-3" tabindex="-1"></a>correlate read write math science ses female</span></code></pre></div>
+<pre><code>(highschool and beyond (200 cases))
+
+
+female
+--------------------------------------------------------------
+                 |      Freq.    Percent      Valid       Cum.
+-----------------+--------------------------------------------
+Valid   0 male   |         91      45.50      45.50      45.50
+        1 female |        109      54.50      54.50     100.00
+        Total    |        200     100.00     100.00           
+--------------------------------------------------------------
+
+ses
+--------------------------------------------------------------
+                 |      Freq.    Percent      Valid       Cum.
+-----------------+--------------------------------------------
+Valid   1 low    |         47      23.50      23.50      23.50
+        2 middle |         95      47.50      47.50      71.00
+        3 high   |         58      29.00      29.00     100.00
+        Total    |        200     100.00     100.00           
+--------------------------------------------------------------
+
+schtyp -- type of school
+---------------------------------------------------------------
+                  |      Freq.    Percent      Valid       Cum.
+------------------+--------------------------------------------
+Valid   1 public  |        168      84.00      84.00      84.00
+        2 private |         32      16.00      16.00     100.00
+        Total     |        200     100.00     100.00           
+---------------------------------------------------------------
+
+prog -- type of program
+----------------------------------------------------------------
+                   |      Freq.    Percent      Valid       Cum.
+-------------------+--------------------------------------------
+Valid   1 general  |         45      22.50      22.50      22.50
+        2 academic |        105      52.50      52.50      75.00
+        3 vocation |         50      25.00      25.00     100.00
+        Total      |        200     100.00     100.00           
+----------------------------------------------------------------
+
+(obs=200)
+
+             |     read    write     math  science      ses   female
+-------------+------------------------------------------------------
+        read |   1.0000
+       write |   0.5968   1.0000
+        math |   0.6623   0.6174   1.0000
+     science |   0.6302   0.5704   0.6307   1.0000
+         ses |   0.2933   0.2075   0.2725   0.2829   1.0000
+      female |  -0.0531   0.2565  -0.0293  -0.1277  -0.1250   1.0000</code></pre>
+<p>We see that socioeconomic status is moderately correlated with math, reading, science, and writing scores. Sex does not appear to be correlated with reading or math schools. However, female students appear to be moderately correlated with writing scores, but negatively related to science scores.</p>
+</div>
+<div id="pairwise-correlation" class="section level3 hasAnchor" number="1.3.4">
+<h3><span class="header-section-number">1.3.4</span> Pairwise correlation<a href="covariance-and-bivariate-correlation.html#pairwise-correlation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The command <em>correlate</em> uses casewise deletion option, which means that if any observation is missing for any of the variables, even just one variable, the observation will be dropped from the analysis! We need to worry about nonrandom missing data and external validity with casewise deletion.</p>
+<p>Pairwise correlation uses pairwise deletion to estimate correlation on all the people who answered each pair of items. Pairwise deletion only deletes the observation for the relevant pairwise. For example, if the first observation has a reading score, math score, and socioeconomic status but is missing all other values, then a pairwise correlation will estimate the correlation between reading and math, math and socioeconomic status, and reading and socioeconomic status. Casewise would have deleted the entire observation.</p>
+<p>Stata also have the <em>pwcorr</em> command, which displays all pairwise correlation coefficients. The <em>pwcorr</em> command can also provide statistical significance unlike the <em>correlate</em> command. We implement pairwise correlation with the command <em>pwcorr</em> along with all variables of interest. We can add the option <em>listwise</em> if we want casewise/listwise deletion. We can use the option <em>sig</em> to print significance level for each entry. The option <em>star(5)</em> will display the significance level with a star, where 5 indicates 0.05 level.</p>
+<p>Let’s recreate the correlation matrix above with listwise/casewise deletion, but we will add significance levels.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="covariance-and-bivariate-correlation.html#cb19-1" tabindex="-1"></a><span class="kw">pwcorr</span> read write math science ses female, <span class="kw">obs</span> listwise sig <span class="kw">star</span>(5)</span></code></pre></div>
+<pre><code>             |     read    write     math  science      ses   female
+-------------+------------------------------------------------------
+        read |   1.0000 
+             |
+             |      200
+             |
+       write |   0.5968*  1.0000 
+             |   0.0000
+             |      200      200
+             |
+        math |   0.6623*  0.6174*  1.0000 
+             |   0.0000   0.0000
+             |      200      200      200
+             |
+     science |   0.6302*  0.5704*  0.6307*  1.0000 
+             |   0.0000   0.0000   0.0000
+             |      200      200      200      200
+             |
+         ses |   0.2933*  0.2075*  0.2725*  0.2829*  1.0000 
+             |   0.0000   0.0032   0.0001   0.0000
+             |      200      200      200      200      200
+             |
+      female |  -0.0531   0.2565* -0.0293  -0.1277  -0.1250   1.0000 
+             |   0.4553   0.0002   0.6801   0.0714   0.0778
+             |      200      200      200      200      200      200
+             |</code></pre>
+<p>We can see that socioeconomic status is statistically significant in a bivariate analysis with different outcomes. Female was only statistically significant in explaining writing scores. It may come as no surprise but the different outcomes are highly correlated.</p>
+<p>Now we will implement a pairwise correlation.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="covariance-and-bivariate-correlation.html#cb21-1" tabindex="-1"></a><span class="kw">pwcorr</span> read write math science ses female, <span class="kw">obs</span> sig <span class="kw">star</span>(5)</span></code></pre></div>
+<pre><code>             |     read    write     math  science      ses   female
+-------------+------------------------------------------------------
+        read |   1.0000 
+             |
+             |      200
+             |
+       write |   0.5968*  1.0000 
+             |   0.0000
+             |      200      200
+             |
+        math |   0.6623*  0.6174*  1.0000 
+             |   0.0000   0.0000
+             |      200      200      200
+             |
+     science |   0.6302*  0.5704*  0.6307*  1.0000 
+             |   0.0000   0.0000   0.0000
+             |      200      200      200      200
+             |
+         ses |   0.2933*  0.2075*  0.2725*  0.2829*  1.0000 
+             |   0.0000   0.0032   0.0001   0.0000
+             |      200      200      200      200      200
+             |
+      female |  -0.0531   0.2565* -0.0293  -0.1277  -0.1250   1.0000 
+             |   0.4553   0.0002   0.6801   0.0714   0.0778
+             |      200      200      200      200      200      200
+             |</code></pre>
+<p>Our results are similar between pairwise and casewise/listwise deletion, since all observations were available.</p>
+</div>
+</div>
+<div id="spearmans-rho-rank-order-correlation-for-ordinal-data" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Spearman’s <span class="math inline">\(\rho\)</span>: Rank-order correlation for ordinal data<a href="covariance-and-bivariate-correlation.html#spearmans-rho-rank-order-correlation-for-ordinal-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Spearman’s <span class="math inline">\(\rho\)</span> calculates the correlation between two rank-order variables. The procedure coverts values into ranks, such as <span class="math inline">\(1^{st}, 2^{nd}, ..., n^{th}\)</span>. Such that ages <span class="math inline">\([18, 29, 35, 61, 20]\)</span> would be converted to <span class="math inline">\([1^{st}, 3^{rd}, 4^{th}, 5^{th}, 2^{nd}]\)</span> and then reordered.</p>
+<p>The <em>spearman</em> command implements a Spearman’s <span class="math inline">\(\rho\)</span> rank correlation coefficients. There is no need to rank your ordinal variables, since the <em>spearman</em> command will do this for you. We will use the dataset called spearman from Acock (2023). We will inspect our two variables age and an ordinal variable liberal.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="covariance-and-bivariate-correlation.html#cb23-1" tabindex="-1"></a><span class="kw">use</span> <span class="kw">spearman</span>, <span class="kw">clear</span></span>
+<span id="cb23-2"><a href="covariance-and-bivariate-correlation.html#cb23-2" tabindex="-1"></a><span class="kw">sum</span> age</span>
+<span id="cb23-3"><a href="covariance-and-bivariate-correlation.html#cb23-3" tabindex="-1"></a>fre liberal</span>
+<span id="cb23-4"><a href="covariance-and-bivariate-correlation.html#cb23-4" tabindex="-1"></a><span class="kw">spearman</span> age liberal</span></code></pre></div>
+<p>Our Spearman’s <span class="math inline">\(\rho\)</span> is strongly negatively correlated with <span class="math inline">\(\rho=-0.82\)</span>. It is also statistically significant at the 10% level, but we should take this with a grain of salt. Why? <span class="math inline">\(n=5\)</span>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

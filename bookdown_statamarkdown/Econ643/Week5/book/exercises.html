@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Exercises | Covariance and Correlation</title>
+  <meta name="description" content="This week will focus on calculating covariance and correlation in Stata." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Exercises | Covariance and Correlation" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This week will focus on calculating covariance and correlation in Stata." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Exercises | Covariance and Correlation" />
+  
+  <meta name="twitter:description" content="This week will focus on calculating covariance and correlation in Stata." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Acock (2023)" />
+
+
+<meta name="date" content="2026-08-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="covariance-and-bivariate-correlation.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Covariance and Correlation</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html"><i class="fa fa-check"></i><b>1</b> Covariance and Bivariate Correlation</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#scattergrams"><i class="fa fa-check"></i><b>1.1</b> Scattergrams</a></li>
+<li class="chapter" data-level="1.2" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#binscatter"><i class="fa fa-check"></i><b>1.2</b> Binscatter</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#general-social-survey"><i class="fa fa-check"></i><b>1.2.1</b> General Social Survey</a></li>
+<li class="chapter" data-level="1.2.2" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#national-longitudinal-survey-of-women"><i class="fa fa-check"></i><b>1.2.2</b> National Longitudinal Survey of Women</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#covariance-and-correlation"><i class="fa fa-check"></i><b>1.3</b> Covariance and Correlation</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#covariance"><i class="fa fa-check"></i><b>1.3.1</b> Covariance</a></li>
+<li class="chapter" data-level="1.3.2" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#correlation"><i class="fa fa-check"></i><b>1.3.2</b> Correlation</a></li>
+<li class="chapter" data-level="1.3.3" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#correlation-matrix"><i class="fa fa-check"></i><b>1.3.3</b> Correlation Matrix</a></li>
+<li class="chapter" data-level="1.3.4" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#pairwise-correlation"><i class="fa fa-check"></i><b>1.3.4</b> Pairwise correlation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="covariance-and-bivariate-correlation.html"><a href="covariance-and-bivariate-correlation.html#spearmans-rho-rank-order-correlation-for-ordinal-data"><i class="fa fa-check"></i><b>1.4</b> Spearman’s <span class="math inline">\(\rho\)</span>: Rank-order correlation for ordinal data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>2</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="exercises.html"><a href="exercises.html#general-social-survey-1"><i class="fa fa-check"></i><b>2.1</b> General Social Survey</a></li>
+<li class="chapter" data-level="2.2" data-path="exercises.html"><a href="exercises.html#annual-survey-of-manufacturers-2012-2018"><i class="fa fa-check"></i><b>2.2</b> Annual Survey of Manufacturers 2012-2018</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Covariance and Correlation</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="exercises" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Exercises<a href="exercises.html#exercises" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="general-social-survey-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> General Social Survey<a href="exercises.html#general-social-survey-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>What is the relationship between years of education and hours worked using the 2006 General Social Survey? Read in the file called “gss2006_chapter8.dta”.</p>
+<p>Steps</p>
+<ol style="list-style-type: decimal">
+<li>What is the relationship between hours worked last week and years of education?</li>
+<li>Use <em>sum</em> to inspect the data for hours worked last week and years of education.</li>
+<li>Do you notice any differences?</li>
+<li>What is the mean and median of both variables?</li>
+<li>What is the covariance? Interpret the result. (Do they move together?)</li>
+<li>Next run a casewise deletion using the command <em>correlate</em></li>
+<li>Interpret the results about the relationship.</li>
+</ol>
+<p>Steps</p>
+<ol style="list-style-type: decimal">
+<li>Let’s graph the two variables <em>hrs1</em> and <em>educ</em> from the prior steps</li>
+<li>Use <em>twoway (scatter v1 v2)</em> to graph the two variables without <em>jitter(#)</em>.</li>
+<li>What do you notice? Can you tell if there is a relationship?</li>
+<li>Let’s rerun <em>twoway (scatter v1 v2)</em> but add the <em>jitter(#)</em> option.</li>
+<li>Is the issue still present? Can you tell if there is a relationship?</li>
+<li>Let’s use the <em>binscatter</em>.</li>
+<li>Is this a clearer graph? If so, what about the data structure of <em>educ</em> lends itself to this?</li>
+<li>Interpret the relationship.</li>
+<li>How does opportunity cost help explain the relationship?</li>
+</ol>
+<p>Steps</p>
+<ol style="list-style-type: decimal">
+<li>What is the relationship between happiness and health?</li>
+<li>Use the <em>fre1</em>, <em>tab1</em>, or <em>tabulate</em> commands to inspect the variables <em>happy</em>,<em>hapmar</em>, and <em>health</em>.</li>
+<li>What do you notice about the missing observations? Why is <em>hapmar</em> missing variables so high?</li>
+<li>Question to ponder: Why are there 2000+ missing observations and is it possible that non response is related to health and happiness?</li>
+<li>Let’s do a casewise deletion correlation with the <em>pwcorr</em> command. Use the <em>obs</em> option to check the number of observations used to calculate the correlations.</li>
+<li>Interpret the results.</li>
+<li>Let’s use a pairwise deletion with the <em>pwcorr</em> command. Use the <em>obs</em> option.</li>
+<li>What do you notice between the pairwise and casewise? Do the results differ?</li>
+<li>Rerun the pairwise correlations, but test for statistical significance.</li>
+<li>Seeing these results is it possible we have a “chicken-and-the-egg” problem, or more formally, an endogeneity problem?</li>
+</ol>
+</div>
+<div id="annual-survey-of-manufacturers-2012-2018" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Annual Survey of Manufacturers 2012-2018<a href="exercises.html#annual-survey-of-manufacturers-2012-2018" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will inspect the relationships in manufacturing production. We will read in the file called “nberces_2012_2018.dta” on ELMS. The data can also be found on NBER’s website: <a href="https://www.nber.org/research/data/nber-ces-manufacturing-industry-database" class="uri">https://www.nber.org/research/data/nber-ces-manufacturing-industry-database</a></p>
+<p>This data set includes manufacturing data from 2012-2018 for 6-digit (most detailed) North American Industry Classification System (NAICS) from Becker, et al. (2026). We’ll use these data for Econ 642 for <span class="math inline">\(Y = f(K,L)\)</span></p>
+<p>Steps</p>
+<ol style="list-style-type: decimal">
+<li>What is the relationship between value-added output, capital, and labor?</li>
+<li>Read in the data set called “nberces_2012_2018.dta”</li>
+<li>Let’s inspect <em>vadd</em> <em>cap</em> <em>prodh</em> with the <em>summarize</em> command</li>
+<li>Use a pairwise correlation for <em>vadd</em> <em>cap</em> <em>prodh</em></li>
+<li>Interpret the relationships.</li>
+<li></li>
+</ol>
+<p>Next we will graph the relationships.</p>
+<ol style="list-style-type: decimal">
+<li>Use a scatter plot for both <em>vadd</em> and <em>cap</em> and <em>vadd</em> and <em>prodh</em></li>
+<li>What do you notice about the shapes of the graphs?</li>
+<li>Use a scatter plot for <em>cap</em> and <em>vadd</em></li>
+<li>Do you notice anything interesting? Think about the Inada Conditions: <span class="math inline">\(lim_{K\rightarrow \infty}F_K(K,L)=0\)</span> and <span class="math inline">\(lim_{K\rightarrow 0}F_K(K,L)=\infty\)</span></li>
+<li>Use a binscatter for for both <em>vadd</em> and <em>cap</em> and <em>vadd</em> and <em>prodh</em></li>
+<li>Interpret the graphs.</li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="covariance-and-bivariate-correlation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-cross-refs.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

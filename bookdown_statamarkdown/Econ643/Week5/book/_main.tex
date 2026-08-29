@@ -1,0 +1,725 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{booktabs}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Covariance and Correlation},
+  pdfauthor={Samuel Rowe adapted from Acock (2023)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Covariance and Correlation}
+\author{Samuel Rowe adapted from Acock (2023)}
+\date{2026-08-29}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bookdown}\SpecialCharTok{::}\FunctionTok{render\_book}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\chapter*{Overview}\label{overview}
+\addcontentsline{toc}{chapter}{Overview}
+
+Topics:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Covariance and Correlation
+\item
+  Exercises
+\end{enumerate}
+
+\chapter{Covariance and Bivariate Correlation}\label{covariance-and-bivariate-correlation}
+
+We will study the relationship between two variables. Covariance measures if two variables move together, while correlation measures how much they move together. Covariance is the linear association between two variables (Anderson, et al., 2016). Correlation is also a linear association but it is bound between -1 and 1, where -1 is a negative relationship, +1 is a positive relations, and 0 is no relationship (Anderson, et al., 2016). The correlation shows us the strength of the relationship (Acock, 2023).
+
+\section{Scattergrams}\label{scattergrams}
+
+Scattergrams allow us to graph two continuous or discrete variables to examine any potential relationships. Acock (2023) uses the example of parent's education and child's education. A father with limited education may lack resources to invest into their child's education. A father with higher education may have more educational opportunities. We do not exact the two variables to be perfectly related, but we do expect them to move together in a positive direction.
+
+We will use an extract from the 2006 General Social Survey to plot the relationship between parent and child years of education. We will use a random sample of 100 observations.
+
+To get a random sample that we can replicate, we will use the command \emph{set seed(\#)}. This command specifies the initial value of the random-number seed used by the random-number functions. We get randomization, but a randomization we can replicate.
+
+Next, we will use the command \emph{sample \#, count} to get a random sample of \textbf{\#} observations. Acock (2023) uses the number 111, but you can choose any number between 0 and 2,147,483,647
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cd }\StringTok{"/Users/Sam/Desktop/Econ 643/Data/agis6r/"}
+\KeywordTok{use}\NormalTok{ gss2006\_chapter8, }\KeywordTok{clear}
+\KeywordTok{set} \DecValTok{seed}\NormalTok{ 111}
+\KeywordTok{sample}\NormalTok{ 100, }\FunctionTok{count}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we can use the \emph{twoway} graphing command to compare education. First we will use \emph{twoway (scatter educ paeduc)} to place a scatter plot. We will restrict the data to only males with \emph{if sex==1}. We will add additional options of \emph{title()}, \emph{subtitle()}, and \emph{note()}. We will add the option \emph{size(medium)} \textbf{within} the title option (option within an option) to adjust the size of the dots.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{twoway}\NormalTok{ (}\KeywordTok{scatter}\NormalTok{ educ paeduc) }\KeywordTok{if}\NormalTok{ sex==1, }\BaseNTok{ytitle}\NormalTok{(Son\textquotesingle{}s education) }\CommentTok{///}
+  \BaseNTok{yscale}\NormalTok{(titlegap(5)) }\BaseNTok{xtitle}\NormalTok{(Father\textquotesingle{}s education) }\CommentTok{///}
+  \BaseNTok{title}\NormalTok{(Scattergram relating father\textquotesingle{}s education to his son\textquotesingle{}s education, }\CommentTok{///}
+  \KeywordTok{size}\NormalTok{(medium)) }\KeywordTok{note}\NormalTok{(Data source: GSS 2006; random subsample }\KeywordTok{of} \KeywordTok{N}\NormalTok{ = 100) }\BaseNTok{legend}\NormalTok{(}\KeywordTok{off}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.1: Scattergram of son's education compared to father's education}]{week5_scatter1.png}}
+\caption{Figure 5.1: Scattergram of son's education compared to father's education}
+\end{figure}
+
+It appears to be a positive relationship between father and son years of education completed. However, it does not appear to be a perfect relationship, and there is a lot of variation.
+
+We can adjust the scatter plot with additional options. The \emph{jitter(\#)} option adds spherical random noise to the data before plotting and the \# represents the size of the noise as a percentage of the graphical area. This helps prevent data points from overlapping. This is useful especially when the data are discrete, such as the years of education. Given that \emph{jitter(\#)} uses a randomization, we should use \emph{jitterseed(\#)} so we can have reproducible randomization. Note that the \emph{jitter(\#)} and \emph{jitterseed} option are within the \emph{scatter} not \emph{twoway}
+
+Another set of options that we can use with scatter are modifying the format of the dots. We will add \emph{msymbol(\textbf{style})} to change the shape of the dots to different styles, such as circles, diamonds, triangles, squares, x, etc. We can change the color with \emph{mcolor(\textbf{color})} and we can change the size with \emph{msize(\textbf{style})}, which styles include tiny, small, medium, medlarge, huge, etc.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{twoway}\NormalTok{ (}\KeywordTok{scatter}\NormalTok{ educ paeduc, jitter(6) jitterseed(222) }\BaseNTok{msymbol}\NormalTok{(diamond) mcolor(}\KeywordTok{red}\NormalTok{)) }\KeywordTok{if}\NormalTok{ sex==1, }\CommentTok{///}
+  \BaseNTok{ytitle}\NormalTok{(Son\textquotesingle{}s education) }\BaseNTok{yscale}\NormalTok{(titlegap(5)) }\BaseNTok{xtitle}\NormalTok{(Father\textquotesingle{}s education) }\CommentTok{///}
+  \BaseNTok{title}\NormalTok{(Scattergram relating father\textquotesingle{}s education to his son\textquotesingle{}s education, }\CommentTok{///}
+  \KeywordTok{size}\NormalTok{(medium)) }\KeywordTok{note}\NormalTok{(Data source: GSS 2006; random subsample }\KeywordTok{of} \KeywordTok{N}\NormalTok{ = 100) }\BaseNTok{legend}\NormalTok{(}\KeywordTok{off}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.2: Adjusted scattergram of father and son education}]{week5_scatter2.png}}
+\caption{Figure 5.2: Adjusted scattergram of father and son education}
+\end{figure}
+
+\section{Binscatter}\label{binscatter}
+
+An alternative to scatter plots is the binscatter plot. Even with the \emph{jitter} option available, the number of observations may saturate the plot.
+
+\subsection{General Social Survey}\label{general-social-survey}
+
+Let's take our 2006 General Social Survey but use all observations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ gss2006\_chapter8, }\KeywordTok{clear}
+\KeywordTok{twoway}\NormalTok{ (}\KeywordTok{scatter}\NormalTok{ educ paeduc, jitter(6) jitterseed(222) }\BaseNTok{msymbol}\NormalTok{(diamond) mcolor(}\KeywordTok{red}\NormalTok{)) }\KeywordTok{if}\NormalTok{ sex==1, }\CommentTok{///}
+  \BaseNTok{ytitle}\NormalTok{(Son\textquotesingle{}s education) }\BaseNTok{yscale}\NormalTok{(titlegap(5)) }\BaseNTok{xtitle}\NormalTok{(Father\textquotesingle{}s education) }\CommentTok{///}
+  \BaseNTok{title}\NormalTok{(Scattergram relating father\textquotesingle{}s education to his son\textquotesingle{}s education, }\CommentTok{///}
+  \KeywordTok{size}\NormalTok{(medium)) }\KeywordTok{note}\NormalTok{(Data source: GSS 2006; random subsample }\KeywordTok{of} \KeywordTok{N}\NormalTok{ = 100) }\BaseNTok{legend}\NormalTok{(}\KeywordTok{off}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.3: Scatter plot with all observations}]{week5_scatter3.png}}
+\caption{Figure 5.3: Scatter plot with all observations}
+\end{figure}
+
+We see bunching at 12 years, 14 years, and 16 years of Father's education.
+
+Michael Stepner developed the \emph{binscatter} command to deal with this issue. This command generates binned scatterplots, and is optimized for speed in large datasets, such as the General Social Survey, Current Population Survey, American Community Survey PUMS, etc. The \emph{binscatter} command calculates the mean within each bin/interval. Let's install the package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ssc}\NormalTok{ install binscatter}
+\end{Highlighting}
+\end{Shaded}
+
+We will run our scatter plot using the General Social Survey again, but we will use the \emph{binscatter} command instead.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{binscatter educ paeduc, }\BaseNTok{ytitle}\NormalTok{(Son\textquotesingle{}s education) }\BaseNTok{xtitle}\NormalTok{(Father\textquotesingle{}s education) }\CommentTok{///}
+  \BaseNTok{title}\NormalTok{(Binscatter plot relating father\textquotesingle{}s education to his son\textquotesingle{}s education, }\CommentTok{///}
+  \KeywordTok{size}\NormalTok{(medium)) }\KeywordTok{note}\NormalTok{(Data source: GSS 2006)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.4: Binscatter with all observations}]{week5_scatter4.png}}
+\caption{Figure 5.4: Binscatter with all observations}
+\end{figure}
+
+We see a fairly strong relationship between mean father's education and mean son's education across bins when we use the entire sample
+
+\subsection{National Longitudinal Survey of Women}\label{national-longitudinal-survey-of-women}
+
+Let's use another data set from the 1988 National Longitudinal Survey of Women. We will plot the relationship between wages and years of tenure for women between ages of 35 and 44 for individuals who are either Black or White. We will use a scatter plot but we will set the opacity at 30\% with the option \emph{mcolor(\%30)}. This should help us with overlapping dots.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sysuse}\NormalTok{ nlsw88, }\KeywordTok{clear}
+\KeywordTok{keep} \KeywordTok{if}\NormalTok{ age \textgreater{} 34 \& age \textless{} 45 \& race \textless{} 3}
+\KeywordTok{scatter}\NormalTok{ wage tenure, mcolor(\%30)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.5: Scatter plot of wages and years of tenure}]{week5_scatter5.png}}
+\caption{Figure 5.5: Scatter plot of wages and years of tenure}
+\end{figure}
+
+We do see a weakly positive relationship, but we do have lots of bunching between 0 and 5 years of tenure. Let's try to use the \emph{binscatter} command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{binscatter wage tenure, }\BaseNTok{title}\NormalTok{(}\StringTok{"Scatter plot of wages and tenure"}\NormalTok{) linetype(}\KeywordTok{lfit}\NormalTok{) }\CommentTok{///}
+  \BaseNTok{subtitle}\NormalTok{(}\StringTok{"with linear fit"}\NormalTok{) }\BaseNTok{caption}\NormalTok{(}\StringTok{"Data source: GSS 2006"}\NormalTok{) }\CommentTok{///}
+  \BaseNTok{ytitle}\NormalTok{(}\StringTok{"Hourly wage"}\NormalTok{) }\BaseNTok{xtitle}\NormalTok{(}\StringTok{"Years of tenure"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.6: Bin scatter of mean wages by mean years of tenure}]{week5_scatter6.png}}
+\caption{Figure 5.6: Bin scatter of mean wages by mean years of tenure}
+\end{figure}
+
+We can see a positive association, but a linear line does not seem to be the best fit. Especially for values 0 and 3. Let's change the \emph{linetype} to a quadratic fit.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{binscatter wage tenure, }\BaseNTok{title}\NormalTok{(}\StringTok{"Scatter plot of wages and tenure"}\NormalTok{) linetype(qfit) }\CommentTok{///}
+  \BaseNTok{subtitle}\NormalTok{(}\StringTok{"with quadratic fit"}\NormalTok{) }\BaseNTok{caption}\NormalTok{(}\StringTok{"Data source: GSS 2006"}\NormalTok{) }\CommentTok{///}
+  \BaseNTok{ytitle}\NormalTok{(}\StringTok{"Hourly wage"}\NormalTok{) }\BaseNTok{xtitle}\NormalTok{(}\StringTok{"Years of tenure"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.7: Bin scatter of mean wages and mean years of tensure}]{week5_scatter7.png}}
+\caption{Figure 5.7: Bin scatter of mean wages and mean years of tensure}
+\end{figure}
+
+The quadratic fit appears to be better match than a linear fit, but it is still not quite right. Let's try to add a discontinuity at three years of tenure. We can add a discontinuity with the option \emph{rd(3.0)}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{binscatter wage tenure, rd(3.0) }\BaseNTok{title}\NormalTok{(}\StringTok{"Scatter plot of wages and tenure"}\NormalTok{) }\CommentTok{///}
+  \BaseNTok{subtitle}\NormalTok{(}\StringTok{"with quadratic fit"}\NormalTok{) }\BaseNTok{caption}\NormalTok{(}\StringTok{"Data source: GSS 2006"}\NormalTok{) }\CommentTok{///}
+  \BaseNTok{ytitle}\NormalTok{(}\StringTok{"Hourly wage"}\NormalTok{) }\BaseNTok{xtitle}\NormalTok{(}\StringTok{"Years of tenure"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+Adding a discontinuity, we see that there is a strong positive relationship between wages and tenure with less than 3 years of tenure. However, the relationship weakens as years of tenure increases beyond 3 years.
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.8: Bin scatter of mean wages and mean years of tenure}]{week5_scatter8.png}}
+\caption{Figure 5.8: Bin scatter of mean wages and mean years of tenure}
+\end{figure}
+
+We can add nominal categorical variables to see if the trends remain similar among nominal values. Let's add race to the command to see if the relationship between wage and years of tenure differs among difference racial categories.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{binscatter wage tenure, rd(3.0) }\KeywordTok{by}\NormalTok{(race) }\BaseNTok{title}\NormalTok{(}\StringTok{"Scatter plot of wages and tenure"}\NormalTok{) }\CommentTok{///}
+  \BaseNTok{subtitle}\NormalTok{(}\StringTok{"with quadratic fit by race"}\NormalTok{) }\BaseNTok{caption}\NormalTok{(}\StringTok{"Data source: GSS 2006"}\NormalTok{) }\CommentTok{///}
+  \BaseNTok{ytitle}\NormalTok{(}\StringTok{"Hourly wage"}\NormalTok{) }\BaseNTok{xtitle}\NormalTok{(}\StringTok{"Years of tenure"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Figure 5.9: Bin scatter of mean wages and mean years of tenure by race}]{week5_scatter9.png}}
+\caption{Figure 5.9: Bin scatter of mean wages and mean years of tenure by race}
+\end{figure}
+
+The graph shows the relationship between wages and years of tenure under 3 years is stronger for Black workers compared to White workers. However, the trends remain relative parallel beyond 3 years of tenure.
+
+\section{Covariance and Correlation}\label{covariance-and-correlation}
+
+Covariance is the linear association between two variables (Anderson, et al., 2016). Correlation is also a linear association but it is bound between -1 and 1, where -1 is a negative relationship, +1 is a positive relations, and 0 is no relationship (Anderson, et al., 2016). The correlation shows us the strength of the relationship (Acock, 2023).
+
+Bivariate correlation can be used to assess the bivariate relationship between two variables. Acock (2023) gives the example that calorie consumption and weight less are inversely related with \(r = -0.5\), which indicates a strong negative relationship. Let's say years of education and wages has \(r = 0.5\), which indicates a strong positive relationship.
+
+Strengths of bivariate correlation:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\left| r \right| = 0.5\) indicates a strong relationship
+\item
+  \(\left| r \right| = 0.3\) indicates a moderate relationship
+\item
+  \(\left| r \right| = 0.1\) indicates a weak relationship
+\end{itemize}
+
+\subsection{Covariance}\label{covariance}
+
+Let's look an example. We'll use the 1988 National Longitudinal Survey for Women again. We again investigate the relationship between wages and years of tenure. We will start off with calculating the covariance, which can be implemented using the \emph{correlate} command. If we want to see the covariance, then we add the option \emph{covariance}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sysuse}\NormalTok{ nlsw88, }\KeywordTok{clear}
+\KeywordTok{keep} \KeywordTok{if}\NormalTok{ age \textgreater{} 34 \& age \textless{} 45 \& race \textless{} 3}
+\NormalTok{correlate wage tenure, }\KeywordTok{covariance}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(NLSW, 1988 extract)
+
+(158 observations deleted)
+
+(obs=2,074)
+
+             |     wage   tenure
+-------------+------------------
+        wage |   34.073
+      tenure |  5.51818  30.1934
+\end{verbatim}
+
+We can see that the covariance is positive, which indicates a positive relationship between wages and years of tenure. However, it is difficult to interpret because it is in squared units.
+
+\subsection{Correlation}\label{correlation}
+
+We can easily calculate the bivarate correlation with the same \emph{correlate} command, but we do not add the \emph{covariance} option.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{correlate wage tenure}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(obs=2,074)
+
+             |     wage   tenure
+-------------+------------------
+        wage |   1.0000
+      tenure |   0.1720   1.0000
+\end{verbatim}
+
+\(r = 0.17\) which indicates a weaker relationship.
+
+\subsection{Correlation Matrix}\label{correlation-matrix}
+
+We may want to analyze multiple bivariate correlations at once. Bivariate correlation can be implemented in Stata easily enough. Let's say we are interested in the correlations among: weight loss and calorie consumption, weight loss and hours of exercise, and weight loss and days of exercise. We can compute a correlation matrix. We would expect all of these items to be moderately correlated.
+
+We'll use the dataset from a study called ``High School and Beyond'' from UCLA Stata Portal. (I will give a plug for UCLA's OARC Stata resources. See \url{https://stats.oarc.ucla.edu/stata/}.) Our dataset has 200 observations. Our variables include education outcomes for math scores, reading scores, science scores, social science scores, and writing scores. We have additional explanatory variables of nominal race and sex, ordinal socioeconomic status, and type of schooling.
+
+We are interested in the bivariate relationship of the demographic factors and different outcomes. First, we will inspect our categorical variables with the \emph{fre} command or \emph{tab1}. Next, we will use our \emph{correlate} command, but we will add all of the relevant variables to see the correlation matrix. We anticipate that socioeconomic status has a stronger correlation than sex.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use}\NormalTok{ https:}\CommentTok{//stats.oarc.ucla.edu/stat/data/hsb2, clear}
+\NormalTok{fre female ses schtyp prog}
+\NormalTok{correlate read write math science ses female}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+(highschool and beyond (200 cases))
+
+
+female
+--------------------------------------------------------------
+                 |      Freq.    Percent      Valid       Cum.
+-----------------+--------------------------------------------
+Valid   0 male   |         91      45.50      45.50      45.50
+        1 female |        109      54.50      54.50     100.00
+        Total    |        200     100.00     100.00           
+--------------------------------------------------------------
+
+ses
+--------------------------------------------------------------
+                 |      Freq.    Percent      Valid       Cum.
+-----------------+--------------------------------------------
+Valid   1 low    |         47      23.50      23.50      23.50
+        2 middle |         95      47.50      47.50      71.00
+        3 high   |         58      29.00      29.00     100.00
+        Total    |        200     100.00     100.00           
+--------------------------------------------------------------
+
+schtyp -- type of school
+---------------------------------------------------------------
+                  |      Freq.    Percent      Valid       Cum.
+------------------+--------------------------------------------
+Valid   1 public  |        168      84.00      84.00      84.00
+        2 private |         32      16.00      16.00     100.00
+        Total     |        200     100.00     100.00           
+---------------------------------------------------------------
+
+prog -- type of program
+----------------------------------------------------------------
+                   |      Freq.    Percent      Valid       Cum.
+-------------------+--------------------------------------------
+Valid   1 general  |         45      22.50      22.50      22.50
+        2 academic |        105      52.50      52.50      75.00
+        3 vocation |         50      25.00      25.00     100.00
+        Total      |        200     100.00     100.00           
+----------------------------------------------------------------
+
+(obs=200)
+
+             |     read    write     math  science      ses   female
+-------------+------------------------------------------------------
+        read |   1.0000
+       write |   0.5968   1.0000
+        math |   0.6623   0.6174   1.0000
+     science |   0.6302   0.5704   0.6307   1.0000
+         ses |   0.2933   0.2075   0.2725   0.2829   1.0000
+      female |  -0.0531   0.2565  -0.0293  -0.1277  -0.1250   1.0000
+\end{verbatim}
+
+We see that socioeconomic status is moderately correlated with math, reading, science, and writing scores. Sex does not appear to be correlated with reading or math schools. However, female students appear to be moderately correlated with writing scores, but negatively related to science scores.
+
+\subsection{Pairwise correlation}\label{pairwise-correlation}
+
+The command \emph{correlate} uses casewise deletion option, which means that if any observation is missing for any of the variables, even just one variable, the observation will be dropped from the analysis! We need to worry about nonrandom missing data and external validity with casewise deletion.
+
+Pairwise correlation uses pairwise deletion to estimate correlation on all the people who answered each pair of items. Pairwise deletion only deletes the observation for the relevant pairwise. For example, if the first observation has a reading score, math score, and socioeconomic status but is missing all other values, then a pairwise correlation will estimate the correlation between reading and math, math and socioeconomic status, and reading and socioeconomic status. Casewise would have deleted the entire observation.
+
+Stata also have the \emph{pwcorr} command, which displays all pairwise correlation coefficients. The \emph{pwcorr} command can also provide statistical significance unlike the \emph{correlate} command. We implement pairwise correlation with the command \emph{pwcorr} along with all variables of interest. We can add the option \emph{listwise} if we want casewise/listwise deletion. We can use the option \emph{sig} to print significance level for each entry. The option \emph{star(5)} will display the significance level with a star, where 5 indicates 0.05 level.
+
+Let's recreate the correlation matrix above with listwise/casewise deletion, but we will add significance levels.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pwcorr}\NormalTok{ read write math science ses female, }\KeywordTok{obs}\NormalTok{ listwise sig }\KeywordTok{star}\NormalTok{(5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+             |     read    write     math  science      ses   female
+-------------+------------------------------------------------------
+        read |   1.0000 
+             |
+             |      200
+             |
+       write |   0.5968*  1.0000 
+             |   0.0000
+             |      200      200
+             |
+        math |   0.6623*  0.6174*  1.0000 
+             |   0.0000   0.0000
+             |      200      200      200
+             |
+     science |   0.6302*  0.5704*  0.6307*  1.0000 
+             |   0.0000   0.0000   0.0000
+             |      200      200      200      200
+             |
+         ses |   0.2933*  0.2075*  0.2725*  0.2829*  1.0000 
+             |   0.0000   0.0032   0.0001   0.0000
+             |      200      200      200      200      200
+             |
+      female |  -0.0531   0.2565* -0.0293  -0.1277  -0.1250   1.0000 
+             |   0.4553   0.0002   0.6801   0.0714   0.0778
+             |      200      200      200      200      200      200
+             |
+\end{verbatim}
+
+We can see that socioeconomic status is statistically significant in a bivariate analysis with different outcomes. Female was only statistically significant in explaining writing scores. It may come as no surprise but the different outcomes are highly correlated.
+
+Now we will implement a pairwise correlation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pwcorr}\NormalTok{ read write math science ses female, }\KeywordTok{obs}\NormalTok{ sig }\KeywordTok{star}\NormalTok{(5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+             |     read    write     math  science      ses   female
+-------------+------------------------------------------------------
+        read |   1.0000 
+             |
+             |      200
+             |
+       write |   0.5968*  1.0000 
+             |   0.0000
+             |      200      200
+             |
+        math |   0.6623*  0.6174*  1.0000 
+             |   0.0000   0.0000
+             |      200      200      200
+             |
+     science |   0.6302*  0.5704*  0.6307*  1.0000 
+             |   0.0000   0.0000   0.0000
+             |      200      200      200      200
+             |
+         ses |   0.2933*  0.2075*  0.2725*  0.2829*  1.0000 
+             |   0.0000   0.0032   0.0001   0.0000
+             |      200      200      200      200      200
+             |
+      female |  -0.0531   0.2565* -0.0293  -0.1277  -0.1250   1.0000 
+             |   0.4553   0.0002   0.6801   0.0714   0.0778
+             |      200      200      200      200      200      200
+             |
+\end{verbatim}
+
+Our results are similar between pairwise and casewise/listwise deletion, since all observations were available.
+
+\section{\texorpdfstring{Spearman's \(\rho\): Rank-order correlation for ordinal data}{Spearman's \textbackslash rho: Rank-order correlation for ordinal data}}\label{spearmans-rho-rank-order-correlation-for-ordinal-data}
+
+Spearman's \(\rho\) calculates the correlation between two rank-order variables. The procedure coverts values into ranks, such as \(1^{st}, 2^{nd}, ..., n^{th}\). Such that ages \([18, 29, 35, 61, 20]\) would be converted to \([1^{st}, 3^{rd}, 4^{th}, 5^{th}, 2^{nd}]\) and then reordered.
+
+The \emph{spearman} command implements a Spearman's \(\rho\) rank correlation coefficients. There is no need to rank your ordinal variables, since the \emph{spearman} command will do this for you. We will use the dataset called spearman from Acock (2023). We will inspect our two variables age and an ordinal variable liberal.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \KeywordTok{spearman}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{sum}\NormalTok{ age}
+\NormalTok{fre liberal}
+\KeywordTok{spearman}\NormalTok{ age liberal}
+\end{Highlighting}
+\end{Shaded}
+
+Our Spearman's \(\rho\) is strongly negatively correlated with \(\rho=-0.82\). It is also statistically significant at the 10\% level, but we should take this with a grain of salt. Why? \(n=5\).
+
+\chapter{Exercises}\label{exercises}
+
+\section{General Social Survey}\label{general-social-survey-1}
+
+What is the relationship between years of education and hours worked using the 2006 General Social Survey? Read in the file called ``gss2006\_chapter8.dta''.
+
+Steps
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What is the relationship between hours worked last week and years of education?
+\item
+  Use \emph{sum} to inspect the data for hours worked last week and years of education.
+\item
+  Do you notice any differences?
+\item
+  What is the mean and median of both variables?
+\item
+  What is the covariance? Interpret the result. (Do they move together?)
+\item
+  Next run a casewise deletion using the command \emph{correlate}
+\item
+  Interpret the results about the relationship.
+\end{enumerate}
+
+Steps
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Let's graph the two variables \emph{hrs1} and \emph{educ} from the prior steps
+\item
+  Use \emph{twoway (scatter v1 v2)} to graph the two variables without \emph{jitter(\#)}.
+\item
+  What do you notice? Can you tell if there is a relationship?
+\item
+  Let's rerun \emph{twoway (scatter v1 v2)} but add the \emph{jitter(\#)} option.
+\item
+  Is the issue still present? Can you tell if there is a relationship?
+\item
+  Let's use the \emph{binscatter}.
+\item
+  Is this a clearer graph? If so, what about the data structure of \emph{educ} lends itself to this?
+\item
+  Interpret the relationship.
+\item
+  How does opportunity cost help explain the relationship?
+\end{enumerate}
+
+Steps
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What is the relationship between happiness and health?
+\item
+  Use the \emph{fre1}, \emph{tab1}, or \emph{tabulate} commands to inspect the variables \emph{happy},\emph{hapmar}, and \emph{health}.
+\item
+  What do you notice about the missing observations? Why is \emph{hapmar} missing variables so high?
+\item
+  Question to ponder: Why are there 2000+ missing observations and is it possible that non response is related to health and happiness?
+\item
+  Let's do a casewise deletion correlation with the \emph{pwcorr} command. Use the \emph{obs} option to check the number of observations used to calculate the correlations.
+\item
+  Interpret the results.
+\item
+  Let's use a pairwise deletion with the \emph{pwcorr} command. Use the \emph{obs} option.
+\item
+  What do you notice between the pairwise and casewise? Do the results differ?
+\item
+  Rerun the pairwise correlations, but test for statistical significance.
+\item
+  Seeing these results is it possible we have a ``chicken-and-the-egg'' problem, or more formally, an endogeneity problem?
+\end{enumerate}
+
+\section{Annual Survey of Manufacturers 2012-2018}\label{annual-survey-of-manufacturers-2012-2018}
+
+We will inspect the relationships in manufacturing production. We will read in the file called ``nberces\_2012\_2018.dta'' on ELMS. The data can also be found on NBER's website: \url{https://www.nber.org/research/data/nber-ces-manufacturing-industry-database}
+
+This data set includes manufacturing data from 2012-2018 for 6-digit (most detailed) North American Industry Classification System (NAICS) from Becker, et al.~(2026). We'll use these data for Econ 642 for \(Y = f(K,L)\)
+
+Steps
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What is the relationship between value-added output, capital, and labor?
+\item
+  Read in the data set called ``nberces\_2012\_2018.dta''
+\item
+  Let's inspect \emph{vadd} \emph{cap} \emph{prodh} with the \emph{summarize} command
+\item
+  Use a pairwise correlation for \emph{vadd} \emph{cap} \emph{prodh}
+\item
+  Interpret the relationships.
+\item
+\end{enumerate}
+
+Next we will graph the relationships.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Use a scatter plot for both \emph{vadd} and \emph{cap} and \emph{vadd} and \emph{prodh}
+\item
+  What do you notice about the shapes of the graphs?
+\item
+  Use a scatter plot for \emph{cap} and \emph{vadd}
+\item
+  Do you notice anything interesting? Think about the Inada Conditions: \(lim_{K\rightarrow \infty}F_K(K,L)=0\) and \(lim_{K\rightarrow 0}F_K(K,L)=\infty\)
+\item
+  Use a binscatter for for both \emph{vadd} and \emph{cap} and \emph{vadd} and \emph{prodh}
+\item
+  Interpret the graphs.
+\end{enumerate}
+
+Acock, A.C. (2023). A gentle introduction to Stata. 6th ed.~Stata Press.
+
+Anderson, D. R., Sweeney, D. J., Williams, T. A., Camm, J. D., \& Cochran, J. J. (2016). Statistics for business and economics (13th ed.). Cengage Learning.
+
+Becker, Randy A., Wayne B. Gray and Jordan Marvakov. (2021). ``NBER-CES Manufacturing Industry Database (1958-2018, version 2021a).'' National Bureau of Economic Research. \url{https://www.nber.org/research/data/nber-ces-manufacturing-industry-database}, accessed 8/29/2026.
+
+Kane, J. (2024). Advanced Bar Graphs in Stata (Part 2). Retrieved from:
+\url{https://medium.com/the-stata-gallery/advanced-bar-graphs-in-stata-part-2-visualizing-relationships-between-discrete-variables-7afb8cb5aaf2}
+
+Mitchell, M. N. (2020). Data management using Stata: A practical handbook. Stata Press.
+
+\bibliography{book.bib,packages.bib}
+
+\end{document}
