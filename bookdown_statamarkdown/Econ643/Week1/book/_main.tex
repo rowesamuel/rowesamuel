@@ -118,7 +118,7 @@
 
 \title{Week 1: Getting Started with Stata}
 \author{Samuel Rowe adapted from Acock (2023)}
-\date{2026-08-04}
+\date{2026-08-29}
 
 \begin{document}
 \maketitle
@@ -189,7 +189,7 @@ After we run these commands, we can check to see if the files installed on our l
 \end{Shaded}
 
 \begin{verbatim}
-total 19784
+total 19792
 -rw-r--r--  1 Sam  staff  5784501 Aug  2 15:14 altrightcombined.dta
 -rw-r--r--  1 Sam  staff    37639 Aug  2 15:14 attitude.dta
 -rw-r--r--  1 Sam  staff     3715 Aug  2 15:14 c10interaction.dta
@@ -217,6 +217,7 @@ total 19784
 -rw-r--r--  1 Sam  staff    65280 Aug  2 15:14 descriptive_gss.dta
 -rw-r--r--  1 Sam  staff     1875 Aug  2 15:14 divorce.dta
 -rw-r--r--  1 Sam  staff     1875 Aug  2 15:14 environ.dta
+-rw-r--r--  1 Sam  staff      602 Aug  6 20:24 example_descriptive.tex
 -rw-r--r--  1 Sam  staff     6682 Aug  2 15:14 firstsurvey_chapter4.dta
 -rw-r--r--  1 Sam  staff     7720 Aug  2 15:14 firstsurvey.dta
 -rw-r--r--  1 Sam  staff    17530 Aug  2 15:14 flourishing_bmi.dta
@@ -290,7 +291,7 @@ Stata's Toolbar provides helpful quick clicks for Stata's Tools
 \caption{Stata toolbar for OSX}
 \end{figure}
 
-The most important button is going to be the \textbf{Do-File Editor} button. This is where you do the majority of your work in Stata. The table with the magnifing glass is another important button for a quick click to the \textbf{Browser} window.
+The most important button is going to be the \textbf{Do-File Editor} button. This is where you do the majority of your work in Stata. The table with the magnifying glass is another important button for a quick click to the \textbf{Browser} window.
 
 \section{Our First Dataset}\label{our-first-dataset}
 
@@ -310,7 +311,7 @@ Let's go ahead and use a dataset in memory. We will use the command \emph{sysuse
 \caption{Stata Window with Data Loaded}
 \end{figure}
 
-Now we have loaded a dataset into Stata, we can see that our windows hhve changed. Our results window says
+Now we have loaded a dataset into Stata, we can see that our windows have changed. Our results window says
 
 . sysuse cancer, clear
 (Patient survival in drug trial)
@@ -333,20 +334,19 @@ Next let's run some commands to do some small analyses. Let's look at the data w
 Contains data from /Applications/Stata/ado/base/c/cancer.dta
  Observations:            48                  Patient survival in drug trial
     Variables:             8                  3 Mar 2024 16:09
-----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
 studytime       byte    %8.0g                 Months to death or end of exp.
 died            byte    %8.0g      diedlbl    Patient died
 drug            byte    %8.0g      type       Drug type
 age             byte    %8.0g                 Patient's age at start of exp.
-_st             byte    %8.0g                 1 if record is to be used; 0
-                                                otherwise
+_st             byte    %8.0g                 1 if record is to be used; 0 otherwise
 _d              byte    %8.0g                 1 if failure; 0 if censored
 _t              byte    %10.0g                Analysis time when record ends
 _t0             byte    %10.0g                Analysis time when record begins
-----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
 Sorted by: 
 \end{verbatim}
 
@@ -435,7 +435,7 @@ The \emph{help} command displays help information about the specified command or
 
 Before we begin this section, I recommend not working directly in Stata's data editor. This is a personal preference, and you are more than welcome to work directly in the data editor. I generally recommend working in a spreadsheet software and importing the data into Stata. However, we will cover some basics.
 
-If you need to edit data, I recommand using the \emph{replace} command which we will cover later.
+If you need to edit data, I recommend using the \emph{replace} command which we will cover later.
 
 \textbf{Please note that if you need to edit data, do not do an ad-hoc edits. Import raw data and use syntax to be transparent!}
 
@@ -449,7 +449,7 @@ Finally, we will ``Load'' the data. What we are doing here is exporting our data
 
 \section{The Data Editor}\label{the-data-editor}
 
-If we want to manually enter data into stata, \textbf{which I do not recommend}, we can start Stata's data editor. One way is to use the quick click on the toolbar. This is the icon with the table and the pencil.
+If we want to manually enter data into Stata, \textbf{which I do not recommend}, we can start Stata's data editor. One way is to use the quick click on the toolbar. This is the icon with the table and the pencil.
 
 \begin{figure}
 \centering
@@ -481,9 +481,9 @@ Why use do files? My two main points are the following:
 1. Efficiency
 2. Transparency
 
-\textbf{Efficiency:} Your future time required to do routine tasks drops immensely once your syntax works. Not only can it reduce time for a routine task, you can take snippits of your syntax for other do files. No point in reinventing the wheel! Point and click may be faster up front, but on routine tasks point-and-clicks get left in the dust compared to syntax.
+\textbf{Efficiency:} Your future time required to do routine tasks drops immensely once your syntax works. Not only can it reduce time for a routine task, you can take snippets of your syntax for other do files. No point in reinventing the wheel! Point and click may be faster up front, but on routine tasks point-and-clicks get left in the dust compared to syntax.
 
-\textbf{Transparency:} You can provide evidence of your work. An independent person can take the source data independency, and apply your syntax to see if they get similar results. Not only that, they can check for any shenanigans within the syntax. You will see data replication packages in journals of the \emph{American Economic Association}.
+\textbf{Transparency:} You can provide evidence of your work. An independent person can take the source data independently, and apply your syntax to see if they get similar results. Not only that, they can check for any shenanigans within the syntax. You will see data replication packages in journals of the \emph{American Economic Association}.
 
 \section{Commands}\label{commands}
 
@@ -564,7 +564,7 @@ We can dig deeper into the command by looking up the options of these command. W
 
 \section{Qualifiers}\label{qualifiers}
 
-We may want to qualifers for conditional commands. We may want to look at subsets when analzying data or apply a command under certain conditions. Stata's list of qualifiers is the following:
+We may want to qualifiers for conditional commands. We may want to look at subsets when analyzing data or apply a command under certain conditions. Stata's list of qualifiers is the following:
 
 \begin{tabular}{l|l}
 \hline
@@ -668,27 +668,23 @@ Either click the ``Do'' button or press Ctrl+D for Windows or Shift+Command+D fo
 \end{Shaded}
 
 \begin{verbatim}
-Contains data from /Users/Sam/Library/Application Support/Stata/ado/plus/M/Mroz.dt
-> a
+Contains data from /Users/Sam/Library/Application Support/Stata/ado/plus/M/Mroz.dta
  Observations:           753                  
     Variables:             8                  2 May 2021 01:02
-----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
 Variable      Storage   Display    Value
     name         type    format    label      Variable label
-----------------------------------------------------------------------------------
-k5              byte    %8.0g                 Number of children 5 years old or
-                                                younger
+--------------------------------------------------------------------------------------------------
+k5              byte    %8.0g                 Number of children 5 years old or younger
 k618            byte    %8.0g                 Number of children 6 to 17 years old
 age             byte    %8.0g                 Age in years
-lwg             float   %9.0g                 Log wage rate. Actual wage, or for
-                                                lfp=0 imputed by regressing lwg on
-                                                other vars
-inc             float   %9.0g                 Family income exclusive of wife\'s
-                                                income
+lwg             float   %9.0g                 Log wage rate. Actual wage, or for lfp=0 imputed by
+                                                regressing lwg on other vars
+inc             float   %9.0g                 Family income exclusive of wife\'s income
 lfp             byte    %18.0g     lf         Labor-force participation
 wc              byte    %27.0g     wcg        Wife attended college
 hc              byte    %9.0g                 hcg
-----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------
 Sorted by: 
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
@@ -735,6 +731,8 @@ Please note that I'm not a fan of the right-click copy-and-paste method, since i
   \emph{markdown}
 \item
   \emph{dyndoc}
+\item
+  \emph{collect}
 \end{enumerate}
 
 Highlight your do file for all the rows except for the histogram. Click the drop down menu for the ``Do'' button and select ``execute selection''.
