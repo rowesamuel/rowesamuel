@@ -1,0 +1,619 @@
+# Labeling Data
+
+Mitchell's 5th chapter has a bunch of useful information, but the most 
+important parts are *label define* (and its two options of *add* and *modify*), *label values*, and time formatting. 
+
+## Describing datasets
+
+We have seen the *describe* command before, but it is a very useful command to being working with data. It provides the varible name, storage type, display format, value label, and variable label, Let's get some data on the survey of graduate students. 
+
+```{stata des1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+describe
+```
+
+We also have a short option, but it just contain general information.
+```{stata des2, eval=FALSE}
+describe, short
+```
+
+```{stata des2_1, echo=FALSE}
+quietly{
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+describe, short
+```
+
+We can subset the variables we want to describe if we want
+```{stata des3, eval=FALSE}
+describe id gender race
+```
+
+```{stata des3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+describe id gender race
+```
+
+Finally, the command *codebook* provides a deep dive into your dataset. This is very useful for looking at the value labels. We only see the value label name in the *describe* command, but the *codebook* command provides more information, such as type of variable, label name, range of values, unique values, missing, value labels, missing value labels (if any).
+```{stata des4, eval=FALSE}
+codebook
+```
+
+```{stata des4_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+codebook
+```
+
+We can go by variables.
+```{stata des5, eval=FALSE}
+codebook race
+```
+
+```{stata des5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+codebook race
+```
+
+We can go by variables and notes
+```{stata des6, eval=FALSE}
+codebook havechild, notes
+```
+
+```{stata des6_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+codebook havechild, notes
+```
+
+We can look at the variable and missing value labels with the option *mv*. I recommend that you don't label the missing values unless it is absolutely necessary. Different types of missing values besides "." cause problems down the road, especially with the *marginsplot* command.
+
+```{stata des7, eval=FALSE}
+codebook ksex, mv
+```
+
+```{stata des7_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+codebook ksex, mv
+```
+If you are interested in the different languages labels it is on page 112. 
+
+The *lookfor* command will return all variables with the search word. This is a bit redundent, since this is available in the variable window. But, it provides more space to look.
+```{stata des8, eval=FALSE}
+lookfor birth
+```
+
+```{stata des8_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+lookfor birth
+```
+
+We can also search for the notes by the search word
+```{stata des8_5, eval=FALSE}
+notes search birth
+```
+
+```{stata des8_51, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+notes search birth
+```
+
+We can see the formats of the variables as well
+```{stata des9, eval=FALSE}
+list income bday
+describe income bday
+```
+
+```{stata des9_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey7.dta", clear
+}
+list income bday
+describe income bday
+```
+
+We can see that the format for income is %11.1fc and the format for bday is %td
+
+## Labeling variables
+Labeling the variables is a very helpful shortcut to describe what the variable contain without having to go back to the data dicionary. Sometimes we want a short and concise label if we are exporting labels to regression tables, or sometimes we want longer variable labels to give us context of the variable.
+
+Let's get some data on graduate students and use the *describe* command.
+```{stata lab1}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey1.dta", clear
+describe 
+```
+
+We have no variable labels, so we will need to provide some so future users have an understand what the data are. We will use the *label variable* command to describe the variable.
+```{stata lab2, eval=FALSE}
+label variable id "Identification variable"
+label variable gender "Gender of the student"
+label variable race "Race of the student"
+label variable havechild "Given birth to a child"
+label variable ksex "Sex of child"
+label variable bday "Birthday of student"
+label variable income "Income of student"
+label variable kbdays "Birthday of child"
+label variable kidname "Name of child"
+describe
+```
+
+```{stata lab2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey1.dta", clear
+}
+label variable id "Identification variable"
+label variable gender "Gender of the student"
+label variable race "Race of the student"
+label variable havechild "Given birth to a child"
+label variable ksex "Sex of child"
+label variable bday "Birthday of student"
+label variable income "Income of student"
+label variable kbdays "Birthday of child"
+label variable kidname "Name of child"
+describe
+```
+
+We can simply change the variable label with running the command again with the new variable label.
+```{stata lab3, eval=FALSE}
+label variable id "Unique identification variable"
+describe
+save survey2, replace
+```
+
+```{stata lab3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use "survey1.dta", clear
+label variable id "Identification variable"
+label variable gender "Gender of the student"
+label variable race "Race of the student"
+label variable havechild "Given birth to a child"
+label variable ksex "Sex of child"
+label variable bday "Birthday of student"
+label variable income "Income of student"
+label variable kbdays "Birthday of child"
+label variable kidname "Name of child"
+}
+label variable id "Unique identification variable"
+describe
+save survey2, replace
+```
+
+## Labeling values
+Labeling values is a very practice way of analyzing data without having to go back to the data dictionary. Labeling values requires two commands: 
+
+  1. *label define* to define a label that can be used across many different variables.
+  2. *label variable* to place a label onto a variable.
+
+Labeling values is a bit different than labeling variables, since we need to modify or replace after a label has been defined. If you try to change a label, then you will get an error unless you use *add*, *modify* or *replace*
+
+Let's look at our codebook
+```{stata lab4}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+codebook 
+```
+
+We have our variable labels from 5.3, but now we need to label the values so replicators can know what the data are without having to reference the data dictionary for every variable. We will use the *label define* command to create a new label.
+
+First we need to define a label with label define
+```{stata lab5, eval=FALSE}
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+```
+
+Next we need to label the values of the variable with *label values* command and we'll look at the codebook again.
+```{stata lab6, eval=FALSE}
+label values race racelabel
+codebook race
+```
+
+```{stata lab6_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+}
+label values race racelabel
+codebook race
+```
+
+We are still missing a value label for 5, which is Other, so we need to modify our defined label race1. If we do not modify our label, we will get an error if we try to label values again.  We can use the *add* option in label define.
+```{stata lab7, eval=FALSE}
+label define racelabel 5 "Other", add
+```
+
+If we want to modify an existing label, we can use the *modify* option in label define.
+```{stata lab8, eval=FALSE}
+label define racelabel 4 "African American", modify
+codebook race
+```
+
+```{stata lab8_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+label define racelabel 5 "Other", add
+label values race racelabel
+}
+label define racelabel 4 "African American", modify
+codebook race
+```
+
+Labeling missing is something that I don't recommend, but we'll show an example here.
+```{stata lab9, eval=FALSE}
+label define mfkid 1 "Male" 2 "Female" .u "Unknown" .n "NA"
+label values ksex mfkid
+codebook ksex
+
+label define havechildlabel 0 "Don't have a child" 1 "Have a child" .u "Unknown" .n "NA"
+label values havechild havechildlabel
+codebook havechild
+```
+
+```{stata lab9_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+label define racelabel 5 "Other", add
+label define racelabel 4 "African American", modify
+}
+label define mfkid 1 "Male" 2 "Female" .u "Unknown" .n "NA"
+label values ksex mfkid
+codebook ksex
+
+label define havechildlabel 0 "Don't have a child" 1 "Have a child" .u "Unknown" .n "NA"
+label values havechild havechildlabel
+codebook havechild
+```
+We can look at our label list to see what we have define so far. We can use the *label list* command to see our labels.
+```{stata lab10, eval=FALSE}
+label list
+```
+
+```{stata lab10_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+label define racelabel 5 "Other", add
+label define racelabel 4 "African American", modify
+label define mfkid 1 "Male" 2 "Female" .u "Unknown" .n "NA"
+label values ksex mfkid
+label define havechildlabel 0 "Don't have a child" 1 "Have a child" .u "Unknown" .n "NA"
+label values havechild havechildlabel
+}
+label list
+```
+
+The *numlabel* command is an interesting command. It takes the guess work out of knowing the numeric value of the category by appending the numeric value with the label value.
+```{stata lab11, eval=FALSE}
+numlabel racelabel, add
+label list racelabel
+tabulate race
+```
+
+```{stata lab11_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+label define racelabel 5 "Other", add
+label define racelabel 4 "African American", modify
+label define mfkid 1 "Male" 2 "Female" .u "Unknown" .n "NA"
+label values ksex mfkid
+label define havechildlabel 0 "Don't have a child" 1 "Have a child" .u "Unknown" .n "NA"
+label values havechild havechildlabel
+}
+numlabel racelabel, add
+label list racelabel
+tabulate race
+```
+
+And, if we don't like it or don't need it any more, we can remove the numeric values with the *remove* option.
+```{stata lab12, eval=FALSE}
+numlabel racelabel, remove
+tabulate race
+```
+
+```{stata lab12_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+label define racelabel 5 "Other", add
+label define racelabel 4 "African American", modify
+label define mfkid 1 "Male" 2 "Female" .u "Unknown" .n "NA"
+label values ksex mfkid
+label define havechildlabel 0 "Don't have a child" 1 "Have a child" .u "Unknown" .n "NA"
+label values havechild havechildlabel
+numlabel racelabel, add
+}
+numlabel racelabel, remove
+tabulate race
+```
+
+We can add additional characters with *numlabel* as well, such as "#=" or "#) " with the *mask* option
+```{stata lab13, eval=FALSE}
+numlabel racelabel, add mask("#) ")
+tabulate race
+```
+
+```{stata lab13_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+label define racelabel 5 "Other", add
+label define racelabel 4 "African American", modify
+label define mfkid 1 "Male" 2 "Female" .u "Unknown" .n "NA"
+label values ksex mfkid
+label define havechildlabel 0 "Don't have a child" 1 "Have a child" .u "Unknown" .n "NA"
+label values havechild havechildlabel
+}
+numlabel racelabel, add mask("#) ")
+tabulate race
+```
+
+We can remove the mask with *remove* plus the *mask* option
+```{stata lab14, eval=FALSE}
+numlabel racelabel, remove mask("#) ")
+tabulate race
+```
+
+```{stata lab14_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey2, clear
+label define racelabel 1 "White" 2 "Asian" 3 "Hispanic" 4 "Black"
+label define racelabel 5 "Other", add
+label define racelabel 4 "African American", modify
+label define mfkid 1 "Male" 2 "Female" .u "Unknown" .n "NA"
+label values ksex mfkid
+label define havechildlabel 0 "Don't have a child" 1 "Have a child" .u "Unknown" .n "NA"
+label values havechild havechildlabel
+numlabel racelabel, add
+numlabel racelabel, remove
+numlabel racelabel, add mask("#) ")
+}
+numlabel racelabel, remove mask("#) ")
+tabulate race
+```
+
+```{stata lab14_2, eval=FALSE}
+save survey3, replace
+```
+
+## Labeling utilities
+Stata has label utilities to manage the labels defined. The first one is *label dir* to see the labels names available in a quick and more concise way than using the codebook command.
+
+For me, I think that *label list* will be your most useful command here.
+
+Quick check of your label directory
+```{stata lab15}
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+label dir
+```
+
+The *label list* command gives a more comprehensive view of your labels that includes the value labels associated with the value label name
+
+```{stata lab16, eval=FALSE}
+label list
+```
+
+```{stata lab16_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+}
+label list
+```
+
+The *label save* command will save your labels into a do file for future use. Our do file name is stated after the using statement.
+```{stata lab17, eval=FALSE}
+label save havechildlabel racelabel using surveylabs, replace
+type surveylabs.do
+```
+
+```{stata lab17_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+}
+type surveylabs.do
+```
+
+The *labelbook* command provides information similar to *codebook* but only for the labels that are defined.
+```{stata lab18, eval=FALSE}
+labelbook
+labelbook racelabel
+```
+
+```{stata lab18_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+}
+labelbook
+labelbook racelabel
+```
+
+The *problem* option for *labelbook* provides information to alert the users of any problems
+```{stata lab19, eval=FALSE}
+labelbook, problem
+```
+
+```{stata lab19_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+}
+labelbook, problem
+```
+
+
+We can have a more detailed look with the *detail* and *problem* options
+```{stata lab20, eval=FALSE}
+labelbook racelabel, problem detail
+```
+
+```{stata lab20_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+}
+labelbook racelabel, problem detail
+```
+
+## Labeling variables and values in different languages
+
+We will not be covering this, but if you are interested, please review pages 127-132.
+
+## Using Notes
+The *note* commmand can be helpful for future users or for replicators.  If you use the *note* command without specifying the variable, then it is a general note that will show up under the _dta note. If you add a variable in front of the *note* command, like note var1:, then you will add a note to the variable
+
+Let's add some general notes.
+```{stata note1, eval=FALSE}
+note: This was based on the dataset called survey1.txt
+```
+
+```{stata note1_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+}
+note: This was based on the dataset called survey1.txt
+```
+
+Adding *TS* to the end adds a timestamp, which is a nice feature.
+```{stata note2, eval=FALSE}
+note: The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u TS
+```	  
+
+Let's call our notes with the *notes* command.
+```{stata note3, eval=FALSE}
+notes
+```
+
+```{stata note3_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+note: This was based on the dataset called survey1.txt
+note: The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u TS
+}
+notes
+```
+
+Let's add some notes to our variables
+```{stata note4, eval=FALSE}
+note race: The other category includes people who specified multiple races
+note race: This is another note
+note race: This is a third note
+```
+
+We can just call a particular variable for notes
+```{stata note5, eval=FALSE}
+notes race
+```
+
+We can just call a particular variable for notes
+```{stata note5_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+note: This was based on the dataset called survey1.txt
+note: The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u TS
+note race: The other category includes people who specified multiple races
+note race: This is another note
+note race: This is a third note
+}
+notes race
+```
+
+Let say we added an unhelpful note, then we can drop it with the *notes drop* command and we want to drop the second note.
+
+```{stata note6, eval=FALSE}
+notes drop race in 2
+notes race
+```
+
+```{stata note6_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+note: This was based on the dataset called survey1.txt
+note: The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u TS
+note race: The other category includes people who specified multiple races
+note race: This is another note
+note race: This is a third note
+}
+notes drop race in 2
+notes race
+```
+
+Notice that we have a gap in the sequence of numbering. We can fix that with the *notes renumber* command.
+```{stata note7, eval=FALSE}
+notes renumber race
+notes race
+```
+
+```{stata note7_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+note: This was based on the dataset called survey1.txt
+note: The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u TS
+note race: The other category includes people who specified multiple races
+note race: This is another note
+note race: This is a third note
+notes drop race in 2
+}
+notes renumber race
+notes race
+```
+
+We can also search notes with the notes search "string" command.
+```{stata note8, eval=FALSE}
+notes search .u
+```
+
+```{stata note8_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 645/Data/Mitchell"
+use survey3, clear
+note: This was based on the dataset called survey1.txt
+note: The missing values for havechild and childage were coded using -1 and -2 but were converted to .n and .u TS
+note race: The other category includes people who specified multiple races
+note race: This is another note
+note race: This is a third note
+notes drop race in 2
+notes renumber race
+}
+notes search .u
+```

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Creating Data | Creating and Labeling Data</title>
+  <meta name="description" content="This is an introduction to creating and labeling data in Stata." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Creating Data | Creating and Labeling Data" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is an introduction to creating and labeling data in Stata." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Creating Data | Creating and Labeling Data" />
+  
+  <meta name="twitter:description" content="This is an introduction to creating and labeling data in Stata." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Mitchell (2020)" />
+
+
+<meta name="date" content="2026-08-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="labeling-data.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Creating and Labeling Data</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="creating-data.html"><a href="creating-data.html"><i class="fa fa-check"></i><b>1</b> Creating Data</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="creating-data.html"><a href="creating-data.html#creating-and-changing-variables"><i class="fa fa-check"></i><b>1.1</b> Creating and changing variables</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="creating-data.html"><a href="creating-data.html#generate-command"><i class="fa fa-check"></i><b>1.1.1</b> Generate command</a></li>
+<li class="chapter" data-level="1.1.2" data-path="creating-data.html"><a href="creating-data.html#replace"><i class="fa fa-check"></i><b>1.1.2</b> Replace</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="creating-data.html"><a href="creating-data.html#numeric-expressions-and-functions"><i class="fa fa-check"></i><b>1.2</b> Numeric expressions and functions</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="creating-data.html"><a href="creating-data.html#random-numbers-and-setting-seeds"><i class="fa fa-check"></i><b>1.2.1</b> Random Numbers and setting seeds</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="creating-data.html"><a href="creating-data.html#strings"><i class="fa fa-check"></i><b>1.3</b> Strings</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="creating-data.html"><a href="creating-data.html#string-expressions-and-functions"><i class="fa fa-check"></i><b>1.3.1</b> String expressions and functions</a></li>
+<li class="chapter" data-level="1.3.2" data-path="creating-data.html"><a href="creating-data.html#substr-functions"><i class="fa fa-check"></i><b>1.3.2</b> substr functions</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="labeling-data.html"><a href="labeling-data.html"><i class="fa fa-check"></i><b>2</b> Labeling Data</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="labeling-data.html"><a href="labeling-data.html#describing-datasets"><i class="fa fa-check"></i><b>2.1</b> Describing datasets</a></li>
+<li class="chapter" data-level="2.2" data-path="labeling-data.html"><a href="labeling-data.html#labeling-variables"><i class="fa fa-check"></i><b>2.2</b> Labeling variables</a></li>
+<li class="chapter" data-level="2.3" data-path="labeling-data.html"><a href="labeling-data.html#labeling-values"><i class="fa fa-check"></i><b>2.3</b> Labeling values</a></li>
+<li class="chapter" data-level="2.4" data-path="labeling-data.html"><a href="labeling-data.html#labeling-utilities"><i class="fa fa-check"></i><b>2.4</b> Labeling utilities</a></li>
+<li class="chapter" data-level="2.5" data-path="labeling-data.html"><a href="labeling-data.html#labeling-variables-and-values-in-different-languages"><i class="fa fa-check"></i><b>2.5</b> Labeling variables and values in different languages</a></li>
+<li class="chapter" data-level="2.6" data-path="labeling-data.html"><a href="labeling-data.html#using-notes"><i class="fa fa-check"></i><b>2.6</b> Using Notes</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>3</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exercises.html"><a href="exercises.html#current-population-survey"><i class="fa fa-check"></i><b>3.1</b> Current Population Survey</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Creating and Labeling Data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="creating-data" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Creating Data<a href="creating-data.html#creating-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The <em>generate</em> and replace will be the workhorses of creating and modifying variables
+We’ll deal with generating binary variables. We’ll look into missing data and how to handle it. <em>Note: Please do not label your missing data, it just is a pain to deal with later</em>
+The <em>egen</em> command is also a very practical and useful (I wish other software
+packages had this type of command). We’ll deal with strings and converting between numerics and strings.</p>
+<div id="creating-and-changing-variables" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Creating and changing variables<a href="creating-data.html#creating-and-changing-variables" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One of the most basic tasks is to create, replace, and modify variables. Stata provides some nice and easy commands to work with variable generation and modification relative to other statistical software packages: <em>generate</em> and <em>replace</em>. These will be the workhorses for the creation and modification of variables.</p>
+<p>As we go through Mitchell’s Chapter 6, we’ll see that these are not the only two commands we will utilize. For example, Stata has a very helpful command called <em>egen</em>. It can be used to create new variables from old variables, especially when working with groups of observations. <em>Egen</em> becomes even more helpful when it is combined with <em>bysort</em>. We can sort our group and find the max, min, sum, etc. of a group of observations, which can come in handy when we are working with panel data. Furthermore, using indexes can make our generation commands more useful for creating lags or rebasing our data.</p>
+<div id="generate-command" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Generate command<a href="creating-data.html#generate-command" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <em>generate</em> or <em>gen</em> command is one command that you may already have plenty of experience with, but there are some helpful tips when working with generate. What we’ll do first is to create a new variable called potential experience and potential experience squared.</p>
+<p>Let’s look at ages for workers earning weekly wages.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="creating-data.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Data/CPS&quot;</span></span>
+<span id="cb2-2"><a href="creating-data.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> smalljul25pub, <span class="kw">clear</span></span>
+<span id="cb2-3"><a href="creating-data.html#cb2-3" tabindex="-1"></a><span class="kw">summarize</span> prtage <span class="kw">if</span> prerelg==1</span>
+<span id="cb2-4"><a href="creating-data.html#cb2-4" tabindex="-1"></a><span class="kw">generate</span> pot_exp=prtage-16</span>
+<span id="cb2-5"><a href="creating-data.html#cb2-5" tabindex="-1"></a><span class="kw">summarize</span> pot_exp <span class="kw">if</span> prerelg==1</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Data/CPS
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      prtage |      9,635    42.43778    14.74111         15         85
+
+(28,617 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+     pot_exp |      9,635    26.43778    14.74111         -1         69</code></pre>
+<p>Look for outliers and generate a histogram for outliers</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="creating-data.html#cb4-1" tabindex="-1"></a><span class="kw">histogram</span> pot_exp <span class="kw">if</span> prerelg==1</span>
+<span id="cb4-2"><a href="creating-data.html#cb4-2" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;jul_25_pot_exp.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="jul_25_pot_exp.png" alt="Potential Experience" />
+<div class="figcaption">Potential Experience</div>
+</div>
+<p>Now let’s create a new variable for potential experience squared. We have two options:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb5-1"><a href="creating-data.html#cb5-1" tabindex="-1"></a><span class="kw">gen</span> pot_exp2 = pot_exp*pot_exp</span>
+<span id="cb5-2"><a href="creating-data.html#cb5-2" tabindex="-1"></a><span class="kw">sum</span> pot_exp2</span>
+<span id="cb5-3"><a href="creating-data.html#cb5-3" tabindex="-1"></a><span class="kw">drop</span> pot_exp2</span>
+<span id="cb5-4"><a href="creating-data.html#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="creating-data.html#cb5-5" tabindex="-1"></a><span class="kw">gen</span> pot_exp2 = pot_exp^2</span>
+<span id="cb5-6"><a href="creating-data.html#cb5-6" tabindex="-1"></a><span class="kw">sum</span> pot_exp2</span></code></pre></div>
+<pre><code>(28,617 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    pot_exp2 |     93,635    1269.006    1345.314          0       4761
+
+
+(28,617 missing values generated)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    pot_exp2 |     93,635    1269.006    1345.314          0       4761</code></pre>
+<p><strong>Notice!</strong> Our age variable, prtage, is missing when the value is -1. The data dictionary provides us the information that -1 is a holder for missing data. Please note that when missing values are “.”, we will see missings in an outlier check! Why? Because missing values are considered <strong>very large values</strong>. This is important because when creating binary or categorical variables through qualifiers, make sure you top code your qualifiers.</p>
+<p>For example, if we are creating a binary on part-time vs full-time. We need to top code so we don’t count missing hours as full-time workers,</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb7-1"><a href="creating-data.html#cb7-1" tabindex="-1"></a><span class="kw">gen</span> fulltime <span class="kw">if</span> hours &gt; 35 &amp; hours &lt; 999999,</span></code></pre></div>
+<p>Alternatively, you can use the missing function.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="creating-data.html#cb8-1" tabindex="-1"></a><span class="kw">gen</span> fulltime <span class="kw">if</span> hours &gt; 35 &amp; !<span class="fu">missing</span>(hours)</span></code></pre></div>
+<p>Let’s generate weekly earnings and plot the data. The CPS data dictionary tells us that pternwa is the weekly earnings, but it needs to be divided by 100 to get two decimal places.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="creating-data.html#cb9-1" tabindex="-1"></a><span class="kw">gen</span> earnings=pternwa/100</span>
+<span id="cb9-2"><a href="creating-data.html#cb9-2" tabindex="-1"></a><span class="kw">histogram</span> earnings <span class="kw">if</span> prerelg==1, <span class="bn">title</span>(Weekly Earnings)</span>
+<span id="cb9-3"><a href="creating-data.html#cb9-3" tabindex="-1"></a><span class="kw">graph</span> <span class="kw">export</span> <span class="st">&quot;jul_25_weekly_earnings.png&quot;</span>, <span class="kw">replace</span></span></code></pre></div>
+<div class="float">
+<img src="jul_25_weekly_earnings.png" alt="Weekly Earnings" />
+<div class="figcaption">Weekly Earnings</div>
+</div>
+<p>Another helpful trick is the before and after options. It might be helpful to have the newly created variable next to a similar variable, so let’s drop our variable and generate it again with the after option</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="creating-data.html#cb10-1" tabindex="-1"></a><span class="kw">drop</span> weekwage</span>
+<span id="cb10-2"><a href="creating-data.html#cb10-2" tabindex="-1"></a><span class="kw">gen</span> hrlyearn = pternwa/pehract1, after(pternwa)</span>
+<span id="cb10-3"><a href="creating-data.html#cb10-3" tabindex="-1"></a><span class="kw">drop</span> hrlyearn</span>
+<span id="cb10-4"><a href="creating-data.html#cb10-4" tabindex="-1"></a><span class="kw">gen</span> hrlyearn = pternwa/pehract1, before(pternwa)</span></code></pre></div>
+</div>
+<div id="replace" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Replace<a href="creating-data.html#replace" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We use our <em>replace</em> command to modify a variable that has already been created. Similar to generate, you probably already have experience with replace, but we’ll go over some useful tips.</p>
+<p>Qualifiers will be an essential part of your syntax when using the <em>replace</em> command.</p>
+<p>Let’s generate a variable called marital status and look at married and nevermarried variables.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="creating-data.html#cb11-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb11-2"><a href="creating-data.html#cb11-2" tabindex="-1"></a><span class="kw">quietly</span> <span class="kw">use</span> wws, <span class="kw">clear</span></span>
+<span id="cb11-3"><a href="creating-data.html#cb11-3" tabindex="-1"></a><span class="kw">tabulate</span> married nevermarried</span></code></pre></div>
+<pre><code>           |   Woman never been
+           |        married
+   married |         0          1 |     Total
+-----------+----------------------+----------
+         0 |       570        234 |       804 
+         1 |     1,440          2 |     1,442 
+-----------+----------------------+----------
+     Total |     2,010        236 |     2,246 </code></pre>
+<p>We’ll generate a new variable called maritalstatus.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="creating-data.html#cb13-1" tabindex="-1"></a><span class="kw">gen</span> maritalstatus = .</span></code></pre></div>
+<p>I recommend generating a new categorical variable as missing instead of zero, because this prevents missing variables from being categorized as 0 when applicable.</p>
+<p>We generally use qualifiers “=, &gt;, &lt;, &gt;=, &lt;=, !” when working with replace. Let’s replace the marital status variable with married and nevermarried as qualifiers</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="creating-data.html#cb14-1" tabindex="-1"></a><span class="kw">replace</span> maritalstatus = 1 <span class="kw">if</span> married==0 &amp; nevermarried==1</span>
+<span id="cb14-2"><a href="creating-data.html#cb14-2" tabindex="-1"></a><span class="kw">replace</span> maritalstatus = 2 <span class="kw">if</span> married==1 &amp; nevermarried==0</span>
+<span id="cb14-3"><a href="creating-data.html#cb14-3" tabindex="-1"></a><span class="kw">replace</span> maritalstatus = 3 <span class="kw">if</span> married==0 &amp; nevermarried==0</span></code></pre></div>
+<p>It’s always a good idea to double check the variables against the variables they were created from to make sure your categories are what they are supposed to be.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="creating-data.html#cb15-1" tabindex="-1"></a><span class="kw">tabulate</span> maritalstatus</span>
+<span id="cb15-2"><a href="creating-data.html#cb15-2" tabindex="-1"></a><span class="kw">table</span> maritalstatus married nevermarried</span></code></pre></div>
+<pre><code>maritalstat |
+         us |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          1 |        234       10.43       10.43
+          2 |      1,440       64.17       74.60
+          3 |        570       25.40      100.00
+------------+-----------------------------------
+      Total |      2,244      100.00
+
+
+---------------------------------------------
+              |    Woman never been married  
+              |         0        1      Total
+--------------+------------------------------
+maritalstatus |                              
+  1           |                              
+    married   |                              
+      0       |                234        234
+      Total   |                234        234
+  2           |                              
+    married   |                              
+      1       |     1,440               1,440
+      Total   |     1,440               1,440
+  3           |                              
+    married   |                              
+      0       |       570                 570
+      Total   |       570                 570
+  Total       |                              
+    married   |                              
+      0       |       570      234        804
+      1       |     1,440               1,440
+      Total   |     2,010      234      2,244
+---------------------------------------------</code></pre>
+<p>What will be helpful is to label our values, but we’ll cover this next week.</p>
+<p>We can also use the <em>replace</em> command with a continuous variable in the qualifier</p>
+<p>Let’s create a new variable called over40hours which will be categorized as 1 if it is over 40 hours, and 0 if it is 40 or under.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="creating-data.html#cb17-1" tabindex="-1"></a><span class="kw">generate</span> over40hours = .</span>
+<span id="cb17-2"><a href="creating-data.html#cb17-2" tabindex="-1"></a><span class="kw">replace</span> over40hours = 0 <span class="kw">if</span> hours &lt;= 40</span></code></pre></div>
+<p>We need to make sure we don’t include missing values so we need an additional qualifier besides hours &gt; 40. We need to add !missing(hours).</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="creating-data.html#cb18-1" tabindex="-1"></a><span class="kw">replace</span> over40hours = 1 <span class="kw">if</span> hours &gt; 40 &amp; !<span class="fu">missing</span>(hours)</span></code></pre></div>
+<p>Now let’s see the results.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="creating-data.html#cb19-1" tabindex="-1"></a><span class="kw">tab</span> over40hours</span>
+<span id="cb19-2"><a href="creating-data.html#cb19-2" tabindex="-1"></a><span class="kw">tab</span> over40hours, <span class="kw">sum</span>(hours)</span></code></pre></div>
+<pre><code>over40hours |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |      1,852       82.60       82.60
+          1 |        390       17.40      100.00
+------------+-----------------------------------
+      Total |      2,242      100.00
+
+            |    Summary of usual hours worked
+over40hours |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+          0 |    34.50054   9.0449086       1,852
+          1 |   50.123077   6.6961395         390
+------------+------------------------------------
+      Total |   37.218109   10.509135       2,242</code></pre>
+</div>
+</div>
+<div id="numeric-expressions-and-functions" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Numeric expressions and functions<a href="creating-data.html#numeric-expressions-and-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our standard numeric expressions
+1. addition +,
+2. subtraction -,
+3. multiplication *,
+4. division /,
+5. exponentiation ^, and
+6. parentheses () for changing order of operation.</p>
+<p>We also have some very useful numeric functions built into Stata:</p>
+<p>The <em>int()</em> function removes any decimals.</p>
+<p>The <em>round()</em> function rounds a number to the desired decimal place.Please note that this is different from Excel!!!</p>
+<p>The <em>round(x,y)</em> rounds the numbers to the specified nearest value. Where x is your numeric and y is the nearest value you wish to round to.</p>
+<p>For example:
+1. if y = 1, round(-5.2,1)=-5 and round(4.5)=5
+2. if y=.1, round(10.16,.1)=10.2 and round(34.1345,.1)=34.1
+3. if y=10, round(313.34,10)=310 and round(4.52,10)=0</p>
+<p><strong>Note:</strong> if y is missing, then it will round to the nearest integer round(10.16)=10</p>
+<p>The <em>ln()</em> function is our natural log function which we use a lot for transforming variables for elasticity estimates.</p>
+<p>The <em>log10()</em> function is our logarithm base-10 function.</p>
+<p>The <em>sqrt()</em> function is our square root function</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb21-1"><a href="creating-data.html#cb21-1" tabindex="-1"></a>    <span class="kw">display</span> <span class="kw">int</span>(10.65)</span>
+<span id="cb21-2"><a href="creating-data.html#cb21-2" tabindex="-1"></a>    <span class="kw">display</span> <span class="fu">round</span>(10.65,1)</span>
+<span id="cb21-3"><a href="creating-data.html#cb21-3" tabindex="-1"></a>    <span class="kw">display</span> <span class="fu">ln</span>(10.65)</span>
+<span id="cb21-4"><a href="creating-data.html#cb21-4" tabindex="-1"></a>    <span class="kw">display</span> <span class="fu">log10</span>(10.65)</span>
+<span id="cb21-5"><a href="creating-data.html#cb21-5" tabindex="-1"></a>    <span class="kw">display</span> <span class="fu">sqrt</span>(10.65)</span></code></pre></div>
+<pre><code>10
+
+11
+
+2.3655599
+
+1.0273496
+
+3.2634338</code></pre>
+<p>Please note int(10.65) returns 10, while round(10.65,1) returns 11.</p>
+<div id="random-numbers-and-setting-seeds" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Random Numbers and setting seeds<a href="creating-data.html#random-numbers-and-setting-seeds" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There are several random number generating functions in Stata.</p>
+<p><em>runiform()</em> is a random uniform distribution number generator has a distribution between 0 and 1.</p>
+<p><em>rnormal(m,sd)</em> is a random normal distribution number generator without arguments it will assume mean = 0 and sd = 1.</p>
+<p><em>rchi2(df)</em> is a random chi-squared distribution number generator where df is the degrees of freedom that need to be specified</p>
+<p>Let’s look at some examples.</p>
+<p>Setting seeds is important if you want someone to replicate your results, since a set seed will generate the same random number each time it is run.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb23-1"><a href="creating-data.html#cb23-1" tabindex="-1"></a>*Set our <span class="dv">seed</span></span>
+<span id="cb23-2"><a href="creating-data.html#cb23-2" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 12345</span>
+<span id="cb23-3"><a href="creating-data.html#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="creating-data.html#cb23-4" tabindex="-1"></a>*Random uniform distribution </span>
+<span id="cb23-5"><a href="creating-data.html#cb23-5" tabindex="-1"></a><span class="kw">gen</span> runiformtest = runiform()</span>
+<span id="cb23-6"><a href="creating-data.html#cb23-6" tabindex="-1"></a><span class="kw">summarize</span> runiformtest</span>
+<span id="cb23-7"><a href="creating-data.html#cb23-7" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="creating-data.html#cb23-8" tabindex="-1"></a>*Random <span class="fu">normal</span> distribution</span>
+<span id="cb23-9"><a href="creating-data.html#cb23-9" tabindex="-1"></a><span class="kw">gen</span> rnormaltest = rnormal()</span>
+<span id="cb23-10"><a href="creating-data.html#cb23-10" tabindex="-1"></a><span class="kw">gen</span> rnormaltest2 = rnormal(100,15)</span>
+<span id="cb23-11"><a href="creating-data.html#cb23-11" tabindex="-1"></a><span class="kw">summarize</span> rnormaltest rnormaltest2</span>
+<span id="cb23-12"><a href="creating-data.html#cb23-12" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="creating-data.html#cb23-13" tabindex="-1"></a>*Random chi-squared distribution</span>
+<span id="cb23-14"><a href="creating-data.html#cb23-14" tabindex="-1"></a><span class="kw">gen</span> rchi2test = rchi2(5)</span>
+<span id="cb23-15"><a href="creating-data.html#cb23-15" tabindex="-1"></a><span class="kw">summarize</span> rchi2test</span></code></pre></div>
+<pre><code>    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+runiformtest |      2,246    .4924636    .2875376   .0007583   .9985868
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ rnormaltest |      2,246     .018436    .9857847  -3.389102   3.372524
+rnormaltest2 |      2,246    99.70718    14.77732   47.81652   154.2297
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+   rchi2test |      2,246    5.063639    3.322998   .1102785    29.2429</code></pre>
+</div>
+</div>
+<div id="strings" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Strings<a href="creating-data.html#strings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Working with string can be a pain, but there are some very helpful functions that will get your task completed.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="creating-data.html#cb25-1" tabindex="-1"></a><span class="kw">help</span> <span class="fu">string</span> functions</span></code></pre></div>
+<div id="string-expressions-and-functions" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> String expressions and functions<a href="creating-data.html#string-expressions-and-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s get some new data to work with strings and their functions.</p>
+<p>We’ll format the names with left-justification 17 characters long.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="creating-data.html#cb26-1" tabindex="-1"></a><span class="kw">quietly</span> cd <span class="st">&quot;/Users/Sam/Desktop/Econ 645/Data/Mitchell&quot;</span></span>
+<span id="cb26-2"><a href="creating-data.html#cb26-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;authors.dta&quot;</span>, <span class="kw">clear</span>    </span>
+<span id="cb26-3"><a href="creating-data.html#cb26-3" tabindex="-1"></a><span class="kw">format</span> <span class="bn">name</span> %-17s</span>
+<span id="cb26-4"><a href="creating-data.html#cb26-4" tabindex="-1"></a><span class="ot">list</span> <span class="bn">name</span> </span></code></pre></div>
+<pre><code>     | name                 |
+     |----------------------|
+  1. |  Ruth Canaale        |
+  2. | Y. Don Uflossmore    |
+  3. | thích nhất hạnh      |
+  4. | J. Carreño Quiñones  |
+  5. | Ô Knausgård          |
+     |----------------------|
+  6. | Don b Iteme          |
+  7. | isaac O&#39;yerbreath    |
+  8. | Mike avity           |
+  9. |      ÉMILE ZOLA      |
+ 10. | i William Crown      |
+     |----------------------|
+ 11. | Ott W. Onthurt       |
+ 12. | Olive Tu&#39;Drill       |
+ 13. | björk guðmundsdóttir |
+     +----------------------+</code></pre>
+<p>Notice white space(s) in front of some names and some names are not in the proper format (lowercase for initial letter instead of upper).</p>
+<p>To fix these, we have a three string functions to work with.</p>
+<p>The <em>ustrtitle()</em> function is the Unicode function to convert strings to title cases, which means that the first letter is always upper and all others are lower case for each word.</p>
+<p>The <em>ustrlower()</em> is the Unicode function to convert strings to lower case.</p>
+<p>The <em>ustrupper()</em> is the Unicode function to convert strings to upper case.</p>
+<p>Please note that there are string function that do something similar but in ASCII. Our names are not in ASCII currently, so please note that not all string characters come in ASCII, but may come in Unicode:
+1. <em>strproper()</em>
+2. <em>strlower()</em>
+3. <em>strupper()</em></p>
+<p>We’ll generate some names and format our strings to 23 length and left-justified</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb28-1"><a href="creating-data.html#cb28-1" tabindex="-1"></a><span class="kw">generate</span> name2 = ustrtitle(<span class="bn">name</span>)</span>
+<span id="cb28-2"><a href="creating-data.html#cb28-2" tabindex="-1"></a><span class="kw">generate</span> lowname = ustrlower(<span class="bn">name</span>)</span>
+<span id="cb28-3"><a href="creating-data.html#cb28-3" tabindex="-1"></a><span class="kw">generate</span> upname = ustrupper(<span class="bn">name</span>)</span>
+<span id="cb28-4"><a href="creating-data.html#cb28-4" tabindex="-1"></a><span class="kw">format</span> name2 lowname upname %-23s</span>
+<span id="cb28-5"><a href="creating-data.html#cb28-5" tabindex="-1"></a><span class="ot">list</span> name2 lowname upname</span></code></pre></div>
+<pre><code>     | name2                  lowname                upname               |
+     |--------------------------------------------------------------------|
+  1. |  Ruth Canaale           ruth canaale           RUTH CANAALE        |
+  2. | Y. Don Uflossmore      y. don uflossmore      Y. DON UFLOSSMORE    |
+  3. | Thích Nhất Hạnh        thích nhất hạnh        THÍCH NHẤT HẠNH      |
+  4. | J. Carreño Quiñones    j. carreño quiñones    J. CARREÑO QUIÑONES  |
+  5. | Ô Knausgård            ô knausgård            Ô KNAUSGÅRD          |
+     |--------------------------------------------------------------------|
+  6. | Don B Iteme            don b iteme            DON B ITEME          |
+  7. | Isaac O&#39;yerbreath      isaac o&#39;yerbreath      ISAAC O&#39;YERBREATH    |
+  8. | Mike Avity             mike avity             MIKE AVITY           |
+  9. |      Émile Zola             émile zola             ÉMILE ZOLA      |
+ 10. | I William Crown        i william crown        I WILLIAM CROWN      |
+     |--------------------------------------------------------------------|
+ 11. | Ott W. Onthurt         ott w. onthurt         OTT W. ONTHURT       |
+ 12. | Olive Tu&#39;drill         olive tu&#39;drill         OLIVE TU&#39;DRILL       |
+ 13. | Björk Guðmundsdóttir   björk guðmundsdóttir   BJÖRK GUÐMUNDSDÓTTIR |
+     +--------------------------------------------------------------------+</code></pre>
+<p>We still need to get rid of leading white spaces in front of the name. The <em>ustrltrim()</em> will get reid of leading blanks.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb30-1"><a href="creating-data.html#cb30-1" tabindex="-1"></a><span class="kw">generate</span> name3 = ustrltrim(name2)</span>
+<span id="cb30-2"><a href="creating-data.html#cb30-2" tabindex="-1"></a><span class="kw">format</span> name2 name3 %-17s</span>
+<span id="cb30-3"><a href="creating-data.html#cb30-3" tabindex="-1"></a><span class="ot">list</span> <span class="bn">name</span> name2 name3</span></code></pre></div>
+<pre><code>     | name                   name2                  name3                |
+     |--------------------------------------------------------------------|
+  1. |  Ruth Canaale           Ruth Canaale          Ruth Canaale         |
+  2. | Y. Don Uflossmore      Y. Don Uflossmore      Y. Don Uflossmore    |
+  3. | thích nhất hạnh        Thích Nhất Hạnh        Thích Nhất Hạnh      |
+  4. | J. Carreño Quiñones    J. Carreño Quiñones    J. Carreño Quiñones  |
+  5. | Ô Knausgård            Ô Knausgård            Ô Knausgård          |
+     |--------------------------------------------------------------------|
+  6. | Don b Iteme            Don B Iteme            Don B Iteme          |
+  7. | isaac O&#39;yerbreath      Isaac O&#39;yerbreath      Isaac O&#39;yerbreath    |
+  8. | Mike avity             Mike Avity             Mike Avity           |
+  9. |      ÉMILE ZOLA             Émile Zola        Émile Zola           |
+ 10. | i William Crown        I William Crown        I William Crown      |
+     |--------------------------------------------------------------------|
+ 11. | Ott W. Onthurt         Ott W. Onthurt         Ott W. Onthurt       |
+ 12. | Olive Tu&#39;Drill         Olive Tu&#39;drill         Olive Tu&#39;drill       |
+ 13. | björk guðmundsdóttir   Björk Guðmundsdóttir   Björk Guðmundsdóttir |
+     +--------------------------------------------------------------------+</code></pre>
+<p>Let’s work with the initials to identify the initial. In small datasets this is easy enough, but for large datasets we’ll need to use some functions.</p>
+</div>
+<div id="substr-functions" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> substr functions<a href="creating-data.html#substr-functions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>One of the more practical string functions is the substr functions:</p>
+<p>The <em>usubstr(s,n1,n2)</em> is our Unicode substring.</p>
+<p>The <em>substr(s,n1,n2)</em> is our ASCII substring</p>
+<p>Where s is the string, n1 is the starting position, n2 is the length</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb32-1"><a href="creating-data.html#cb32-1" tabindex="-1"></a>    <span class="kw">display</span> <span class="fu">substr</span>(<span class="st">&quot;abcdef&quot;</span>,2,3)</span></code></pre></div>
+<pre><code>bcd</code></pre>
+<p>Let’s find names that start with the initial with substr. We’ll start at the 2nd position and move 1 character. Let’s use ASCII and compare it to Unicode.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb34-1"><a href="creating-data.html#cb34-1" tabindex="-1"></a><span class="kw">gen</span> secondchar = <span class="fu">substr</span>(name3,2,1)</span>
+<span id="cb34-2"><a href="creating-data.html#cb34-2" tabindex="-1"></a><span class="kw">gen</span> firstinit = (secondchar == <span class="st">&quot; &quot;</span> | secondchar == <span class="st">&quot;.&quot;</span>) <span class="kw">if</span> !<span class="fu">missing</span>(secondchar)</span></code></pre></div>
+<p>We might want to break up a string as well. This is helpful for names, addresses, etc.
+We can use the strwordcount function.</p>
+<p>The <em>ustrwordcount(s)</em> counts the number of words using word-boundary rules of Unicode strings. Where s is the string input.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb35-1"><a href="creating-data.html#cb35-1" tabindex="-1"></a><span class="kw">generate</span> namecount = ustrwordcount(name3)</span>
+<span id="cb35-2"><a href="creating-data.html#cb35-2" tabindex="-1"></a><span class="ot">list</span> name3 namecount</span></code></pre></div>
+<pre><code>     | name3                  nameco~t |
+     |---------------------------------|
+  1. | Ruth Canaale                  2 |
+  2. | Y. Don Uflossmore             4 |
+  3. | Thích Nhất Hạnh               3 |
+  4. | J. Carreño Quiñones           4 |
+  5. | Ô Knausgård                   2 |
+     |---------------------------------|
+  6. | Don B Iteme                   3 |
+  7. | Isaac O&#39;yerbreath             2 |
+  8. | Mike Avity                    2 |
+  9. | Émile Zola                    2 |
+ 10. | I William Crown               3 |
+     |---------------------------------|
+ 11. | Ott W. Onthurt                4 |
+ 12. | Olive Tu&#39;drill                2 |
+ 13. | Björk Guðmundsdóttir          2 |
+     +---------------------------------+</code></pre>
+<p>Notice that there are three authors have a word count of 4 instead of 3 when it should be three.</p>
+<p>To extract the words after word count, we can use the <em>ustrword()</em> command.
+<em>ustrword(s,n)</em> returns the word in the string depending upon n. 
+<strong>Note:</strong> a positive n returns the nth word from the left, while a -n returns the nth word from the right.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb37-1"><a href="creating-data.html#cb37-1" tabindex="-1"></a>    <span class="kw">generate</span> uname1=ustrword(name3,1)</span>
+<span id="cb37-2"><a href="creating-data.html#cb37-2" tabindex="-1"></a>    <span class="kw">generate</span> uname2=ustrword(name3,2)</span>
+<span id="cb37-3"><a href="creating-data.html#cb37-3" tabindex="-1"></a>    <span class="kw">generate</span> uname3=ustrword(name3,3)</span>
+<span id="cb37-4"><a href="creating-data.html#cb37-4" tabindex="-1"></a>    <span class="kw">generate</span> uname4=ustrword(name3,4)</span>
+<span id="cb37-5"><a href="creating-data.html#cb37-5" tabindex="-1"></a>    <span class="ot">list</span> name3 uname1 uname2 uname3 uname4 namecount</span></code></pre></div>
+<pre><code>(7 missing values generated)
+
+(10 missing values generated)
+
+     +----------------------------------------------------------------------------------+
+     | name3                  uname1           uname2    uname3       uname4   nameco~t |
+     |----------------------------------------------------------------------------------|
+  1. | Ruth Canaale             Ruth          Canaale                                 2 |
+  2. | Y. Don Uflossmore           Y                .       Don   Uflossmore          4 |
+  3. | Thích Nhất Hạnh         Thích             Nhất      Hạnh                       3 |
+  4. | J. Carreño Quiñones         J                .   Carreño     Quiñones          4 |
+  5. | Ô Knausgård                 Ô        Knausgård                                 2 |
+     |----------------------------------------------------------------------------------|
+  6. | Don B Iteme               Don                B     Iteme                       3 |
+  7. | Isaac O&#39;yerbreath       Isaac      O&#39;yerbreath                                 2 |
+  8. | Mike Avity               Mike            Avity                                 2 |
+  9. | Émile Zola              Émile             Zola                                 2 |
+ 10. | I William Crown             I          William     Crown                       3 |
+     |----------------------------------------------------------------------------------|
+ 11. | Ott W. Onthurt            Ott                W         .      Onthurt          4 |
+ 12. | Olive Tu&#39;drill          Olive         Tu&#39;drill                                 2 |
+ 13. | Björk Guðmundsdóttir    Björk   Guðmundsdóttir                                 2 |
+     +----------------------------------------------------------------------------------+</code></pre>
+<p>It seems that <em>ustrwordcount</em> counts “.” as separate words, so let’s use another very helpful string function called <em>subinstr</em>, which comes in Unicode <em>usubinstr()</em> and ASCII <em>subinstr()</em></p>
+<p><em>usubinstr(s1,s2,s3,n)</em> replaces the nth occurance of s2 in s1 with s3.</p>
+<p><em>subinstr(s1,s2,s3,n)</em> is the same thing but for ASCII.</p>
+<p>Where s1 is our string, s2 is the string we want to replace, s3 is the string we want instead, and n is the nth occurance of s2.</p>
+<p>If n is missing or implied, then all occurances of s2 will be replaced.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb39-1"><a href="creating-data.html#cb39-1" tabindex="-1"></a><span class="kw">generate</span> name4 = usubinstr(name3,<span class="st">&quot;.&quot;</span>,<span class="st">&quot;&quot;</span>,.)</span>
+<span id="cb39-2"><a href="creating-data.html#cb39-2" tabindex="-1"></a><span class="kw">replace</span> namecount = ustrwordcount(name4)</span>
+<span id="cb39-3"><a href="creating-data.html#cb39-3" tabindex="-1"></a><span class="ot">list</span> name4 namecount</span></code></pre></div>
+<pre><code>(3 real changes made)
+
+     +---------------------------------+
+     |                name4   nameco~t |
+     |---------------------------------|
+  1. |         Ruth Canaale          2 |
+  2. |     Y Don Uflossmore          3 |
+  3. |      Thích Nhất Hạnh          3 |
+  4. |   J Carreño Quiñones          3 |
+  5. |          Ô Knausgård          2 |
+     |---------------------------------|
+  6. |          Don B Iteme          3 |
+  7. |    Isaac O&#39;yerbreath          2 |
+  8. |           Mike Avity          2 |
+  9. |           Émile Zola          2 |
+ 10. |      I William Crown          3 |
+     |---------------------------------|
+ 11. |        Ott W Onthurt          3 |
+ 12. |       Olive Tu&#39;drill          2 |
+ 13. | Björk Guðmundsdóttir          2 |
+     +---------------------------------+</code></pre>
+<p>Let’s split the names. We’ll use <em>ustrword(s,n)</em> retrieves the <em>nth</em> word in string <em>s</em>.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb41-1"><a href="creating-data.html#cb41-1" tabindex="-1"></a><span class="kw">gen</span> fname = ustrword(name4,1)</span>
+<span id="cb41-2"><a href="creating-data.html#cb41-2" tabindex="-1"></a><span class="kw">gen</span> mname = ustrword(name4,2) <span class="kw">if</span> namecount==3</span>
+<span id="cb41-3"><a href="creating-data.html#cb41-3" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">lname</span> = ustrword(name4,namecount)</span>
+<span id="cb41-4"><a href="creating-data.html#cb41-4" tabindex="-1"></a><span class="kw">format</span> fname mname <span class="fu">lname</span> %-15s</span>
+<span id="cb41-5"><a href="creating-data.html#cb41-5" tabindex="-1"></a><span class="ot">list</span> name4 fname mname <span class="fu">lname</span></span></code></pre></div>
+<pre><code>(7 missing values generated)
+
+     +---------------------------------------------------------+
+     |                name4   fname   mname     lname          |
+     |---------------------------------------------------------|
+  1. |         Ruth Canaale   Ruth              Canaale        |
+  2. |     Y Don Uflossmore   Y       Don       Uflossmore     |
+  3. |      Thích Nhất Hạnh   Thích   Nhất      Hạnh           |
+  4. |   J Carreño Quiñones   J       Carreño   Quiñones       |
+  5. |          Ô Knausgård   Ô                 Knausgård      |
+     |---------------------------------------------------------|
+  6. |          Don B Iteme   Don     B         Iteme          |
+  7. |    Isaac O&#39;yerbreath   Isaac             O&#39;yerbreath    |
+  8. |           Mike Avity   Mike              Avity          |
+  9. |           Émile Zola   Émile             Zola           |
+ 10. |      I William Crown   I       William   Crown          |
+     |---------------------------------------------------------|
+ 11. |        Ott W Onthurt   Ott     W         Onthurt        |
+ 12. |       Olive Tu&#39;drill   Olive             Tu&#39;drill       |
+ 13. | Björk Guðmundsdóttir   Björk             Guðmundsdóttir |
+     +---------------------------------------------------------+</code></pre>
+<p>Some names have the middle initial first, so let’s rearrange. The middle initial will only have a string length of one, so we need our string length functions.
+<em>ustrlen(s)</em> returns the length of the string.</p>
+<p><em>strlen(s)</em> is the same as above but for ASCII</p>
+<p>Let’s add the period back to the middle initial if the string length is 1.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb43-1"><a href="creating-data.html#cb43-1" tabindex="-1"></a><span class="kw">replace</span> fname=fname + <span class="st">&quot;.&quot;</span> <span class="kw">if</span> ustrlen(fname)==1</span>
+<span id="cb43-2"><a href="creating-data.html#cb43-2" tabindex="-1"></a><span class="kw">replace</span> mname=mname + <span class="st">&quot;.&quot;</span> <span class="kw">if</span> ustrlen(mname)==1</span>
+<span id="cb43-3"><a href="creating-data.html#cb43-3" tabindex="-1"></a><span class="ot">list</span> fname mname</span></code></pre></div>
+<pre><code>(4 real changes made)
+
+(2 real changes made)
+
+     +-----------------+
+     | fname   mname   |
+     |-----------------|
+  1. | Ruth            |
+  2. | Y.      Don     |
+  3. | Thích   Nhất    |
+  4. | J.      Carreño |
+  5. | Ô.              |
+     |-----------------|
+  6. | Don     B.      |
+  7. | Isaac           |
+  8. | Mike            |
+  9. | Émile           |
+ 10. | I.      William |
+     |-----------------|
+ 11. | Ott     W.      |
+ 12. | Olive           |
+ 13. | Björk           |
+     +-----------------+</code></pre>
+<p>Let’s make a new variable that correctly arranges the parts of the name.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb45-1"><a href="creating-data.html#cb45-1" tabindex="-1"></a>    <span class="kw">gen</span> mlen = ustrlen(mname)</span>
+<span id="cb45-2"><a href="creating-data.html#cb45-2" tabindex="-1"></a>    <span class="kw">gen</span> flen = ustrlen(fname)</span>
+<span id="cb45-3"><a href="creating-data.html#cb45-3" tabindex="-1"></a>    <span class="kw">gen</span> fullname = fname + <span class="st">&quot; &quot;</span> + <span class="fu">lname</span> <span class="kw">if</span> namecount == 2</span>
+<span id="cb45-4"><a href="creating-data.html#cb45-4" tabindex="-1"></a>    <span class="kw">replace</span> fullname = fname + <span class="st">&quot; &quot;</span> + mname + <span class="st">&quot; &quot;</span> + <span class="fu">lname</span> <span class="kw">if</span> namecount==3 &amp; mlen &gt; 2</span>
+<span id="cb45-5"><a href="creating-data.html#cb45-5" tabindex="-1"></a>    <span class="kw">replace</span> fullname = fname + <span class="st">&quot; &quot;</span> + mname + <span class="st">&quot; &quot;</span> + <span class="fu">lname</span> <span class="kw">if</span> namecount==3 &amp; mlen==2</span>
+<span id="cb45-6"><a href="creating-data.html#cb45-6" tabindex="-1"></a>    <span class="kw">replace</span> fullname = mname + <span class="st">&quot; &quot;</span> + fname + <span class="st">&quot; &quot;</span> + <span class="fu">lname</span> <span class="kw">if</span> namecount==3 &amp; flen==2</span>
+<span id="cb45-7"><a href="creating-data.html#cb45-7" tabindex="-1"></a>    <span class="ot">list</span> fullname fname mname <span class="fu">lname</span></span></code></pre></div>
+<pre><code>(6 missing values generated)
+
+(4 real changes made)
+
+(2 real changes made)
+
+(3 real changes made)
+
+     +---------------------------------------------------------+
+     |             fullname   fname   mname     lname          |
+     |---------------------------------------------------------|
+  1. |         Ruth Canaale   Ruth              Canaale        |
+  2. |    Don Y. Uflossmore   Y.      Don       Uflossmore     |
+  3. |      Thích Nhất Hạnh   Thích   Nhất      Hạnh           |
+  4. |  Carreño J. Quiñones   J.      Carreño   Quiñones       |
+  5. |         Ô. Knausgård   Ô.                Knausgård      |
+     |---------------------------------------------------------|
+  6. |         Don B. Iteme   Don     B.        Iteme          |
+  7. |    Isaac O&#39;yerbreath   Isaac             O&#39;yerbreath    |
+  8. |           Mike Avity   Mike              Avity          |
+  9. |           Émile Zola   Émile             Zola           |
+ 10. |     William I. Crown   I.      William   Crown          |
+     |---------------------------------------------------------|
+ 11. |       Ott W. Onthurt   Ott     W.        Onthurt        |
+ 12. |       Olive Tu&#39;drill   Olive             Tu&#39;drill       |
+ 13. | Björk Guðmundsdóttir   Björk             Guðmundsdóttir |
+     +---------------------------------------------------------+</code></pre>
+<p>If you are brave enough, learning regular express can pay off in the long run. Stata has string functions with regular express, such as finding particular sets of strings with <em>regexm()</em>. Regular expressions are a pain to work with, but they are very powerful.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="labeling-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
