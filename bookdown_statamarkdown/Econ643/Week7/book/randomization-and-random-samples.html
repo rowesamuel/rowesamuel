@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Randomization and Random Samples | Tests for one or two means</title>
+  <meta name="description" content="This week covers random sampling, hypotheses, tests for means and proportions, and t-tests." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Randomization and Random Samples | Tests for one or two means" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This week covers random sampling, hypotheses, tests for means and proportions, and t-tests." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Randomization and Random Samples | Tests for one or two means" />
+  
+  <meta name="twitter:description" content="This week covers random sampling, hypotheses, tests for means and proportions, and t-tests." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Acock (2023)" />
+
+
+<meta name="date" content="2026-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="tests-for-proportions-and-means.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Tests for one or two means</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="randomization-and-random-samples.html"><a href="randomization-and-random-samples.html"><i class="fa fa-check"></i><b>1</b> Randomization and Random Samples</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomization-and-random-samples.html"><a href="randomization-and-random-samples.html#random-samples"><i class="fa fa-check"></i><b>1.1</b> Random Samples</a></li>
+<li class="chapter" data-level="1.2" data-path="randomization-and-random-samples.html"><a href="randomization-and-random-samples.html#randomization-and-random-assignment"><i class="fa fa-check"></i><b>1.2</b> Randomization and random assignment</a></li>
+<li class="chapter" data-level="1.3" data-path="randomization-and-random-samples.html"><a href="randomization-and-random-samples.html#significance-level-of-p0.05"><i class="fa fa-check"></i><b>1.3</b> Significance level of <span class="math inline">\(p=0.05\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html"><i class="fa fa-check"></i><b>2</b> Tests for proportions and means</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#one-sample-test-of-proportions"><i class="fa fa-check"></i><b>2.1</b> One-sample test of proportions</a></li>
+<li class="chapter" data-level="2.2" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#two-sample-tests-of-proportions"><i class="fa fa-check"></i><b>2.2</b> Two-sample tests of proportions</a></li>
+<li class="chapter" data-level="2.3" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#one-sample-test-of-means"><i class="fa fa-check"></i><b>2.3</b> One-Sample test of means</a></li>
+<li class="chapter" data-level="2.4" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#two-sample-test-of-group-means"><i class="fa fa-check"></i><b>2.4</b> Two-Sample test of group means</a></li>
+<li class="chapter" data-level="2.5" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#testing-for-unequal-variance"><i class="fa fa-check"></i><b>2.5</b> Testing for unequal variance</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>3</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exercises.html"><a href="exercises.html#randomization"><i class="fa fa-check"></i><b>3.1</b> Randomization</a></li>
+<li class="chapter" data-level="3.2" data-path="exercises.html"><a href="exercises.html#national-longitudinal-survey-of-youth"><i class="fa fa-check"></i><b>3.2</b> National Longitudinal Survey of Youth</a></li>
+<li class="chapter" data-level="3.3" data-path="exercises.html"><a href="exercises.html#general-social-survey"><i class="fa fa-check"></i><b>3.3</b> General Social Survey</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tests for one or two means</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="randomization-and-random-samples" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Randomization and Random Samples<a href="randomization-and-random-samples.html#randomization-and-random-samples" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Is a sample statistic statistically higher or lower than a population mean? <strong>We need a random sample in this scenario.</strong> Acock (2023) uses the example of a small liberal art college about selectivity compared to the population. The mean score for a small liberal arts college for math and reading was <span class="math inline">\(\bar{x}=1180\)</span> while the population average SAT score is <span class="math inline">\(\mu=1080\)</span>. Can the liberal arts school say that there selectivity is higher than the average college? We can test the example above with a <em>one-group test for means or proportions</em>.</p>
+<p>Does a treatment has an impact on the treatment group? <strong>We need randomization into treatment and control in this scenario.</strong> Acock (2023) uses the example of a reading program for preschool children. There is a randomization of preschool students in and out of the reading program. On a outcome of 0-100 point scale, the children in the control group had an average score of <span class="math inline">\(\bar{y}=71.3\)</span> with a standard deviation of <span class="math inline">\(sd=10.4\)</span>. In the treatment group, the average score was <span class="math inline">\(\bar{y}=82.5\)</span> and <span class="math inline">\(sd=9.9\)</span>. It seems like the reading program had an impact, but we would need to test for statistical significant. We can use a <em>two-group test for means or proportions</em> for this example.</p>
+<div id="random-samples" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Random Samples<a href="randomization-and-random-samples.html#random-samples" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Stata makes random samples and randomization straightforward and easy. We can implement random sampling without replacement with the <em>sample</em> command. Recall that sampling without replacement leads to changes the probability of being selected as the available pool declines.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="randomization-and-random-samples.html#cb2-1" tabindex="-1"></a><span class="kw">clear</span></span>
+<span id="cb2-2"><a href="randomization-and-random-samples.html#cb2-2" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 30</span>
+<span id="cb2-3"><a href="randomization-and-random-samples.html#cb2-3" tabindex="-1"></a><span class="kw">generate</span> id = <span class="dt">_n</span></span>
+<span id="cb2-4"><a href="randomization-and-random-samples.html#cb2-4" tabindex="-1"></a><span class="ot">list</span></span>
+<span id="cb2-5"><a href="randomization-and-random-samples.html#cb2-5" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 54613</span>
+<span id="cb2-6"><a href="randomization-and-random-samples.html#cb2-6" tabindex="-1"></a><span class="kw">sample</span> 15, <span class="fu">count</span></span>
+<span id="cb2-7"><a href="randomization-and-random-samples.html#cb2-7" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<pre><code>Number of observations (_N) was 0, now 30.
+
+     +----+
+     | id |
+     |----|
+  1. |  1 |
+  2. |  2 |
+  3. |  3 |
+  4. |  4 |
+  5. |  5 |
+     |----|
+  6. |  6 |
+  7. |  7 |
+  8. |  8 |
+  9. |  9 |
+ 10. | 10 |
+     |----|
+ 11. | 11 |
+ 12. | 12 |
+ 13. | 13 |
+ 14. | 14 |
+ 15. | 15 |
+     |----|
+ 16. | 16 |
+ 17. | 17 |
+ 18. | 18 |
+ 19. | 19 |
+ 20. | 20 |
+     |----|
+ 21. | 21 |
+ 22. | 22 |
+ 23. | 23 |
+ 24. | 24 |
+ 25. | 25 |
+     |----|
+ 26. | 26 |
+ 27. | 27 |
+ 28. | 28 |
+ 29. | 29 |
+ 30. | 30 |
+     +----+
+
+
+(15 observations deleted)
+
+     +----+
+     | id |
+     |----|
+  1. | 16 |
+  2. |  2 |
+  3. |  9 |
+  4. | 13 |
+  5. | 24 |
+     |----|
+  6. | 12 |
+  7. | 23 |
+  8. | 25 |
+  9. |  6 |
+ 10. | 20 |
+     |----|
+ 11. | 28 |
+ 12. | 21 |
+ 13. | 26 |
+ 14. | 29 |
+ 15. |  1 |
+     +----+</code></pre>
+<p>We can try this exercise again but with a different seed.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="randomization-and-random-samples.html#cb4-1" tabindex="-1"></a><span class="kw">clear</span></span>
+<span id="cb4-2"><a href="randomization-and-random-samples.html#cb4-2" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 30</span>
+<span id="cb4-3"><a href="randomization-and-random-samples.html#cb4-3" tabindex="-1"></a><span class="kw">generate</span> id = <span class="dt">_n</span></span>
+<span id="cb4-4"><a href="randomization-and-random-samples.html#cb4-4" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 11111</span>
+<span id="cb4-5"><a href="randomization-and-random-samples.html#cb4-5" tabindex="-1"></a><span class="kw">sample</span> 15, <span class="fu">count</span></span>
+<span id="cb4-6"><a href="randomization-and-random-samples.html#cb4-6" tabindex="-1"></a><span class="ot">list</span></span></code></pre></div>
+<pre><code>Number of observations (_N) was 0, now 30.
+
+
+
+(15 observations deleted)
+
+     +----+
+     | id |
+     |----|
+  1. | 21 |
+  2. | 14 |
+  3. | 19 |
+  4. | 30 |
+  5. | 15 |
+     |----|
+  6. |  3 |
+  7. | 27 |
+  8. | 18 |
+  9. |  1 |
+ 10. | 29 |
+     |----|
+ 11. | 16 |
+ 12. | 23 |
+ 13. | 20 |
+ 14. |  5 |
+ 15. |  2 |
+     +----+</code></pre>
+<p>We can see that we come up with a new sample even though the only thing we changed was the set seed number.</p>
+</div>
+<div id="randomization-and-random-assignment" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Randomization and random assignment<a href="randomization-and-random-samples.html#randomization-and-random-assignment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We covered taking a random sample from our data, but how do we randomly assign in Stata. There are many ways to implement random assignment, but we’ll cover a simple way to do so. Let’s say we have pre-SAT scores before treatment with <span class="math inline">\(\mu=1000\)</span> and <span class="math inline">\(\sigma=50\)</span>. We randomly assign into two groups for a program to prepare for the SAT. We will use the following code with the function <em>runiform()</em> to randomly assign student and and out of treatment.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="randomization-and-random-samples.html#cb6-1" tabindex="-1"></a><span class="kw">clear</span></span>
+<span id="cb6-2"><a href="randomization-and-random-samples.html#cb6-2" tabindex="-1"></a><span class="kw">set</span> <span class="kw">obs</span> 100</span>
+<span id="cb6-3"><a href="randomization-and-random-samples.html#cb6-3" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 101010</span>
+<span id="cb6-4"><a href="randomization-and-random-samples.html#cb6-4" tabindex="-1"></a><span class="kw">gen</span> id = <span class="dt">_n</span></span>
+<span id="cb6-5"><a href="randomization-and-random-samples.html#cb6-5" tabindex="-1"></a><span class="kw">gen</span> preSAT = rnormal(1000,50)</span>
+<span id="cb6-6"><a href="randomization-and-random-samples.html#cb6-6" tabindex="-1"></a><span class="kw">sum</span> preSAT, <span class="kw">detail</span></span>
+<span id="cb6-7"><a href="randomization-and-random-samples.html#cb6-7" tabindex="-1"></a><span class="kw">gen</span> random_num = runiform()</span>
+<span id="cb6-8"><a href="randomization-and-random-samples.html#cb6-8" tabindex="-1"></a><span class="kw">sort</span> random_num</span>
+<span id="cb6-9"><a href="randomization-and-random-samples.html#cb6-9" tabindex="-1"></a><span class="kw">gen</span> <span class="fu">rank</span> = <span class="dt">_n</span></span>
+<span id="cb6-10"><a href="randomization-and-random-samples.html#cb6-10" tabindex="-1"></a><span class="kw">gen</span> treatment = 1 <span class="kw">if</span> <span class="fu">rank</span> &lt;= 50</span>
+<span id="cb6-11"><a href="randomization-and-random-samples.html#cb6-11" tabindex="-1"></a><span class="ot">list</span> <span class="kw">if</span> treatment == 1</span></code></pre></div>
+<pre><code>Number of observations (_N) was 0, now 100.
+
+                           preSAT
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     871.3848       864.4878
+ 5%     909.6474       878.2817
+10%     929.7544       898.4756       Obs                 100
+25%     960.7722       900.3383       Sum of wgt.         100
+
+50%     996.7658                      Mean            994.422
+                        Largest       Std. dev.      50.15997
+75%     1026.011        1078.68
+90%     1057.898       1082.178       Variance       2516.022
+95%     1070.932       1082.615       Skewness       .0148653
+99%     1118.523        1154.43       Kurtosis        3.25588
+
+
+
+
+(50 missing values generated)
+
+     +--------------------------------------------+
+     | id     preSAT   random~m   rank   treatm~t |
+     |--------------------------------------------|
+  1. |  6   953.2567   .0166816      1          1 |
+  2. | 75   1027.424   .0174284      2          1 |
+  3. | 21   947.8138   .0601821      3          1 |
+  4. | 64   964.9872   .0711294      4          1 |
+  5. | 92   1051.042     .07504      5          1 |
+     |--------------------------------------------|
+  6. | 22    1154.43   .0955792      6          1 |
+  7. | 98   938.0862   .0960075      7          1 |
+  8. | 46   973.4328   .1364803      8          1 |
+  9. | 54   1014.777   .1383776      9          1 |
+ 10. | 19   1025.269   .1552295     10          1 |
+     |--------------------------------------------|
+ 11. | 67   1016.115   .1552606     11          1 |
+ 12. | 16   986.5502   .1599387     12          1 |
+ 13. |  9   878.2817   .1856076     13          1 |
+ 14. | 36   898.4756   .1968061     14          1 |
+ 15. | 87   918.5071   .2096984     15          1 |
+     |--------------------------------------------|
+ 16. |  8   972.4597   .2128657     16          1 |
+ 17. | 14   951.2537   .2144214     17          1 |
+ 18. | 12   963.9334   .2309978     18          1 |
+ 19. | 27   972.9071   .2562377     19          1 |
+ 20. | 45   961.1827    .266596     20          1 |
+     |--------------------------------------------|
+ 21. | 38    1054.86   .2714473     21          1 |
+ 22. | 29   941.5311   .2721756     22          1 |
+ 23. | 40   928.1702   .2802632     23          1 |
+ 24. | 24   964.6517   .2998621     24          1 |
+ 25. | 56   973.2595    .302796     25          1 |
+     |--------------------------------------------|
+ 26. | 59   1015.051   .3046456     26          1 |
+ 27. | 42   977.6315   .3150471     27          1 |
+ 28. | 25   1003.752   .3170995     28          1 |
+ 29. | 47   1032.023   .3493558     29          1 |
+ 30. | 73   864.4878   .3589761     30          1 |
+     |--------------------------------------------|
+ 31. | 60   1022.622   .3599698     31          1 |
+ 32. | 84   980.5345   .3756694     32          1 |
+ 33. | 76   947.2341   .3840492     33          1 |
+ 34. | 91   995.9388   .4091457     34          1 |
+ 35. | 55   1020.875   .4218919     35          1 |
+     |--------------------------------------------|
+ 36. | 44   1005.222   .4256864     36          1 |
+ 37. | 61   960.3616   .4356995     37          1 |
+ 38. | 23   929.7324   .4378634     38          1 |
+ 39. |  3   1012.586   .4518479     39          1 |
+ 40. | 20   1054.404   .4530961     40          1 |
+     |--------------------------------------------|
+ 41. | 90   967.8745    .453654     41          1 |
+ 42. | 69   988.4484    .475242     42          1 |
+ 43. | 78   979.8333   .4932367     43          1 |
+ 44. |  2   1055.188    .495618     44          1 |
+ 45. | 72   1018.799   .4993747     45          1 |
+     |--------------------------------------------|
+ 46. | 74    1078.68   .5066093     46          1 |
+ 47. | 95   1022.446   .5149328     47          1 |
+ 48. | 10   1043.046   .5175314     48          1 |
+ 49. |  5   1031.013   .5386587     49          1 |
+ 50. | 43   974.0781    .553867     50          1 |
+     +--------------------------------------------+</code></pre>
+<p>Let’s check pre-SAT scores after randomized assignment.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="randomization-and-random-samples.html#cb8-1" tabindex="-1"></a><span class="kw">bysort</span> treatment: <span class="kw">sum</span> preSAT</span></code></pre></div>
+<pre><code>-&gt; treatment = 0
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      preSAT |         50    1000.554    47.79832   900.3383   1082.615
+
+--------------------------------------------------------------------------------------------------
+-&gt; treatment = 1
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      preSAT |         50    988.2904    52.17265   864.4878    1154.43</code></pre>
+<p>Our <em>summarize</em> command helps show that the treatment and control group have similar pre-SAT scores. However, we will discuss two-group tests to test the null hypothesis that these two groups are similar.</p>
+</div>
+<div id="significance-level-of-p0.05" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Significance level of <span class="math inline">\(p=0.05\)</span><a href="randomization-and-random-samples.html#significance-level-of-p0.05" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>I want to focus on Acock’s (2023) discussion of the significance level of <span class="math inline">\(p=0.05\)</span>. We test our null hypothesis, <span class="math inline">\(H_0\)</span> with a one-tailed or two-tailed test. How do we know when to reject <span class="math inline">\(H_0\)</span>? The rule of thumb for statistical analysis has been when <span class="math inline">\(p &lt; 0.05\)</span>. We say that we reject the null hypothesis at the <span class="math inline">\(5\%\)</span> level. Some researchers use <span class="math inline">\(p &lt; 0.01\)</span> to say that we reject the null hypothesis at the <span class="math inline">\(1\%\)</span> level or <span class="math inline">\(p &lt; 0.001\)</span> to say that we reject the null hypothesis at the <span class="math inline">\(0.1\%\)</span> level.</p>
+<p>We may find <span class="math inline">\(p &lt; 0.05\)</span> just due to the fact that our <span class="math inline">\(N\)</span> is extremely large. We may find statistical significance, but is it practical? We may find <span class="math inline">\(p &lt; 0.05\)</span> but our assumptions have been violated. (This is a preview for Econ 645 and Econ 672). Therefore, we risk rejecting a true null beyond our 5% level due to the bias. We may find <span class="math inline">\(p &lt; 0.05\)</span> if try to data mine and cherry pick results. Economist try to prevent cherry picking with extensive sensitivity and robustness tests. (Have you seen the length of online appendices?)</p>
+<p>Here are some of my thoughts on <span class="math inline">\(p &lt; 0.05\)</span></p>
+<ol style="list-style-type: decimal">
+<li>Always have a healthy skepticism that your assumptions have been satisfied.</li>
+<li>Think about the arbitrariness of <span class="math inline">\(p=0.051\)</span> and <span class="math inline">\(p=0.049\)</span>.</li>
+<li>Don’t cherry pick results. Run sensitivity tests to try to break your results.</li>
+</ol>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tests-for-proportions-and-means.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

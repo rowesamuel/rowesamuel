@@ -1,0 +1,282 @@
+# Randomization and Random Samples
+
+Is a sample statistic statistically higher or lower than a population mean? **We need a random sample in this scenario.** Acock (2023) uses the example of a small liberal art college about selectivity compared to the population. The mean score for a small liberal arts college for math and reading was \( \bar{x}=1180 \) while the population average SAT score is \( \mu=1080 \). Can the liberal arts school say that there selectivity is higher than the average college? We can test the example above with a *one-group test for means or proportions*. 
+
+Does a treatment has an impact on the treatment group? **We need randomization into treatment and control in this scenario.** Acock (2023) uses the example of a reading program for preschool children. There is a randomization of preschool students in and out of the reading program. On a outcome of 0-100 point scale, the children in the control group had an average score of \( \bar{y}=71.3 \) with a standard deviation of \( sd=10.4 \). In the treatment group, the average score was \( \bar{y}=82.5 \) and \( sd=9.9 \). It seems like the reading program had an impact, but we would need to test for statistical significant. We can use a *two-group test for means or proportions* for this example.
+
+## Random Samples
+
+Stata makes random samples and randomization straightforward and easy. We can implement random sampling without replacement with the *sample* command. Recall that sampling without replacement leads to changes the probability of being selected as the available pool declines.
+
+
+```{stata random1}
+clear
+set obs 30
+generate id = _n
+list
+set seed 54613
+sample 15, count
+list
+```
+
+We can try this exercise again but with a different seed.
+
+```{stata random2}
+clear
+set obs 30
+generate id = _n
+set seed 11111
+sample 15, count
+list
+```
+
+We can see that we come up with a new sample even though the only thing we changed was the set seed number. 
+
+## Randomization and random assignment
+
+We covered taking a random sample from our data, but how do we randomly assign in Stata. There are many ways to implement random assignment, but we'll cover a simple way to do so. Let's say we have pre-SAT scores before treatment with \( \mu=1000 \) and \( \sigma=50 \). We randomly assign into two groups for a program to prepare for the SAT. We will use the following code with the function *runiform()* to randomly assign student and and out of treatment.
+
+```{stata random3}
+clear
+set obs 100
+set seed 101010
+gen id = _n
+gen preSAT = rnormal(1000,50)
+sum preSAT, detail
+gen random_num = runiform()
+sort random_num
+gen rank = _n
+gen treatment = 1 if rank <= 50
+list if treatment == 1
+```
+
+Let's check pre-SAT scores after randomized assignment.
+
+```{stata random4, eval=FALSE}
+bysort treatment: sum preSAT
+```
+
+```{stata random4_1, echo=FALSE}
+quietly {
+  clear
+set obs 100
+set seed 101010
+gen id = _n
+gen preSAT = rnormal(1000,50)
+sum preSAT, detail
+gen random_num = runiform()
+sort random_num
+gen rank = _n
+gen treatment = 1 if rank <= 50
+replace treatment = 0 if rank > 50
+}
+bysort treatment: sum preSAT
+```
+
+Our *summarize* command helps show that the treatment and control group have similar pre-SAT scores. However, we will discuss two-group tests to test the null hypothesis that these two groups are similar.
+
+## Significance level of \(p=0.05\) 
+
+I want to focus on Acock's (2023) discussion of the significance level of \( p=0.05 \). We test our null hypothesis, \(H_0\) with a one-tailed or two-tailed test. How do we know when to reject \( H_0 \)? The rule of thumb for statistical analysis has been when \( p < 0.05 \). We say that we reject the null hypothesis at the \( 5\% \) level. Some researchers use \( p < 0.01 \) to say that we reject the null hypothesis at the \( 1\% \) level or \( p < 0.001 \) to say that we reject the null hypothesis at the \( 0.1\% \) level.
+
+We may find \( p < 0.05 \) just due to the fact that our \(N\) is extremely large. We may find  statistical significance, but is it practical? We may find \( p < 0.05 \) but our assumptions have been violated. (This is a preview for Econ 645 and Econ 672). Therefore, we risk rejecting a true null beyond our 5% level due to the bias. We may find \( p < 0.05 \) if try to data mine and cherry pick results. Economist try to prevent cherry picking with extensive sensitivity and robustness tests. (Have you seen the length of online appendices?)
+
+Here are some of my thoughts on \( p < 0.05 \)
+
+  1. Always have a healthy skepticism that your assumptions have been satisfied.
+  2. Think about the arbitrariness of \( p=0.051 \) and \( p=0.049 \). 
+  3. Don't cherry pick results. Run sensitivity tests to try to break your results. 
+
+# Tests for proportions and means
+
+We can use a one-sample test when we want to compare a sample mean to a population mean or a sample proportion to a population proportion. We can use a two-sample test of groups to compare two samples.
+
+## One-sample test of proportions
+
+Acock compares adult opinions on school prayer from the 2006 General Social Survey. We will use the *recode* command to convert 2 into 0 and have a binary \( [0,1] \) variable. We will use the *tabulate* command to make sure our recode worked.
+
+```{stata onetest1}
+cd "/Users/Sam/Desktop/Econ 643/Data/agis6r/"
+use "gss2002_chapter7.dta", clear
+recode prayer (1 = 1 Approve) (2 = 0 Disapprove), gen(schpray)
+tabulate schpray prayer, missing
+```
+
+Next we will test the null hypothesis that half of the people approve of school prayer.
+
+$$ H_{0}: p=0.5 $$
+
+$$ H_{A}: p \neq 0.5 $$
+
+We will test this hypothesis with the *prtest* command with a two-tailed test. This will do a test of proportions for a one-group sample. The one-sample test of proportion compares a sample to a defined population mean.
+
+```{stata onetest2, eval=FALSE}
+prtest schpray == 0.5
+```
+
+```{stata onetest2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 643/Data/agis6r/"
+use "gss2002_chapter7.dta", clear
+recode prayer (1 = 1 Approve) (2 = 0 Disapprove), gen(schpray)  
+}
+prtest schpray == 0.5
+```
+
+Our sample mean is \( \bar{p} \approx 0.4 \). We reject the null hypothesis that half of the population approves of school prayer at the \(0.1\%\) level. 
+
+## Two-sample tests of proportions
+
+We may want to compare proportions between two samples. Our prior example used SAT scores as an outcome of interest, where the treatment was a SAT preparation program. We saw that pre-treatment pre-SAT scores were similar between treatment and control. Now we want to compare the proportion of students who scored above \(1,200\). 
+
+Let's look at our treatment and control again.
+```{stata twotest1, eval=FALSE}
+tab treatment
+```
+
+```{stata twotest1_1, echo=FALSE}
+quietly {
+clear
+set obs 100
+set seed 20002
+gen id = _n
+gen SAT = rnormal(1000,50)
+sum SAT, detail
+gen random_num = runiform()
+sort random_num
+gen rank = _n
+gen treatment = 1 if rank <= 50
+replace treatment = 0 if rank > 50
+}
+tab treatment
+```
+
+We can check the null hypothesis that the proportion of treatment students, who scored higher than a \(1,200\), was the same proportion as control students.
+
+$$ H_{0}: p_{treatment} - p_{control} = 0 $$
+$$ H_{A}: p_{treatment} - p_{control} \neq 0 $$
+Our data are in a long-format, so we will use the *by* option with the *prtest* command. 
+
+```{stata twotest2, eval=FALSE}
+list treatment post1200 in 46/55
+tabulate post1200 treatment
+prtest post1200, by(treatment)
+```
+
+```{stata twotest2_1, echo=FALSE}
+quietly {
+clear
+set obs 100
+set seed 20002
+gen id = _n
+gen SAT = rnormal(1000,50)
+sum SAT, detail
+gen random_num = runiform()
+sort random_num
+gen rank = _n
+gen treatment = 1 if rank <= 50
+replace treatment = 0 if rank > 50
+
+tab treatment
+
+gen sat_score = 0
+replace sat_score = rnormal(1200,50) if treatment==1
+replace sat_score = rnormal(1150,50) if treatment==0
+
+gen post1200=0
+replace post1200 = 1 if sat_score >= 1200
+}
+list treatment post1200 in 46/55
+tabulate post1200 treatment
+prtest post1200, by(treatment)
+```
+
+We see that a higher proportion of treatment student scored higher than \(1,200\). We reject the null hypothesis at the \(0.01\%\) level using a two-tailed test of proportions.
+
+Please note that Acock (2023) uses an example of *prtest* when the data are in a wide format. You can review this, but your data should be organized in a long-format.
+
+## One-Sample test of means
+
+We can use Stata to conduct \(t\)-tests for one-sample or two-sample tests of means. Our main command is *ttest*. For our one-sample test of means, we will compare the sample mean to a population mean. We hypothesize that the population mean of working hours for employed individuals is 40 or \(\mu=40\). Let's find the sample mean of working hours from the 2006 General Social Survey.
+
+```{stata onemean1}
+cd "/Users/Sam/Desktop/Econ 643/Data/agis6r/"
+use "gss2002_chapter7.dta", clear
+summarize hrs1 if wrkstat==1
+```
+
+We can see that \( \bar{x} = 46 \) and \( s = 11.9 \). Let's test to see if this is statistically significant different from the hypothesis of a population mean of 40.
+
+$$ H_{0}: \mu_{(hours)}=40 $$
+
+$$ H_{A}: \mu_{(hours)} \neq 40 $$
+
+```{stata onemean2, eval=FALSE}
+ttest hrs1==40 if wrkstat==1
+```
+
+```{stata onemean2_1, echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 643/Data/agis6r/"
+use "gss2002_chapter7.dta", clear 
+}
+ttest hrs1==40 if wrkstat==1
+```
+
+We find that \(t=18.9179\) and \(p<0.001\). We reject the null hypothesis at the \(0.01\%\) level using a two-tailed \(t\)-test that the population mean. In addition, Stata provides a \(95\%\) confidence interval of \( [45.3,46.6] \). We find that the average working hours is greater than our hypothesized 40 work week.
+
+## Two-Sample test of group means
+
+We can compare the means between two samples using the *ttest* command with the *by* option. Acock (2023) uses the example of earnings from men and women. We'll use the 2006 General Social Survey to assess the group means. Let's take a look at the income data first.
+
+```{stata twogroup1,eval=FALSE}
+tabulate rincom98
+```
+
+```{stata twogroup1_1,echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 643/Data/agis6r/"
+use "gss2002_chapter7.dta", clear 
+}
+tabulate rincom98
+```
+
+What is the problem? We don't know the exact values. We only know the range of the values. Acock (2023) takes the midpoint, but this method is ripe with measurement error. Please see page 168 on how he recodes the variable. 
+
+Let's compare hours instead. 
+
+$$ H_0: \mu_{(men)} - \mu_{(women)} = 0 $$
+
+$$ H_A: \mu_{(men)} - \mu_{(women)} \neq 0 $$
+
+```{stata twogroup2,eval=FALSE}
+ttest hrs if wrkstat==1, by(sex)
+```
+
+Our \(t=8.1802\) and \( p < 0.001 \). We reject the null hypothesis at the \(0.01\%\) level and conclude that men and women do not work the same amount of hours.
+
+
+## Testing for unequal variance
+
+We can test to see if the variance or standard deviations are similar between two groups. Why do we care if the variance are equal? Because we assume that the variance is the same between two samples from the population. We can use the *sdtest* in Stata to test for equal variance. This test uses an \(F\) test for significant differences in variances.
+
+The \(F\) test is a ratio of the variances between the two groups. 
+
+$$ H_0: ratio=1 $$
+
+$$ H_A: ratio \neq 1 $$
+
+```{stata variance1,eval=FALSE}
+sdtest hrs if wrkstat==1, by(sex)
+```
+
+```{stata variance1_1,echo=FALSE}
+quietly {
+cd "/Users/Sam/Desktop/Econ 643/Data/agis6r/"
+use "gss2002_chapter7.dta", clear 
+}
+sdtest hrs if wrkstat==1, by(sex)
+```
+
+We reject the null hypothesis and the variance between the two samples is not the same. This will matter when we focus on Analysis of Variance (ANOVA). In regression, one of assumption is constant variance across values or homoskedasticity.
+

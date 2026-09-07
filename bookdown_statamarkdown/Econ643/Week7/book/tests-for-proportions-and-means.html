@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Tests for proportions and means | Tests for one or two means</title>
+  <meta name="description" content="This week covers random sampling, hypotheses, tests for means and proportions, and t-tests." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Tests for proportions and means | Tests for one or two means" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This week covers random sampling, hypotheses, tests for means and proportions, and t-tests." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Tests for proportions and means | Tests for one or two means" />
+  
+  <meta name="twitter:description" content="This week covers random sampling, hypotheses, tests for means and proportions, and t-tests." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Acock (2023)" />
+
+
+<meta name="date" content="2026-09-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="randomization-and-random-samples.html"/>
+<link rel="next" href="exercises.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Tests for one or two means</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="randomization-and-random-samples.html"><a href="randomization-and-random-samples.html"><i class="fa fa-check"></i><b>1</b> Randomization and Random Samples</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="randomization-and-random-samples.html"><a href="randomization-and-random-samples.html#random-samples"><i class="fa fa-check"></i><b>1.1</b> Random Samples</a></li>
+<li class="chapter" data-level="1.2" data-path="randomization-and-random-samples.html"><a href="randomization-and-random-samples.html#randomization-and-random-assignment"><i class="fa fa-check"></i><b>1.2</b> Randomization and random assignment</a></li>
+<li class="chapter" data-level="1.3" data-path="randomization-and-random-samples.html"><a href="randomization-and-random-samples.html#significance-level-of-p0.05"><i class="fa fa-check"></i><b>1.3</b> Significance level of <span class="math inline">\(p=0.05\)</span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html"><i class="fa fa-check"></i><b>2</b> Tests for proportions and means</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#one-sample-test-of-proportions"><i class="fa fa-check"></i><b>2.1</b> One-sample test of proportions</a></li>
+<li class="chapter" data-level="2.2" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#two-sample-tests-of-proportions"><i class="fa fa-check"></i><b>2.2</b> Two-sample tests of proportions</a></li>
+<li class="chapter" data-level="2.3" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#one-sample-test-of-means"><i class="fa fa-check"></i><b>2.3</b> One-Sample test of means</a></li>
+<li class="chapter" data-level="2.4" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#two-sample-test-of-group-means"><i class="fa fa-check"></i><b>2.4</b> Two-Sample test of group means</a></li>
+<li class="chapter" data-level="2.5" data-path="tests-for-proportions-and-means.html"><a href="tests-for-proportions-and-means.html#testing-for-unequal-variance"><i class="fa fa-check"></i><b>2.5</b> Testing for unequal variance</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>3</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exercises.html"><a href="exercises.html#randomization"><i class="fa fa-check"></i><b>3.1</b> Randomization</a></li>
+<li class="chapter" data-level="3.2" data-path="exercises.html"><a href="exercises.html#national-longitudinal-survey-of-youth"><i class="fa fa-check"></i><b>3.2</b> National Longitudinal Survey of Youth</a></li>
+<li class="chapter" data-level="3.3" data-path="exercises.html"><a href="exercises.html#general-social-survey"><i class="fa fa-check"></i><b>3.3</b> General Social Survey</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Tests for one or two means</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="tests-for-proportions-and-means" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Tests for proportions and means<a href="tests-for-proportions-and-means.html#tests-for-proportions-and-means" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We can use a one-sample test when we want to compare a sample mean to a population mean or a sample proportion to a population proportion. We can use a two-sample test of groups to compare two samples.</p>
+<div id="one-sample-test-of-proportions" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> One-sample test of proportions<a href="tests-for-proportions-and-means.html#one-sample-test-of-proportions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Acock compares adult opinions on school prayer from the 2006 General Social Survey. We will use the <em>recode</em> command to convert 2 into 0 and have a binary <span class="math inline">\([0,1]\)</span> variable. We will use the <em>tabulate</em> command to make sure our recode worked.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="tests-for-proportions-and-means.html#cb10-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 643/Data/agis6r/&quot;</span></span>
+<span id="cb10-2"><a href="tests-for-proportions-and-means.html#cb10-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;gss2002_chapter7.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb10-3"><a href="tests-for-proportions-and-means.html#cb10-3" tabindex="-1"></a><span class="kw">recode</span> prayer (1 = 1 Approve) (2 = 0 Disapprove), <span class="kw">gen</span>(schpray)</span>
+<span id="cb10-4"><a href="tests-for-proportions-and-means.html#cb10-4" tabindex="-1"></a><span class="kw">tabulate</span> schpray prayer, <span class="fu">missing</span></span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 643/Data/agis6r
+
+
+(518 differences between prayer and schpray)
+
+
+ RECODE of |
+    prayer |
+    (bible |
+ prayer in |
+    public |  bible prayer in public schools
+  schools) |   approve  disapprov          . |     Total
+-----------+---------------------------------+----------
+Disapprove |         0        518          0 |       518 
+   Approve |       341          0          0 |       341 
+         . |         0          0      1,906 |     1,906 
+-----------+---------------------------------+----------
+     Total |       341        518      1,906 |     2,765 </code></pre>
+<p>Next we will test the null hypothesis that half of the people approve of school prayer.</p>
+<p><span class="math display">\[ H_{0}: p=0.5 \]</span></p>
+<p><span class="math display">\[ H_{A}: p \neq 0.5 \]</span></p>
+<p>We will test this hypothesis with the <em>prtest</em> command with a two-tailed test. This will do a test of proportions for a one-group sample. The one-sample test of proportion compares a sample to a defined population mean.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="tests-for-proportions-and-means.html#cb12-1" tabindex="-1"></a><span class="kw">prtest</span> schpray == 0.5</span></code></pre></div>
+<pre><code>One-sample test of proportion                   Number of obs      =       859
+
+------------------------------------------------------------------------------
+    Variable |       Mean   Std. err.                     [95% conf. interval]
+-------------+----------------------------------------------------------------
+     schpray |   .3969732   .0166937                      .3642542    .4296923
+------------------------------------------------------------------------------
+    p = proportion(schpray)                                       z =  -6.0392
+H0: p = 0.5
+
+     Ha: p &lt; 0.5                 Ha: p != 0.5                   Ha: p &gt; 0.5
+ Pr(Z &lt; z) = 0.0000         Pr(|Z| &gt; |z|) = 0.0000          Pr(Z &gt; z) = 1.0000</code></pre>
+<p>Our sample mean is <span class="math inline">\(\bar{p} \approx 0.4\)</span>. We reject the null hypothesis that half of the population approves of school prayer at the <span class="math inline">\(0.1\%\)</span> level.</p>
+</div>
+<div id="two-sample-tests-of-proportions" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Two-sample tests of proportions<a href="tests-for-proportions-and-means.html#two-sample-tests-of-proportions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We may want to compare proportions between two samples. Our prior example used SAT scores as an outcome of interest, where the treatment was a SAT preparation program. We saw that pre-treatment pre-SAT scores were similar between treatment and control. Now we want to compare the proportion of students who scored above <span class="math inline">\(1,200\)</span>.</p>
+<p>Let’s look at our treatment and control again.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb14-1"><a href="tests-for-proportions-and-means.html#cb14-1" tabindex="-1"></a><span class="kw">tab</span> treatment</span></code></pre></div>
+<pre><code>  treatment |      Freq.     Percent        Cum.
+------------+-----------------------------------
+          0 |         50       50.00       50.00
+          1 |         50       50.00      100.00
+------------+-----------------------------------
+      Total |        100      100.00</code></pre>
+<p>We can check the null hypothesis that the proportion of treatment students, who scored higher than a <span class="math inline">\(1,200\)</span>, was the same proportion as control students.</p>
+<p><span class="math display">\[ H_{0}: p_{treatment} - p_{control} = 0 \]</span>
+<span class="math display">\[ H_{A}: p_{treatment} - p_{control} \neq 0 \]</span>
+Our data are in a long-format, so we will use the <em>by</em> option with the <em>prtest</em> command.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb16-1"><a href="tests-for-proportions-and-means.html#cb16-1" tabindex="-1"></a><span class="ot">list</span> treatment post1200 <span class="kw">in</span> 46/55</span>
+<span id="cb16-2"><a href="tests-for-proportions-and-means.html#cb16-2" tabindex="-1"></a><span class="kw">tabulate</span> post1200 treatment</span>
+<span id="cb16-3"><a href="tests-for-proportions-and-means.html#cb16-3" tabindex="-1"></a><span class="kw">prtest</span> post1200, <span class="kw">by</span>(treatment)</span></code></pre></div>
+<pre><code>     | treatm~t   post1200 |
+     |---------------------|
+ 46. |        1          1 |
+ 47. |        1          0 |
+ 48. |        1          0 |
+ 49. |        1          1 |
+ 50. |        1          0 |
+     |---------------------|
+ 51. |        0          0 |
+ 52. |        0          0 |
+ 53. |        0          0 |
+ 54. |        0          0 |
+ 55. |        0          0 |
+     +---------------------+
+
+           |       treatment
+  post1200 |         0          1 |     Total
+-----------+----------------------+----------
+         0 |        44         25 |        69 
+         1 |         6         25 |        31 
+-----------+----------------------+----------
+     Total |        50         50 |       100 
+
+
+Two-sample test of proportions                     0: Number of obs =       50
+                                                   1: Number of obs =       50
+------------------------------------------------------------------------------
+       Group |       Mean   Std. err.      z    P&gt;|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           0 |        .12   .0459565                      .0299269    .2100731
+           1 |         .5   .0707107                      .3614096    .6385904
+-------------+----------------------------------------------------------------
+        diff |       -.38   .0843327                      -.545289    -.214711
+             |  under H0:   .0924986    -4.11   0.000
+------------------------------------------------------------------------------
+        diff = prop(0) - prop(1)                                  z =  -4.1082
+    H0: diff = 0
+
+    Ha: diff &lt; 0                 Ha: diff != 0                 Ha: diff &gt; 0
+ Pr(Z &lt; z) = 0.0000         Pr(|Z| &gt; |z|) = 0.0000          Pr(Z &gt; z) = 1.0000</code></pre>
+<p>We see that a higher proportion of treatment student scored higher than <span class="math inline">\(1,200\)</span>. We reject the null hypothesis at the <span class="math inline">\(0.01\%\)</span> level using a two-tailed test of proportions.</p>
+<p>Please note that Acock (2023) uses an example of <em>prtest</em> when the data are in a wide format. You can review this, but your data should be organized in a long-format.</p>
+</div>
+<div id="one-sample-test-of-means" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> One-Sample test of means<a href="tests-for-proportions-and-means.html#one-sample-test-of-means" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can use Stata to conduct <span class="math inline">\(t\)</span>-tests for one-sample or two-sample tests of means. Our main command is <em>ttest</em>. For our one-sample test of means, we will compare the sample mean to a population mean. We hypothesize that the population mean of working hours for employed individuals is 40 or <span class="math inline">\(\mu=40\)</span>. Let’s find the sample mean of working hours from the 2006 General Social Survey.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb18-1"><a href="tests-for-proportions-and-means.html#cb18-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 643/Data/agis6r/&quot;</span></span>
+<span id="cb18-2"><a href="tests-for-proportions-and-means.html#cb18-2" tabindex="-1"></a><span class="kw">use</span> <span class="st">&quot;gss2002_chapter7.dta&quot;</span>, <span class="kw">clear</span></span>
+<span id="cb18-3"><a href="tests-for-proportions-and-means.html#cb18-3" tabindex="-1"></a><span class="kw">summarize</span> hrs1 <span class="kw">if</span> wrkstat==1</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 643/Data/agis6r
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+        hrs1 |      1,419    45.97111    11.88977          4         89</code></pre>
+<p>We can see that <span class="math inline">\(\bar{x} = 46\)</span> and <span class="math inline">\(s = 11.9\)</span>. Let’s test to see if this is statistically significant different from the hypothesis of a population mean of 40.</p>
+<p><span class="math display">\[ H_{0}: \mu_{(hours)}=40 \]</span></p>
+<p><span class="math display">\[ H_{A}: \mu_{(hours)} \neq 40 \]</span></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb20-1"><a href="tests-for-proportions-and-means.html#cb20-1" tabindex="-1"></a><span class="kw">ttest</span> hrs1==40 <span class="kw">if</span> wrkstat==1</span></code></pre></div>
+<pre><code>One-sample t test
+------------------------------------------------------------------------------
+Variable |     Obs        Mean    Std. err.   Std. dev.   [95% conf. interval]
+---------+--------------------------------------------------------------------
+    hrs1 |   1,419    45.97111    .3156328    11.88977    45.35195    46.59026
+------------------------------------------------------------------------------
+    mean = mean(hrs1)                                             t =  18.9179
+H0: mean = 40                                    Degrees of freedom =     1418
+
+    Ha: mean &lt; 40               Ha: mean != 40                 Ha: mean &gt; 40
+ Pr(T &lt; t) = 1.0000         Pr(|T| &gt; |t|) = 0.0000          Pr(T &gt; t) = 0.0000</code></pre>
+<p>We find that <span class="math inline">\(t=18.9179\)</span> and <span class="math inline">\(p&lt;0.001\)</span>. We reject the null hypothesis at the <span class="math inline">\(0.01\%\)</span> level using a two-tailed <span class="math inline">\(t\)</span>-test that the population mean. In addition, Stata provides a <span class="math inline">\(95\%\)</span> confidence interval of <span class="math inline">\([45.3,46.6]\)</span>. We find that the average working hours is greater than our hypothesized 40 work week.</p>
+</div>
+<div id="two-sample-test-of-group-means" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Two-Sample test of group means<a href="tests-for-proportions-and-means.html#two-sample-test-of-group-means" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can compare the means between two samples using the <em>ttest</em> command with the <em>by</em> option. Acock (2023) uses the example of earnings from men and women. We’ll use the 2006 General Social Survey to assess the group means. Let’s take a look at the income data first.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb22-1"><a href="tests-for-proportions-and-means.html#cb22-1" tabindex="-1"></a><span class="kw">tabulate</span> rincom98</span></code></pre></div>
+<pre><code>    respondents |
+         income |      Freq.     Percent        Cum.
+----------------+-----------------------------------
+   under $1 000 |         44        1.59        1.59
+$1 000 to 2 999 |         69        2.50        4.09
+$3 000 to 3 999 |         37        1.34        5.42
+$4 000 to 4 999 |         24        0.87        6.29
+$5 000 to 5 999 |         37        1.34        7.63
+$6 000 to 6 999 |         20        0.72        8.35
+$7 000 to 7 999 |         26        0.94        9.29
+$8 000 to 9 999 |         60        2.17       11.46
+$10000 to 12499 |         78        2.82       14.29
+$12500 to 14999 |         85        3.07       17.36
+$15000 to 17499 |         69        2.50       19.86
+$17500 to 19999 |         86        3.11       22.97
+$20000 to 22499 |        100        3.62       26.58
+$22500 to 24999 |         81        2.93       29.51
+$25000 to 29999 |        140        5.06       34.58
+$30000 to 34999 |        166        6.00       40.58
+$35000 to 39999 |        123        4.45       45.03
+$40000 to 49999 |        170        6.15       51.18
+$50000 to 59999 |        136        4.92       56.09
+$60000 to 74999 |         95        3.44       59.53
+$75000 - $89999 |         41        1.48       61.01
+$90000- $109999 |         23        0.83       61.84
+  $110 000 over |         70        2.53       64.38
+        refused |        985       35.62      100.00
+----------------+-----------------------------------
+          Total |      2,765      100.00</code></pre>
+<p>What is the problem? We don’t know the exact values. We only know the range of the values. Acock (2023) takes the midpoint, but this method is ripe with measurement error. Please see page 168 on how he recodes the variable.</p>
+<p>Let’s compare hours instead.</p>
+<p><span class="math display">\[ H_0: \mu_{(men)} - \mu_{(women)} = 0 \]</span></p>
+<p><span class="math display">\[ H_A: \mu_{(men)} - \mu_{(women)} \neq 0 \]</span></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="tests-for-proportions-and-means.html#cb24-1" tabindex="-1"></a><span class="kw">ttest</span> hrs <span class="kw">if</span> wrkstat==1, <span class="kw">by</span>(sex)</span></code></pre></div>
+<p>Our <span class="math inline">\(t=8.1802\)</span> and <span class="math inline">\(p &lt; 0.001\)</span>. We reject the null hypothesis at the <span class="math inline">\(0.01\%\)</span> level and conclude that men and women do not work the same amount of hours.</p>
+</div>
+<div id="testing-for-unequal-variance" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Testing for unequal variance<a href="tests-for-proportions-and-means.html#testing-for-unequal-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can test to see if the variance or standard deviations are similar between two groups. Why do we care if the variance are equal? Because we assume that the variance is the same between two samples from the population. We can use the <em>sdtest</em> in Stata to test for equal variance. This test uses an <span class="math inline">\(F\)</span> test for significant differences in variances.</p>
+<p>The <span class="math inline">\(F\)</span> test is a ratio of the variances between the two groups.</p>
+<p><span class="math display">\[ H_0: ratio=1 \]</span></p>
+<p><span class="math display">\[ H_A: ratio \neq 1 \]</span></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="tests-for-proportions-and-means.html#cb25-1" tabindex="-1"></a><span class="kw">sdtest</span> hrs <span class="kw">if</span> wrkstat==1, <span class="kw">by</span>(sex)</span></code></pre></div>
+<pre><code>Variance ratio test
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. err.   Std. dev.   [95% conf. interval]
+---------+--------------------------------------------------------------------
+    male |     748    48.08422    .4630884    12.66528    47.17512    48.99333
+  female |     671     43.6155    .4045276    10.47875     42.8212    44.40979
+---------+--------------------------------------------------------------------
+Combined |   1,419    45.97111    .3156328    11.88977    45.35195    46.59026
+------------------------------------------------------------------------------
+    ratio = sd(male) / sd(female)                                 f =   1.4609
+H0: ratio = 1                                    Degrees of freedom = 747, 670
+
+    Ha: ratio &lt; 1               Ha: ratio != 1                 Ha: ratio &gt; 1
+  Pr(F &lt; f) = 1.0000         2*Pr(F &gt; f) = 0.0000           Pr(F &gt; f) = 0.0000</code></pre>
+<p>We reject the null hypothesis and the variance between the two samples is not the same. This will matter when we focus on Analysis of Variance (ANOVA). In regression, one of assumption is constant variance across values or homoskedasticity.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="randomization-and-random-samples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
