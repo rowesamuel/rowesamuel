@@ -1,0 +1,189 @@
+# Incorporating LaTex output from Stata
+
+## Table commands
+
+*Table* command is provides a basis to create customized tables for descriptive statistics. However, we can use the *collect* command after the *table* command to export our results into various documents of our choice.
+
+We have seen the table command before, but let's look at some frequency tables using the *table* command. We use *statistics(frequency)* as the option
+```{stata table1, eval=FALSE}
+table (industry) (union), statistic(frequency) 
+```
+
+```{stata table1_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table (industry) (union), statistic(frequency) 
+```
+
+Next, let's add percentages along with frequencies with *statistic(percent)*.
+```{stata table2, eval=FALSE}
+table (industry) (union), statistic(frequency) statistic(percent)
+```
+
+```{stata table2_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table (industry) (union), statistic(frequency) statistic(percent)
+```
+
+Let's add mean, median, and standard deviation with statistic(mean <var>) statistic(median <var>) and statistic(sd <var>) as options.
+```{stata table3, eval=FALSE}
+table (industry) (union) () if prerelg==1, statistic(frequency) statistic(mean earnings) statistic(sd earnings) statistic(median earnings)
+```
+
+```{stata table3_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table (industry) (union) () if prerelg==1, statistic(frequency) statistic(mean earnings) statistic(sd earnings) statistic(median earnings)
+```
+
+### Nesting within rows
+
+We can nest the two categorical variables within rows instead of one categorical being rows and the other categorical being columns.
+
+```{stata table4, eval=FALSE}
+table (industry union) () () if prerelg==1, statistic(frequency) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals
+```
+
+```{stata table4_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table (industry union) () () if prerelg==1, statistic(frequency) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals
+```
+
+We can flip the nesting order by reversing the variable order within the row parantheses.
+
+```{stata table5, eval=FALSE}
+table (union industry) () () if prerelg==1, statistic(frequency) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals
+```
+
+```{stata table5_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table (union industry) () () if prerelg==1, statistic(frequency) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals
+```
+
+### Nesting within columns
+
+We can nest the two categorical variables within columns as well.
+
+```{stata table6, eval=FALSE}
+table () (union sex) () if prerelg==1, statistic(frequency) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals
+```
+
+```{stata table6_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table () (union sex) () if prerelg==1, statistic(frequency) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals
+```
+
+We can reverse the order of the nesting within columns as well.
+
+```{stata table7, eval=FALSE}
+table () (sex union) () if prerelg==1, statistic(frequency) statistic(percent) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals
+```
+
+```{stata table7_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table () (sex union) () if prerelg==1, statistic(frequency) statistic(percent) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals
+```
+
+### Customize the format
+
+We can customize the formats with *sformat* to add string characters and *nformat* to format the numerics.
+
+```{stata table8, eval=FALSE}
+table () (sex union) () if prerelg==1, statistic(frequency) statistic(percent) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals nformat(%6.2f  mean sd median) sformat("$%s" mean sd median) sformat("%s%%" percent)
+```
+
+```{stata table8_1, echo=FALSE}
+quietly use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table () (sex union) () if prerelg==1, statistic(frequency) statistic(percent) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals nformat(%6.2f  mean sd median) sformat("$%s" mean sd median) sformat("%s%%" percent)
+```
+
+## Collect commands
+
+Stata has a collection of *collect* commands to help you format and export your descriptive statistics after the *table* command.
+
+We can preview our table comments with the *collect preview* command.
+```{stata collect1, eval=FALSE}
+collect preview
+```
+
+```{stata collect1_1, echo=FALSE}
+quietly{
+use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table () (sex union) () if prerelg==1, statistic(frequency) statistic(percent) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals nformat(%6.2f  mean sd median) sformat("$%s" mean sd median) sformat("%s%%" percent)
+}
+collect preview
+```
+
+We can change our labels if we want with the *modify* option. We can check the change with the *collect label list <var>* command.
+```{stata collect2, eval=FALSE}
+collect label dim sex "Sex of Individual", modify
+collect label list sex
+collect preview
+```
+
+```{stata collect2_1, echo=FALSE}
+quietly{
+use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table () (sex union) () if prerelg==1, statistic(frequency) statistic(percent) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals nformat(%6.2f  mean sd median) sformat("$%s" mean sd median) sformat("%s%%" percent)
+}
+collect label dim sex "Sex of Individual", modify
+collect label list sex
+collect preview
+```
+
+Let's modify the other variable, too.
+```{stata collect3, eval=FALSE}
+collect label dim union "Union Status", modify
+collect label list union
+collect preview
+```
+
+```{stata collect3_1, echo=FALSE}
+quietly{
+use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table () (sex union) () if prerelg==1, statistic(frequency) statistic(percent) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals nformat(%6.2f  mean sd median) sformat("$%s" mean sd median) sformat("%s%%" percent)
+collect label dim sex "Sex of Individual", modify
+}
+collect label dim union "Union Status", modify
+collect label list union
+collect preview
+```
+
+We can use the *collect dims* command to get the collect dimensions.
+```{stata collect4, eval=FALSE}
+collect dims
+collect label list result, all
+```
+
+```{stata collect4_1, echo=FALSE}
+quietly{
+use "/Users/Sam/Desktop/Econ 643/Bookdown/Week10/week10_cps_example.dta"
+table () (sex union) () if prerelg==1, statistic(frequency) statistic(percent) statistic(mean earnings) statistic(sd earnings) statistic(median earnings) nototals nformat(%6.2f  mean sd median) sformat("$%s" mean sd median) sformat("%s%%" percent)
+collect label dim sex "Sex of Individual", modify
+collect label dim union "Union Status", modify
+}
+collect dims
+collect label list result, all
+```
+
+We can export our descriptive statistics table into various formats.
+Let's export to LaTex.
+```{stata collect5, eval=FALSE}
+collect export example.tex, replace
+```
+
+Let's use *collect export* into Markdown.
+```{stata collect6, eval=FALSE}
+collect export example.md, replace
+```
+
+Let's use *collect export* into Excel. We have additional commands with *putexcel* to generate a report template and then use *collect export* to export the descriptive statistics table.
+```{stata collect7, eval=FALSE}
+collect export example.xlsx, replace
+```
+
+Let's use *collect export* into MS Word. We have additional commands with *putdocx* to generate a report template and then use *collect export* to export the descriptive statistics table.
+
+```{stata collect8, eval=FALSE}
+collect export example.docx, replace
+```
+
+There is also a suite of commands with *putpdf* to export tables into a pdf file
