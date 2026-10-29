@@ -23,7 +23,7 @@
 <meta name="author" content="Samuel Rowe adapted from Acock (2023)" />
 
 
-<meta name="date" content="2026-09-07" />
+<meta name="date" content="2026-10-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -357,7 +357,23 @@ $90000- $109999 |         23        0.83       61.84
 <p><span class="math display">\[ H_0: \mu_{(men)} - \mu_{(women)} = 0 \]</span></p>
 <p><span class="math display">\[ H_A: \mu_{(men)} - \mu_{(women)} \neq 0 \]</span></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb24-1"><a href="tests-for-proportions-and-means.html#cb24-1" tabindex="-1"></a><span class="kw">ttest</span> hrs <span class="kw">if</span> wrkstat==1, <span class="kw">by</span>(sex)</span></code></pre></div>
-<p>Our <span class="math inline">\(t=8.1802\)</span> and <span class="math inline">\(p &lt; 0.001\)</span>. We reject the null hypothesis at the <span class="math inline">\(0.01\%\)</span> level and conclude that men and women do not work the same amount of hours.</p>
+<pre><code>Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. err.   Std. dev.   [95% conf. interval]
+---------+--------------------------------------------------------------------
+    male |     748    48.08422    .4630884    12.66528    47.17512    48.99333
+  female |     671     43.6155    .4045276    10.47875     42.8212    44.40979
+---------+--------------------------------------------------------------------
+Combined |   1,419    45.97111    .3156328    11.88977    45.35195    46.59026
+---------+--------------------------------------------------------------------
+    diff |            4.468725    .6211783                3.250197    5.687253
+------------------------------------------------------------------------------
+    diff = mean(male) - mean(female)                              t =   7.1939
+H0: diff = 0                                     Degrees of freedom =     1417
+
+    Ha: diff &lt; 0                 Ha: diff != 0                 Ha: diff &gt; 0
+ Pr(T &lt; t) = 1.0000         Pr(|T| &gt; |t|) = 0.0000          Pr(T &gt; t) = 0.0000</code></pre>
+<p>Our <span class="math inline">\(t=7.1939\)</span> and <span class="math inline">\(p &lt; 0.001\)</span>. We reject the null hypothesis at the <span class="math inline">\(0.01\%\)</span> level and conclude that men and women do not work the same amount of hours.</p>
 </div>
 <div id="testing-for-unequal-variance" class="section level2 hasAnchor" number="2.5">
 <h2><span class="header-section-number">2.5</span> Testing for unequal variance<a href="tests-for-proportions-and-means.html#testing-for-unequal-variance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -365,7 +381,7 @@ $90000- $109999 |         23        0.83       61.84
 <p>The <span class="math inline">\(F\)</span> test is a ratio of the variances between the two groups.</p>
 <p><span class="math display">\[ H_0: ratio=1 \]</span></p>
 <p><span class="math display">\[ H_A: ratio \neq 1 \]</span></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb25-1"><a href="tests-for-proportions-and-means.html#cb25-1" tabindex="-1"></a><span class="kw">sdtest</span> hrs <span class="kw">if</span> wrkstat==1, <span class="kw">by</span>(sex)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb26-1"><a href="tests-for-proportions-and-means.html#cb26-1" tabindex="-1"></a><span class="kw">sdtest</span> hrs <span class="kw">if</span> wrkstat==1, <span class="kw">by</span>(sex)</span></code></pre></div>
 <pre><code>Variance ratio test
 ------------------------------------------------------------------------------
    Group |     Obs        Mean    Std. err.   Std. dev.   [95% conf. interval]
