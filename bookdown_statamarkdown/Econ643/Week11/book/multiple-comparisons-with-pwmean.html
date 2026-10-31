@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Multiple Comparisons with pwmean | Week 11: Analysis of Variance</title>
+  <meta name="description" content="We will use an analysis of variance and pairwise comparisons using Stata." />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Multiple Comparisons with pwmean | Week 11: Analysis of Variance" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="We will use an analysis of variance and pairwise comparisons using Stata." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Multiple Comparisons with pwmean | Week 11: Analysis of Variance" />
+  
+  <meta name="twitter:description" content="We will use an analysis of variance and pairwise comparisons using Stata." />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Acock (2023)" />
+
+
+<meta name="date" content="2026-10-31" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="analysis-of-variance-anova.html"/>
+<link rel="next" href="exercises.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Analysis of Variance</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>1</b> Analysis of Variance (ANOVA)</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#anova-example"><i class="fa fa-check"></i><b>1.1</b> ANOVA Example</a></li>
+<li class="chapter" data-level="1.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#set-up-the-hypotheses"><i class="fa fa-check"></i><b>1.2</b> Set up the hypotheses</a></li>
+<li class="chapter" data-level="1.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#inspect-the-data"><i class="fa fa-check"></i><b>1.3</b> Inspect the Data</a></li>
+<li class="chapter" data-level="1.4" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#analysis-of-variance"><i class="fa fa-check"></i><b>1.4</b> Analysis of Variance</a></li>
+<li class="chapter" data-level="1.5" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#bartletts-test-for-equal-variance"><i class="fa fa-check"></i><b>1.5</b> Bartlett’s Test for Equal Variance</a></li>
+<li class="chapter" data-level="1.6" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#goodness-of-fit"><i class="fa fa-check"></i><b>1.6</b> Goodness of Fit</a></li>
+<li class="chapter" data-level="1.7" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#compare-the-pairs-of-means"><i class="fa fa-check"></i><b>1.7</b> Compare the Pairs of Means</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#compare-democrats-to-republicans"><i class="fa fa-check"></i><b>1.7.1</b> Compare Democrats to Republicans</a></li>
+<li class="chapter" data-level="1.7.2" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#compare-democrats-to-independents"><i class="fa fa-check"></i><b>1.7.2</b> Compare Democrats to Independents</a></li>
+<li class="chapter" data-level="1.7.3" data-path="analysis-of-variance-anova.html"><a href="analysis-of-variance-anova.html#compare-democrats-to-not-involved"><i class="fa fa-check"></i><b>1.7.3</b> Compare Democrats to Not Involved</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multiple-comparisons-with-pwmean.html"><a href="multiple-comparisons-with-pwmean.html"><i class="fa fa-check"></i><b>2</b> Multiple Comparisons with <em>pwmean</em></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="multiple-comparisons-with-pwmean.html"><a href="multiple-comparisons-with-pwmean.html#pwmean"><i class="fa fa-check"></i><b>2.1</b> <em>pwmean</em></a></li>
+<li class="chapter" data-level="2.2" data-path="multiple-comparisons-with-pwmean.html"><a href="multiple-comparisons-with-pwmean.html#graph-the-means"><i class="fa fa-check"></i><b>2.2</b> Graph the Means</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>3</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="exercises.html"><a href="exercises.html#anova-example-with-observational-data"><i class="fa fa-check"></i><b>3.1</b> ANOVA example with observational data</a></li>
+<li class="chapter" data-level="3.2" data-path="exercises.html"><a href="exercises.html#pairwise-comparisons"><i class="fa fa-check"></i><b>3.2</b> Pairwise comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Week 11: Analysis of Variance</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multiple-comparisons-with-pwmean" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Multiple Comparisons with <em>pwmean</em><a href="multiple-comparisons-with-pwmean.html#multiple-comparisons-with-pwmean" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Instead of implementing the pairwaise comparisons of means in the ANOVA command, we can use the command <em>pwmeans</em>.</p>
+<div id="pwmean" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> <em>pwmean</em><a href="multiple-comparisons-with-pwmean.html#pwmean" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Another option to do pairwise comparisons of means is to use the <em>pwmean</em> command. Using this command, we can get the difference in the different combinations of differences in means. However, we have additional options available when we use the <em>pwmean</em> command.</p>
+<p>With the <em>pwmean</em> command, we need to specify the outcome/dependent variable of interest, which is stemcell. Next, we need to use the option <em>over</em> to compare the different pairwise means. Here we use the option <em>by(partyid)</em>.</p>
+<p>We will use the Bonferroni method for calculating <span class="math inline">\(t\)</span> values and confidence intervals to keep it consistent with the prior section. We use the option <em>mcompare(bonferroni)</em> to calculate the <span class="math inline">\(t\)</span> values and confidence intervals for each pairwise comparisons.</p>
+<p>Additional options to be included are <em>effects</em> and <em>cimeans</em>. The <em>effects</em> option displays a table of mean differences with p-values and confidence intervals. The <em>cimeans</em> option display a table of means and confidence intervals.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb10-1"><a href="multiple-comparisons-with-pwmean.html#cb10-1" tabindex="-1"></a>pwmean stemcell, <span class="bn">over</span>(partyid) mcompare(bonferroni) <span class="kw">effects</span> cimeans </span></code></pre></div>
+<pre><code>Pairwise comparisons of means with equal variances
+
+Over: partyid
+
+--------------------------------------------------------------
+             |                                 Unadjusted
+    stemcell |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+     partyid |
+   democrat  |          8   .4546206      7.082538    8.917462
+ republican  |   4.666667   .4546206      3.749205    5.584128
+independent  |          7   .4208969      6.150596    7.849404
+noninvolved  |       4.75   .5567943      3.626344    5.873656
+--------------------------------------------------------------
+
+---------------------------
+             |    Number of
+             |  comparisons
+-------------+-------------
+     partyid |            6
+---------------------------
+
+---------------------------------------------------------------------------------------------
+                            |                            Bonferroni           Bonferroni
+                   stemcell |   Contrast   Std. err.      t    P&gt;|t|     [95% conf. interval]
+----------------------------+----------------------------------------------------------------
+                    partyid |
+    republican vs democrat  |  -3.333333   .6429306    -5.18   0.000    -5.113618   -1.553048
+   independent vs democrat  |         -1   .6195435    -1.61   0.684    -2.715526    .7155256
+   noninvolved vs democrat  |      -3.25   .7188183    -4.52   0.000    -5.240419   -1.259581
+ independent vs republican  |   2.333333   .6195435     3.77   0.003     .6178077    4.048859
+ noninvolved vs republican  |   .0833333   .7188183     0.12   1.000    -1.907086    2.073753
+noninvolved vs independent  |      -2.25   .6979785    -3.22   0.015    -4.182714   -.3172864
+---------------------------------------------------------------------------------------------</code></pre>
+<p>Our results are similar to the output we saw in the ANOVA output for pairwise comparisons. Our differences in means are the same as is our <span class="math inline">\(t\)</span> values. However, now we have standard errors and confidence intervals.</p>
+</div>
+<div id="graph-the-means" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Graph the Means<a href="multiple-comparisons-with-pwmean.html#graph-the-means" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can also graph our results of the mean outcomes by party affiliation.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="multiple-comparisons-with-pwmean.html#cb12-1" tabindex="-1"></a><span class="kw">graph</span> <span class="bn">bar</span> (<span class="kw">mean</span>) stemcell, <span class="bn">over</span>(partyid) <span class="dv">scheme</span>(s2mono) <span class="bn">blabel</span>(<span class="bn">bar</span>) <span class="bn">title</span>(<span class="st">&quot;Stem Cell Research Opinion&quot;</span>) <span class="bn">subtitle</span>(<span class="st">&quot;By Political Affilication&quot;</span>) </span></code></pre></div>
+<div class="float">
+<img src="week11_2.png" alt="Means of Stem Cell Research Opinions by Political Affiliation" />
+<div class="figcaption">Means of Stem Cell Research Opinions by Political Affiliation</div>
+</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="analysis-of-variance-anova.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-anova.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

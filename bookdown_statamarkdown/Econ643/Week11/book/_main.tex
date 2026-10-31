@@ -1,0 +1,569 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{book}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage[]{natbib}
+\bibliographystyle{plainnat}
+\usepackage{booktabs}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Week 11: Analysis of Variance},
+  pdfauthor={Samuel Rowe adapted from Acock (2023)},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Week 11: Analysis of Variance}
+\author{Samuel Rowe adapted from Acock (2023)}
+\date{2026-10-31}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bookdown}\SpecialCharTok{::}\FunctionTok{render\_book}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\chapter*{Overview}\label{overview}
+\addcontentsline{toc}{chapter}{Overview}
+
+Topics:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Analysis of Variance (ANOVA)
+\item
+  Pairwise comparisons of means
+\item
+  Exercises
+\end{enumerate}
+
+\chapter{Analysis of Variance (ANOVA)}\label{analysis-of-variance-anova}
+
+When we have three or more groups, we can use Analysis of Variance (ANOVA) to test if their means of the continuous outcome are the same. This methodology is an extension of the two-sample \(t\) test.
+
+\textbf{Note:} with ANOVA, we need a continuous outcome/dependent variable and a categorical explanatory/independent variable with at least three groups.
+
+Let's say we have three different teaching methods and we want to see if each method has the same educational outcome. With ANOVA, we can see if at least one of these methods has a significantly different mean in the outcome. When you find statistically significant results with ANOVA, we begin to understand if there are differences in outcomes among the teaching methods.
+
+Our assumptions with ANOVA:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The outcome/dependent variable is continuous or discrete (interval).
+\item
+  The errors/residuals are normally distributed.
+\item
+  We have a random sample from the population.
+\item
+  The errors are independent (big concern).
+\item
+  The variance of each group is equal (testable).
+\end{enumerate}
+
+\section{ANOVA Example}\label{anova-example}
+
+We want to test if party identification has an effect on opinion of stem cell research. We hypothesize that Democrats are more likely to be supportive of stem cell research compared to Republicans. However, are they more likely to be supportive compared to Independent voters?
+
+We'll ask two sets of questions.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Are the means equal for Democrats, Independents, Not Involved, and Republicans? (Main ANOVA question)
+\item
+  Are pairs of group means different from one another? We'll use \emph{pwmean} to answer this question.
+\end{enumerate}
+
+\section{Set up the hypotheses}\label{set-up-the-hypotheses}
+
+For our first question, we are going to test the set of hypotheses:
+
+\(H_0: \mu_D = \mu_I = \mu_R = \mu_N = 0\)
+
+\(H_a:\) Not all population means are equal
+
+\section{Inspect the Data}\label{inspect-the-data}
+
+Let's inspect our explanatory variable of interest, party id.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{use} \StringTok{"/Users/Sam/Desktop/Econ 643/AGIS/partyid.dta"}\NormalTok{, }\KeywordTok{clear}
+\KeywordTok{tab}\NormalTok{ partyid}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      party |
+identificat |
+        ion |      Freq.     Percent        Cum.
+------------+-----------------------------------
+   democrat |         12       26.09       26.09
+ republican |         12       26.09       52.17
+independent |         14       30.43       82.61
+noninvolved |          8       17.39      100.00
+------------+-----------------------------------
+      Total |         46      100.00
+\end{verbatim}
+
+We have 46 observations 12 Republicans, 12 Democrats, 14 Independents, and 8 Not Involved.
+
+Next, let's look at our outcome or dependent variable of interest, support for stem cell research. Closer to 10 is more agreement while closer to 0 is more disagreement.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summarize}\NormalTok{ stemcell}
+\KeywordTok{summarize}\NormalTok{ stemcell, }\KeywordTok{detail}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    stemcell |         46     6.26087    2.091621          1          9
+
+               support for stem cell research
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            1              1
+ 5%            3              1
+10%            4              3       Obs                  46
+25%            5              3       Sum of wgt.          46
+
+50%            6                      Mean            6.26087
+                        Largest       Std. dev.      2.091621
+75%            8              9
+90%            9              9       Variance       4.374879
+95%            9              9       Skewness      -.5865516
+99%            9              9       Kurtosis       2.887254
+\end{verbatim}
+
+Our mean is 6.3 while our median is 6. Our maximum is 9 while our minimum is 1.
+
+Next, let's look at the summary statistics by group. We will use the command \emph{bysort partyid: summarize stemcell}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{bysort}\NormalTok{ partyid: }\KeywordTok{summarize}\NormalTok{ stemcell}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+-> partyid = democrat
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    stemcell |         12           8    1.206045          6          9
+
+------------------------------------------------------------------------------------------------------------
+-> partyid = republican
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    stemcell |         12    4.666667    2.605356          1          9
+
+------------------------------------------------------------------------------------------------------------
+-> partyid = independent
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    stemcell |         14           7    .7844645          6          8
+
+------------------------------------------------------------------------------------------------------------
+-> partyid = noninvolved
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    stemcell |          8        4.75    .8864053          4          6
+\end{verbatim}
+
+We can see that Democrats have a mean of 8, Independents have a mean of 7, not involved have a mean of 4.75, and Republicans have a mean of 4.67.
+
+\section{Analysis of Variance}\label{analysis-of-variance}
+
+Let's conduct our ANOVA. We use the command \emph{oneway {[}outcome{]} {[}explanatory{]}} to implement the ANOVA methodology. We can use the option \emph{bonerroni} to make multiple comparisons. We can use the \emph{tabulate} option to provide a comparison of the summary statistics by group.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{oneway}\NormalTok{ stemcell partyid, bonferroni }\KeywordTok{tabulate}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+      party |  Summary of support for stem cell
+identificat |              research
+        ion |        Mean   Std. dev.       Freq.
+------------+------------------------------------
+   democrat |           8   1.2060454          12
+  republica |   4.6666667   2.6053558          12
+  independe |           7   .78446454          14
+  noninvolv |        4.75   .88640526           8
+------------+------------------------------------
+      Total |   6.2608696   2.0916212          46
+
+                        Analysis of variance
+    Source              SS         df      MS            F     Prob > F
+------------------------------------------------------------------------
+Between groups      92.7028986      3   30.9009662     12.46     0.0000
+ Within groups      104.166667     42   2.48015873
+------------------------------------------------------------------------
+    Total           196.869565     45   4.37487923
+
+Bartlett's equal-variances test: chi2(3) =  20.1167    Prob>chi2 = 0.000
+
+     Comparison of support for stem cell research by party identification
+                                (Bonferroni)
+Row Mean-|
+Col Mean |   democrat   republic   independ
+---------+---------------------------------
+republic |   -3.33333
+         |      0.000
+         |
+independ |         -1    2.33333
+         |      0.684      0.003
+         |
+noninvol |      -3.25    .083333      -2.25
+         |      0.000      1.000      0.015
+\end{verbatim}
+
+We have a lot to unpack here.
+
+First, the \emph{tabulate} option provides summary statistics that we used with the \emph{bysort} and \emph{summarize} commands above.
+
+Next, we have the ANOVA results. Recall that
+
+\[ F=\frac{MSTR}{MSE} = \frac{BetweenMS}{WithinMS}\]
+
+Where \(MSTR\) is the \textbf{Mean Squared due to Treatment (MSTR)} or \textbf{Between-Treatment Estimate of \(\sigma^2\)}
+
+\[ MSTR = \frac{\sum^k_{j=1}n_j(\bar{x}_j - \bar{\bar{x}})^2}{k-1} \]
+
+Where \(MSE\) is the \textbf{Mean Squared due to Error (MSE)} or \textbf{Within-Treatment Estimate of \(\sigma^2\)}
+
+\[ MSE = \frac{\sum^k_{j=1}(n_j - 1)s^2_j }{n_T - k} \]
+
+We find that \(F=\frac{30.90}{2.48}=12.46\).
+
+Next we need to find the critical \(F\) value with 3 degrees of freedom in the numerator and 42 degrees of freedom in the denominator and \(\alpha=0.05\)
+
+\[ F_{3,42} \approx 2.84 \]
+We can use the rejection rule: \(12.46 > 2.84\).
+
+Therefore, we reject the null hypothesis at the \(5%
+\) level and conclude that the at least one mean is different from the other means.
+
+Looking at the output, we can see the same result with \(Prob > F\) which is equal to \(0.0000\).
+
+\section{Bartlett's Test for Equal Variance}\label{bartletts-test-for-equal-variance}
+
+The final piece of information for the ANOVA is the Bartlett's equal-variances test. This tests the assumption that variances are equivalent among the groups using a \(chi^2\) test with 3 degrees of freedom.
+
+\[ H_0: \sigma^2_D = \sigma^2_R = \sigma^2_I = \sigma^2_N \]
+
+We find that \(\chi^2_{3}=20.12\)
+
+We reject the null hypothesis at the 5\% level. We conclude that the variances are not equal and there is a potential violation of the ANOVA assumption of homogeneous variance among the groups.
+
+\section{Goodness of Fit}\label{goodness-of-fit}
+
+Finally, we can see how much party identification explains the variation in stem cell research opinions. We can calculate this by:
+
+\[ \eta^2 = r^2 = \frac{BetweenSS}{TotalSS}=\frac{92.703}{196.870}=0.4711 \]
+
+\section{Compare the Pairs of Means}\label{compare-the-pairs-of-means}
+
+We can use the output from the \emph{bonferroni} option to compare pairs of means in the half matrix. Looking down the first column we can compare the mean of Democrats to Republicans, Democrats to Independents, and Democrats to Not Involved
+
+\subsection{Compare Democrats to Republicans}\label{compare-democrats-to-republicans}
+
+We see that the difference in means between Democrats and Republicans is -3.333. The next value we see below the -3.333 is 0.000. This is the \(p\)-value associated with the test to see if the difference is statistically significant.
+
+\[ \bar{x}_D - \bar{x}_R = -3.333 \]
+Test if \(H_0: \mu_D - \mu_R = 0\)
+\[ p = 0.000 < 0.05 \]
+Using a null hypothesis that the difference in means is 0, we reject the null hypothesis at the 5\% or 1\% level \(0.000 < 0.05\) and \(0.000 < 0.01\), respectively. We conclude that there is a difference between Democrats and Republicans for stem cell research opinions.
+
+\subsection{Compare Democrats to Independents}\label{compare-democrats-to-independents}
+
+The difference between Democrats and Independents is \(-1\), but the associated \(p\)-value is \(0.684\).
+
+\[ \bar{x}_D - \bar{x}_I = -1 \]
+
+Test if \(H_0: \mu_D - \mu_I = 0\)
+
+\[ p = 0.684 > 0.05\]
+
+Using a null hypothesis that the difference in means is 0, we fail to reject the null hypothesis at the 5\% or 1\% level and we conclude that there is no difference between Democrats and Independents for stem cell research opinions.
+
+\subsection{Compare Democrats to Not Involved}\label{compare-democrats-to-not-involved}
+
+The difference between Democrats and Independents is \(-3.25\), but the associated \(p\)-value is \(0.000\).
+
+\[ \bar{x}_D - \bar{x}_N = -3.25 \]
+
+Test if \(H_0: \mu_D - \mu_N = 0\)
+
+\[ p = 0.000 < 0.05\]
+
+Using a null hypothesis that the difference in means is 0, we reject the null hypothesis at the 5\% or 1\% level and we conclude that there is a difference between Democrats and Not Involved for stem cell research opinions.
+
+\chapter{\texorpdfstring{Multiple Comparisons with \emph{pwmean}}{Multiple Comparisons with pwmean}}\label{multiple-comparisons-with-pwmean}
+
+Instead of implementing the pairwaise comparisons of means in the ANOVA command, we can use the command \emph{pwmeans}.
+
+\section{\texorpdfstring{\emph{pwmean}}{pwmean}}\label{pwmean}
+
+Another option to do pairwise comparisons of means is to use the \emph{pwmean} command. Using this command, we can get the difference in the different combinations of differences in means. However, we have additional options available when we use the \emph{pwmean} command.
+
+With the \emph{pwmean} command, we need to specify the outcome/dependent variable of interest, which is stemcell. Next, we need to use the option \emph{over} to compare the different pairwise means. Here we use the option \emph{by(partyid)}.
+
+We will use the Bonferroni method for calculating \(t\) values and confidence intervals to keep it consistent with the prior section. We use the option \emph{mcompare(bonferroni)} to calculate the \(t\) values and confidence intervals for each pairwise comparisons.
+
+Additional options to be included are \emph{effects} and \emph{cimeans}. The \emph{effects} option displays a table of mean differences with p-values and confidence intervals. The \emph{cimeans} option display a table of means and confidence intervals.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pwmean stemcell, }\BaseNTok{over}\NormalTok{(partyid) mcompare(bonferroni) }\KeywordTok{effects}\NormalTok{ cimeans }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Pairwise comparisons of means with equal variances
+
+Over: partyid
+
+--------------------------------------------------------------
+             |                                 Unadjusted
+    stemcell |       Mean   Std. err.     [95% conf. interval]
+-------------+------------------------------------------------
+     partyid |
+   democrat  |          8   .4546206      7.082538    8.917462
+ republican  |   4.666667   .4546206      3.749205    5.584128
+independent  |          7   .4208969      6.150596    7.849404
+noninvolved  |       4.75   .5567943      3.626344    5.873656
+--------------------------------------------------------------
+
+---------------------------
+             |    Number of
+             |  comparisons
+-------------+-------------
+     partyid |            6
+---------------------------
+
+---------------------------------------------------------------------------------------------
+                            |                            Bonferroni           Bonferroni
+                   stemcell |   Contrast   Std. err.      t    P>|t|     [95% conf. interval]
+----------------------------+----------------------------------------------------------------
+                    partyid |
+    republican vs democrat  |  -3.333333   .6429306    -5.18   0.000    -5.113618   -1.553048
+   independent vs democrat  |         -1   .6195435    -1.61   0.684    -2.715526    .7155256
+   noninvolved vs democrat  |      -3.25   .7188183    -4.52   0.000    -5.240419   -1.259581
+ independent vs republican  |   2.333333   .6195435     3.77   0.003     .6178077    4.048859
+ noninvolved vs republican  |   .0833333   .7188183     0.12   1.000    -1.907086    2.073753
+noninvolved vs independent  |      -2.25   .6979785    -3.22   0.015    -4.182714   -.3172864
+---------------------------------------------------------------------------------------------
+\end{verbatim}
+
+Our results are similar to the output we saw in the ANOVA output for pairwise comparisons. Our differences in means are the same as is our \(t\) values. However, now we have standard errors and confidence intervals.
+
+\section{Graph the Means}\label{graph-the-means}
+
+We can also graph our results of the mean outcomes by party affiliation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{graph} \BaseNTok{bar}\NormalTok{ (}\KeywordTok{mean}\NormalTok{) stemcell, }\BaseNTok{over}\NormalTok{(partyid) }\DecValTok{scheme}\NormalTok{(s2mono) }\BaseNTok{blabel}\NormalTok{(}\BaseNTok{bar}\NormalTok{) }\BaseNTok{title}\NormalTok{(}\StringTok{"Stem Cell Research Opinion"}\NormalTok{) }\BaseNTok{subtitle}\NormalTok{(}\StringTok{"By Political Affilication"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Means of Stem Cell Research Opinions by Political Affiliation}]{Week11_2.png}}
+\caption{Means of Stem Cell Research Opinions by Political Affiliation}
+\end{figure}
+
+\chapter{Exercises}\label{exercises}
+
+\section{ANOVA example with observational data}\label{anova-example-with-observational-data}
+
+We typically use ANOVA when we have an experimental design, but we can use it for observational studies as well. Let's look at the association of the occupational prestige compared mobility. The three different categories of mobility are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Still living in the same town/city they lived in at 16. (Lower mobility)
+\item
+  Living in new town/city but within the same state they lived in at 16. (Medium moibility)
+\item
+  Living in a different state compared to the state they lived in at 16. (High mobility)
+\end{enumerate}
+
+Steps:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Import the ``gss2006\_chapter9.dta''.
+\item
+  Set up the hypotheses for testing if prestige is the same across our three groups.
+\item
+  Inspect the outcome/dependent variable. What is the mean, median, and range?
+\item
+  Inspect the explanatory variable. How many groups do we have?
+\item
+  Estimate the Analysis of Variance. What do you conclude?
+\item
+  Test the assumption that each group has equal variance. What do you conclude?
+\item
+  What is the \(\eta^2\) or \(r^2\)?
+\end{enumerate}
+
+Finally, think about the need for errors to be independent of the predictor. Do you think selection bias violates this assumption?
+
+\section{Pairwise comparisons}\label{pairwise-comparisons}
+
+Next, let's compare the pairwise differences in means.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Run a pairwise comparison of means using a Bonferroni method for comparisons of means.
+\item
+  What do you find regarding the pairwise comparisons of means?
+\item
+  Finally, graph the means across groups. It should look similar to the graph below.
+\end{enumerate}
+
+\begin{figure}
+\centering
+\pandocbounded{\includegraphics[keepaspectratio,alt={Bar graph of relationship between prestige and mobility}]{Week11_1.png}}
+\caption{Bar graph of relationship between prestige and mobility}
+\end{figure}
+
+Acock, A.C. (2023). A gentle introduction to Stata. 6th ed.~Stata Press.
+
+Anderson, D. R., Sweeney, D. J., Williams, T. A., Camm, J. D., \& Cochran, J. J. (2016). Statistics for business and economics (13th ed.). Cengage Learning.
+
+Mitchell, M. N. (2020). Data management using Stata: A practical handbook. Stata Press.
+
+\bibliography{book.bib,packages.bib}
+
+\end{document}

@@ -1,0 +1,209 @@
+# Analysis of Variance (ANOVA)
+
+When we have three or more groups, we can use Analysis of Variance (ANOVA) to test if their means of the continuous outcome are the same. This methodology is an extension of the two-sample \( t \) test.
+
+**Note:** with ANOVA, we need a continuous outcome/dependent variable and a categorical explanatory/independent variable with at least three groups.
+
+Let's say we have three different teaching methods and we want to see if each method has the same educational outcome. With ANOVA, we can see if at least one of these methods has a significantly different mean in the outcome. When you find statistically significant results with ANOVA, we begin to understand if there are differences in outcomes among the teaching methods.
+
+Our assumptions with ANOVA:
+
+  1. The outcome/dependent variable is continuous or discrete (interval).
+  2. The errors/residuals are normally distributed.
+  3. We have a random sample from the population.
+  4. The errors are independent (big concern).
+  5. The variance of each group is equal (testable).
+
+## ANOVA Example
+
+We want to test if party identification has an effect on opinion of stem cell research. We hypothesize that Democrats are more likely to be supportive of stem cell research compared to Republicans. However, are they more likely to be supportive compared to Independent voters?
+
+We'll ask two sets of questions.
+
+  1. Are the means equal for Democrats, Independents, Not Involved, and Republicans? (Main ANOVA question)
+  2. Are pairs of group means different from one another? We'll use *pwmean* to answer this question.
+
+## Set up the hypotheses 
+
+For our first question, we are going to test the set of hypotheses:
+
+\( H_0: \mu_D = \mu_I = \mu_R = \mu_N = 0 \)
+
+\( H_a: \) Not all population means are equal 
+
+## Inspect the Data
+
+Let's inspect our explanatory variable of interest, party id. 
+
+```{stata anova0}
+use "/Users/Sam/Desktop/Econ 643/AGIS/partyid.dta", clear
+tab partyid
+```
+
+We have 46 observations 12 Republicans, 12 Democrats, 14 Independents, and 8 Not Involved.
+
+Next, let's look at our outcome or dependent variable of interest, support for stem cell research. Closer to 10 is more agreement while closer to 0 is more disagreement. 
+
+```{stata anova01, eval=FALSE}
+summarize stemcell
+summarize stemcell, detail
+```
+
+
+```{stata anova01_1, echo=FALSE}
+quietly {
+  use "/Users/Sam/Desktop/Econ 643/AGIS/partyid.dta", clear
+}
+summarize stemcell
+summarize stemcell, detail
+```
+
+Our mean is 6.3 while our median is 6. Our maximum is 9 while our minimum is 1.
+
+Next, let's look at the summary statistics by group. We will use the command *bysort partyid: summarize stemcell*.
+
+```{stata anova02, eval=FALSE}
+bysort partyid: summarize stemcell
+```
+
+```{stata anova02_1, echo=FALSE}
+quietly {
+  use "/Users/Sam/Desktop/Econ 643/AGIS/partyid.dta", clear
+}
+bysort partyid: summarize stemcell
+```
+
+We can see that Democrats have a mean of 8, Independents have a mean of 7, not involved have a mean of 4.75, and Republicans have a mean of 4.67. 
+
+## Analysis of Variance
+
+Let's conduct our ANOVA. We use the command *oneway [outcome] [explanatory]* to implement the ANOVA methodology. We can use the option *bonerroni* to make multiple comparisons. We can use the *tabulate* option to provide a comparison of the summary statistics by group.
+
+```{stata anova1, eval=FALSE}
+oneway stemcell partyid, bonferroni tabulate
+```
+
+```{stata anova1_1, echo=FALSE}
+quietly {
+  use "/Users/Sam/Desktop/Econ 643/AGIS/partyid.dta", clear
+}
+oneway stemcell partyid, bonferroni tabulate
+```
+
+We have a lot to unpack here.
+
+First, the *tabulate* option provides summary statistics that we used with the *bysort* and *summarize* commands above. 
+
+Next, we have the ANOVA results. Recall that
+
+$$ F=\frac{MSTR}{MSE} = \frac{BetweenMS}{WithinMS}$$ 
+
+Where \(MSTR\) is the **Mean Squared due to Treatment (MSTR)** or **Between-Treatment Estimate of \(\sigma^2 \)**
+
+$$ MSTR = \frac{\sum^k_{j=1}n_j(\bar{x}_j - \bar{\bar{x}})^2}{k-1} $$
+
+Where \(MSE\) is the **Mean Squared due to Error (MSE)** or **Within-Treatment Estimate of \(\sigma^2 \)**
+
+$$ MSE = \frac{\sum^k_{j=1}(n_j - 1)s^2_j }{n_T - k} $$
+
+We find that \(F=\frac{30.90}{2.48}=12.46 \).
+
+Next we need to find the critical \(F\) value with 3 degrees of freedom in the numerator and 42 degrees of freedom in the denominator and \(\alpha=0.05\)
+
+$$ F_{3,42} \approx 2.84 $$
+We can use the rejection rule: \(12.46 > 2.84\). 
+
+Therefore, we reject the null hypothesis at the \( 5% \) level and conclude that the at least one mean is different from the other means.
+
+Looking at the output, we can see the same result with \(Prob > F\) which is equal to \(0.0000\).
+
+## Bartlett's Test for Equal Variance
+
+The final piece of information for the ANOVA is the Bartlett's equal-variances test. This tests the assumption that variances are equivalent among the groups using a \(chi^2\) test with 3 degrees of freedom. 
+
+$$ H_0: \sigma^2_D = \sigma^2_R = \sigma^2_I = \sigma^2_N $$
+
+We find that \(\chi^2_{3}=20.12 \)
+
+We reject the null hypothesis at the 5% level. We conclude that the variances are not equal and there is a potential violation of the ANOVA assumption of homogeneous variance among the groups.
+
+## Goodness of Fit
+
+Finally, we can see how much party identification explains the variation in stem cell research opinions. We can calculate this by:
+
+$$ \eta^2 = r^2 = \frac{BetweenSS}{TotalSS}=\frac{92.703}{196.870}=0.4711 $$
+
+## Compare the Pairs of Means
+
+We can use the output from the *bonferroni* option to compare pairs of means in the half matrix.  Looking down the first column we can compare the mean of Democrats to Republicans, Democrats to Independents, and Democrats to Not Involved
+
+### Compare Democrats to Republicans
+
+We see that the difference in means between Democrats and Republicans is -3.333. The next value we see below the -3.333 is 0.000. This is the \(p\)-value associated with the test to see if the difference is statistically significant. 
+
+$$ \bar{x}_D - \bar{x}_R = -3.333 $$
+Test if \(H_0: \mu_D - \mu_R = 0 \)
+$$ p = 0.000 < 0.05 $$
+Using a null hypothesis that the difference in means is 0, we reject the null hypothesis at the 5% or 1% level \(0.000 < 0.05\) and \(0.000 < 0.01\), respectively. We conclude that there is a difference between Democrats and Republicans for stem cell research opinions.
+
+### Compare Democrats to Independents
+
+The difference between Democrats and Independents is \(-1\), but the associated \(p\)-value is \(0.684\).
+
+$$ \bar{x}_D - \bar{x}_I = -1 $$
+
+Test if \(H_0: \mu_D - \mu_I = 0 \)
+
+$$ p = 0.684 > 0.05$$
+
+Using a null hypothesis that the difference in means is 0, we fail to reject the null hypothesis at the 5% or 1% level and we conclude that there is no difference between Democrats and Independents for stem cell research opinions.
+
+### Compare Democrats to Not Involved
+
+The difference between Democrats and Independents is \(-3.25\), but the associated \(p\)-value is \(0.000\).
+
+$$ \bar{x}_D - \bar{x}_N = -3.25 $$
+
+Test if \(H_0: \mu_D - \mu_N = 0 \)
+
+$$ p = 0.000 < 0.05$$
+
+Using a null hypothesis that the difference in means is 0, we reject the null hypothesis at the 5% or 1% level and we conclude that there is a difference between Democrats and Not Involved for stem cell research opinions.
+
+
+# Multiple Comparisons with *pwmean*
+
+Instead of implementing the pairwaise comparisons of means in the ANOVA command, we can use the command *pwmeans*.
+
+## *pwmean* 
+
+Another option to do pairwise comparisons of means is to use the *pwmean* command. Using this command, we can get the difference in the different combinations of differences in means. However, we have additional options available when we use the *pwmean* command.
+
+With the *pwmean* command, we need to specify the outcome/dependent variable of interest, which is stemcell. Next, we need to use the option *over* to compare the different pairwise means. Here we use the option *by(partyid)*.
+
+We will use the Bonferroni method for calculating \(t\) values and confidence intervals to keep it consistent with the prior section. We use the option *mcompare(bonferroni)* to calculate the \(t\) values and confidence intervals for each pairwise comparisons.
+
+Additional options to be included are *effects* and *cimeans*. The *effects* option displays a table of mean differences with p-values and confidence intervals. The *cimeans* option display a table of means and confidence intervals.
+
+```{stata anova2, eval=FALSE}
+pwmean stemcell, over(partyid) mcompare(bonferroni) effects cimeans 
+```
+
+```{stata anova2_1, echo=FALSE}
+quietly {
+  use "/Users/Sam/Desktop/Econ 643/AGIS/partyid.dta", clear
+}
+pwmean stemcell, over(partyid) mcompare(bonferroni) effects cimeans 
+```
+
+Our results are similar to the output we saw in the ANOVA output for pairwise comparisons. Our differences in means are the same as is our \(t\) values. However, now we have standard errors and confidence intervals.
+
+## Graph the Means
+
+We can also graph our results of the mean outcomes by party affiliation.
+
+```{stata anova3, eval=FALSE}
+graph bar (mean) stemcell, over(partyid) scheme(s2mono) blabel(bar) title("Stem Cell Research Opinion") subtitle("By Political Affilication") 
+```
+
+![Means of Stem Cell Research Opinions by Political Affiliation](Week11_2.png)
