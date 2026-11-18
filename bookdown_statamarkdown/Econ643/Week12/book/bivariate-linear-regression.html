@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Bivariate Linear Regression | Bivariate Linear Regression</title>
+  <meta name="description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Bivariate Linear Regression | Bivariate Linear Regression" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Bivariate Linear Regression | Bivariate Linear Regression" />
+  
+  <meta name="twitter:description" content="<p>This is a minimal example of using the bookdown package to write a book.
+The HTML output format for this example is bookdown::gitbook,
+set in the _output.yml file.</p>" />
+  
+
+<meta name="author" content="Samuel Rowe adapted from Acock (2023)" />
+
+
+<meta name="date" content="2026-11-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="exercises.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="1" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html"><i class="fa fa-check"></i><b>1</b> Bivariate Linear Regression</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#simple-linear-regression"><i class="fa fa-check"></i><b>1.1</b> Simple Linear Regression</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#descriptive-statistics-first"><i class="fa fa-check"></i><b>1.1.1</b> Descriptive Statistics First</a></li>
+<li class="chapter" data-level="1.1.2" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#simple-bivariate-linear-regression"><i class="fa fa-check"></i><b>1.1.2</b> Simple Bivariate Linear Regression</a></li>
+<li class="chapter" data-level="1.1.3" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#goodness-of-fit"><i class="fa fa-check"></i><b>1.1.3</b> Goodness of Fit</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#predicted-y-and-graph-predicted-y"><i class="fa fa-check"></i><b>1.2</b> Predicted <span class="math inline">\(y\)</span> and Graph Predicted <span class="math inline">\(y\)</span></a></li>
+<li class="chapter" data-level="1.3" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#interpretations"><i class="fa fa-check"></i><b>1.3</b> Interpretations</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#linear-linear-model"><i class="fa fa-check"></i><b>1.3.1</b> Linear-Linear Model</a></li>
+<li class="chapter" data-level="1.3.2" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#linear-log-model"><i class="fa fa-check"></i><b>1.3.2</b> Linear-Log Model</a></li>
+<li class="chapter" data-level="1.3.3" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#log-linear-model"><i class="fa fa-check"></i><b>1.3.3</b> Log-Linear Model</a></li>
+<li class="chapter" data-level="1.3.4" data-path="bivariate-linear-regression.html"><a href="bivariate-linear-regression.html#log-log-model"><i class="fa fa-check"></i><b>1.3.4</b> Log-Log Model</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>2</b> Exercises</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="exercises.html"><a href="exercises.html#general-social-survey"><i class="fa fa-check"></i><b>2.1</b> General Social Survey</a></li>
+<li class="chapter" data-level="2.2" data-path="exercises.html"><a href="exercises.html#current-population-survey"><i class="fa fa-check"></i><b>2.2</b> Current Population Survey</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bivariate Linear Regression</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="bivariate-linear-regression" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Bivariate Linear Regression<a href="bivariate-linear-regression.html#bivariate-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Our model for a simple bivariate linear regression is the following:</p>
+<p><span class="math display">\[ y_i = \beta_0 + \beta_1 x_i + \varepsilon_i\]</span></p>
+<div id="simple-linear-regression" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Simple Linear Regression<a href="bivariate-linear-regression.html#simple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will look at the association between occupational prestige and hours worked .</p>
+<p><span class="math display">\[ prestige80_i=\beta_0 + \beta_1 hrs_i + \varepsilon_i \]</span></p>
+<div id="descriptive-statistics-first" class="section level3 hasAnchor" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> Descriptive Statistics First<a href="bivariate-linear-regression.html#descriptive-statistics-first" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>First, let’s look at the descriptive statistics</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb2-1"><a href="bivariate-linear-regression.html#cb2-1" tabindex="-1"></a>cd <span class="st">&quot;/Users/Sam/Desktop/Econ 643/AGIS/&quot;</span></span>
+<span id="cb2-2"><a href="bivariate-linear-regression.html#cb2-2" tabindex="-1"></a><span class="kw">use</span> gss2006_chapter8_selected, <span class="kw">clear</span></span>
+<span id="cb2-3"><a href="bivariate-linear-regression.html#cb2-3" tabindex="-1"></a><span class="kw">summarize</span> prestg80 hrs1</span></code></pre></div>
+<pre><code>/Users/Sam/Desktop/Econ 643/AGIS
+
+(General Social Surveys, 1972-2006 [Cumulative File], Dataset 0001)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+    prestg80 |      4,270    44.16745    13.99946         17         86
+        hrs1 |      2,739    42.07631    14.23166          1         89</code></pre>
+<p>We can see that the dependent variable’s mean is 44.2 with a standard deviation of 14.0 and its range is <span class="math inline">\([17, 86]\)</span>. The independent variable’s mean is 42.1 hours with a standard deviation of 14.2 hours and its range is <span class="math inline">\([1,89]\)</span> hours per week.</p>
+<p><strong>Note:</strong> There are 4,270 observations with occupational prestige, but only 2,739 have reported hours per week.</p>
+</div>
+<div id="simple-bivariate-linear-regression" class="section level3 hasAnchor" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> Simple Bivariate Linear Regression<a href="bivariate-linear-regression.html#simple-bivariate-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Next, we will use the <em>regress</em> command to run a linear regression. We use <em>regress <span class="math inline">\(y\)</span> <span class="math inline">\(x\)</span></em> to regress <span class="math inline">\(y\)</span> onto <span class="math inline">\(x\)</span>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb4-1"><a href="bivariate-linear-regression.html#cb4-1" tabindex="-1"></a><span class="kw">regress</span> prestg80 hrs1</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     2,715
+-------------+----------------------------------   F(1, 2713)      =     67.32
+       Model |   13125.035         1   13125.035   Prob &gt; F        =    0.0000
+    Residual |  528901.224     2,713  194.950691   R-squared       =    0.0242
+-------------+----------------------------------   Adj R-squared   =    0.0239
+       Total |  542026.259     2,714  199.714908   Root MSE        =    13.962
+
+------------------------------------------------------------------------------
+    prestg80 | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        hrs1 |   .1546416   .0188468     8.21   0.000      .117686    .1915972
+       _cons |   38.14733   .8362129    45.62   0.000     36.50765    39.78701
+------------------------------------------------------------------------------</code></pre>
+<p>Let’s look at these results. We see that:</p>
+<p><span class="math display">\[ \hat{y} = 38.1 + 0.155x \]</span></p>
+</div>
+<div id="goodness-of-fit" class="section level3 hasAnchor" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> Goodness of Fit<a href="bivariate-linear-regression.html#goodness-of-fit" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We can see our goodness of fit is <span class="math inline">\(R^2=0.024\)</span> or variation in hours explains <span class="math inline">\(2.4\%\)</span> of the variation in prestige. Recall that <span class="math inline">\(R^2=SSE/SST\)</span> or <span class="math inline">\(R^2=SSR/SST\)</span>. We can see this where <span class="math inline">\(R^2=\frac{13125.035}{542026.259}=0.024\)</span> or <span class="math inline">\(R^2=1-\frac{528901.224 }{542026.259}=0.024\)</span>.</p>
+</div>
+</div>
+<div id="predicted-y-and-graph-predicted-y" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Predicted <span class="math inline">\(y\)</span> and Graph Predicted <span class="math inline">\(y\)</span><a href="bivariate-linear-regression.html#predicted-y-and-graph-predicted-y" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We can use the post-estimation command <em>predict</em> to calculate fitted values of <span class="math inline">\(y\)</span>, which we will call <span class="math inline">\(\hat{y}\)</span></p>
+<p>We cannot predict <span class="math inline">\(\hat{y}\)</span> with the <em>predict</em> command without the <em>regress</em> command. The <em>predict</em> command is a post-estimation command, which means that it must come after a <em>regress</em> command.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb6-1"><a href="bivariate-linear-regression.html#cb6-1" tabindex="-1"></a><span class="kw">predict</span> yhat</span></code></pre></div>
+<pre><code>(option xb assumed; fitted values)
+(1,771 missing values generated)</code></pre>
+<p>Let’s compare <span class="math inline">\(y\)</span> and <span class="math inline">\(\hat{y}\)</span> with a scatter plot</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb8-1"><a href="bivariate-linear-regression.html#cb8-1" tabindex="-1"></a><span class="kw">scatter</span> yhat prestg80, jitter(2) <span class="bn">title</span>(<span class="st">&quot;Prestige and Predicted Prestige&quot;</span>)</span></code></pre></div>
+<div class="float">
+<img src="Week12_4.png" alt="Scatterplot of Prestige and Predicted Prestige" />
+<div class="figcaption">Scatterplot of Prestige and Predicted Prestige</div>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb9-1"><a href="bivariate-linear-regression.html#cb9-1" tabindex="-1"></a><span class="kw">twoway</span> (lfitci prestg80 hrs1), <span class="dv">scheme</span>(s2mono) <span class="bn">title</span>(<span class="st">&quot;Regress working hours onto prestige&quot;</span>) <span class="bn">caption</span>(<span class="st">&quot;Source: General Social Survey of 2026&quot;</span>)</span></code></pre></div>
+<div class="float">
+<img src="Week12_1.png" alt="Regress working hours onto occupational prestige" />
+<div class="figcaption">Regress working hours onto occupational prestige</div>
+</div>
+</div>
+<div id="interpretations" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Interpretations<a href="bivariate-linear-regression.html#interpretations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We have four way to interpret a simple linear regression depending on the transformation of the dependent or independent variable.</p>
+<ol style="list-style-type: decimal">
+<li>Linear-linear model</li>
+<li>Log-linear model.</li>
+<li>Linear-log model.</li>
+<li>Log-Log model</li>
+</ol>
+<p>First we need to create our natural log transformations of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. We can use the <em>ln</em> function in Stata.</p>
+<pre><code>(4,510 missing values generated)
+
+(2,739 real changes made)
+
+(0 real changes made)
+
+(4,510 missing values generated)
+
+(4,270 real changes made)
+
+(0 real changes made)
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+      lnhrs1 |      2,739    3.661178     .455948          0   4.488636
+  lnprestg80 |      4,270    3.735998    .3278086   2.833213   4.454347</code></pre>
+<p>Let’s inspect the natural log transformation of prestige.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb11-1"><a href="bivariate-linear-regression.html#cb11-1" tabindex="-1"></a><span class="kw">histogram</span> lnprestg80, <span class="bn">title</span>(<span class="st">&quot;Histogram of Natural Log of Prestige&quot;</span>)</span></code></pre></div>
+<div class="float">
+<img src="Week12_2.png" alt="Histogram of Natural Log of Prestige" />
+<div class="figcaption">Histogram of Natural Log of Prestige</div>
+</div>
+<p>Next, let’s inspect the natural log transformation of hours worked.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb12-1"><a href="bivariate-linear-regression.html#cb12-1" tabindex="-1"></a><span class="kw">histogram</span> lnhrs1, <span class="bn">title</span>(<span class="st">&quot;Histogram of Natural Log of Hours&quot;</span>)</span></code></pre></div>
+<div class="float">
+<img src="Week12_3.png" alt="Histogram of the Natural Log of Hours" />
+<div class="figcaption">Histogram of the Natural Log of Hours</div>
+</div>
+<div id="linear-linear-model" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Linear-Linear Model<a href="bivariate-linear-regression.html#linear-linear-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math display">\[ y_i = \beta_0 + \beta_1 x_i + \varepsilon_i \]</span></p>
+<p>Recall that <span class="math inline">\(\Delta y = \beta_1 \Delta x_1\)</span>, so we interpret <span class="math inline">\(\beta_1\)</span> as a one-unit increase in <span class="math inline">\(x\)</span> leads to a <span class="math inline">\(\beta_1\)</span> increase in <span class="math inline">\(y\)</span>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb13-1"><a href="bivariate-linear-regression.html#cb13-1" tabindex="-1"></a><span class="kw">regress</span> prestg80 hrs1</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     2,715
+-------------+----------------------------------   F(1, 2713)      =     67.32
+       Model |   13125.035         1   13125.035   Prob &gt; F        =    0.0000
+    Residual |  528901.224     2,713  194.950691   R-squared       =    0.0242
+-------------+----------------------------------   Adj R-squared   =    0.0239
+       Total |  542026.259     2,714  199.714908   Root MSE        =    13.962
+
+------------------------------------------------------------------------------
+    prestg80 | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        hrs1 |   .1546416   .0188468     8.21   0.000      .117686    .1915972
+       _cons |   38.14733   .8362129    45.62   0.000     36.50765    39.78701
+------------------------------------------------------------------------------</code></pre>
+<p>We reject the null hypothesis that <span class="math inline">\(H_0: \beta_1 = 0\)</span> at the 0.1% level and we interpret this as a <span class="math inline">\(1\)</span> hour increase is <strong>associated</strong> with a 0.155 increase in prestige.</p>
+<p>Question: what does <span class="math inline">\(\beta_0\)</span> represent?</p>
+</div>
+<div id="linear-log-model" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Linear-Log Model<a href="bivariate-linear-regression.html#linear-log-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math display">\[ y_i = \beta_0 + \beta_1 ln(x_i) + \varepsilon_i \]</span></p>
+<p>Let’s run a linear-log model where the dependent variable is not log transformed but the independent variable is log transformed.</p>
+<p>We interpret <span class="math inline">\(\beta_1\)</span> as a <span class="math inline">\(1\%\)</span> increase in <span class="math inline">\(x\)</span> is associated with a <span class="math inline">\(\frac{\beta_1}{100}\)</span> increase in <span class="math inline">\(y\)</span></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb15-1"><a href="bivariate-linear-regression.html#cb15-1" tabindex="-1"></a><span class="kw">regress</span> prestg80 lnhrs1</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     2,715
+-------------+----------------------------------   F(1, 2713)      =     48.89
+       Model |  9594.06348         1  9594.06348   Prob &gt; F        =    0.0000
+    Residual |  532432.196     2,713  196.252192   R-squared       =    0.0177
+-------------+----------------------------------   Adj R-squared   =    0.0173
+       Total |  542026.259     2,714  199.714908   Root MSE        =    14.009
+
+------------------------------------------------------------------------------
+    prestg80 | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+      lnhrs1 |   4.115376   .5885935     6.99   0.000     2.961239    5.269513
+       _cons |   29.58522   2.170863    13.63   0.000      25.3285    33.84193
+------------------------------------------------------------------------------</code></pre>
+<p>A <span class="math inline">\(1\%\)</span> increase in hours is associated with a <span class="math inline">\(\frac{4.12}{100}=0.0412\)</span> increase in prestige.</p>
+</div>
+<div id="log-linear-model" class="section level3 hasAnchor" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Log-Linear Model<a href="bivariate-linear-regression.html#log-linear-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math display">\[ ln(y_i) = \beta_0 + \beta_1 x_i + \varepsilon_i \]</span></p>
+<p>Let’s run a log-linear model, where the dependent variable is log transformed but the independent variable is not log transformed.</p>
+<p>We interpret <span class="math inline">\(\beta_1\)</span> as a 1-unit increase in <span class="math inline">\(x\)</span> is associated with a <span class="math inline">\((e^{\beta_{1}}-1)*100 \%\)</span> increase in <span class="math inline">\(y\)</span>.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb17-1"><a href="bivariate-linear-regression.html#cb17-1" tabindex="-1"></a><span class="kw">regress</span> lnprestg80 hrs1</span></code></pre></div>
+<pre><code>      Source |       SS           df       MS      Number of obs   =     2,715
+-------------+----------------------------------   F(1, 2713)      =     75.24
+       Model |  7.87166582         1  7.87166582   Prob &gt; F        =    0.0000
+    Residual |  283.847275     2,713  .104624871   R-squared       =    0.0270
+-------------+----------------------------------   Adj R-squared   =    0.0266
+       Total |  291.718941     2,714  .107486714   Root MSE        =    .32346
+
+------------------------------------------------------------------------------
+  lnprestg80 | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        hrs1 |   .0037871   .0004366     8.67   0.000      .002931    .0046432
+       _cons |   3.587671   .0193719   185.20   0.000     3.549686    3.625656
+------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="log-log-model" class="section level3 hasAnchor" number="1.3.4">
+<h3><span class="header-section-number">1.3.4</span> Log-Log Model<a href="bivariate-linear-regression.html#log-log-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><span class="math display">\[ ln(y_i) = \beta_0 + \beta_1 ln(x_i) + \varepsilon_i \]</span></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode stata"><code class="sourceCode stata"><span id="cb19-1"><a href="bivariate-linear-regression.html#cb19-1" tabindex="-1"></a><span class="kw">regress</span> lnprestg80 lnhrs1</span></code></pre></div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/01-intro.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
